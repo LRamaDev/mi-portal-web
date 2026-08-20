@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Desafío Biológico - La Célula y Niveles de Organización</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <!-- Canvas Confetti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Outfit', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: linear-gradient(135deg, #e0f2fe 0%, #ecfdf5 50%, #d1fae5 100%);
+            color: #1e293b;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.95);
+            box-shadow: 0 10px 25px -5px rgba(16, 185, 129, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
+        }
+
+        .btn-touch {
+            transition: transform 0.1s ease, box-shadow 0.1s ease;
+        }
+        
+        .btn-touch:active {
+            transform: scale(0.96);
+        }
+
+        @keyframes correctPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
+        }
+
+        .animate-correct {
+            animation: correctPulse 0.3s ease-in-out;
+        }
+
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(241, 245, 249, 0.8);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(16, 185, 129, 0.4);
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body class="min-h-screen text-slate-800 flex flex-col justify-between p-3 sm:p-6 pb-20 select-none overflow-x-hidden">
+
+    <header class="w-full max-w-md mx-auto flex items-center justify-between py-2.5 px-4 glass-card rounded-2xl mb-4 shadow-sm">
+        <div class="flex items-center gap-2">
+            <span class="text-2xl">🧬</span>
+            <div>
+                <h1 class="font-bold text-sm sm:text-base leading-tight bg-gradient-to-r from-emerald-600 to-teal-700 bg-clip-text text-transparent">
+                    Quiz Biológico
+                </h1>
+                <p class="text-[10px] text-slate-500 font-medium">100 Preg/Nivel • Célula & Vida</p>
+            </div>
+        </div>
+        
+        <div class="flex items-center gap-2">
+            <button id="btn-sound" onclick="toggleSound()" class="p-2 bg-white hover:bg-slate-50 rounded-xl border border-slate-200 text-slate-700 shadow-sm text-sm">
+                🔊
+            </button>
+            <button onclick="showLeaderboardModal()" class="p-2 bg-white hover:bg-slate-50 rounded-xl border border-slate-200 text-sm flex items-center gap-1 font-semibold text-amber-600 shadow-sm">
+                🏆 <span class="hidden sm:inline text-xs">Ranking</span>
+            </button>
+        </div>
+    </header>
+
+    <main class="w-full max-w-md mx-auto flex-1 flex flex-col justify-center my-auto">
+
+        <!-- PANTALLA 1: BIENVENIDA Y SELECCIÓN DE NIVEL -->
+        <div id="screen-welcome" class="glass-card rounded-3xl p-6 shadow-xl space-y-5">
+            <div class="text-center space-y-2">
+                <div class="inline-block p-3 bg-emerald-100 rounded-2xl text-4xl mb-1 border border-emerald-200 text-emerald-700 shadow-sm">
+                    🔬
+                </div>
+                <h2 class="text-2xl font-black text-slate-900">¡Ponte a Prueba!</h2>
+                <p class="text-xs text-slate-600">Ingresa tu nombre y elige la dificultad para comenzar.</p>
+            </div>
+
+            <!-- Botón de Continuar Partida (aparece si hay juego pausado) -->
+            <div id="container-resume-game" class="hidden">
+                <button onclick="resumeQuiz()" class="btn-touch w-full p-3.5 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white rounded-2xl font-bold text-xs sm:text-sm shadow-md flex items-center justify-between transition-all border border-amber-300">
+                    <div class="flex items-center gap-2.5">
+                        <span class="text-xl">▶️</span>
+                        <div class="text-left">
+                            <div class="font-black">Continuar Partida</div>
+                            <div id="resume-details" class="text-[10px] text-amber-100 font-normal">Pregunta 1 de 10</div>
+                        </div>
+                    </div>
+                    <span class="bg-white/25 px-2.5 py-1 rounded-lg text-[10px] font-mono font-bold uppercase tracking-wider">Reanudar</span>
+                </button>
+            </div>
+
+            <!-- Nombre -->
+            <div class="space-y-1.5">
+                <label for="player-name" class="text-xs font-bold text-slate-600 uppercase tracking-wider block">Tu Nombre / Apodo:</label>
+                <input type="text" id="player-name" placeholder="Ej: Ana Clara, Violeta" 
+                    class="w-full px-4 py-3 bg-white border border-slate-300 rounded-xl text-slate-800 placeholder-slate-400 focus:outline-none focus:border-emerald-500 shadow-sm text-base font-semibold">
+            </div>
+
+            <!-- Cantidad de Preguntas por ronda -->
+            <div class="space-y-1.5">
+                <label class="text-xs font-bold text-slate-600 uppercase tracking-wider block">Preguntas por ronda:</label>
+                <div class="grid grid-cols-3 gap-2">
+                    <button type="button" onclick="setCount(10)" id="btn-count-10" class="btn-count py-2 text-xs font-bold rounded-xl border bg-emerald-600 border-emerald-500 text-white shadow-sm">10 Preg</button>
+                    <button type="button" onclick="setCount(20)" id="btn-count-20" class="btn-count py-2 text-xs font-bold rounded-xl border bg-white border-slate-200 text-slate-700 hover:bg-slate-50">20 Preg</button>
+                    <button type="button" onclick="setCount(50)" id="btn-count-50" class="btn-count py-2 text-xs font-bold rounded-xl border bg-white border-slate-200 text-slate-700 hover:bg-slate-50">50 Preg</button>
+                </div>
+            </div>
+
+            <!-- Dificultad -->
+            <div class="space-y-2.5 pt-1">
+                <label class="text-xs font-bold text-slate-600 uppercase tracking-wider block">Elige Dificultad:</label>
+                
+                <button onclick="selectLevel('fácil')" class="btn-touch w-full p-3.5 rounded-2xl bg-gradient-to-r from-emerald-50 to-teal-50 border border-emerald-300 hover:border-emerald-400 flex items-center justify-between text-left shadow-sm">
+                    <div class="flex items-center gap-3">
+                        <span class="text-2xl">🟢</span>
+                        <div>
+                            <div class="font-bold text-emerald-800 text-xs sm:text-sm">FÁCIL (Principiante)</div>
+                            <div class="text-[11px] text-slate-500">Conceptos básicos</div>
+                        </div>
+                    </div>
+                    <span class="text-[10px] bg-emerald-200 text-emerald-800 px-2 py-1 rounded-full font-bold">100 Preg.</span>
+                </button>
+
+                <button onclick="selectLevel('medio')" class="btn-touch w-full p-3.5 rounded-2xl bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-300 hover:border-amber-400 flex items-center justify-between text-left shadow-sm">
+                    <div class="flex items-center gap-3">
+                        <span class="text-2xl">🟡</span>
+                        <div>
+                            <div class="font-bold text-amber-800 text-xs sm:text-sm">MEDIO (Intermedio)</div>
+                            <div class="text-[11px] text-slate-500">Organelas y diferencias</div>
+                        </div>
+                    </div>
+                    <span class="text-[10px] bg-amber-200 text-amber-800 px-2 py-1 rounded-full font-bold">100 Preg.</span>
+                </button>
+
+                <button onclick="selectLevel('difícil')" class="btn-touch w-full p-3.5 rounded-2xl bg-gradient-to-r from-rose-50 to-pink-50 border border-rose-300 hover:border-rose-400 flex items-center justify-between text-left shadow-sm">
+                    <div class="flex items-center gap-3">
+                        <span class="text-2xl">🔴</span>
+                        <div>
+                            <div class="font-bold text-rose-800 text-xs sm:text-sm">DIFÍCIL (Experto)</div>
+                            <div class="text-[11px] text-slate-500">Detalles y razonamiento</div>
+                        </div>
+                    </div>
+                    <span class="text-[10px] bg-rose-200 text-rose-800 px-2 py-1 rounded-full font-bold">100 Preg.</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- PANTALLA 2: JUEGO -->
+        <div id="screen-quiz" class="hidden glass-card rounded-3xl p-5 shadow-xl space-y-4">
+            
+            <div class="flex items-center justify-between text-xs pb-2 border-b border-slate-200/80">
+                <div class="flex items-center gap-2">
+                    <button onclick="pauseAndExitToMenu()" class="btn-touch px-2.5 py-1 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-lg border border-slate-200 flex items-center gap-1 transition-colors" title="Salir al menú principal">
+                        🏠 <span class="text-[11px]">Menú</span>
+                    </button>
+                    <span id="quiz-player-badge" class="font-bold text-slate-700 bg-slate-100 border border-slate-200 px-2.5 py-1 rounded-lg">Jugadora</span>
+                    <span id="quiz-level-badge" class="font-bold px-2.5 py-1 rounded-lg">Fácil</span>
+                </div>
+                <div class="flex items-center gap-3 font-mono">
+                    <span class="text-slate-500">Racha: <strong id="quiz-streak" class="text-orange-600">🔥 0</strong></span>
+                    <span class="text-slate-500">Pts: <strong id="quiz-score" class="text-emerald-600">0</strong></span>
+                </div>
+            </div>
+
+            <div class="space-y-1.5">
+                <div class="flex justify-between text-[11px] text-slate-500 font-bold">
+                    <span>Pregunta <span id="current-q-num">1</span> de <span id="total-q-num">10</span></span>
+                    <span id="timer-text" class="text-emerald-600 font-bold font-mono">⏱️ 00:00</span>
+                </div>
+                <div class="w-full h-2 bg-slate-100 rounded-full overflow-hidden border border-slate-200">
+                    <div id="quiz-progress-bar" class="h-full bg-emerald-500 transition-all duration-300 w-0"></div>
+                </div>
+            </div>
+
+            <div class="py-1 space-y-2">
+                <div id="question-category" class="text-[10px] uppercase tracking-wider font-extrabold text-emerald-800 bg-emerald-100 border border-emerald-200 inline-block px-2.5 py-0.5 rounded-md">
+                    Célula
+                </div>
+                <h3 id="question-text" class="text-base sm:text-lg font-extrabold text-slate-900 leading-snug min-h-[50px] flex items-center">
+                    ¿Cargando pregunta...?
+                </h3>
+            </div>
+
+            <div id="options-container" class="space-y-2 pt-1"></div>
+
+            <div id="feedback-box" class="hidden p-3 rounded-2xl text-xs space-y-1 shadow-sm">
+                <div id="feedback-title" class="font-extrabold flex items-center gap-1.5 text-sm"></div>
+                <div id="feedback-desc" class="text-slate-700 leading-relaxed font-medium"></div>
+            </div>
+
+            <button id="btn-next" onclick="nextQuestion()" class="hidden btn-touch w-full py-3 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white font-black text-xs sm:text-sm rounded-xl shadow-md uppercase tracking-wider">
+                Siguiente Pregunta ➔
+            </button>
+        </div>
+
+        <!-- PANTALLA 3: RESULTADOS -->
+        <div id="screen-results" class="hidden glass-card rounded-3xl p-6 shadow-xl space-y-5 text-center">
+            <div class="space-y-1.5">
+                <div id="result-trophy" class="text-5xl animate-bounce">🏆</div>
+                <h2 id="result-title" class="text-2xl font-black text-slate-900">¡Excelente Trabajo!</h2>
+                <p id="result-subtitle" class="text-xs text-slate-600">Completaste la evaluación con éxito.</p>
+            </div>
+
+            <div class="grid grid-cols-4 gap-1.5 py-1">
+                <div class="p-2 bg-white/90 rounded-2xl border border-slate-200 shadow-sm">
+                    <div class="text-[9px] text-slate-500 uppercase font-bold">Puntaje</div>
+                    <div id="res-score" class="text-base sm:text-lg font-black text-emerald-600">0</div>
+                </div>
+                <div class="p-2 bg-white/90 rounded-2xl border border-slate-200 shadow-sm">
+                    <div class="text-[9px] text-slate-500 uppercase font-bold">Aciertos</div>
+                    <div id="res-accuracy" class="text-base sm:text-lg font-black text-blue-600">0/0</div>
+                </div>
+                <div class="p-2 bg-white/90 rounded-2xl border border-slate-200 shadow-sm">
+                    <div class="text-[9px] text-slate-500 uppercase font-bold">Tiempo</div>
+                    <div id="res-time" class="text-base sm:text-lg font-black text-purple-600 font-mono">00:00</div>
+                </div>
+                <div class="p-2 bg-white/90 rounded-2xl border border-slate-200 shadow-sm">
+                    <div class="text-[9px] text-slate-500 uppercase font-bold">Racha Máx</div>
+                    <div id="res-streak" class="text-base sm:text-lg font-black text-orange-500">🔥 0</div>
+                </div>
+            </div>
+
+            <div class="space-y-2">
+                <button onclick="restartQuiz()" class="btn-touch w-full py-3 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs sm:text-sm rounded-xl shadow-md uppercase tracking-wider">
+                    🔄 Jugar De Nuevo
+                </button>
+                <div class="grid grid-cols-2 gap-2">
+                    <button onclick="toggleReviewSection()" class="btn-touch py-2.5 bg-white hover:bg-slate-50 text-slate-700 font-bold text-xs rounded-xl border border-slate-200 shadow-sm">
+                        📋 Ver Respuestas
+                    </button>
+                    <button onclick="showLeaderboardModal()" class="btn-touch py-2.5 bg-white hover:bg-slate-50 text-amber-600 font-bold text-xs rounded-xl border border-slate-200 shadow-sm">
+                        🏆 Ver Ranking
+                    </button>
+                </div>
+                <button onclick="goHome()" class="text-xs text-slate-500 hover:text-slate-800 underline pt-1 block mx-auto font-medium">
+                    ← Cambiar Nombre o Nivel
+                </button>
+            </div>
+
+            <div id="review-container" class="hidden text-left space-y-2.5 pt-3 border-t border-slate-200 max-h-60 overflow-y-auto pr-1">
+                <h4 class="text-xs font-bold text-slate-600 uppercase tracking-wider">Revisión de la Ronda:</h4>
+                <div id="review-list" class="space-y-2 text-xs"></div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- MODAL DE LEADERBOARD -->
+    <div id="modal-leaderboard" class="hidden fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div class="glass-card bg-white/95 w-full max-w-md rounded-3xl p-5 space-y-4 max-h-[85vh] flex flex-col shadow-2xl">
+            <div class="flex items-center justify-between pb-2 border-b border-slate-200">
+                <div class="flex items-center gap-2">
+                    <span class="text-2xl">🏆</span>
+                    <h3 class="font-extrabold text-base text-slate-900">Tabla de Posiciones</h3>
+                </div>
+                <button onclick="closeLeaderboardModal()" class="text-slate-400 hover:text-slate-700 p-1 text-lg font-bold">✕</button>
+            </div>
+
+            <div class="grid grid-cols-3 gap-1 bg-slate-100 p-1 rounded-xl text-xs font-bold text-center border border-slate-200">
+                <button onclick="switchLeaderboardTab('fácil')" id="tab-facil" class="py-1.5 rounded-lg bg-emerald-600 text-white">Fácil</button>
+                <button onclick="switchLeaderboardTab('medio')" id="tab-medio" class="py-1.5 rounded-lg text-slate-500 hover:text-slate-700">Medio</button>
+                <button onclick="switchLeaderboardTab('difícil')" id="tab-dificil" class="py-1.5 rounded-lg text-slate-500 hover:text-slate-700">Difícil</button>
+            </div>
+
+            <div id="leaderboard-list" class="flex-1 overflow-y-auto space-y-2 pr-1 min-h-[160px]"></div>
+
+            <div class="pt-2 flex justify-between items-center text-xs text-slate-500 border-t border-slate-200">
+                <button onclick="clearLeaderboard()" class="text-red-500 hover:underline font-semibold">Borrar Historial</button>
+                <button onclick="closeLeaderboardModal()" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white font-bold rounded-xl shadow-sm">Cerrar</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let audioCtx = null;
+        let soundEnabled = true;
+
+        let isGameActive = false;
+        let isGamePaused = false;
+        let isAnswerSubmitted = false;
+
+        function initAudio() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+        }
+
+        function playTone(freq, type, duration, delay = 0) {
+            if (!soundEnabled) return;
+            try {
+                initAudio();
+                setTimeout(() => {
+                    const osc = audioCtx.createOscillator();
+                    const gain = audioCtx.createGain();
+                    osc.type = type;
+                    osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+                    gain.gain.setValueAtTime(0.12, audioCtx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + duration);
+                    osc.connect(gain);
+                    gain.connect(audioCtx.destination);
+                    osc.start();
+                    osc.stop(audioCtx.currentTime + duration);
+                }, delay);
+            } catch(e) {}
+        }
+
+        function playSound(type) {
+            if (type === 'correct') {
+                playTone(523.25, 'sine', 0.12, 0);
+                playTone(659.25, 'sine', 0.12, 70);
+                playTone(783.99, 'sine', 0.2, 140);
+            } else if (type === 'wrong') {
+                playTone(220, 'sawtooth', 0.15, 0);
+                playTone(185, 'sawtooth', 0.25, 100);
+            } else if (type === 'victory') {
+                playTone(523.25, 'sine', 0.12, 0);
+                playTone(659.25, 'sine', 0.12, 90);
+                playTone(783.99, 'sine', 0.12, 180);
+                playTone(1046.50, 'sine', 0.35, 270);
+            }
+        }
+
+        function toggleSound() {
+            soundEnabled = !soundEnabled;
+            document.getElementById('btn-sound').innerText = soundEnabled ? '🔊' : '🔇';
+        }
+
+        const questionBank = {
+            "fácil": [
+                { q: "¿Por qué se dice que la célula es la 'unidad vital' de los seres vivos?", opts: ["Porque es la estructura fundamental que cumple las funciones de la vida", "Porque es la organela que produce energía solar", "Porque solo se encuentra en animales gigantes", "Porque es visible a simple vista"], correct: 0, exp: "La célula es la unidad de estructura, función, origen y herencia de todos los seres vivos." },
+                { q: "¿Cuál de estas estructuras está presente en TODAS las células sin excepción?", opts: ["Pared celular rígida", "Membrana plasmática", "Cloroplastos", "Núcleo celular"], correct: 1, exp: "Todas las células poseen membrana plasmática, citoplasma y material genético." },
+                { q: "¿Dónde se encuentra el material genético (ADN) en una célula PROCARIOTA?", opts: ["Encerrado en un núcleo celular", "Disperso en el citoplasma", "Dentro de los cloroplastos", "En las vacuolas"], correct: 1, exp: "Las procariotas no tienen núcleo y su ADN flota libre en el citoplasma." },
+                { q: "¿Qué tipo de célula posee su ADN protegido dentro de un NÚCLEO?", opts: ["Procariota", "Eucariota", "Bacteriana", "Acelular"], correct: 1, exp: "Las células eucariotas poseen núcleo delimitado por membrana." },
+                { q: "¿Qué organela celular es llamada la 'central de energía'?", opts: ["Mitocondria", "Lisosoma", "Vacuola", "Ribosoma"], correct: 0, exp: "Las mitocondrias realizan la respiración celular liberando energía con oxígeno." },
+                { q: "¿Qué estructura otorga rigidez a la célula eucariota VEGETAL?", opts: ["Pared celular", "Centríolo", "Membrana plasmática", "Flagelo"], correct: 0, exp: "La pared celular recubre por fuera la membrana en las plantas." },
+                { q: "¿En qué organelas ocurre el proceso de FOTOSÍNTESIS?", opts: ["En los cloroplastos", "En las mitocondrias", "En los lisosomas", "En el Aparato de Golgi"], correct: 0, exp: "Los cloroplastos contienen clorofila para captar luz solar y fabricar azúcares." },
+                { q: "El orden correcto de menor a mayor complejidad en un organismo es:", opts: ["Célula → Tejido → Órgano → Sistema → Individuo", "Individuo → Sistema → Órgano → Tejido → Célula", "Órgano → Tejido → Célula → Sistema → Individuo", "Tejido → Célula → Órgano → Individuo → Sistema"], correct: 0, exp: "Célula → Tejido → Órgano → Sistema → Individuo." },
+                { q: "¿Qué es un TEJIDO en biología?", opts: ["Un conjunto de células similares organizadas para cumplir una función", "Un grupo de seres vivos de diferentes especies", "La capa externa del planeta", "Una organela citoplasmática"], correct: 0, exp: "Un tejido es la agrupación de células de forma y función parecida." },
+                { q: "Un grupo de flamencos de la misma especie que viven en la misma laguna forman una:", opts: ["Población", "Comunidad", "Biósfera", "Célula"], correct: 0, exp: "Una población es el conjunto de individuos de la MISMA especie que conviven en un área." },
+                { q: "Si sumamos los peces, ranas y juncos de una laguna, hablamos de:", opts: ["Comunidad", "Población", "Individuo", "Tejido"], correct: 0, exp: "La comunidad incluye las poblaciones de DISTINTAS especies que conviven." },
+                { q: "¿Qué nivel abarca la comunidad MÁS el ambiente físico (agua, luz, clima)?", opts: ["Ecosistema", "Población", "Órgano", "Tejido"], correct: 0, exp: "El ecosistema suma seres vivos y el ambiente inerte." },
+                { q: "Ejemplos de grandes regiones como la Selva o el Desierto corresponden al nivel de:", opts: ["Bioma", "Población", "Célula", "Órgano"], correct: 0, exp: "Un bioma es un conjunto de ecosistemas con clima y vegetación semejantes." },
+                { q: "¿Qué es la BIÓSFERA?", opts: ["La suma de todos los biomas del planeta donde existe vida", "Un tipo de bacteria", "El líquido dentro del núcleo", "El nivel formado solo por plantas"], correct: 0, exp: "La biósfera es la capa del planeta habitada por todos los seres vivos." },
+                { q: "¿Qué organela actúa guardando agua y nutrientes en la célula?", opts: ["Vacuola", "Mitocondria", "Ribosoma", "Núcleo"], correct: 0, exp: "Las vacuolas son pequeños o grandes depósitos de agua y nutrientes." },
+                { q: "Las bacterias son organismos constituidos por células:", opts: ["Procariotas", "Eucariotas animales", "Eucariotas vegetales", "Pluricelulares"], correct: 0, exp: "Las bacterias son el principal ejemplo de células procariotas." },
+                { q: "¿Cuál es el medio fluido o líquido celular donde flotan las organelas?", opts: ["Citoplasma", "Pared celular", "Membrana externa", "Centríolo"], correct: 0, exp: "El citoplasma es el medio fluido interno de la célula." },
+                { q: "Un ser humano, un perro o un árbol de jazmín son ejemplos del nivel de:", opts: ["Individuo / Ser Vivo", "Biósfera", "Comunidad", "Tejido"], correct: 0, exp: "Un individuo es un organismo único capaz de sobrevivir independientemente." }
+            ],
+            "medio": [
+                { q: "¿Qué función cumple la membrana plasmática gracias a su permeabilidad selectiva?", opts: ["Controlar el paso de sustancias hacia el interior y exterior", "Fabricar todas las proteínas celulares", "Sintetizar luz solar en glucosa", "Destruir el núcleo en la división"], correct: 0, exp: "La membrana selecciona qué entra y sale de la célula para mantener el equilibrio." },
+                { q: "¿Cuál es la diferencia entre el RER y el REL?", opts: ["El RER posee ribosomas para fabricar proteínas; el REL sintetiza lípidos y no tiene ribosomas", "El RER está en el núcleo y el REL fuera de la célula", "El REL hace fotosíntesis y el RER respiración", "El RER solo está en bacterias"], correct: 0, exp: "El RER tiene ribosomas adheridos para sintetizar proteínas y el REL produce lípidos." },
+                { q: "¿Qué ocurre con los materiales capturados por los LISOSOMAS?", opts: ["Son degradados por enzimas y reutilizados en el metabolismo", "Se transforman en clorofila", "Se convierten en ADN", "Salen disparados por el flagelo"], correct: 0, exp: "Los lisosomas reciclan desechos degradándolos en partes aprovechables." },
+                { q: "¿Por qué una célula eucariota animal NO puede fabricar su alimento?", opts: ["Porque carece de cloroplastos y clorofila", "Porque no tiene mitocondrias ni núcleo", "Porque su membrana es demasiado dura", "Porque tiene vacuolas gigantes"], correct: 0, exp: "Sin cloroplastos no realiza fotosíntesis y es heterótrofa." },
+                { q: "Un biólogo estudia peces, juncos, agua, luz y tierra de una laguna. ¿Qué nivel estudia?", opts: ["Ecosistema", "Comunidad", "Población", "Tejido"], correct: 0, exp: "Estudia factores bióticos y abióticos juntos = Ecosistema." },
+                { q: "¿Qué diferencia a una POBLACIÓN de una COMUNIDAD?", opts: ["La población es de una sola especie; la comunidad agrupa varias especies", "La población incluye las rocas y la comunidad solo plantas", "La comunidad es microscópica", "Son idénticos"], correct: 0, exp: "Población = 1 especie. Comunidad = Varias especies juntas." },
+                { q: "¿Qué organela empaqueta sustancias en vesículas para enviarlas fuera de la célula?", opts: ["Aparato de Golgi", "Mitocondria", "Lisosoma", "Centríolo"], correct: 0, exp: "El Aparato de Golgi modifica, empaqueta y distribuye productos celulares." },
+                { q: "Las células PROCARIOTAS se consideran evolutivamente:", opts: ["Más antiguas y simples que las eucariotas", "Más recientes y complejas que las eucariotas", "Iguales en todo a las plantas", "Incapaces de multiplicarse"], correct: 0, exp: "Aparecieron primero en la tierra y son más simples." },
+                { q: "¿Cuál es la función principal de la gran VACUOLA CENTRAL en la célula vegetal?", opts: ["Almacenar agua para mantener la turgencia y firmeza de la planta", "Producir energía respiratoria", "Guardar los cromosomas del núcleo", "Mover la célula"], correct: 0, exp: "La vacuola llena de agua mantiene la planta firme mediante presión de turgencia." },
+                { q: "Si se destruyeran las MITOCONDRIAS de una célula, esta dejaría de:", opts: ["Producir la mayor parte de su energía (ATP)", "Sintetizar su material genético", "Formar la pared celular", "Absorber luz"], correct: 0, exp: "Sin mitocondrias no hay respiración celular energética." }
+            ],
+            "difícil": [
+                { q: "¿Qué diferencia estructural existe entre la pared vegetal y la pared bacteriana?", opts: ["La vegetal es de celulosa y la bacteriana de peptidoglicano", "La vegetal es de lípidos y la bacteriana de vidrio", "La bacteriana contiene clorofila", "Son idénticas"], correct: 0, exp: "Vegetal = Celulosa. Bacteriana = Peptidoglicano (mureína)." },
+                { q: "El proceso de autofagia celular consiste en:", opts: ["La degradación de organelas viejas dentro de los lisosomas", "La duplicación del ADN", "La captura de luz solar en el estroma", "La expulsión de agua por la membrana"], correct: 0, exp: "Mecanismo lisosomal para degradar partes dañadas de la propia célula." },
+                { q: "¿En qué lugar específico del cloroplasto ocurren las reacciones de la fase luminosa?", opts: ["En las membranas de los tilacoides", "En el estroma fluido", "En el ADN cloroplástico", "En los poros nucleares"], correct: 0, exp: "La clorofila se ubica en los tilacoides captando luz." },
+                { q: "¿Dónde ocurren las reacciones del Ciclo de Krebs en la respiración celular?", opts: ["En la matriz mitocondrial", "En el cloroplasto", "En el citoplasma bacteriano", "En los ribosomas"], correct: 0, exp: "La matriz mitocondrial contiene las enzimas del ciclo de Krebs." },
+                { q: "¿Qué diferencia a los organismos AUTÓTROFOS de los HETERÓTROFOS?", opts: ["Los autótrofos sintetizan materia orgánica a partir de inorgánica; los heterótrofos consumen a otros", "Los autótrofos no tienen células", "Los heterótrofos hacen fotosíntesis", "Son iguales"], correct: 0, exp: "Autótrofo fabrica su alimento; heterótrofo se alimenta de otros." },
+                { q: "La cromatina del núcleo en interfase está formada por:", opts: ["ADN asociado a proteínas llamadas histonas", "Lípidos complejos y celulosa", "ARN puro", "Enzimas lisosomales"], correct: 0, exp: "El ADN se enrolla en proteínas histonas formando la cromatina." },
+                { q: "¿Por qué las procariotas realizan la síntesis de ATP en su membrana plasmática?", opts: ["Porque carecen de mitocondrias con crestas", "Porque no tienen citoplasma", "Porque su ADN es lineal", "Porque viven dentro de celulosa"], correct: 0, exp: "Al no tener mitocondrias usan su membrana plasmática." },
+                { q: "El fenómeno de PLASMÓLISIS en vegetal ocurre cuando:", opts: ["Pierde agua en medio hipertónico desprendiendo la membrana de la pared", "Absorbe agua hasta estallar", "Se duplican los lisosomas", "El núcleo muta"], correct: 0, exp: "En medio hipertónico la vacuola pierde agua y la célula se deshidrata." },
+                { q: "Los descomponedores (hongos/bacterias) en un ecosistema cumplen el rol de:", opts: ["Reciclar la materia orgánica muerta transformándola en minerales inorgánicos", "Producir oxígeno fotosintético", "Comer herbívoros vivos", "Formar la capa de ozono"], correct: 0, exp: "Reincorporan nutrientes inorgánicos al suelo del ecosistema." }
+            ]
+        };
+
+        let playerName = "Jugadora";
+        let currentLevel = "fácil";
+        let questionBatchSize = 10;
+        let activeQuestions = [];
+        let currentQIndex = 0;
+        let score = 0;
+        let streak = 0;
+        let maxStreak = 0;
+        let correctCount = 0;
+        
+        let stopwatchInterval = null;
+        let totalElapsedSeconds = 0;
+
+        let userHistory = [];
+        let currentTabLeaderboard = 'fácil';
+
+        window.addEventListener('popstate', function(e) {
+            if (isGameActive && !isGamePaused) {
+                pauseAndExitToMenu();
+            }
+        });
+
+        function setCount(cnt) {
+            questionBatchSize = cnt;
+            document.querySelectorAll('.btn-count').forEach(btn => {
+                btn.classList.remove('bg-emerald-600', 'border-emerald-500', 'text-white', 'shadow-sm');
+                btn.classList.add('bg-white', 'border-slate-200', 'text-slate-700', 'hover:bg-slate-50');
+            });
+            const selectedBtn = document.getElementById(`btn-count-${cnt}`);
+            if (selectedBtn) {
+                selectedBtn.classList.remove('bg-white', 'border-slate-200', 'text-slate-700', 'hover:bg-slate-50');
+                selectedBtn.classList.add('bg-emerald-600', 'border-emerald-500', 'text-white', 'shadow-sm');
+            }
+        }
+
+        function selectLevel(lvl) {
+            const input = document.getElementById('player-name').value.trim();
+            playerName = input !== "" ? input : "Jugadora";
+            currentLevel = lvl;
+
+            startQuiz();
+        }
+
+        function shuffleArray(arr) {
+            const clone = [...arr];
+            for (let i = clone.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [clone[i], clone[j]] = [clone[j], clone[i]];
+            }
+            return clone;
+        }
+
+        function startQuiz() {
+            initAudio();
+            let rawPool = questionBank[currentLevel] || questionBank["fácil"];
+            let shuffledPool = shuffleArray(rawPool);
+            
+            activeQuestions = shuffledPool.slice(0, Math.min(questionBatchSize, shuffledPool.length));
+
+            currentQIndex = 0;
+            score = 0;
+            streak = 0;
+            maxStreak = 0;
+            correctCount = 0;
+            totalElapsedSeconds = 0;
+            userHistory = [];
+            isGameActive = true;
+            isGamePaused = false;
+
+            document.getElementById('container-resume-game').classList.add('hidden');
+            document.getElementById('screen-welcome').classList.add('hidden');
+            document.getElementById('screen-results').classList.add('hidden');
+            document.getElementById('screen-quiz').classList.remove('hidden');
+
+            document.getElementById('quiz-player-badge').innerText = playerName;
+            
+            const lvlBadge = document.getElementById('quiz-level-badge');
+            lvlBadge.innerText = currentLevel.toUpperCase();
+            if (currentLevel === 'fácil') {
+                lvlBadge.className = 'font-bold px-2.5 py-1 rounded-lg bg-emerald-100 text-emerald-800 border border-emerald-300';
+            } else if (currentLevel === 'medio') {
+                lvlBadge.className = 'font-bold px-2.5 py-1 rounded-lg bg-amber-100 text-amber-800 border border-amber-300';
+            } else {
+                lvlBadge.className = 'font-bold px-2.5 py-1 rounded-lg bg-rose-100 text-rose-800 border border-rose-300';
+            }
+
+            document.getElementById('total-q-num').innerText = activeQuestions.length;
+            updateHeaderStats();
+
+            try { history.pushState({ inQuiz: true }, ''); } catch(e) {}
+
+            startStopwatch();
+            loadQuestion();
+        }
+
+        function pauseAndExitToMenu() {
+            if (!isGameActive) return;
+
+            clearInterval(stopwatchInterval);
+            isGamePaused = true;
+
+            const resumeDetails = document.getElementById('resume-details');
+            if (resumeDetails) {
+                resumeDetails.innerText = `Pregunta ${currentQIndex + 1} de ${activeQuestions.length} • Jugadora: ${playerName}`;
+            }
+
+            document.getElementById('container-resume-game').classList.remove('hidden');
+            document.getElementById('screen-quiz').classList.add('hidden');
+            document.getElementById('screen-results').classList.add('hidden');
+            document.getElementById('screen-welcome').classList.remove('hidden');
+        }
+
+        function resumeQuiz() {
+            if (!isGameActive || !isGamePaused) return;
+
+            isGamePaused = false;
+            document.getElementById('screen-welcome').classList.add('hidden');
+            document.getElementById('screen-quiz').classList.remove('hidden');
+
+            try { history.pushState({ inQuiz: true }, ''); } catch(e) {}
+
+            startStopwatch();
+        }
+
+        function startStopwatch() {
+            clearInterval(stopwatchInterval);
+            updateStopwatchUI();
+            stopwatchInterval = setInterval(() => {
+                totalElapsedSeconds++;
+                updateStopwatchUI();
+            }, 1000);
+        }
+
+        function updateStopwatchUI() {
+            const timerText = document.getElementById('timer-text');
+            const mins = Math.floor(totalElapsedSeconds / 60);
+            const secs = totalElapsedSeconds % 60;
+            const formatted = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+            timerText.innerText = `⏱️ ${formatted}`;
+        }
+
+        function formatTime(totalSecs) {
+            const mins = Math.floor(totalSecs / 60);
+            const secs = totalSecs % 60;
+            if (mins > 0) {
+                return `${mins}m ${secs.toString().padStart(2, '0')}s`;
+            }
+            return `${secs}s`;
+        }
+
+        function updateHeaderStats() {
+            document.getElementById('quiz-score').innerText = score;
+            document.getElementById('quiz-streak').innerText = `🔥 ${streak}`;
+        }
+
+        function loadQuestion() {
+            if (currentQIndex >= activeQuestions.length) {
+                finishQuiz();
+                return;
+            }
+
+            isAnswerSubmitted = false;
+            const qData = activeQuestions[currentQIndex];
+
+            document.getElementById('current-q-num').innerText = currentQIndex + 1;
+            document.getElementById('question-text').innerText = qData.q;
+            document.getElementById('feedback-box').classList.add('hidden');
+            document.getElementById('btn-next').classList.add('hidden');
+
+            const progPct = ((currentQIndex) / activeQuestions.length) * 100;
+            document.getElementById('quiz-progress-bar').style.width = `${progPct}%`;
+
+            const categories = ["Célula & Vida", "Organelas", "Procariotas/Eucariotas", "Ecosistemas & Niveles"];
+            document.getElementById('question-category').innerText = categories[currentQIndex % categories.length];
+
+            let optionObjects = qData.opts.map((optText, origIdx) => ({
+                text: optText,
+                isCorrect: origIdx === qData.correct
+            }));
+            optionObjects = shuffleArray(optionObjects);
+
+            const container = document.getElementById('options-container');
+            container.innerHTML = '';
+
+            optionObjects.forEach((optObj, idx) => {
+                const btn = document.createElement('button');
+                btn.className = 'btn-option btn-touch w-full p-3 rounded-2xl bg-white border border-slate-200 hover:border-emerald-500 text-left text-xs sm:text-sm font-semibold text-slate-800 flex items-center justify-between shadow-sm transition-all';
+                
+                const letter = String.fromCharCode(65 + idx);
+                btn.innerHTML = `
+                    <div class="flex items-center gap-2 pr-2">
+                        <span class="w-5 h-5 rounded-md bg-emerald-50 border border-emerald-200 text-emerald-700 flex items-center justify-center font-bold text-[11px] flex-shrink-0">${letter}</span>
+                        <span>${optObj.text}</span>
+                    </div>
+                    <span class="status-icon text-base"></span>
+                `;
+
+                btn.onclick = () => handleAnswer(btn, optObj.isCorrect, qData, optionObjects);
+                container.appendChild(btn);
+            });
+        }
+
+        function handleAnswer(selectedBtn, isCorrect, qData, currentOptions) {
+            isAnswerSubmitted = true;
+            disableOptionButtons();
+
+            const correctOptObj = currentOptions.find(o => o.isCorrect);
+
+            if (isCorrect) {
+                playSound('correct');
+                selectedBtn.classList.remove('bg-white', 'border-slate-200');
+                selectedBtn.classList.add('bg-emerald-100', 'border-2', 'border-emerald-500', 'text-emerald-950', 'animate-correct');
+                selectedBtn.querySelector('.status-icon').innerText = '✅';
+
+                let basePts = 100;
+                let multiplier = currentLevel === 'fácil' ? 1 : (currentLevel === 'medio' ? 1.5 : 2);
+                streak++;
+                if (streak > maxStreak) maxStreak = streak;
+                let streakBonus = streak > 1 ? streak * 15 : 0;
+
+                let gained = Math.round((basePts + streakBonus) * multiplier);
+                score += gained;
+                correctCount++;
+
+                showFeedback(true, `+${gained} Pts! ¡Correcto!`, qData.exp);
+            } else {
+                playSound('wrong');
+                selectedBtn.classList.remove('bg-white', 'border-slate-200');
+                selectedBtn.classList.add('bg-rose-100', 'border-2', 'border-rose-500', 'text-rose-950');
+                selectedBtn.querySelector('.status-icon').innerText = '❌';
+
+                highlightCorrectOption(currentOptions);
+                streak = 0;
+                showFeedback(false, `¡Incorrecto!`, qData.exp);
+            }
+
+            userHistory.push({
+                question: qData.q,
+                userChoice: selectedBtn.innerText,
+                correctChoice: correctOptObj.text,
+                isRight: isCorrect,
+                explanation: qData.exp
+            });
+
+            updateHeaderStats();
+            document.getElementById('btn-next').classList.remove('hidden');
+        }
+
+        function highlightCorrectOption(options) {
+            const btns = document.querySelectorAll('.btn-option');
+            btns.forEach((btn, idx) => {
+                if (options[idx].isCorrect) {
+                    btn.classList.remove('bg-white', 'border-slate-200');
+                    btn.classList.add('bg-emerald-50', 'border-2', 'border-emerald-400', 'text-emerald-900');
+                    btn.querySelector('.status-icon').innerText = '👈';
+                }
+            });
+        }
+
+        function disableOptionButtons() {
+            const btns = document.querySelectorAll('.btn-option');
+            btns.forEach(btn => {
+                btn.disabled = true;
+                btn.classList.remove('btn-touch', 'hover:border-emerald-500');
+            });
+        }
+
+        function showFeedback(isPositive, title, desc) {
+            const box = document.getElementById('feedback-box');
+            const titleEl = document.getElementById('feedback-title');
+            const descEl = document.getElementById('feedback-desc');
+
+            box.classList.remove('hidden', 'bg-emerald-50', 'border-emerald-300', 'bg-rose-50', 'border-rose-300');
+
+            if (isPositive) {
+                box.classList.add('bg-emerald-50', 'border', 'border-emerald-300');
+                titleEl.className = 'font-extrabold flex items-center gap-1.5 text-xs sm:text-sm text-emerald-800';
+                titleEl.innerText = `🎉 ${title}`;
+            } else {
+                box.classList.add('bg-rose-50', 'border', 'border-rose-300');
+                titleEl.className = 'font-extrabold flex items-center gap-1.5 text-xs sm:text-sm text-rose-800';
+                titleEl.innerText = `💡 ${title}`;
+            }
+
+            descEl.innerText = desc;
+        }
+
+        function nextQuestion() {
+            currentQIndex++;
+            loadQuestion();
+        }
+
+        function finishQuiz() {
+            clearInterval(stopwatchInterval);
+            isGameActive = false;
+            isGamePaused = false;
+
+            document.getElementById('container-resume-game').classList.add('hidden');
+            document.getElementById('screen-quiz').classList.add('hidden');
+            document.getElementById('screen-results').classList.remove('hidden');
+
+            const pct = Math.round((correctCount / activeQuestions.length) * 100);
+            const formattedTotalTime = formatTime(totalElapsedSeconds);
+
+            document.getElementById('res-score').innerText = score;
+            document.getElementById('res-accuracy').innerText = `${correctCount}/${activeQuestions.length}`;
+            document.getElementById('res-time').innerText = formattedTotalTime;
+            document.getElementById('res-streak').innerText = `🔥 ${maxStreak}`;
+
+            const trophyEl = document.getElementById('result-trophy');
+            const titleEl = document.getElementById('result-title');
+            const subtitleEl = document.getElementById('result-subtitle');
+
+            if (pct >= 80) {
+                playSound('victory');
+                try {
+                    confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+                } catch(e) {}
+                trophyEl.innerText = '🏆';
+                titleEl.innerText = '¡Sobresaliente!';
+                subtitleEl.innerText = `¡Dominas la biología celular con un ${pct}% de aciertos en ${formattedTotalTime}!`;
+            } else if (pct >= 50) {
+                trophyEl.innerText = '🥇';
+                titleEl.innerText = '¡Muy Buen Trabajo!';
+                subtitleEl.innerText = `Obtuviste un ${pct}% de aciertos en ${formattedTotalTime}. ¡Sigue practicando!`;
+            } else {
+                trophyEl.innerText = '📖';
+                titleEl.innerText = '¡A Repasar Un Poco Más!';
+                subtitleEl.innerText = `Lograste un ${pct}% de aciertos. Revisa las respuestas para mejorar.`;
+            }
+
+            saveToLeaderboard(playerName, score, currentLevel, correctCount, activeQuestions.length, formattedTotalTime, totalElapsedSeconds);
+            renderReviewList();
+        }
+
+        function renderReviewList() {
+            const listContainer = document.getElementById('review-list');
+            listContainer.innerHTML = '';
+
+            userHistory.forEach((item, idx) => {
+                const card = document.createElement('div');
+                card.className = `p-2.5 rounded-xl border ${item.isRight ? 'bg-emerald-50/80 border-emerald-200' : 'bg-rose-50/80 border-rose-200'} space-y-1 shadow-sm`;
+                
+                card.innerHTML = `
+                    <div class="font-bold text-slate-800">${idx + 1}. ${item.question}</div>
+                    <div class="text-[11px] ${item.isRight ? 'text-emerald-700 font-bold' : 'text-rose-700 font-bold'}">
+                        Tu respuesta: <strong>${item.isRight ? '✓ ' : '✗ '}${item.userChoice}</strong>
+                    </div>
+                    ${!item.isRight ? `<div class="text-[11px] text-emerald-800 font-semibold">Respuesta correcta: <strong>${item.correctChoice}</strong></div>` : ''}
+                    <div class="text-[10px] text-slate-600 pt-1 italic border-t border-slate-200/80">${item.explanation}</div>
+                `;
+                listContainer.appendChild(card);
+            });
+        }
+
+        function toggleReviewSection() {
+            const rev = document.getElementById('review-container');
+            rev.classList.toggle('hidden');
+        }
+
+        function restartQuiz() {
+            document.getElementById('review-container').classList.add('hidden');
+            startQuiz();
+        }
+
+        function goHome() {
+            clearInterval(stopwatchInterval);
+            document.getElementById('screen-results').classList.add('hidden');
+            document.getElementById('screen-quiz').classList.add('hidden');
+            document.getElementById('screen-welcome').classList.remove('hidden');
+        }
+
+        function getLeaderboard() {
+            try {
+                const data = localStorage.getItem('quiz_ciencias_leaderboard');
+                return data ? JSON.parse(data) : { 'fácil': [], 'medio': [], 'difícil': [] };
+            } catch(e) {
+                return { 'fácil': [], 'medio': [], 'difícil': [] };
+            }
+        }
+
+        function saveToLeaderboard(name, pts, lvl, correct, total, timeFormatted, totalSeconds) {
+            let board = getLeaderboard();
+            if (!board[lvl]) board[lvl] = [];
+
+            board[lvl].push({
+                name: name,
+                score: pts,
+                accuracy: `${correct}/${total}`,
+                time: timeFormatted,
+                seconds: totalSeconds,
+                date: new Date().toLocaleDateString()
+            });
+
+            board[lvl].sort((a, b) => {
+                if (b.score !== a.score) return b.score - a.score;
+                return (a.seconds || 99999) - (b.seconds || 99999);
+            });
+
+            board[lvl] = board[lvl].slice(0, 10);
+
+            try {
+                localStorage.setItem('quiz_ciencias_leaderboard', JSON.stringify(board));
+            } catch(e) {}
+        }
+
+        function showLeaderboardModal() {
+            renderLeaderboardTab(currentTabLeaderboard);
+            document.getElementById('modal-leaderboard').classList.remove('hidden');
+        }
+
+        function closeLeaderboardModal() {
+            document.getElementById('modal-leaderboard').classList.add('hidden');
+        }
+
+        function switchLeaderboardTab(lvl) {
+            currentTabLeaderboard = lvl;
+            document.querySelectorAll('#modal-leaderboard button[id^="tab-"]').forEach(btn => {
+                btn.className = 'py-1.5 rounded-lg text-slate-500 hover:text-slate-700';
+            });
+            
+            const activeTab = document.getElementById(`tab-${lvl === 'fácil' ? 'facil' : (lvl === 'medio' ? 'medio' : 'dificil')}`);
+            if (activeTab) {
+                if (lvl === 'fácil') activeTab.className = 'py-1.5 rounded-lg bg-emerald-600 text-white font-bold';
+                else if (lvl === 'medio') activeTab.className = 'py-1.5 rounded-lg bg-amber-600 text-white font-bold';
+                else activeTab.className = 'py-1.5 rounded-lg bg-rose-600 text-white font-bold';
+            }
+
+            renderLeaderboardTab(lvl);
+        }
+
+        function renderLeaderboardTab(lvl) {
+            const board = getLeaderboard();
+            const list = board[lvl] || [];
+            const container = document.getElementById('leaderboard-list');
+            container.innerHTML = '';
+
+            if (list.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center text-slate-400 py-8 text-xs font-medium">
+                        Aún no hay puntajes registrados en este nivel.<br>¡Sé la primera en jugar!
+                    </div>
+                `;
+                return;
+            }
+
+            list.forEach((item, idx) => {
+                const medal = idx === 0 ? '🥇' : (idx === 1 ? '🥈' : (idx === 2 ? '🥉' : `#${idx + 1}`));
+                const row = document.createElement('div');
+                row.className = 'flex items-center justify-between p-2.5 bg-white rounded-xl border border-slate-200/80 text-xs shadow-sm';
+                
+                row.innerHTML = `
+                    <div class="flex items-center gap-2.5">
+                        <span class="w-5 text-center font-bold text-amber-600 text-sm">${medal}</span>
+                        <div>
+                            <div class="font-bold text-slate-800">${item.name}</div>
+                            <div class="text-[10px] text-slate-500">Aciertos: ${item.accuracy} • ⏱️ ${item.time || 'N/A'} • ${item.date}</div>
+                        </div>
+                    </div>
+                    <div class="font-black text-emerald-600 text-sm">${item.score} pts</div>
+                `;
+                container.appendChild(row);
+            });
+        }
+
+        function clearLeaderboard() {
+            try {
+                localStorage.removeItem('quiz_ciencias_leaderboard');
+                renderLeaderboardTab(currentTabLeaderboard);
+            } catch(e) {}
+        }
+    </script>
+</body>
+</html>
