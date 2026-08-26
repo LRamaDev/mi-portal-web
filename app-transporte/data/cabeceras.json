@@ -1,0 +1,412 @@
+{
+  "schema_version": 1,
+  "map_kind": "schematic-endpoint-connections",
+  "sources": [
+    {
+      "name": "Georef Argentina",
+      "url": "https://apis.datos.gob.ar/georef/api/localidades?provincia=cordoba&max=5000&campos=id%2Cnombre%2Ccentroide%2Cdepartamento"
+    },
+    {
+      "name": "OpenStreetMap Nominatim",
+      "url": "https://nominatim.openstreetmap.org/"
+    }
+  ],
+  "locations": {
+    "ACHIRAS": {
+      "lat": -33.1744471620908,
+      "lon": -64.9920618144743,
+      "source": "Georef Argentina",
+      "source_name": "Achiras",
+      "department": "Río Cuarto"
+    },
+    "ADELIA MARÍA": {
+      "lat": -33.6320303880364,
+      "lon": -64.0216780090112,
+      "source": "Georef Argentina",
+      "source_name": "Adelia María",
+      "department": "Río Cuarto"
+    },
+    "AGUA DE ORO": {
+      "lat": -31.0622288550886,
+      "lon": -64.3006405218046,
+      "source": "Georef Argentina",
+      "source_name": "Agua de Oro",
+      "department": "Colón"
+    },
+    "ALEJANDRO ROCA": {
+      "lat": -33.3535611422207,
+      "lon": -63.7177345908776,
+      "source": "Georef Argentina",
+      "source_name": "Alejandro Roca",
+      "department": "Juárez Celman"
+    },
+    "ALMAFUERTE": {
+      "lat": -32.1923904655136,
+      "lon": -64.2557452081438,
+      "source": "Georef Argentina",
+      "source_name": "Almafuerte",
+      "department": "Tercero Arriba"
+    },
+    "ALPA CORRAL": {
+      "lat": -32.6921124082415,
+      "lon": -64.7235966023545,
+      "source": "Georef Argentina",
+      "source_name": "Alpa Corral",
+      "department": "Río Cuarto"
+    },
+    "ASCOCHINGA": {
+      "lat": -30.9590358937464,
+      "lon": -64.2733493995531,
+      "source": "Georef Argentina",
+      "source_name": "Ascochinga",
+      "department": "Colón"
+    },
+    "BERROTARÁN": {
+      "lat": -32.4528417351187,
+      "lon": -64.3879391106245,
+      "source": "Georef Argentina",
+      "source_name": "Berrotarán",
+      "department": "Río Cuarto"
+    },
+    "BOUWER": {
+      "lat": -31.5581326994395,
+      "lon": -64.1906902565745,
+      "source": "Georef Argentina",
+      "source_name": "Bouwer",
+      "department": "Santa María"
+    },
+    "BUCHARDO": {
+      "lat": -34.7238062,
+      "lon": -63.5073178,
+      "source": "OpenStreetMap/Nominatim · validación manual",
+      "source_name": "Buchardo",
+      "department": null
+    },
+    "CABANA": {
+      "lat": -31.2383631,
+      "lon": -64.3329538,
+      "source": "OpenStreetMap/Nominatim · validación manual",
+      "source_name": "Cabana",
+      "department": null
+    },
+    "CERRO AZUL": {
+      "lat": -31.0706651818848,
+      "lon": -64.3162353926988,
+      "source": "Georef Argentina",
+      "source_name": "Villa Cerro Azul",
+      "department": "Colón"
+    },
+    "CHAJÁN": {
+      "lat": -33.5556299871625,
+      "lon": -65.0026547353906,
+      "source": "Georef Argentina",
+      "source_name": "Chaján",
+      "department": "Río Cuarto"
+    },
+    "CHAZÓN": {
+      "lat": -33.0778686830531,
+      "lon": -63.2750688076142,
+      "source": "Georef Argentina",
+      "source_name": "Chazón",
+      "department": "General San Martín"
+    },
+    "CORONEL MOLDES": {
+      "lat": -33.6227285213653,
+      "lon": -64.5970481396538,
+      "source": "Georef Argentina",
+      "source_name": "Coronel Moldes",
+      "department": "Río Cuarto"
+    },
+    "CORRAL DE BUSTOS": {
+      "lat": -33.2830928544683,
+      "lon": -62.1865429174032,
+      "source": "Georef Argentina",
+      "source_name": "Corral de Bustos",
+      "department": "Marcos Juárez"
+    },
+    "CÓRDOBA": {
+      "lat": -31.4150461523809,
+      "lon": -64.1791140755104,
+      "source": "Georef Argentina",
+      "source_name": "Córdoba",
+      "department": "Capital"
+    },
+    "DESPEÑADEROS": {
+      "lat": -31.8142805534065,
+      "lon": -64.2947750028746,
+      "source": "Georef Argentina",
+      "source_name": "Despeñaderos",
+      "department": "Santa María"
+    },
+    "EL PUEBLITO": {
+      "lat": -31.1061995831956,
+      "lon": -64.292290098635,
+      "source": "Georef Argentina",
+      "source_name": "El Pueblito",
+      "department": "Colón"
+    },
+    "EL TALAR": {
+      "lat": -31.2553415,
+      "lon": -64.272341,
+      "source": "OpenStreetMap/Nominatim · validación manual",
+      "source_name": "El Talar",
+      "department": null
+    },
+    "ELENA": {
+      "lat": -32.5703939625154,
+      "lon": -64.3939049255638,
+      "source": "Georef Argentina",
+      "source_name": "Elena",
+      "department": "Río Cuarto"
+    },
+    "GENERAL CABRERA": {
+      "lat": -32.8145729537056,
+      "lon": -63.8749572232084,
+      "source": "Georef Argentina",
+      "source_name": "General Cabrera",
+      "department": "Juárez Celman"
+    },
+    "HERNANDO": {
+      "lat": -32.4278813952385,
+      "lon": -63.7334711036897,
+      "source": "Georef Argentina",
+      "source_name": "Hernando",
+      "department": "Tercero Arriba"
+    },
+    "HOLMBERG": {
+      "lat": -33.2051899707377,
+      "lon": -64.4378286821745,
+      "source": "Georef Argentina",
+      "source_name": "Santa Catalina Holmberg",
+      "department": "Río Cuarto"
+    },
+    "HUINCA": {
+      "lat": -34.8413182092657,
+      "lon": -64.374674241684,
+      "source": "Georef Argentina",
+      "source_name": "Huinca Renancó",
+      "department": "General Roca"
+    },
+    "JESÚS MARÍA": {
+      "lat": -30.9761309355354,
+      "lon": -64.0957931680719,
+      "source": "Georef Argentina",
+      "source_name": "Jesús María",
+      "department": "Colón"
+    },
+    "JOVITA": {
+      "lat": -34.518857,
+      "lon": -63.9440228,
+      "source": "OpenStreetMap/Nominatim · validación manual",
+      "source_name": "Jovita",
+      "department": null
+    },
+    "LA CALERA": {
+      "lat": -31.3503560189278,
+      "lon": -64.3379432970611,
+      "source": "Georef Argentina",
+      "source_name": "La Calera",
+      "department": "Colón"
+    },
+    "LA CARLOTA": {
+      "lat": -33.4179776759532,
+      "lon": -63.2936289409448,
+      "source": "Georef Argentina",
+      "source_name": "La Carlota",
+      "department": "Juárez Celman"
+    },
+    "LA GRANJA": {
+      "lat": -31.0086241638688,
+      "lon": -64.2678934275508,
+      "source": "Georef Argentina",
+      "source_name": "La Granja",
+      "department": "Colón"
+    },
+    "LA PAMPA": {
+      "lat": -30.9422303821288,
+      "lon": -64.2769351162808,
+      "source": "Georef Argentina",
+      "source_name": "La Pampa",
+      "department": "Totoral"
+    },
+    "LA QUEBRADA": {
+      "lat": -31.1495385,
+      "lon": -64.3421134,
+      "source": "OpenStreetMap/Nominatim · validación manual",
+      "source_name": "La Quebrada",
+      "department": null
+    },
+    "LABOULAYE": {
+      "lat": -34.1286322353031,
+      "lon": -63.3907017059902,
+      "source": "Georef Argentina",
+      "source_name": "Laboulaye",
+      "department": "Presidente Roque Sáenz Peña"
+    },
+    "LAS ACEQUIAS": {
+      "lat": -33.2802823361599,
+      "lon": -63.9753761495156,
+      "source": "Georef Argentina",
+      "source_name": "Las Acequias",
+      "department": "Río Cuarto"
+    },
+    "LAS ALBAHACAS": {
+      "lat": -32.8884091801626,
+      "lon": -64.8448424724358,
+      "source": "Georef Argentina",
+      "source_name": "Las Albahacas",
+      "department": "Río Cuarto"
+    },
+    "LAS HIGUERAS": {
+      "lat": -33.0898038759835,
+      "lon": -64.2853623066603,
+      "source": "Georef Argentina",
+      "source_name": "Las Higueras",
+      "department": "Río Cuarto"
+    },
+    "LOS CÓNDORES": {
+      "lat": -32.3211259681076,
+      "lon": -64.2807422857482,
+      "source": "Georef Argentina",
+      "source_name": "Los Cóndores",
+      "department": "Calamuchita"
+    },
+    "MENDIOLAZA": {
+      "lat": -31.2640443703214,
+      "lon": -64.3091277732629,
+      "source": "Georef Argentina",
+      "source_name": "Mendiolaza",
+      "department": "Colón"
+    },
+    "RÍO CEBALLOS": {
+      "lat": -31.1697501304772,
+      "lon": -64.3175041693725,
+      "source": "Georef Argentina",
+      "source_name": "Río Ceballos",
+      "department": "Colón"
+    },
+    "RÍO CUARTO": {
+      "lat": -33.1238369342208,
+      "lon": -64.3490032179798,
+      "source": "Georef Argentina",
+      "source_name": "Río Cuarto",
+      "department": "Río Cuarto"
+    },
+    "RÍO DE LOS SAUCES": {
+      "lat": -32.528642164266,
+      "lon": -64.5886875602836,
+      "source": "Georef Argentina",
+      "source_name": "Río de los Sauces",
+      "department": "Calamuchita"
+    },
+    "RÍO TERCERO": {
+      "lat": -32.1767393738221,
+      "lon": -64.1129628407675,
+      "source": "Georef Argentina",
+      "source_name": "Río Tercero",
+      "department": "Tercero Arriba"
+    },
+    "SALDÁN": {
+      "lat": -31.3153062144915,
+      "lon": -64.3035286821267,
+      "source": "Georef Argentina",
+      "source_name": "Saldán",
+      "department": "Colón"
+    },
+    "SALSIPUEDES": {
+      "lat": -31.13788084948,
+      "lon": -64.2927724360505,
+      "source": "Georef Argentina",
+      "source_name": "Salsipuedes",
+      "department": "Colón"
+    },
+    "SANTA ROSA DE CALAMUCHITA": {
+      "lat": -32.0699095313468,
+      "lon": -64.5390917673383,
+      "source": "Georef Argentina",
+      "source_name": "Santa Rosa de Calamuchita",
+      "department": "Calamuchita"
+    },
+    "SERRANO": {
+      "lat": -34.4706743272088,
+      "lon": -63.5402860917135,
+      "source": "Georef Argentina",
+      "source_name": "Serrano",
+      "department": "Presidente Roque Sáenz Peña"
+    },
+    "SUCO": {
+      "lat": -33.439992150182,
+      "lon": -64.830882262924,
+      "source": "Georef Argentina",
+      "source_name": "Suco",
+      "department": "Río Cuarto"
+    },
+    "UNQUILLO": {
+      "lat": -31.2371523751516,
+      "lon": -64.3117636936437,
+      "source": "Georef Argentina",
+      "source_name": "Unquillo",
+      "department": "Colón"
+    },
+    "VALLE DEL SOL": {
+      "lat": -31.2757458,
+      "lon": -64.3053145,
+      "source": "OpenStreetMap/Nominatim · validación manual",
+      "source_name": "Valle Del Sol",
+      "department": null
+    },
+    "VICUÑA MACKENNA": {
+      "lat": -33.9156416650297,
+      "lon": -64.3898545567239,
+      "source": "Georef Argentina",
+      "source_name": "Vicuña Mackenna",
+      "department": "Río Cuarto"
+    },
+    "VILLA ALLENDE": {
+      "lat": -31.2936496256546,
+      "lon": -64.2977013083088,
+      "source": "Georef Argentina",
+      "source_name": "Villa Allende",
+      "department": "Colón"
+    },
+    "VILLA DEL DIQUE": {
+      "lat": -32.1763512233751,
+      "lon": -64.4569384953227,
+      "source": "Georef Argentina",
+      "source_name": "Villa del Dique",
+      "department": "Calamuchita"
+    },
+    "VILLA GENERAL BELGRANO": {
+      "lat": -31.9764928137116,
+      "lon": -64.5590536588416,
+      "source": "Georef Argentina",
+      "source_name": "Villa General Belgrano",
+      "department": "Calamuchita"
+    },
+    "VILLA HUIDOBRO": {
+      "lat": -34.8405206144244,
+      "lon": -64.5871000246117,
+      "source": "Georef Argentina",
+      "source_name": "Villa Huidobro",
+      "department": "General Roca"
+    },
+    "VILLA MARÍA": {
+      "lat": -32.4135041930881,
+      "lon": -63.248329032642,
+      "source": "Georef Argentina",
+      "source_name": "Villa María",
+      "department": "General San Martín"
+    },
+    "VILLA VALERIA": {
+      "lat": -34.3414458163452,
+      "lon": -64.9208144024683,
+      "source": "Georef Argentina",
+      "source_name": "Villa Valeria",
+      "department": "General Roca"
+    }
+  },
+  "unresolved": [
+    "KILÓMETRO 18",
+    "POLINESIA"
+  ]
+}
