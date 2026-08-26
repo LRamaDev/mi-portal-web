@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Consulta de líneas y horarios del transporte interurbano de Córdoba.">
+  <title>Horarios interurbanos · Lea Rama Dev</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <link rel="stylesheet" href="transporte.css">
+</head>
+
+<body>
+<div class="ambient-light"></div>
+<div class="ambient-light two"></div>
+<div class="wrap">
+  <header class="header">
+    <a class="brand" href="../" aria-label="Volver al portal">
+      <span class="brand-mark">LR</span>
+      <span><strong>Lea Rama</strong><small>Dev</small></span>
+    </a>
+    <div class="header-title">
+      <h1>Horarios interurbanos</h1>
+      <span>Corredores Sur y Sierras Chicas</span>
+    </div>
+    <a class="back-button" href="../">← Volver al portal</a>
+  </header>
+
+  <section class="transport-intro" aria-labelledby="page-title">
+    <div>
+      <span class="eyebrow">Transporte interurbano · Provincia de Córdoba</span>
+      <h2 id="page-title">Encontrá líneas y horarios en un solo lugar</h2>
+      <p>Filtrá por corredor, día, empresa o localidad. Seleccioná un servicio para ubicar sus cabeceras en el mapa.</p>
+    </div>
+    <div class="update-card" aria-live="polite">
+      <span>Última publicación procesada</span>
+      <strong id="updated-date">Cargando…</strong>
+      <small id="updated-detail">Verificando cronogramas</small>
+    </div>
+  </section>
+
+  <main class="transport-shell">
+    <section class="filters" aria-label="Filtros de horarios">
+      <label class="search-field"><span>Buscar</span><input id="filter-search" type="search" placeholder="Localidad, línea, empresa o ruta…" autocomplete="off"></label>
+      <label><span>Corredor</span><select id="filter-corridor"><option value="">Todos</option></select></label>
+      <label><span>Línea</span><select id="filter-line"><option value="">Todas</option></select></label>
+      <label><span>Día</span><select id="filter-day"><option value="">Todos</option><option value="1">Lunes</option><option value="2">Martes</option><option value="3">Miércoles</option><option value="4">Jueves</option><option value="5">Viernes</option><option value="6">Sábado</option><option value="7">Domingo</option></select></label>
+      <label><span>Empresa</span><select id="filter-company"><option value="">Todas</option></select></label>
+      <label><span>Modalidad</span><select id="filter-modality"><option value="">Todas</option></select></label>
+      <button id="reset-filters" class="reset-button" type="button">Limpiar filtros</button>
+    </section>
+
+    <section class="kpi-row" aria-label="Resumen de resultados">
+      <article><span>Servicios</span><strong id="kpi-services">—</strong></article>
+      <article><span>Líneas</span><strong id="kpi-lines">—</strong></article>
+      <article><span>Empresas</span><strong id="kpi-companies">—</strong></article>
+      <article><span>Conexiones en mapa</span><strong id="kpi-mapped">—</strong></article>
+    </section>
+
+    <section class="workspace">
+      <div class="map-column">
+        <div id="transport-map" role="region" aria-label="Mapa esquemático de líneas interurbanas"></div>
+        <div class="map-caption">
+          <span><i class="dot sierras"></i>Sierras Chicas</span><span><i class="dot sur"></i>Sur</span>
+          <p><strong>Mapa esquemático:</strong> une las cabeceras mencionadas en cada línea. No representa paradas ni el recorrido vial exacto.</p>
+        </div>
+      </div>
+      <aside class="results-panel" aria-labelledby="results-title">
+        <header><div><span class="eyebrow">Resultados</span><h3 id="results-title">Servicios disponibles</h3></div><span id="result-count" class="result-count">—</span></header>
+        <div id="results" class="results-list" aria-live="polite"></div>
+      </aside>
+    </section>
+
+    <section class="data-note">
+      <div><strong>Sobre la información</strong><p>Los horarios se extraen de cronogramas oficiales. “I” y “V” reproducen literalmente el campo sentido del documento fuente.</p></div>
+      <div id="quality-note" class="quality-note"></div>
+    </section>
+  </main>
+
+  <footer>Demo personal · Lea Rama Dev · Datos de corredores Sur y Sierras Chicas</footer>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script defer src="transporte.js"></script>
+</body>
+</html>
