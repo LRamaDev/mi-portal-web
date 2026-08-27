@@ -5,6 +5,11 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="description" content="Consulta de líneas y horarios del transporte interurbano de Córdoba.">
   <title>Horarios interurbanos · Lea Rama Dev</title>
+  <script>
+    try {
+      document.documentElement.dataset.theme = localStorage.getItem('transport-theme') || 'dark';
+    } catch (error) {}
+  </script>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
   <link rel="stylesheet" href="transporte.css">
 </head>
@@ -22,14 +27,20 @@
       <h1>Horarios interurbanos</h1>
       <span>Corredores Sur y Sierras Chicas</span>
     </div>
-    <a class="back-button" href="../">← Volver al portal</a>
+    <div class="header-actions">
+      <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Cambiar tema">
+        <span id="theme-icon" aria-hidden="true">☀</span>
+        <span id="theme-label">Modo claro</span>
+      </button>
+      <a class="back-button" href="../">← Volver al portal</a>
+    </div>
   </header>
 
   <section class="transport-intro" aria-labelledby="page-title">
     <div>
       <span class="eyebrow">Transporte interurbano · Provincia de Córdoba</span>
       <h2 id="page-title">Encontrá líneas y horarios en un solo lugar</h2>
-      <p>Filtrá por corredor, día, empresa o localidad. Seleccioná un servicio para ubicar sus cabeceras en el mapa.</p>
+      <p>Filtrá por corredor, línea, día, empresa o localidad. Elegí un horario para visualizar el sentido real del viaje.</p>
     </div>
     <div class="update-card" aria-live="polite">
       <span>Última publicación procesada</span>
@@ -53,15 +64,15 @@
       <article><span>Servicios</span><strong id="kpi-services">—</strong></article>
       <article><span>Líneas</span><strong id="kpi-lines">—</strong></article>
       <article><span>Empresas</span><strong id="kpi-companies">—</strong></article>
-      <article><span>Conexiones en mapa</span><strong id="kpi-mapped">—</strong></article>
+      <article><span>Localidades en mapa</span><strong id="kpi-mapped">—</strong></article>
     </section>
 
     <section class="workspace">
       <div class="map-column">
         <div id="transport-map" role="region" aria-label="Mapa esquemático de líneas interurbanas"></div>
         <div class="map-caption">
-          <span><i class="dot sierras"></i>Sierras Chicas</span><span><i class="dot sur"></i>Sur</span>
-          <p><strong>Mapa esquemático:</strong> une las cabeceras mencionadas en cada línea. No representa paradas ni el recorrido vial exacto.</p>
+          <span><i class="dot sierras"></i>Sierras Chicas</span><span><i class="dot sur"></i>Sur</span><span><i class="dot mixed"></i>Ambos corredores</span>
+          <p><strong>Mapa orientativo:</strong> los puntos son localidades de origen o destino. Elegí un horario para ver una flecha animada en su sentido de circulación.</p>
         </div>
       </div>
       <aside class="results-panel" aria-labelledby="results-title">
@@ -71,7 +82,7 @@
     </section>
 
     <section class="data-note">
-      <div><strong>Sobre la información</strong><p>Los horarios se extraen de cronogramas oficiales. “I” y “V” reproducen literalmente el campo sentido del documento fuente.</p></div>
+      <div><strong>Sobre la información</strong><p>Los horarios se extraen de cronogramas oficiales. “I” se presenta como Ida y “V” como Vuelta, invirtiendo el origen y el destino de la línea.</p></div>
       <div id="quality-note" class="quality-note"></div>
     </section>
   </main>

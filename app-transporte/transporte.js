@@ -1,8 +1,8 @@
 (function () {
   'use strict';
 
-  var COLORS = { 'SIERRAS CHICAS': '#1478ad', 'SUR': '#d79200' };
-  var state = { data: null, geo: null, map: null, layer: null, focusLine: null };
+  var COLORS = { 'SIERRAS CHICAS': '#1686c4', 'SUR': '#dc8a00', 'MIXED': '#8b5cf6' };
+  var state = { data: null, geo: null, map: null, layer: null, focusServiceId: null, animationId: null };
   var $ = function (id) { return document.getElementById(id); };
   var esc = function (value) {
     return String(value == null ? '' : value).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
@@ -21,6 +21,20 @@
     return new Intl.DateTimeFormat('es-AR', { day:'2-digit', month:'2-digit', year:'numeric', timeZone:'UTC' }).format(new Date(iso + 'T00:00:00Z'));
   }
 
+  function directedNodes(service) {
+    var nodes = service.nodes.slice();
+    return service.direction === 'V' ? nodes.reverse() : nodes;
+  }
+
+  function directedName(service) {
+    var nodes = directedNodes(service);
+    return nodes.length > 1 ? nodes[0] + ' → ' + nodes[nodes.length - 1] : service.line;
+  }
+
+  function directionName(service) {
+    return service.direction === 'V' ? 'Vuelta' : 'Ida';
+  }
+
   function fillSelect(id, values, firstLabel) {
     var element = $(id), old = element.value;
     element.innerHTML = '<option value="">' + esc(firstLabel) + '</option>' + values.map(function (value) {
@@ -29,10 +43,18 @@
     if (values.indexOf(old) !== -1) element.value = old;
   }
 
+  function updateLineFilter() {
+    var corridor = $('filter-corridor').value;
+    var services = state.data.services.filter(function (service) {
+      return !corridor || service.corridor === corridor;
+    });
+    fillSelect('filter-line', unique(services.map(function (service) { return service.line; })), 'Todas');
+  }
+
   function populateFilters() {
     var services = state.data.services;
     fillSelect('filter-corridor', unique(services.map(function (s) { return s.corridor; })), 'Todos');
-    fillSelect('filter-line', unique(services.map(function (s) { return s.line; })), 'Todas');
+    updateLineFilter();
     fillSelect('filter-company', unique(services.map(function (s) { return s.company; })), 'Todas');
     fillSelect('filter-modality', unique(services.map(function (s) { return s.modality; })), 'Todas');
     $('filter-day').value = String(todayInCordoba());
@@ -52,60 +74,135 @@
       if (company && service.company !== company) return false;
       if (modality && service.modality !== modality) return false;
       if (!text) return true;
-      return [service.line, service.company, service.route, service.corridor, service.modality]
+      return [service.line, directedName(service), service.company, service.route, service.corridor, service.modality]
         .join(' ').toLocaleLowerCase('es').indexOf(text) !== -1;
-    }).sort(function (a,b) { return a.minutes - b.minutes || a.line.localeCompare(b.line,'es'); });
+    }).sort(function (a,b) { return a.minutes - b.minutes || directedName(a).localeCompare(directedName(b),'es'); });
   }
 
-  function coordinates(service) {
-    return service.nodes.map(function (node) {
+  function directedCoordinates(service) {
+    return directedNodes(service).map(function (node) {
       var place = state.geo.locations[node];
       return place ? { name: node, lat: place.lat, lon: place.lon, source: place.source } : null;
     }).filter(Boolean);
   }
 
-  function renderMap(services) {
-    state.layer.clearLayers();
-    var lines = new Map();
-    services.forEach(function (service) { if (!lines.has(service.line_id)) lines.set(service.line_id, service); });
-    var bounds = [];
-    var mapped = 0;
-
-    lines.forEach(function (service) {
-      var points = coordinates(service);
-      if (points.length < 2) return;
-      mapped += 1;
-      var active = state.focusLine === service.line_id || lines.size === 1;
-      var latlngs = points.map(function (point) { bounds.push([point.lat, point.lon]); return [point.lat, point.lon]; });
-      var color = COLORS[service.corridor] || '#6b7280';
-      var path = L.polyline(latlngs, {
-        color: color, weight: active ? 7 : 3, opacity: active ? .95 : .42,
-        dashArray: active ? null : '8 7', lineCap: 'round'
-      }).addTo(state.layer);
-      path.bindTooltip(service.line, { sticky: true });
-      path.on('click', function () { state.focusLine = service.line_id; renderAll(); });
-
-      if (active) {
-        points.forEach(function (point, index) {
-          L.circleMarker([point.lat, point.lon], {
-            radius: 7, weight: 2, color: '#fff', fillColor: color, fillOpacity: 1
-          }).bindPopup('<strong>' + esc(point.name) + '</strong>' + esc(service.line) + '<br><small>' + esc(index === 0 ? 'Primera localidad indicada' : 'Localidad indicada en la línea') + '</small>')
-            .addTo(state.layer);
-        });
-      }
+  function endpointPlaces(services) {
+    var places = new Map();
+    services.forEach(function (service) {
+      var nodes = directedNodes(service);
+      [nodes[0], nodes[nodes.length - 1]].filter(Boolean).forEach(function (name) {
+        var geo = state.geo.locations[name];
+        if (!geo) return;
+        if (!places.has(name)) places.set(name, { name:name, lat:geo.lat, lon:geo.lon, corridors:new Set() });
+        places.get(name).corridors.add(service.corridor);
+      });
     });
-    $('kpi-mapped').textContent = mapped + ' / ' + lines.size;
-    if ((state.focusLine || lines.size === 1) && bounds.length) state.map.fitBounds(bounds, { padding:[36,36], maxZoom:11 });
-    else if (!bounds.length) state.map.setView([-31.7,-64.0], 7);
+    return places;
+  }
+
+  function curvedPoints(origin, destination) {
+    var points = [], steps = 90;
+    var dx = destination.lon - origin.lon;
+    var dy = destination.lat - origin.lat;
+    var control = {
+      lat: (origin.lat + destination.lat) / 2 + dx * 0.16,
+      lon: (origin.lon + destination.lon) / 2 - dy * 0.16
+    };
+    for (var index = 0; index <= steps; index += 1) {
+      var t = index / steps, one = 1 - t;
+      points.push([
+        one * one * origin.lat + 2 * one * t * control.lat + t * t * destination.lat,
+        one * one * origin.lon + 2 * one * t * control.lon + t * t * destination.lon
+      ]);
+    }
+    return points;
+  }
+
+  function startArrow(points, color) {
+    if (state.animationId) cancelAnimationFrame(state.animationId);
+    var marker = L.marker(points[0], {
+      interactive: false,
+      zIndexOffset: 1000,
+      icon: L.divIcon({
+        className: 'route-arrow-marker',
+        html: '<span class="moving-arrow" style="--arrow-color:' + color + '">➤</span>',
+        iconSize: [34,34], iconAnchor: [17,17]
+      })
+    }).addTo(state.layer);
+    var started = null, duration = 4200;
+    function animate(timestamp) {
+      if (!started) started = timestamp;
+      var progress = ((timestamp - started) % duration) / duration;
+      var position = progress * (points.length - 1);
+      var index = Math.min(Math.floor(position), points.length - 2);
+      var fraction = position - index;
+      var current = points[index], next = points[index + 1];
+      marker.setLatLng([
+        current[0] + (next[0] - current[0]) * fraction,
+        current[1] + (next[1] - current[1]) * fraction
+      ]);
+      if (marker._icon) {
+        var arrow = marker._icon.querySelector('.moving-arrow');
+        var angle = Math.atan2(-(next[0] - current[0]), next[1] - current[1]) * 180 / Math.PI;
+        if (arrow) arrow.style.transform = 'rotate(' + angle + 'deg)';
+      }
+      state.animationId = requestAnimationFrame(animate);
+    }
+    state.animationId = requestAnimationFrame(animate);
+  }
+
+  function addEndpointMarker(place, isActive, label) {
+    var corridors = Array.from(place.corridors || []);
+    var color = corridors.length > 1 ? COLORS.MIXED : (COLORS[corridors[0]] || '#64748b');
+    return L.circleMarker([place.lat, place.lon], {
+      radius: isActive ? 9 : 5,
+      weight: isActive ? 3 : 2,
+      color: isActive ? '#ffffff' : color,
+      fillColor: color,
+      fillOpacity: isActive ? 1 : .82
+    }).bindTooltip('<strong>' + esc(place.name) + '</strong>' + (label ? '<br>' + esc(label) : ''), { direction:'top' })
+      .addTo(state.layer);
+  }
+
+  function renderMap(services) {
+    if (state.animationId) cancelAnimationFrame(state.animationId);
+    state.animationId = null;
+    state.layer.clearLayers();
+    var places = endpointPlaces(services);
+    var bounds = [];
+    places.forEach(function (place) {
+      bounds.push([place.lat, place.lon]);
+      addEndpointMarker(place, false, 'Origen o destino');
+    });
+    $('kpi-mapped').textContent = places.size.toLocaleString('es-AR');
+
+    var active = services.find(function (service) { return service.id === state.focusServiceId; });
+    if (active) {
+      var coordinates = directedCoordinates(active);
+      if (coordinates.length >= 2) {
+        var origin = coordinates[0], destination = coordinates[coordinates.length - 1];
+        var color = COLORS[active.corridor] || '#64748b';
+        var route = curvedPoints(origin, destination);
+        L.polyline(route, { color:color, weight:4, opacity:.7, dashArray:'2 10', className:'animated-route-guide' }).addTo(state.layer);
+        addEndpointMarker({ name:origin.name, lat:origin.lat, lon:origin.lon, corridors:new Set([active.corridor]) }, true, 'Salida · ' + active.time);
+        addEndpointMarker({ name:destination.name, lat:destination.lat, lon:destination.lon, corridors:new Set([active.corridor]) }, true, 'Destino');
+        startArrow(route, color);
+        state.map.fitBounds([[origin.lat,origin.lon],[destination.lat,destination.lon]], { padding:[70,70], maxZoom:10 });
+        return;
+      }
+    }
+    if (bounds.length) state.map.fitBounds(bounds, { padding:[35,35], maxZoom:9 });
+    else state.map.setView([-31.7,-64.0], 7);
   }
 
   function serviceHTML(service) {
     var route = service.route ? '<span class="route-tag">' + esc(service.route) + '</span>' : '<span>Ruta no detallada</span>';
     var duplicate = service.possible_duplicate ? '<span>Coincidencia repetida en fuente</span>' : '';
-    return '<button class="service-item ' + (state.focusLine === service.line_id ? 'active' : '') + '" type="button" data-line="' + esc(service.line_id) + '">' +
+    var active = state.focusServiceId === service.id;
+    return '<button class="service-item ' + (active ? 'active' : '') + '" type="button" data-service="' + esc(service.id) + '" aria-pressed="' + active + '">' +
       '<span class="service-time">' + esc(service.time) + '</span><span class="service-copy">' +
-      '<strong>' + esc(service.line) + '</strong>' +
-      '<small>' + esc(service.company) + ' · Sentido ' + esc(service.direction) + '<br>' + esc(service.service_days_text) + '</small>' +
+      '<strong>' + esc(directedName(service)) + '</strong>' +
+      '<small>' + esc(service.company) + ' · <b>' + esc(directionName(service)) + '</b><br>' + esc(service.service_days_text) + '</small>' +
       '<span class="service-tags"><span>' + esc(service.modality) + '</span>' + route + duplicate + '</span></span></button>';
   }
 
@@ -120,7 +217,7 @@
   function renderAll() {
     var services = filteredServices();
     var lines = unique(services.map(function (s) { return s.line_id; }));
-    if (state.focusLine && lines.indexOf(state.focusLine) === -1) state.focusLine = null;
+    if (state.focusServiceId && !services.some(function (service) { return service.id === state.focusServiceId; })) state.focusServiceId = null;
     $('kpi-services').textContent = services.length.toLocaleString('es-AR');
     $('kpi-lines').textContent = lines.length.toLocaleString('es-AR');
     $('kpi-companies').textContent = unique(services.map(function (s) { return s.company; })).length.toLocaleString('es-AR');
@@ -128,31 +225,58 @@
     renderMap(services);
   }
 
+  function clearSelectionAndRender() {
+    state.focusServiceId = null;
+    renderAll();
+  }
+
   function bindEvents() {
-    ['filter-search','filter-corridor','filter-line','filter-day','filter-company','filter-modality'].forEach(function (id) {
-      $(id).addEventListener('input', function () { state.focusLine = null; renderAll(); });
-      $(id).addEventListener('change', function () { state.focusLine = null; renderAll(); });
+    $('filter-search').addEventListener('input', clearSelectionAndRender);
+    $('filter-corridor').addEventListener('change', function () {
+      updateLineFilter();
+      clearSelectionAndRender();
+    });
+    ['filter-line','filter-day','filter-company','filter-modality'].forEach(function (id) {
+      $(id).addEventListener('change', clearSelectionAndRender);
     });
     $('reset-filters').addEventListener('click', function () {
       $('filter-search').value = '';
-      ['filter-corridor','filter-line','filter-company','filter-modality'].forEach(function (id) { $(id).value = ''; });
+      ['filter-corridor','filter-company','filter-modality'].forEach(function (id) { $(id).value = ''; });
+      updateLineFilter();
+      $('filter-line').value = '';
       $('filter-day').value = String(todayInCordoba());
-      state.focusLine = null;
-      renderAll();
-      state.map.setView([-31.7,-64.0], 7);
+      clearSelectionAndRender();
     });
     $('results').addEventListener('click', function (event) {
       var item = event.target.closest('.service-item');
       if (!item) return;
-      state.focusLine = item.getAttribute('data-line');
+      var id = item.getAttribute('data-service');
+      state.focusServiceId = state.focusServiceId === id ? null : id;
       renderAll();
+    });
+  }
+
+  function initTheme() {
+    var button = $('theme-toggle');
+    function updateButton() {
+      var light = document.documentElement.dataset.theme === 'light';
+      $('theme-icon').textContent = light ? '☾' : '☀';
+      $('theme-label').textContent = light ? 'Modo oscuro' : 'Modo claro';
+      button.setAttribute('aria-pressed', String(light));
+    }
+    updateButton();
+    button.addEventListener('click', function () {
+      var theme = document.documentElement.dataset.theme === 'light' ? 'dark' : 'light';
+      document.documentElement.dataset.theme = theme;
+      try { localStorage.setItem('transport-theme', theme); } catch (error) {}
+      updateButton();
     });
   }
 
   function initMap() {
     state.map = L.map('transport-map', { scrollWheelZoom: true }).setView([-31.7,-64.0], 7);
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
-      attribution: '&copy; OpenStreetMap &copy; CARTO', maxZoom: 19
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors', maxZoom: 19
     }).addTo(state.map);
     state.layer = L.layerGroup().addTo(state.map);
   }
@@ -176,6 +300,7 @@
     $('updated-date').textContent = 'Error de carga';
   }
 
+  initTheme();
   Promise.all([
     fetch('data/horarios.json', { cache:'no-store' }).then(function (response) { if (!response.ok) throw new Error('horarios.json'); return response.json(); }),
     fetch('data/cabeceras.json', { cache:'no-store' }).then(function (response) { if (!response.ok) throw new Error('cabeceras.json'); return response.json(); })
