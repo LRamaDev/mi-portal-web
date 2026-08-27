@@ -12,6 +12,8 @@
     'TRASLASIERRA': '#ef4444',
     'MIXED': '#64748b'
   };
+  var DAY_LABELS = { '1':'Lunes', '2':'Martes', '3':'Miércoles', '4':'Jueves', '5':'Viernes', '6':'Sábado', '7':'Domingo' };
+  var DIRECTION_LABELS = { 'I':'Ida', 'V':'Vuelta' };
   var state = { data: null, geo: null, map: null, layer: null, focusServiceId: null, animationId: null };
   var $ = function (id) { return document.getElementById(id); };
   var esc = function (value) {
@@ -45,32 +47,16 @@
     return service.direction === 'V' ? 'Vuelta' : 'Ida';
   }
 
-  function fillSelect(id, values, firstLabel) {
+  function fillSelect(id, values, firstLabel, labels) {
     var element = $(id), old = element.value;
-    element.innerHTML = '<option value="">' + esc(firstLabel) + '</option>' + values.map(function (value) {
-      return '<option value="' + esc(value) + '">' + esc(value) + '</option>';
+    var normalized = values.map(String);
+    element.innerHTML = '<option value="">' + esc(firstLabel) + '</option>' + normalized.map(function (value) {
+      return '<option value="' + esc(value) + '">' + esc(labels && labels[value] || value) + '</option>';
     }).join('');
-    if (values.indexOf(old) !== -1) element.value = old;
+    if (normalized.indexOf(old) !== -1) element.value = old;
   }
 
-  function updateLineFilter() {
-    var corridor = $('filter-corridor').value;
-    var services = state.data.services.filter(function (service) {
-      return !corridor || service.corridor === corridor;
-    });
-    fillSelect('filter-line', unique(services.map(function (service) { return service.line; })), 'Todas');
-  }
-
-  function populateFilters() {
-    var services = state.data.services;
-    fillSelect('filter-corridor', unique(services.map(function (s) { return s.corridor; })), 'Todos');
-    updateLineFilter();
-    fillSelect('filter-company', unique(services.map(function (s) { return s.company; })), 'Todas');
-    fillSelect('filter-modality', unique(services.map(function (s) { return s.modality; })), 'Todas');
-    $('filter-day').value = String(todayInCordoba());
-  }
-
-  function filteredServices() {
+  function servicesMatching(excludedFilter) {
     var text = $('filter-search').value.trim().toLocaleLowerCase('es');
     var corridor = $('filter-corridor').value;
     var line = $('filter-line').value;
@@ -79,16 +65,40 @@
     var company = $('filter-company').value;
     var modality = $('filter-modality').value;
     return state.data.services.filter(function (service) {
-      if (corridor && service.corridor !== corridor) return false;
-      if (line && service.line !== line) return false;
-      if (direction && service.direction !== direction) return false;
-      if (day && service.service_days.indexOf(day) === -1) return false;
-      if (company && service.company !== company) return false;
-      if (modality && service.modality !== modality) return false;
+      if (excludedFilter !== 'corridor' && corridor && service.corridor !== corridor) return false;
+      if (excludedFilter !== 'line' && line && service.line !== line) return false;
+      if (excludedFilter !== 'direction' && direction && service.direction !== direction) return false;
+      if (excludedFilter !== 'day' && day && service.service_days.indexOf(day) === -1) return false;
+      if (excludedFilter !== 'company' && company && service.company !== company) return false;
+      if (excludedFilter !== 'modality' && modality && service.modality !== modality) return false;
       if (!text) return true;
       return [service.line, directedName(service), service.company, service.route, service.corridor, service.modality]
         .join(' ').toLocaleLowerCase('es').indexOf(text) !== -1;
-    }).sort(function (a,b) { return a.minutes - b.minutes || directedName(a).localeCompare(directedName(b),'es'); });
+    });
+  }
+
+  function updateFilterOptions() {
+    for (var pass = 0; pass < 2; pass += 1) {
+      fillSelect('filter-corridor', unique(servicesMatching('corridor').map(function (s) { return s.corridor; })), 'Todos');
+      fillSelect('filter-line', unique(servicesMatching('line').map(function (s) { return s.line; })), 'Todas');
+      fillSelect('filter-direction', unique(servicesMatching('direction').map(function (s) { return s.direction; })), 'Ambos', DIRECTION_LABELS);
+      var days = new Set();
+      servicesMatching('day').forEach(function (service) {
+        service.service_days.forEach(function (day) { days.add(String(day)); });
+      });
+      fillSelect('filter-day', Array.from(days).sort(), 'Todos', DAY_LABELS);
+      fillSelect('filter-company', unique(servicesMatching('company').map(function (s) { return s.company; })), 'Todas');
+      fillSelect('filter-modality', unique(servicesMatching('modality').map(function (s) { return s.modality; })), 'Todas');
+    }
+  }
+
+  function populateFilters() {
+    $('filter-day').value = String(todayInCordoba());
+    updateFilterOptions();
+  }
+
+  function filteredServices() {
+    return servicesMatching('').sort(function (a,b) { return a.minutes - b.minutes || directedName(a).localeCompare(directedName(b),'es'); });
   }
 
   function directedCoordinates(service) {
@@ -238,27 +248,22 @@
     renderMap(services);
   }
 
-  function clearSelectionAndRender() {
+  function filtersChanged() {
     state.focusServiceId = null;
+    updateFilterOptions();
     renderAll();
   }
 
   function bindEvents() {
-    $('filter-search').addEventListener('input', clearSelectionAndRender);
-    $('filter-corridor').addEventListener('change', function () {
-      updateLineFilter();
-      clearSelectionAndRender();
-    });
-    ['filter-line','filter-direction','filter-day','filter-company','filter-modality'].forEach(function (id) {
-      $(id).addEventListener('change', clearSelectionAndRender);
+    $('filter-search').addEventListener('input', filtersChanged);
+    ['filter-corridor','filter-line','filter-direction','filter-day','filter-company','filter-modality'].forEach(function (id) {
+      $(id).addEventListener('change', filtersChanged);
     });
     $('reset-filters').addEventListener('click', function () {
       $('filter-search').value = '';
-      ['filter-corridor','filter-direction','filter-company','filter-modality'].forEach(function (id) { $(id).value = ''; });
-      updateLineFilter();
-      $('filter-line').value = '';
+      ['filter-corridor','filter-line','filter-direction','filter-company','filter-modality'].forEach(function (id) { $(id).value = ''; });
       $('filter-day').value = String(todayInCordoba());
-      clearSelectionAndRender();
+      filtersChanged();
     });
     $('results').addEventListener('click', function (event) {
       var item = event.target.closest('.service-item');
