@@ -7,6 +7,10 @@
       "url": "https://apis.datos.gob.ar/georef/api/localidades?provincia=cordoba&max=5000&campos=id%2Cnombre%2Ccentroide%2Cdepartamento"
     },
     {
+      "name": "Georef Argentina · asentamientos",
+      "url": "https://apis.datos.gob.ar/georef/api/asentamientos?provincia=cordoba&max=5000&campos=id%2Cnombre%2Ccentroide%2Cdepartamento"
+    },
+    {
       "name": "OpenStreetMap Nominatim",
       "url": "https://nominatim.openstreetmap.org/"
     }
@@ -15,63 +19,126 @@
     "ACHIRAS": {
       "lat": -33.1744471620908,
       "lon": -64.9920618144743,
-      "source": "Georef Argentina",
+      "source": "Georef Argentina · localidades",
       "source_name": "Achiras",
       "department": "Río Cuarto"
     },
     "ADELIA MARÍA": {
       "lat": -33.6320303880364,
       "lon": -64.0216780090112,
-      "source": "Georef Argentina",
+      "source": "Georef Argentina · localidades",
       "source_name": "Adelia María",
       "department": "Río Cuarto"
     },
     "AGUA DE ORO": {
       "lat": -31.0622288550886,
       "lon": -64.3006405218046,
-      "source": "Georef Argentina",
+      "source": "Georef Argentina · localidades",
       "source_name": "Agua de Oro",
       "department": "Colón"
     },
     "ALEJANDRO ROCA": {
       "lat": -33.3535611422207,
       "lon": -63.7177345908776,
-      "source": "Georef Argentina",
+      "source": "Georef Argentina · localidades",
       "source_name": "Alejandro Roca",
       "department": "Juárez Celman"
     },
     "ALMAFUERTE": {
       "lat": -32.1923904655136,
       "lon": -64.2557452081438,
-      "source": "Georef Argentina",
+      "source": "Georef Argentina · localidades",
       "source_name": "Almafuerte",
       "department": "Tercero Arriba"
     },
     "ALPA CORRAL": {
       "lat": -32.6921124082415,
       "lon": -64.7235966023545,
-      "source": "Georef Argentina",
+      "source": "Georef Argentina · localidades",
       "source_name": "Alpa Corral",
       "department": "Río Cuarto"
+    },
+    "ALTA GRACIA": {
+      "lat": -31.6497921262742,
+      "lon": -64.429871976201,
+      "source": "Georef Argentina · localidades",
+      "source_name": "Alta Gracia",
+      "department": "Santa María"
+    },
+    "ALTO ALEGRE": {
+      "lat": -32.3446887169557,
+      "lon": -62.8849135837045,
+      "source": "Georef Argentina · localidades",
+      "source_name": "Alto Alegre",
+      "department": "Unión"
+    },
+    "ALTO LOS QUEBRACHOS": {
+      "lat": -30.5432844931547,
+      "lon": -65.036726705634,
+      "source": "Georef Argentina · localidades",
+      "source_name": "Alto de los Quebrachos",
+      "department": "Cruz del Eje"
+    },
+    "ANISACATE": {
+      "lat": -31.7255025269638,
+      "lon": -64.4140689988532,
+      "source": "Georef Argentina · localidades",
+      "source_name": "Anisacate",
+      "department": "Santa María"
+    },
+    "ARIAS": {
+      "lat": -33.6420729225189,
+      "lon": -62.4041194655182,
+      "source": "Georef Argentina · localidades",
+      "source_name": "Arias",
+      "department": "Marcos Juárez"
+    },
+    "ARROYITO": {
+      "lat": -31.4192297658795,
+      "lon": -63.0507025887566,
+      "source": "Georef Argentina · localidades",
+      "source_name": "Arroyito",
+      "department": "San Justo"
     },
     "ASCOCHINGA": {
       "lat": -30.9590358937464,
       "lon": -64.2733493995531,
-      "source": "Georef Argentina",
+      "source": "Georef Argentina · localidades",
       "source_name": "Ascochinga",
       "department": "Colón"
+    },
+    "BAJO DEL CARMEN": {
+      "lat": -31.8671112268331,
+      "lon": -64.362661881677,
+      "source": "Georef Argentina · asentamientos",
+      "source_name": "Bajo del Carmen",
+      "department": "Calamuchita"
+    },
+    "BELL VILLE": {
+      "lat": -32.6303142822017,
+      "lon": -62.6887933841481,
+      "source": "Georef Argentina · localidades",
+      "source_name": "Bell Ville",
+      "department": "Unión"
     },
     "BERROTARÁN": {
       "lat": -32.4528417351187,
       "lon": -64.3879391106245,
-      "source": "Georef Argentina",
+      "source": "Georef Argentina · localidades",
       "source_name": "Berrotarán",
       "department": "Río Cuarto"
+    },
+    "BIALET MASSÉ": {
+      "lat": -31.3143488708372,
+      "lon": -64.4615321569732,
+      "source": "Georef Argentina · localidades",
+      "source_name": "Bialet Massé",
+      "department": "Punilla"
     },
     "BOUWER": {
       "lat": -31.5581326994395,
       "lon": -64.1906902565745,
-      "source": "Georef Argentina",
+      "source": "Georef Argentina · localidades",
       "source_name": "Bouwer",
       "department": "Santa María"
     },
@@ -82,6 +149,13 @@
       "source_name": "Buchardo",
       "department": null
     },
+    "CABALANGO": {
+      "lat": -31.3905569618048,
+      "lon": -64.5603055530165,
+      "source": "Georef Argentina · localidades",
+      "source_name": "Cabalango",
+      "department": "Punilla"
+    },
     "CABANA": {
       "lat": -31.2383631,
       "lon": -64.3329538,
@@ -89,59 +163,192 @@
       "source_name": "Cabana",
       "department": null
     },
+    "CAMINIAGA": {
+      "lat": -30.0674801596128,
+      "lon": -64.0507018106629,
+      "source": "Georef Argentina · localidades",
+      "source_name": "Caminiaga",
+      "department": "Sobremonte"
+    },
+    "CANALS": {
+      "lat": -33.5621726336415,
+      "lon": -62.8850856145061,
+      "source": "Georef Argentina · localidades",
+      "source_name": "Canals",
+      "department": "Unión"
+    },
+    "CAPILLA DE LOS REMEDIOS": {
+      "lat": -31.4305558847437,
+      "lon": -63.832425211005,
+      "source": "Georef Argentina · localidades",
+      "source_name": "Capilla de los Remedios",
+      "department": "Río Primero"
+    },
+    "CAPILLA DEL MONTE": {
+      "lat": -30.8568691658209,
+      "lon": -64.5263505223853,
+      "source": "Georef Argentina · localidades",
+      "source_name": "Capilla del Monte",
+      "department": "Punilla"
+    },
+    "CARLOS PAZ": {
+      "lat": -31.4179169402695,
+      "lon": -64.4940291640464,
+      "source": "Georef Argentina · localidades",
+      "source_name": "Villa Carlos Paz",
+      "department": "Punilla"
+    },
+    "CAÑADA DE RÍO PINTO": {
+      "lat": -30.7757911856885,
+      "lon": -64.218650967602,
+      "source": "Georef Argentina · localidades",
+      "source_name": "Cañada de Río Pinto",
+      "department": "Ischilín"
+    },
     "CERRO AZUL": {
       "lat": -31.0706651818848,
       "lon": -64.3162353926988,
-      "source": "Georef Argentina",
+      "source": "Georef Argentina · localidades",
       "source_name": "Villa Cerro Azul",
       "department": "Colón"
     },
     "CHAJÁN": {
       "lat": -33.5556299871625,
       "lon": -65.0026547353906,
-      "source": "Georef Argentina",
+      "source": "Georef Argentina · localidades",
       "source_name": "Chaján",
       "department": "Río Cuarto"
+    },
+    "CHANCANÍ": {
+      "lat": -31.4159636346356,
+      "lon": -65.4512532371259,
+      "source": "Georef Argentina · localidades",
+      "source_name": "Chancani",
+      "department": "Pocho"
+    },
+    "CHARBONIER": {
+      "lat": -30.7749790578338,
+      "lon": -64.5441693337156,
+      "source": "Georef Argentina · localidades",
+      "source_name": "Charbonier",
+      "department": "Punilla"
     },
     "CHAZÓN": {
       "lat": -33.0778686830531,
       "lon": -63.2750688076142,
-      "source": "Georef Argentina",
+      "source": "Georef Argentina · localidades",
       "source_name": "Chazón",
       "department": "General San Martín"
+    },
+    "COLAZO": {
+      "lat": -31.9645614307766,
+      "lon": -63.382678347758,
+      "source": "Georef Argentina · localidades",
+      "source_name": "Colazo",
+      "department": "Río Segundo"
+    },
+    "COLONIA CAROYA": {
+      "lat": -31.0220555873766,
+      "lon": -64.0617128675296,
+      "source": "Georef Argentina · localidades",
+      "source_name": "Colonia Caroya",
+      "department": "Colón"
+    },
+    "COLONIA TIROLESA": {
+      "lat": -31.2372761869427,
+      "lon": -64.06629578921,
+      "source": "Georef Argentina · localidades",
+      "source_name": "Colonia Tirolesa",
+      "department": "Colón"
+    },
+    "CONLARA": {
+      "lat": -32.0773534684113,
+      "lon": -65.2294604480298,
+      "source": "Georef Argentina · localidades",
+      "source_name": "Conlara",
+      "department": "San Javier"
     },
     "CORONEL MOLDES": {
       "lat": -33.6227285213653,
       "lon": -64.5970481396538,
-      "source": "Georef Argentina",
+      "source": "Georef Argentina · localidades",
       "source_name": "Coronel Moldes",
       "department": "Río Cuarto"
     },
     "CORRAL DE BUSTOS": {
       "lat": -33.2830928544683,
       "lon": -62.1865429174032,
-      "source": "Georef Argentina",
+      "source": "Georef Argentina · localidades",
       "source_name": "Corral de Bustos",
       "department": "Marcos Juárez"
+    },
+    "COSQUÍN": {
+      "lat": -31.2436682815352,
+      "lon": -64.465348549937,
+      "source": "Georef Argentina · localidades",
+      "source_name": "Cosquín",
+      "department": "Punilla"
+    },
+    "CRUZ ALTA": {
+      "lat": -33.0083997293961,
+      "lon": -61.8057792803375,
+      "source": "Georef Argentina · localidades",
+      "source_name": "Cruz Alta",
+      "department": "Marcos Juárez"
+    },
+    "CRUZ DE CAÑA": {
+      "lat": -31.0678362171856,
+      "lon": -64.9347870163643,
+      "source": "Georef Argentina · localidades",
+      "source_name": "Cruz de Caña",
+      "department": "Cruz del Eje"
+    },
+    "CRUZ DEL EJE": {
+      "lat": -30.7439287854916,
+      "lon": -64.7907762625898,
+      "source": "Georef Argentina · localidades",
+      "source_name": "Cruz del Eje",
+      "department": "Cruz del Eje"
+    },
+    "CUESTA BLANCA": {
+      "lat": -31.4803348492041,
+      "lon": -64.5786921787276,
+      "source": "Georef Argentina · localidades",
+      "source_name": "Cuesta Blanca",
+      "department": "Punilla"
     },
     "CÓRDOBA": {
       "lat": -31.4150461523809,
       "lon": -64.1791140755104,
-      "source": "Georef Argentina",
+      "source": "Georef Argentina · localidades",
       "source_name": "Córdoba",
       "department": "Capital"
     },
     "DESPEÑADEROS": {
       "lat": -31.8142805534065,
       "lon": -64.2947750028746,
-      "source": "Georef Argentina",
+      "source": "Georef Argentina · localidades",
       "source_name": "Despeñaderos",
       "department": "Santa María"
+    },
+    "DEÁN FUNES": {
+      "lat": -30.4249771769302,
+      "lon": -64.35273931174,
+      "source": "Georef Argentina · localidades",
+      "source_name": "Deán Funes",
+      "department": "Ischilín"
+    },
+    "EL FORTÍN": {
+      "lat": -31.966920207134,
+      "lon": -62.3001762961842,
+      "source": "Georef Argentina · localidades",
+      "source_name": "El Fortín",
+      "department": "San Justo"
     },
     "EL PUEBLITO": {
       "lat": -31.1061995831956,
       "lon": -64.292290098635,
-      "source": "Georef Argentina",
+      "source": "Georef Argentina · localidades",
       "source_name": "El Pueblito",
       "department": "Colón"
     },
@@ -155,44 +362,114 @@
     "ELENA": {
       "lat": -32.5703939625154,
       "lon": -64.3939049255638,
-      "source": "Georef Argentina",
+      "source": "Georef Argentina · localidades",
       "source_name": "Elena",
       "department": "Río Cuarto"
+    },
+    "EMBALSE": {
+      "lat": -32.206746994887,
+      "lon": -64.4006426100595,
+      "source": "Georef Argentina · localidades",
+      "source_name": "Embalse",
+      "department": "Calamuchita"
+    },
+    "ESCUELA DIQUE CHICO": {
+      "lat": -31.7458491155841,
+      "lon": -64.3658108592105,
+      "source": "Georef Argentina · localidades",
+      "source_name": "Dique Chico",
+      "department": "Santa María"
+    },
+    "ESTANCIA DE GUADALUPE": {
+      "lat": -31.1300757365706,
+      "lon": -65.2159754678766,
+      "source": "Georef Argentina · localidades",
+      "source_name": "Estancia de Guadalupe",
+      "department": "Minas"
+    },
+    "ETRURIA": {
+      "lat": -32.9392316160202,
+      "lon": -63.2450080292635,
+      "source": "Georef Argentina · localidades",
+      "source_name": "Etruria",
+      "department": "General San Martín"
+    },
+    "GENERAL BALDISSERA": {
+      "lat": -33.1220805916617,
+      "lon": -62.3028841678808,
+      "source": "Georef Argentina · localidades",
+      "source_name": "General Baldissera",
+      "department": "Marcos Juárez"
     },
     "GENERAL CABRERA": {
       "lat": -32.8145729537056,
       "lon": -63.8749572232084,
-      "source": "Georef Argentina",
+      "source": "Georef Argentina · localidades",
       "source_name": "General Cabrera",
       "department": "Juárez Celman"
+    },
+    "GENERAL PAZ": {
+      "lat": -31.1344806428809,
+      "lon": -64.1401506243983,
+      "source": "Georef Argentina · localidades",
+      "source_name": "General Paz",
+      "department": "Colón"
+    },
+    "GENERAL ROCA": {
+      "lat": -32.7308774807212,
+      "lon": -61.9158266714317,
+      "source": "Georef Argentina · localidades",
+      "source_name": "General Roca",
+      "department": "Marcos Juárez"
     },
     "HERNANDO": {
       "lat": -32.4278813952385,
       "lon": -63.7334711036897,
-      "source": "Georef Argentina",
+      "source": "Georef Argentina · localidades",
       "source_name": "Hernando",
       "department": "Tercero Arriba"
     },
     "HOLMBERG": {
       "lat": -33.2051899707377,
       "lon": -64.4378286821745,
-      "source": "Georef Argentina",
+      "source": "Georef Argentina · localidades",
       "source_name": "Santa Catalina Holmberg",
       "department": "Río Cuarto"
     },
     "HUINCA": {
       "lat": -34.8413182092657,
       "lon": -64.374674241684,
-      "source": "Georef Argentina",
+      "source": "Georef Argentina · localidades",
       "source_name": "Huinca Renancó",
       "department": "General Roca"
+    },
+    "INRIVILLE": {
+      "lat": -32.945647467009,
+      "lon": -62.2307908603693,
+      "source": "Georef Argentina · localidades",
+      "source_name": "Inriville",
+      "department": "Marcos Juárez"
+    },
+    "JAMES CRAIK": {
+      "lat": -32.1614313460231,
+      "lon": -63.4679698158525,
+      "source": "Georef Argentina · localidades",
+      "source_name": "James Craik",
+      "department": "Tercero Arriba"
     },
     "JESÚS MARÍA": {
       "lat": -30.9761309355354,
       "lon": -64.0957931680719,
-      "source": "Georef Argentina",
+      "source": "Georef Argentina · localidades",
       "source_name": "Jesús María",
       "department": "Colón"
+    },
+    "JOSÉ DE LA QUINTANA": {
+      "lat": -31.8026714302919,
+      "lon": -64.4145832997616,
+      "source": "Georef Argentina · localidades",
+      "source_name": "José de la Quintana",
+      "department": "Santa María"
     },
     "JOVITA": {
       "lat": -34.518857,
@@ -201,33 +478,124 @@
       "source_name": "Jovita",
       "department": null
     },
+    "JUÁREZ CELMAN": {
+      "lat": -31.2580420120475,
+      "lon": -64.1662430936329,
+      "source": "Georef Argentina · localidades",
+      "source_name": "Juárez Celman",
+      "department": "Colón"
+    },
+    "LA BOLSA": {
+      "lat": -31.7296592489033,
+      "lon": -64.4294514201919,
+      "source": "Georef Argentina · localidades",
+      "source_name": "Villa La Bolsa",
+      "department": "Santa María"
+    },
     "LA CALERA": {
       "lat": -31.3503560189278,
       "lon": -64.3379432970611,
-      "source": "Georef Argentina",
+      "source": "Georef Argentina · localidades",
       "source_name": "La Calera",
       "department": "Colón"
     },
     "LA CARLOTA": {
       "lat": -33.4179776759532,
       "lon": -63.2936289409448,
-      "source": "Georef Argentina",
+      "source": "Georef Argentina · localidades",
       "source_name": "La Carlota",
       "department": "Juárez Celman"
+    },
+    "LA CUMBRE": {
+      "lat": -30.9821337813884,
+      "lon": -64.4941975929075,
+      "source": "Georef Argentina · localidades",
+      "source_name": "La Cumbre",
+      "department": "Punilla"
+    },
+    "LA CUMBRECITA": {
+      "lat": -31.8997878540948,
+      "lon": -64.7731668387586,
+      "source": "Georef Argentina · localidades",
+      "source_name": "La Cumbrecita",
+      "department": "Calamuchita"
+    },
+    "LA FALDA": {
+      "lat": -31.0944265203633,
+      "lon": -64.4829476480663,
+      "source": "Georef Argentina · localidades",
+      "source_name": "La Falda",
+      "department": "Punilla"
+    },
+    "LA FRANCIA": {
+      "lat": -31.4062958702974,
+      "lon": -62.6332175393621,
+      "source": "Georef Argentina · localidades",
+      "source_name": "La Francia",
+      "department": "San Justo"
     },
     "LA GRANJA": {
       "lat": -31.0086241638688,
       "lon": -64.2678934275508,
-      "source": "Georef Argentina",
+      "source": "Georef Argentina · localidades",
       "source_name": "La Granja",
       "department": "Colón"
+    },
+    "LA LAGUNA": {
+      "lat": -32.8025264638807,
+      "lon": -63.2470933409626,
+      "source": "Georef Argentina · localidades",
+      "source_name": "La Laguna",
+      "department": "General San Martín"
+    },
+    "LA PALESTINA": {
+      "lat": -32.6164345716079,
+      "lon": -63.4093992321595,
+      "source": "Georef Argentina · localidades",
+      "source_name": "La Palestina",
+      "department": "General San Martín"
     },
     "LA PAMPA": {
       "lat": -30.9422303821288,
       "lon": -64.2769351162808,
-      "source": "Georef Argentina",
+      "source": "Georef Argentina · localidades",
       "source_name": "La Pampa",
       "department": "Totoral"
+    },
+    "LA PARA": {
+      "lat": -30.8941305312153,
+      "lon": -63.0013963030968,
+      "source": "Georef Argentina · localidades",
+      "source_name": "La Para",
+      "department": "Río Primero"
+    },
+    "LA PAZ": {
+      "lat": -32.2175253164184,
+      "lon": -65.0482645389526,
+      "source": "Georef Argentina · localidades",
+      "source_name": "La Paz",
+      "department": "San Javier"
+    },
+    "LA PLAYA": {
+      "lat": -31.0096689758107,
+      "lon": -65.3612671996185,
+      "source": "Georef Argentina · localidades",
+      "source_name": "La Playa",
+      "department": "Minas"
+    },
+    "LA POSTA": {
+      "lat": -30.5655747818198,
+      "lon": -63.5169640654929,
+      "source": "Georef Argentina · localidades",
+      "source_name": "La Posta",
+      "department": "Río Primero"
+    },
+    "LA PUERTA": {
+      "lat": -31.1431642572558,
+      "lon": -64.0412657421536,
+      "source": "Georef Argentina · localidades",
+      "source_name": "La Puerta",
+      "department": "Colón"
     },
     "LA QUEBRADA": {
       "lat": -31.1495385,
@@ -236,115 +604,472 @@
       "source_name": "La Quebrada",
       "department": null
     },
+    "LA QUINTA": {
+      "lat": -31.0619019122381,
+      "lon": -63.1513266097879,
+      "source": "Georef Argentina · localidades",
+      "source_name": "La Quinta",
+      "department": "Río Primero"
+    },
+    "LA SERRANITA": {
+      "lat": -31.7356662291128,
+      "lon": -64.4556101899257,
+      "source": "Georef Argentina · localidades",
+      "source_name": "La Serranita",
+      "department": "Santa María"
+    },
     "LABOULAYE": {
       "lat": -34.1286322353031,
       "lon": -63.3907017059902,
-      "source": "Georef Argentina",
+      "source": "Georef Argentina · localidades",
       "source_name": "Laboulaye",
       "department": "Presidente Roque Sáenz Peña"
+    },
+    "LAGUNA LARGA": {
+      "lat": -31.7756994528712,
+      "lon": -63.8003265395626,
+      "source": "Georef Argentina · localidades",
+      "source_name": "Laguna Larga",
+      "department": "Río Segundo"
     },
     "LAS ACEQUIAS": {
       "lat": -33.2802823361599,
       "lon": -63.9753761495156,
-      "source": "Georef Argentina",
+      "source": "Georef Argentina · localidades",
       "source_name": "Las Acequias",
       "department": "Río Cuarto"
     },
     "LAS ALBAHACAS": {
       "lat": -32.8884091801626,
       "lon": -64.8448424724358,
-      "source": "Georef Argentina",
+      "source": "Georef Argentina · localidades",
       "source_name": "Las Albahacas",
       "department": "Río Cuarto"
+    },
+    "LAS ARRIAS": {
+      "lat": -30.3817457917409,
+      "lon": -63.5969003555789,
+      "source": "Georef Argentina · localidades",
+      "source_name": "Las Arrias",
+      "department": "Tulumba"
+    },
+    "LAS CALLES": {
+      "lat": -31.8240438502066,
+      "lon": -64.9714250809717,
+      "source": "Georef Argentina · localidades",
+      "source_name": "Las Calles",
+      "department": "San Alberto"
     },
     "LAS HIGUERAS": {
       "lat": -33.0898038759835,
       "lon": -64.2853623066603,
-      "source": "Georef Argentina",
+      "source": "Georef Argentina · localidades",
       "source_name": "Las Higueras",
       "department": "Río Cuarto"
+    },
+    "LAS VARILLAS": {
+      "lat": -31.8703847936498,
+      "lon": -62.7196647797728,
+      "source": "Georef Argentina · localidades",
+      "source_name": "Las Varillas",
+      "department": "San Justo"
+    },
+    "LOS AROMOS": {
+      "lat": -31.7344879855051,
+      "lon": -64.4390689481257,
+      "source": "Georef Argentina · localidades",
+      "source_name": "Villa Los Aromos",
+      "department": "Santa María"
+    },
+    "LOS CERRILLOS": {
+      "lat": -31.9726991999298,
+      "lon": -65.4446382249255,
+      "source": "Georef Argentina · localidades",
+      "source_name": "Los Cerrillos",
+      "department": "San Javier"
+    },
+    "LOS CHAÑARITOS": {
+      "lat": -30.557676818886,
+      "lon": -64.9537465755734,
+      "source": "Georef Argentina · localidades",
+      "source_name": "Los Chañaritos",
+      "department": "Cruz del Eje"
+    },
+    "LOS COCOS": {
+      "lat": -30.9264646838313,
+      "lon": -64.5003923888041,
+      "source": "Georef Argentina · localidades",
+      "source_name": "Los Cocos",
+      "department": "Punilla"
     },
     "LOS CÓNDORES": {
       "lat": -32.3211259681076,
       "lon": -64.2807422857482,
-      "source": "Georef Argentina",
+      "source": "Georef Argentina · localidades",
       "source_name": "Los Cóndores",
       "department": "Calamuchita"
+    },
+    "LOS MOLINOS": {
+      "lat": -31.8563597027019,
+      "lon": -64.379558101433,
+      "source": "Georef Argentina · localidades",
+      "source_name": "Los Molinos",
+      "department": "Calamuchita"
+    },
+    "LOS MOLLES": {
+      "lat": -31.9644480891008,
+      "lon": -65.0208775826493,
+      "source": "Georef Argentina · asentamientos",
+      "source_name": "Los Molles",
+      "department": "San Javier"
+    },
+    "LOS ZORROS": {
+      "lat": -32.0449728043823,
+      "lon": -63.202240246887,
+      "source": "Georef Argentina · localidades",
+      "source_name": "Los Zorros",
+      "department": "Tercero Arriba"
+    },
+    "LOZADA": {
+      "lat": -31.6496781195891,
+      "lon": -64.0897044455739,
+      "source": "Georef Argentina · localidades",
+      "source_name": "Lozada",
+      "department": "Santa María"
+    },
+    "LUCIO V. MANSILLA": {
+      "lat": -29.8045236047925,
+      "lon": -64.7114380532591,
+      "source": "Georef Argentina · localidades",
+      "source_name": "Lucio V. Mansilla",
+      "department": "Tulumba"
+    },
+    "LUQUE": {
+      "lat": -31.6477262893289,
+      "lon": -63.3450817196133,
+      "source": "Georef Argentina · localidades",
+      "source_name": "Luque",
+      "department": "Río Segundo"
+    },
+    "MALAGUEÑO": {
+      "lat": -31.467399279117,
+      "lon": -64.3590212016997,
+      "source": "Georef Argentina · localidades",
+      "source_name": "Malagueño",
+      "department": "Santa María"
+    },
+    "MALVINAS": {
+      "lat": -31.3742535756696,
+      "lon": -64.0536917332686,
+      "source": "Georef Argentina · localidades",
+      "source_name": "Malvinas Argentinas",
+      "department": "Colón"
+    },
+    "MARCOS JUÁREZ": {
+      "lat": -32.6906362907814,
+      "lon": -62.1011265194652,
+      "source": "Georef Argentina · localidades",
+      "source_name": "Marcos Juárez",
+      "department": "Marcos Juárez"
     },
     "MENDIOLAZA": {
       "lat": -31.2640443703214,
       "lon": -64.3091277732629,
-      "source": "Georef Argentina",
+      "source": "Georef Argentina · localidades",
       "source_name": "Mendiolaza",
       "department": "Colón"
+    },
+    "MINA CLAVERO": {
+      "lat": -31.7294276425479,
+      "lon": -65.0050003391732,
+      "source": "Georef Argentina · localidades",
+      "source_name": "Mina Clavero",
+      "department": "San Alberto"
+    },
+    "MIRAMAR": {
+      "lat": -30.9151531803715,
+      "lon": -62.6750095451306,
+      "source": "Georef Argentina · localidades",
+      "source_name": "Miramar",
+      "department": "San Justo"
+    },
+    "MONTE BUEY": {
+      "lat": -32.9156374383737,
+      "lon": -62.454900955381,
+      "source": "Georef Argentina · localidades",
+      "source_name": "Monte Buey",
+      "department": "Marcos Juárez"
+    },
+    "MONTE CRISTO": {
+      "lat": -31.3419860203389,
+      "lon": -63.9472252989631,
+      "source": "Georef Argentina · localidades",
+      "source_name": "Montecristo",
+      "department": "Río Primero"
+    },
+    "MORTEROS": {
+      "lat": -30.710667779374,
+      "lon": -62.0072364579445,
+      "source": "Georef Argentina · localidades",
+      "source_name": "Morteros",
+      "department": "San Justo"
+    },
+    "OBISPO TREJO": {
+      "lat": -30.7812923950995,
+      "lon": -63.410365748629,
+      "source": "Georef Argentina · localidades",
+      "source_name": "Obispo Trejo",
+      "department": "Río Primero"
+    },
+    "PILAR": {
+      "lat": -31.6812652365216,
+      "lon": -63.8823958396944,
+      "source": "Georef Argentina · localidades",
+      "source_name": "Pilar",
+      "department": "Río Segundo"
+    },
+    "PUESTO DEL GALLO": {
+      "lat": -30.6101805626065,
+      "lon": -64.9687285619398,
+      "source": "Georef Argentina · asentamientos",
+      "source_name": "Puesto del Gallo",
+      "department": "Cruz del Eje"
+    },
+    "PUESTO PEDERNERA": {
+      "lat": -31.620975864411,
+      "lon": -64.6870224256156,
+      "source": "Georef Argentina · asentamientos",
+      "source_name": "Puesto Pedernera",
+      "department": "Punilla"
+    },
+    "QUEBRACHO LADEADO": {
+      "lat": -32.2571422950774,
+      "lon": -65.0304651990798,
+      "source": "Georef Argentina · asentamientos",
+      "source_name": "Quebracho Ladeado",
+      "department": "San Javier"
+    },
+    "QUILPO": {
+      "lat": -30.8575380213271,
+      "lon": -64.6937229369212,
+      "source": "Georef Argentina · asentamientos",
+      "source_name": "Canteras Quilpo",
+      "department": "Cruz del Eje"
+    },
+    "RAFAEL GARCÍA": {
+      "lat": -31.645100027091,
+      "lon": -64.2593986892924,
+      "source": "Georef Argentina · localidades",
+      "source_name": "Rafael García",
+      "department": "Santa María"
     },
     "RÍO CEBALLOS": {
       "lat": -31.1697501304772,
       "lon": -64.3175041693725,
-      "source": "Georef Argentina",
+      "source": "Georef Argentina · localidades",
       "source_name": "Río Ceballos",
       "department": "Colón"
     },
     "RÍO CUARTO": {
       "lat": -33.1238369342208,
       "lon": -64.3490032179798,
-      "source": "Georef Argentina",
+      "source": "Georef Argentina · localidades",
       "source_name": "Río Cuarto",
       "department": "Río Cuarto"
     },
     "RÍO DE LOS SAUCES": {
       "lat": -32.528642164266,
       "lon": -64.5886875602836,
-      "source": "Georef Argentina",
+      "source": "Georef Argentina · localidades",
       "source_name": "Río de los Sauces",
       "department": "Calamuchita"
+    },
+    "RÍO PRIMERO": {
+      "lat": -31.3338717909147,
+      "lon": -63.6185723754357,
+      "source": "Georef Argentina · localidades",
+      "source_name": "Río Primero",
+      "department": "Río Primero"
     },
     "RÍO TERCERO": {
       "lat": -32.1767393738221,
       "lon": -64.1129628407675,
-      "source": "Georef Argentina",
+      "source": "Georef Argentina · localidades",
       "source_name": "Río Tercero",
       "department": "Tercero Arriba"
+    },
+    "SAIRA": {
+      "lat": -32.4097129871359,
+      "lon": -62.1023489220675,
+      "source": "Georef Argentina · localidades",
+      "source_name": "Saira",
+      "department": "Marcos Juárez"
     },
     "SALDÁN": {
       "lat": -31.3153062144915,
       "lon": -64.3035286821267,
-      "source": "Georef Argentina",
+      "source": "Georef Argentina · localidades",
       "source_name": "Saldán",
       "department": "Colón"
+    },
+    "SALSACATE": {
+      "lat": -31.3178575767975,
+      "lon": -65.0895253076512,
+      "source": "Georef Argentina · localidades",
+      "source_name": "Salsacate",
+      "department": "Pocho"
     },
     "SALSIPUEDES": {
       "lat": -31.13788084948,
       "lon": -64.2927724360505,
-      "source": "Georef Argentina",
+      "source": "Georef Argentina · localidades",
       "source_name": "Salsipuedes",
       "department": "Colón"
+    },
+    "SAN BARTOLOMÉ": {
+      "lat": -31.5279083667905,
+      "lon": -62.7237040838575,
+      "source": "Georef Argentina · localidades",
+      "source_name": "Colonia San Bartolomé",
+      "department": "San Justo"
+    },
+    "SAN FRANCISCO": {
+      "lat": -31.424938943193,
+      "lon": -62.0838767338685,
+      "source": "Georef Argentina · localidades",
+      "source_name": "San Francisco",
+      "department": "San Justo"
+    },
+    "SAN FRANCISCO DEL CHAÑAR": {
+      "lat": -29.7863529092312,
+      "lon": -63.9416977616648,
+      "source": "Georef Argentina · localidades",
+      "source_name": "San Francisco del Chañar",
+      "department": "Sobremonte"
+    },
+    "SAN LORENZO": {
+      "lat": -31.6709196641921,
+      "lon": -65.0177209944746,
+      "source": "Georef Argentina · localidades",
+      "source_name": "San Lorenzo",
+      "department": "San Alberto"
+    },
+    "SAN MARCOS SIERRAS": {
+      "lat": -30.7830128979704,
+      "lon": -64.6361895651717,
+      "source": "Georef Argentina · localidades",
+      "source_name": "San Marcos Sierra",
+      "department": "Cruz del Eje"
+    },
+    "SAN NICOLÁS": {
+      "lat": -31.4362772406791,
+      "lon": -64.4528669132632,
+      "source": "Georef Argentina · asentamientos",
+      "source_name": "San Nicolás",
+      "department": "Santa María"
+    },
+    "SAN PEDRO": {
+      "lat": -31.936473984733,
+      "lon": -65.2188678499261,
+      "source": "Georef Argentina · localidades",
+      "source_name": "San Pedro",
+      "department": "San Alberto"
+    },
+    "SAN PEDRO NORTE": {
+      "lat": -30.0910815199101,
+      "lon": -64.1549271383854,
+      "source": "Georef Argentina · localidades",
+      "source_name": "San Pedro Norte",
+      "department": "Tulumba"
+    },
+    "SAN VICENTE": {
+      "lat": -31.8505569701892,
+      "lon": -65.4294743566709,
+      "source": "Georef Argentina · localidades",
+      "source_name": "San Vicente",
+      "department": "San Alberto"
     },
     "SANTA ROSA DE CALAMUCHITA": {
       "lat": -32.0699095313468,
       "lon": -64.5390917673383,
-      "source": "Georef Argentina",
+      "source": "Georef Argentina · localidades",
       "source_name": "Santa Rosa de Calamuchita",
       "department": "Calamuchita"
+    },
+    "SANTA ROSA DE RÍO PRIMERO": {
+      "lat": -31.1535276572799,
+      "lon": -63.3994126020727,
+      "source": "Georef Argentina · localidades",
+      "source_name": "Santa Rosa de Río Primero",
+      "department": "Río Primero"
+    },
+    "SANTO DOMINGO": {
+      "lat": -30.4474122529485,
+      "lon": -65.0825199592713,
+      "source": "Georef Argentina · asentamientos",
+      "source_name": "Santo Domingo",
+      "department": "Cruz del Eje"
+    },
+    "SEBASTIÁN ELCANO": {
+      "lat": -30.1604055143282,
+      "lon": -63.5924899770234,
+      "source": "Georef Argentina · localidades",
+      "source_name": "Sebastián Elcano",
+      "department": "Río Seco"
+    },
+    "SEEBER": {
+      "lat": -30.9257254718205,
+      "lon": -61.9741593359892,
+      "source": "Georef Argentina · localidades",
+      "source_name": "Seeber",
+      "department": "San Justo"
     },
     "SERRANO": {
       "lat": -34.4706743272088,
       "lon": -63.5402860917135,
-      "source": "Georef Argentina",
+      "source": "Georef Argentina · localidades",
       "source_name": "Serrano",
       "department": "Presidente Roque Sáenz Peña"
+    },
+    "SERREZUELA": {
+      "lat": -30.6387724146337,
+      "lon": -65.3887411301193,
+      "source": "Georef Argentina · localidades",
+      "source_name": "Serrezuela",
+      "department": "Cruz del Eje"
     },
     "SUCO": {
       "lat": -33.439992150182,
       "lon": -64.830882262924,
-      "source": "Georef Argentina",
+      "source": "Georef Argentina · localidades",
       "source_name": "Suco",
       "department": "Río Cuarto"
+    },
+    "TANTI": {
+      "lat": -31.3547963972077,
+      "lon": -64.5923472529954,
+      "source": "Georef Argentina · localidades",
+      "source_name": "Tanti",
+      "department": "Punilla"
+    },
+    "TORO PUJIO": {
+      "lat": -31.1089049317111,
+      "lon": -62.9870276972289,
+      "source": "Georef Argentina · localidades",
+      "source_name": "Toro Pujio",
+      "department": "San Justo"
+    },
+    "TUCLAME": {
+      "lat": -30.7465914481217,
+      "lon": -65.23562125983,
+      "source": "Georef Argentina · localidades",
+      "source_name": "Tuclame",
+      "department": "Cruz del Eje"
     },
     "UNQUILLO": {
       "lat": -31.2371523751516,
       "lon": -64.3117636936437,
-      "source": "Georef Argentina",
+      "source": "Georef Argentina · localidades",
       "source_name": "Unquillo",
       "department": "Colón"
     },
@@ -358,55 +1083,156 @@
     "VICUÑA MACKENNA": {
       "lat": -33.9156416650297,
       "lon": -64.3898545567239,
-      "source": "Georef Argentina",
+      "source": "Georef Argentina · localidades",
       "source_name": "Vicuña Mackenna",
       "department": "Río Cuarto"
     },
     "VILLA ALLENDE": {
       "lat": -31.2936496256546,
       "lon": -64.2977013083088,
-      "source": "Georef Argentina",
+      "source": "Georef Argentina · localidades",
       "source_name": "Villa Allende",
       "department": "Colón"
+    },
+    "VILLA CANDELARIA": {
+      "lat": -29.8129102449212,
+      "lon": -63.3551261194399,
+      "source": "Georef Argentina · localidades",
+      "source_name": "Villa Candelaria",
+      "department": "Río Seco"
+    },
+    "VILLA CURA BROCHERO": {
+      "lat": -31.7064607252407,
+      "lon": -65.0186063890249,
+      "source": "Georef Argentina · localidades",
+      "source_name": "Villa Cura Brochero",
+      "department": "San Alberto"
+    },
+    "VILLA DE MARÍA DE RÍO SECO": {
+      "lat": -29.9065231333502,
+      "lon": -63.7225619706298,
+      "source": "Georef Argentina · localidades",
+      "source_name": "Villa de María",
+      "department": "Río Seco"
+    },
+    "VILLA DE SOTO": {
+      "lat": -30.8552312644894,
+      "lon": -64.9848914395855,
+      "source": "Georef Argentina · localidades",
+      "source_name": "Villa de Soto",
+      "department": "Cruz del Eje"
     },
     "VILLA DEL DIQUE": {
       "lat": -32.1763512233751,
       "lon": -64.4569384953227,
-      "source": "Georef Argentina",
+      "source": "Georef Argentina · localidades",
       "source_name": "Villa del Dique",
       "department": "Calamuchita"
+    },
+    "VILLA DEL ROSARIO": {
+      "lat": -31.5541005001809,
+      "lon": -63.5356973192876,
+      "source": "Georef Argentina · localidades",
+      "source_name": "Villa del Rosario",
+      "department": "Río Segundo"
+    },
+    "VILLA DEL TOTORAL": {
+      "lat": -30.7046218720151,
+      "lon": -64.0681414443224,
+      "source": "Georef Argentina · localidades",
+      "source_name": "Villa del Totoral",
+      "department": "Totoral"
+    },
+    "VILLA DOLORES": {
+      "lat": -31.9449767629495,
+      "lon": -65.1902396962461,
+      "source": "Georef Argentina · localidades",
+      "source_name": "Villa Dolores",
+      "department": "San Javier"
     },
     "VILLA GENERAL BELGRANO": {
       "lat": -31.9764928137116,
       "lon": -64.5590536588416,
-      "source": "Georef Argentina",
+      "source": "Georef Argentina · localidades",
       "source_name": "Villa General Belgrano",
       "department": "Calamuchita"
     },
     "VILLA HUIDOBRO": {
       "lat": -34.8405206144244,
       "lon": -64.5871000246117,
-      "source": "Georef Argentina",
+      "source": "Georef Argentina · localidades",
       "source_name": "Villa Huidobro",
       "department": "General Roca"
     },
     "VILLA MARÍA": {
       "lat": -32.4135041930881,
       "lon": -63.248329032642,
-      "source": "Georef Argentina",
+      "source": "Georef Argentina · localidades",
       "source_name": "Villa María",
       "department": "General San Martín"
+    },
+    "VILLA NUEVA": {
+      "lat": -32.4354764129042,
+      "lon": -63.2478575788202,
+      "source": "Georef Argentina · localidades",
+      "source_name": "Villa Nueva",
+      "department": "General San Martín"
+    },
+    "VILLA QUILINO": {
+      "lat": -30.2091669689618,
+      "lon": -64.4684354103473,
+      "source": "Georef Argentina · asentamientos",
+      "source_name": "Villa Quilino",
+      "department": "Ischilín"
+    },
+    "VILLA RUMIPAL": {
+      "lat": -32.1893832757006,
+      "lon": -64.4792058830229,
+      "source": "Georef Argentina · localidades",
+      "source_name": "Villa Rumipal",
+      "department": "Calamuchita"
+    },
+    "VILLA SAN ISIDRO": {
+      "lat": -31.8259254344776,
+      "lon": -64.383554475928,
+      "source": "Georef Argentina · localidades",
+      "source_name": "Villa San Isidro",
+      "department": "Santa María"
     },
     "VILLA VALERIA": {
       "lat": -34.3414458163452,
       "lon": -64.9208144024683,
-      "source": "Georef Argentina",
+      "source": "Georef Argentina · localidades",
       "source_name": "Villa Valeria",
       "department": "General Roca"
+    },
+    "YACANTO": {
+      "lat": -32.103594962197,
+      "lon": -64.7545223469106,
+      "source": "Georef Argentina · localidades",
+      "source_name": "Villa Yacanto",
+      "department": "Calamuchita"
+    },
+    "YOCSINA": {
+      "lat": -31.4468377568782,
+      "lon": -64.3646200261083,
+      "source": "Georef Argentina · asentamientos",
+      "source_name": "Yocsina",
+      "department": "Santa María"
     }
   },
   "unresolved": [
+    "100 CURVAS",
+    "BARRIO NORTE",
+    "CAMPO LA ARGENTINA",
+    "EMPALME TANTI",
     "KILÓMETRO 18",
-    "POLINESIA"
+    "LA DORMIDA",
+    "LA JUANITA",
+    "PLAYAS DE ORO",
+    "POLINESIA",
+    "PRIMERO DE MAYO",
+    "TROPEZÓN",
+    "VILLA INDEPENDENCIA"
   ]
 }
