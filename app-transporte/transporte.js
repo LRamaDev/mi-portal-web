@@ -1,7 +1,17 @@
 (function () {
   'use strict';
 
-  var COLORS = { 'SIERRAS CHICAS': '#1686c4', 'SUR': '#dc8a00', 'MIXED': '#8b5cf6' };
+  var COLORS = {
+    'ESTE-SUDESTE': '#22c55e',
+    'NORESTE': '#06b6d4',
+    'NORTE': '#8b5cf6',
+    'PUNILLA': '#ec4899',
+    'RUTA 5': '#3b82f6',
+    'SIERRAS CHICAS': '#14b8a6',
+    'SUR': '#f59e0b',
+    'TRASLASIERRA': '#ef4444',
+    'MIXED': '#64748b'
+  };
   var state = { data: null, geo: null, map: null, layer: null, focusServiceId: null, animationId: null };
   var $ = function (id) { return document.getElementById(id); };
   var esc = function (value) {
@@ -64,12 +74,14 @@
     var text = $('filter-search').value.trim().toLocaleLowerCase('es');
     var corridor = $('filter-corridor').value;
     var line = $('filter-line').value;
+    var direction = $('filter-direction').value;
     var day = Number($('filter-day').value || 0);
     var company = $('filter-company').value;
     var modality = $('filter-modality').value;
     return state.data.services.filter(function (service) {
       if (corridor && service.corridor !== corridor) return false;
       if (line && service.line !== line) return false;
+      if (direction && service.direction !== direction) return false;
       if (day && service.service_days.indexOf(day) === -1) return false;
       if (company && service.company !== company) return false;
       if (modality && service.modality !== modality) return false;
@@ -80,7 +92,8 @@
   }
 
   function directedCoordinates(service) {
-    return directedNodes(service).map(function (node) {
+    var nodes = directedNodes(service);
+    return [nodes[0], nodes[nodes.length - 1]].map(function (node) {
       var place = state.geo.locations[node];
       return place ? { name: node, lat: place.lat, lon: place.lon, source: place.source } : null;
     }).filter(Boolean);
@@ -236,12 +249,12 @@
       updateLineFilter();
       clearSelectionAndRender();
     });
-    ['filter-line','filter-day','filter-company','filter-modality'].forEach(function (id) {
+    ['filter-line','filter-direction','filter-day','filter-company','filter-modality'].forEach(function (id) {
       $(id).addEventListener('change', clearSelectionAndRender);
     });
     $('reset-filters').addEventListener('click', function () {
       $('filter-search').value = '';
-      ['filter-corridor','filter-company','filter-modality'].forEach(function (id) { $(id).value = ''; });
+      ['filter-corridor','filter-direction','filter-company','filter-modality'].forEach(function (id) { $(id).value = ''; });
       updateLineFilter();
       $('filter-line').value = '';
       $('filter-day').value = String(todayInCordoba());
@@ -281,14 +294,19 @@
     state.layer = L.layerGroup().addTo(state.map);
   }
 
+  function renderLegend() {
+    var items = state.data.corridors.map(function (corridor) {
+      return '<span><i class="dot" style="--dot-color:' + (COLORS[corridor] || COLORS.MIXED) + '"></i>' + esc(corridor) + '</span>';
+    });
+    items.push('<span><i class="dot" style="--dot-color:' + COLORS.MIXED + '"></i>Varios corredores</span>');
+    $('map-legend').innerHTML = items.join('');
+  }
+
   function sourceSummary() {
     var sources = state.data.sources;
     var latest = sources.map(function (source) { return source.publication_date; }).filter(Boolean).sort().pop();
     $('updated-date').textContent = formatDate(latest);
-    $('updated-detail').textContent = sources.map(function (source) {
-      var corridor = source.filename.indexOf('SIERRAS') !== -1 ? 'Sierras Chicas' : 'Sur';
-      return corridor + ': sin cambios desde ' + formatDate(source.unchanged_since);
-    }).join(' · ');
+    $('updated-detail').textContent = sources.length + ' corredores · ' + state.data.stats.services.toLocaleString('es-AR') + ' servicios';
     var stats = state.data.stats;
     $('quality-note').innerHTML = '<strong>Control automático:</strong> ' + stats.source_rows.toLocaleString('es-AR') +
       ' filas procesadas; ' + stats.possible_duplicate_excess + ' coincidencias exactas señaladas; ' +
@@ -306,6 +324,6 @@
     fetch('data/cabeceras.json', { cache:'no-store' }).then(function (response) { if (!response.ok) throw new Error('cabeceras.json'); return response.json(); })
   ]).then(function (payloads) {
     state.data = payloads[0]; state.geo = payloads[1];
-    initMap(); populateFilters(); bindEvents(); sourceSummary(); renderAll();
+    initMap(); populateFilters(); bindEvents(); renderLegend(); sourceSummary(); renderAll();
   }).catch(function (error) { fail(error.message || String(error)); });
 })();
