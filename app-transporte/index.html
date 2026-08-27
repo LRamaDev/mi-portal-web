@@ -25,7 +25,7 @@
     </a>
     <div class="header-title">
       <h1>Horarios interurbanos</h1>
-      <span>Corredores Sur y Sierras Chicas</span>
+      <span>Ocho corredores provinciales</span>
     </div>
     <div class="header-actions">
       <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Cambiar tema">
@@ -40,7 +40,7 @@
     <div>
       <span class="eyebrow">Transporte interurbano · Provincia de Córdoba</span>
       <h2 id="page-title">Encontrá líneas y horarios en un solo lugar</h2>
-      <p>Filtrá por corredor, línea, día, empresa o localidad. Elegí un horario para visualizar el sentido real del viaje.</p>
+      <p>Filtrá por corredor, línea, sentido, día, empresa o localidad. Elegí un horario para visualizar el sentido real del viaje.</p>
     </div>
     <div class="update-card" aria-live="polite">
       <span>Última publicación procesada</span>
@@ -54,6 +54,7 @@
       <label class="search-field"><span>Buscar</span><input id="filter-search" type="search" placeholder="Localidad, línea, empresa o ruta…" autocomplete="off"></label>
       <label><span>Corredor</span><select id="filter-corridor"><option value="">Todos</option></select></label>
       <label><span>Línea</span><select id="filter-line"><option value="">Todas</option></select></label>
+      <label><span>Sentido</span><select id="filter-direction"><option value="">Ambos</option><option value="I">Ida</option><option value="V">Vuelta</option></select></label>
       <label><span>Día</span><select id="filter-day"><option value="">Todos</option><option value="1">Lunes</option><option value="2">Martes</option><option value="3">Miércoles</option><option value="4">Jueves</option><option value="5">Viernes</option><option value="6">Sábado</option><option value="7">Domingo</option></select></label>
       <label><span>Empresa</span><select id="filter-company"><option value="">Todas</option></select></label>
       <label><span>Modalidad</span><select id="filter-modality"><option value="">Todas</option></select></label>
@@ -71,7 +72,7 @@
       <div class="map-column">
         <div id="transport-map" role="region" aria-label="Mapa esquemático de líneas interurbanas"></div>
         <div class="map-caption">
-          <span><i class="dot sierras"></i>Sierras Chicas</span><span><i class="dot sur"></i>Sur</span><span><i class="dot mixed"></i>Ambos corredores</span>
+          <div id="map-legend" class="map-legend" aria-label="Colores de corredores"></div>
           <p><strong>Mapa orientativo:</strong> los puntos son localidades de origen o destino. Elegí un horario para ver una flecha animada en su sentido de circulación.</p>
         </div>
       </div>
@@ -87,7 +88,7 @@
     </section>
   </main>
 
-  <footer>Demo personal · Lea Rama Dev · Datos de corredores Sur y Sierras Chicas</footer>
+  <footer>Demo personal · Lea Rama Dev · Datos de cronogramas oficiales de transporte</footer>
 </div>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
