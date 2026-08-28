@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="description" content="Consulta de líneas y horarios del transporte interurbano de Córdoba.">
+  <meta name="description" content="Buscá viajes entre localidades de Córdoba, salidas publicadas y horarios de paso estimados.">
   <title>Horarios interurbanos · Lea Rama Dev</title>
   <script>
     try {
@@ -11,7 +11,7 @@
     } catch (error) {}
   </script>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-  <link rel="stylesheet" href="transporte.css">
+  <link rel="stylesheet" href="transporte.css?v=5">
 </head>
 
 <body>
@@ -39,8 +39,8 @@
   <section class="transport-intro" aria-labelledby="page-title">
     <div>
       <span class="eyebrow">Transporte interurbano · Provincia de Córdoba</span>
-      <h2 id="page-title">Encontrá líneas y horarios en un solo lugar</h2>
-      <p>Combiná corredor, línea, sentido, día, empresa o localidad. Cada filtro muestra solamente opciones compatibles.</p>
+      <h2 id="page-title">¿Desde dónde y hasta dónde viajás?</h2>
+      <p>Consultá salidas publicadas, localidades intermedias y tiempos estimados. Todos los filtros se combinan.</p>
     </div>
     <div class="update-card" aria-live="polite">
       <span>Última publicación procesada</span>
@@ -50,17 +50,23 @@
   </section>
 
   <main class="transport-shell">
+    <section class="journey-filters" aria-label="Localidades del viaje">
+      <label><span>Origen · dónde subís</span><select id="filter-origin"><option value="">Todas las localidades</option></select></label>
+      <label><span>Destino · dónde bajás</span><select id="filter-destination"><option value="">Todas las localidades</option></select></label>
+    </section>
+    <p class="filter-help">El día corresponde a la subida. Los horarios intermedios son estimados; <strong>+1 día</strong> indica el día siguiente a la salida del cronograma.</p>
     <section class="filters" aria-label="Filtros de horarios">
       <label class="search-field"><span>Buscar</span><input id="filter-search" type="search" placeholder="Localidad, línea, empresa o ruta…" autocomplete="off"></label>
       <label><span>Corredor</span><select id="filter-corridor"><option value="">Todos</option></select></label>
       <label><span>Línea</span><select id="filter-line"><option value="">Todas</option></select></label>
       <label><span>Sentido</span><select id="filter-direction"><option value="">Ambos</option><option value="I">Ida</option><option value="V">Vuelta</option></select></label>
-      <label><span>Día</span><select id="filter-day"><option value="">Todos</option><option value="1">Lunes</option><option value="2">Martes</option><option value="3">Miércoles</option><option value="4">Jueves</option><option value="5">Viernes</option><option value="6">Sábado</option><option value="7">Domingo</option></select></label>
+      <label><span>Día de subida</span><select id="filter-day"><option value="">Todos</option><option value="1">Lunes</option><option value="2">Martes</option><option value="3">Miércoles</option><option value="4">Jueves</option><option value="5">Viernes</option><option value="6">Sábado</option><option value="7">Domingo</option></select></label>
       <label><span>Empresa</span><select id="filter-company"><option value="">Todas</option></select></label>
       <label><span>Modalidad</span><select id="filter-modality"><option value="">Todas</option></select></label>
       <button id="reset-filters" class="reset-button" type="button">Limpiar filtros</button>
     </section>
 
+    <p id="route-coverage" class="route-coverage" role="status">Cargando la base orientativa de recorridos…</p>
     <section class="kpi-row" aria-label="Resumen de resultados">
       <article><span>Servicios</span><strong id="kpi-services">—</strong></article>
       <article><span>Líneas</span><strong id="kpi-lines">—</strong></article>
@@ -73,8 +79,10 @@
         <div id="transport-map" role="region" aria-label="Mapa esquemático de líneas interurbanas"></div>
         <div class="map-caption">
           <div id="map-legend" class="map-legend" aria-label="Colores de corredores"></div>
-          <p><strong>Mapa orientativo:</strong> los puntos son localidades de origen o destino. Elegí un horario para ver una flecha animada en su sentido de circulación.</p>
+          <p><strong>Mapa esquemático:</strong> une localidades, no representa calles ni posición en vivo. La flecha sigue el orden del recorrido y destaca tu tramo.</p>
+          <p id="map-status" class="map-status" role="status">Elegí un resultado para ver su recorrido.</p>
         </div>
+        <section id="journey-detail" class="journey-detail" aria-label="Detalle del recorrido seleccionado" hidden></section>
       </div>
       <aside class="results-panel" aria-labelledby="results-title">
         <header><div><span class="eyebrow">Resultados</span><h3 id="results-title">Servicios disponibles</h3></div><span id="result-count" class="result-count">—</span></header>
@@ -83,7 +91,7 @@
     </section>
 
     <section class="data-note">
-      <div><strong>Sobre la información</strong><p>Los horarios se extraen de cronogramas oficiales. “I” se presenta como Ida y “V” como Vuelta, invirtiendo el origen y el destino de la línea.</p></div>
+      <div><strong>Dos fuentes, funciones distintas</strong><p>PDF semanales: salidas y días de prestación. Excel orientativo: localidades y tiempos entre ellas. Ida y Vuelta conservan sus propias secuencias. Las estimaciones no son seguimiento en vivo ni incorporan una tolerancia de retraso.</p></div>
       <div id="quality-note" class="quality-note"></div>
     </section>
   </main>
@@ -92,6 +100,7 @@
 </div>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script defer src="transporte.js"></script>
+<script defer src="recorridos.js?v=5"></script>
+<script defer src="transporte.js?v=5"></script>
 </body>
 </html>
