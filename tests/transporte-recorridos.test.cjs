@@ -101,3 +101,25 @@ test('homónimos no se convierten en una misma parada',()=>{
   assert.notEqual(routes.places['loc-133'].id,routes.places['loc-6208'].id);
   assert.notEqual(engine.label('loc-133'),engine.label('loc-6208'));
 });
+test('el control distingue horario publicado de paso estimado y conserva el destino final',()=>{
+  const service=engine.models.find(m=>m.service.company==='EDER SERVICIO DIFERENCIAL'&&m.service.line==='CÓRDOBA - LA GRANJA'&&m.service.time==='07:40'&&m.service.direction==='I').service;
+  const published=engine.control({location:'loc-1',company:service.company,lines:[service.line]}).find(r=>r.service.id===service.id);
+  const estimated=engine.control({location:'loc-1177',company:service.company,lines:[service.line]}).find(r=>r.service.id===service.id);
+  assert.ok(published&&estimated);assert.equal(published.publishedAtControl,true);assert.equal(published.at,service.minutes);
+  assert.equal(estimated.publishedAtControl,false);assert.equal(R.clock(estimated.at).time,'08:40');assert.equal(estimated.finalDestination,'loc-1219');
+});
+test('el control permite combinar varias líneas de una empresa y corredor',()=>{
+  const groups=new Map();
+  for(const model of engine.models)for(const [index,stop] of model.stops.entries()){
+    if(index>0&&!Number.isFinite(stop.arrival_offset))continue;
+    const key=[model.service.corridor,model.service.company,stop.place_id].join('|');
+    if(!groups.has(key))groups.set(key,new Set());groups.get(key).add(model.service.line);
+  }
+  const [key,lineSet]=[...groups].find(([,lines])=>lines.size>=2),[corridor,company,location]=key.split('|'),lines=[...lineSet].slice(0,2);
+  const one=engine.control({location,corridor,company,lines:[lines[0]]}),two=engine.control({location,corridor,company,lines:[lines[1]]}),both=engine.control({location,corridor,company,lines});
+  assert.ok(one.length&&two.length);assert.deepEqual(new Set(both.map(r=>r.key)),new Set(one.concat(two).map(r=>r.key)));
+});
+test('el control filtra por día de paso y franja horaria',()=>{
+  const records=engine.control({location:'loc-1177',company:'EDER SERVICIO DIFERENCIAL',lines:['CÓRDOBA - LA GRANJA'],day:1,fromMinute:8*60,toMinute:9*60});
+  assert.ok(records.length);assert.ok(records.every(r=>r.days.includes(1)&&r.minute>=480&&r.minute<=540));
+});
