@@ -4,7 +4,7 @@
   var DAYS = { '1':'Lunes', '2':'Martes', '3':'Miércoles', '4':'Jueves', '5':'Viernes', '6':'Sábado', '7':'Domingo' };
   var DIRECTIONS = { I:'Ida', V:'Vuelta' };
   var FIELDS = ['origin','destination','corridor','line','direction','day','company','modality'];
-  var state = { data:null, geo:null, routes:null, engine:null, map:null, layer:null, focus:null, animationId:null, results:[], routeError:false, mode:'users', inspectorLines:new Set(), inspectorAvailableLines:[], inspectorAllLines:true };
+  var state = { data:null, geo:null, routes:null, engine:null, map:null, layer:null, focus:null, animationId:null, results:[], routeError:false, mode:'users', inspectorCompanies:new Set(), inspectorAvailableCompanies:[], inspectorAllCompanies:true, inspectorLines:new Set(), inspectorAvailableLines:[], inspectorAllLines:true, inspectorRecords:[] };
   var $ = function (id) { return document.getElementById(id); };
   var esc = function (value) { return String(value == null ? '' : value).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); };
   var unique = function (xs) { return Array.from(new Set(xs)); };
@@ -146,24 +146,38 @@
     el.innerHTML='<option value="">'+first+'</option>'+values.map(function(v){return '<option value="'+esc(v)+'">'+esc(labeler?labeler(v):v)+'</option>';}).join('');
     el.value=values.indexOf(old)!==-1?old:'';
   }
-  function inspectorModels(ignoreLocation){
-    var corridor=$('inspector-corridor').value,company=$('inspector-company').value,location=$('inspector-locality').value;
+  function modelStopsAt(model,location){return !location||model.stops.some(function(stop){return stop.place_id===location;});}
+  function inspectorFacetModels(exclude){
+    var corridor=$('inspector-corridor').value,location=$('inspector-locality').value;
     return state.engine.models.filter(function(model){
-      return (!corridor||model.service.corridor===corridor)&&(!company||model.service.company===company)&&(ignoreLocation||!location||model.stops.some(function(stop){return stop.place_id===location;}));
+      if(exclude!=='corridor'&&corridor&&model.service.corridor!==corridor)return false;
+      if(exclude!=='companies'){
+        if(!state.inspectorAllCompanies&&!state.inspectorCompanies.size&&!exclude)return false;
+        if(state.inspectorCompanies.size&&!state.inspectorCompanies.has(model.service.company))return false;
+      }
+      return exclude==='locality'||modelStopsAt(model,location);
     });
+  }
+  function renderInspectorCompanies(companies){
+    $('inspector-companies').innerHTML=companies.length?companies.map(function(company){return '<label class="company-option"><input type="checkbox" data-inspector-company="'+esc(company)+'" '+(state.inspectorCompanies.has(company)?'checked':'')+'><span>'+esc(company)+'</span></label>';}).join(''):'<div class="line-empty">No hay empresas para esta combinación.</div>';
   }
   function renderInspectorLines(lines){
     $('inspector-lines').innerHTML=lines.length?lines.map(function(line){return '<label class="line-option"><input type="checkbox" data-inspector-line="'+esc(line)+'" '+(state.inspectorLines.has(line)?'checked':'')+'><span>'+esc(line)+'</span></label>';}).join(''):'<div class="line-empty">No hay líneas para esta combinación.</div>';
   }
   function updateInspectorControls(){
-    var all=state.engine.models,corridor=$('inspector-corridor').value,company=$('inspector-company').value;
-    setSelect('inspector-corridor',all.filter(function(m){return !company||m.service.company===company;}).map(function(m){return m.service.corridor;}),'Todos');
-    corridor=$('inspector-corridor').value;
-    setSelect('inspector-company',all.filter(function(m){return !corridor||m.service.corridor===corridor;}).map(function(m){return m.service.company;}),'Todas');
-    var models=inspectorModels(true),placeIds=[];
-    models.forEach(function(model){model.stops.forEach(function(stop){placeIds.push(stop.place_id);});});
+    var companies=unique(inspectorFacetModels('companies').map(function(m){return m.service.company;})).sort(function(a,b){return a.localeCompare(b,'es');});
+    if(state.inspectorAllCompanies)state.inspectorCompanies=new Set(companies);
+    else state.inspectorCompanies=new Set(companies.filter(function(company){return state.inspectorCompanies.has(company);}));
+    state.inspectorAvailableCompanies=companies;renderInspectorCompanies(companies);
+    setSelect('inspector-corridor',inspectorFacetModels('corridor').map(function(m){return m.service.corridor;}),'Todos');
+    var placeIds=[];
+    inspectorFacetModels('locality').forEach(function(model){model.stops.forEach(function(stop){placeIds.push(stop.place_id);});});
     setSelect('inspector-locality',placeIds,'Elegir localidad',placeLabel);
-    models=inspectorModels();
+    companies=unique(inspectorFacetModels('companies').map(function(m){return m.service.company;})).sort(function(a,b){return a.localeCompare(b,'es');});
+    if(state.inspectorAllCompanies)state.inspectorCompanies=new Set(companies);
+    else state.inspectorCompanies=new Set(companies.filter(function(company){return state.inspectorCompanies.has(company);}));
+    state.inspectorAvailableCompanies=companies;renderInspectorCompanies(companies);
+    var models=inspectorFacetModels();
     var lines=unique(models.map(function(m){return m.service.line;})).sort(function(a,b){return a.localeCompare(b,'es');});
     if(state.inspectorAllLines)state.inspectorLines=new Set(lines);
     else state.inspectorLines=new Set(lines.filter(function(line){return state.inspectorLines.has(line);}));
@@ -176,21 +190,24 @@
   }
   function renderInspector(){
     var locality=$('inspector-locality').value,tbody=$('inspector-results');
+    state.inspectorRecords=[];
     if(!locality){$('inspector-count').textContent='0';tbody.innerHTML='<tr><td colspan="6">Elegí la localidad donde se realizará el control.</td></tr>';$('inspector-summary').textContent='Elegí una localidad para preparar el control.';return;}
+    if(!state.inspectorCompanies.size){$('inspector-count').textContent='0';tbody.innerHTML='<tr><td colspan="6">Seleccioná al menos una empresa.</td></tr>';$('inspector-summary').textContent='No hay empresas seleccionadas.';return;}
     if(!state.inspectorLines.size){$('inspector-count').textContent='0';tbody.innerHTML='<tr><td colspan="6">Seleccioná al menos una línea.</td></tr>';$('inspector-summary').textContent='No hay líneas seleccionadas.';return;}
     var records=state.engine.control({
       location:locality,
       corridor:$('inspector-corridor').value,
-      company:$('inspector-company').value,
+      companies:Array.from(state.inspectorCompanies),
       day:$('inspector-day').value,
       lines:Array.from(state.inspectorLines),
       fromMinute:parseTime($('inspector-from').value),
       toMinute:parseTime($('inspector-to').value)
     });
+    state.inspectorRecords=records;
     $('inspector-count').textContent=records.length.toLocaleString('es-AR');
     tbody.innerHTML=records.length?records.slice(0,500).map(inspectionRow).join(''):'<tr><td colspan="6">No hay servicios con horario calculable para esta selección.</td></tr>';
     var base=$('inspector-delegation').value||'Base sin indicar',point=$('inspector-point').value.trim();
-    $('inspector-summary').textContent=base+' · Control en '+placeLabel(locality)+(point?' · '+point:'')+' · '+records.length.toLocaleString('es-AR')+' servicios esperados'+(records.length>500?' (se muestran los primeros 500)':'')+'.';
+    $('inspector-summary').textContent=base+' · Control en '+placeLabel(locality)+(point?' · '+point:'')+' · '+state.inspectorCompanies.size+' empresa'+(state.inspectorCompanies.size===1?'':'s')+' · '+state.inspectorLines.size+' línea'+(state.inspectorLines.size===1?'':'s')+' · '+records.length.toLocaleString('es-AR')+' servicios esperados'+(records.length>500?' (se muestran los primeros 500)':'')+'.';
   }
   function inspectorChanged(){updateInspectorControls();renderInspector();}
   function setMode(mode){
@@ -199,8 +216,69 @@
     $('mode-users').setAttribute('aria-pressed',String(users));$('mode-inspectors').setAttribute('aria-pressed',String(!users));
     $('mode-users').className='mode-button'+(users?' active':'');$('mode-inspectors').className='mode-button'+(!users?' active':'');
     $('page-title').textContent=users?'¿Desde dónde y hasta dónde viajás?':'Prepará un control de horarios';
-    $('page-description').textContent=users?'Consultá salidas publicadas, localidades intermedias y tiempos estimados. Todos los filtros se combinan.':'Elegí la base del equipo, el lugar del operativo y varias líneas para ordenar los servicios que deben pasar.';
+    $('page-description').textContent=users?'Consultá salidas publicadas, localidades intermedias y tiempos estimados. Todos los filtros se combinan.':'Elegí la base, el lugar del operativo y varias empresas y líneas para ordenar los servicios que deben pasar.';
     if(users){if(state.map&&state.map.invalidateSize)state.map.invalidateSize();render();}else{stopAnimation();renderInspector();}
+  }
+  function optionText(id,fallback){var el=$(id),option=el&&el.options[el.selectedIndex];return option&&option.value?option.textContent:fallback;}
+  function exportDate(){return new Intl.DateTimeFormat('es-AR',{dateStyle:'full',timeStyle:'short',timeZone:'America/Argentina/Cordoba'}).format(new Date());}
+  function exportFileDate(){return new Intl.DateTimeFormat('en-CA',{year:'numeric',month:'2-digit',day:'2-digit',timeZone:'America/Argentina/Cordoba'}).format(new Date());}
+  function showExportStatus(mode,message,error){var el=$(mode==='users'?'user-export-status':'inspector-export-status');el.textContent=message||'';el.className='export-status'+(error?' error':'');}
+  function userExportPayload(){
+    var journeys=state.results,origin=optionText('filter-origin','Todas las localidades'),destination=optionText('filter-destination','Todas las localidades');
+    return {
+      title:'Consulta de horarios interurbanos',kind:'Atención a usuarios',count:journeys.length,
+      meta:[['Origen',origin],['Destino',destination],['Corredor',optionText('filter-corridor','Todos')],['Empresa',optionText('filter-company','Todas')],['Línea',optionText('filter-line','Todas')],['Día de subida',optionText('filter-day','Todos')]],
+      columns:['Hora de subida','Trayecto consultado','Empresa y línea','Llegada estimada','Destino final · cartel'],
+      rows:journeys.map(function(j){return [clockText(j.boarding)+(j.estimatedBoarding?' · estimado':' · publicado'),journeyName(j),j.service.company+'\n'+j.service.line,j.arrival===null?'Sin estimación':clockText(j.arrival)+' · '+duration(j.duration),finalDestination(j)];}),
+      imageRows:journeys.map(function(j){return {time:clockText(j.boarding),primary:journeyName(j)+' · '+j.service.company,secondary:j.service.line+' · '+(j.estimatedBoarding?'Paso estimado':'Salida publicada'),tertiary:'Llega '+(j.arrival===null?'sin estimación':clockText(j.arrival))+' · Cartel: '+finalDestination(j)};}),
+      note:'La salida de cabecera proviene del cronograma publicado. Los pasos y llegadas en localidades intermedias son estimados y pueden variar.'
+    };
+  }
+  function inspectorExportPayload(){
+    var locality=$('inspector-locality').value,base=$('inspector-delegation').value||'Sin indicar',point=$('inspector-point').value.trim()||'Sin indicar',records=state.inspectorRecords;
+    return {
+      title:'Planilla de control de horarios',kind:'Control de inspectores',count:records.length,
+      meta:[['Base del equipo',base],['Lugar de control',locality?placeLabel(locality):'Sin indicar'],['Terminal o punto',point],['Corredor',optionText('inspector-corridor','Todos')],['Empresas',Array.from(state.inspectorCompanies).join(', ')||'Ninguna'],['Líneas',Array.from(state.inspectorLines).join(', ')||'Ninguna'],['Día',optionText('inspector-day','Todos')],['Franja',$('inspector-from').value+'–'+$('inspector-to').value]],
+      columns:['Hora de control','Tipo','Empresa y línea','Sentido','Destino final · cartel','Salida publicada'],
+      rows:records.map(function(record){var s=record.service;return [clockText(record.at)+'\n'+record.days.map(function(d){return DAYS[d];}).join(', '),record.publishedAtControl?'Publicado':'Estimado',s.company+'\n'+s.line,DIRECTIONS[s.direction]+' · '+s.modality,placeLabel(record.finalDestination),s.time+' · '+placeLabel(record.origin)];}),
+      imageRows:records.map(function(record){var s=record.service;return {time:clockText(record.at),primary:s.company+' · '+s.line,secondary:(record.publishedAtControl?'Publicado':'Estimado')+' · '+DIRECTIONS[s.direction]+' · '+record.days.map(function(d){return DAYS[d];}).join(', '),tertiary:'Cartel: '+placeLabel(record.finalDestination)+' · Sale '+s.time+' de '+placeLabel(record.origin)};}),
+      note:'Publicado indica una salida en la cabecera. Estimado indica el horario calculado de paso por una localidad intermedia; puede variar y no representa seguimiento en vivo.'
+    };
+  }
+  function exportPayload(mode){return mode==='users'?userExportPayload():inspectorExportPayload();}
+  function validateExport(mode,payload,limit,label){
+    if(!payload.count){showExportStatus(mode,'No hay servicios para exportar con esta selección.',true);return false;}
+    if(payload.count>limit){showExportStatus(mode,'La lista tiene '+payload.count.toLocaleString('es-AR')+' servicios. Aplicá más filtros hasta '+limit+' para generar '+label+'.',true);return false;}
+    return true;
+  }
+  function buildPrintSheet(payload){
+    var meta=payload.meta.map(function(item){return '<div><span>'+esc(item[0])+'</span><strong>'+esc(item[1])+'</strong></div>';}).join('');
+    var head=payload.columns.map(function(column){return '<th>'+esc(column)+'</th>';}).join('');
+    var rows=payload.rows.map(function(row){return '<tr>'+row.map(function(cell){return '<td>'+esc(cell).replace(/\n/g,'<br>')+'</td>';}).join('')+'</tr>';}).join('');
+    $('print-sheet').innerHTML='<header class="print-head"><img class="print-logo" src="assets/logo-ersep.png" alt="ERSeP"><div><h1>'+esc(payload.title)+'</h1><p><strong>'+esc(payload.kind)+'</strong> · Generado el '+esc(exportDate())+'</p><p>'+payload.count.toLocaleString('es-AR')+' servicios incluidos</p></div></header><section class="print-meta">'+meta+'</section><table class="print-table"><thead><tr>'+head+'</tr></thead><tbody>'+rows+'</tbody></table><p class="print-note">'+esc(payload.note)+'</p>';
+  }
+  function printExport(mode){
+    var payload=exportPayload(mode);if(!validateExport(mode,payload,500,'el PDF'))return;
+    buildPrintSheet(payload);showExportStatus(mode,'Se abrió la impresión. Elegí una impresora o “Guardar como PDF”.',false);window.print();
+  }
+  function canvasText(ctx,text,x,y,maxWidth){
+    text=String(text||'');if(ctx.measureText(text).width<=maxWidth){ctx.fillText(text,x,y);return;}
+    while(text.length>1&&ctx.measureText(text+'…').width>maxWidth)text=text.slice(0,-1);
+    ctx.fillText(text+'…',x,y);
+  }
+  function imageExport(mode){
+    var payload=exportPayload(mode);if(!validateExport(mode,payload,50,'la imagen'))return;
+    try{
+      var width=1200,rowHeight=86,metaRows=Math.ceil(payload.meta.length/2),headerHeight=190+metaRows*34,height=headerHeight+payload.imageRows.length*rowHeight+90;
+      var canvas=document.createElement('canvas');canvas.width=width;canvas.height=height;var ctx=canvas.getContext('2d');
+      ctx.fillStyle='#fff';ctx.fillRect(0,0,width,height);var logo=$('export-logo-source');if(logo&&(logo.complete||logo.naturalWidth))ctx.drawImage(logo,35,18,220,146);
+      ctx.fillStyle='#8e1027';ctx.font='700 31px Arial';ctx.fillText(payload.title,285,58);ctx.fillStyle='#222';ctx.font='700 19px Arial';ctx.fillText(payload.kind,285,91);ctx.fillStyle='#555';ctx.font='16px Arial';ctx.fillText('Generado el '+exportDate()+' · '+payload.count.toLocaleString('es-AR')+' servicios',285,121);
+      ctx.fillStyle='#a6192e';ctx.fillRect(35,165,width-70,4);var metaY=196;ctx.font='13px Arial';
+      payload.meta.forEach(function(item,index){var col=index%2,row=Math.floor(index/2),x=35+col*565,y=metaY+row*34;ctx.fillStyle='#777';ctx.font='700 11px Arial';ctx.fillText(item[0].toUpperCase(),x,y);ctx.fillStyle='#222';ctx.font='15px Arial';canvasText(ctx,item[1],x,y+18,535);});
+      var startY=headerHeight;payload.imageRows.forEach(function(row,index){var y=startY+index*rowHeight;ctx.fillStyle=index%2?'#f5f7f8':'#fff';ctx.fillRect(35,y,width-70,rowHeight);ctx.fillStyle='#d4d9dc';ctx.fillRect(35,y+rowHeight-1,width-70,1);ctx.fillStyle='#8e1027';ctx.font='700 24px Arial';ctx.fillText(row.time,52,y+32);ctx.fillStyle='#111';ctx.font='700 16px Arial';canvasText(ctx,row.primary,175,y+25,950);ctx.fillStyle='#46515a';ctx.font='14px Arial';canvasText(ctx,row.secondary,175,y+48,950);ctx.fillStyle='#5d6870';ctx.font='13px Arial';canvasText(ctx,row.tertiary,175,y+69,950);});
+      var noteY=height-58;ctx.fillStyle='#555';ctx.font='13px Arial';canvasText(ctx,payload.note,35,noteY,width-70);
+      var link=document.createElement('a');link.href=canvas.toDataURL('image/png');link.download='ERSeP-'+(mode==='users'?'consulta':'control')+'-'+exportFileDate()+'.png';link.click();showExportStatus(mode,'Imagen descargada con '+payload.count.toLocaleString('es-AR')+' servicios.',false);
+    }catch(error){showExportStatus(mode,'No se pudo generar la imagen en este navegador.',true);}
   }
   function bind(){
     var timer;
@@ -210,12 +288,17 @@
     $('results').addEventListener('click',function(event){var button=event.target.closest('[data-journey]');if(!button)return;var key=button.getAttribute('data-journey');state.focus=state.focus===key?null:key;render();});
     $('journey-detail').addEventListener('click',function(event){if(event.target.closest('#close-journey')){state.focus=null;render();}});
     $('mode-users').addEventListener('click',function(){setMode('users');});$('mode-inspectors').addEventListener('click',function(){setMode('inspectors');});
-    ['inspector-corridor','inspector-company','inspector-locality'].forEach(function(id){$(id).addEventListener('change',inspectorChanged);});
+    ['inspector-corridor','inspector-locality'].forEach(function(id){$(id).addEventListener('change',inspectorChanged);});
     ['inspector-day','inspector-from','inspector-to','inspector-delegation'].forEach(function(id){$(id).addEventListener('change',renderInspector);});
     $('inspector-point').addEventListener('input',renderInspector);
+    $('inspector-companies').addEventListener('change',function(event){var company=event.target.getAttribute('data-inspector-company');if(!company)return;if(event.target.checked)state.inspectorCompanies.add(company);else state.inspectorCompanies.delete(company);state.inspectorAllCompanies=state.inspectorAvailableCompanies.length>0&&state.inspectorAvailableCompanies.every(function(value){return state.inspectorCompanies.has(value);});updateInspectorControls();renderInspector();});
+    $('inspector-companies-all').addEventListener('click',function(){state.inspectorAllCompanies=true;state.inspectorCompanies=new Set(state.inspectorAvailableCompanies);updateInspectorControls();renderInspector();});
+    $('inspector-companies-none').addEventListener('click',function(){state.inspectorAllCompanies=false;state.inspectorCompanies=new Set();updateInspectorControls();renderInspector();});
     $('inspector-lines').addEventListener('change',function(event){var line=event.target.getAttribute('data-inspector-line');if(!line)return;if(event.target.checked)state.inspectorLines.add(line);else state.inspectorLines.delete(line);state.inspectorAllLines=state.inspectorAvailableLines.length>0&&state.inspectorAvailableLines.every(function(value){return state.inspectorLines.has(value);});renderInspector();});
     $('inspector-lines-all').addEventListener('click',function(){state.inspectorAllLines=true;state.inspectorLines=new Set(state.inspectorAvailableLines);renderInspectorLines(state.inspectorAvailableLines);renderInspector();});
     $('inspector-lines-none').addEventListener('click',function(){state.inspectorAllLines=false;state.inspectorLines=new Set();renderInspectorLines(state.inspectorAvailableLines);renderInspector();});
+    $('user-print').addEventListener('click',function(){printExport('users');});$('user-image').addEventListener('click',function(){imageExport('users');});
+    $('inspector-print').addEventListener('click',function(){printExport('inspectors');});$('inspector-image').addEventListener('click',function(){imageExport('inspectors');});
     document.addEventListener('visibilitychange',function(){if(document.hidden)stopAnimation();else renderMap(state.results,state.results.find(function(j){return j.key===state.focus;}));});
   }
   function theme(){
@@ -240,7 +323,7 @@
   theme();
   Promise.all([getJSON('data/horarios.json'),getJSON('data/cabeceras.json'),getJSON('data/recorridos.json').catch(function(){state.routeError=true;return null;})]).then(function(payloads){
     state.data=payloads[0];state.geo=payloads[1];state.routes=payloads[2];
-    if(!R)throw new Error('Falta recorridos.js. Verificá que se hayan subido todos los archivos de la v6.');
+    if(!R)throw new Error('Falta recorridos.js. Verificá que se hayan subido todos los archivos de la v7.');
     if(state.routes && state.routes.schema_version!==1){state.routes=null;state.routeError=true;}
     state.engine=R.create(state.data,state.geo,state.routes);initMap();$('filter-day').value=String(today());$('inspector-day').value=String(today());updateOptions();updateInspectorControls();bind();sourceSummary();render();renderInspector();
   }).catch(function(error){$('results').innerHTML='<div class="empty-state"><strong>No se pudo cargar la información.</strong><p>'+esc(error.message)+'</p></div>';$('updated-date').textContent='Error de carga';});
