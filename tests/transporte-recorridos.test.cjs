@@ -119,6 +119,12 @@ test('el control permite combinar varias líneas de una empresa y corredor',()=>
   const one=engine.control({location,corridor,company,lines:[lines[0]]}),two=engine.control({location,corridor,company,lines:[lines[1]]}),both=engine.control({location,corridor,company,lines});
   assert.ok(one.length&&two.length);assert.deepEqual(new Set(both.map(r=>r.key)),new Set(one.concat(two).map(r=>r.key)));
 });
+test('el control permite combinar varias empresas en una localidad',()=>{
+  const location='loc-1177',companies=['EDER SERVICIO DIFERENCIAL','INTERCORDOBA S.A.'];
+  const one=engine.control({location,companies:[companies[0]]}),two=engine.control({location,companies:[companies[1]]}),both=engine.control({location,companies});
+  assert.ok(one.length&&two.length);assert.deepEqual(new Set(both.map(r=>r.key)),new Set(one.concat(two).map(r=>r.key)));
+  assert.deepEqual(new Set(both.map(r=>r.service.company)),new Set(companies));
+});
 test('el control filtra por día de paso y franja horaria',()=>{
   const records=engine.control({location:'loc-1177',company:'EDER SERVICIO DIFERENCIAL',lines:['CÓRDOBA - LA GRANJA'],day:1,fromMinute:8*60,toMinute:9*60});
   assert.ok(records.length);assert.ok(records.every(r=>r.days.includes(1)&&r.minute>=480&&r.minute<=540));
