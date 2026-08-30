@@ -11,7 +11,7 @@
     } catch (error) {}
   </script>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-  <link rel="stylesheet" href="transporte.css?v=5">
+  <link rel="stylesheet" href="transporte.css?v=7">
 </head>
 
 <body>
@@ -52,12 +52,14 @@
   <main class="transport-shell">
     <nav class="mode-switch" aria-label="Modo de trabajo">
       <button id="mode-users" class="mode-button active" type="button" aria-pressed="true">
-        <strong>Atención a usuarios</strong>
-        <span>Buscar quién viaja, a qué hora pasa y cuál es el cartel del colectivo.</span>
+        <span class="mode-badge" aria-hidden="true">AU</span>
+        <span class="mode-copy"><small>CONSULTAS</small><strong>Atención a usuarios</strong>
+        <span>Buscar quién viaja, a qué hora pasa y cuál es el cartel del colectivo.</span></span>
       </button>
       <button id="mode-inspectors" class="mode-button" type="button" aria-pressed="false">
-        <strong>Control de inspectores</strong>
-        <span>Preparar controles de varias líneas desde una delegación u operativo móvil.</span>
+        <span class="mode-badge" aria-hidden="true">CI</span>
+        <span class="mode-copy"><small>OPERATIVOS</small><strong>Control de inspectores</strong>
+        <span>Combinar empresas y líneas desde una delegación u operativo móvil.</span></span>
       </button>
     </nav>
 
@@ -84,6 +86,15 @@
       <article><span>Líneas</span><strong id="kpi-lines">—</strong></article>
       <article><span>Empresas</span><strong id="kpi-companies">—</strong></article>
       <article><span>Localidades en mapa</span><strong id="kpi-mapped">—</strong></article>
+    </section>
+
+    <section class="export-bar" aria-label="Exportar consulta de atención a usuarios">
+      <div><strong>Guardar o compartir esta consulta</strong><span>El archivo incluirá únicamente los resultados filtrados en pantalla.</span></div>
+      <div class="export-actions">
+        <button id="user-print" class="export-button" type="button">Imprimir / guardar PDF</button>
+        <button id="user-image" class="export-button image" type="button">Descargar imagen PNG</button>
+      </div>
+      <p id="user-export-status" class="export-status" role="status"></p>
     </section>
 
     <section class="workspace">
@@ -129,18 +140,34 @@
         <label><span>Localidad de control</span><select id="inspector-locality"><option value="">Elegir localidad</option></select></label>
         <label class="point-field"><span>Terminal o punto específico · opcional</span><input id="inspector-point" type="text" placeholder="Ej.: Terminal, RP 5 km 24…"></label>
         <label><span>Corredor</span><select id="inspector-corridor"><option value="">Todos</option></select></label>
-        <label><span>Empresa</span><select id="inspector-company"><option value="">Todas</option></select></label>
         <label><span>Día del control</span><select id="inspector-day"><option value="">Todos</option><option value="1">Lunes</option><option value="2">Martes</option><option value="3">Miércoles</option><option value="4">Jueves</option><option value="5">Viernes</option><option value="6">Sábado</option><option value="7">Domingo</option></select></label>
         <label><span>Desde</span><input id="inspector-from" type="time" value="00:00"></label>
         <label><span>Hasta</span><input id="inspector-to" type="time" value="23:59"></label>
       </section>
 
-      <section class="line-selector" aria-labelledby="line-selector-title">
+      <section class="multi-selector company-selector" aria-labelledby="company-selector-title">
+        <header>
+          <div><span class="eyebrow">Selección múltiple y acumulativa</span><h4 id="company-selector-title">Empresas incluidas</h4></div>
+          <div><button id="inspector-companies-all" class="mini-button" type="button">Seleccionar todas</button><button id="inspector-companies-none" class="mini-button" type="button">Quitar todas</button></div>
+        </header>
+        <div id="inspector-companies" class="company-options"></div>
+      </section>
+
+      <section class="multi-selector line-selector" aria-labelledby="line-selector-title">
         <header>
           <div><span class="eyebrow">Selección múltiple</span><h4 id="line-selector-title">Líneas incluidas</h4></div>
           <div><button id="inspector-lines-all" class="mini-button" type="button">Seleccionar todas</button><button id="inspector-lines-none" class="mini-button" type="button">Quitar todas</button></div>
         </header>
         <div id="inspector-lines" class="line-options"></div>
+      </section>
+
+      <section class="export-bar inspector-export" aria-label="Exportar planilla del operativo">
+        <div><strong>Guardar planilla del operativo</strong><span>Incluye base, punto de control, empresas, líneas y horas de paso.</span></div>
+        <div class="export-actions">
+          <button id="inspector-print" class="export-button" type="button">Imprimir / guardar PDF</button>
+          <button id="inspector-image" class="export-button image" type="button">Descargar imagen PNG</button>
+        </div>
+        <p id="inspector-export-status" class="export-status" role="status"></p>
       </section>
 
       <section class="inspection-results" aria-labelledby="inspection-results-title">
@@ -158,8 +185,11 @@
   <footer>Demo personal · Lea Rama Dev · Datos de cronogramas oficiales de transporte</footer>
 </div>
 
+<img id="export-logo-source" class="export-logo-source" src="assets/logo-ersep.png" alt="" hidden>
+<section id="print-sheet" class="print-sheet" aria-hidden="true"></section>
+
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script defer src="recorridos.js?v=5"></script>
-<script defer src="transporte.js?v=5"></script>
+<script defer src="recorridos.js?v=7"></script>
+<script defer src="transporte.js?v=7"></script>
 </body>
 </html>
