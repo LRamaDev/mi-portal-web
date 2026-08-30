@@ -4,7 +4,7 @@
   var DAYS = { '1':'Lunes', '2':'Martes', '3':'Miércoles', '4':'Jueves', '5':'Viernes', '6':'Sábado', '7':'Domingo' };
   var DIRECTIONS = { I:'Ida', V:'Vuelta' };
   var FIELDS = ['origin','destination','corridor','line','direction','day','company','modality'];
-  var state = { data:null, geo:null, routes:null, engine:null, map:null, layer:null, focus:null, animationId:null, results:[], routeError:false };
+  var state = { data:null, geo:null, routes:null, engine:null, map:null, layer:null, focus:null, animationId:null, results:[], routeError:false, mode:'users', inspectorLines:new Set(), inspectorAvailableLines:[], inspectorAllLines:true };
   var $ = function (id) { return document.getElementById(id); };
   var esc = function (value) { return String(value == null ? '' : value).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); };
   var unique = function (xs) { return Array.from(new Set(xs)); };
@@ -18,6 +18,9 @@
   function placeLabel(id) { return state.engine.label(id); }
   function journeyName(j) { return placeLabel(j.origin)+' → '+placeLabel(j.destination); }
   function fullName(j) { var stops=j.model.stops; return placeLabel(stops[0].place_id)+' → '+placeLabel(stops[stops.length-1].place_id); }
+  function serviceOrigin(j) { return placeLabel(j.model.stops[0].place_id); }
+  function finalDestination(j) { return placeLabel(j.model.stops[j.model.stops.length-1].place_id); }
+  function parseTime(value) { if(!/^\d{2}:\d{2}$/.test(value||''))return null;var p=value.split(':').map(Number);return p[0]*60+p[1]; }
   function updateOptions() {
     var f=filters(), first={origin:'Todas las localidades',destination:'Todas las localidades',corridor:'Todos',line:'Todas',direction:'Ambos',day:'Todos',company:'Todas',modality:'Todas'};
     FIELDS.forEach(function (field) {
@@ -77,22 +80,27 @@
       $('map-status').textContent='Elegí un resultado para ver su secuencia. Al iniciar solo se muestran localidades.';
       return;
     }
-    var coordinates=state.engine.coordinates(active),color=COLORS[active.service.corridor]||COLORS.MIXED,points=[],bounds=[],selectedMissing=0,totalMissing=0;
+    var coordinates=state.engine.coordinates(active),color=COLORS[active.service.corridor]||COLORS.MIXED,points=[],bounds=[],selectedMissing=0,totalMissing=0,previousLocated=null,selectedBridge=false;
     coordinates.forEach(function(p,i){
       if(!p){totalMissing++;if(i>=active.from && i<=active.to)selectedMissing++;return;}
       bounds.push([p.lat,p.lon]);
       var stop=active.model.stops[i],n=i===active.from?active.boarding:i===0?active.service.minutes:active.service.minutes+stop.arrival_offset;
       var label=(i===active.from?'Subida · ':i===active.to?'Bajada · ':'Paso '+(i+1)+' · ')+(Number.isFinite(stop.arrival_offset)?clockText(n)+(i===0?' · salida PDF':' · estimado'):'sin estimación');
       marker(p,color,label,i===active.from||i===active.to);
-      if(i===0 || !coordinates[i-1])return;
-      var selected=i>active.from && i<=active.to,segment=curve(coordinates[i-1],p);
-      L.polyline(segment,{color:color,weight:selected?4:2,opacity:selected ? .85 : .3,dashArray:selected?'4 8':'3 8'}).addTo(state.layer);
-      if(selected)points=points.concat(points.length?segment.slice(1):segment);
+      if(previousLocated!==null){
+        var previous=coordinates[previousLocated],selected=previousLocated>=active.from&&i<=active.to,gap=i-previousLocated>1,segment=curve(previous,p);
+        L.polyline(segment,{color:color,weight:selected?4:2,opacity:selected?.85:.3,dashArray:gap?'2 12':selected?'4 8':'3 8',className:gap?'schematic-bridge':''}).addTo(state.layer);
+        if(selected){points=points.concat(points.length?segment.slice(1):segment);if(gap)selectedBridge=true;}
+      }
+      previousLocated=i;
     });
-    // No saltar por encima de localidades sin ubicar: el trazado se interrumpe allí.
-    if(!selectedMissing)startArrow(points,color);
+    var endpointsLocated=Boolean(coordinates[active.from]&&coordinates[active.to]);
+    if(endpointsLocated)startArrow(points,color);
     if(bounds.length)state.map.fitBounds(bounds,{padding:[40,40],maxZoom:12});
-    $('map-status').textContent=totalMissing ? 'Mapa parcial: '+totalMissing+' localidades sin coordenadas; sus tramos no se dibujan.'+(selectedMissing?' La flecha se pausa porque tu tramo tiene puntos pendientes.':'') : active.model.profile ? 'Recorrido en orden. Tu tramo aparece destacado; la flecha no representa un vehículo en vivo.' : 'Solo cabeceras: el detalle intermedio de esta variante todavía está pendiente.';
+    if(!endpointsLocated)$('map-status').textContent='No se puede ubicar la flecha porque el origen o el destino seleccionado todavía no tiene coordenadas.';
+    else if(selectedBridge)$('map-status').textContent='Mapa esquemático: '+selectedMissing+' localidades intermedias sin coordenadas se señalan mediante conectores punteados. La flecha orienta el recorrido; no representa calles ni un vehículo en vivo.';
+    else if(totalMissing)$('map-status').textContent='Tu tramo está ubicado y puede animarse. El recorrido completo contiene '+totalMissing+' localidades pendientes fuera del tramo seleccionado.';
+    else $('map-status').textContent=active.model.profile?'Recorrido en orden. Tu tramo aparece destacado; la flecha no representa un vehículo en vivo.':'Solo cabeceras: la flecha une los puntos disponibles; el detalle intermedio de esta variante todavía está pendiente.';
   }
   function serviceHTML(j){
     var s=j.service,active=state.focus===j.key,days=j.days.map(function(d){return DAYS[d];}).join(', ');
@@ -100,7 +108,7 @@
       '<span class="service-time"><b>'+clockHTML(j.boarding)+'</b><small>'+ (j.estimatedBoarding?'Paso estimado':'Salida PDF')+'</small></span><span class="service-copy">'+
       '<strong>'+esc(journeyName(j))+'</strong><small>'+esc(s.company)+' · <b>'+esc(DIRECTIONS[s.direction])+'</b><br>'+esc(days)+'</small>'+
       '<span class="trip-timing">Llegada: '+(j.arrival===null?'sin estimación':clockHTML(j.arrival)+' · estimada')+(j.duration!==null?' · '+esc(duration(j.duration)):'')+'</span>'+
-      '<small class="published-source">Salida publicada: '+esc(s.time)+' · '+esc(placeLabel(j.model.stops[0].place_id))+'</small>'+
+      '<small class="published-source">Salida publicada: '+esc(s.time)+' · '+esc(serviceOrigin(j))+'</small><small class="final-destination">Destino final · cartel: '+esc(finalDestination(j))+'</small>'+
       '<span class="service-tags"><span>'+esc(s.modality)+'</span>'+(s.route?'<span class="route-tag">'+esc(s.route)+'</span>':'')+'<span class="'+(j.model.profile?'':'pending-tag')+'">'+(j.model.profile?j.model.stops.length+' localidades':'Intermedias pendientes')+'</span></span></span></button>';
   }
   function renderDetails(j){
@@ -115,11 +123,11 @@
     }).join('');
     el.innerHTML='<header><div><span class="eyebrow">Tu tramo · '+esc(DIRECTIONS[s.direction])+'</span><h3>'+esc(journeyName(j))+'</h3></div><button id="close-journey" type="button" class="reset-button" aria-label="Cerrar recorrido seleccionado">Cerrar</button></header>'+
       '<div class="journey-summary"><div><span>Subida '+(j.estimatedBoarding?'estimada':'publicada')+'</span><strong>'+clockHTML(j.boarding)+'</strong></div><div><span>Bajada estimada</span><strong>'+clockHTML(j.arrival)+'</strong></div><div><span>Tiempo estimado</span><strong>'+esc(duration(j.duration))+'</strong></div></div>'+
-      '<p class="journey-description">'+esc(s.company)+' · '+esc(s.modality)+'<br>Recorrido completo: '+esc(fullName(j))+'</p>'+
+      '<p class="journey-description">'+esc(s.company)+' · '+esc(s.modality)+'<br>Recorrido completo: '+esc(fullName(j))+'<br><strong>Destino final · cartel: '+esc(finalDestination(j))+'</strong></p>'+
       (!p?'<p class="review-warning">No hay un recorrido intermedio vinculado con suficiente certeza para esta variante. Se conserva la salida publicada; no se calculan horas de llegada.</p>':'<p class="estimate-note">Los pasos se estiman sumando las demoras del recorrido a la salida del PDF. Pueden variar. La animación no mide la velocidad real.</p>')+
       '<ol class="stops-list">'+timeline+'</ol>'+
       (p&&p.notes.length?'<div class="review-warning"><strong>Observaciones de la base · para revisión</strong><ul>'+p.notes.map(function(n){return '<li>'+esc(n)+'</li>';}).join('')+'</ul><p>Se conservan como anotaciones, no se aplican automáticamente como restricciones de subida o bajada.</p></div>':'')+
-      '<details class="source-details"><summary>Fuentes y referencia de salida</summary><p><strong>Salida PDF:</strong> '+esc(s.time)+' de '+esc(placeLabel(j.model.stops[0].place_id))+'. '+esc(s.service_days_text)+'.</p><p>'+esc(s.source_file)+' · página '+esc(s.source_page)+'</p>'+(p?'<p>Recorrido: '+esc(state.routes.source.filename)+' · hoja '+esc(p.source_sheet)+' · filas '+p.source_rows[0]+'–'+p.source_rows[p.source_rows.length-1]+'. La hora base del Excel no se utiliza como salida vigente.</p>':'')+'</details>';
+      '<details class="source-details"><summary>Fuentes y referencia de salida</summary><p><strong>Salida PDF:</strong> '+esc(s.time)+' de '+esc(serviceOrigin(j))+' · <strong>Destino final:</strong> '+esc(finalDestination(j))+'. '+esc(s.service_days_text)+'.</p><p>'+esc(s.source_file)+' · página '+esc(s.source_page)+'</p>'+(p?'<p>Recorrido: '+esc(state.routes.source.filename)+' · hoja '+esc(p.source_sheet)+' · filas '+p.source_rows[0]+'–'+p.source_rows[p.source_rows.length-1]+'. La hora base del Excel no se utiliza como salida vigente.</p>':'')+'</details>';
   }
   function render(){
     var journeys=state.engine.query(filters());state.results=journeys;
@@ -132,6 +140,68 @@
     renderMap(journeys,active);renderDetails(active);
   }
   function changed(){state.focus=null;updateOptions();render();}
+  function setSelect(id,values,first,labeler){
+    var el=$(id),old=el.value;
+    values=unique(values).sort(function(a,b){return (labeler?labeler(a):a).localeCompare(labeler?labeler(b):b,'es');});
+    el.innerHTML='<option value="">'+first+'</option>'+values.map(function(v){return '<option value="'+esc(v)+'">'+esc(labeler?labeler(v):v)+'</option>';}).join('');
+    el.value=values.indexOf(old)!==-1?old:'';
+  }
+  function inspectorModels(ignoreLocation){
+    var corridor=$('inspector-corridor').value,company=$('inspector-company').value,location=$('inspector-locality').value;
+    return state.engine.models.filter(function(model){
+      return (!corridor||model.service.corridor===corridor)&&(!company||model.service.company===company)&&(ignoreLocation||!location||model.stops.some(function(stop){return stop.place_id===location;}));
+    });
+  }
+  function renderInspectorLines(lines){
+    $('inspector-lines').innerHTML=lines.length?lines.map(function(line){return '<label class="line-option"><input type="checkbox" data-inspector-line="'+esc(line)+'" '+(state.inspectorLines.has(line)?'checked':'')+'><span>'+esc(line)+'</span></label>';}).join(''):'<div class="line-empty">No hay líneas para esta combinación.</div>';
+  }
+  function updateInspectorControls(){
+    var all=state.engine.models,corridor=$('inspector-corridor').value,company=$('inspector-company').value;
+    setSelect('inspector-corridor',all.filter(function(m){return !company||m.service.company===company;}).map(function(m){return m.service.corridor;}),'Todos');
+    corridor=$('inspector-corridor').value;
+    setSelect('inspector-company',all.filter(function(m){return !corridor||m.service.corridor===corridor;}).map(function(m){return m.service.company;}),'Todas');
+    var models=inspectorModels(true),placeIds=[];
+    models.forEach(function(model){model.stops.forEach(function(stop){placeIds.push(stop.place_id);});});
+    setSelect('inspector-locality',placeIds,'Elegir localidad',placeLabel);
+    models=inspectorModels();
+    var lines=unique(models.map(function(m){return m.service.line;})).sort(function(a,b){return a.localeCompare(b,'es');});
+    if(state.inspectorAllLines)state.inspectorLines=new Set(lines);
+    else state.inspectorLines=new Set(lines.filter(function(line){return state.inspectorLines.has(line);}));
+    state.inspectorAvailableLines=lines;
+    renderInspectorLines(lines);
+  }
+  function inspectionRow(record){
+    var s=record.service,kind=record.publishedAtControl?'Publicado':'Estimado';
+    return '<tr><td><strong class="inspection-time">'+clockHTML(record.at)+'</strong><small>'+esc(record.days.map(function(d){return DAYS[d];}).join(', '))+'</small></td><td><span class="time-kind '+(record.publishedAtControl?'published':'')+'">'+kind+'</span></td><td><strong>'+esc(s.company)+'</strong><small>'+esc(s.line)+'</small></td><td>'+esc(DIRECTIONS[s.direction])+'<small>'+esc(s.modality)+'</small></td><td><strong>'+esc(placeLabel(record.finalDestination))+'</strong><small>Cartel del colectivo</small></td><td><strong>'+esc(s.time)+' · '+esc(placeLabel(record.origin))+'</strong><small>'+esc(s.source_file)+' · pág. '+esc(s.source_page)+'</small></td></tr>';
+  }
+  function renderInspector(){
+    var locality=$('inspector-locality').value,tbody=$('inspector-results');
+    if(!locality){$('inspector-count').textContent='0';tbody.innerHTML='<tr><td colspan="6">Elegí la localidad donde se realizará el control.</td></tr>';$('inspector-summary').textContent='Elegí una localidad para preparar el control.';return;}
+    if(!state.inspectorLines.size){$('inspector-count').textContent='0';tbody.innerHTML='<tr><td colspan="6">Seleccioná al menos una línea.</td></tr>';$('inspector-summary').textContent='No hay líneas seleccionadas.';return;}
+    var records=state.engine.control({
+      location:locality,
+      corridor:$('inspector-corridor').value,
+      company:$('inspector-company').value,
+      day:$('inspector-day').value,
+      lines:Array.from(state.inspectorLines),
+      fromMinute:parseTime($('inspector-from').value),
+      toMinute:parseTime($('inspector-to').value)
+    });
+    $('inspector-count').textContent=records.length.toLocaleString('es-AR');
+    tbody.innerHTML=records.length?records.slice(0,500).map(inspectionRow).join(''):'<tr><td colspan="6">No hay servicios con horario calculable para esta selección.</td></tr>';
+    var base=$('inspector-delegation').value||'Base sin indicar',point=$('inspector-point').value.trim();
+    $('inspector-summary').textContent=base+' · Control en '+placeLabel(locality)+(point?' · '+point:'')+' · '+records.length.toLocaleString('es-AR')+' servicios esperados'+(records.length>500?' (se muestran los primeros 500)':'')+'.';
+  }
+  function inspectorChanged(){updateInspectorControls();renderInspector();}
+  function setMode(mode){
+    state.mode=mode;var users=mode==='users';
+    $('user-mode-panel').hidden=!users;$('inspector-mode-panel').hidden=users;
+    $('mode-users').setAttribute('aria-pressed',String(users));$('mode-inspectors').setAttribute('aria-pressed',String(!users));
+    $('mode-users').className='mode-button'+(users?' active':'');$('mode-inspectors').className='mode-button'+(!users?' active':'');
+    $('page-title').textContent=users?'¿Desde dónde y hasta dónde viajás?':'Prepará un control de horarios';
+    $('page-description').textContent=users?'Consultá salidas publicadas, localidades intermedias y tiempos estimados. Todos los filtros se combinan.':'Elegí la base del equipo, el lugar del operativo y varias líneas para ordenar los servicios que deben pasar.';
+    if(users){if(state.map&&state.map.invalidateSize)state.map.invalidateSize();render();}else{stopAnimation();renderInspector();}
+  }
   function bind(){
     var timer;
     $('filter-search').addEventListener('input',function(){clearTimeout(timer);timer=setTimeout(changed,160);});
@@ -139,6 +209,13 @@
     $('reset-filters').addEventListener('click',function(){clearTimeout(timer);$('filter-search').value='';FIELDS.forEach(function(f){$('filter-'+f).value='';});$('filter-day').value=String(today());changed();});
     $('results').addEventListener('click',function(event){var button=event.target.closest('[data-journey]');if(!button)return;var key=button.getAttribute('data-journey');state.focus=state.focus===key?null:key;render();});
     $('journey-detail').addEventListener('click',function(event){if(event.target.closest('#close-journey')){state.focus=null;render();}});
+    $('mode-users').addEventListener('click',function(){setMode('users');});$('mode-inspectors').addEventListener('click',function(){setMode('inspectors');});
+    ['inspector-corridor','inspector-company','inspector-locality'].forEach(function(id){$(id).addEventListener('change',inspectorChanged);});
+    ['inspector-day','inspector-from','inspector-to','inspector-delegation'].forEach(function(id){$(id).addEventListener('change',renderInspector);});
+    $('inspector-point').addEventListener('input',renderInspector);
+    $('inspector-lines').addEventListener('change',function(event){var line=event.target.getAttribute('data-inspector-line');if(!line)return;if(event.target.checked)state.inspectorLines.add(line);else state.inspectorLines.delete(line);state.inspectorAllLines=state.inspectorAvailableLines.length>0&&state.inspectorAvailableLines.every(function(value){return state.inspectorLines.has(value);});renderInspector();});
+    $('inspector-lines-all').addEventListener('click',function(){state.inspectorAllLines=true;state.inspectorLines=new Set(state.inspectorAvailableLines);renderInspectorLines(state.inspectorAvailableLines);renderInspector();});
+    $('inspector-lines-none').addEventListener('click',function(){state.inspectorAllLines=false;state.inspectorLines=new Set();renderInspectorLines(state.inspectorAvailableLines);renderInspector();});
     document.addEventListener('visibilitychange',function(){if(document.hidden)stopAnimation();else renderMap(state.results,state.results.find(function(j){return j.key===state.focus;}));});
   }
   function theme(){
@@ -163,8 +240,8 @@
   theme();
   Promise.all([getJSON('data/horarios.json'),getJSON('data/cabeceras.json'),getJSON('data/recorridos.json').catch(function(){state.routeError=true;return null;})]).then(function(payloads){
     state.data=payloads[0];state.geo=payloads[1];state.routes=payloads[2];
-    if(!R)throw new Error('Falta recorridos.js. Verificá que se hayan subido todos los archivos de la v5.');
+    if(!R)throw new Error('Falta recorridos.js. Verificá que se hayan subido todos los archivos de la v6.');
     if(state.routes && state.routes.schema_version!==1){state.routes=null;state.routeError=true;}
-    state.engine=R.create(state.data,state.geo,state.routes);initMap();$('filter-day').value=String(today());updateOptions();bind();sourceSummary();render();
+    state.engine=R.create(state.data,state.geo,state.routes);initMap();$('filter-day').value=String(today());$('inspector-day').value=String(today());updateOptions();updateInspectorControls();bind();sourceSummary();render();renderInspector();
   }).catch(function(error){$('results').innerHTML='<div class="empty-state"><strong>No se pudo cargar la información.</strong><p>'+esc(error.message)+'</p></div>';$('updated-date').textContent='Error de carga';});
 }());

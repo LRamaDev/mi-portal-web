@@ -40,7 +40,7 @@
     <div>
       <span class="eyebrow">Transporte interurbano · Provincia de Córdoba</span>
       <h2 id="page-title">¿Desde dónde y hasta dónde viajás?</h2>
-      <p>Consultá salidas publicadas, localidades intermedias y tiempos estimados. Todos los filtros se combinan.</p>
+      <p id="page-description">Consultá salidas publicadas, localidades intermedias y tiempos estimados. Todos los filtros se combinan.</p>
     </div>
     <div class="update-card" aria-live="polite">
       <span>Última publicación procesada</span>
@@ -50,6 +50,18 @@
   </section>
 
   <main class="transport-shell">
+    <nav class="mode-switch" aria-label="Modo de trabajo">
+      <button id="mode-users" class="mode-button active" type="button" aria-pressed="true">
+        <strong>Atención a usuarios</strong>
+        <span>Buscar quién viaja, a qué hora pasa y cuál es el cartel del colectivo.</span>
+      </button>
+      <button id="mode-inspectors" class="mode-button" type="button" aria-pressed="false">
+        <strong>Control de inspectores</strong>
+        <span>Preparar controles de varias líneas desde una delegación u operativo móvil.</span>
+      </button>
+    </nav>
+
+    <section id="user-mode-panel" aria-label="Consulta para atención a usuarios">
     <section class="journey-filters" aria-label="Localidades del viaje">
       <label><span>Origen · dónde subís</span><select id="filter-origin"><option value="">Todas las localidades</option></select></label>
       <label><span>Destino · dónde bajás</span><select id="filter-destination"><option value="">Todas las localidades</option></select></label>
@@ -93,6 +105,53 @@
     <section class="data-note">
       <div><strong>Dos fuentes, funciones distintas</strong><p>PDF semanales: salidas y días de prestación. Excel orientativo: localidades y tiempos entre ellas. Ida y Vuelta conservan sus propias secuencias. Las estimaciones no son seguimiento en vivo ni incorporan una tolerancia de retraso.</p></div>
       <div id="quality-note" class="quality-note"></div>
+    </section>
+    </section>
+
+    <section id="inspector-mode-panel" class="inspector-panel" aria-label="Planificación del control de inspectores" hidden>
+      <div class="inspector-intro">
+        <div>
+          <span class="eyebrow">Planilla operativa</span>
+          <h3>¿Qué servicios deben pasar por el lugar de control?</h3>
+          <p>La delegación identifica al equipo. La localidad y el punto específico indican dónde se realiza el operativo.</p>
+        </div>
+        <div id="inspector-summary" class="inspector-summary">Elegí una localidad para preparar el control.</div>
+      </div>
+
+      <section class="inspector-filters" aria-label="Datos del operativo">
+        <label><span>Base del equipo</span><select id="inspector-delegation">
+          <option value="">Sin indicar</option>
+          <option>Córdoba</option><option>Río Cuarto</option><option>Villa María</option>
+          <option>San Francisco</option><option>Villa Dolores</option><option>Villa Carlos Paz</option>
+          <option>Cruz del Eje</option><option>Jesús María</option><option>Cosquín</option>
+          <option>Operativo móvil</option>
+        </select></label>
+        <label><span>Localidad de control</span><select id="inspector-locality"><option value="">Elegir localidad</option></select></label>
+        <label class="point-field"><span>Terminal o punto específico · opcional</span><input id="inspector-point" type="text" placeholder="Ej.: Terminal, RP 5 km 24…"></label>
+        <label><span>Corredor</span><select id="inspector-corridor"><option value="">Todos</option></select></label>
+        <label><span>Empresa</span><select id="inspector-company"><option value="">Todas</option></select></label>
+        <label><span>Día del control</span><select id="inspector-day"><option value="">Todos</option><option value="1">Lunes</option><option value="2">Martes</option><option value="3">Miércoles</option><option value="4">Jueves</option><option value="5">Viernes</option><option value="6">Sábado</option><option value="7">Domingo</option></select></label>
+        <label><span>Desde</span><input id="inspector-from" type="time" value="00:00"></label>
+        <label><span>Hasta</span><input id="inspector-to" type="time" value="23:59"></label>
+      </section>
+
+      <section class="line-selector" aria-labelledby="line-selector-title">
+        <header>
+          <div><span class="eyebrow">Selección múltiple</span><h4 id="line-selector-title">Líneas incluidas</h4></div>
+          <div><button id="inspector-lines-all" class="mini-button" type="button">Seleccionar todas</button><button id="inspector-lines-none" class="mini-button" type="button">Quitar todas</button></div>
+        </header>
+        <div id="inspector-lines" class="line-options"></div>
+      </section>
+
+      <section class="inspection-results" aria-labelledby="inspection-results-title">
+        <header><div><span class="eyebrow">Servicios esperados</span><h3 id="inspection-results-title">Horarios en el punto de control</h3></div><span id="inspector-count" class="result-count">0</span></header>
+        <div class="inspection-table-wrap"><table class="inspection-table">
+          <thead><tr><th>Hora de control</th><th>Tipo</th><th>Empresa y línea</th><th>Sentido</th><th>Destino final · cartel</th><th>Salida publicada</th></tr></thead>
+          <tbody id="inspector-results"><tr><td colspan="6">Elegí la localidad del operativo.</td></tr></tbody>
+        </table></div>
+      </section>
+
+      <p class="inspector-legal-note"><strong>Importante:</strong> la salida de cabecera proviene del PDF publicado. El paso por una localidad intermedia es estimado y debe identificarse como tal durante el control.</p>
     </section>
   </main>
 
