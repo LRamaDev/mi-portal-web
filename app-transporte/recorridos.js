@@ -122,7 +122,48 @@
     function coordinates(journey) {
       return journey.model.stops.map(function (s) { var p = places[s.place_id]; return Number.isFinite(p.lat) && Number.isFinite(p.lon) ? p : null; });
     }
-    return { models: models, places: places, label: label, query: query, facet: facet, coordinates: coordinates, modelById: byId, makeJourney: makeJourney, coverage: { total: models.length, linked: models.filter(function (m) { return m.profile; }).length } };
+    function control(filters) {
+      filters = filters || {};
+      if (!filters.location) return [];
+      var lines = new Set(filters.lines || []), found = [];
+      var fromMinute = Number.isFinite(filters.fromMinute) ? filters.fromMinute : null;
+      var toMinute = Number.isFinite(filters.toMinute) ? filters.toMinute : null;
+      function inWindow(minute) {
+        if (fromMinute === null || toMinute === null) return true;
+        return fromMinute <= toMinute ? minute >= fromMinute && minute <= toMinute : minute >= fromMinute || minute <= toMinute;
+      }
+      models.forEach(function (model) {
+        var s = model.service;
+        if (filters.corridor && s.corridor !== filters.corridor) return;
+        if (filters.company && s.company !== filters.company) return;
+        if (lines.size && !lines.has(s.line)) return;
+        model.stops.forEach(function (stop, index) {
+          if (stop.place_id !== filters.location) return;
+          var offset = index === 0 ? 0 : stop.arrival_offset;
+          if (!Number.isFinite(offset)) return;
+          var at = s.minutes + offset, shift = Math.floor(at / 1440);
+          var days = Array.from(new Set(s.service_days.map(function (day) { return ((day - 1 + shift) % 7 + 7) % 7 + 1; }))).sort();
+          if (filters.day && days.indexOf(Number(filters.day)) === -1) return;
+          var minute = ((at % 1440) + 1440) % 1440;
+          if (!inWindow(minute)) return;
+          found.push({
+            key: s.id + '@control-' + index,
+            model: model,
+            service: s,
+            stopIndex: index,
+            location: stop.place_id,
+            at: at,
+            minute: minute,
+            days: days,
+            publishedAtControl: index === 0,
+            origin: model.stops[0].place_id,
+            finalDestination: model.stops[model.stops.length - 1].place_id
+          });
+        });
+      });
+      return found.sort(function (a, b) { return a.minute - b.minute || a.service.company.localeCompare(b.service.company, 'es') || a.service.line.localeCompare(b.service.line, 'es') || a.key.localeCompare(b.key); });
+    }
+    return { models: models, places: places, label: label, query: query, facet: facet, control: control, coordinates: coordinates, modelById: byId, makeJourney: makeJourney, coverage: { total: models.length, linked: models.filter(function (m) { return m.profile; }).length } };
   }
   return { create: create, normalize: normalize, signature: signature, clock: clock, validProfile: validProfile };
 }));

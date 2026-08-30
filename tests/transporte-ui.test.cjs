@@ -42,6 +42,22 @@ function setTrip(ui){
   const key=service.id+'@1-2';
   e.results.fire('click',{target:{closest(){return {getAttribute(){return key;}};}}});
 }
+function setFullTrip(ui){
+  const {elements:e}=ui;
+  for(const [key,value] of Object.entries({company:'EDER SERVICIO DIFERENCIAL',line:'CÓRDOBA - LA GRANJA',origin:'loc-1',destination:'loc-1219',day:'1'}))e['filter-'+key].value=value;
+  e['filter-day'].fire('change');
+  const service=ui.responses['data/horarios.json'].services.find(s=>s.line==='CÓRDOBA - LA GRANJA'&&s.company==='EDER SERVICIO DIFERENCIAL'&&s.time==='07:40'&&s.direction==='I');
+  const key=service.id+'@0-3';
+  e.results.fire('click',{target:{closest(){return {getAttribute(){return key;}};}}});
+}
+function setFaldaToCordoba(ui){
+  const {elements:e}=ui;
+  for(const [key,value] of Object.entries({company:'EMPRESA SARMIENTO S.R.L.',line:'CÓRDOBA - ALTA GRACIA',origin:'loc-1605',destination:'loc-1',day:'6'}))e['filter-'+key].value=value;
+  e['filter-day'].fire('change');
+  const service=ui.responses['data/horarios.json'].services.find(s=>s.line==='CÓRDOBA - ALTA GRACIA'&&s.company==='EMPRESA SARMIENTO S.R.L.'&&s.time==='14:00'&&s.direction==='V');
+  const key=service.id+'@2-9';
+  e.results.fire('click',{target:{closest(){return {getAttribute(){return key;}};}}});
+}
 test('carga inicial muestra puntos, filtros y salidas sin trazados activos',async()=>{
   const ui=await load();assert.ok(ui.layer.items.some(x=>x.type==='point'));assert.equal(ui.layer.items.filter(x=>x.type==='line').length,0);assert.equal(ui.layer.items.filter(x=>x.type==='arrow').length,0);
   assert.ok(ui.elements['filter-origin'].options.length>100);assert.match(ui.elements['route-coverage'].textContent,/servicios tienen recorrido vinculado/);
@@ -49,15 +65,32 @@ test('carga inicial muestra puntos, filtros y salidas sin trazados activos',asyn
 test('seleccionar tramo muestra tiempos diferenciados, secuencia completa y flecha entre los puntos correctos',async()=>{
   const ui=await load();setTrip(ui);const detail=ui.elements['journey-detail'];
   assert.equal(detail.hidden,false);assert.match(detail.innerHTML,/08:40/);assert.match(detail.innerHTML,/08:55/);assert.match(detail.innerHTML,/07:40/);assert.match(detail.innerHTML,/Salida publicada/);
+  assert.match(ui.elements.results.innerHTML,/Destino final · cartel: LA GRANJA/);
   assert.equal((detail.innerHTML.match(/class="stop-number"/g)||[]).length,4);
   assert.equal(ui.layer.items.filter(x=>x.type==='line').length,3);assert.equal(ui.layer.items.filter(x=>x.type==='arrow').length,1);
   const arrow=ui.layer.items.find(x=>x.type==='arrow'),p=ui.responses['data/recorridos.json'].places['loc-1177'];assert.equal(arrow.coordinates[0],p.lat);assert.equal(arrow.coordinates[1],p.lon);
   const entry=[...ui.callbacks][0];entry[1](0);entry[1](1000);
   assert.match(ui.elements.results.innerHTML,/Paso estimado/);
 });
-test('un hueco geográfico no se puentea y pausa la flecha, pero conserva la lista',async()=>{
+test('si el origen no tiene coordenadas, no inventa una flecha y conserva la lista',async()=>{
   const ui=await load({missingPoint:true});setTrip(ui);
-  assert.equal(ui.layer.items.filter(x=>x.type==='line').length,1);assert.equal(ui.layer.items.filter(x=>x.type==='arrow').length,0);assert.match(ui.elements['map-status'].textContent,/flecha se pausa/);assert.match(ui.elements['journey-detail'].innerHTML,/SALSIPUEDES/i);
+  assert.equal(ui.layer.items.filter(x=>x.type==='arrow').length,0);assert.match(ui.elements['map-status'].textContent,/origen o el destino/);assert.match(ui.elements['journey-detail'].innerHTML,/SALSIPUEDES/i);
+});
+test('un hueco intermedio usa conector esquemático y mantiene la flecha',async()=>{
+  const ui=await load({missingPoint:true});setFullTrip(ui);
+  assert.equal(ui.layer.items.filter(x=>x.type==='arrow').length,1);assert.ok(ui.layer.items.some(x=>x.type==='line'&&x.options.className==='schematic-bridge'));
+  assert.match(ui.elements['map-status'].textContent,/conectores punteados/);assert.match(ui.elements['journey-detail'].innerHTML,/LA GRANJA/i);
+});
+test('Falda del Carmen → Córdoba conserva la flecha y muestra el cartel final',async()=>{
+  const ui=await load();setFaldaToCordoba(ui);
+  assert.equal(ui.layer.items.filter(x=>x.type==='arrow').length,1);assert.ok(ui.layer.items.some(x=>x.type==='line'&&x.options.className==='schematic-bridge'));
+  assert.match(ui.elements['map-status'].textContent,/conectores punteados/);assert.match(ui.elements.results.innerHTML,/Destino final · cartel: CÓRDOBA/);
+  assert.match(ui.elements['journey-detail'].innerHTML,/14:24/);assert.match(ui.elements['journey-detail'].innerHTML,/15:31/);
+});
+test('los dos modos de uso se pueden alternar sin mezclar sus paneles',async()=>{
+  const ui=await load();ui.elements['mode-inspectors'].fire('click');
+  assert.equal(ui.elements['inspector-mode-panel'].hidden,false);assert.equal(ui.elements['user-mode-panel'].hidden,true);assert.match(ui.elements['page-title'].textContent,/control/i);
+  ui.elements['mode-users'].fire('click');assert.equal(ui.elements['inspector-mode-panel'].hidden,true);assert.equal(ui.elements['user-mode-panel'].hidden,false);
 });
 test('cerrar y limpiar eliminan la animación y restablecen los resultados',async()=>{
   const ui=await load();setTrip(ui);ui.elements['journey-detail'].fire('click',{target:{closest(){return true;}}});assert.equal(ui.callbacks.size,0);assert.equal(ui.elements['journey-detail'].hidden,true);
