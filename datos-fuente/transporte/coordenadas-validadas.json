@@ -1,0 +1,939 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-08-31T21:47:17.298964+00:00",
+  "policy": "Solo registros marcados como Ubicada; cruce por ID estable",
+  "points": [
+    {
+      "id": "pdf-NORTE-LA DORMIDA",
+      "name": "LA DORMIDA",
+      "corridors": [
+        "NORTE"
+      ],
+      "lat": -30.3545183849556,
+      "lon": -63.9478483524829,
+      "source": "Lat,Long Ciudades MicroNauta (no borrar).xlsx · Longi Lati Definitivo · fila 355"
+    },
+    {
+      "id": "pdf-ESTE SUDESTE-CAMPO LA ARGENTINA",
+      "name": "CAMPO LA ARGENTINA",
+      "corridors": [
+        "ESTE-SUDESTE"
+      ],
+      "lat": -31.54466776655627,
+      "lon": -64.12591893055045,
+      "source": "Dato aportado por Lea el 2026-08-31"
+    },
+    {
+      "id": "loc-11",
+      "name": "Barrio Norte",
+      "corridors": [
+        "NORTE"
+      ],
+      "lat": -31.3234160850279,
+      "lon": -64.272817946601,
+      "source": "Lat,Long Ciudades MicroNauta (no borrar).xlsx · Longi Lati Definitivo · fila 253"
+    },
+    {
+      "id": "loc-1286",
+      "name": "El Pueblito",
+      "corridors": [
+        "SIERRAS CHICAS"
+      ],
+      "lat": -31.119604138260936,
+      "lon": -64.29360367967914,
+      "source": "Dato aportado por Lea el 2026-08-31"
+    },
+    {
+      "id": "pdf-PUNILLA-EMPALME TANTI",
+      "name": "EMPALME TANTI",
+      "corridors": [
+        "PUNILLA"
+      ],
+      "lat": -31.3841462730431,
+      "lon": -64.5122724453068,
+      "source": "Lat,Long Ciudades MicroNauta (no borrar).xlsx · Longi Lati Definitivo · fila 311"
+    },
+    {
+      "id": "loc-8014",
+      "name": "Playas de Oro",
+      "corridors": [
+        "PUNILLA"
+      ],
+      "lat": -31.4255660740922,
+      "lon": -64.4995271438932,
+      "source": "Lat,Long Ciudades MicroNauta (no borrar).xlsx · Longi Lati Definitivo · fila 392"
+    },
+    {
+      "id": "loc-8eee7e61ffb718cc",
+      "name": "Polinesia",
+      "corridors": [
+        "SIERRAS CHICAS"
+      ],
+      "lat": -31.2914594673972,
+      "lon": -64.2977694936581,
+      "source": "Lat,Long Ciudades MicroNauta (no borrar).xlsx · Longi Lati Definitivo · fila 395"
+    },
+    {
+      "id": "loc-1712",
+      "name": "Tropezon",
+      "corridors": [
+        "PUNILLA",
+        "SIERRAS CHICAS"
+      ],
+      "lat": -31.3969346823184,
+      "lon": -64.2645280369676,
+      "source": "Lat,Long Ciudades MicroNauta (no borrar).xlsx · Longi Lati Definitivo · fila 442"
+    },
+    {
+      "id": "loc-1227",
+      "name": "100 curvas",
+      "corridors": [
+        "PUNILLA"
+      ],
+      "lat": -31.3801597873206,
+      "lon": -64.450389987492,
+      "source": "Lat,Long Ciudades MicroNauta (no borrar).xlsx · Longi Lati Definitivo · fila 489"
+    },
+    {
+      "id": "loc-49",
+      "name": "Villa Parque Santa Ana",
+      "corridors": [
+        "RUTA 5"
+      ],
+      "lat": -31.5921586885257,
+      "lon": -64.3524357073455,
+      "source": "Lat,Long Ciudades MicroNauta (no borrar).xlsx · Longi Lati Definitivo · fila 220"
+    },
+    {
+      "id": "loc-1622",
+      "name": "Kilometro 80",
+      "corridors": [
+        "ESTE-SUDESTE"
+      ],
+      "lat": -31.4249180988384,
+      "lon": -62.0832755722798,
+      "source": "Lat,Long Ciudades MicroNauta (no borrar).xlsx · Longi Lati Definitivo · fila 609"
+    },
+    {
+      "id": "loc-62",
+      "name": "Los Cedros",
+      "corridors": [
+        "RUTA 5"
+      ],
+      "lat": -31.526484535565,
+      "lon": -64.2814214559366,
+      "source": "Lat,Long Ciudades MicroNauta (no borrar).xlsx · Longi Lati Definitivo · fila 125"
+    },
+    {
+      "id": "loc-76",
+      "name": "Casa de Alto",
+      "corridors": [
+        "RUTA 5"
+      ],
+      "lat": -31.6586950202976,
+      "lon": -64.4275113531082,
+      "source": "Lat,Long Ciudades MicroNauta (no borrar).xlsx · Longi Lati Definitivo · fila 266"
+    },
+    {
+      "id": "loc-46",
+      "name": "Emp. Tanti",
+      "corridors": [
+        "PUNILLA",
+        "TRASLASIERRA"
+      ],
+      "lat": -31.3841462730431,
+      "lon": -64.5122724453068,
+      "source": "Lat,Long Ciudades MicroNauta (no borrar).xlsx · Longi Lati Definitivo · fila 308"
+    },
+    {
+      "id": "loc-1329",
+      "name": "San Miguel",
+      "corridors": [
+        "SIERRAS CHICAS"
+      ],
+      "lat": -31.2163913571188,
+      "lon": -64.3179089802433,
+      "source": "Lat,Long Ciudades MicroNauta (no borrar).xlsx · Longi Lati Definitivo · fila 422"
+    },
+    {
+      "id": "loc-139",
+      "name": "KM 22",
+      "corridors": [
+        "SIERRAS CHICAS"
+      ],
+      "lat": -31.1116631145893,
+      "lon": -64.2971901013379,
+      "source": "Lat,Long Ciudades MicroNauta (no borrar).xlsx · Longi Lati Definitivo · fila 341"
+    },
+    {
+      "id": "loc-1707",
+      "name": "Sierra de Oro",
+      "corridors": [
+        "PUNILLA"
+      ],
+      "lat": -31.4615688403571,
+      "lon": -64.4169475099296,
+      "source": "Lat,Long Ciudades MicroNauta (no borrar).xlsx · Longi Lati Definitivo · fila 429"
+    },
+    {
+      "id": "loc-117",
+      "name": "Icho Cruz",
+      "corridors": [
+        "PUNILLA",
+        "TRASLASIERRA"
+      ],
+      "lat": -31.480695294737,
+      "lon": -64.5628302611045,
+      "source": "Lat,Long Ciudades MicroNauta (no borrar).xlsx · Longi Lati Definitivo · fila 332"
+    },
+    {
+      "id": "loc-114",
+      "name": "San Antonio de Arredondo",
+      "corridors": [
+        "PUNILLA",
+        "TRASLASIERRA"
+      ],
+      "lat": -31.4827918792713,
+      "lon": -64.5278104812233,
+      "source": "Lat,Long Ciudades MicroNauta (no borrar).xlsx · Longi Lati Definitivo · fila 195"
+    },
+    {
+      "id": "loc-1683",
+      "name": "Punta del Agua",
+      "corridors": [
+        "PUNILLA",
+        "SUR"
+      ],
+      "lat": -32.5758057074061,
+      "lon": -63.8102095030137,
+      "source": "Lat,Long Ciudades MicroNauta (no borrar).xlsx · Longi Lati Definitivo · fila 167"
+    },
+    {
+      "id": "loc-1160",
+      "name": "Dolores",
+      "corridors": [
+        "PUNILLA"
+      ],
+      "lat": -31.9448546433613,
+      "lon": -65.1964081094309,
+      "source": "Lat,Long Ciudades MicroNauta (no borrar).xlsx · Longi Lati Definitivo · fila 558"
+    },
+    {
+      "id": "loc-1530",
+      "name": "KM 10",
+      "corridors": [
+        "NORTE"
+      ],
+      "lat": -31.2895978438742,
+      "lon": -64.1164484926686,
+      "source": "Lat,Long Ciudades MicroNauta (no borrar).xlsx · Longi Lati Definitivo · fila 338"
+    },
+    {
+      "id": "loc-303",
+      "name": "KM 13",
+      "corridors": [
+        "NORTE"
+      ],
+      "lat": -31.2895978438742,
+      "lon": -64.1164484926686,
+      "source": "Lat,Long Ciudades MicroNauta (no borrar).xlsx · Longi Lati Definitivo · fila 339"
+    },
+    {
+      "id": "loc-323",
+      "name": "KM 17",
+      "corridors": [
+        "NORTE"
+      ],
+      "lat": -31.1831584317762,
+      "lon": -64.15265876057,
+      "source": "Lat,Long Ciudades MicroNauta (no borrar).xlsx · Longi Lati Definitivo · fila 340"
+    },
+    {
+      "id": "loc-8040",
+      "name": "Los Pozos",
+      "corridors": [
+        "NORTE"
+      ],
+      "lat": -30.5191804150051,
+      "lon": -64.2522892562555,
+      "source": "Lat,Long Ciudades MicroNauta (no borrar).xlsx · Longi Lati Definitivo · fila 133"
+    },
+    {
+      "id": "loc-1093",
+      "name": "Molinari",
+      "corridors": [
+        "PUNILLA"
+      ],
+      "lat": -31.1940249565386,
+      "lon": -64.4745009477804,
+      "source": "Lat,Long Ciudades MicroNauta (no borrar).xlsx · Longi Lati Definitivo · fila 375"
+    },
+    {
+      "id": "loc-1252",
+      "name": "Costa Sacate",
+      "corridors": [
+        "ESTE-SUDESTE"
+      ],
+      "lat": -31.6490853390266,
+      "lon": -63.7615503438723,
+      "source": "Lat,Long Ciudades MicroNauta (no borrar).xlsx · Longi Lati Definitivo · fila 277"
+    },
+    {
+      "id": "loc-1341",
+      "name": "Usina Pilar",
+      "corridors": [
+        "ESTE-SUDESTE"
+      ],
+      "lat": -31.6687473127949,
+      "lon": -63.8340702672584,
+      "source": "Lat,Long Ciudades MicroNauta (no borrar).xlsx · Longi Lati Definitivo · fila 446"
+    },
+    {
+      "id": "loc-1299",
+      "name": "Alto Fierro",
+      "corridors": [
+        "RUTA 5",
+        "SUR"
+      ],
+      "lat": -31.6510901071713,
+      "lon": -64.3145373589413,
+      "source": "Lat,Long Ciudades MicroNauta (no borrar).xlsx · Longi Lati Definitivo · fila 502"
+    },
+    {
+      "id": "loc-250",
+      "name": "Las Tapias",
+      "corridors": [
+        "PUNILLA",
+        "TRASLASIERRA"
+      ],
+      "lat": -31.9530536443256,
+      "lon": -65.0979661107353,
+      "source": "Lat,Long Ciudades MicroNauta (no borrar).xlsx · Longi Lati Definitivo · fila 121"
+    },
+    {
+      "id": "loc-1253",
+      "name": "Villa Ciudad de America",
+      "corridors": [
+        "RUTA 5"
+      ],
+      "lat": -31.7764368507058,
+      "lon": -64.5314613966543,
+      "source": "Lat,Long Ciudades MicroNauta (no borrar).xlsx · Longi Lati Definitivo · fila 759"
+    },
+    {
+      "id": "loc-1333",
+      "name": "Cruce Malena",
+      "corridors": [
+        "SUR"
+      ],
+      "lat": -33.4886850658308,
+      "lon": -64.4317241377588,
+      "source": "Lat,Long Ciudades MicroNauta (no borrar).xlsx · Longi Lati Definitivo · fila 285"
+    },
+    {
+      "id": "loc-389",
+      "name": "Las Chacras",
+      "corridors": [
+        "TRASLASIERRA"
+      ],
+      "lat": -32.4129310930269,
+      "lon": -63.2487843778414,
+      "source": "Lat,Long Ciudades MicroNauta (no borrar).xlsx · Longi Lati Definitivo · fila 627"
+    },
+    {
+      "id": "loc-1325",
+      "name": "Villa Animi",
+      "corridors": [
+        "SIERRAS CHICAS"
+      ],
+      "lat": -31.0229048660798,
+      "lon": -64.2776314125194,
+      "source": "Lat,Long Ciudades MicroNauta (no borrar).xlsx · Longi Lati Definitivo · fila 478"
+    },
+    {
+      "id": "loc-357",
+      "name": "Corralito",
+      "corridors": [
+        "SUR"
+      ],
+      "lat": -32.0237232059044,
+      "lon": -64.1919905042322,
+      "source": "Lat,Long Ciudades MicroNauta (no borrar).xlsx · Longi Lati Definitivo · fila 55"
+    },
+    {
+      "id": "loc-83",
+      "name": "Villa Montenegro",
+      "corridors": [
+        "RUTA 5"
+      ],
+      "lat": -31.7339248526082,
+      "lon": -64.4193883080241,
+      "source": "Lat,Long Ciudades MicroNauta (no borrar).xlsx · Longi Lati Definitivo · fila 482"
+    },
+    {
+      "id": "loc-358",
+      "name": "San Javier",
+      "corridors": [
+        "TRASLASIERRA"
+      ],
+      "lat": -32.0767106831925,
+      "lon": -65.144001974411,
+      "source": "Lat,Long Ciudades MicroNauta (no borrar).xlsx · Longi Lati Definitivo · fila 421"
+    },
+    {
+      "id": "loc-1313",
+      "name": "El Cruce",
+      "corridors": [
+        "ESTE-SUDESTE",
+        "RUTA 5",
+        "SUR"
+      ],
+      "lat": -31.5255731077576,
+      "lon": -65.4007526134541,
+      "source": "Lat,Long Ciudades MicroNauta (no borrar).xlsx · Longi Lati Definitivo · fila 567"
+    },
+    {
+      "id": "loc-48eb55fb52376dfc",
+      "name": "Los Guindos",
+      "corridors": [
+        "NORESTE"
+      ],
+      "lat": -30.9228651043555,
+      "lon": -62.6709728711462,
+      "source": "Lat,Long Ciudades MicroNauta (no borrar).xlsx · Longi Lati Definitivo · fila 369"
+    },
+    {
+      "id": "loc-286",
+      "name": "Bower",
+      "corridors": [
+        "SUR"
+      ],
+      "lat": -31.5587936139861,
+      "lon": -64.1934281186323,
+      "source": "Lat,Long Ciudades MicroNauta (no borrar).xlsx · Longi Lati Definitivo · fila 518"
+    },
+    {
+      "id": "loc-1145",
+      "name": "Escobas",
+      "corridors": [
+        "PUNILLA"
+      ],
+      "lat": -30.7424892097633,
+      "lon": -64.5795243533579,
+      "source": "Lat,Long Ciudades MicroNauta (no borrar).xlsx · Longi Lati Definitivo · fila 576"
+    },
+    {
+      "id": "loc-163",
+      "name": "Tosquita",
+      "corridors": [
+        "SUR"
+      ],
+      "lat": -33.8196836254827,
+      "lon": -64.4576700736724,
+      "source": "Lat,Long Ciudades MicroNauta (no borrar).xlsx · Longi Lati Definitivo · fila 210"
+    },
+    {
+      "id": "loc-8027",
+      "name": "La Porteña",
+      "corridors": [
+        "SIERRAS CHICAS"
+      ],
+      "lat": -31.2443024216624,
+      "lon": -64.3036729502673,
+      "source": "Lat,Long Ciudades MicroNauta (no borrar).xlsx · Longi Lati Definitivo · fila 359"
+    },
+    {
+      "id": "loc-551",
+      "name": "Ferreyra",
+      "corridors": [
+        "ESTE-SUDESTE"
+      ],
+      "lat": -31.4655056929443,
+      "lon": -64.1083739977736,
+      "source": "Lat,Long Ciudades MicroNauta (no borrar).xlsx · Longi Lati Definitivo · fila 322"
+    },
+    {
+      "id": "loc-1320",
+      "name": "Isla Verde",
+      "corridors": [
+        "ESTE-SUDESTE",
+        "SUR"
+      ],
+      "lat": -33.239697566848,
+      "lon": -62.4015958014292,
+      "source": "Lat,Long Ciudades MicroNauta (no borrar).xlsx · Longi Lati Definitivo · fila 87"
+    },
+    {
+      "id": "loc-592",
+      "name": "Luxardo",
+      "corridors": [
+        "NORESTE"
+      ],
+      "lat": -31.3054896864929,
+      "lon": -62.1320532813505,
+      "source": "Lat,Long Ciudades MicroNauta (no borrar).xlsx · Longi Lati Definitivo · fila 653"
+    },
+    {
+      "id": "loc-6003",
+      "name": "Marull",
+      "corridors": [
+        "NORESTE"
+      ],
+      "lat": -30.9938649652781,
+      "lon": -62.8253384767479,
+      "source": "Lat,Long Ciudades MicroNauta (no borrar).xlsx · Longi Lati Definitivo · fila 143"
+    },
+    {
+      "id": "loc-55",
+      "name": "San Agustin",
+      "corridors": [
+        "SUR"
+      ],
+      "lat": -31.9776223398196,
+      "lon": -64.3755856819348,
+      "source": "Lat,Long Ciudades MicroNauta (no borrar).xlsx · Longi Lati Definitivo · fila 194"
+    },
+    {
+      "id": "loc-f5c634ff7c6b367f",
+      "name": "Cruce Moldes",
+      "corridors": [
+        "SUR"
+      ],
+      "lat": -33.5926682062254,
+      "lon": -64.4159656354412,
+      "source": "Lat,Long Ciudades MicroNauta (no borrar).xlsx · Longi Lati Definitivo · fila 286"
+    },
+    {
+      "id": "loc-0c704ec5b7c9a2c6",
+      "name": "Cruce Bower",
+      "corridors": [
+        "SUR"
+      ],
+      "lat": -31.6520887919823,
+      "lon": -64.3159634435608,
+      "source": "Lat,Long Ciudades MicroNauta (no borrar).xlsx · Longi Lati Definitivo · fila 549"
+    },
+    {
+      "id": "loc-1136",
+      "name": "El Espinillo",
+      "corridors": [
+        "NORTE",
+        "PUNILLA"
+      ],
+      "lat": -30.8213269853596,
+      "lon": -65.0904936223975,
+      "source": "Lat,Long Ciudades MicroNauta (no borrar).xlsx · Longi Lati Definitivo · fila 298"
+    },
+    {
+      "id": "loc-172",
+      "name": "KM 105",
+      "corridors": [
+        "NORTE",
+        "PUNILLA"
+      ],
+      "lat": -30.7630908713776,
+      "lon": -63.880137873013,
+      "source": "Lat,Long Ciudades MicroNauta (no borrar).xlsx · Longi Lati Definitivo · fila 342"
+    },
+    {
+      "id": "loc-6126",
+      "name": "KM 16",
+      "corridors": [
+        "ESTE-SUDESTE"
+      ],
+      "lat": -31.2129970211214,
+      "lon": -64.3442449447821,
+      "source": "Lat,Long Ciudades MicroNauta (no borrar).xlsx · Longi Lati Definitivo · fila 594"
+    },
+    {
+      "id": "loc-1315",
+      "name": "Fotheringam",
+      "corridors": [
+        "RUTA 5",
+        "SUR"
+      ],
+      "lat": -31.4268968062942,
+      "lon": -62.0848553586177,
+      "source": "Lat,Long Ciudades MicroNauta (no borrar).xlsx · Longi Lati Definitivo · fila 582"
+    },
+    {
+      "id": "loc-131",
+      "name": "La Ensenada",
+      "corridors": [
+        "SUR"
+      ],
+      "lat": -32.2605119311362,
+      "lon": -65.0331834997507,
+      "source": "Lat,Long Ciudades MicroNauta (no borrar).xlsx · Longi Lati Definitivo · fila 615"
+    },
+    {
+      "id": "loc-121",
+      "name": "Cerro de Oro",
+      "corridors": [
+        "RUTA 5"
+      ],
+      "lat": -32.0775268302404,
+      "lon": -64.5272578858663,
+      "source": "Lat,Long Ciudades MicroNauta (no borrar).xlsx · Longi Lati Definitivo · fila 273"
+    },
+    {
+      "id": "loc-144",
+      "name": "Dique los Molinos",
+      "corridors": [
+        "RUTA 5"
+      ],
+      "lat": -31.8183323913412,
+      "lon": -64.5030369185127,
+      "source": "Lat,Long Ciudades MicroNauta (no borrar).xlsx · Longi Lati Definitivo · fila 557"
+    },
+    {
+      "id": "loc-279",
+      "name": "KM 450",
+      "corridors": [
+        "NORTE"
+      ],
+      "lat": -31.4183882217526,
+      "lon": -63.0520080702456,
+      "source": "Lat,Long Ciudades MicroNauta (no borrar).xlsx · Longi Lati Definitivo · fila 599"
+    },
+    {
+      "id": "loc-399",
+      "name": "KM 480",
+      "corridors": [
+        "NORTE"
+      ],
+      "lat": -30.8933650753583,
+      "lon": -63.0007080242303,
+      "source": "Lat,Long Ciudades MicroNauta (no borrar).xlsx · Longi Lati Definitivo · fila 600"
+    },
+    {
+      "id": "loc-6157",
+      "name": "El Chacay",
+      "corridors": [
+        "SUR"
+      ],
+      "lat": -32.8752320850555,
+      "lon": -64.8853559976401,
+      "source": "Lat,Long Ciudades MicroNauta (no borrar).xlsx · Longi Lati Definitivo · fila 296"
+    },
+    {
+      "id": "loc-6136",
+      "name": "Atum Pampa",
+      "corridors": [
+        "RUTA 5"
+      ],
+      "lat": -31.9917966247573,
+      "lon": -64.6838015114827,
+      "source": "Lat,Long Ciudades MicroNauta (no borrar).xlsx · Longi Lati Definitivo · fila 508"
+    },
+    {
+      "id": "loc-1075",
+      "name": "El Retiro",
+      "corridors": [
+        "PUNILLA"
+      ],
+      "lat": -31.1806298416187,
+      "lon": -64.4802796067434,
+      "source": "Lat,Long Ciudades MicroNauta (no borrar).xlsx · Longi Lati Definitivo · fila 301"
+    },
+    {
+      "id": "loc-7003",
+      "name": "Cruce Achiras",
+      "corridors": [
+        "SUR"
+      ],
+      "lat": -33.1801992429219,
+      "lon": -64.9896121787266,
+      "source": "Lat,Long Ciudades MicroNauta (no borrar).xlsx · Longi Lati Definitivo · fila 282"
+    },
+    {
+      "id": "loc-7005",
+      "name": "Las Cañitas",
+      "corridors": [
+        "SUR"
+      ],
+      "lat": -32.1518857073104,
+      "lon": -63.3363760877717,
+      "source": "Lat,Long Ciudades MicroNauta (no borrar).xlsx · Longi Lati Definitivo · fila 626"
+    },
+    {
+      "id": "loc-1038",
+      "name": "Hoteles",
+      "corridors": [
+        "RUTA 5",
+        "SUR"
+      ],
+      "lat": -32.1925447917405,
+      "lon": -64.4050968145049,
+      "source": "Lat,Long Ciudades MicroNauta (no borrar).xlsx · Longi Lati Definitivo · fila 331"
+    },
+    {
+      "id": "loc-1497",
+      "name": "Inti Yaco",
+      "corridors": [
+        "RUTA 5"
+      ],
+      "lat": -31.9579624995899,
+      "lon": -64.71524040807,
+      "source": "Lat,Long Ciudades MicroNauta (no borrar).xlsx · Longi Lati Definitivo · fila 590"
+    },
+    {
+      "id": "loc-6158",
+      "name": "Km 692",
+      "corridors": [
+        "NORESTE"
+      ],
+      "lat": -31.4249180988384,
+      "lon": -62.0832755722798,
+      "source": "Lat,Long Ciudades MicroNauta (no borrar).xlsx · Longi Lati Definitivo · fila 608"
+    },
+    {
+      "id": "loc-1678",
+      "name": "Pedro Funes",
+      "corridors": [
+        "ESTE-SUDESTE"
+      ],
+      "lat": -30.8341482099789,
+      "lon": -64.6678855046706,
+      "source": "Lat,Long Ciudades MicroNauta (no borrar).xlsx · Longi Lati Definitivo · fila 678"
+    },
+    {
+      "id": "loc-203",
+      "name": "El Torreon",
+      "corridors": [
+        "RUTA 5",
+        "SIERRAS CHICAS",
+        "SUR"
+      ],
+      "lat": -32.1519393354476,
+      "lon": -64.502601780348,
+      "source": "Lat,Long Ciudades MicroNauta (no borrar).xlsx · Longi Lati Definitivo · fila 303"
+    },
+    {
+      "id": "loc-124",
+      "name": "Horno de Cal",
+      "corridors": [
+        "TRASLASIERRA"
+      ],
+      "lat": -33.1708899214401,
+      "lon": -64.9885730371295,
+      "source": "Lat,Long Ciudades MicroNauta (no borrar).xlsx · Longi Lati Definitivo · fila 586"
+    },
+    {
+      "id": "loc-123",
+      "name": "Km 65",
+      "corridors": [
+        "TRASLASIERRA"
+      ],
+      "lat": -31.6073266303641,
+      "lon": -64.8129080965512,
+      "source": "Lat,Long Ciudades MicroNauta (no borrar).xlsx · Longi Lati Definitivo · fila 346"
+    },
+    {
+      "id": "loc-141",
+      "name": "Puesto Bustos",
+      "corridors": [
+        "TRASLASIERRA"
+      ],
+      "lat": -31.5795125494781,
+      "lon": -64.6583924385703,
+      "source": "Lat,Long Ciudades MicroNauta (no borrar).xlsx · Longi Lati Definitivo · fila 691"
+    },
+    {
+      "id": "loc-1082",
+      "name": "Santa Isabel",
+      "corridors": [
+        "RUTA 5",
+        "SUR"
+      ],
+      "lat": -32.1935279498644,
+      "lon": -64.4764931783034,
+      "source": "Lat,Long Ciudades MicroNauta (no borrar).xlsx · Longi Lati Definitivo · fila 426"
+    },
+    {
+      "id": "loc-1649",
+      "name": "Los Patos",
+      "corridors": [
+        "ESTE-SUDESTE"
+      ],
+      "lat": -30.7105874731472,
+      "lon": -62.0070619903541,
+      "source": "Lat,Long Ciudades MicroNauta (no borrar).xlsx · Longi Lati Definitivo · fila 650"
+    },
+    {
+      "id": "loc-1aa873a916a9cc81",
+      "name": "Bell Ville TL",
+      "corridors": [
+        "ESTE-SUDESTE"
+      ],
+      "lat": -32.6303142822017,
+      "lon": -62.6887933841481,
+      "source": "Lat,Long Ciudades MicroNauta (no borrar).xlsx · Longi Lati Definitivo · fila 20"
+    },
+    {
+      "id": "loc-1586",
+      "name": "Cuarteles",
+      "corridors": [
+        "PUNILLA"
+      ],
+      "lat": -31.3716035390583,
+      "lon": -64.2973302973599,
+      "source": "Lat,Long Ciudades MicroNauta (no borrar).xlsx · Longi Lati Definitivo · fila 287"
+    },
+    {
+      "id": "loc-5014",
+      "name": "Dos Rios",
+      "corridors": [
+        "PUNILLA",
+        "TRASLASIERRA"
+      ],
+      "lat": -31.9465107899218,
+      "lon": -65.188028171821,
+      "source": "Lat,Long Ciudades MicroNauta (no borrar).xlsx · Longi Lati Definitivo · fila 559"
+    },
+    {
+      "id": "loc-252",
+      "name": "Falda Los Reartes",
+      "corridors": [
+        "RUTA 5"
+      ],
+      "lat": -31.9093213859026,
+      "lon": -64.5739653026921,
+      "source": "Lat,Long Ciudades MicroNauta (no borrar).xlsx · Longi Lati Definitivo · fila 321"
+    },
+    {
+      "id": "loc-7002",
+      "name": "La Chamaca",
+      "corridors": [
+        "SUR"
+      ],
+      "lat": -32.7537453728602,
+      "lon": -64.6277759972016,
+      "source": "Lat,Long Ciudades MicroNauta (no borrar).xlsx · Longi Lati Definitivo · fila 353"
+    },
+    {
+      "id": "loc-5025",
+      "name": "Las Palmas",
+      "corridors": [
+        "PUNILLA",
+        "TRASLASIERRA"
+      ],
+      "lat": -29.7607589819684,
+      "lon": -63.9413229372331,
+      "source": "Lat,Long Ciudades MicroNauta (no borrar).xlsx · Longi Lati Definitivo · fila 631"
+    },
+    {
+      "id": "loc-5030",
+      "name": "Los Pinos",
+      "corridors": [
+        "PUNILLA",
+        "TRASLASIERRA"
+      ],
+      "lat": -31.4434329786846,
+      "lon": -64.2416611424303,
+      "source": "Lat,Long Ciudades MicroNauta (no borrar).xlsx · Longi Lati Definitivo · fila 371"
+    },
+    {
+      "id": "loc-5034",
+      "name": "Mataderos",
+      "corridors": [
+        "PUNILLA",
+        "TRASLASIERRA"
+      ],
+      "lat": -32.1775586592606,
+      "lon": -64.1130484320728,
+      "source": "Lat,Long Ciudades MicroNauta (no borrar).xlsx · Longi Lati Definitivo · fila 659"
+    },
+    {
+      "id": "loc-1239",
+      "name": "Pampayasta",
+      "corridors": [
+        "ESTE-SUDESTE",
+        "SUR"
+      ],
+      "lat": -32.2412955478317,
+      "lon": -63.6426779363036,
+      "source": "Lat,Long Ciudades MicroNauta (no borrar).xlsx · Longi Lati Definitivo · fila 672"
+    },
+    {
+      "id": "loc-6129",
+      "name": "Pasarela",
+      "corridors": [
+        "PUNILLA"
+      ],
+      "lat": -32.2574586590169,
+      "lon": -65.0310188192122,
+      "source": "Lat,Long Ciudades MicroNauta (no borrar).xlsx · Longi Lati Definitivo · fila 676"
+    },
+    {
+      "id": "loc-7001",
+      "name": "Santa Rita",
+      "corridors": [
+        "SUR"
+      ],
+      "lat": -31.0161670297828,
+      "lon": -64.2790760706387,
+      "source": "Lat,Long Ciudades MicroNauta (no borrar).xlsx · Longi Lati Definitivo · fila 715"
+    },
+    {
+      "id": "loc-642",
+      "name": "Usina Mollet",
+      "corridors": [
+        "PUNILLA"
+      ],
+      "lat": -31.361709265721,
+      "lon": -64.4262161897139,
+      "source": "Lat,Long Ciudades MicroNauta (no borrar).xlsx · Longi Lati Definitivo · fila 746"
+    },
+    {
+      "id": "loc-1218",
+      "name": "Tulumba",
+      "corridors": [
+        "NORTE"
+      ],
+      "lat": -30.4009889428647,
+      "lon": -64.1232949026188,
+      "source": "Lat,Long Ciudades MicroNauta (no borrar).xlsx · Longi Lati Definitivo · fila 444"
+    },
+    {
+      "id": "loc-5021",
+      "name": "El Vado",
+      "corridors": [
+        "PUNILLA"
+      ],
+      "lat": -30.7700950440138,
+      "lon": -64.6669282125324,
+      "source": "Lat,Long Ciudades MicroNauta (no borrar).xlsx · Longi Lati Definitivo · fila 305"
+    },
+    {
+      "id": "loc-1662",
+      "name": "Monolito",
+      "corridors": [
+        "PUNILLA"
+      ],
+      "lat": -32.1973307213844,
+      "lon": -64.3937049658291,
+      "source": "Lat,Long Ciudades MicroNauta (no borrar).xlsx · Longi Lati Definitivo · fila 376"
+    },
+    {
+      "id": "loc-1466",
+      "name": "Reduccion",
+      "corridors": [
+        "SUR"
+      ],
+      "lat": -33.212776470956896,
+      "lon": -63.8843397542917,
+      "source": "Lat,Long Ciudades MicroNauta (no borrar).xlsx · Longi Lati Definitivo · fila 405"
+    },
+    {
+      "id": "loc-8039",
+      "name": "Santa Ana",
+      "corridors": [
+        "PUNILLA"
+      ],
+      "lat": -31.5882949937702,
+      "lon": -64.356004972391,
+      "source": "Lat,Long Ciudades MicroNauta (no borrar).xlsx · Longi Lati Definitivo · fila 712"
+    }
+  ]
+}
