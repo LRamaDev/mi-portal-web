@@ -11,7 +11,7 @@
     } catch (error) {}
   </script>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-  <link rel="stylesheet" href="transporte.css?v=7">
+  <link rel="stylesheet" href="transporte.css?v=8">
 </head>
 
 <body>
@@ -28,6 +28,9 @@
       <span>Ocho corredores provinciales</span>
     </div>
     <div class="header-actions">
+      <button id="admin-open" class="admin-open" type="button" aria-haspopup="dialog">
+        <span aria-hidden="true">⚙</span><span class="admin-button-label">Administrar PDF</span>
+      </button>
       <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Cambiar tema">
         <span id="theme-icon" aria-hidden="true">☀</span>
         <span id="theme-label">Modo claro</span>
@@ -145,6 +148,14 @@
         <label><span>Hasta</span><input id="inspector-to" type="time" value="23:59"></label>
       </section>
 
+      <section class="multi-selector direction-selector" aria-labelledby="direction-selector-title">
+        <header>
+          <div><span class="eyebrow">Filtro acumulativo</span><h4 id="direction-selector-title">Sentidos incluidos</h4></div>
+          <div><button id="inspector-directions-all" class="mini-button" type="button">Ida y Vuelta</button><button id="inspector-directions-none" class="mini-button" type="button">Quitar ambos</button></div>
+        </header>
+        <div id="inspector-directions" class="direction-options"></div>
+      </section>
+
       <section class="multi-selector company-selector" aria-labelledby="company-selector-title">
         <header>
           <div><span class="eyebrow">Selección múltiple y acumulativa</span><h4 id="company-selector-title">Empresas incluidas</h4></div>
@@ -182,14 +193,41 @@
     </section>
   </main>
 
+  <dialog id="admin-dialog" class="admin-dialog" aria-labelledby="admin-title">
+    <form id="admin-form" class="admin-card" method="dialog">
+      <header class="admin-head">
+        <div><span class="eyebrow">Actualización semanal</span><h2 id="admin-title">Cargar los ocho cronogramas</h2></div>
+        <button id="admin-close" class="admin-close" type="button" aria-label="Cerrar">×</button>
+      </header>
+      <p class="admin-lead">Elegí los ocho PDF juntos. La aplicación reconoce cada corredor, los sube en un único envío y prepara una rama de actualización para el control automático.</p>
+      <section class="admin-security">
+        <strong>Acceso seguro</strong>
+        <p>Usá una clave personal de GitHub limitada a este repositorio y al permiso <em>Contents: Read and write</em>. La clave no se guarda y se borra del campo al terminar.</p>
+        <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener noreferrer">Crear o renovar la clave en GitHub ↗</a>
+      </section>
+      <label class="admin-field"><span>Los ocho archivos PDF</span><input id="admin-files" type="file" accept="application/pdf,.pdf" multiple required></label>
+      <div id="admin-file-list" class="admin-file-list" aria-live="polite">Todavía no elegiste archivos.</div>
+      <label class="admin-field"><span>Clave de acceso de GitHub</span><input id="admin-token" type="password" inputmode="text" autocomplete="off" autocapitalize="none" spellcheck="false" placeholder="github_pat_…" required></label>
+      <p class="admin-help">La carga no publica horarios directamente: crea una rama <code>actualizacion/carga-web-…</code>. GitHub valida los ocho PDF y prepara el Pull Request habitual.</p>
+      <progress id="admin-progress" class="admin-progress" max="100" value="0" hidden></progress>
+      <p id="admin-status" class="admin-status" role="status"></p>
+      <div id="admin-result" class="admin-result" hidden></div>
+      <footer class="admin-actions">
+        <button id="admin-cancel" class="reset-button" type="button">Cancelar</button>
+        <button id="admin-upload" class="admin-upload" type="submit">Subir los ocho PDF</button>
+      </footer>
+    </form>
+  </dialog>
+
   <footer>Demo personal · Lea Rama Dev · Datos de cronogramas oficiales de transporte</footer>
 </div>
 
 <img id="export-logo-source" class="export-logo-source" src="assets/logo-ersep.png" alt="" hidden>
 <section id="print-sheet" class="print-sheet" aria-hidden="true"></section>
 
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script defer src="recorridos.js?v=7"></script>
-<script defer src="transporte.js?v=7"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script defer src="recorridos.js?v=8"></script>
+<script defer src="transporte.js?v=8"></script>
+<script defer src="admin.js?v=8"></script>
 </body>
 </html>

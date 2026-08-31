@@ -125,7 +125,7 @@
     function control(filters) {
       filters = filters || {};
       if (!filters.location) return [];
-      var lines = new Set(filters.lines || []), companies = new Set(filters.companies || []), found = [];
+      var lines = new Set(filters.lines || []), companies = new Set(filters.companies || []), directions = new Set(filters.directions || []), found = [];
       var fromMinute = Number.isFinite(filters.fromMinute) ? filters.fromMinute : null;
       var toMinute = Number.isFinite(filters.toMinute) ? filters.toMinute : null;
       function inWindow(minute) {
@@ -136,6 +136,8 @@
         var s = model.service;
         if (filters.corridor && s.corridor !== filters.corridor) return;
         if (filters.company && s.company !== filters.company) return;
+        if (filters.direction && s.direction !== filters.direction) return;
+        if (directions.size && !directions.has(s.direction)) return;
         if (companies.size && !companies.has(s.company)) return;
         if (lines.size && !lines.has(s.line)) return;
         model.stops.forEach(function (stop, index) {
