@@ -1219,15 +1219,30 @@
       "source": "Georef Argentina · asentamientos",
       "source_name": "Yocsina",
       "department": "Santa María"
+    },
+    "LA DORMIDA": {
+      "lat": -30.3545183849556,
+      "lon": -63.9478483524829,
+      "source": "Lat,Long Ciudades MicroNauta (no borrar).xlsx · Longi Lati Definitivo · fila 355",
+      "source_name": "LA DORMIDA"
+    },
+    "CAMPO LA ARGENTINA": {
+      "lat": -31.54466776655627,
+      "lon": -64.12591893055045,
+      "source": "Dato aportado por Lea el 2026-08-31",
+      "source_name": "CAMPO LA ARGENTINA"
+    },
+    "EMPALME TANTI": {
+      "lat": -31.3841462730431,
+      "lon": -64.5122724453068,
+      "source": "Lat,Long Ciudades MicroNauta (no borrar).xlsx · Longi Lati Definitivo · fila 311",
+      "source_name": "EMPALME TANTI"
     }
   },
   "unresolved": [
     "100 CURVAS",
     "BARRIO NORTE",
-    "CAMPO LA ARGENTINA",
-    "EMPALME TANTI",
     "KILÓMETRO 18",
-    "LA DORMIDA",
     "LA JUANITA",
     "PLAYAS DE ORO",
     "POLINESIA",
