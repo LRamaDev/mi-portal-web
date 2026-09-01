@@ -93,6 +93,16 @@ test('los tres modos de uso se pueden alternar sin mezclar sus paneles',async()=
   ui.elements['mode-claims'].fire('click');assert.equal(ui.elements['claims-mode-panel'].hidden,false);assert.equal(ui.elements['inspector-mode-panel'].hidden,true);assert.equal(ui.elements['user-mode-panel'].hidden,true);assert.match(ui.elements['page-title'].textContent,/fecha/i);
   ui.elements['mode-users'].fire('click');assert.equal(ui.elements['claims-mode-panel'].hidden,true);assert.equal(ui.elements['inspector-mode-panel'].hidden,true);assert.equal(ui.elements['user-mode-panel'].hidden,false);
 });
+test('la identidad ERSeP y las tres guías se publican con recursos v10',()=>{
+  const html=fs.readFileSync(path.join(app,'index.html'),'utf8'),css=fs.readFileSync(path.join(app,'transporte.css'),'utf8');
+  assert.match(html,/<title>Horarios interurbanos · ERSeP<\/title>/);
+  assert.match(html,/transporte\.css\?v=10/);assert.doesNotMatch(html,/transporte\.css\?v=[1-9]["']/);
+  assert.equal((html.match(/class="mode-guide/g)||[]).length,3);
+  assert.match(html,/history-filters-heading/);assert.match(html,/class="brand-logo"/);
+  for(const script of ['recorridos','historico','transporte','admin'])assert.match(html,new RegExp(script+'\\.js\\?v=10'));
+  for(const color of ['--ersep-bordo','--ersep-blue','--ersep-green','--ersep-yellow'])assert.match(css,new RegExp(color+':'));
+  assert.match(css,/v10: identidad institucional ERSeP/);
+});
 test('inspectores pueden combinar empresas y las líneas se recalculan acumulativamente',async()=>{
   const ui=await load(),e=ui.elements;e['mode-inspectors'].fire('click');e['inspector-locality'].value='loc-1177';e['inspector-locality'].fire('change');
   assert.match(e['inspector-companies'].innerHTML,/EDER SERVICIO DIFERENCIAL/);assert.match(e['inspector-companies'].innerHTML,/INTERCORDOBA S\.A\./);

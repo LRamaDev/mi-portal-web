@@ -1,17 +1,17 @@
 <!doctype html>
-<html lang="es" data-theme="dark">
+<html lang="es" data-theme="light">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="description" content="Buscá viajes entre localidades de Córdoba, salidas publicadas y horarios de paso estimados.">
-  <title>Horarios interurbanos · Lea Rama Dev</title>
+  <meta name="description" content="Consulta institucional de horarios interurbanos, operativos e historial documental de ERSeP.">
+  <title>Horarios interurbanos · ERSeP</title>
   <script>
     try {
-      document.documentElement.dataset.theme = localStorage.getItem('transport-theme') || 'dark';
+      document.documentElement.dataset.theme = localStorage.getItem('transport-theme') || 'light';
     } catch (error) {}
   </script>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-  <link rel="stylesheet" href="transporte.css?v=8">
+  <link rel="stylesheet" href="transporte.css?v=10">
 </head>
 
 <body>
@@ -19,9 +19,8 @@
 <div class="ambient-light two"></div>
 <div class="wrap">
   <header class="header">
-    <a class="brand" href="../" aria-label="Volver al portal">
-      <span class="brand-mark">LR</span>
-      <span><strong>Lea Rama</strong><small>Dev</small></span>
+    <a class="brand" href="../" aria-label="ERSeP · Volver al portal">
+      <img class="brand-logo" src="assets/logo-ersep.png" alt="ERSeP · Ente Regulador de los Servicios Públicos">
     </a>
     <div class="header-title">
       <h1>Horarios interurbanos</h1>
@@ -72,6 +71,16 @@
     </nav>
 
     <section id="user-mode-panel" aria-label="Consulta para atención a usuarios">
+    <details class="mode-guide user-guide">
+      <summary><span>Guía rápida</span> ¿Cómo usar Atención a usuarios?</summary>
+      <ol>
+        <li>Elegí la localidad de <strong>origen</strong> y la de <strong>destino</strong>.</li>
+        <li>Combiná corredor, línea, empresa, sentido, día o modalidad si necesitás precisar la búsqueda.</li>
+        <li>Abrí un servicio para ver salida, paso estimado, llegada, recorrido y cartel final.</li>
+        <li>Imprimí, guardá en PDF o descargá una imagen con los resultados filtrados.</li>
+      </ol>
+      <p>Los pasos por localidades intermedias son estimados y no representan seguimiento en tiempo real.</p>
+    </details>
     <section class="journey-filters" aria-label="Localidades del viaje">
       <label><span>Origen · dónde subís</span><select id="filter-origin"><option value="">Todas las localidades</option></select></label>
       <label><span>Destino · dónde bajás</span><select id="filter-destination"><option value="">Todas las localidades</option></select></label>
@@ -136,6 +145,17 @@
         </div>
         <div id="inspector-summary" class="inspector-summary">Elegí una localidad para preparar el control.</div>
       </div>
+
+      <details class="mode-guide inspector-guide">
+        <summary><span>Guía rápida</span> ¿Cómo preparar un operativo?</summary>
+        <ol>
+          <li>Indicá la base del equipo, la localidad del control y, si corresponde, el punto específico.</li>
+          <li>Elegí el día, la franja horaria y el corredor.</li>
+          <li>Marcá una o varias empresas, líneas y sentidos; todos los filtros se acumulan.</li>
+          <li>Usá la lista ordenada por hora de control y exportala en PDF o PNG.</li>
+        </ol>
+        <p>La planilla diferencia salidas publicadas de pasos estimados por localidades intermedias.</p>
+      </details>
 
       <section class="inspector-filters" aria-label="Datos del operativo">
         <label><span>Base del equipo</span><select id="inspector-delegation">
@@ -207,6 +227,17 @@
         <div id="history-coverage" class="history-coverage">Cargando cobertura histórica…</div>
       </div>
 
+      <details class="mode-guide claims-guide">
+        <summary><span>Guía rápida</span> ¿Cómo verificar un reclamo?</summary>
+        <ol>
+          <li>Ingresá la fecha del viaje o del hecho reclamado.</li>
+          <li>Buscá por localidad, línea, empresa o ruta, o combiná los filtros disponibles.</li>
+          <li>Revisá si el servicio figuraba en la publicación aplicable a esa fecha.</li>
+          <li>Imprimí la constancia o consultá el informe semanal de servicios modificados y eliminados.</li>
+        </ol>
+        <p>La consulta acredita el cronograma publicado, no que la unidad haya circulado efectivamente.</p>
+      </details>
+
       <section class="history-date-card" aria-labelledby="history-date-title">
         <div><span class="eyebrow">Paso 1</span><h4 id="history-date-title">Fecha del viaje o del hecho reclamado</h4></div>
         <label><span>Fecha a verificar</span><input id="history-date" type="date"></label>
@@ -214,6 +245,11 @@
       </section>
 
       <section class="history-filters" aria-label="Filtros de la consulta histórica">
+        <div class="history-filters-heading">
+          <span class="eyebrow">Paso 2</span>
+          <h4>Identificá el servicio</h4>
+          <p>Completá solamente los datos que conozcas. Los filtros se combinan.</p>
+        </div>
         <label class="history-search"><span>Buscar</span><input id="history-search" type="search" placeholder="Localidad, línea, empresa o ruta…" autocomplete="off"></label>
         <label><span>Origen</span><select id="history-origin"><option value="">Todos</option></select></label>
         <label><span>Destino</span><select id="history-destination"><option value="">Todos</option></select></label>
@@ -288,9 +324,9 @@
 <section id="print-sheet" class="print-sheet" aria-hidden="true"></section>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-<script defer src="recorridos.js?v=9"></script>
-<script defer src="historico.js?v=9"></script>
-<script defer src="transporte.js?v=9"></script>
-<script defer src="admin.js?v=9"></script>
+<script defer src="recorridos.js?v=10"></script>
+<script defer src="historico.js?v=10"></script>
+<script defer src="transporte.js?v=10"></script>
+<script defer src="admin.js?v=10"></script>
 </body>
 </html>
