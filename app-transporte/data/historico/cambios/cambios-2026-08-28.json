@@ -1,0 +1,243 @@
+{
+  "schema_version": 1,
+  "previous_publication_date": "2026-08-21",
+  "publication_date": "2026-08-28",
+  "summary": {
+    "previous_services": 5506,
+    "current_services": 5504,
+    "unchanged": 5502,
+    "modified": 2,
+    "added": 0,
+    "removed": 2
+  },
+  "corridors": [
+    {
+      "corridor": "ESTE-SUDESTE",
+      "previous": 537,
+      "current": 535,
+      "difference": -2
+    },
+    {
+      "corridor": "NORESTE",
+      "previous": 407,
+      "current": 407,
+      "difference": 0
+    },
+    {
+      "corridor": "NORTE",
+      "previous": 711,
+      "current": 711,
+      "difference": 0
+    },
+    {
+      "corridor": "PUNILLA",
+      "previous": 1431,
+      "current": 1431,
+      "difference": 0
+    },
+    {
+      "corridor": "RUTA 5",
+      "previous": 555,
+      "current": 555,
+      "difference": 0
+    },
+    {
+      "corridor": "SIERRAS CHICAS",
+      "previous": 1167,
+      "current": 1167,
+      "difference": 0
+    },
+    {
+      "corridor": "SUR",
+      "previous": 480,
+      "current": 480,
+      "difference": 0
+    },
+    {
+      "corridor": "TRASLASIERRA",
+      "previous": 218,
+      "current": 218,
+      "difference": 0
+    }
+  ],
+  "new_lines": [],
+  "removed_lines": [
+    {
+      "corridor": "ESTE-SUDESTE",
+      "line": "VILLA MARÍA - ALTO ALEGRE"
+    }
+  ],
+  "geography": {
+    "located": 174,
+    "unresolved": 9,
+    "newly_unresolved": []
+  },
+  "modified": [
+    {
+      "id": "chg-7b7a4e1f1dd31a0b",
+      "fields": {
+        "time": {
+          "before": "16:30",
+          "after": "14:45"
+        }
+      },
+      "before": {
+        "corridor": "ESTE-SUDESTE",
+        "line": "VILLA MARÍA - SAIRA",
+        "line_id": "este-sudeste-villa-maria-saira",
+        "nodes": [
+          "VILLA MARÍA",
+          "SAIRA"
+        ],
+        "direction": "V",
+        "time": "16:30",
+        "minutes": 990,
+        "company": "CRU BUS",
+        "cuit": "30-70991278-6",
+        "service_days_text": "LUNES Y VIERNES",
+        "service_days": [
+          1,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "",
+        "source_file": "Cronograma de Horario 2026 Corredor ESTE - SUDESTE (21.08.26)_firmado.pdf",
+        "source_page": 24
+      },
+      "after": {
+        "corridor": "ESTE-SUDESTE",
+        "line": "VILLA MARÍA - SAIRA",
+        "line_id": "este-sudeste-villa-maria-saira",
+        "nodes": [
+          "VILLA MARÍA",
+          "SAIRA"
+        ],
+        "direction": "V",
+        "time": "14:45",
+        "minutes": 885,
+        "company": "CRU BUS",
+        "cuit": "30-70991278-6",
+        "service_days_text": "LUNES Y VIERNES",
+        "service_days": [
+          1,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "",
+        "source_file": "01-este-sudeste.pdf",
+        "source_page": 26
+      }
+    },
+    {
+      "id": "chg-a525ddd5ca875cad",
+      "fields": {
+        "time": {
+          "before": "19:00",
+          "after": "18:45"
+        }
+      },
+      "before": {
+        "corridor": "ESTE-SUDESTE",
+        "line": "VILLA MARÍA - SAIRA",
+        "line_id": "este-sudeste-villa-maria-saira",
+        "nodes": [
+          "VILLA MARÍA",
+          "SAIRA"
+        ],
+        "direction": "V",
+        "time": "19:00",
+        "minutes": 1140,
+        "company": "CRU BUS",
+        "cuit": "30-70991278-6",
+        "service_days_text": "DOMINGO",
+        "service_days": [
+          7
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "",
+        "source_file": "Cronograma de Horario 2026 Corredor ESTE - SUDESTE (21.08.26)_firmado.pdf",
+        "source_page": 24
+      },
+      "after": {
+        "corridor": "ESTE-SUDESTE",
+        "line": "VILLA MARÍA - SAIRA",
+        "line_id": "este-sudeste-villa-maria-saira",
+        "nodes": [
+          "VILLA MARÍA",
+          "SAIRA"
+        ],
+        "direction": "V",
+        "time": "18:45",
+        "minutes": 1125,
+        "company": "CRU BUS",
+        "cuit": "30-70991278-6",
+        "service_days_text": "DOMINGO",
+        "service_days": [
+          7
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "",
+        "source_file": "01-este-sudeste.pdf",
+        "source_page": 26
+      }
+    }
+  ],
+  "added": [],
+  "removed": [
+    {
+      "corridor": "ESTE-SUDESTE",
+      "line": "VILLA MARÍA - ALTO ALEGRE",
+      "line_id": "este-sudeste-villa-maria-alto-alegre",
+      "nodes": [
+        "VILLA MARÍA",
+        "ALTO ALEGRE"
+      ],
+      "direction": "I",
+      "time": "08:00",
+      "minutes": 480,
+      "company": "CRU BUS",
+      "cuit": "30-70991278-6",
+      "service_days_text": "LUNES A SÁBADOS",
+      "service_days": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "modality": "REGULAR COMÚN",
+      "route": "",
+      "source_file": "Cronograma de Horario 2026 Corredor ESTE - SUDESTE (21.08.26)_firmado.pdf",
+      "source_page": 22
+    },
+    {
+      "corridor": "ESTE-SUDESTE",
+      "line": "VILLA MARÍA - ALTO ALEGRE",
+      "line_id": "este-sudeste-villa-maria-alto-alegre",
+      "nodes": [
+        "VILLA MARÍA",
+        "ALTO ALEGRE"
+      ],
+      "direction": "V",
+      "time": "08:30",
+      "minutes": 510,
+      "company": "CRU BUS",
+      "cuit": "30-70991278-6",
+      "service_days_text": "LUNES A SÁBADOS",
+      "service_days": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "modality": "REGULAR COMÚN",
+      "route": "",
+      "source_file": "Cronograma de Horario 2026 Corredor ESTE - SUDESTE (21.08.26)_firmado.pdf",
+      "source_page": 22
+    }
+  ],
+  "warnings": []
+}
