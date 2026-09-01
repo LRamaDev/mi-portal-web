@@ -48,4 +48,5 @@ test('la pestaña muestra el informe estructurado de la última carga',async()=>
   assert.equal(elements['change-publication'].value,'2026-08-28');
   assert.match(elements['change-summary'].innerHTML,/5\.502/);assert.match(elements['change-summary'].innerHTML,/>2</);
   assert.match(elements['change-details'].innerHTML,/16:30/);assert.match(elements['change-details'].innerHTML,/14:45/);assert.match(elements['change-details'].innerHTML,/ALTO ALEGRE/);
+  assert.match(elements['change-details'].innerHTML,/change-group modified/);assert.match(elements['change-details'].innerHTML,/change-group removed/);
 });
