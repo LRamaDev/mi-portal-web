@@ -49,18 +49,41 @@ este paso.
 3. Esperar el resultado:
    - Verde: los archivos fueron procesados y existe un Pull Request preparado.
    - Rojo: no publicar; abrir el error y corregir la carga.
-4. Leer el informe: servicios agregados y eliminados, diferencias por corredor,
-   líneas nuevas y cabeceras pendientes.
+4. Leer el informe: servicios sin cambios, horarios modificados, servicios
+   agregados o eliminados, diferencias por corredor, líneas nuevas y cabeceras
+   pendientes.
+5. Si hace falta compartirlo, descargar el archivo estructurado desde los
+   artefactos de la ejecución. Se conserva durante 90 días y también queda
+   incorporado al historial público después del merge.
 
 ## Publicación
 
 1. Abrir el Pull Request generado por la automatización.
-2. Confirmar que solo cambien `app-transporte/data/horarios.json` y
-   `app-transporte/data/cabeceras.json`.
+2. Confirmar que los cambios estén limitados a:
+   - `app-transporte/data/horarios.json`;
+   - `app-transporte/data/cabeceras.json`;
+   - el índice, informe JSON y respaldo `.json.gz` de
+     `app-transporte/data/historico/`.
 3. Fusionar el Pull Request.
 4. Esperar el despliegue de GitHub Pages y probar el mapa.
 5. Eliminar la rama `actualizacion/AAAA-MM-DD` y la rama
    `publicacion/horarios-AAAA-MM-DD`.
+
+## Consulta histórica para Reclamos
+
+1. Abrir la aplicación y elegir **RECLAMOS · Consulta histórica**.
+2. Indicar la fecha del viaje o del hecho reclamado.
+3. Completar al menos un dato: localidad, empresa, línea, corredor o texto de
+   búsqueda.
+4. Revisar la publicación utilizada, el resultado y la referencia al PDF y
+   página de origen.
+5. Si corresponde, usar **Imprimir constancia / PDF**.
+
+La constancia indica si el servicio figuraba en el cronograma disponible para
+esa fecha. No acredita que la unidad haya circulado efectivamente. Si la fecha
+es anterior al primer respaldo disponible, la aplicación informa que no existe
+cobertura histórica suficiente; no responde erróneamente que el servicio no
+existía.
 
 ## Regla de seguridad
 

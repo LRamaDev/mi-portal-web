@@ -225,13 +225,14 @@
   }
   function inspectorChanged(){updateInspectorControls();renderInspector();}
   function setMode(mode){
-    state.mode=mode;var users=mode==='users';
-    $('user-mode-panel').hidden=!users;$('inspector-mode-panel').hidden=users;
-    $('mode-users').setAttribute('aria-pressed',String(users));$('mode-inspectors').setAttribute('aria-pressed',String(!users));
-    $('mode-users').className='mode-button'+(users?' active':'');$('mode-inspectors').className='mode-button'+(!users?' active':'');
-    $('page-title').textContent=users?'¿Desde dónde y hasta dónde viajás?':'Prepará un control de horarios';
-    $('page-description').textContent=users?'Consultá salidas publicadas, localidades intermedias y tiempos estimados. Todos los filtros se combinan.':'Elegí la base, el lugar del operativo, los sentidos y varias empresas y líneas para ordenar los servicios que deben pasar.';
-    if(users){if(state.map&&state.map.invalidateSize)state.map.invalidateSize();render();}else{stopAnimation();renderInspector();}
+    state.mode=mode;var users=mode==='users',inspectors=mode==='inspectors',claims=mode==='claims';
+    $('user-mode-panel').hidden=!users;$('inspector-mode-panel').hidden=!inspectors;$('claims-mode-panel').hidden=!claims;
+    [['users',users],['inspectors',inspectors],['claims',claims]].forEach(function(item){var button=$('mode-'+item[0]);button.setAttribute('aria-pressed',String(item[1]));button.className='mode-button'+(item[1]?' active':'');});
+    $('page-title').textContent=users?'¿Desde dónde y hasta dónde viajás?':inspectors?'Prepará un control de horarios':'Verificá el cronograma de una fecha';
+    $('page-description').textContent=users?'Consultá salidas publicadas, localidades intermedias y tiempos estimados. Todos los filtros se combinan.':inspectors?'Elegí la base, el lugar del operativo, los sentidos y varias empresas y líneas para ordenar los servicios que deben pasar.':'Consultá qué servicios figuraban en la publicación disponible para la fecha del reclamo y revisá los cambios semanales.';
+    if(users){if(state.map&&state.map.invalidateSize)state.map.invalidateSize();render();}
+    else if(inspectors){stopAnimation();renderInspector();}
+    else{stopAnimation();if(window.TransportHistory)window.TransportHistory.activate();}
   }
   function optionText(id,fallback){var el=$(id),option=el&&el.options[el.selectedIndex];return option&&option.value?option.textContent:fallback;}
   function exportDate(){return new Intl.DateTimeFormat('es-AR',{dateStyle:'full',timeStyle:'short',timeZone:'America/Argentina/Cordoba'}).format(new Date());}
@@ -301,7 +302,7 @@
     $('reset-filters').addEventListener('click',function(){clearTimeout(timer);$('filter-search').value='';FIELDS.forEach(function(f){$('filter-'+f).value='';});$('filter-day').value=String(today());changed();});
     $('results').addEventListener('click',function(event){var button=event.target.closest('[data-journey]');if(!button)return;var key=button.getAttribute('data-journey');state.focus=state.focus===key?null:key;render();});
     $('journey-detail').addEventListener('click',function(event){if(event.target.closest('#close-journey')){state.focus=null;render();}});
-    $('mode-users').addEventListener('click',function(){setMode('users');});$('mode-inspectors').addEventListener('click',function(){setMode('inspectors');});
+    $('mode-users').addEventListener('click',function(){setMode('users');});$('mode-inspectors').addEventListener('click',function(){setMode('inspectors');});$('mode-claims').addEventListener('click',function(){setMode('claims');});
     ['inspector-corridor','inspector-locality'].forEach(function(id){$(id).addEventListener('change',inspectorChanged);});
     ['inspector-day','inspector-from','inspector-to','inspector-delegation'].forEach(function(id){$(id).addEventListener('change',renderInspector);});
     $('inspector-point').addEventListener('input',renderInspector);

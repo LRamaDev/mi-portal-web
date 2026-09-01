@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "timezone": "America/Argentina/Cordoba",
+  "publications": [
+    {
+      "publication_date": "2026-08-21",
+      "valid_from": "2026-08-21",
+      "valid_until": "2026-08-27",
+      "services": 5506,
+      "corridors": 8,
+      "source_dates": {
+        "ESTE-SUDESTE": "2026-08-21",
+        "NORESTE": "2026-08-21",
+        "NORTE": "2026-08-21",
+        "PUNILLA": "2026-08-21",
+        "RUTA 5": "2026-08-21",
+        "SIERRAS CHICAS": "2026-08-21",
+        "SUR": "2026-08-21",
+        "TRASLASIERRA": "2026-08-21"
+      },
+      "snapshot": "backups/horarios-2026-08-21.json.gz",
+      "snapshot_sha256": "e10648cb571d05d30cf12e862a6810de15dda4bbdd9567b93fbedf4b825b34c3",
+      "content_sha256": "d8b33b603caffde1fd70a616903d116c77ccc621a516ed5bfd84bb9ae53f69ff",
+      "compressed_bytes": 273494,
+      "changes": null
+    },
+    {
+      "publication_date": "2026-08-28",
+      "valid_from": "2026-08-28",
+      "valid_until": null,
+      "services": 5504,
+      "corridors": 8,
+      "source_dates": {
+        "ESTE-SUDESTE": "2026-08-28",
+        "NORESTE": "2026-08-21",
+        "NORTE": "2026-08-21",
+        "PUNILLA": "2026-08-21",
+        "RUTA 5": "2026-08-21",
+        "SIERRAS CHICAS": "2026-08-21",
+        "SUR": "2026-08-21",
+        "TRASLASIERRA": "2026-08-21"
+      },
+      "snapshot": "backups/horarios-2026-08-28.json.gz",
+      "snapshot_sha256": "574582a41241be81826147ef32cb911e2f8db634ab63a63e89a8ec51de0ad952",
+      "content_sha256": "f3e0d2c60521996bf77ac011cfbb2aca4852441a8fd941e59bd5a742e77fdacc",
+      "compressed_bytes": 268352,
+      "changes": "cambios/cambios-2026-08-28.json",
+      "changes_sha256": "e36aa0f90d6416d9b0e8a3e85a91375ec0cb1988572041a5378082a20fc98d1e",
+      "summary": {
+        "previous_services": 5506,
+        "current_services": 5504,
+        "unchanged": 5502,
+        "modified": 2,
+        "added": 0,
+        "removed": 2
+      }
+    }
+  ],
+  "first_available_date": "2026-08-21",
+  "latest_publication_date": "2026-08-28"
+}
