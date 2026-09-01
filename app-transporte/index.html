@@ -64,6 +64,11 @@
         <span class="mode-copy"><small>OPERATIVOS</small><strong>Control de inspectores</strong>
         <span>Combinar empresas y líneas desde una delegación u operativo móvil.</span></span>
       </button>
+      <button id="mode-claims" class="mode-button" type="button" aria-pressed="false">
+        <span class="mode-badge" aria-hidden="true">RH</span>
+        <span class="mode-copy"><small>RECLAMOS</small><strong>Consulta histórica</strong>
+        <span>Verificar qué servicio figuraba en el cronograma disponible para una fecha.</span></span>
+      </button>
     </nav>
 
     <section id="user-mode-panel" aria-label="Consulta para atención a usuarios">
@@ -191,6 +196,63 @@
 
       <p class="inspector-legal-note"><strong>Importante:</strong> la salida de cabecera proviene del PDF publicado. El paso por una localidad intermedia es estimado y debe identificarse como tal durante el control.</p>
     </section>
+
+    <section id="claims-mode-panel" class="history-panel" aria-label="Consulta histórica para reclamos" hidden>
+      <div class="history-intro">
+        <div>
+          <span class="eyebrow">Verificación documental</span>
+          <h3>¿Qué servicio figuraba para la fecha del reclamo?</h3>
+          <p>La fecha determina qué publicación histórica y qué día de prestación deben consultarse.</p>
+        </div>
+        <div id="history-coverage" class="history-coverage">Cargando cobertura histórica…</div>
+      </div>
+
+      <section class="history-date-card" aria-labelledby="history-date-title">
+        <div><span class="eyebrow">Paso 1</span><h4 id="history-date-title">Fecha del viaje o del hecho reclamado</h4></div>
+        <label><span>Fecha a verificar</span><input id="history-date" type="date"></label>
+        <div id="history-publication-status" class="history-publication-status" role="status">Elegí una fecha.</div>
+      </section>
+
+      <section class="history-filters" aria-label="Filtros de la consulta histórica">
+        <label class="history-search"><span>Buscar</span><input id="history-search" type="search" placeholder="Localidad, línea, empresa o ruta…" autocomplete="off"></label>
+        <label><span>Origen</span><select id="history-origin"><option value="">Todos</option></select></label>
+        <label><span>Destino</span><select id="history-destination"><option value="">Todos</option></select></label>
+        <label><span>Corredor</span><select id="history-corridor"><option value="">Todos</option></select></label>
+        <label><span>Línea</span><select id="history-line"><option value="">Todas</option></select></label>
+        <label><span>Sentido</span><select id="history-direction"><option value="">Ambos</option></select></label>
+        <label><span>Empresa</span><select id="history-company"><option value="">Todas</option></select></label>
+        <button id="history-reset" class="reset-button" type="button">Limpiar filtros</button>
+      </section>
+
+      <section class="history-evidence" aria-live="polite">
+        <header>
+          <div><span class="eyebrow">Resultado</span><h3 id="history-result-title">Servicios programados para esa fecha</h3></div>
+          <span id="history-result-count" class="result-count">0</span>
+        </header>
+        <p id="history-result-status" class="history-result-status">Seleccioná una fecha y algún dato del servicio.</p>
+        <div id="history-results" class="history-results"></div>
+        <div class="history-actions">
+          <button id="history-print" class="export-button" type="button">Imprimir constancia / PDF</button>
+          <p id="history-export-status" class="export-status" role="status"></p>
+        </div>
+      </section>
+
+      <p class="history-legal-note"><strong>Alcance:</strong> el resultado acredita que el servicio figuraba —o no aparece— en el cronograma disponible para esa fecha. No acredita que la unidad haya circulado efectivamente. Los recorridos y pasos intermedios continúan siendo orientativos.</p>
+
+      <section class="change-report" aria-labelledby="change-report-title">
+        <header>
+          <div><span class="eyebrow">Auditoría semanal</span><h3 id="change-report-title">Informe de cambios de horarios</h3></div>
+          <label><span>Publicación</span><select id="change-publication"><option value="">Elegir</option></select></label>
+        </header>
+        <div id="change-summary" class="change-summary"><p>Elegí una publicación con informe.</p></div>
+        <div class="change-actions">
+          <button id="change-print" class="export-button" type="button">Imprimir informe / PDF</button>
+          <button id="change-csv" class="export-button image" type="button">Descargar CSV</button>
+          <p id="change-export-status" class="export-status" role="status"></p>
+        </div>
+        <div id="change-details" class="change-details"></div>
+      </section>
+    </section>
   </main>
 
   <dialog id="admin-dialog" class="admin-dialog" aria-labelledby="admin-title">
@@ -199,7 +261,7 @@
         <div><span class="eyebrow">Actualización semanal</span><h2 id="admin-title">Cargar los ocho cronogramas</h2></div>
         <button id="admin-close" class="admin-close" type="button" aria-label="Cerrar">×</button>
       </header>
-      <p class="admin-lead">Elegí los ocho PDF juntos. La aplicación reconoce cada corredor, los sube en un único envío y prepara una rama de actualización para el control automático.</p>
+      <p class="admin-lead">Elegí los ocho PDF juntos. La aplicación reconoce cada corredor, los sube en un único envío y prepara una rama para validar los horarios, generar el informe de cambios y actualizar el historial.</p>
       <section class="admin-security">
         <strong>Acceso seguro</strong>
         <p>Usá una clave personal de GitHub limitada a este repositorio y al permiso <em>Contents: Read and write</em>. La clave no se guarda y se borra del campo al terminar.</p>
@@ -208,7 +270,7 @@
       <label class="admin-field"><span>Los ocho archivos PDF</span><input id="admin-files" type="file" accept="application/pdf,.pdf" multiple required></label>
       <div id="admin-file-list" class="admin-file-list" aria-live="polite">Todavía no elegiste archivos.</div>
       <label class="admin-field"><span>Clave de acceso de GitHub</span><input id="admin-token" type="password" inputmode="text" autocomplete="off" autocapitalize="none" spellcheck="false" placeholder="github_pat_…" required></label>
-      <p class="admin-help">La carga no publica horarios directamente: crea una rama <code>actualizacion/carga-web-…</code>. GitHub valida los ocho PDF y prepara el Pull Request habitual.</p>
+      <p class="admin-help">La carga no publica horarios directamente: crea una rama <code>actualizacion/carga-web-…</code>. GitHub valida los ocho PDF y prepara el Pull Request con el cronograma vigente, el informe y el respaldo histórico.</p>
       <progress id="admin-progress" class="admin-progress" max="100" value="0" hidden></progress>
       <p id="admin-status" class="admin-status" role="status"></p>
       <div id="admin-result" class="admin-result" hidden></div>
@@ -226,8 +288,9 @@
 <section id="print-sheet" class="print-sheet" aria-hidden="true"></section>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-<script defer src="recorridos.js?v=8"></script>
-<script defer src="transporte.js?v=8"></script>
-<script defer src="admin.js?v=8"></script>
+<script defer src="recorridos.js?v=9"></script>
+<script defer src="historico.js?v=9"></script>
+<script defer src="transporte.js?v=9"></script>
+<script defer src="admin.js?v=9"></script>
 </body>
 </html>
