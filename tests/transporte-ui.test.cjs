@@ -101,6 +101,13 @@ test('inspectores pueden combinar empresas y las líneas se recalculan acumulati
   e['inspector-print'].fire('click');assert.equal(ui.printState.count,1);assert.match(e['print-sheet'].innerHTML,/Planilla de control de horarios/);assert.match(e['print-sheet'].innerHTML,/EDER SERVICIO DIFERENCIAL/);
   e['inspector-image'].fire('click');assert.equal(ui.downloads.length,1);assert.match(ui.downloads[0].download,/^ERSeP-control-/);
 });
+test('inspectores pueden acumular Ida y Vuelta y conservar el lugar del operativo',async()=>{
+  const ui=await load(),e=ui.elements;e['mode-inspectors'].fire('click');e['inspector-locality'].value='loc-1177';e['inspector-locality'].fire('change');
+  assert.match(e['inspector-directions'].innerHTML,/Ida/);assert.match(e['inspector-directions'].innerHTML,/Vuelta/);
+  e['inspector-directions-none'].fire('click');assert.equal(e['inspector-locality'].value,'loc-1177');assert.match(e['inspector-summary'].textContent,/No hay sentidos/);
+  e['inspector-directions'].fire('change',{target:{checked:true,getAttribute(){return 'I';}}});assert.match(e['inspector-summary'].textContent,/Ida/);assert.doesNotMatch(e['inspector-summary'].textContent,/Vuelta/);
+  e['inspector-directions'].fire('change',{target:{checked:true,getAttribute(){return 'V';}}});assert.match(e['inspector-summary'].textContent,/Ida \+ Vuelta/);assert.match(e['inspector-results'].innerHTML,/Ida/);assert.match(e['inspector-results'].innerHTML,/Vuelta/);
+});
 test('la consulta se puede preparar para PDF y descargar como imagen con membrete',async()=>{
   const ui=await load();setTrip(ui);ui.elements['user-print'].fire('click');assert.equal(ui.printState.count,1);assert.match(ui.elements['print-sheet'].innerHTML,/logo-ersep\.png/);assert.match(ui.elements['print-sheet'].innerHTML,/Consulta de horarios interurbanos/);assert.match(ui.elements['print-sheet'].innerHTML,/Destino final/);
   ui.elements['user-image'].fire('click');assert.equal(ui.downloads.length,1);assert.match(ui.downloads[0].download,/^ERSeP-consulta-\d{4}-\d{2}-\d{2}\.png$/);assert.match(ui.elements['user-export-status'].textContent,/Imagen descargada/);

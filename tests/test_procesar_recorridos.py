@@ -9,6 +9,7 @@ SPEC = importlib.util.spec_from_file_location("recorridos", ROOT / "scripts/tran
 MODULE = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(MODULE)
 DATA = json.loads((ROOT / "app-transporte/data/recorridos.json").read_text())
+CATALOG = json.loads((ROOT / "datos-fuente/transporte/coordenadas-validadas.json").read_text())
 
 
 class RouteChecks(unittest.TestCase):
@@ -58,6 +59,13 @@ class RouteChecks(unittest.TestCase):
         self.assertIsNone(MODULE.minutes(-0.01))
         self.assertIsNone(MODULE.minutes(None))
         self.assertEqual(MODULE.minutes(1/24), 60)
+
+    def test_verified_coordinates_are_applied_by_stable_id(self):
+        self.assertEqual(len(CATALOG["points"]), 91)
+        self.assertEqual(DATA["validated_coordinates"]["applied_to_routes"], 88)
+        points = {point["id"]: point for point in CATALOG["points"]}
+        self.assertAlmostEqual(points["pdf-ESTE SUDESTE-CAMPO LA ARGENTINA"]["lat"], -31.54466776655627)
+        self.assertAlmostEqual(DATA["places"]["loc-1286"]["lon"], -64.29360367967914)
 
 
 if __name__ == "__main__":

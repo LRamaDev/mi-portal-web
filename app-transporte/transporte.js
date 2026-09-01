@@ -4,7 +4,7 @@
   var DAYS = { '1':'Lunes', '2':'Martes', '3':'Miércoles', '4':'Jueves', '5':'Viernes', '6':'Sábado', '7':'Domingo' };
   var DIRECTIONS = { I:'Ida', V:'Vuelta' };
   var FIELDS = ['origin','destination','corridor','line','direction','day','company','modality'];
-  var state = { data:null, geo:null, routes:null, engine:null, map:null, layer:null, focus:null, animationId:null, results:[], routeError:false, mode:'users', inspectorCompanies:new Set(), inspectorAvailableCompanies:[], inspectorAllCompanies:true, inspectorLines:new Set(), inspectorAvailableLines:[], inspectorAllLines:true, inspectorRecords:[] };
+  var state = { data:null, geo:null, routes:null, engine:null, map:null, layer:null, focus:null, animationId:null, results:[], routeError:false, mode:'users', inspectorDirections:new Set(['I','V']), inspectorAvailableDirections:['I','V'], inspectorAllDirections:true, inspectorCompanies:new Set(), inspectorAvailableCompanies:[], inspectorAllCompanies:true, inspectorLines:new Set(), inspectorAvailableLines:[], inspectorAllLines:true, inspectorRecords:[] };
   var $ = function (id) { return document.getElementById(id); };
   var esc = function (value) { return String(value == null ? '' : value).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); };
   var unique = function (xs) { return Array.from(new Set(xs)); };
@@ -151,12 +151,19 @@
     var corridor=$('inspector-corridor').value,location=$('inspector-locality').value;
     return state.engine.models.filter(function(model){
       if(exclude!=='corridor'&&corridor&&model.service.corridor!==corridor)return false;
+      if(exclude!=='directions'){
+        if(!state.inspectorAllDirections&&!state.inspectorDirections.size&&!exclude)return false;
+        if(state.inspectorDirections.size&&!state.inspectorDirections.has(model.service.direction))return false;
+      }
       if(exclude!=='companies'){
         if(!state.inspectorAllCompanies&&!state.inspectorCompanies.size&&!exclude)return false;
         if(state.inspectorCompanies.size&&!state.inspectorCompanies.has(model.service.company))return false;
       }
       return exclude==='locality'||modelStopsAt(model,location);
     });
+  }
+  function renderInspectorDirections(directions){
+    $('inspector-directions').innerHTML=directions.length?directions.map(function(direction){return '<label class="direction-option"><input type="checkbox" data-inspector-direction="'+esc(direction)+'" '+(state.inspectorDirections.has(direction)?'checked':'')+'><span>'+esc(DIRECTIONS[direction]||direction)+'</span></label>';}).join(''):'<div class="line-empty">No hay sentidos para esta combinación.</div>';
   }
   function renderInspectorCompanies(companies){
     $('inspector-companies').innerHTML=companies.length?companies.map(function(company){return '<label class="company-option"><input type="checkbox" data-inspector-company="'+esc(company)+'" '+(state.inspectorCompanies.has(company)?'checked':'')+'><span>'+esc(company)+'</span></label>';}).join(''):'<div class="line-empty">No hay empresas para esta combinación.</div>';
@@ -165,6 +172,10 @@
     $('inspector-lines').innerHTML=lines.length?lines.map(function(line){return '<label class="line-option"><input type="checkbox" data-inspector-line="'+esc(line)+'" '+(state.inspectorLines.has(line)?'checked':'')+'><span>'+esc(line)+'</span></label>';}).join(''):'<div class="line-empty">No hay líneas para esta combinación.</div>';
   }
   function updateInspectorControls(){
+    var directions=unique(inspectorFacetModels('directions').map(function(m){return m.service.direction;})).sort();
+    if(state.inspectorAllDirections)state.inspectorDirections=new Set(directions);
+    else state.inspectorDirections=new Set(directions.filter(function(direction){return state.inspectorDirections.has(direction);}));
+    state.inspectorAvailableDirections=directions;renderInspectorDirections(directions);
     var companies=unique(inspectorFacetModels('companies').map(function(m){return m.service.company;})).sort(function(a,b){return a.localeCompare(b,'es');});
     if(state.inspectorAllCompanies)state.inspectorCompanies=new Set(companies);
     else state.inspectorCompanies=new Set(companies.filter(function(company){return state.inspectorCompanies.has(company);}));
@@ -192,11 +203,13 @@
     var locality=$('inspector-locality').value,tbody=$('inspector-results');
     state.inspectorRecords=[];
     if(!locality){$('inspector-count').textContent='0';tbody.innerHTML='<tr><td colspan="6">Elegí la localidad donde se realizará el control.</td></tr>';$('inspector-summary').textContent='Elegí una localidad para preparar el control.';return;}
+    if(!state.inspectorDirections.size){$('inspector-count').textContent='0';tbody.innerHTML='<tr><td colspan="6">Seleccioná Ida, Vuelta o ambos sentidos.</td></tr>';$('inspector-summary').textContent='No hay sentidos seleccionados.';return;}
     if(!state.inspectorCompanies.size){$('inspector-count').textContent='0';tbody.innerHTML='<tr><td colspan="6">Seleccioná al menos una empresa.</td></tr>';$('inspector-summary').textContent='No hay empresas seleccionadas.';return;}
     if(!state.inspectorLines.size){$('inspector-count').textContent='0';tbody.innerHTML='<tr><td colspan="6">Seleccioná al menos una línea.</td></tr>';$('inspector-summary').textContent='No hay líneas seleccionadas.';return;}
     var records=state.engine.control({
       location:locality,
       corridor:$('inspector-corridor').value,
+      directions:Array.from(state.inspectorDirections),
       companies:Array.from(state.inspectorCompanies),
       day:$('inspector-day').value,
       lines:Array.from(state.inspectorLines),
@@ -207,7 +220,8 @@
     $('inspector-count').textContent=records.length.toLocaleString('es-AR');
     tbody.innerHTML=records.length?records.slice(0,500).map(inspectionRow).join(''):'<tr><td colspan="6">No hay servicios con horario calculable para esta selección.</td></tr>';
     var base=$('inspector-delegation').value||'Base sin indicar',point=$('inspector-point').value.trim();
-    $('inspector-summary').textContent=base+' · Control en '+placeLabel(locality)+(point?' · '+point:'')+' · '+state.inspectorCompanies.size+' empresa'+(state.inspectorCompanies.size===1?'':'s')+' · '+state.inspectorLines.size+' línea'+(state.inspectorLines.size===1?'':'s')+' · '+records.length.toLocaleString('es-AR')+' servicios esperados'+(records.length>500?' (se muestran los primeros 500)':'')+'.';
+    var directionText=Array.from(state.inspectorDirections).sort().map(function(direction){return DIRECTIONS[direction];}).join(' + ');
+    $('inspector-summary').textContent=base+' · Control en '+placeLabel(locality)+(point?' · '+point:'')+' · '+directionText+' · '+state.inspectorCompanies.size+' empresa'+(state.inspectorCompanies.size===1?'':'s')+' · '+state.inspectorLines.size+' línea'+(state.inspectorLines.size===1?'':'s')+' · '+records.length.toLocaleString('es-AR')+' servicios esperados'+(records.length>500?' (se muestran los primeros 500)':'')+'.';
   }
   function inspectorChanged(){updateInspectorControls();renderInspector();}
   function setMode(mode){
@@ -216,7 +230,7 @@
     $('mode-users').setAttribute('aria-pressed',String(users));$('mode-inspectors').setAttribute('aria-pressed',String(!users));
     $('mode-users').className='mode-button'+(users?' active':'');$('mode-inspectors').className='mode-button'+(!users?' active':'');
     $('page-title').textContent=users?'¿Desde dónde y hasta dónde viajás?':'Prepará un control de horarios';
-    $('page-description').textContent=users?'Consultá salidas publicadas, localidades intermedias y tiempos estimados. Todos los filtros se combinan.':'Elegí la base, el lugar del operativo y varias empresas y líneas para ordenar los servicios que deben pasar.';
+    $('page-description').textContent=users?'Consultá salidas publicadas, localidades intermedias y tiempos estimados. Todos los filtros se combinan.':'Elegí la base, el lugar del operativo, los sentidos y varias empresas y líneas para ordenar los servicios que deben pasar.';
     if(users){if(state.map&&state.map.invalidateSize)state.map.invalidateSize();render();}else{stopAnimation();renderInspector();}
   }
   function optionText(id,fallback){var el=$(id),option=el&&el.options[el.selectedIndex];return option&&option.value?option.textContent:fallback;}
@@ -238,7 +252,7 @@
     var locality=$('inspector-locality').value,base=$('inspector-delegation').value||'Sin indicar',point=$('inspector-point').value.trim()||'Sin indicar',records=state.inspectorRecords;
     return {
       title:'Planilla de control de horarios',kind:'Control de inspectores',count:records.length,
-      meta:[['Base del equipo',base],['Lugar de control',locality?placeLabel(locality):'Sin indicar'],['Terminal o punto',point],['Corredor',optionText('inspector-corridor','Todos')],['Empresas',Array.from(state.inspectorCompanies).join(', ')||'Ninguna'],['Líneas',Array.from(state.inspectorLines).join(', ')||'Ninguna'],['Día',optionText('inspector-day','Todos')],['Franja',$('inspector-from').value+'–'+$('inspector-to').value]],
+      meta:[['Base del equipo',base],['Lugar de control',locality?placeLabel(locality):'Sin indicar'],['Terminal o punto',point],['Corredor',optionText('inspector-corridor','Todos')],['Sentidos',Array.from(state.inspectorDirections).sort().map(function(direction){return DIRECTIONS[direction];}).join(' + ')||'Ninguno'],['Empresas',Array.from(state.inspectorCompanies).join(', ')||'Ninguna'],['Líneas',Array.from(state.inspectorLines).join(', ')||'Ninguna'],['Día',optionText('inspector-day','Todos')],['Franja',$('inspector-from').value+'–'+$('inspector-to').value]],
       columns:['Hora de control','Tipo','Empresa y línea','Sentido','Destino final · cartel','Salida publicada'],
       rows:records.map(function(record){var s=record.service;return [clockText(record.at)+'\n'+record.days.map(function(d){return DAYS[d];}).join(', '),record.publishedAtControl?'Publicado':'Estimado',s.company+'\n'+s.line,DIRECTIONS[s.direction]+' · '+s.modality,placeLabel(record.finalDestination),s.time+' · '+placeLabel(record.origin)];}),
       imageRows:records.map(function(record){var s=record.service;return {time:clockText(record.at),primary:s.company+' · '+s.line,secondary:(record.publishedAtControl?'Publicado':'Estimado')+' · '+DIRECTIONS[s.direction]+' · '+record.days.map(function(d){return DAYS[d];}).join(', '),tertiary:'Cartel: '+placeLabel(record.finalDestination)+' · Sale '+s.time+' de '+placeLabel(record.origin)};}),
@@ -291,6 +305,9 @@
     ['inspector-corridor','inspector-locality'].forEach(function(id){$(id).addEventListener('change',inspectorChanged);});
     ['inspector-day','inspector-from','inspector-to','inspector-delegation'].forEach(function(id){$(id).addEventListener('change',renderInspector);});
     $('inspector-point').addEventListener('input',renderInspector);
+    $('inspector-directions').addEventListener('change',function(event){var direction=event.target.getAttribute('data-inspector-direction');if(!direction)return;if(event.target.checked)state.inspectorDirections.add(direction);else state.inspectorDirections.delete(direction);state.inspectorAllDirections=state.inspectorAvailableDirections.length>0&&state.inspectorAvailableDirections.every(function(value){return state.inspectorDirections.has(value);});updateInspectorControls();renderInspector();});
+    $('inspector-directions-all').addEventListener('click',function(){state.inspectorAllDirections=true;state.inspectorDirections=new Set(state.inspectorAvailableDirections);updateInspectorControls();renderInspector();});
+    $('inspector-directions-none').addEventListener('click',function(){state.inspectorAllDirections=false;state.inspectorDirections=new Set();updateInspectorControls();renderInspector();});
     $('inspector-companies').addEventListener('change',function(event){var company=event.target.getAttribute('data-inspector-company');if(!company)return;if(event.target.checked)state.inspectorCompanies.add(company);else state.inspectorCompanies.delete(company);state.inspectorAllCompanies=state.inspectorAvailableCompanies.length>0&&state.inspectorAvailableCompanies.every(function(value){return state.inspectorCompanies.has(value);});updateInspectorControls();renderInspector();});
     $('inspector-companies-all').addEventListener('click',function(){state.inspectorAllCompanies=true;state.inspectorCompanies=new Set(state.inspectorAvailableCompanies);updateInspectorControls();renderInspector();});
     $('inspector-companies-none').addEventListener('click',function(){state.inspectorAllCompanies=false;state.inspectorCompanies=new Set();updateInspectorControls();renderInspector();});
@@ -316,14 +333,15 @@
     $('updated-date').textContent=date(latest);$('updated-detail').textContent=state.data.sources.length+' corredores · '+state.data.services.length.toLocaleString('es-AR')+' servicios';
     var coverage=state.engine.coverage;
     $('route-coverage').textContent=state.routeError?'Base de recorridos no disponible: se muestran salidas publicadas y cabeceras, sin estimaciones intermedias.':coverage.linked.toLocaleString('es-AR')+' de '+coverage.total.toLocaleString('es-AR')+' servicios tienen recorrido vinculado. Los restantes conservan sus salidas publicadas, con intermedias pendientes.';
-    $('quality-note').textContent='Datos oficiales semanales + base orientativa independiente. Las nuevas variantes quedan pendientes de vinculación; no se les asigna un recorrido por semejanza.';
+    var located=state.routes&&state.routes.stats?state.routes.stats.geolocated_places:null,totalPlaces=state.routes&&state.routes.stats?state.routes.stats.places:null;
+    $('quality-note').textContent='Datos oficiales semanales + base orientativa independiente.'+(located!==null?' '+located.toLocaleString('es-AR')+' de '+totalPlaces.toLocaleString('es-AR')+' puntos ya tienen coordenadas verificadas.':'')+' Las nuevas variantes quedan pendientes de vinculación; no se les asigna un recorrido por semejanza.';
     $('map-legend').innerHTML=state.data.corridors.map(function(c){return '<span><i class="dot" style="--dot-color:'+COLORS[c]+'"></i>'+esc(c)+'</span>';}).join('');
   }
   function getJSON(path){return fetch(path,{cache:'no-store'}).then(function(response){if(!response.ok)throw new Error(path);return response.json();});}
   theme();
   Promise.all([getJSON('data/horarios.json'),getJSON('data/cabeceras.json'),getJSON('data/recorridos.json').catch(function(){state.routeError=true;return null;})]).then(function(payloads){
     state.data=payloads[0];state.geo=payloads[1];state.routes=payloads[2];
-    if(!R)throw new Error('Falta recorridos.js. Verificá que se hayan subido todos los archivos de la v7.');
+    if(!R)throw new Error('Falta recorridos.js. Verificá que se hayan subido todos los archivos de la v8.');
     if(state.routes && state.routes.schema_version!==1){state.routes=null;state.routeError=true;}
     state.engine=R.create(state.data,state.geo,state.routes);initMap();$('filter-day').value=String(today());$('inspector-day').value=String(today());updateOptions();updateInspectorControls();bind();sourceSummary();render();renderInspector();
   }).catch(function(error){$('results').innerHTML='<div class="empty-state"><strong>No se pudo cargar la información.</strong><p>'+esc(error.message)+'</p></div>';$('updated-date').textContent='Error de carga';});

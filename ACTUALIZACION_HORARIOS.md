@@ -8,7 +8,32 @@ Guía operativa para las personas administradoras del mapa.
 - Verificar que se puedan abrir y que correspondan a los corredores previstos.
 - No modificar manualmente `horarios.json` ni `cabeceras.json`.
 
-## Carga
+## Carga desde la aplicación · recomendada
+
+### Preparación inicial de la clave
+
+1. En GitHub, crear un **fine-grained personal access token**.
+2. Limitarlo al repositorio `LRamaDev/mi-portal-web`.
+3. Conceder únicamente `Contents: Read and write`.
+4. Definir una fecha de vencimiento y guardarlo en un administrador de contraseñas.
+
+La clave no forma parte de la página, no se guarda en el navegador y se borra del
+campo después de cada intento. No usar la contraseña de la cuenta de GitHub.
+
+### Carga semanal desde computadora o celular
+
+1. Abrir la aplicación publicada y pulsar **Administrar PDF**.
+2. Elegir juntos los ocho cronogramas PDF.
+3. Confirmar que el panel reconozca una vez cada corredor.
+4. Pegar la clave personal y pulsar **Subir los ocho PDF**.
+5. Esperar hasta que la barra llegue al 100 %. No cerrar la pestaña durante la carga.
+6. Abrir **Ver la validación automática**.
+
+La aplicación reemplaza los PDF anteriores en un solo commit y crea una rama
+`actualizacion/carga-web-AAAAMMDD-HHMMSS`. La información pública no cambia en
+este paso.
+
+## Carga manual de respaldo
 
 1. Abrir el repositorio y asegurarse de estar en `main`.
 2. Crear una rama `actualizacion/AAAA-MM-DD`, usando la fecha de los PDF.
