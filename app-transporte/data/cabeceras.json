@@ -65,13 +65,6 @@
       "source_name": "Alta Gracia",
       "department": "Santa María"
     },
-    "ALTO ALEGRE": {
-      "lat": -32.3446887169557,
-      "lon": -62.8849135837045,
-      "source": "Georef Argentina · localidades",
-      "source_name": "Alto Alegre",
-      "department": "Unión"
-    },
     "ALTO LOS QUEBRACHOS": {
       "lat": -30.5432844931547,
       "lon": -65.036726705634,
@@ -169,6 +162,12 @@
       "source": "Georef Argentina · localidades",
       "source_name": "Caminiaga",
       "department": "Sobremonte"
+    },
+    "CAMPO LA ARGENTINA": {
+      "lat": -31.54466776655627,
+      "lon": -64.12591893055045,
+      "source": "Dato aportado por Lea el 2026-08-31",
+      "source_name": "CAMPO LA ARGENTINA"
     },
     "CANALS": {
       "lat": -33.5621726336415,
@@ -373,6 +372,12 @@
       "source_name": "Embalse",
       "department": "Calamuchita"
     },
+    "EMPALME TANTI": {
+      "lat": -31.3841462730431,
+      "lon": -64.5122724453068,
+      "source": "Lat,Long Ciudades MicroNauta (no borrar).xlsx · Longi Lati Definitivo · fila 311",
+      "source_name": "EMPALME TANTI"
+    },
     "ESCUELA DIQUE CHICO": {
       "lat": -31.7458491155841,
       "lon": -64.3658108592105,
@@ -519,6 +524,12 @@
       "source": "Georef Argentina · localidades",
       "source_name": "La Cumbrecita",
       "department": "Calamuchita"
+    },
+    "LA DORMIDA": {
+      "lat": -30.3545183849556,
+      "lon": -63.9478483524829,
+      "source": "Lat,Long Ciudades MicroNauta (no borrar).xlsx · Longi Lati Definitivo · fila 355",
+      "source_name": "LA DORMIDA"
     },
     "LA FALDA": {
       "lat": -31.0944265203633,
@@ -1219,24 +1230,6 @@
       "source": "Georef Argentina · asentamientos",
       "source_name": "Yocsina",
       "department": "Santa María"
-    },
-    "LA DORMIDA": {
-      "lat": -30.3545183849556,
-      "lon": -63.9478483524829,
-      "source": "Lat,Long Ciudades MicroNauta (no borrar).xlsx · Longi Lati Definitivo · fila 355",
-      "source_name": "LA DORMIDA"
-    },
-    "CAMPO LA ARGENTINA": {
-      "lat": -31.54466776655627,
-      "lon": -64.12591893055045,
-      "source": "Dato aportado por Lea el 2026-08-31",
-      "source_name": "CAMPO LA ARGENTINA"
-    },
-    "EMPALME TANTI": {
-      "lat": -31.3841462730431,
-      "lon": -64.5122724453068,
-      "source": "Lat,Long Ciudades MicroNauta (no borrar).xlsx · Longi Lati Definitivo · fila 311",
-      "source_name": "EMPALME TANTI"
     }
   },
   "unresolved": [
