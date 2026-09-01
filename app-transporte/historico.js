@@ -130,9 +130,9 @@
     return rows;
   }
   function changeTable(title,items,kind){
-    if(!items.length)return '<section class="change-group"><h4>'+title+'</h4><p>Ninguno.</p></section>';
+    if(!items.length)return '<section class="change-group '+kind+'"><h4>'+title+'</h4><p>Ninguno.</p></section>';
     var rows=items.slice(0,100).map(function(item){var before=kind==='modified'?item.before:item,after=kind==='modified'?item.after:item;return '<tr><td>'+esc(after.corridor)+'</td><td>'+esc(after.line)+'</td><td>'+esc(DIRECTIONS[after.direction]||after.direction)+'</td><td>'+esc(after.service_days_text)+'</td><td>'+esc(kind==='added'?'—':before.time)+'</td><td>'+esc(kind==='removed'?'—':after.time)+'</td><td>'+esc(after.company)+'</td></tr>';}).join('');
-    return '<section class="change-group"><h4>'+title+'</h4><div class="inspection-table-wrap"><table class="inspection-table change-table"><thead><tr><th>Corredor</th><th>Línea</th><th>Sentido</th><th>Días</th><th>Anterior</th><th>Nuevo</th><th>Empresa</th></tr></thead><tbody>'+rows+'</tbody></table></div></section>';
+    return '<section class="change-group '+kind+'"><h4>'+title+'</h4><div class="inspection-table-wrap"><table class="inspection-table change-table"><thead><tr><th>Corredor</th><th>Línea</th><th>Sentido</th><th>Días</th><th>Anterior</th><th>Nuevo</th><th>Empresa</th></tr></thead><tbody>'+rows+'</tbody></table></div></section>';
   }
   function renderReport(report){
     state.report=report;var summary=report.summary;
