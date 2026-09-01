@@ -87,10 +87,11 @@ test('Falda del Carmen → Córdoba conserva la flecha y muestra el cartel final
   assert.match(ui.elements['map-status'].textContent,/conectores punteados/);assert.match(ui.elements.results.innerHTML,/Destino final · cartel: CÓRDOBA/);
   assert.match(ui.elements['journey-detail'].innerHTML,/14:24/);assert.match(ui.elements['journey-detail'].innerHTML,/15:31/);
 });
-test('los dos modos de uso se pueden alternar sin mezclar sus paneles',async()=>{
+test('los tres modos de uso se pueden alternar sin mezclar sus paneles',async()=>{
   const ui=await load();ui.elements['mode-inspectors'].fire('click');
-  assert.equal(ui.elements['inspector-mode-panel'].hidden,false);assert.equal(ui.elements['user-mode-panel'].hidden,true);assert.match(ui.elements['page-title'].textContent,/control/i);
-  ui.elements['mode-users'].fire('click');assert.equal(ui.elements['inspector-mode-panel'].hidden,true);assert.equal(ui.elements['user-mode-panel'].hidden,false);
+  assert.equal(ui.elements['inspector-mode-panel'].hidden,false);assert.equal(ui.elements['user-mode-panel'].hidden,true);assert.equal(ui.elements['claims-mode-panel'].hidden,true);assert.match(ui.elements['page-title'].textContent,/control/i);
+  ui.elements['mode-claims'].fire('click');assert.equal(ui.elements['claims-mode-panel'].hidden,false);assert.equal(ui.elements['inspector-mode-panel'].hidden,true);assert.equal(ui.elements['user-mode-panel'].hidden,true);assert.match(ui.elements['page-title'].textContent,/fecha/i);
+  ui.elements['mode-users'].fire('click');assert.equal(ui.elements['claims-mode-panel'].hidden,true);assert.equal(ui.elements['inspector-mode-panel'].hidden,true);assert.equal(ui.elements['user-mode-panel'].hidden,false);
 });
 test('inspectores pueden combinar empresas y las líneas se recalculan acumulativamente',async()=>{
   const ui=await load(),e=ui.elements;e['mode-inspectors'].fire('click');e['inspector-locality'].value='loc-1177';e['inspector-locality'].fire('change');
