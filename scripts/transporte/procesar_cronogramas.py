@@ -28,7 +28,7 @@ CORRIDOR_PATTERN = (
 
 ROW_RE = re.compile(
     rf"^\s*({CORRIDOR_PATTERN})\s+"
-    r"(.+?)\s+([IV])\s+(\d{2}:\d{2})\s+"
+    r"(.+?)\s+([IV])\s+(\d{2}[:;]\d{2})\s+"
     r"(.+?)\s+(\d{2}-\d{8}-\d|#N/D)\s*"
     r"(.+?)\s*(REGULAR\s+(?:COMÚN|DIFERENCIAL)(?:\s+DIRECTO)?)\s*(.*)$"
 )
@@ -36,6 +36,7 @@ ROW_RE = re.compile(
 SOURCE_ROW_RE = re.compile(rf"^\s*(?:{CORRIDOR_PATTERN})\s+")
 DATE_IN_PARENS_RE = re.compile(r"\((\d{2}\.\d{2}\.\d{2})\)")
 UNCHANGED_RE = re.compile(r"IDEM\s+al\s+(\d{2}\.\d{2}\.\d{2})", re.IGNORECASE)
+PDF_METADATA_DATE_RE = re.compile(r"^D:(\d{4})(\d{2})(\d{2})")
 
 DAYS = {
     "DIARIO": [1, 2, 3, 4, 5, 6, 7],
@@ -95,6 +96,16 @@ def clean_spaces(value: str) -> str:
     return re.sub(r"\s+", " ", value).strip()
 
 
+def normalize_time(value: str) -> str:
+    """Normaliza el separador horario usado en los PDF oficiales."""
+    return value.replace(";", ":")
+
+
+def normalize_route(value: str) -> str:
+    """Recompone cortes tipográficos conocidos de la columna de recorrido."""
+    return value.replace("CH AZÓN", "CHAZÓN")
+
+
 def normalized_key(value: str) -> str:
     decomposed = unicodedata.normalize("NFD", value)
     ascii_like = "".join(ch for ch in decomposed if unicodedata.category(ch) != "Mn")
@@ -116,12 +127,27 @@ def parse_filename_date(match: re.Match[str] | None) -> str | None:
     return datetime.strptime(match.group(1), "%d.%m.%y").date().isoformat()
 
 
-def source_metadata(path: Path, page_count: int, row_count: int) -> dict:
+def parse_pdf_metadata_date(value: object) -> str | None:
+    match = PDF_METADATA_DATE_RE.match(str(value or ""))
+    if not match:
+        return None
+    year, month, day = (int(part) for part in match.groups())
+    return datetime(year, month, day).date().isoformat()
+
+
+def source_metadata(path: Path, page_count: int, row_count: int, pdf_metadata=None) -> dict:
     name = path.name
+    metadata = pdf_metadata or {}
+    publication_date = parse_filename_date(DATE_IN_PARENS_RE.search(name))
+    if not publication_date:
+        publication_date = (
+            parse_pdf_metadata_date(metadata.get("/ModDate"))
+            or parse_pdf_metadata_date(metadata.get("/CreationDate"))
+        )
     return {
         "filename": name,
         "sha256": hashlib.sha256(path.read_bytes()).hexdigest(),
-        "publication_date": parse_filename_date(DATE_IN_PARENS_RE.search(name)),
+        "publication_date": publication_date,
         "unchanged_since": parse_filename_date(UNCHANGED_RE.search(name)),
         "pages": page_count,
         "source_rows": row_count,
@@ -149,6 +175,8 @@ def parse_pdf(path: Path) -> tuple[list[dict], dict, list[str]]:
             corridor, route_line, direction, time, company, cuit, days, modality, route = (
                 clean_spaces(value) for value in match.groups()
             )
+            time = normalize_time(time)
+            route = normalize_route(route)
             if days not in DAYS:
                 rejected.append(
                     f"{path.name} · página {page_number}: días no reconocidos: {days!r}"
@@ -183,7 +211,7 @@ def parse_pdf(path: Path) -> tuple[list[dict], dict, list[str]]:
     if candidates != len(parsed) + len(rejected):
         raise RuntimeError(f"Control de filas inconsistente en {path.name}")
 
-    return parsed, source_metadata(path, len(reader.pages), candidates), rejected
+    return parsed, source_metadata(path, len(reader.pages), candidates, reader.metadata), rejected
 
 
 def duplicate_key(row: dict) -> tuple:
