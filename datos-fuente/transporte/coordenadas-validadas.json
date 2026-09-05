@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-08-31T21:47:17.298964+00:00",
+  "generated_at": "2026-09-05T17:00:00+00:00",
   "policy": "Solo registros marcados como Ubicada; cruce por ID estable",
   "points": [
     {
@@ -44,14 +44,55 @@
       "source": "Dato aportado por Lea el 2026-08-31"
     },
     {
+      "id": "loc-501",
+      "name": "1º de Mayo",
+      "corridors": [
+        "PUNILLA",
+        "TRASLASIERRA"
+      ],
+      "lat": -31.43790754895127,
+      "lon": -64.31412505844993,
+      "source": "Dato aportado por Lea el 2026-09-02"
+    },
+    {
+      "id": "pdf-PUNILLA-PRIMERO DE MAYO",
+      "name": "PRIMERO DE MAYO",
+      "corridors": [
+        "PUNILLA"
+      ],
+      "lat": -31.43790754895127,
+      "lon": -64.31412505844993,
+      "source": "Dato aportado por Lea el 2026-09-02"
+    },
+    {
+      "id": "loc-7d62790c5f06da00",
+      "name": "La Juanita",
+      "corridors": [
+        "PUNILLA"
+      ],
+      "lat": -31.493041079817747,
+      "lon": -64.45523762038567,
+      "source": "Dato aportado por Lea el 2026-09-02"
+    },
+    {
+      "id": "pdf-PUNILLA-LA JUANITA",
+      "name": "LA JUANITA",
+      "corridors": [
+        "PUNILLA"
+      ],
+      "lat": -31.493041079817747,
+      "lon": -64.45523762038567,
+      "source": "Dato aportado por Lea el 2026-09-02"
+    },
+    {
       "id": "pdf-PUNILLA-EMPALME TANTI",
       "name": "EMPALME TANTI",
       "corridors": [
         "PUNILLA"
       ],
-      "lat": -31.3841462730431,
-      "lon": -64.5122724453068,
-      "source": "Lat,Long Ciudades MicroNauta (no borrar).xlsx · Longi Lati Definitivo · fila 311"
+      "lat": -31.359372834994016,
+      "lon": -64.59818652263156,
+      "source": "Dato aportado por Lea el 2026-09-02"
     },
     {
       "id": "loc-8014",
@@ -141,9 +182,9 @@
         "PUNILLA",
         "TRASLASIERRA"
       ],
-      "lat": -31.3841462730431,
-      "lon": -64.5122724453068,
-      "source": "Lat,Long Ciudades MicroNauta (no borrar).xlsx · Longi Lati Definitivo · fila 308"
+      "lat": -31.359372834994016,
+      "lon": -64.59818652263156,
+      "source": "Dato aportado por Lea el 2026-09-02"
     },
     {
       "id": "loc-1329",
@@ -171,9 +212,9 @@
       "corridors": [
         "PUNILLA"
       ],
-      "lat": -31.4615688403571,
-      "lon": -64.4169475099296,
-      "source": "Lat,Long Ciudades MicroNauta (no borrar).xlsx · Longi Lati Definitivo · fila 429"
+      "lat": -31.460059648355934,
+      "lon": -64.41457982037696,
+      "source": "Dato aportado por Lea el 2026-09-02"
     },
     {
       "id": "loc-117",
@@ -934,6 +975,217 @@
       "lat": -31.5882949937702,
       "lon": -64.356004972391,
       "source": "Lat,Long Ciudades MicroNauta (no borrar).xlsx · Longi Lati Definitivo · fila 712"
+    },
+    {
+      "id": "loc-19",
+      "name": "Emp. R 9-60",
+      "corridors": [
+        "NORTE"
+      ],
+      "lat": -30.788757021018316,
+      "lon": -64.06707318418736,
+      "source": "Catálogo único completado por Lea · 05/09/2026"
+    },
+    {
+      "id": "loc-12",
+      "name": "Estacion Caroya",
+      "corridors": [
+        "NORTE"
+      ],
+      "lat": -31.01973824642138,
+      "lon": -64.11361312994624,
+      "source": "Catálogo único completado por Lea · 05/09/2026"
+    },
+    {
+      "id": "loc-205",
+      "name": "Crucero Alta Gracia",
+      "corridors": [
+        "RUTA 5"
+      ],
+      "lat": -31.657851518935068,
+      "lon": -64.40971869115673,
+      "source": "Catálogo único completado por Lea · 05/09/2026"
+    },
+    {
+      "id": "loc-1330",
+      "name": "Las Peñas",
+      "corridors": [
+        "NORTE"
+      ],
+      "lat": -30.563909978301165,
+      "lon": -64.00011102824074,
+      "source": "Catálogo único completado por Lea · 05/09/2026"
+    },
+    {
+      "id": "loc-8038",
+      "name": "San Marcos Sud",
+      "corridors": [
+        "ESTE-SUDESTE"
+      ],
+      "lat": -32.62041790492885,
+      "lon": -62.47938933326381,
+      "source": "Catálogo único completado por Lea · 05/09/2026"
+    },
+    {
+      "id": "loc-181",
+      "name": "Las Higueras",
+      "corridors": [
+        "SUR",
+        "ESTE-SUDESTE"
+      ],
+      "lat": -33.09176210202754,
+      "lon": -64.29204768951844,
+      "source": "Catálogo único completado por Lea · 05/09/2026"
+    },
+    {
+      "id": "loc-1146",
+      "name": "Estacion Quilino",
+      "corridors": [
+        "NORTE"
+      ],
+      "lat": -30.22321551256613,
+      "lon": -64.48611754517562,
+      "source": "Catálogo único completado por Lea · 05/09/2026"
+    },
+    {
+      "id": "loc-6146",
+      "name": "Plaza Mercedes",
+      "corridors": [
+        "NORESTE"
+      ],
+      "lat": -30.97811995160926,
+      "lon": -63.26037196853555,
+      "source": "Catálogo único completado por Lea · 05/09/2026"
+    },
+    {
+      "id": "loc-8042",
+      "name": "El Bañado",
+      "corridors": [
+        "NORTE"
+      ],
+      "lat": -30.320768768396327,
+      "lon": -64.41505778327983,
+      "source": "Catálogo único completado por Lea · 05/09/2026"
+    },
+    {
+      "id": "loc-325",
+      "name": "La Florida",
+      "corridors": [
+        "NORTE"
+      ],
+      "lat": -30.241766434572366,
+      "lon": -64.47420517137824,
+      "source": "Catálogo único completado por Lea · 05/09/2026"
+    },
+    {
+      "id": "loc-8006",
+      "name": "Geronimo Cortez",
+      "corridors": [
+        "NORESTE"
+      ],
+      "lat": -30.97645371603738,
+      "lon": -62.50413490181181,
+      "source": "Catálogo único completado por Lea · 05/09/2026"
+    },
+    {
+      "id": "loc-5108",
+      "name": "Trinchera",
+      "corridors": [
+        "ESTE-SUDESTE"
+      ],
+      "lat": -31.945824058265963,
+      "lon": -62.81814688418241,
+      "source": "Catálogo único completado por Lea · 05/09/2026"
+    },
+    {
+      "id": "loc-8052",
+      "name": "La Quinta",
+      "corridors": [
+        "NORESTE"
+      ],
+      "lat": -31.06290035469135,
+      "lon": -63.15263207009716,
+      "source": "Catálogo único completado por Lea · 05/09/2026"
+    },
+    {
+      "id": "loc-6058",
+      "name": "Almacen Sanchez",
+      "corridors": [
+        "NORESTE"
+      ],
+      "lat": -31.254074813973233,
+      "lon": -63.52648912443308,
+      "source": "Catálogo único completado por Lea · 05/09/2026"
+    },
+    {
+      "id": "loc-50ffe45e788be875",
+      "name": "B Ville Hosp.",
+      "corridors": [
+        "ESTE-SUDESTE"
+      ],
+      "lat": -32.61638575607249,
+      "lon": -62.70201416451149,
+      "source": "Catálogo único completado por Lea · 05/09/2026"
+    },
+    {
+      "id": "loc-3365a5f36b368370",
+      "name": "B Ville Pdor",
+      "corridors": [
+        "ESTE-SUDESTE"
+      ],
+      "lat": -32.60819747572219,
+      "lon": -62.6841765775542,
+      "source": "Catálogo único completado por Lea · 05/09/2026"
+    },
+    {
+      "id": "loc-458b53a8c1460241",
+      "name": "Cr. Seeber",
+      "corridors": [
+        "NORESTE"
+      ],
+      "lat": -30.915906649296545,
+      "lon": -62.046488185653175,
+      "source": "Catálogo único completado por Lea · 05/09/2026"
+    },
+    {
+      "id": "loc-8005",
+      "name": "Frontera",
+      "corridors": [
+        "NORESTE"
+      ],
+      "lat": -31.108261090758063,
+      "lon": -62.76435210991495,
+      "source": "Catálogo único completado por Lea · 05/09/2026"
+    },
+    {
+      "id": "loc-8049",
+      "name": "La Puerta",
+      "corridors": [
+        "NORTE"
+      ],
+      "lat": -31.143954728380642,
+      "lon": -64.04178629563782,
+      "source": "Catálogo único completado por Lea · 05/09/2026"
+    },
+    {
+      "id": "loc-8047",
+      "name": "Las Higueras",
+      "corridors": [
+        "NORESTE"
+      ],
+      "lat": -31.179660778904886,
+      "lon": -62.78250597991538,
+      "source": "Catálogo único completado por Lea · 05/09/2026"
+    },
+    {
+      "id": "loc-6115",
+      "name": "KM 531",
+      "corridors": [
+        "NORESTE"
+      ],
+      "lat": -31.412924331362486,
+      "lon": -62.19258432710553,
+      "source": "Catálogo único completado por Lea · 05/09/2026"
     }
   ]
 }
