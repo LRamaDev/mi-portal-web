@@ -16,7 +16,7 @@ function fixture({time=480,days=[1,2,3,4,5],stops=null,notes=[]}={}) {
   const data={schema_version:1,places,profiles:[profile],bindings:{[R.signature(service,{})]:profile.id},name_aliases:{}};
   return {service,profile,data,engine:R.create({services:[service]},{locations:{}},data)};
 }
-test('conserva las 5.506 salidas y coincide con el conteo auditado',()=>{
+test('conserva las 5.504 salidas vigentes y coincide con el conteo auditado',()=>{
   assert.equal(engine.models.length,schedule.services.length);
   assert.equal(engine.query({}).length,schedule.services.length);
   assert.equal(engine.coverage.linked,routes.stats.linked_services);

@@ -15,17 +15,17 @@ class Element {
   addEventListener(k,fn){this.listeners[k]=fn;}
   fire(k,event={}){return this.listeners[k](event);}
 }
-async function load({leaflet=true,missingRoutes=false,missingPoint=false}={}) {
+async function load({leaflet=true,missingRoutes=false,missingTraces=false,missingPoint=false}={}) {
   const html=fs.readFileSync(path.join(app,'index.html'),'utf8'),elements={},downloads=[],printState={count:0};
   for(const m of html.matchAll(/<(\w+)\b[^>]*\bid="([^"]+)"[^>]*>/g)) elements[m[2]]=new Element(m[2],m[1]);
   for(const m of html.matchAll(/<select\b[^>]*\bid="([^"]+)"[^>]*>([\s\S]*?)<\/select>/g)) elements[m[1]].innerHTML=m[2];
-  const responses=Object.fromEntries(['horarios','cabeceras','recorridos'].map(n=>['data/'+n+'.json',JSON.parse(fs.readFileSync(path.join(app,'data',n+'.json')))]));
+  const responses=Object.fromEntries(['horarios','cabeceras','recorridos','trazados'].map(n=>['data/'+n+'.json',JSON.parse(fs.readFileSync(path.join(app,'data',n+'.json')))]));
   if(missingPoint){responses['data/recorridos.json'].places['loc-1177'].lat=null;responses['data/recorridos.json'].places['loc-1177'].lon=null;}
   const layer={items:[],addTo(){return this;},clearLayers(){this.items=[];}};
   const map={setView(){return this;},fitBounds(){return this;},latLngToLayerPoint(p){return {x:p[1],y:-p[0]};}};
   function shape(type,coordinates,options){return {type,coordinates,options,tooltip:null,bindTooltip(t){this.tooltip=t;return this;},addTo(target){if(target.items)target.items.push(this);return this;},setLatLng(p){this.position=p;return this;},getElement(){return {querySelector(){return {style:{}};}};}};}
   const callbacks=new Map();let callback=0;
-  const context={Intl,Date,console,setTimeout,clearTimeout,localStorage:{getItem(){return null;},setItem(){}},document:{documentElement:{dataset:{theme:'dark'}},getElementById(id){return elements[id]||null;},createElement(tag){if(tag==='canvas'){const ctx={fillStyle:'',font:'',fillRect(){},fillText(){},drawImage(){},measureText(text){return {width:String(text).length*8};}};return {width:0,height:0,getContext(){return ctx;},toDataURL(){return 'data:image/png;base64,dGVzdA==';}};}if(tag==='a')return {href:'',download:'',click(){downloads.push({href:this.href,download:this.download});}};return new Element('',tag);},addEventListener(){},hidden:false},matchMedia(){return {matches:false};},requestAnimationFrame(fn){callbacks.set(++callback,fn);return callback;},cancelAnimationFrame(id){callbacks.delete(id);},print(){printState.count++;},fetch:async url=>({ok:!(missingRoutes&&url==='data/recorridos.json'),json:async()=>responses[url]})};
+  const context={Intl,Date,console,setTimeout,clearTimeout,localStorage:{getItem(){return null;},setItem(){}},document:{documentElement:{dataset:{theme:'dark'}},getElementById(id){return elements[id]||null;},createElement(tag){if(tag==='canvas'){const ctx={fillStyle:'',font:'',fillRect(){},fillText(){},drawImage(){},measureText(text){return {width:String(text).length*8};}};return {width:0,height:0,getContext(){return ctx;},toDataURL(){return 'data:image/png;base64,dGVzdA==';}};}if(tag==='a')return {href:'',download:'',click(){downloads.push({href:this.href,download:this.download});}};return new Element('',tag);},addEventListener(){},hidden:false},matchMedia(){return {matches:false};},requestAnimationFrame(fn){callbacks.set(++callback,fn);return callback;},cancelAnimationFrame(id){callbacks.delete(id);},print(){printState.count++;},fetch:async url=>({ok:!(missingRoutes&&url==='data/recorridos.json')&&!(missingTraces&&url==='data/trazados.json'),json:async()=>responses[url]})};
   if(leaflet)context.L={map:()=>map,tileLayer:(url,o)=>shape('tiles',url,o),layerGroup:()=>layer,circleMarker:(p,o)=>shape('point',p,o),polyline:(p,o)=>shape('line',p,o),marker:(p,o)=>shape('arrow',p,o),divIcon:o=>o};
   context.window=context;vm.createContext(context);
   vm.runInContext(fs.readFileSync(path.join(app,'recorridos.js'),'utf8'),context);
@@ -58,6 +58,19 @@ function setFaldaToCordoba(ui){
   const key=service.id+'@2-9';
   e.results.fire('click',{target:{closest(){return {getAttribute(){return key;}};}}});
 }
+function setRoadPilot(ui){
+  const profileId='rec-9a5892d537f3a75e',routes=ui.responses['data/recorridos.json'],schedule=ui.responses['data/horarios.json'];
+  const service=schedule.services.find(s=>routes.bindings[ui.context.TransportRoutes.signature(s,routes.name_aliases)]===profileId),profile=routes.profiles.find(p=>p.id===profileId),e=ui.elements;
+  for(const [key,value] of Object.entries({line:service.line,company:service.company,origin:profile.stops[0].place_id,destination:profile.stops.at(-1).place_id,day:String(service.service_days[0])}))e['filter-'+key].value=value;
+  e['filter-day'].fire('change');
+  e.results.fire('click',{target:{closest(){return {getAttribute(){return service.id+'@0-'+(profile.stops.length-1);}};}}});
+}
+function setAltasCumbres(ui){
+  const service=ui.responses['data/horarios.json'].services.find(s=>s.id==='svc-28d572cf6016-1'),profile=ui.responses['data/recorridos.json'].profiles.find(p=>p.id==='rec-e6215b5d2a0125ac'),e=ui.elements;
+  for(const [key,value] of Object.entries({company:service.company,line:service.line,origin:profile.stops[0].place_id,destination:profile.stops.at(-1).place_id,day:'1'}))e['filter-'+key].value=value;
+  e['filter-day'].fire('change');
+  e.results.fire('click',{target:{closest(){return {getAttribute(){return service.id+'@0-'+(profile.stops.length-1);}};}}});
+}
 test('carga inicial muestra puntos, filtros y salidas sin trazados activos',async()=>{
   const ui=await load();assert.ok(ui.layer.items.some(x=>x.type==='point'));assert.equal(ui.layer.items.filter(x=>x.type==='line').length,0);assert.equal(ui.layer.items.filter(x=>x.type==='arrow').length,0);
   assert.ok(ui.elements['filter-origin'].options.length>100);assert.match(ui.elements['route-coverage'].textContent,/servicios tienen recorrido vinculado/);
@@ -87,21 +100,43 @@ test('Falda del Carmen → Córdoba conserva la flecha y muestra el cartel final
   assert.match(ui.elements['map-status'].textContent,/conectores punteados/);assert.match(ui.elements.results.innerHTML,/Destino final · cartel: CÓRDOBA/);
   assert.match(ui.elements['journey-detail'].innerHTML,/14:24/);assert.match(ui.elements['journey-detail'].innerHTML,/15:31/);
 });
+test('un perfil del piloto dibuja la ruta vial y mueve la flecha sobre esa geometría',async()=>{
+  const ui=await load();setRoadPilot(ui);
+  const roads=ui.layer.items.filter(x=>x.type==='line'&&/road-route/.test(x.options.className||''));
+  assert.ok(roads.length>=5);assert.ok(roads.some(x=>x.coordinates.length>2));assert.equal(ui.layer.items.filter(x=>x.type==='arrow').length,1);
+  assert.match(ui.elements['map-status'].textContent,/Recorrido vial orientativo/);assert.match(ui.elements['quality-note'].textContent,/Piloto vial: 8 perfiles/);
+});
+test('Altas Cumbres omite Horno de Cal y Las Chacras porque rompen la secuencia',async()=>{
+  const ui=await load();setAltasCumbres(ui);
+  const outliers=['loc-124','loc-389'].map(id=>ui.responses['data/recorridos.json'].places[id]);
+  for(const outlier of outliers)assert.equal(ui.layer.items.filter(x=>x.type==='point'&&x.coordinates[0]===outlier.lat&&x.coordinates[1]===outlier.lon).length,0);
+  assert.equal(ui.layer.items.filter(x=>x.type==='arrow').length,1);
+  assert.ok(ui.layer.items.some(x=>x.type==='line'&&x.options.className==='schematic-bridge'));
+  assert.match(ui.elements['map-status'].textContent,/sin ubicación segura/);
+  assert.match(ui.elements['journey-detail'].innerHTML,/Horno de Cal[\s\S]*ubicación en revisión/);
+  assert.match(ui.elements['journey-detail'].innerHTML,/Las Chacras[\s\S]*ubicación en revisión/);
+});
+test('si falta trazados.json, el mapa conserva el respaldo esquemático',async()=>{
+  const ui=await load({missingTraces:true});setRoadPilot(ui);
+  assert.equal(ui.layer.items.filter(x=>x.type==='line'&&/road-route/.test(x.options.className||'')).length,0);
+  assert.equal(ui.layer.items.filter(x=>x.type==='arrow').length,1);assert.match(ui.elements['map-status'].textContent,/esquemático/i);
+});
 test('los tres modos de uso se pueden alternar sin mezclar sus paneles',async()=>{
   const ui=await load();ui.elements['mode-inspectors'].fire('click');
   assert.equal(ui.elements['inspector-mode-panel'].hidden,false);assert.equal(ui.elements['user-mode-panel'].hidden,true);assert.equal(ui.elements['claims-mode-panel'].hidden,true);assert.match(ui.elements['page-title'].textContent,/control/i);
   ui.elements['mode-claims'].fire('click');assert.equal(ui.elements['claims-mode-panel'].hidden,false);assert.equal(ui.elements['inspector-mode-panel'].hidden,true);assert.equal(ui.elements['user-mode-panel'].hidden,true);assert.match(ui.elements['page-title'].textContent,/fecha/i);
   ui.elements['mode-users'].fire('click');assert.equal(ui.elements['claims-mode-panel'].hidden,true);assert.equal(ui.elements['inspector-mode-panel'].hidden,true);assert.equal(ui.elements['user-mode-panel'].hidden,false);
 });
-test('la identidad ERSeP y las tres guías se publican con recursos v10',()=>{
+test('la identidad ERSeP y las tres guías se publican con recursos v11',()=>{
   const html=fs.readFileSync(path.join(app,'index.html'),'utf8'),css=fs.readFileSync(path.join(app,'transporte.css'),'utf8');
   assert.match(html,/<title>Horarios interurbanos · ERSeP<\/title>/);
-  assert.match(html,/transporte\.css\?v=10/);assert.doesNotMatch(html,/transporte\.css\?v=[1-9]["']/);
+  assert.match(html,/transporte\.css\?v=11/);assert.doesNotMatch(html,/transporte\.css\?v=10["']/);
   assert.equal((html.match(/class="mode-guide/g)||[]).length,3);
   assert.match(html,/history-filters-heading/);assert.match(html,/class="brand-logo"/);
-  for(const script of ['recorridos','historico','transporte','admin'])assert.match(html,new RegExp(script+'\\.js\\?v=10'));
+  for(const script of ['recorridos','historico','transporte','admin'])assert.match(html,new RegExp(script+'\\.js\\?v=11'));
   for(const color of ['--ersep-bordo','--ersep-blue','--ersep-green','--ersep-yellow'])assert.match(css,new RegExp(color+':'));
   assert.match(css,/v10: identidad institucional ERSeP/);
+  assert.match(css,/v11: trazados viales orientativos/);
 });
 test('inspectores pueden combinar empresas y las líneas se recalculan acumulativamente',async()=>{
   const ui=await load(),e=ui.elements;e['mode-inspectors'].fire('click');e['inspector-locality'].value='loc-1177';e['inspector-locality'].fire('change');
