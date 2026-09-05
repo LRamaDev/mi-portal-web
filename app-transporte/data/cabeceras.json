@@ -373,9 +373,9 @@
       "department": "Calamuchita"
     },
     "EMPALME TANTI": {
-      "lat": -31.3841462730431,
-      "lon": -64.5122724453068,
-      "source": "Lat,Long Ciudades MicroNauta (no borrar).xlsx · Longi Lati Definitivo · fila 311",
+      "lat": -31.359372834994016,
+      "lon": -64.59818652263156,
+      "source": "Dato aportado por Lea el 2026-09-02",
       "source_name": "EMPALME TANTI"
     },
     "ESCUELA DIQUE CHICO": {
@@ -1230,16 +1230,26 @@
       "source": "Georef Argentina · asentamientos",
       "source_name": "Yocsina",
       "department": "Santa María"
+    },
+    "PRIMERO DE MAYO": {
+      "lat": -31.43790754895127,
+      "lon": -64.31412505844993,
+      "source": "Dato aportado por Lea el 2026-09-02",
+      "source_name": "PRIMERO DE MAYO"
+    },
+    "LA JUANITA": {
+      "lat": -31.493041079817747,
+      "lon": -64.45523762038567,
+      "source": "Dato aportado por Lea el 2026-09-02",
+      "source_name": "LA JUANITA"
     }
   },
   "unresolved": [
     "100 CURVAS",
     "BARRIO NORTE",
     "KILÓMETRO 18",
-    "LA JUANITA",
     "PLAYAS DE ORO",
     "POLINESIA",
-    "PRIMERO DE MAYO",
     "TROPEZÓN",
     "VILLA INDEPENDENCIA"
   ]

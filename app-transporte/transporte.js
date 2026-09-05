@@ -4,7 +4,7 @@
   var DAYS = { '1':'Lunes', '2':'Martes', '3':'Miércoles', '4':'Jueves', '5':'Viernes', '6':'Sábado', '7':'Domingo' };
   var DIRECTIONS = { I:'Ida', V:'Vuelta' };
   var FIELDS = ['origin','destination','corridor','line','direction','day','company','modality'];
-  var state = { data:null, geo:null, routes:null, engine:null, map:null, layer:null, focus:null, animationId:null, results:[], routeError:false, mode:'users', inspectorDirections:new Set(['I','V']), inspectorAvailableDirections:['I','V'], inspectorAllDirections:true, inspectorCompanies:new Set(), inspectorAvailableCompanies:[], inspectorAllCompanies:true, inspectorLines:new Set(), inspectorAvailableLines:[], inspectorAllLines:true, inspectorRecords:[] };
+  var state = { data:null, geo:null, routes:null, traces:null, traceWarnings:new Set(), unsafePlaces:new Set(), profileUnsafePlaces:new Map(), engine:null, map:null, layer:null, focus:null, animationId:null, results:[], routeError:false, traceError:false, mode:'users', inspectorDirections:new Set(['I','V']), inspectorAvailableDirections:['I','V'], inspectorAllDirections:true, inspectorCompanies:new Set(), inspectorAvailableCompanies:[], inspectorAllCompanies:true, inspectorLines:new Set(), inspectorAvailableLines:[], inspectorAllLines:true, inspectorRecords:[] };
   var $ = function (id) { return document.getElementById(id); };
   var esc = function (value) { return String(value == null ? '' : value).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); };
   var unique = function (xs) { return Array.from(new Set(xs)); };
@@ -68,7 +68,7 @@
   function renderMap(journeys,active){
     stopAnimation();
     var locations=new Map();
-    journeys.forEach(function(j){j.model.stops.forEach(function(stop){var p=state.engine.places[stop.place_id];if(!Number.isFinite(p.lat)||!Number.isFinite(p.lon))return;if(!locations.has(p.id))locations.set(p.id,{place:p,corridors:new Set()});locations.get(p.id).corridors.add(j.service.corridor);});});
+    journeys.forEach(function(j){j.model.stops.forEach(function(stop){var p=state.engine.places[stop.place_id];if(!Number.isFinite(p.lat)||!Number.isFinite(p.lon)||state.unsafePlaces.has(p.id))return;if(!locations.has(p.id))locations.set(p.id,{place:p,corridors:new Set()});locations.get(p.id).corridors.add(j.service.corridor);});});
     $('kpi-mapped').textContent=locations.size.toLocaleString('es-AR');
     if(!state.map){$('map-status').textContent='El mapa no está disponible. Podés consultar los horarios y la secuencia igualmente.';return;}
     state.layer.clearLayers();
@@ -80,27 +80,45 @@
       $('map-status').textContent='Elegí un resultado para ver su secuencia. Al iniciar solo se muestran localidades.';
       return;
     }
-    var coordinates=state.engine.coordinates(active),color=COLORS[active.service.corridor]||COLORS.MIXED,points=[],bounds=[],selectedMissing=0,totalMissing=0,previousLocated=null,selectedBridge=false;
+    var profileUnsafe=active.model.profile&&state.profileUnsafePlaces.get(active.model.profile.id)||new Set();
+    var coordinates=state.engine.coordinates(active).map(function(place){return place&&!state.unsafePlaces.has(place.id)&&!profileUnsafe.has(place.id)?place:null;}),color=COLORS[active.service.corridor]||COLORS.MIXED,points=[],bounds=[],selectedMissing=0,totalMissing=0,selectedBridge=false,usedRoadTrace=false;
     coordinates.forEach(function(p,i){
       if(!p){totalMissing++;if(i>=active.from && i<=active.to)selectedMissing++;return;}
       bounds.push([p.lat,p.lon]);
       var stop=active.model.stops[i],n=i===active.from?active.boarding:i===0?active.service.minutes:active.service.minutes+stop.arrival_offset;
       var label=(i===active.from?'Subida · ':i===active.to?'Bajada · ':'Paso '+(i+1)+' · ')+(Number.isFinite(stop.arrival_offset)?clockText(n)+(i===0?' · salida PDF':' · estimado'):'sin estimación');
       marker(p,color,label,i===active.from||i===active.to);
-      if(previousLocated!==null){
-        var previous=coordinates[previousLocated],selected=previousLocated>=active.from&&i<=active.to,gap=i-previousLocated>1,segment=curve(previous,p);
+    });
+    var trace=active.model.profile&&state.traces&&state.traces.profiles ? state.traces.profiles[active.model.profile.id] : null;
+    if(trace&&trace.segments&&trace.segments.length){
+      usedRoadTrace=true;
+      trace.segments.forEach(function(item){
+        var segment=item.coordinates.map(function(point){return [point[1],point[0]];}),selected=item.from_index>=active.from&&item.to_index<=active.to,gap=item.missing_stops>0;
+        L.polyline(segment,{color:color,weight:selected?5:2.5,opacity:selected?.9:.32,dashArray:gap?'3 9':null,className:gap?'road-route road-gap':'road-route'}).addTo(state.layer);
+        if(selected){points=points.concat(points.length?segment.slice(1):segment);if(gap)selectedBridge=true;}
+      });
+    }else{
+      var previousLocated=null;
+      coordinates.forEach(function(p,i){
+        if(!p)return;
+        if(previousLocated!==null){
+          var previous=coordinates[previousLocated],selected=previousLocated>=active.from&&i<=active.to,gap=i-previousLocated>1,segment=curve(previous,p);
         L.polyline(segment,{color:color,weight:selected?4:2,opacity:selected?.85:.3,dashArray:gap?'2 12':selected?'4 8':'3 8',className:gap?'schematic-bridge':''}).addTo(state.layer);
         if(selected){points=points.concat(points.length?segment.slice(1):segment);if(gap)selectedBridge=true;}
-      }
-      previousLocated=i;
-    });
+        }
+        previousLocated=i;
+      });
+    }
     var endpointsLocated=Boolean(coordinates[active.from]&&coordinates[active.to]);
     if(endpointsLocated)startArrow(points,color);
     if(bounds.length)state.map.fitBounds(bounds,{padding:[40,40],maxZoom:12});
     if(!endpointsLocated)$('map-status').textContent='No se puede ubicar la flecha porque el origen o el destino seleccionado todavía no tiene coordenadas.';
-    else if(selectedBridge)$('map-status').textContent='Mapa esquemático: '+selectedMissing+' localidades intermedias sin coordenadas se señalan mediante conectores punteados. La flecha orienta el recorrido; no representa calles ni un vehículo en vivo.';
+    else if(usedRoadTrace&&selectedBridge)$('map-status').textContent='Recorrido vial orientativo basado en OpenStreetMap. La línea sigue caminos sugeridos, pero '+selectedMissing+' paradas intermedias todavía no tienen ubicación segura. No representa un vehículo en vivo.';
+    else if(usedRoadTrace)$('map-status').textContent='Recorrido vial orientativo basado en OpenStreetMap. La flecha sigue calles y rutas sugeridas; no confirma el itinerario autorizado ni representa un vehículo en vivo.';
+    else if(selectedBridge)$('map-status').textContent='Mapa esquemático: '+selectedMissing+' localidades intermedias sin ubicación segura se señalan mediante conectores punteados. La flecha orienta el recorrido; no representa calles ni un vehículo en vivo.';
     else if(totalMissing)$('map-status').textContent='Tu tramo está ubicado y puede animarse. El recorrido completo contiene '+totalMissing+' localidades pendientes fuera del tramo seleccionado.';
-    else $('map-status').textContent=active.model.profile?'Recorrido en orden. Tu tramo aparece destacado; la flecha no representa un vehículo en vivo.':'Solo cabeceras: la flecha une los puntos disponibles; el detalle intermedio de esta variante todavía está pendiente.';
+    else if(active.model.profile&&state.traceWarnings.has(active.model.profile.id))$('map-status').textContent='Trazado esquemático temporal: una o más coordenadas de este recorrido están en revisión y por seguridad todavía no se calcula una ruta vial.';
+    else $('map-status').textContent=active.model.profile?'Recorrido esquemático en orden. Tu tramo aparece destacado; el trazado vial de esta variante todavía no fue validado.':'Solo cabeceras: la flecha une los puntos disponibles; el detalle intermedio de esta variante todavía está pendiente.';
   }
   function serviceHTML(j){
     var s=j.service,active=state.focus===j.key,days=j.days.map(function(d){return DAYS[d];}).join(', ');
@@ -116,10 +134,10 @@
     var p=j.model.profile,s=j.service;
     var timeline=j.model.stops.map(function(stop,i){
       var selected=i>=j.from&&i<=j.to,place=state.engine.places[stop.place_id],number=i===j.from?j.boarding:Number.isFinite(stop.arrival_offset)?s.minutes+stop.arrival_offset:null;
-      var title=i===j.from?'Subida':i===j.to?'Bajada':i===0?'Cabecera de salida':'Paso intermedio';
+      var profileUnsafe=p&&state.profileUnsafePlaces.get(p.id),title=i===j.from?'Subida':i===j.to?'Bajada':i===0?'Cabecera de salida':'Paso intermedio',unsafe=state.unsafePlaces.has(place.id)||(profileUnsafe&&profileUnsafe.has(place.id));
       var dwell=stop.departure_offset!==stop.arrival_offset && Number.isFinite(stop.departure_offset);
       var notes=p?(p.observations||[]).filter(function(o){return o.place_id===stop.place_id;}):[];
-      return '<li class="'+(selected?'in-trip':'outside-trip')+'"><span class="stop-number">'+(i+1)+'</span><div><strong>'+esc(place.name)+'</strong><small>'+title+(place.lat===null?' · ubicación pendiente':'')+'</small>'+notes.map(function(o){return '<small class="stop-warning">Nota de base: '+esc(o.text)+'</small>';}).join('')+'</div><div class="stop-time">'+clockHTML(number)+'<small>'+(i===0?'Salida publicada':'Estimado')+(dwell?'<br>'+(i===j.from?'Llegada est. '+clockText(s.minutes+stop.arrival_offset):'Salida est. '+clockText(s.minutes+stop.departure_offset)):'')+'</small></div></li>';
+      return '<li class="'+(selected?'in-trip':'outside-trip')+'"><span class="stop-number">'+(i+1)+'</span><div><strong>'+esc(place.name)+'</strong><small>'+title+(unsafe?' · ubicación en revisión':place.lat===null?' · ubicación pendiente':'')+'</small>'+notes.map(function(o){return '<small class="stop-warning">Nota de base: '+esc(o.text)+'</small>';}).join('')+'</div><div class="stop-time">'+clockHTML(number)+'<small>'+(i===0?'Salida publicada':'Estimado')+(dwell?'<br>'+(i===j.from?'Llegada est. '+clockText(s.minutes+stop.arrival_offset):'Salida est. '+clockText(s.minutes+stop.departure_offset)):'')+'</small></div></li>';
     }).join('');
     el.innerHTML='<header><div><span class="eyebrow">Tu tramo · '+esc(DIRECTIONS[s.direction])+'</span><h3>'+esc(journeyName(j))+'</h3></div><button id="close-journey" type="button" class="reset-button" aria-label="Cerrar recorrido seleccionado">Cerrar</button></header>'+
       '<div class="journey-summary"><div><span>Subida '+(j.estimatedBoarding?'estimada':'publicada')+'</span><strong>'+clockHTML(j.boarding)+'</strong></div><div><span>Bajada estimada</span><strong>'+clockHTML(j.arrival)+'</strong></div><div><span>Tiempo estimado</span><strong>'+esc(duration(j.duration))+'</strong></div></div>'+
@@ -335,15 +353,23 @@
     var coverage=state.engine.coverage;
     $('route-coverage').textContent=state.routeError?'Base de recorridos no disponible: se muestran salidas publicadas y cabeceras, sin estimaciones intermedias.':coverage.linked.toLocaleString('es-AR')+' de '+coverage.total.toLocaleString('es-AR')+' servicios tienen recorrido vinculado. Los restantes conservan sus salidas publicadas, con intermedias pendientes.';
     var located=state.routes&&state.routes.stats?state.routes.stats.geolocated_places:null,totalPlaces=state.routes&&state.routes.stats?state.routes.stats.places:null;
-    $('quality-note').textContent='Datos oficiales semanales + base orientativa independiente.'+(located!==null?' '+located.toLocaleString('es-AR')+' de '+totalPlaces.toLocaleString('es-AR')+' puntos ya tienen coordenadas verificadas.':'')+' Las nuevas variantes quedan pendientes de vinculación; no se les asigna un recorrido por semejanza.';
+    var routed=state.traces&&state.traces.stats?state.traces.stats.routed_profiles:0,eligible=state.traces&&state.traces.stats?state.traces.stats.eligible_profiles:0,quarantined=state.unsafePlaces.size;
+    $('quality-note').textContent='Datos oficiales semanales + base orientativa independiente.'+(located!==null?' '+located.toLocaleString('es-AR')+' de '+totalPlaces.toLocaleString('es-AR')+' puntos ya tienen coordenadas registradas.':'')+(quarantined?' '+quarantined.toLocaleString('es-AR')+' coordenadas incoherentes se aíslan del mapa hasta su revisión.':'')+(routed?' Piloto vial: '+routed.toLocaleString('es-AR')+' perfiles trazados de '+eligible.toLocaleString('es-AR')+' aptos para procesar.':'')+' Las nuevas variantes quedan pendientes de vinculación; no se les asigna un recorrido por semejanza.';
     $('map-legend').innerHTML=state.data.corridors.map(function(c){return '<span><i class="dot" style="--dot-color:'+COLORS[c]+'"></i>'+esc(c)+'</span>';}).join('');
   }
   function getJSON(path){return fetch(path,{cache:'no-store'}).then(function(response){if(!response.ok)throw new Error(path);return response.json();});}
   theme();
-  Promise.all([getJSON('data/horarios.json'),getJSON('data/cabeceras.json'),getJSON('data/recorridos.json').catch(function(){state.routeError=true;return null;})]).then(function(payloads){
-    state.data=payloads[0];state.geo=payloads[1];state.routes=payloads[2];
+  Promise.all([getJSON('data/horarios.json'),getJSON('data/cabeceras.json'),getJSON('data/recorridos.json').catch(function(){state.routeError=true;return null;}),getJSON('data/trazados.json').catch(function(){state.traceError=true;return null;})]).then(function(payloads){
+    state.data=payloads[0];state.geo=payloads[1];state.routes=payloads[2];state.traces=payloads[3];
     if(!R)throw new Error('Falta recorridos.js. Verificá que se hayan subido todos los archivos de la v8.');
     if(state.routes && state.routes.schema_version!==1){state.routes=null;state.routeError=true;}
+    if(state.traces&&state.traces.schema_version!==1){state.traces=null;state.traceError=true;}
+    if(state.traces){
+      var warnings=(state.traces.audit&&state.traces.audit.coordinate_warnings)||[];
+      state.traceWarnings=new Set(warnings.map(function(item){return item.profile_id;}));
+      state.profileUnsafePlaces=new Map(warnings.map(function(item){return [item.profile_id,new Set(item.unsafe_place_ids||[])];}));
+      state.unsafePlaces=new Set(((state.traces.audit&&state.traces.audit.quarantined_places)||[]).map(function(item){return item.place_id;}));
+    }
     state.engine=R.create(state.data,state.geo,state.routes);initMap();$('filter-day').value=String(today());$('inspector-day').value=String(today());updateOptions();updateInspectorControls();bind();sourceSummary();render();renderInspector();
   }).catch(function(error){$('results').innerHTML='<div class="empty-state"><strong>No se pudo cargar la información.</strong><p>'+esc(error.message)+'</p></div>';$('updated-date').textContent='Error de carga';});
 }());
