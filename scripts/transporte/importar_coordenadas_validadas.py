@@ -58,6 +58,10 @@ def apply(records: list[dict], routes: dict, locations: dict) -> tuple[int, int]
         place = routes.get("places", {}).get(record["id"])
         if place:
             place.update(lat=record["lat"], lon=record["lon"], geo_source=record["source"])
+            if norm(record.get("name")) and norm(record.get("name")) != norm(place.get("name")):
+                aliases = place.setdefault("aliases", [])
+                if record["name"] not in aliases:
+                    aliases.append(record["name"])
             route_count += 1
         if record["id"].startswith("pdf-"):
             key = next((name for name in locations.get("unresolved", []) if norm(name) == norm(record["name"])), record["name"].upper())

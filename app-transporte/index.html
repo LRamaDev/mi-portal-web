@@ -11,7 +11,7 @@
     } catch (error) {}
   </script>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-  <link rel="stylesheet" href="transporte.css?v=10">
+  <link rel="stylesheet" href="transporte.css?v=11">
 </head>
 
 <body>
@@ -116,10 +116,10 @@
 
     <section class="workspace">
       <div class="map-column">
-        <div id="transport-map" role="region" aria-label="Mapa esquemático de líneas interurbanas"></div>
+        <div id="transport-map" role="region" aria-label="Mapa orientativo de líneas interurbanas"></div>
         <div class="map-caption">
           <div id="map-legend" class="map-legend" aria-label="Colores de corredores"></div>
-          <p><strong>Mapa esquemático:</strong> une localidades, no representa calles ni posición en vivo. La flecha sigue el orden del recorrido y destaca tu tramo.</p>
+          <p><strong>Mapa orientativo:</strong> las variantes validadas siguen calles y rutas sugeridas por OpenStreetMap. Las restantes conservan conexiones esquemáticas. No representa posición en vivo ni confirma el itinerario autorizado.</p>
           <p id="map-status" class="map-status" role="status">Elegí un resultado para ver su recorrido.</p>
         </div>
         <section id="journey-detail" class="journey-detail" aria-label="Detalle del recorrido seleccionado" hidden></section>
@@ -131,7 +131,7 @@
     </section>
 
     <section class="data-note">
-      <div><strong>Dos fuentes, funciones distintas</strong><p>PDF semanales: salidas y días de prestación. Excel orientativo: localidades y tiempos entre ellas. Ida y Vuelta conservan sus propias secuencias. Las estimaciones no son seguimiento en vivo ni incorporan una tolerancia de retraso.</p></div>
+      <div><strong>Tres fuentes, funciones distintas</strong><p>PDF semanales: salidas y días de prestación. Excel orientativo: localidades y tiempos entre ellas. OpenStreetMap/OSRM: caminos sugeridos para los perfiles viales ya procesados. Ida y Vuelta conservan sus propias secuencias. Las estimaciones no son seguimiento en vivo ni incorporan una tolerancia de retraso.</p></div>
       <div id="quality-note" class="quality-note"></div>
     </section>
     </section>
@@ -324,9 +324,9 @@
 <section id="print-sheet" class="print-sheet" aria-hidden="true"></section>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-<script defer src="recorridos.js?v=10"></script>
-<script defer src="historico.js?v=10"></script>
-<script defer src="transporte.js?v=10"></script>
-<script defer src="admin.js?v=10"></script>
+<script defer src="recorridos.js?v=11"></script>
+<script defer src="historico.js?v=11"></script>
+<script defer src="transporte.js?v=11"></script>
+<script defer src="admin.js?v=11"></script>
 </body>
 </html>

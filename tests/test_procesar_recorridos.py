@@ -61,11 +61,21 @@ class RouteChecks(unittest.TestCase):
         self.assertEqual(MODULE.minutes(1/24), 60)
 
     def test_verified_coordinates_are_applied_by_stable_id(self):
-        self.assertEqual(len(CATALOG["points"]), 91)
-        self.assertEqual(DATA["validated_coordinates"]["applied_to_routes"], 88)
+        self.assertEqual(len(CATALOG["points"]), 116)
+        self.assertEqual(DATA["validated_coordinates"]["applied_to_routes"], 111)
         points = {point["id"]: point for point in CATALOG["points"]}
         self.assertAlmostEqual(points["pdf-ESTE SUDESTE-CAMPO LA ARGENTINA"]["lat"], -31.54466776655627)
         self.assertAlmostEqual(DATA["places"]["loc-1286"]["lon"], -64.29360367967914)
+        self.assertAlmostEqual(DATA["places"]["loc-501"]["lat"], -31.43790754895127)
+        self.assertAlmostEqual(DATA["places"]["loc-46"]["lon"], -64.59818652263156)
+        self.assertAlmostEqual(DATA["places"]["loc-1707"]["lat"], -31.460059648355934)
+        self.assertAlmostEqual(DATA["places"]["loc-7d62790c5f06da00"]["lon"], -64.45523762038567)
+        self.assertAlmostEqual(DATA["places"]["loc-181"]["lat"], -33.09176210202754)
+        self.assertAlmostEqual(DATA["places"]["loc-8038"]["lon"], -62.47938933326381)
+        self.assertAlmostEqual(DATA["places"]["loc-8049"]["lat"], -31.143954728380642)
+        self.assertIn("Trinchera", DATA["places"]["loc-5108"]["aliases"])
+        self.assertIsNone(DATA["places"]["loc-361"]["lat"])
+        self.assertIsNone(DATA["places"]["loc-94"]["lon"])
 
 
 if __name__ == "__main__":
