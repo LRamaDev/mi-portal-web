@@ -1,0 +1,351 @@
+<!doctype html>
+<html lang="es" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Versión de prueba de la consulta de horarios interurbanos de ERSeP, con búsqueda guiada de servicios.">
+  <title>Horarios interurbanos · Versión de prueba · ERSeP</title>
+  <script>
+    try {
+      document.documentElement.dataset.theme = localStorage.getItem('transport-theme') || 'light';
+    } catch (error) {}
+  </script>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <link rel="stylesheet" href="transporte.css?v=12-beta">
+</head>
+
+<body>
+<div class="ambient-light"></div>
+<div class="ambient-light two"></div>
+<div class="wrap">
+  <header class="header">
+    <a class="brand" href="../" aria-label="ERSeP · Volver al portal">
+      <img class="brand-logo" src="../app-transporte/assets/logo-ersep.png" alt="ERSeP · Ente Regulador de los Servicios Públicos">
+    </a>
+    <div class="header-title">
+      <h1>Horarios interurbanos</h1>
+      <span>Ocho corredores provinciales</span>
+    </div>
+    <div class="header-actions">
+      <a class="stable-link" href="../app-transporte/">Versión estable</a>
+      <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Cambiar tema">
+        <span id="theme-icon" aria-hidden="true">☀</span>
+        <span id="theme-label">Modo claro</span>
+      </button>
+      <a class="back-button" href="../">← Volver al portal</a>
+    </div>
+  </header>
+
+  <aside class="beta-banner" aria-label="Aviso de versión de prueba">
+    <div>
+      <span class="beta-badge">VERSIÓN DE PRUEBA</span>
+      <p><strong>Este es el espacio para probar el buscador guiado y las próximas mejoras.</strong> Los horarios se leen de la misma base actualizada que usa la aplicación estable.</p>
+    </div>
+    <a href="../app-transporte/">Ir a la versión estable</a>
+  </aside>
+
+  <section class="transport-intro" aria-labelledby="page-title">
+    <div>
+      <span class="eyebrow">Transporte interurbano · Provincia de Córdoba</span>
+      <h2 id="page-title">¿Desde dónde y hasta dónde viajás?</h2>
+      <p id="page-description">Consultá salidas publicadas, localidades intermedias y tiempos estimados. Todos los filtros se combinan.</p>
+    </div>
+    <div class="update-card" aria-live="polite">
+      <span>Última publicación procesada</span>
+      <strong id="updated-date">Cargando…</strong>
+      <small id="updated-detail">Verificando cronogramas</small>
+    </div>
+  </section>
+
+  <main class="transport-shell">
+    <nav class="mode-switch" aria-label="Modo de trabajo">
+      <button id="mode-users" class="mode-button active" type="button" aria-pressed="true">
+        <span class="mode-badge" aria-hidden="true">AU</span>
+        <span class="mode-copy"><small>CONSULTAS</small><strong>Atención a usuarios</strong>
+        <span>Buscar quién viaja, a qué hora pasa y cuál es el cartel del colectivo.</span></span>
+      </button>
+      <button id="mode-inspectors" class="mode-button" type="button" aria-pressed="false">
+        <span class="mode-badge" aria-hidden="true">CI</span>
+        <span class="mode-copy"><small>OPERATIVOS</small><strong>Control de inspectores</strong>
+        <span>Combinar empresas y líneas desde una delegación u operativo móvil.</span></span>
+      </button>
+      <button id="mode-claims" class="mode-button" type="button" aria-pressed="false">
+        <span class="mode-badge" aria-hidden="true">RH</span>
+        <span class="mode-copy"><small>RECLAMOS</small><strong>Consulta histórica</strong>
+        <span>Verificar qué servicio figuraba en el cronograma disponible para una fecha.</span></span>
+      </button>
+    </nav>
+
+    <section id="user-mode-panel" aria-label="Consulta para atención a usuarios">
+    <details class="mode-guide user-guide">
+      <summary><span>Guía rápida</span> ¿Cómo usar Atención a usuarios?</summary>
+      <ol>
+        <li>Elegí la localidad de <strong>origen</strong> y la de <strong>destino</strong>.</li>
+        <li>Combiná corredor, línea, empresa, sentido, día o modalidad si necesitás precisar la búsqueda.</li>
+        <li>Abrí un servicio para ver salida, paso estimado, llegada, recorrido y cartel final.</li>
+        <li>Imprimí, guardá en PDF o descargá una imagen con los resultados filtrados.</li>
+      </ol>
+      <p>Los pasos por localidades intermedias son estimados y no representan seguimiento en tiempo real.</p>
+    </details>
+
+    <section class="travel-assistant" aria-labelledby="travel-assistant-title">
+      <div class="travel-assistant-copy">
+        <span class="eyebrow">Búsqueda guiada</span>
+        <h3 id="travel-assistant-title">Encontrá tu servicio paso a paso</h3>
+        <p>Elegí dónde subís, dónde bajás y cuándo querés viajar. La consulta usa únicamente los cronogramas publicados.</p>
+      </div>
+      <form id="assistant-form" class="assistant-form">
+        <label class="assistant-step" for="assistant-origin">
+          <span class="assistant-step-number" aria-hidden="true">1</span>
+          <span class="assistant-field"><strong>¿Dónde subís?</strong><select id="assistant-origin" required><option value="">Elegí el origen</option></select></span>
+        </label>
+        <label class="assistant-step" for="assistant-destination">
+          <span class="assistant-step-number" aria-hidden="true">2</span>
+          <span class="assistant-field"><strong>¿Dónde bajás?</strong><select id="assistant-destination" required disabled><option value="">Primero elegí el origen</option></select></span>
+        </label>
+        <label class="assistant-step" for="assistant-day">
+          <span class="assistant-step-number" aria-hidden="true">3</span>
+          <span class="assistant-field"><strong>¿Qué día viajás?</strong><select id="assistant-day"><option value="1">Lunes</option><option value="2">Martes</option><option value="3">Miércoles</option><option value="4">Jueves</option><option value="5">Viernes</option><option value="6">Sábado</option><option value="7">Domingo</option></select></span>
+        </label>
+        <div class="assistant-step assistant-time-step">
+          <span class="assistant-step-number" aria-hidden="true">4</span>
+          <div class="assistant-field assistant-time-fields">
+            <label for="assistant-time-mode"><strong>¿Desde qué hora?</strong></label>
+            <select id="assistant-time-mode"><option value="all">Cualquier horario</option><option value="after">Después de una hora</option><option value="last">Último servicio del día</option></select>
+            <label id="assistant-time-wrap" class="assistant-time-wrap" for="assistant-time" hidden><span>Hora mínima</span><input id="assistant-time" type="time" value="08:00"></label>
+          </div>
+        </div>
+        <div class="assistant-actions">
+          <button class="assistant-submit" type="submit">Buscar servicios</button>
+          <button id="assistant-now" class="assistant-secondary" type="button">Hoy, desde ahora</button>
+          <button id="assistant-clear" class="assistant-secondary" type="button">Limpiar</button>
+        </div>
+      </form>
+      <p id="assistant-status" class="assistant-status" role="status">Empezá eligiendo la localidad de origen.</p>
+      <div id="assistant-results" class="assistant-results" aria-live="polite"></div>
+      <p class="assistant-note"><strong>Importante:</strong> las salidas provienen del PDF vigente. Los horarios de paso por localidades intermedias son estimados; para una fecha pasada usá <strong>Consulta histórica</strong>.</p>
+    </section>
+
+    <section class="journey-filters" aria-label="Localidades del viaje">
+      <label><span>Origen · dónde subís</span><select id="filter-origin"><option value="">Todas las localidades</option></select></label>
+      <label><span>Destino · dónde bajás</span><select id="filter-destination"><option value="">Todas las localidades</option></select></label>
+    </section>
+    <p class="filter-help">El día corresponde a la subida. Los horarios intermedios son estimados; <strong>+1 día</strong> indica el día siguiente a la salida del cronograma.</p>
+    <section class="filters" aria-label="Filtros de horarios">
+      <label class="search-field"><span>Buscar</span><input id="filter-search" type="search" placeholder="Localidad, línea, empresa o ruta…" autocomplete="off"></label>
+      <label><span>Corredor</span><select id="filter-corridor"><option value="">Todos</option></select></label>
+      <label><span>Línea</span><select id="filter-line"><option value="">Todas</option></select></label>
+      <label><span>Sentido</span><select id="filter-direction"><option value="">Ambos</option><option value="I">Ida</option><option value="V">Vuelta</option></select></label>
+      <label><span>Día de subida</span><select id="filter-day"><option value="">Todos</option><option value="1">Lunes</option><option value="2">Martes</option><option value="3">Miércoles</option><option value="4">Jueves</option><option value="5">Viernes</option><option value="6">Sábado</option><option value="7">Domingo</option></select></label>
+      <label><span>Empresa</span><select id="filter-company"><option value="">Todas</option></select></label>
+      <label><span>Modalidad</span><select id="filter-modality"><option value="">Todas</option></select></label>
+      <button id="reset-filters" class="reset-button" type="button">Limpiar filtros</button>
+    </section>
+
+    <p id="route-coverage" class="route-coverage" role="status">Cargando la base orientativa de recorridos…</p>
+    <section class="kpi-row" aria-label="Resumen de resultados">
+      <article><span>Servicios</span><strong id="kpi-services">—</strong></article>
+      <article><span>Líneas</span><strong id="kpi-lines">—</strong></article>
+      <article><span>Empresas</span><strong id="kpi-companies">—</strong></article>
+      <article><span>Localidades en mapa</span><strong id="kpi-mapped">—</strong></article>
+    </section>
+
+    <section class="export-bar" aria-label="Exportar consulta de atención a usuarios">
+      <div><strong>Guardar o compartir esta consulta</strong><span>El archivo incluirá únicamente los resultados filtrados en pantalla.</span></div>
+      <div class="export-actions">
+        <button id="user-print" class="export-button" type="button">Imprimir / guardar PDF</button>
+        <button id="user-image" class="export-button image" type="button">Descargar imagen PNG</button>
+      </div>
+      <p id="user-export-status" class="export-status" role="status"></p>
+    </section>
+
+    <section class="workspace">
+      <div class="map-column">
+        <div id="transport-map" role="region" aria-label="Mapa orientativo de líneas interurbanas"></div>
+        <div class="map-caption">
+          <div id="map-legend" class="map-legend" aria-label="Colores de corredores"></div>
+          <p><strong>Mapa orientativo:</strong> las variantes validadas siguen calles y rutas sugeridas por OpenStreetMap. Las restantes conservan conexiones esquemáticas. No representa posición en vivo ni confirma el itinerario autorizado.</p>
+          <p id="map-status" class="map-status" role="status">Elegí un resultado para ver su recorrido.</p>
+        </div>
+        <section id="journey-detail" class="journey-detail" aria-label="Detalle del recorrido seleccionado" hidden></section>
+      </div>
+      <aside class="results-panel" aria-labelledby="results-title">
+        <header><div><span class="eyebrow">Resultados</span><h3 id="results-title">Servicios disponibles</h3></div><span id="result-count" class="result-count">—</span></header>
+        <div id="results" class="results-list" aria-live="polite"></div>
+      </aside>
+    </section>
+
+    <section class="data-note">
+      <div><strong>Tres fuentes, funciones distintas</strong><p>PDF semanales: salidas y días de prestación. Excel orientativo: localidades y tiempos entre ellas. OpenStreetMap/OSRM: caminos sugeridos para los perfiles viales ya procesados. Ida y Vuelta conservan sus propias secuencias. Las estimaciones no son seguimiento en vivo ni incorporan una tolerancia de retraso.</p></div>
+      <div id="quality-note" class="quality-note"></div>
+    </section>
+    </section>
+
+    <section id="inspector-mode-panel" class="inspector-panel" aria-label="Planificación del control de inspectores" hidden>
+      <div class="inspector-intro">
+        <div>
+          <span class="eyebrow">Planilla operativa</span>
+          <h3>¿Qué servicios deben pasar por el lugar de control?</h3>
+          <p>La delegación identifica al equipo. La localidad y el punto específico indican dónde se realiza el operativo.</p>
+        </div>
+        <div id="inspector-summary" class="inspector-summary">Elegí una localidad para preparar el control.</div>
+      </div>
+
+      <details class="mode-guide inspector-guide">
+        <summary><span>Guía rápida</span> ¿Cómo preparar un operativo?</summary>
+        <ol>
+          <li>Indicá la base del equipo, la localidad del control y, si corresponde, el punto específico.</li>
+          <li>Elegí el día, la franja horaria y el corredor.</li>
+          <li>Marcá una o varias empresas, líneas y sentidos; todos los filtros se acumulan.</li>
+          <li>Usá la lista ordenada por hora de control y exportala en PDF o PNG.</li>
+        </ol>
+        <p>La planilla diferencia salidas publicadas de pasos estimados por localidades intermedias.</p>
+      </details>
+
+      <section class="inspector-filters" aria-label="Datos del operativo">
+        <label><span>Base del equipo</span><select id="inspector-delegation">
+          <option value="">Sin indicar</option>
+          <option>Córdoba</option><option>Río Cuarto</option><option>Villa María</option>
+          <option>San Francisco</option><option>Villa Dolores</option><option>Villa Carlos Paz</option>
+          <option>Cruz del Eje</option><option>Jesús María</option><option>Cosquín</option>
+          <option>Operativo móvil</option>
+        </select></label>
+        <label><span>Localidad de control</span><select id="inspector-locality"><option value="">Elegir localidad</option></select></label>
+        <label class="point-field"><span>Terminal o punto específico · opcional</span><input id="inspector-point" type="text" placeholder="Ej.: Terminal, RP 5 km 24…"></label>
+        <label><span>Corredor</span><select id="inspector-corridor"><option value="">Todos</option></select></label>
+        <label><span>Día del control</span><select id="inspector-day"><option value="">Todos</option><option value="1">Lunes</option><option value="2">Martes</option><option value="3">Miércoles</option><option value="4">Jueves</option><option value="5">Viernes</option><option value="6">Sábado</option><option value="7">Domingo</option></select></label>
+        <label><span>Desde</span><input id="inspector-from" type="time" value="00:00"></label>
+        <label><span>Hasta</span><input id="inspector-to" type="time" value="23:59"></label>
+      </section>
+
+      <section class="multi-selector direction-selector" aria-labelledby="direction-selector-title">
+        <header>
+          <div><span class="eyebrow">Filtro acumulativo</span><h4 id="direction-selector-title">Sentidos incluidos</h4></div>
+          <div><button id="inspector-directions-all" class="mini-button" type="button">Ida y Vuelta</button><button id="inspector-directions-none" class="mini-button" type="button">Quitar ambos</button></div>
+        </header>
+        <div id="inspector-directions" class="direction-options"></div>
+      </section>
+
+      <section class="multi-selector company-selector" aria-labelledby="company-selector-title">
+        <header>
+          <div><span class="eyebrow">Selección múltiple y acumulativa</span><h4 id="company-selector-title">Empresas incluidas</h4></div>
+          <div><button id="inspector-companies-all" class="mini-button" type="button">Seleccionar todas</button><button id="inspector-companies-none" class="mini-button" type="button">Quitar todas</button></div>
+        </header>
+        <div id="inspector-companies" class="company-options"></div>
+      </section>
+
+      <section class="multi-selector line-selector" aria-labelledby="line-selector-title">
+        <header>
+          <div><span class="eyebrow">Selección múltiple</span><h4 id="line-selector-title">Líneas incluidas</h4></div>
+          <div><button id="inspector-lines-all" class="mini-button" type="button">Seleccionar todas</button><button id="inspector-lines-none" class="mini-button" type="button">Quitar todas</button></div>
+        </header>
+        <div id="inspector-lines" class="line-options"></div>
+      </section>
+
+      <section class="export-bar inspector-export" aria-label="Exportar planilla del operativo">
+        <div><strong>Guardar planilla del operativo</strong><span>Incluye base, punto de control, empresas, líneas y horas de paso.</span></div>
+        <div class="export-actions">
+          <button id="inspector-print" class="export-button" type="button">Imprimir / guardar PDF</button>
+          <button id="inspector-image" class="export-button image" type="button">Descargar imagen PNG</button>
+        </div>
+        <p id="inspector-export-status" class="export-status" role="status"></p>
+      </section>
+
+      <section class="inspection-results" aria-labelledby="inspection-results-title">
+        <header><div><span class="eyebrow">Servicios esperados</span><h3 id="inspection-results-title">Horarios en el punto de control</h3></div><span id="inspector-count" class="result-count">0</span></header>
+        <div class="inspection-table-wrap"><table class="inspection-table">
+          <thead><tr><th>Hora de control</th><th>Tipo</th><th>Empresa y línea</th><th>Sentido</th><th>Destino final · cartel</th><th>Salida publicada</th></tr></thead>
+          <tbody id="inspector-results"><tr><td colspan="6">Elegí la localidad del operativo.</td></tr></tbody>
+        </table></div>
+      </section>
+
+      <p class="inspector-legal-note"><strong>Importante:</strong> la salida de cabecera proviene del PDF publicado. El paso por una localidad intermedia es estimado y debe identificarse como tal durante el control.</p>
+    </section>
+
+    <section id="claims-mode-panel" class="history-panel" aria-label="Consulta histórica para reclamos" hidden>
+      <div class="history-intro">
+        <div>
+          <span class="eyebrow">Verificación documental</span>
+          <h3>¿Qué servicio figuraba para la fecha del reclamo?</h3>
+          <p>La fecha determina qué publicación histórica y qué día de prestación deben consultarse.</p>
+        </div>
+        <div id="history-coverage" class="history-coverage">Cargando cobertura histórica…</div>
+      </div>
+
+      <details class="mode-guide claims-guide">
+        <summary><span>Guía rápida</span> ¿Cómo verificar un reclamo?</summary>
+        <ol>
+          <li>Ingresá la fecha del viaje o del hecho reclamado.</li>
+          <li>Buscá por localidad, línea, empresa o ruta, o combiná los filtros disponibles.</li>
+          <li>Revisá si el servicio figuraba en la publicación aplicable a esa fecha.</li>
+          <li>Imprimí la constancia o consultá el informe semanal de servicios modificados y eliminados.</li>
+        </ol>
+        <p>La consulta acredita el cronograma publicado, no que la unidad haya circulado efectivamente.</p>
+      </details>
+
+      <section class="history-date-card" aria-labelledby="history-date-title">
+        <div><span class="eyebrow">Paso 1</span><h4 id="history-date-title">Fecha del viaje o del hecho reclamado</h4></div>
+        <label><span>Fecha a verificar</span><input id="history-date" type="date"></label>
+        <div id="history-publication-status" class="history-publication-status" role="status">Elegí una fecha.</div>
+      </section>
+
+      <section class="history-filters" aria-label="Filtros de la consulta histórica">
+        <div class="history-filters-heading">
+          <span class="eyebrow">Paso 2</span>
+          <h4>Identificá el servicio</h4>
+          <p>Completá solamente los datos que conozcas. Los filtros se combinan.</p>
+        </div>
+        <label class="history-search"><span>Buscar</span><input id="history-search" type="search" placeholder="Localidad, línea, empresa o ruta…" autocomplete="off"></label>
+        <label><span>Origen</span><select id="history-origin"><option value="">Todos</option></select></label>
+        <label><span>Destino</span><select id="history-destination"><option value="">Todos</option></select></label>
+        <label><span>Corredor</span><select id="history-corridor"><option value="">Todos</option></select></label>
+        <label><span>Línea</span><select id="history-line"><option value="">Todas</option></select></label>
+        <label><span>Sentido</span><select id="history-direction"><option value="">Ambos</option></select></label>
+        <label><span>Empresa</span><select id="history-company"><option value="">Todas</option></select></label>
+        <button id="history-reset" class="reset-button" type="button">Limpiar filtros</button>
+      </section>
+
+      <section class="history-evidence" aria-live="polite">
+        <header>
+          <div><span class="eyebrow">Resultado</span><h3 id="history-result-title">Servicios programados para esa fecha</h3></div>
+          <span id="history-result-count" class="result-count">0</span>
+        </header>
+        <p id="history-result-status" class="history-result-status">Seleccioná una fecha y algún dato del servicio.</p>
+        <div id="history-results" class="history-results"></div>
+        <div class="history-actions">
+          <button id="history-print" class="export-button" type="button">Imprimir constancia / PDF</button>
+          <p id="history-export-status" class="export-status" role="status"></p>
+        </div>
+      </section>
+
+      <p class="history-legal-note"><strong>Alcance:</strong> el resultado acredita que el servicio figuraba —o no aparece— en el cronograma disponible para esa fecha. No acredita que la unidad haya circulado efectivamente. Los recorridos y pasos intermedios continúan siendo orientativos.</p>
+
+      <section class="change-report" aria-labelledby="change-report-title">
+        <header>
+          <div><span class="eyebrow">Auditoría semanal</span><h3 id="change-report-title">Informe de cambios de horarios</h3></div>
+          <label><span>Publicación</span><select id="change-publication"><option value="">Elegir</option></select></label>
+        </header>
+        <div id="change-summary" class="change-summary"><p>Elegí una publicación con informe.</p></div>
+        <div class="change-actions">
+          <button id="change-print" class="export-button" type="button">Imprimir informe / PDF</button>
+          <button id="change-csv" class="export-button image" type="button">Descargar CSV</button>
+          <p id="change-export-status" class="export-status" role="status"></p>
+        </div>
+        <div id="change-details" class="change-details"></div>
+      </section>
+    </section>
+  </main>
+
+  <footer>Versión de prueba · Lea Rama Dev · Datos de cronogramas oficiales de transporte</footer>
+</div>
+
+<img id="export-logo-source" class="export-logo-source" src="../app-transporte/assets/logo-ersep.png" alt="" hidden>
+<section id="print-sheet" class="print-sheet" aria-hidden="true"></section>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script defer src="recorridos.js?v=12-beta"></script>
+<script defer src="historico.js?v=12-beta"></script>
+<script defer src="transporte.js?v=12-beta"></script>
+<script defer src="asistente.js?v=12-beta"></script>
+</body>
+</html>
