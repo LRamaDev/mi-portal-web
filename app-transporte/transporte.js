@@ -358,45 +358,6 @@
     $('map-legend').innerHTML=state.data.corridors.map(function(c){return '<span><i class="dot" style="--dot-color:'+COLORS[c]+'"></i>'+esc(c)+'</span>';}).join('');
   }
   function getJSON(path){return fetch(path,{cache:'no-store'}).then(function(response){if(!response.ok)throw new Error(path);return response.json();});}
-  // Interfaz mínima para el asistente de búsqueda. El asistente recibe resultados
-  // del mismo motor de filtros; no mantiene una segunda base ni genera horarios.
-  function exposeSearch(){
-    function publicJourney(j){
-      return {key:j.key,origin:j.origin,destination:j.destination,originLabel:placeLabel(j.origin),destinationLabel:placeLabel(j.destination),boarding:clockText(j.boarding),arrival:j.arrival===null?'Sin estimación':clockText(j.arrival),estimatedBoarding:j.estimatedBoarding,duration:duration(j.duration),company:j.service.company,line:j.service.line,direction:DIRECTIONS[j.service.direction]||j.service.direction,days:j.days.map(function(day){return DAYS[day];})};
-    }
-    function placeOptions(field,input){
-      input=input||{};
-      var requested={search:'',origin:input.origin||'',destination:input.destination||'',corridor:'',line:'',direction:'',day:input.day||'',company:'',modality:''};
-      return state.engine.facet(field,requested).map(function(id){var place=state.engine.places[id];return {id:id,name:place.name,label:placeLabel(id)};}).sort(function(a,b){return a.label.localeCompare(b.label,'es');});
-    }
-    window.TransportSearch={
-      today:function(){return String(today());},
-      listPlaces:function(){return Object.keys(state.engine.places).map(function(id){var place=state.engine.places[id];return {id:id,name:place.name,label:placeLabel(id)};}).sort(function(a,b){return a.label.localeCompare(b.label,'es');});},
-      listOrigins:function(day){return placeOptions('origin',{day:day});},
-      listDestinations:function(origin,day){return origin?placeOptions('destination',{origin:origin,day:day}):[];},
-      query:function(input){
-        input=input||{};
-        var requested={search:'',origin:input.origin||'',destination:input.destination||'',corridor:'',line:'',direction:input.direction||'',day:input.day||'',company:'',modality:''};
-        var journeys=state.engine.query(requested),after=input.after===''||input.after==null?null:Number(input.after);
-        if(Number.isFinite(after))journeys=journeys.filter(function(j){var minute=((j.boarding%1440)+1440)%1440;return minute>=after;});
-        if(input.order==='last')journeys.reverse();
-        var total=journeys.length,limit=Number.isFinite(Number(input.limit))?Number(input.limit):total;
-        return {total:total,journeys:journeys.slice(0,limit).map(publicJourney)};
-      },
-      apply:function(input){
-        input=input||{};
-        $('filter-search').value='';
-        // Primero se liberan las opciones dependientes. Así una consulta nueva del
-        // asistente no queda bloqueada por filtros manuales que estaban activos.
-        ['origin','destination','corridor','line','direction','day','company','modality'].forEach(function(field){$('filter-'+field).value='';});
-        updateOptions();
-        ['origin','destination','corridor','line','direction','day','company','modality'].forEach(function(field){$('filter-'+field).value=input[field]||'';});
-        state.focus=null;changed();
-      },
-      focus:function(key){state.focus=key;render();}
-    };
-    if(typeof window.TransportAssistantInit==='function')window.TransportAssistantInit();
-  }
   theme();
   Promise.all([getJSON('data/horarios.json'),getJSON('data/cabeceras.json'),getJSON('data/recorridos.json').catch(function(){state.routeError=true;return null;}),getJSON('data/trazados.json').catch(function(){state.traceError=true;return null;})]).then(function(payloads){
     state.data=payloads[0];state.geo=payloads[1];state.routes=payloads[2];state.traces=payloads[3];
@@ -409,6 +370,6 @@
       state.profileUnsafePlaces=new Map(warnings.map(function(item){return [item.profile_id,new Set(item.unsafe_place_ids||[])];}));
       state.unsafePlaces=new Set(((state.traces.audit&&state.traces.audit.quarantined_places)||[]).map(function(item){return item.place_id;}));
     }
-    state.engine=R.create(state.data,state.geo,state.routes);initMap();$('filter-day').value=String(today());$('inspector-day').value=String(today());updateOptions();updateInspectorControls();bind();sourceSummary();render();renderInspector();exposeSearch();
+    state.engine=R.create(state.data,state.geo,state.routes);initMap();$('filter-day').value=String(today());$('inspector-day').value=String(today());updateOptions();updateInspectorControls();bind();sourceSummary();render();renderInspector();
   }).catch(function(error){$('results').innerHTML='<div class="empty-state"><strong>No se pudo cargar la información.</strong><p>'+esc(error.message)+'</p></div>';$('updated-date').textContent='Error de carga';});
 }());
