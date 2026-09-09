@@ -53,3 +53,21 @@ test('la interfaz conserva adaptaciones para celular y computadora', () => {
   assert.match(css, /\.assistant-actions>\*\{width:100%\}/);
   assert.match(css, /\.beta-banner>div\{align-items:flex-start;flex-direction:column/);
 });
+
+
+test('el asistente beta v13 es conversacional, progresivo y adaptable', () => {
+  const html = read('index.html');
+  const css = read('transporte.css');
+  const assistant = read('asistente.js');
+  for (const id of ['assistant-progress','assistant-progress-fill','assistant-preview','assistant-summary-origin','assistant-summary-destination','assistant-summary-submit']) {
+    assert.match(html, new RegExp('id="'+id+'"'));
+  }
+  assert.equal((html.match(/data-assistant-step="/g)||[]).length,4);
+  assert.equal((html.match(/data-assistant-day-offset="/g)||[]).length,2);
+  assert.match(html, /transporte\.css\?v=13-beta/);
+  assert.match(html, /asistente\.js\?v=13-beta/);
+  assert.match(css, /@keyframes assistant-card-in/);
+  assert.match(css, /@media\(max-width:720px\)/);
+  assert.match(assistant, /updateProgress/);
+  assert.match(assistant, /updateSummary/);
+});

@@ -4,6 +4,7 @@
   var $=function(id){return document.getElementById(id);};
   var esc=function(value){return String(value==null?'':value).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');};
   var DAYS={'1':'lunes','2':'martes','3':'miércoles','4':'jueves','5':'viernes','6':'sábado','7':'domingo'};
+  var STEP_TITLES={1:'Elegí dónde subís',2:'Elegí dónde bajás',3:'Confirmá el día',4:'Elegí el horario'};
 
   function currentMinutes(){
     var values=new Intl.DateTimeFormat('en-GB',{hour:'2-digit',minute:'2-digit',hourCycle:'h23',timeZone:'America/Argentina/Cordoba'}).formatToParts(new Date()),parts={};
@@ -12,10 +13,53 @@
   }
   function formatMinute(minute){return String(Math.floor(minute/60)).padStart(2,'0')+':'+String(minute%60).padStart(2,'0');}
   function parseTime(value){if(!/^\d{2}:\d{2}$/.test(value||''))return null;var parts=value.split(':').map(Number);return parts[0]*60+parts[1];}
-  function optionLabel(id){var element=$(id),option=element.options[element.selectedIndex];return option?option.textContent:'';}
+  function optionLabel(id,fallback){var element=$(id),option=element.options[element.selectedIndex];return option&&option.value?option.textContent:fallback;}
   function optionHTML(place){return '<option value="'+esc(place.id)+'">'+esc(place.label)+'</option>';}
-  function setStatus(message,error){var status=$('assistant-status');status.textContent=message;status.className='assistant-status'+(error?' error':'');}
-  function clearResults(){$('assistant-results').innerHTML='';}
+  function capital(value){return value?value.charAt(0).toUpperCase()+value.slice(1):'';}
+  function setStatus(message,error,tone){
+    var status=$('assistant-status'),row=status.parentNode;
+    status.textContent=message;
+    status.className='assistant-status'+(error?' error':'')+(tone?' '+tone:'');
+    if(row)row.className='assistant-status-row'+(error?' error':'')+(tone?' '+tone:'');
+  }
+  function clearResults(){var results=$('assistant-results');results.innerHTML='';results.className='assistant-results';}
+
+  function timeSummary(){
+    var mode=$('assistant-time-mode').value;
+    if(mode==='after')return 'Desde las '+($('assistant-time').value||'--:--');
+    if(mode==='last')return 'Último servicio';
+    return 'Cualquier horario';
+  }
+  function updateSummary(){
+    var origin=$('assistant-origin').value,destination=$('assistant-destination').value,ready=Boolean(origin&&destination);
+    $('assistant-summary-origin').textContent=optionLabel('assistant-origin','Sin elegir');
+    $('assistant-summary-destination').textContent=optionLabel('assistant-destination','Sin elegir');
+    $('assistant-summary-day').textContent=capital(DAYS[$('assistant-day').value]||'');
+    $('assistant-summary-time').textContent=timeSummary();
+    $('assistant-summary-submit').disabled=!ready;
+    $('assistant-summary-submit').textContent=ready?'Buscar con estos datos':'Completá origen y destino';
+    $('assistant-preview').classList.toggle('is-ready',ready);
+  }
+  function updateProgress(step,complete){
+    step=Math.max(1,Math.min(4,Number(step)||1));
+    $('assistant-progress-label').textContent=complete?'Consulta completa':'Paso '+step+' de 4';
+    $('assistant-progress-title').textContent=complete?'Resultados listos':STEP_TITLES[step];
+    $('assistant-progress').setAttribute('aria-valuenow',String(step));
+    $('assistant-progress-fill').style.width=(complete?100:step*25)+'%';
+    Array.from(document.querySelectorAll('[data-assistant-step]')).forEach(function(card){
+      var number=Number(card.getAttribute('data-assistant-step'));
+      card.classList.remove('is-active','is-complete','is-pending');
+      if(complete||number<step)card.classList.add('is-complete');
+      else if(number===step){card.classList.add('is-active');card.setAttribute('aria-current','step');}
+      else card.classList.add('is-pending');
+      if(number!==step)card.removeAttribute('aria-current');
+    });
+  }
+  function fieldStep(preferred){
+    if(!$('assistant-origin').value)return 1;
+    if(!$('assistant-destination').value)return 2;
+    return preferred||3;
+  }
 
   function populateOrigins(preserve){
     var select=$('assistant-origin'),places=window.TransportSearch.listOrigins($('assistant-day').value),old=preserve?select.value:'';
@@ -30,10 +74,10 @@
   }
   function syncTimeMode(){
     var after=$('assistant-time-mode').value==='after',wrap=$('assistant-time-wrap'),input=$('assistant-time');
-    wrap.hidden=!after;input.disabled=!after;
+    wrap.hidden=!after;input.disabled=!after;updateSummary();
   }
-  function resultHTML(journey){
-    return '<article class="assistant-service"><div><strong>'+esc(journey.boarding)+'</strong><span>'+esc(journey.estimatedBoarding?'Paso estimado':'Salida publicada')+'</span></div><div><h4>'+esc(journey.originLabel)+' → '+esc(journey.destinationLabel)+'</h4><p>'+esc(journey.company)+' · '+esc(journey.line)+' · '+esc(journey.direction)+'</p><small>Llegada '+esc(journey.arrival)+' · '+esc(journey.duration)+'</small></div><button type="button" data-assistant-open="'+esc(journey.key)+'">Ver recorrido</button></article>';
+  function resultHTML(journey,index){
+    return '<article class="assistant-service" style="--result-index:'+index+'"><div class="assistant-service-time"><strong>'+esc(journey.boarding)+'</strong><span>'+esc(journey.estimatedBoarding?'Paso estimado':'Salida publicada')+'</span></div><div class="assistant-service-main"><h4>'+esc(journey.originLabel)+' <span aria-hidden="true">→</span> '+esc(journey.destinationLabel)+'</h4><p>'+esc(journey.company)+' · '+esc(journey.line)+'</p><div class="assistant-service-meta"><span>'+esc(journey.direction)+'</span><span>Llegada '+esc(journey.arrival)+'</span><span>'+esc(journey.duration)+'</span></div></div><button type="button" data-assistant-open="'+esc(journey.key)+'">Ver recorrido <span aria-hidden="true">→</span></button></article>';
   }
   function request(){
     var mode=$('assistant-time-mode').value,after=mode==='after'?parseTime($('assistant-time').value):null;
@@ -41,20 +85,23 @@
   }
   function runQuery(){
     var api=window.TransportSearch,input=request();
-    if(!input.origin){setStatus('Elegí la localidad donde subís.',true);clearResults();return;}
-    if(!input.destination){setStatus('Elegí la localidad donde bajás.',true);clearResults();return;}
-    if(input.origin===input.destination){setStatus('El origen y el destino deben ser distintos.',true);clearResults();return;}
-    if($('assistant-time-mode').value==='after'&&input.after===null){setStatus('Indicá desde qué hora querés viajar.',true);clearResults();return;}
-    var results=api.query(input),origin=optionLabel('assistant-origin'),destination=optionLabel('assistant-destination');
+    if(!input.origin){setStatus('Elegí la localidad donde subís.',true);clearResults();updateProgress(1,false);return;}
+    if(!input.destination){setStatus('Elegí la localidad donde bajás.',true);clearResults();updateProgress(2,false);return;}
+    if(input.origin===input.destination){setStatus('El origen y el destino deben ser distintos.',true);clearResults();updateProgress(2,false);return;}
+    if($('assistant-time-mode').value==='after'&&input.after===null){setStatus('Indicá desde qué hora querés viajar.',true);clearResults();updateProgress(4,false);return;}
+    clearResults();setStatus('Buscando coincidencias en los cronogramas publicados…',false,'searching');
+    var results=api.query(input),origin=optionLabel('assistant-origin',''),destination=optionLabel('assistant-destination','');
     var timeText=$('assistant-time-mode').value==='after'?' desde las '+formatMinute(input.after):$('assistant-time-mode').value==='last'?' · último servicio':'';
+    updateProgress(4,true);
     if(!results.total){
       setStatus('No encontramos servicios directos de '+origin+' a '+destination+' el '+DAYS[input.day]+timeText+'.',true);
       $('assistant-results').innerHTML='<div class="assistant-empty"><strong>No hay un servicio directo publicado para esa búsqueda.</strong><p>Probá otro día u horario, o revisá los filtros completos.</p></div>';
       return;
     }
-    if($('assistant-time-mode').value==='last')setStatus('Te mostramos el último servicio directo de '+origin+' a '+destination+' para el '+DAYS[input.day]+'.');
-    else setStatus('Encontramos '+results.total.toLocaleString('es-AR')+' servicio'+(results.total===1?'':'s')+' directo'+(results.total===1?'':'s')+' para el '+DAYS[input.day]+timeText+'.');
-    $('assistant-results').innerHTML=results.journeys.map(resultHTML).join('')+(results.total>results.journeys.length?'<button class="assistant-all" type="button" data-assistant-all>Ver los '+results.total.toLocaleString('es-AR')+' servicios en la búsqueda completa</button>':'');
+    if($('assistant-time-mode').value==='last')setStatus('Listo: te mostramos el último servicio directo de '+origin+' a '+destination+' para el '+DAYS[input.day]+'.',false,'success');
+    else setStatus('¡Listo! Encontramos '+results.total.toLocaleString('es-AR')+' servicio'+(results.total===1?'':'s')+' directo'+(results.total===1?'':'s')+' para el '+DAYS[input.day]+timeText+'.',false,'success');
+    $('assistant-results').className='assistant-results has-results';
+    $('assistant-results').innerHTML='<header class="assistant-results-title"><div><span>Opciones encontradas</span><strong>'+esc(origin)+' → '+esc(destination)+'</strong></div><b>'+results.total.toLocaleString('es-AR')+'</b></header>'+results.journeys.map(resultHTML).join('')+(results.total>results.journeys.length?'<button class="assistant-all" type="button" data-assistant-all>Ver los '+results.total.toLocaleString('es-AR')+' servicios en la búsqueda completa</button>':'');
     $('assistant-results').setAttribute('data-assistant-origin',input.origin);
     $('assistant-results').setAttribute('data-assistant-destination',input.destination);
     $('assistant-results').setAttribute('data-assistant-day',input.day);
@@ -63,28 +110,35 @@
     var results=$('assistant-results'),api=window.TransportSearch;
     api.apply({origin:results.getAttribute('data-assistant-origin')||'',destination:results.getAttribute('data-assistant-destination')||'',day:results.getAttribute('data-assistant-day')||''});
     if(key)api.focus(key);
-    var workspace=document.querySelector&&document.querySelector('.workspace');
-    if(workspace&&workspace.scrollIntoView)workspace.scrollIntoView({behavior:'smooth',block:'start'});
+    var workspace=document.querySelector&&document.querySelector('.workspace'),reduced=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if(workspace&&workspace.scrollIntoView)workspace.scrollIntoView({behavior:reduced?'auto':'smooth',block:'start'});
   }
   function clear(){
     $('assistant-day').value=window.TransportSearch.today();$('assistant-time-mode').value='all';$('assistant-time').value='08:00';
-    populateOrigins(false);populateDestinations(false);syncTimeMode();clearResults();setStatus('Empezá eligiendo la localidad de origen.');
+    populateOrigins(false);populateDestinations(false);syncTimeMode();clearResults();updateSummary();updateProgress(1,false);setStatus('Empezá eligiendo la localidad de origen.');
+  }
+  function chooseDay(offset){
+    var today=Number(window.TransportSearch.today()),day=((today-1+Number(offset))%7)+1;
+    $('assistant-day').value=String(day);populateOrigins(true);populateDestinations(true);clearResults();updateSummary();updateProgress(fieldStep(4),false);
+    setStatus(offset?'Perfecto, buscamos para mañana. Ahora confirmá el horario.':'Perfecto, buscamos para hoy. Ahora confirmá el horario.');
   }
   function useNow(){
     $('assistant-day').value=window.TransportSearch.today();populateOrigins(true);populateDestinations(true);
-    $('assistant-time-mode').value='after';$('assistant-time').value=formatMinute(currentMinutes());syncTimeMode();
+    $('assistant-time-mode').value='after';$('assistant-time').value=formatMinute(currentMinutes());syncTimeMode();clearResults();updateSummary();
     if($('assistant-origin').value&&$('assistant-destination').value)runQuery();
-    else setStatus('Se configuró hoy desde la hora actual. Ahora elegí origen y destino.');
+    else{updateProgress(fieldStep(),false);setStatus('Configuré hoy desde la hora actual. Ahora elegí origen y destino.');}
   }
   function init(){
     if(initialized||!window.TransportSearch)return;
-    initialized=true;$('assistant-day').value=window.TransportSearch.today();populateOrigins(false);populateDestinations(false);syncTimeMode();
+    initialized=true;$('assistant-day').value=window.TransportSearch.today();populateOrigins(false);populateDestinations(false);syncTimeMode();updateSummary();updateProgress(1,false);
     $('assistant-form').addEventListener('submit',function(event){if(event.preventDefault)event.preventDefault();runQuery();});
-    $('assistant-origin').addEventListener('change',function(){populateDestinations(false);clearResults();setStatus($('assistant-origin').value?'Ahora elegí la localidad de destino.':'Empezá eligiendo la localidad de origen.');});
-    $('assistant-destination').addEventListener('change',function(){clearResults();if($('assistant-destination').value)setStatus('Elegí el día y el horario, y buscá los servicios.');});
-    $('assistant-day').addEventListener('change',function(){populateOrigins(true);populateDestinations(true);clearResults();});
-    $('assistant-time-mode').addEventListener('change',syncTimeMode);
-    $('assistant-now').addEventListener('click',useNow);$('assistant-clear').addEventListener('click',clear);
+    $('assistant-origin').addEventListener('change',function(){populateDestinations(false);clearResults();updateSummary();updateProgress(fieldStep(),false);setStatus($('assistant-origin').value?'Bien, ahora elegí la localidad donde bajás.':'Empezá eligiendo la localidad de origen.');});
+    $('assistant-destination').addEventListener('change',function(){clearResults();updateSummary();updateProgress(fieldStep(),false);if($('assistant-destination').value)setStatus('Ya tenemos el recorrido. Confirmá el día y el horario.');});
+    $('assistant-day').addEventListener('change',function(){populateOrigins(true);populateDestinations(true);clearResults();updateSummary();updateProgress(fieldStep(4),false);setStatus('Día actualizado. Elegí el horario y buscá los servicios.');});
+    $('assistant-time-mode').addEventListener('change',function(){syncTimeMode();clearResults();updateProgress(fieldStep(4),false);});
+    $('assistant-time').addEventListener('change',function(){updateSummary();clearResults();updateProgress(fieldStep(4),false);});
+    Array.from(document.querySelectorAll('[data-assistant-day-offset]')).forEach(function(button){button.addEventListener('click',function(){chooseDay(Number(button.getAttribute('data-assistant-day-offset')));});});
+    $('assistant-now').addEventListener('click',useNow);$('assistant-clear').addEventListener('click',clear);$('assistant-summary-submit').addEventListener('click',runQuery);
     $('assistant-results').addEventListener('click',function(event){
       var open=event.target.closest&&event.target.closest('[data-assistant-open]');if(open){applySearch(open.getAttribute('data-assistant-open'));return;}
       if(event.target.closest&&event.target.closest('[data-assistant-all]'))applySearch('');
@@ -93,4 +147,3 @@
   window.TransportAssistantInit=init;
   init();
 }());
-

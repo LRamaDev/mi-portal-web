@@ -11,7 +11,7 @@
     } catch (error) {}
   </script>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-  <link rel="stylesheet" href="transporte.css?v=12-beta">
+  <link rel="stylesheet" href="transporte.css?v=13-beta">
 </head>
 
 <body>
@@ -88,40 +88,86 @@
       <p>Los pasos por localidades intermedias son estimados y no representan seguimiento en tiempo real.</p>
     </details>
 
-    <section class="travel-assistant" aria-labelledby="travel-assistant-title">
-      <div class="travel-assistant-copy">
-        <span class="eyebrow">Búsqueda guiada</span>
-        <h3 id="travel-assistant-title">Encontrá tu servicio paso a paso</h3>
-        <p>Elegí dónde subís, dónde bajás y cuándo querés viajar. La consulta usa únicamente los cronogramas publicados.</p>
-      </div>
-      <form id="assistant-form" class="assistant-form">
-        <label class="assistant-step" for="assistant-origin">
-          <span class="assistant-step-number" aria-hidden="true">1</span>
-          <span class="assistant-field"><strong>¿Dónde subís?</strong><select id="assistant-origin" required><option value="">Elegí el origen</option></select></span>
-        </label>
-        <label class="assistant-step" for="assistant-destination">
-          <span class="assistant-step-number" aria-hidden="true">2</span>
-          <span class="assistant-field"><strong>¿Dónde bajás?</strong><select id="assistant-destination" required disabled><option value="">Primero elegí el origen</option></select></span>
-        </label>
-        <label class="assistant-step" for="assistant-day">
-          <span class="assistant-step-number" aria-hidden="true">3</span>
-          <span class="assistant-field"><strong>¿Qué día viajás?</strong><select id="assistant-day"><option value="1">Lunes</option><option value="2">Martes</option><option value="3">Miércoles</option><option value="4">Jueves</option><option value="5">Viernes</option><option value="6">Sábado</option><option value="7">Domingo</option></select></span>
-        </label>
-        <div class="assistant-step assistant-time-step">
-          <span class="assistant-step-number" aria-hidden="true">4</span>
-          <div class="assistant-field assistant-time-fields">
-            <label for="assistant-time-mode"><strong>¿Desde qué hora?</strong></label>
-            <select id="assistant-time-mode"><option value="all">Cualquier horario</option><option value="after">Después de una hora</option><option value="last">Último servicio del día</option></select>
-            <label id="assistant-time-wrap" class="assistant-time-wrap" for="assistant-time" hidden><span>Hora mínima</span><input id="assistant-time" type="time" value="08:00"></label>
+    <section class="travel-assistant assistant-v13" aria-labelledby="travel-assistant-title">
+      <header class="assistant-hero">
+        <div class="assistant-identity">
+          <span class="assistant-avatar" aria-hidden="true"><span>BUS</span><i></i></span>
+          <div class="travel-assistant-copy">
+            <span class="eyebrow">Asistente de viaje · sin IA</span>
+            <h3 id="travel-assistant-title">Encontrá tu servicio conversando paso a paso</h3>
+            <p>Elegí origen, destino y horario. Las respuestas salen únicamente de los cronogramas publicados.</p>
           </div>
         </div>
-        <div class="assistant-actions">
-          <button class="assistant-submit" type="submit">Buscar servicios</button>
-          <button id="assistant-now" class="assistant-secondary" type="button">Hoy, desde ahora</button>
-          <button id="assistant-clear" class="assistant-secondary" type="button">Limpiar</button>
+        <div class="assistant-progress-copy">
+          <div><span id="assistant-progress-label">Paso 1 de 4</span><strong id="assistant-progress-title">Elegí dónde subís</strong></div>
+          <div id="assistant-progress" class="assistant-progress" role="progressbar" aria-label="Progreso de la búsqueda" aria-valuemin="1" aria-valuemax="4" aria-valuenow="1">
+            <span id="assistant-progress-fill"></span>
+          </div>
         </div>
-      </form>
-      <p id="assistant-status" class="assistant-status" role="status">Empezá eligiendo la localidad de origen.</p>
+      </header>
+
+      <div class="assistant-layout">
+        <div class="assistant-conversation">
+          <div class="assistant-message">
+            <span class="assistant-message-avatar" aria-hidden="true">ER</span>
+            <p>¡Hola! Te ayudo a encontrar un servicio directo. Empecemos por la localidad donde vas a subir.</p>
+          </div>
+
+          <form id="assistant-form" class="assistant-form">
+            <label class="assistant-step is-active" data-assistant-step="1" for="assistant-origin">
+              <span class="assistant-step-number" aria-hidden="true"><b>1</b><i>✓</i></span>
+              <span class="assistant-field"><small>Primera parada</small><strong>¿Dónde subís?</strong><select id="assistant-origin" required><option value="">Elegí el origen</option></select></span>
+            </label>
+            <label class="assistant-step is-pending" data-assistant-step="2" for="assistant-destination">
+              <span class="assistant-step-number" aria-hidden="true"><b>2</b><i>✓</i></span>
+              <span class="assistant-field"><small>Destino del viaje</small><strong>¿Dónde bajás?</strong><select id="assistant-destination" required disabled><option value="">Primero elegí el origen</option></select></span>
+            </label>
+            <label class="assistant-step is-pending" data-assistant-step="3" for="assistant-day">
+              <span class="assistant-step-number" aria-hidden="true"><b>3</b><i>✓</i></span>
+              <span class="assistant-field"><small>Día de subida</small><strong>¿Qué día viajás?</strong><select id="assistant-day"><option value="1">Lunes</option><option value="2">Martes</option><option value="3">Miércoles</option><option value="4">Jueves</option><option value="5">Viernes</option><option value="6">Sábado</option><option value="7">Domingo</option></select><span class="assistant-quick-days"><button type="button" data-assistant-day-offset="0">Hoy</button><button type="button" data-assistant-day-offset="1">Mañana</button></span></span>
+            </label>
+            <div class="assistant-step assistant-time-step is-pending" data-assistant-step="4">
+              <span class="assistant-step-number" aria-hidden="true"><b>4</b><i>✓</i></span>
+              <div class="assistant-field assistant-time-fields">
+                <label for="assistant-time-mode"><small>Horario de salida</small><strong>¿Desde qué hora?</strong></label>
+                <select id="assistant-time-mode"><option value="all">Cualquier horario</option><option value="after">Después de una hora</option><option value="last">Último servicio del día</option></select>
+                <label id="assistant-time-wrap" class="assistant-time-wrap" for="assistant-time" hidden><span>Hora mínima</span><input id="assistant-time" type="time" value="08:00"></label>
+              </div>
+            </div>
+            <div class="assistant-actions">
+              <button class="assistant-submit" type="submit">Buscar servicios <span aria-hidden="true">→</span></button>
+              <button id="assistant-now" class="assistant-secondary" type="button">Hoy, desde ahora</button>
+              <button id="assistant-clear" class="assistant-secondary" type="button">Limpiar</button>
+            </div>
+          </form>
+
+          <div class="assistant-status-row">
+            <span class="assistant-message-avatar" aria-hidden="true">ER</span>
+            <p id="assistant-status" class="assistant-status" role="status">Empezá eligiendo la localidad de origen.</p>
+          </div>
+        </div>
+
+        <aside id="assistant-preview" class="assistant-preview" aria-labelledby="assistant-preview-title">
+          <span class="eyebrow">Tu consulta</span>
+          <h4 id="assistant-preview-title">Así queda tu viaje</h4>
+          <div class="assistant-route-visual">
+            <div class="assistant-route-point">
+              <i class="start" aria-hidden="true"></i><span>Origen</span><strong id="assistant-summary-origin">Sin elegir</strong>
+            </div>
+            <div class="assistant-route-line" aria-hidden="true"><span></span></div>
+            <div class="assistant-route-point">
+              <i class="finish" aria-hidden="true"></i><span>Destino</span><strong id="assistant-summary-destination">Sin elegir</strong>
+            </div>
+          </div>
+          <dl class="assistant-summary-data">
+            <div><dt>Día</dt><dd id="assistant-summary-day">—</dd></div>
+            <div><dt>Horario</dt><dd id="assistant-summary-time">Cualquier horario</dd></div>
+          </dl>
+          <button id="assistant-summary-submit" class="assistant-summary-submit" type="button" disabled>Completá origen y destino</button>
+          <p class="assistant-data-trust"><span aria-hidden="true">✓</span> Usa la misma base semanal que la aplicación estable.</p>
+        </aside>
+      </div>
+
       <div id="assistant-results" class="assistant-results" aria-live="polite"></div>
       <p class="assistant-note"><strong>Importante:</strong> las salidas provienen del PDF vigente. Los horarios de paso por localidades intermedias son estimados; para una fecha pasada usá <strong>Consulta histórica</strong>.</p>
     </section>
@@ -346,6 +392,6 @@
 <script defer src="recorridos.js?v=12-beta"></script>
 <script defer src="historico.js?v=12-beta"></script>
 <script defer src="transporte.js?v=12-beta"></script>
-<script defer src="asistente.js?v=12-beta"></script>
+<script defer src="asistente.js?v=13-beta"></script>
 </body>
 </html>
