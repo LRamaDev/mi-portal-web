@@ -11,7 +11,7 @@
     } catch (error) {}
   </script>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-  <link rel="stylesheet" href="transporte.css?v=13-beta">
+  <link rel="stylesheet" href="transporte.css?v=14-beta">
 </head>
 
 <body>
@@ -58,22 +58,20 @@
   </section>
 
   <main class="transport-shell">
-    <nav class="mode-switch" aria-label="Modo de trabajo">
-      <button id="mode-users" class="mode-button active" type="button" aria-pressed="true">
-        <span class="mode-badge" aria-hidden="true">AU</span>
-        <span class="mode-copy"><small>CONSULTAS</small><strong>Atención a usuarios</strong>
-        <span>Buscar quién viaja, a qué hora pasa y cuál es el cartel del colectivo.</span></span>
-      </button>
-      <button id="mode-inspectors" class="mode-button" type="button" aria-pressed="false">
-        <span class="mode-badge" aria-hidden="true">CI</span>
-        <span class="mode-copy"><small>OPERATIVOS</small><strong>Control de inspectores</strong>
-        <span>Combinar empresas y líneas desde una delegación u operativo móvil.</span></span>
-      </button>
-      <button id="mode-claims" class="mode-button" type="button" aria-pressed="false">
-        <span class="mode-badge" aria-hidden="true">RH</span>
-        <span class="mode-copy"><small>RECLAMOS</small><strong>Consulta histórica</strong>
-        <span>Verificar qué servicio figuraba en el cronograma disponible para una fecha.</span></span>
-      </button>
+    <nav class="mode-picker" aria-label="Modo de trabajo">
+      <div class="mode-picker-heading">
+        <span class="eyebrow">Área de trabajo</span>
+        <strong>¿Qué necesitás hacer?</strong>
+      </div>
+      <label class="mode-picker-control" for="mode-select">
+        <span>Elegí una opción</span>
+        <select id="mode-select">
+          <option value="users">Atención a usuarios</option>
+          <option value="inspectors">Control de horarios</option>
+          <option value="claims">Consulta histórica</option>
+        </select>
+      </label>
+      <p id="mode-description" class="mode-picker-description" aria-live="polite">Buscá quién viaja, a qué hora pasa y cuál es el cartel del colectivo.</p>
     </nav>
 
     <section id="user-mode-panel" aria-label="Consulta para atención a usuarios">
@@ -93,7 +91,7 @@
         <div class="assistant-identity">
           <span class="assistant-avatar" aria-hidden="true"><span>BUS</span><i></i></span>
           <div class="travel-assistant-copy">
-            <span class="eyebrow">Asistente de viaje · sin IA</span>
+            <span class="eyebrow">Asistente de viaje</span>
             <h3 id="travel-assistant-title">Encontrá tu servicio conversando paso a paso</h3>
             <p>Elegí origen, destino y horario. Las respuestas salen únicamente de los cronogramas publicados.</p>
           </div>
@@ -172,6 +170,13 @@
       <p class="assistant-note"><strong>Importante:</strong> las salidas provienen del PDF vigente. Los horarios de paso por localidades intermedias son estimados; para una fecha pasada usá <strong>Consulta histórica</strong>.</p>
     </section>
 
+    <details id="advanced-search" class="advanced-search">
+      <summary>
+        <span class="advanced-search-icon" aria-hidden="true">⌕</span>
+        <span><strong>Búsqueda avanzada</strong><small>Filtrá manualmente por localidad, corredor, línea, empresa o modalidad.</small></span>
+        <span id="advanced-filter-count" class="advanced-filter-count">Opcional</span>
+      </summary>
+      <div class="advanced-search-body">
     <section class="journey-filters" aria-label="Localidades del viaje">
       <label><span>Origen · dónde subís</span><select id="filter-origin"><option value="">Todas las localidades</option></select></label>
       <label><span>Destino · dónde bajás</span><select id="filter-destination"><option value="">Todas las localidades</option></select></label>
@@ -187,6 +192,8 @@
       <label><span>Modalidad</span><select id="filter-modality"><option value="">Todas</option></select></label>
       <button id="reset-filters" class="reset-button" type="button">Limpiar filtros</button>
     </section>
+      </div>
+    </details>
 
     <p id="route-coverage" class="route-coverage" role="status">Cargando la base orientativa de recorridos…</p>
     <section class="kpi-row" aria-label="Resumen de resultados">
@@ -391,7 +398,7 @@
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 <script defer src="recorridos.js?v=12-beta"></script>
 <script defer src="historico.js?v=12-beta"></script>
-<script defer src="transporte.js?v=12-beta"></script>
-<script defer src="asistente.js?v=13-beta"></script>
+<script defer src="transporte.js?v=14-beta"></script>
+<script defer src="asistente.js?v=14-beta"></script>
 </body>
 </html>

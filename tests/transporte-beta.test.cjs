@@ -71,3 +71,24 @@ test('el asistente beta v13 es conversacional, progresivo y adaptable', () => {
   assert.match(assistant, /updateProgress/);
   assert.match(assistant, /updateSummary/);
 });
+
+
+test('la beta v14 compacta modos, pliega filtros y acerca el tramo elegido', () => {
+  const html = read('index.html');
+  const css = read('transporte.css');
+  const transport = read('transporte.js');
+  assert.doesNotMatch(html, /sin IA/i);
+  assert.match(html, /id="mode-select"/);
+  assert.doesNotMatch(html, /id="mode-users"|id="mode-inspectors"|id="mode-claims"/);
+  assert.match(html, /<details id="advanced-search"/);
+  assert.match(html, /id="advanced-filter-count"/);
+  assert.match(html, /transporte\.css\?v=14-beta/);
+  assert.match(html, /transporte\.js\?v=14-beta/);
+  assert.match(transport, /function fitActiveRoute/);
+  assert.match(transport, /points\\.length\\?points:selectedBounds/);
+  assert.match(transport, /maxZoom:15/);
+  assert.match(transport, /mode-select/);
+  assert.match(transport, /updateAdvancedSummary/);
+  assert.match(css, /\\.assistant-preview:not\\(\\.is-ready\\)\\{display:none\\}/);
+  assert.match(css, /#transport-map\\{height:330px\\}/);
+});
