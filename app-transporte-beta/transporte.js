@@ -66,6 +66,13 @@
   function marker(place,color,label,active){
     return L.circleMarker([place.lat,place.lon],{radius:active?8:4.5,weight:active?3:1.5,color:active?'#fff':color,fillColor:color,fillOpacity:.9}).bindTooltip('<strong>'+esc(place.name)+'</strong><br>'+esc(label),{direction:'top'}).addTo(state.layer);
   }
+  function fitActiveRoute(points,fallback){
+    var visible=points.length?points:fallback;
+    if(!visible.length)return;
+    if(state.map.invalidateSize)state.map.invalidateSize({pan:false});
+    if(visible.length===1){state.map.setView(visible[0],15,{animate:true});return;}
+    state.map.fitBounds(visible,{padding:[36,36],maxZoom:15,animate:true,duration:.6});
+  }
   function renderMap(journeys,active){
     stopAnimation();
     var locations=new Map();
@@ -82,10 +89,10 @@
       return;
     }
     var profileUnsafe=active.model.profile&&state.profileUnsafePlaces.get(active.model.profile.id)||new Set();
-    var coordinates=state.engine.coordinates(active).map(function(place){return place&&!state.unsafePlaces.has(place.id)&&!profileUnsafe.has(place.id)?place:null;}),color=COLORS[active.service.corridor]||COLORS.MIXED,points=[],bounds=[],selectedMissing=0,totalMissing=0,selectedBridge=false,usedRoadTrace=false;
+    var coordinates=state.engine.coordinates(active).map(function(place){return place&&!state.unsafePlaces.has(place.id)&&!profileUnsafe.has(place.id)?place:null;}),color=COLORS[active.service.corridor]||COLORS.MIXED,points=[],bounds=[],selectedBounds=[],selectedMissing=0,totalMissing=0,selectedBridge=false,usedRoadTrace=false;
     coordinates.forEach(function(p,i){
       if(!p){totalMissing++;if(i>=active.from && i<=active.to)selectedMissing++;return;}
-      bounds.push([p.lat,p.lon]);
+      bounds.push([p.lat,p.lon]);if(i>=active.from&&i<=active.to)selectedBounds.push([p.lat,p.lon]);
       var stop=active.model.stops[i],n=i===active.from?active.boarding:i===0?active.service.minutes:active.service.minutes+stop.arrival_offset;
       var label=(i===active.from?'Subida · ':i===active.to?'Bajada · ':'Paso '+(i+1)+' · ')+(Number.isFinite(stop.arrival_offset)?clockText(n)+(i===0?' · salida PDF':' · estimado'):'sin estimación');
       marker(p,color,label,i===active.from||i===active.to);
@@ -112,7 +119,7 @@
     }
     var endpointsLocated=Boolean(coordinates[active.from]&&coordinates[active.to]);
     if(endpointsLocated)startArrow(points,color);
-    if(bounds.length)state.map.fitBounds(bounds,{padding:[40,40],maxZoom:12});
+    fitActiveRoute(points,selectedBounds.length?selectedBounds:bounds);
     if(!endpointsLocated)$('map-status').textContent='No se puede ubicar la flecha porque el origen o el destino seleccionado todavía no tiene coordenadas.';
     else if(usedRoadTrace&&selectedBridge)$('map-status').textContent='Recorrido vial orientativo basado en OpenStreetMap. La línea sigue caminos sugeridos, pero '+selectedMissing+' paradas intermedias todavía no tienen ubicación segura. No representa un vehículo en vivo.';
     else if(usedRoadTrace)$('map-status').textContent='Recorrido vial orientativo basado en OpenStreetMap. La flecha sigue calles y rutas sugeridas; no confirma el itinerario autorizado ni representa un vehículo en vivo.';
@@ -158,7 +165,13 @@
     $('results').innerHTML=journeys.length?journeys.slice(0,200).map(serviceHTML).join('')+(journeys.length>200?'<div class="empty-state">Primeros 200 resultados. Usá los filtros para precisar el viaje.</div>':''):'<div class="empty-state"><strong>No encontramos viajes para esa combinación.</strong><p>Revisá el sentido y el día de subida. Algunos servicios todavía no tienen intermedias vinculadas; también podés buscarlos por línea o cabeceras.</p></div>';
     renderMap(journeys,active);renderDetails(active);
   }
-  function changed(){state.focus=null;updateOptions();render();}
+  function updateAdvancedSummary(){
+    var count=$('filter-search').value.trim()?1:0;
+    FIELDS.forEach(function(field){if($('filter-'+field).value)count++;});
+    $('advanced-filter-count').textContent=count?count+' filtro'+(count===1?' activo':'s activos'):'Opcional';
+    $('advanced-search').classList.toggle('has-filters',count>0);
+  }
+  function changed(){state.focus=null;updateOptions();updateAdvancedSummary();render();}
   function setSelect(id,values,first,labeler){
     var el=$(id),old=el.value;
     values=unique(values).sort(function(a,b){return (labeler?labeler(a):a).localeCompare(labeler?labeler(b):b,'es');});
@@ -246,7 +259,8 @@
   function setMode(mode){
     state.mode=mode;var users=mode==='users',inspectors=mode==='inspectors',claims=mode==='claims';
     $('user-mode-panel').hidden=!users;$('inspector-mode-panel').hidden=!inspectors;$('claims-mode-panel').hidden=!claims;
-    [['users',users],['inspectors',inspectors],['claims',claims]].forEach(function(item){var button=$('mode-'+item[0]);button.setAttribute('aria-pressed',String(item[1]));button.className='mode-button'+(item[1]?' active':'');});
+    $('mode-select').value=mode;
+    $('mode-description').textContent=users?'Buscá quién viaja, a qué hora pasa y cuál es el cartel del colectivo.':inspectors?'Prepará un control combinando lugar, empresas, líneas y horarios.':'Verificá qué servicio figuraba para la fecha de un reclamo.';
     $('page-title').textContent=users?'¿Desde dónde y hasta dónde viajás?':inspectors?'Prepará un control de horarios':'Verificá el cronograma de una fecha';
     $('page-description').textContent=users?'Consultá salidas publicadas, localidades intermedias y tiempos estimados. Todos los filtros se combinan.':inspectors?'Elegí la base, el lugar del operativo, los sentidos y varias empresas y líneas para ordenar los servicios que deben pasar.':'Consultá qué servicios figuraban en la publicación disponible para la fecha del reclamo y revisá los cambios semanales.';
     if(users){if(state.map&&state.map.invalidateSize)state.map.invalidateSize();render();}
@@ -321,7 +335,7 @@
     $('reset-filters').addEventListener('click',function(){clearTimeout(timer);$('filter-search').value='';FIELDS.forEach(function(f){$('filter-'+f).value='';});$('filter-day').value=String(today());changed();});
     $('results').addEventListener('click',function(event){var button=event.target.closest('[data-journey]');if(!button)return;var key=button.getAttribute('data-journey');state.focus=state.focus===key?null:key;render();});
     $('journey-detail').addEventListener('click',function(event){if(event.target.closest('#close-journey')){state.focus=null;render();}});
-    $('mode-users').addEventListener('click',function(){setMode('users');});$('mode-inspectors').addEventListener('click',function(){setMode('inspectors');});$('mode-claims').addEventListener('click',function(){setMode('claims');});
+    $('mode-select').addEventListener('change',function(){setMode(this.value);});
     ['inspector-corridor','inspector-locality'].forEach(function(id){$(id).addEventListener('change',inspectorChanged);});
     ['inspector-day','inspector-from','inspector-to','inspector-delegation'].forEach(function(id){$(id).addEventListener('change',renderInspector);});
     $('inspector-point').addEventListener('input',renderInspector);
@@ -410,6 +424,6 @@
       state.profileUnsafePlaces=new Map(warnings.map(function(item){return [item.profile_id,new Set(item.unsafe_place_ids||[])];}));
       state.unsafePlaces=new Set(((state.traces.audit&&state.traces.audit.quarantined_places)||[]).map(function(item){return item.place_id;}));
     }
-    state.engine=R.create(state.data,state.geo,state.routes);initMap();$('filter-day').value=String(today());$('inspector-day').value=String(today());updateOptions();updateInspectorControls();bind();sourceSummary();render();renderInspector();exposeSearch();
+    state.engine=R.create(state.data,state.geo,state.routes);initMap();$('filter-day').value=String(today());$('inspector-day').value=String(today());updateOptions();updateAdvancedSummary();updateInspectorControls();bind();sourceSummary();render();renderInspector();exposeSearch();
   }).catch(function(error){$('results').innerHTML='<div class="empty-state"><strong>No se pudo cargar la información.</strong><p>'+esc(error.message)+'</p></div>';$('updated-date').textContent='Error de carga';});
 }());
