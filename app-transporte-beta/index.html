@@ -3,26 +3,48 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="description" content="Versión de prueba de la consulta de horarios interurbanos de ERSeP, con búsqueda guiada de servicios.">
-  <title>Horarios interurbanos · Versión de prueba · ERSeP</title>
+  <meta name="description" content="ERSeP Viaja: consulta de horarios y recorridos interurbanos de la provincia de Córdoba.">
+  <title>ERSeP Viaja · Versión de prueba · ERSeP</title>
+  <meta name="theme-color" content="#00719f">
+  <meta name="application-name" content="ERSeP Viaja">
+  <meta name="apple-mobile-web-app-title" content="ERSeP Viaja">
+  <link rel="icon" href="assets/ersep-viaja-icon.svg" type="image/svg+xml">
   <script>
     try {
       document.documentElement.dataset.theme = localStorage.getItem('transport-theme') || 'light';
     } catch (error) {}
   </script>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-  <link rel="stylesheet" href="transporte.css?v=17-beta">
+  <link rel="stylesheet" href="transporte.css?v=18-beta">
 </head>
 
 <body class="public-beta">
+<div id="app-splash" class="app-splash" role="status" aria-live="polite" aria-label="Cargando ERSeP Viaja">
+  <div class="app-splash-card">
+    <img class="app-splash-logo" src="../app-transporte/assets/logo-ersep.png" alt="ERSeP">
+    <strong>ERSeP Viaja</strong>
+    <span>Horarios y recorridos interurbanos</span>
+    <div class="app-splash-route" aria-hidden="true">
+      <i></i>
+      <b class="app-splash-origin"></b>
+      <b class="app-splash-destination"></b>
+      <svg class="app-splash-bus" viewBox="0 0 48 28" focusable="false">
+        <rect x="4" y="4" width="39" height="20" rx="6"></rect>
+        <path d="M32 7h4c3 0 5 2.5 5 7s-2 7-5 7h-4z"></path>
+        <circle cx="13" cy="24" r="3"></circle>
+        <circle cx="35" cy="24" r="3"></circle>
+      </svg>
+    </div>
+  </div>
+</div>
 <div class="wrap">
   <header class="header">
     <div class="brand">
       <img class="brand-logo" src="../app-transporte/assets/logo-ersep.png" alt="ERSeP · Ente Regulador de los Servicios Públicos">
     </div>
     <div class="header-title">
-      <h1>Horarios interurbanos</h1>
-      <span>Servicio de consulta ciudadana</span>
+      <h1>ERSeP Viaja</h1>
+      <span>Horarios y recorridos interurbanos de Córdoba</span>
     </div>
     <div class="header-actions">
       <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Cambiar tema">
@@ -61,7 +83,7 @@
     <section class="travel-assistant assistant-v13" aria-labelledby="travel-assistant-title">
       <header class="assistant-hero">
         <div class="assistant-identity">
-          <span class="assistant-avatar" aria-hidden="true"><span>BUS</span><i></i></span>
+          <span class="assistant-avatar" aria-hidden="true"><img src="assets/ersep-viaja-icon.svg" alt=""><i></i></span>
           <div class="travel-assistant-copy">
             <span class="eyebrow">Asistente de viaje</span>
             <h3 id="travel-assistant-title">Encontrá tu servicio conversando paso a paso</h3>
@@ -363,7 +385,7 @@
     </section>
   </main>
 
-  <footer>Versión de prueba · Consulta de horarios interurbanos ERSeP</footer>
+  <footer>ERSeP Viaja · Versión de prueba · Horarios interurbanos de Córdoba</footer>
 </div>
 
 <img id="export-logo-source" class="export-logo-source" src="../app-transporte/assets/logo-ersep.png" alt="" hidden>
@@ -372,7 +394,7 @@
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 <script defer src="recorridos.js?v=12-beta"></script>
 <script defer src="historico.js?v=12-beta"></script>
-<script defer src="transporte.js?v=17-beta"></script>
+<script defer src="transporte.js?v=18-beta"></script>
 <script defer src="asistente.js?v=16-beta"></script>
 </body>
 </html>
