@@ -78,7 +78,7 @@
     stopAnimation();
     var locations=new Map();
     journeys.forEach(function(j){j.model.stops.forEach(function(stop){var p=state.engine.places[stop.place_id];if(!Number.isFinite(p.lat)||!Number.isFinite(p.lon)||state.unsafePlaces.has(p.id))return;if(!locations.has(p.id))locations.set(p.id,{place:p,corridors:new Set()});locations.get(p.id).corridors.add(j.service.corridor);});});
-    $('kpi-mapped').textContent=locations.size.toLocaleString('es-AR');
+    if($('kpi-mapped'))$('kpi-mapped').textContent=locations.size.toLocaleString('es-AR');
     if(!state.map){$('map-status').textContent='El mapa no está disponible. Podés consultar los horarios y la secuencia igualmente.';return;}
     state.layer.clearLayers();
     if(!active){
@@ -121,13 +121,13 @@
     var endpointsLocated=Boolean(coordinates[active.from]&&coordinates[active.to]);
     if(endpointsLocated)startBus(points,color);
     fitActiveRoute(points,selectedBounds.length?selectedBounds:bounds);
-    if(!endpointsLocated)$('map-status').textContent='No se puede ubicar el colectivo porque el origen o el destino seleccionado todavía no tiene coordenadas.';
-    else if(usedRoadTrace&&selectedBridge)$('map-status').textContent='Recorrido vial orientativo basado en OpenStreetMap. La línea sigue caminos sugeridos, pero '+selectedMissing+' paradas intermedias todavía no tienen ubicación segura. No representa un vehículo en vivo.';
-    else if(usedRoadTrace)$('map-status').textContent='Recorrido vial orientativo basado en OpenStreetMap. El colectivo sigue calles y rutas sugeridas; no confirma el itinerario autorizado ni representa un vehículo en vivo.';
-    else if(selectedBridge)$('map-status').textContent='Mapa esquemático: '+selectedMissing+' localidades intermedias sin ubicación segura se señalan mediante conectores punteados. El colectivo orienta el recorrido; no representa calles ni un vehículo en vivo.';
-    else if(totalMissing)$('map-status').textContent='Tu tramo está ubicado y puede animarse. El recorrido completo contiene '+totalMissing+' localidades pendientes fuera del tramo seleccionado.';
-    else if(active.model.profile&&state.traceWarnings.has(active.model.profile.id))$('map-status').textContent='Trazado esquemático temporal: una o más coordenadas de este recorrido están en revisión y por seguridad todavía no se calcula una ruta vial.';
-    else $('map-status').textContent=active.model.profile?'Recorrido esquemático en orden. Tu tramo aparece destacado; el trazado vial de esta variante todavía no fue validado.':'Solo cabeceras: el colectivo une los puntos disponibles; el detalle intermedio de esta variante todavía está pendiente.';
+    if(!endpointsLocated)$('map-status').textContent='No podemos mostrar este recorrido porque alguna de las localidades todavía no tiene una ubicación verificada.';
+    else if(usedRoadTrace&&selectedBridge)$('map-status').textContent='Recorrido orientativo. Algunas paradas intermedias todavía no tienen una ubicación verificada.';
+    else if(usedRoadTrace)$('map-status').textContent='Recorrido orientativo por calles y rutas. No muestra la ubicación del colectivo en tiempo real.';
+    else if(selectedBridge)$('map-status').textContent='Recorrido orientativo. Algunas localidades intermedias todavía no tienen una ubicación verificada.';
+    else if(totalMissing)$('map-status').textContent='El tramo seleccionado está ubicado. Hay localidades pendientes fuera de este recorrido.';
+    else if(active.model.profile&&state.traceWarnings.has(active.model.profile.id))$('map-status').textContent='Mostramos un recorrido esquemático mientras se revisan algunas ubicaciones.';
+    else $('map-status').textContent=active.model.profile?'Recorrido orientativo del servicio seleccionado.':'Recorrido orientativo entre las cabeceras disponibles.';
   }
   function serviceHTML(j){
     var s=j.service,active=state.focus===j.key,days=j.days.map(function(d){return DAYS[d];}).join(', ');
@@ -153,15 +153,14 @@
       '<p class="journey-description">'+esc(s.company)+' · '+esc(s.modality)+'<br>Recorrido completo: '+esc(fullName(j))+'<br><strong>Destino final · cartel: '+esc(finalDestination(j))+'</strong></p>'+
       (!p?'<p class="review-warning">No hay un recorrido intermedio vinculado con suficiente certeza para esta variante. Se conserva la salida publicada; no se calculan horas de llegada.</p>':'<p class="estimate-note">Los pasos se estiman sumando las demoras del recorrido a la salida del PDF. Pueden variar. La animación no mide la velocidad real.</p>')+
       '<ol class="stops-list">'+timeline+'</ol>'+
-      (p&&p.notes.length?'<div class="review-warning"><strong>Observaciones de la base · para revisión</strong><ul>'+p.notes.map(function(n){return '<li>'+esc(n)+'</li>';}).join('')+'</ul><p>Se conservan como anotaciones, no se aplican automáticamente como restricciones de subida o bajada.</p></div>':'')+
       '<details class="source-details"><summary>Fuentes y referencia de salida</summary><p><strong>Salida PDF:</strong> '+esc(s.time)+' de '+esc(serviceOrigin(j))+' · <strong>Destino final:</strong> '+esc(finalDestination(j))+'. '+esc(s.service_days_text)+'.</p><p>'+esc(s.source_file)+' · página '+esc(s.source_page)+'</p>'+(p?'<p>Recorrido: '+esc(state.routes.source.filename)+' · hoja '+esc(p.source_sheet)+' · filas '+p.source_rows[0]+'–'+p.source_rows[p.source_rows.length-1]+'. La hora base del Excel no se utiliza como salida vigente.</p>':'')+'</details>';
   }
   function render(){
     var journeys=state.engine.query(filters());state.results=journeys;
     var active=journeys.find(function(j){return j.key===state.focus;});if(!active)state.focus=null;
-    $('kpi-services').textContent=unique(journeys.map(function(j){return j.service.id;})).length.toLocaleString('es-AR');
-    $('kpi-lines').textContent=unique(journeys.map(function(j){return j.service.line_id;})).length.toLocaleString('es-AR');
-    $('kpi-companies').textContent=unique(journeys.map(function(j){return j.service.company;})).length.toLocaleString('es-AR');
+    if($('kpi-services'))$('kpi-services').textContent=unique(journeys.map(function(j){return j.service.id;})).length.toLocaleString('es-AR');
+    if($('kpi-lines'))$('kpi-lines').textContent=unique(journeys.map(function(j){return j.service.line_id;})).length.toLocaleString('es-AR');
+    if($('kpi-companies'))$('kpi-companies').textContent=unique(journeys.map(function(j){return j.service.company;})).length.toLocaleString('es-AR');
     $('result-count').textContent=journeys.length.toLocaleString('es-AR');
     $('results').innerHTML=journeys.length?journeys.slice(0,200).map(serviceHTML).join('')+(journeys.length>200?'<div class="empty-state">Primeros 200 resultados. Usá los filtros para precisar el viaje.</div>':''):'<div class="empty-state"><strong>No encontramos viajes para esa combinación.</strong><p>Revisá el sentido y el día de subida. Algunos servicios todavía no tienen intermedias vinculadas; también podés buscarlos por línea o cabeceras.</p></div>';
     renderMap(journeys,active);renderDetails(active);
@@ -329,14 +328,20 @@
       var link=document.createElement('a');link.href=canvas.toDataURL('image/png');link.download='ERSeP-'+(mode==='users'?'consulta':'control')+'-'+exportFileDate()+'.png';link.click();showExportStatus(mode,'Imagen descargada con '+payload.count.toLocaleString('es-AR')+' servicios.',false);
     }catch(error){showExportStatus(mode,'No se pudo generar la imagen en este navegador.',true);}
   }
+  function revealPublicResults(){
+    var area=$('public-results-area');
+    if(!area)return;
+    area.hidden=false;
+    setTimeout(function(){if(state.map&&state.map.invalidateSize)state.map.invalidateSize({pan:false});},0);
+  }
   function bind(){
     var timer;
     $('filter-search').addEventListener('input',function(){clearTimeout(timer);timer=setTimeout(changed,160);});
+    $('advanced-search').addEventListener('toggle',function(){if(this.open){revealPublicResults();render();}});
     FIELDS.forEach(function(f){$('filter-'+f).addEventListener('change',changed);});
     $('reset-filters').addEventListener('click',function(){clearTimeout(timer);$('filter-search').value='';FIELDS.forEach(function(f){$('filter-'+f).value='';});$('filter-day').value=String(today());changed();});
     $('results').addEventListener('click',function(event){var button=event.target.closest('[data-journey]');if(!button)return;var key=button.getAttribute('data-journey');state.focus=state.focus===key?null:key;render();});
     $('journey-detail').addEventListener('click',function(event){if(event.target.closest('#close-journey')){state.focus=null;render();}});
-    $('mode-select').addEventListener('change',function(){setMode(this.value);});
     ['inspector-corridor','inspector-locality'].forEach(function(id){$(id).addEventListener('change',inspectorChanged);});
     ['inspector-day','inspector-from','inspector-to','inspector-delegation'].forEach(function(id){$(id).addEventListener('change',renderInspector);});
     $('inspector-point').addEventListener('input',renderInspector);
@@ -365,13 +370,9 @@
   }
   function sourceSummary(){
     var latest=state.data.sources.map(function(s){return s.publication_date;}).filter(Boolean).sort().pop();
-    $('updated-date').textContent=date(latest);$('updated-detail').textContent=state.data.sources.length+' corredores · '+state.data.services.length.toLocaleString('es-AR')+' servicios';
-    var coverage=state.engine.coverage;
-    $('route-coverage').textContent=state.routeError?'Base de recorridos no disponible: se muestran salidas publicadas y cabeceras, sin estimaciones intermedias.':coverage.linked.toLocaleString('es-AR')+' de '+coverage.total.toLocaleString('es-AR')+' servicios tienen recorrido vinculado. Los restantes conservan sus salidas publicadas, con intermedias pendientes.';
-    var located=state.routes&&state.routes.stats?state.routes.stats.geolocated_places:null,totalPlaces=state.routes&&state.routes.stats?state.routes.stats.places:null;
-    var routed=state.traces&&state.traces.stats?state.traces.stats.routed_profiles:0,eligible=state.traces&&state.traces.stats?state.traces.stats.eligible_profiles:0,quarantined=state.unsafePlaces.size;
-    $('quality-note').textContent='Datos oficiales semanales + base orientativa independiente.'+(located!==null?' '+located.toLocaleString('es-AR')+' de '+totalPlaces.toLocaleString('es-AR')+' puntos ya tienen coordenadas registradas.':'')+(quarantined?' '+quarantined.toLocaleString('es-AR')+' coordenadas incoherentes se aíslan del mapa hasta su revisión.':'')+(routed?' Piloto vial: '+routed.toLocaleString('es-AR')+' perfiles trazados de '+eligible.toLocaleString('es-AR')+' aptos para procesar.':'')+' Las nuevas variantes quedan pendientes de vinculación; no se les asigna un recorrido por semejanza.';
-    $('map-legend').innerHTML=state.data.corridors.map(function(c){return '<span><i class="dot" style="--dot-color:'+COLORS[c]+'"></i>'+esc(c)+'</span>';}).join('');
+    $('updated-date').textContent=date(latest);$('updated-detail').textContent='Horarios vigentes';
+    var coverage=state.engine.coverage,routeCoverage=$('route-coverage');
+    if(routeCoverage)routeCoverage.textContent=state.routeError?'Los recorridos intermedios no están disponibles en este momento.':coverage.linked.toLocaleString('es-AR')+' de '+coverage.total.toLocaleString('es-AR')+' servicios tienen recorrido vinculado.';
   }
   function getJSON(path){var url=DATA_BASE+path;return fetch(url,{cache:'no-store'}).then(function(response){if(!response.ok)throw new Error(url);return response.json();});}
   // Interfaz mínima para el asistente de búsqueda. El asistente recibe resultados
@@ -423,9 +424,9 @@
         ['origin','destination','corridor','line','direction','day','company','modality'].forEach(function(field){$('filter-'+field).value='';});
         updateOptions();
         ['origin','destination','corridor','line','direction','day','company','modality'].forEach(function(field){$('filter-'+field).value=input[field]||'';});
-        state.focus=null;changed();
+        state.focus=null;revealPublicResults();changed();
       },
-      focus:function(key){state.focus=key;render();}
+      focus:function(key){revealPublicResults();state.focus=key;render();}
     };
     if(typeof window.TransportAssistantInit==='function')window.TransportAssistantInit();
   }
