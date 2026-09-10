@@ -15,7 +15,7 @@
     } catch (error) {}
   </script>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-  <link rel="stylesheet" href="transporte.css?v=20-beta">
+  <link rel="stylesheet" href="transporte.css?v=21-beta">
 </head>
 
 <body class="public-beta">
@@ -90,7 +90,7 @@
           <div class="travel-assistant-copy">
             <span class="eyebrow">Asistente de viaje</span>
             <h3 id="travel-assistant-title">Encontrá tu servicio conversando paso a paso</h3>
-            <p>Elegí origen, destino y horario. Las respuestas salen únicamente de los cronogramas publicados.</p>
+            <p>Elegí origen, destino y horario. Los resultados corresponden a los cronogramas oficiales publicados por la Secretaría de Transporte de la Provincia de Córdoba.</p>
           </div>
         </div>
         <div class="assistant-progress-copy">
@@ -143,15 +143,15 @@
             <div class="assistant-step assistant-time-step is-pending" data-assistant-step="4">
               <span class="assistant-step-number" aria-hidden="true"><b>4</b><i>✓</i></span>
               <div class="assistant-field assistant-time-fields">
-                <label for="assistant-time-mode"><small>Horario de salida</small><strong>¿Desde qué hora?</strong></label>
-                <select id="assistant-time-mode"><option value="all">Cualquier horario</option><option value="after">Después de una hora</option><option value="last">Último servicio del día</option></select>
-                <label id="assistant-time-wrap" class="assistant-time-wrap" for="assistant-time" hidden><span>Hora mínima</span><input id="assistant-time" type="time" value="08:00"></label>
+                <label for="assistant-time-mode"><small>Horario de salida</small><strong>¿Qué horario querés consultar?</strong></label>
+                <select id="assistant-time-mode"><option value="all">Mostrar todos los horarios del día</option><option value="after">Salir a partir de una hora elegida</option><option value="last">Ver el último servicio del día</option></select>
+                <label id="assistant-time-wrap" class="assistant-time-wrap" for="assistant-time" hidden><span>Elegí la hora más temprana</span><input id="assistant-time" type="time" value="08:00"></label>
               </div>
             </div>
             <div class="assistant-actions">
               <button class="assistant-submit" type="submit">Buscar servicios <span aria-hidden="true">→</span></button>
               <button id="assistant-now" class="assistant-secondary" type="button">Hoy, desde ahora</button>
-              <button id="assistant-clear" class="assistant-secondary" type="button">Limpiar</button>
+              <button id="assistant-clear" class="assistant-secondary" type="button"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 4v6h6"></path><path d="M20 11a8 8 0 1 0-2.3 5.7L20 14"></path></svg><span>Nueva búsqueda</span></button>
             </div>
           </form>
 
@@ -178,12 +178,19 @@
             <div><dt>Horario</dt><dd id="assistant-summary-time">Cualquier horario</dd></div>
           </dl>
           <button id="assistant-summary-submit" class="assistant-summary-submit" type="button" disabled>Completá origen y destino</button>
-          <p class="assistant-data-trust"><span aria-hidden="true">✓</span> Usa la misma base semanal que la aplicación estable.</p>
+          <p class="assistant-data-trust"><span aria-hidden="true">✓</span> Horarios oficiales publicados por la Secretaría de Transporte de la Provincia de Córdoba.</p>
         </aside>
       </div>
 
       <div id="assistant-results" class="assistant-results" aria-live="polite"></div>
-      <p class="assistant-note"><strong>Importante:</strong> los horarios de salida corresponden al cronograma vigente. Los pasos por localidades intermedias son estimados.</p>
+      <aside class="service-disclaimer" aria-label="Información sobre horarios y reclamos">
+        <div>
+          <strong>Horarios oficiales publicados</strong>
+          <p>La información corresponde a los cronogramas de la Secretaría de Transporte. La publicación del horario no garantiza que la empresa haya prestado efectivamente el servicio.</p>
+        </div>
+        <a href="https://ersep.cba.gov.ar/usuariosnopresencial/" target="_blank" rel="noopener noreferrer">Reclamar un servicio que no pasó <span aria-hidden="true">↗</span></a>
+      </aside>
+      <p class="assistant-note"><strong>Sobre las paradas intermedias:</strong> sus horarios de paso son estimados.</p>
     </section>
 
     <details id="advanced-search" class="advanced-search">
@@ -406,7 +413,7 @@
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 <script defer src="recorridos.js?v=12-beta"></script>
 <script defer src="historico.js?v=12-beta"></script>
-<script defer src="transporte.js?v=20-beta"></script>
-<script defer src="asistente.js?v=20-beta"></script>
+<script defer src="transporte.js?v=21-beta"></script>
+<script defer src="asistente.js?v=21-beta"></script>
 </body>
 </html>
