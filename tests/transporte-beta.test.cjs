@@ -173,10 +173,9 @@ test('la beta v19 extiende la entrada y permite invertir origen y destino', () =
   const transport = read('transporte.js');
   const assistant = read('asistente.js');
   assert.match(html, /id="assistant-swap"/);
-  assert.match(html, /Invertir origen y destino/);
-  assert.match(html, /transporte\.css\?v=19-beta/);
-  assert.match(html, /transporte\.js\?v=19-beta/);
-  assert.match(html, /asistente\.js\?v=19-beta/);
+  assert.match(html, /transporte\.css\?v=\d+-beta/);
+  assert.match(html, /transporte\.js\?v=\d+-beta/);
+  assert.match(html, /asistente\.js\?v=\d+-beta/);
   assert.match(transport, /SPLASH_DURATION_MS=2000/);
   assert.match(transport, /SPLASH_FADE_MS=280/);
   assert.match(transport, /SPLASH_DURATION_MS-SPLASH_FADE_MS/);
@@ -186,5 +185,30 @@ test('la beta v19 extiende la entrada y permite invertir origen y destino', () =
   assert.match(assistant, /origin\.value=oldDestination;populateDestinations\(false\);destination\.value=oldOrigin/);
   assert.match(assistant, /addEventListener\('click',swapRoute\)/);
   assert.match(css, /\.assistant-swap/);
+});
+
+test('la beta v20 ordena los controles progresivos y mejora el encabezado móvil', () => {
+  const html = read('index.html');
+  const css = read('transporte.css');
+  const transport = read('transporte.js');
+  const assistant = read('asistente.js');
+  const destination = html.indexOf('data-assistant-step="2"');
+  const swap = html.indexOf('class="assistant-swap-row"');
+  const day = html.indexOf('data-assistant-step="3"');
+  assert.ok(destination < swap && swap < day);
+  assert.match(html, /id="assistant-swap"[^>]*hidden disabled/);
+  assert.match(html, /Intercambiar origen y destino/);
+  assert.match(html, /class="theme-moon"/);
+  assert.match(html, /class="theme-sun"/);
+  assert.match(html, /transporte\.css\?v=20-beta/);
+  assert.match(html, /transporte\.js\?v=20-beta/);
+  assert.match(html, /asistente\.js\?v=20-beta/);
+  assert.match(css, /\.assistant-v13 \.assistant-time-wrap\[hidden\]\{display:none\}/);
+  assert.match(css, /\.assistant-swap\[hidden\]\{display:none\}/);
+  assert.match(css, /grid-template-columns:44px minmax\(0,1fr\) 44px/);
+  assert.match(css, /\.public-beta \.theme-toggle\{display:grid;place-items:center/);
+  assert.match(assistant, /\$\('assistant-swap'\)\.hidden=!ready/);
+  assert.match(transport, /action=light\?'Activar modo oscuro':'Activar modo claro'/);
+  assert.doesNotMatch(transport, /\$\('theme-icon'\)\.textContent/);
 });
 
