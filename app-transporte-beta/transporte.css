@@ -263,3 +263,42 @@ html[data-theme="dark"] .assistant-progress-copy{background:rgba(0,0,0,.12)}
 .share-tools .export-bar{margin:0;border:0;border-radius:0;background:transparent;box-shadow:none}
 @media(max-width:720px){.public-beta .header{padding-block:10px}.public-beta .header-title span{display:none}.public-beta .transport-shell{padding-top:7px}.public-results-area{margin-top:10px}.share-tools .export-bar{padding:10px}}
 @media(max-width:520px){.public-beta #theme-label{display:none}.public-beta .theme-toggle{width:44px;padding:8px}}
+
+
+/* v18 beta: identidad visual ERSeP Viaja. */
+body.public-beta{
+  --bg:#f5f8fa;--card:rgba(255,255,255,.96);--card-solid:#fff;--surface:#eef4f6;--input:#fff;
+  --text:#253640;--text-muted:#526773;--border:rgba(37,54,64,.18);--primary:#00719f;
+  --gold:#f1b62b;--gold-dark:#5f4800;--tag:#eaf4f7;--tag-text:#294c5b;--shadow:0 12px 30px rgba(34,69,85,.1);
+}
+html[data-theme="dark"] body.public-beta{
+  --bg:#101a20;--card:rgba(20,34,42,.96);--card-solid:#17262e;--surface:#20333d;--input:#14232b;
+  --text:#f4f8fa;--text-muted:#b5c8d1;--border:rgba(209,232,241,.17);--primary:#67c8ea;
+  --gold:#f1b62b;--gold-dark:#f5ca5c;--tag:#233b46;--tag-text:#d7e8ee;--shadow:0 14px 32px rgba(0,0,0,.24);
+}
+.public-beta .transport-intro{border-color:rgba(0,113,159,.35);background:radial-gradient(circle at 88% 12%,rgba(135,181,64,.3),transparent 25%),linear-gradient(118deg,#005d86 0,#007aa8 58%,#0098d0 100%)}
+.public-beta .assistant-submit{border-color:#00719f;background:#00719f;color:#fff}
+.public-beta .assistant-location,.public-beta .assistant-service button,.public-beta .assistant-all{border-color:rgba(0,113,159,.38);background:rgba(0,113,159,.09);color:#006d98}
+html[data-theme="dark"] .public-beta .assistant-location,html[data-theme="dark"] .public-beta .assistant-service button,html[data-theme="dark"] .public-beta .assistant-all{color:#70d0f1}
+.public-beta .service-item:hover,.public-beta .service-item.active{border-color:rgba(0,113,159,.58);background:rgba(0,113,159,.08)}
+.public-beta .assistant-avatar{overflow:visible;padding:7px;background:#fff;transform:none}
+.public-beta .assistant-avatar img{display:block;width:100%;height:100%;border-radius:14px}
+.app-splash{position:fixed;z-index:9999;inset:0;display:grid;place-items:center;padding:24px;background:linear-gradient(145deg,#f8fbfc,#e8f4f8);opacity:1;transition:opacity .28s ease;cursor:wait}
+html[data-theme="dark"] .app-splash{background:linear-gradient(145deg,#101a20,#17313d)}
+.app-splash[hidden]{display:none}.app-splash.is-leaving{opacity:0;pointer-events:none}
+.app-splash-card{display:grid;justify-items:center;width:min(390px,100%);text-align:center}
+.app-splash-logo{width:min(245px,70vw);height:auto;opacity:0;transform:translateY(8px) scale(.97);animation:ersep-splash-logo .52s ease-out .08s forwards}
+.app-splash-card>strong{margin-top:22px;color:#006d98;font-size:clamp(25px,7vw,34px);letter-spacing:-.03em;opacity:0;animation:ersep-splash-copy .42s ease-out .3s forwards}
+html[data-theme="dark"] .app-splash-card>strong{color:#67c8ea}
+.app-splash-card>span{margin-top:2px;color:#526773;font-size:14px;opacity:0;animation:ersep-splash-copy .42s ease-out .4s forwards}
+html[data-theme="dark"] .app-splash-card>span{color:#b5c8d1}
+.app-splash-route{position:relative;width:min(270px,72vw);height:42px;margin-top:24px;opacity:0;animation:ersep-splash-copy .3s ease-out .5s forwards}
+.app-splash-route>i{position:absolute;top:20px;left:6px;right:6px;height:4px;border-radius:999px;background:linear-gradient(90deg,#87b540,#0098d0);transform:scaleX(0);transform-origin:left;animation:ersep-splash-route .7s ease-out .52s forwards}
+.app-splash-origin,.app-splash-destination{position:absolute;top:14px;width:16px;height:16px;border:4px solid #fff;border-radius:50%;box-shadow:0 2px 7px rgba(37,54,64,.24)}
+.app-splash-origin{left:0;background:#87b540}.app-splash-destination{right:0;background:#0098d0}
+.app-splash-bus{position:absolute;z-index:2;top:6px;left:4px;width:47px;height:28px;filter:drop-shadow(0 3px 4px rgba(25,56,70,.28));animation:ersep-splash-bus 1.25s ease-in-out .58s infinite alternate}
+.app-splash-bus rect{fill:#fff;stroke:#00719f;stroke-width:1.5}.app-splash-bus path{fill:#c7ecf7;stroke:#00719f;stroke-width:1}.app-splash-bus circle{fill:#253640;stroke:#fff;stroke-width:1}
+@keyframes ersep-splash-logo{to{opacity:1;transform:none}}
+@keyframes ersep-splash-copy{to{opacity:1;transform:none}}
+@keyframes ersep-splash-route{to{transform:scaleX(1)}}
+@keyframes ersep-splash-bus{to{transform:translateX(calc(min(270px,72vw) - 55px))}}
