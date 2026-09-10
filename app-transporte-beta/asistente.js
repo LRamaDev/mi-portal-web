@@ -48,6 +48,7 @@
     $('assistant-summary-time').textContent=timeSummary();
     $('assistant-summary-submit').disabled=!ready;
     $('assistant-summary-submit').textContent=ready?'Buscar con estos datos':'Completá origen y destino';
+    $('assistant-swap').disabled=!ready;
     $('assistant-preview').classList.toggle('is-ready',ready);
   }
   function updateProgress(step,complete){
@@ -85,6 +86,19 @@
   function syncTimeMode(){
     var after=$('assistant-time-mode').value==='after',wrap=$('assistant-time-wrap'),input=$('assistant-time');
     wrap.hidden=!after;input.disabled=!after;updateSummary();
+  }
+  function swapRoute(){
+    var origin=$('assistant-origin'),destination=$('assistant-destination'),day=$('assistant-day').value;
+    var oldOrigin=origin.value,oldDestination=destination.value,api=window.TransportSearch;
+    if(!oldOrigin||!oldDestination){setStatus('Elegí primero el origen y el destino.',true);return;}
+    var reverseOrigin=api.listOrigins(day).some(function(place){return place.id===oldDestination;});
+    var reverseDestination=reverseOrigin&&api.listDestinations(oldDestination,day).some(function(place){return place.id===oldOrigin;});
+    if(!reverseDestination){
+      setStatus('No encontramos un servicio directo de vuelta entre esas localidades para el '+DAYS[day]+'. Probá otro día o usá la búsqueda avanzada.',true);
+      return;
+    }
+    origin.value=oldDestination;populateDestinations(false);destination.value=oldOrigin;
+    clearResults();updateSummary();updateProgress(4,false);runQuery();
   }
   function resultHTML(journey,index){
     return '<article class="assistant-service" style="--result-index:'+index+'"><div class="assistant-service-time"><strong>'+esc(journey.boarding)+'</strong><span>'+esc(journey.estimatedBoarding?'Paso estimado':'Salida publicada')+'</span></div><div class="assistant-service-main"><h4>'+esc(journey.originLabel)+' <span aria-hidden="true">→</span> '+esc(journey.destinationLabel)+'</h4><p>'+esc(journey.company)+' · '+esc(journey.line)+'</p><div class="assistant-service-meta"><span>'+esc(journey.direction)+'</span><span>Llegada '+esc(journey.arrival)+'</span><span>'+esc(journey.duration)+'</span></div></div><button type="button" data-assistant-open="'+esc(journey.key)+'">Ver recorrido <span aria-hidden="true">→</span></button></article>';
@@ -166,7 +180,7 @@
     Array.from(document.querySelectorAll('[data-assistant-day-offset]')).forEach(function(button){button.addEventListener('click',function(){chooseDay(Number(button.getAttribute('data-assistant-day-offset')));});});
     var locationButton=$('assistant-location');
     if(locationButton){locationButton.hidden=!(typeof navigator!=='undefined'&&navigator.geolocation);locationButton.addEventListener('click',useLocation);}
-    $('assistant-now').addEventListener('click',useNow);$('assistant-clear').addEventListener('click',clear);$('assistant-summary-submit').addEventListener('click',runQuery);
+    $('assistant-now').addEventListener('click',useNow);$('assistant-clear').addEventListener('click',clear);$('assistant-swap').addEventListener('click',swapRoute);$('assistant-summary-submit').addEventListener('click',runQuery);
     $('assistant-results').addEventListener('click',function(event){
       var open=event.target.closest&&event.target.closest('[data-assistant-open]');if(open){applySearch(open.getAttribute('data-assistant-open'));return;}
       if(event.target.closest&&event.target.closest('[data-assistant-all]'))applySearch('');
