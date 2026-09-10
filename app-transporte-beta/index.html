@@ -15,7 +15,7 @@
     } catch (error) {}
   </script>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-  <link rel="stylesheet" href="transporte.css?v=18-beta">
+  <link rel="stylesheet" href="transporte.css?v=19-beta">
 </head>
 
 <body class="public-beta">
@@ -161,6 +161,13 @@
               <i class="finish" aria-hidden="true"></i><span>Destino</span><strong id="assistant-summary-destination">Sin elegir</strong>
             </div>
           </div>
+          <button id="assistant-swap" class="assistant-swap" type="button" disabled>
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path d="M7 7h11l-3-3"></path><path d="m18 7-3 3"></path>
+              <path d="M17 17H6l3 3"></path><path d="m6 17 3-3"></path>
+            </svg>
+            <span>Invertir origen y destino</span>
+          </button>
           <dl class="assistant-summary-data">
             <div><dt>Día</dt><dd id="assistant-summary-day">—</dd></div>
             <div><dt>Horario</dt><dd id="assistant-summary-time">Cualquier horario</dd></div>
@@ -394,7 +401,7 @@
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 <script defer src="recorridos.js?v=12-beta"></script>
 <script defer src="historico.js?v=12-beta"></script>
-<script defer src="transporte.js?v=18-beta"></script>
-<script defer src="asistente.js?v=16-beta"></script>
+<script defer src="transporte.js?v=19-beta"></script>
+<script defer src="asistente.js?v=19-beta"></script>
 </body>
 </html>

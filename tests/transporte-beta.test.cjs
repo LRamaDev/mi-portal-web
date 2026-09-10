@@ -115,7 +115,7 @@ test('la beta v16 ajusta la velocidad y sugiere el origen por ubicación', () =>
   assert.match(html, /data-location-label>Usar mi ubicación/);
   assert.match(html, /transporte\.css\?v=\d+-beta/);
   assert.match(html, /transporte\.js\?v=\d+-beta/);
-  assert.match(html, /asistente\.js\?v=16-beta/);
+  assert.match(html, /asistente\.js\?v=\d+-beta/);
   assert.match(transport, /nearestOrigin:function/);
   assert.match(transport, /return 6371\*2\*Math\.atan2/);
   assert.match(transport, /Math\.max\(16000,Math\.min\(32000/);
@@ -156,14 +156,35 @@ test('la beta v18 presenta la identidad ERSeP Viaja y una entrada animada accesi
   assert.match(html, /name="theme-color" content="#00719f"/);
   assert.match(html, /id="app-splash"/);
   assert.match(html, /assets\/ersep-viaja-icon\.svg/);
-  assert.match(html, /transporte\.css\?v=18-beta/);
-  assert.match(html, /transporte\.js\?v=18-beta/);
+  assert.match(html, /transporte\.css\?v=\d+-beta/);
+  assert.match(html, /transporte\.js\?v=\d+-beta/);
   assert.match(css, /--primary:#00719f/);
   assert.match(css, /@keyframes ersep-splash-logo/);
   assert.match(css, /@keyframes ersep-splash-bus/);
   assert.match(css, /prefers-reduced-motion:reduce/);
   assert.match(transport, /function dismissSplash/);
-  assert.match(transport, /Math\.max\(0,900-/);
   assert.match(transport, /dismissSplash\(\)/);
   assert.match(icon, /<title id="title">ERSeP Viaja<\/title>/);
 });
+
+test('la beta v19 extiende la entrada y permite invertir origen y destino', () => {
+  const html = read('index.html');
+  const css = read('transporte.css');
+  const transport = read('transporte.js');
+  const assistant = read('asistente.js');
+  assert.match(html, /id="assistant-swap"/);
+  assert.match(html, /Invertir origen y destino/);
+  assert.match(html, /transporte\.css\?v=19-beta/);
+  assert.match(html, /transporte\.js\?v=19-beta/);
+  assert.match(html, /asistente\.js\?v=19-beta/);
+  assert.match(transport, /SPLASH_DURATION_MS=2000/);
+  assert.match(transport, /SPLASH_FADE_MS=280/);
+  assert.match(transport, /SPLASH_DURATION_MS-SPLASH_FADE_MS/);
+  assert.match(assistant, /function swapRoute/);
+  assert.match(assistant, /listOrigins\(day\)/);
+  assert.match(assistant, /listDestinations\(oldDestination,day\)/);
+  assert.match(assistant, /origin\.value=oldDestination;populateDestinations\(false\);destination\.value=oldOrigin/);
+  assert.match(assistant, /addEventListener\('click',swapRoute\)/);
+  assert.match(css, /\.assistant-swap/);
+});
+

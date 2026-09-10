@@ -302,3 +302,13 @@ html[data-theme="dark"] .app-splash-card>span{color:#b5c8d1}
 @keyframes ersep-splash-copy{to{opacity:1;transform:none}}
 @keyframes ersep-splash-route{to{transform:scaleX(1)}}
 @keyframes ersep-splash-bus{to{transform:translateX(calc(min(270px,72vw) - 55px))}}
+
+/* Beta v19 · regreso rápido y controles móviles */
+.assistant-swap{display:inline-flex;align-items:center;justify-content:center;gap:8px;width:100%;min-height:42px;margin:4px 0 14px;padding:8px 12px;border:1px solid rgba(0,113,159,.35);border-radius:10px;background:rgba(0,113,159,.07);color:var(--primary);font:850 13px var(--font-main);cursor:pointer;transition:background .18s ease,border-color .18s ease,transform .18s ease}
+.assistant-swap:hover:not(:disabled){background:rgba(0,113,159,.13);border-color:currentColor;transform:translateY(-1px)}
+.assistant-swap:active:not(:disabled){transform:translateY(0)}
+.assistant-swap:focus-visible{outline:3px solid rgba(0,113,159,.25);outline-offset:2px}
+.assistant-swap:disabled{opacity:.45;cursor:not-allowed}
+.assistant-swap svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;flex:0 0 auto}
+@media(prefers-reduced-motion:reduce){.assistant-swap{transition:none}}
+
