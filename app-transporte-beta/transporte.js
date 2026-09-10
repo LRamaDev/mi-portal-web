@@ -41,24 +41,25 @@
     for(var i=0;i<=steps;i++){var t=i/steps,u=1-t;points.push([u*u*a.lat+2*u*t*lat+t*t*b.lat,u*u*a.lon+2*u*t*lon+t*t*b.lon]);}
     return points;
   }
-  function startArrow(points,color) {
+  function startBus(points,color) {
     if(points.length<2)return;
-    var icon=L.divIcon({className:'route-arrow-marker',html:'<span class="moving-arrow" style="--arrow-color:'+color+'">➤</span>',iconSize:[34,34],iconAnchor:[17,17]});
+    var bus='<span class="moving-bus" style="--bus-color:'+color+'"><svg viewBox="0 0 50 30" aria-hidden="true" focusable="false"><rect class="moving-bus-wheel" x="10" y="1" width="9" height="5" rx="2"></rect><rect class="moving-bus-wheel" x="31" y="1" width="9" height="5" rx="2"></rect><rect class="moving-bus-wheel" x="10" y="24" width="9" height="5" rx="2"></rect><rect class="moving-bus-wheel" x="31" y="24" width="9" height="5" rx="2"></rect><path class="moving-bus-body" d="M8 3h29c7 0 11 4.5 11 12s-4 12-11 12H8c-4 0-6-2.5-6-6V9c0-3.5 2-6 6-6z"></path><path class="moving-bus-window moving-bus-window-front" d="M36 7h2c4 0 6 2.7 6 8s-2 8-6 8h-2z"></path><rect class="moving-bus-window" x="7" y="8" width="7" height="14" rx="2"></rect><rect class="moving-bus-roof" x="17" y="7" width="15" height="16" rx="3"></rect><circle class="moving-bus-light" cx="45" cy="10" r="1.4"></circle><circle class="moving-bus-light" cx="45" cy="20" r="1.4"></circle></svg></span>';
+    var icon=L.divIcon({className:'route-bus-marker',html:bus,iconSize:[50,44],iconAnchor:[25,22]});
     var marker=L.marker(points[0],{interactive:false,zIndexOffset:1000,icon:icon}).addTo(state.layer);
     var reduced=window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if(reduced){marker.setLatLng(points[Math.floor(points.length/2)]);return;}
     var cumulative=[0];
     for(var i=1;i<points.length;i++){var dx=(points[i][1]-points[i-1][1])*Math.cos(points[i][0]*Math.PI/180),dy=points[i][0]-points[i-1][0];cumulative.push(cumulative[i-1]+Math.sqrt(dx*dx+dy*dy));}
-    var total=cumulative[cumulative.length-1],started=null;
+    var total=cumulative[cumulative.length-1],routeKilometers=total*111,cycleMs=Math.max(26000,Math.min(55000,22000+routeKilometers*180)),started=null;
     if(total===0)return;
     function tick(timestamp){
       if(started===null)started=timestamp;
-      var distance=(((timestamp-started)%6500)/6500)*total,index=0;
+      var distance=(((timestamp-started)%cycleMs)/cycleMs)*total,index=0;
       while(index<cumulative.length-2 && cumulative[index+1]<distance)index++;
       var a=points[index],b=points[index+1],span=cumulative[index+1]-cumulative[index],f=span?(distance-cumulative[index])/span:0;
       marker.setLatLng([a[0]+(b[0]-a[0])*f,a[1]+(b[1]-a[1])*f]);
-      var element=marker.getElement(),arrow=element&&element.querySelector('.moving-arrow');
-      if(arrow){var pa=state.map.latLngToLayerPoint(a),pb=state.map.latLngToLayerPoint(b);arrow.style.transform='rotate('+Math.atan2(pb.y-pa.y,pb.x-pa.x)*180/Math.PI+'deg)';}
+      var element=marker.getElement(),busElement=element&&element.querySelector('.moving-bus');
+      if(busElement){var pa=state.map.latLngToLayerPoint(a),pb=state.map.latLngToLayerPoint(b);busElement.style.transform='rotate('+Math.atan2(pb.y-pa.y,pb.x-pa.x)*180/Math.PI+'deg)';}
       state.animationId=requestAnimationFrame(tick);
     }
     state.animationId=requestAnimationFrame(tick);
@@ -118,15 +119,15 @@
       });
     }
     var endpointsLocated=Boolean(coordinates[active.from]&&coordinates[active.to]);
-    if(endpointsLocated)startArrow(points,color);
+    if(endpointsLocated)startBus(points,color);
     fitActiveRoute(points,selectedBounds.length?selectedBounds:bounds);
-    if(!endpointsLocated)$('map-status').textContent='No se puede ubicar la flecha porque el origen o el destino seleccionado todavía no tiene coordenadas.';
+    if(!endpointsLocated)$('map-status').textContent='No se puede ubicar el colectivo porque el origen o el destino seleccionado todavía no tiene coordenadas.';
     else if(usedRoadTrace&&selectedBridge)$('map-status').textContent='Recorrido vial orientativo basado en OpenStreetMap. La línea sigue caminos sugeridos, pero '+selectedMissing+' paradas intermedias todavía no tienen ubicación segura. No representa un vehículo en vivo.';
-    else if(usedRoadTrace)$('map-status').textContent='Recorrido vial orientativo basado en OpenStreetMap. La flecha sigue calles y rutas sugeridas; no confirma el itinerario autorizado ni representa un vehículo en vivo.';
-    else if(selectedBridge)$('map-status').textContent='Mapa esquemático: '+selectedMissing+' localidades intermedias sin ubicación segura se señalan mediante conectores punteados. La flecha orienta el recorrido; no representa calles ni un vehículo en vivo.';
+    else if(usedRoadTrace)$('map-status').textContent='Recorrido vial orientativo basado en OpenStreetMap. El colectivo sigue calles y rutas sugeridas; no confirma el itinerario autorizado ni representa un vehículo en vivo.';
+    else if(selectedBridge)$('map-status').textContent='Mapa esquemático: '+selectedMissing+' localidades intermedias sin ubicación segura se señalan mediante conectores punteados. El colectivo orienta el recorrido; no representa calles ni un vehículo en vivo.';
     else if(totalMissing)$('map-status').textContent='Tu tramo está ubicado y puede animarse. El recorrido completo contiene '+totalMissing+' localidades pendientes fuera del tramo seleccionado.';
     else if(active.model.profile&&state.traceWarnings.has(active.model.profile.id))$('map-status').textContent='Trazado esquemático temporal: una o más coordenadas de este recorrido están en revisión y por seguridad todavía no se calcula una ruta vial.';
-    else $('map-status').textContent=active.model.profile?'Recorrido esquemático en orden. Tu tramo aparece destacado; el trazado vial de esta variante todavía no fue validado.':'Solo cabeceras: la flecha une los puntos disponibles; el detalle intermedio de esta variante todavía está pendiente.';
+    else $('map-status').textContent=active.model.profile?'Recorrido esquemático en orden. Tu tramo aparece destacado; el trazado vial de esta variante todavía no fue validado.':'Solo cabeceras: el colectivo une los puntos disponibles; el detalle intermedio de esta variante todavía está pendiente.';
   }
   function serviceHTML(j){
     var s=j.service,active=state.focus===j.key,days=j.days.map(function(d){return DAYS[d];}).join(', ');
