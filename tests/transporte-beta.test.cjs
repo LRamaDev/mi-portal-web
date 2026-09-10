@@ -64,8 +64,8 @@ test('el asistente beta v13 es conversacional, progresivo y adaptable', () => {
   }
   assert.equal((html.match(/data-assistant-step="/g)||[]).length,4);
   assert.equal((html.match(/data-assistant-day-offset="/g)||[]).length,2);
-  assert.match(html, /transporte\.css\?v=13-beta/);
-  assert.match(html, /asistente\.js\?v=13-beta/);
+  assert.match(html, /transporte\.css\?v=\d+-beta/);
+  assert.match(html, /asistente\.js\?v=\d+-beta/);
   assert.match(css, /@keyframes assistant-card-in/);
   assert.match(css, /@media\(max-width:720px\)/);
   assert.match(assistant, /updateProgress/);
@@ -82,13 +82,28 @@ test('la beta v14 compacta modos, pliega filtros y acerca el tramo elegido', () 
   assert.doesNotMatch(html, /id="mode-users"|id="mode-inspectors"|id="mode-claims"/);
   assert.match(html, /<details id="advanced-search"/);
   assert.match(html, /id="advanced-filter-count"/);
-  assert.match(html, /transporte\.css\?v=14-beta/);
-  assert.match(html, /transporte\.js\?v=14-beta/);
   assert.match(transport, /function fitActiveRoute/);
-  assert.match(transport, /points\\.length\\?points:selectedBounds/);
+  assert.match(transport, /var visible=points\.length\?points:fallback/);
   assert.match(transport, /maxZoom:15/);
   assert.match(transport, /mode-select/);
   assert.match(transport, /updateAdvancedSummary/);
-  assert.match(css, /\\.assistant-preview:not\\(\\.is-ready\\)\\{display:none\\}/);
-  assert.match(css, /#transport-map\\{height:330px\\}/);
+  assert.match(css, /\.assistant-preview:not\(\.is-ready\)\{display:none\}/);
+  assert.match(css, /#transport-map\{height:330px\}/);
+});
+
+
+test('la beta v15 usa un colectivo con movimiento más pausado y accesible', () => {
+  const html = read('index.html');
+  const css = read('transporte.css');
+  const transport = read('transporte.js');
+  assert.match(html, /transporte\.css\?v=15-beta/);
+  assert.match(html, /transporte\.js\?v=15-beta/);
+  assert.match(transport, /function startBus/);
+  assert.match(transport, /class="moving-bus"/);
+  assert.match(transport, /routeKilometers=total\*111/);
+  assert.match(transport, /Math\.max\(26000,Math\.min\(55000/);
+  assert.match(transport, /prefers-reduced-motion: reduce/);
+  assert.doesNotMatch(transport, /startArrow|moving-arrow|➤/);
+  assert.match(css, /\.route-bus-marker/);
+  assert.match(css, /\.moving-bus-body/);
 });
