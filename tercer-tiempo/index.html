@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="description" content="Organizá los gastos del tercer tiempo, calculá quién le paga a quién y compartí la liquidación.">
+  <meta name="theme-color" content="#059669">
+  <link rel="canonical" href="https://lramadev.github.io/mi-portal-web/tercer-tiempo/">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="es_AR">
+  <meta property="og:title" content="Tercer Tiempo FMSC">
+  <meta property="og:description" content="Dividí los gastos del equipo sin vueltas.">
+  <meta property="og:url" content="https://lramadev.github.io/mi-portal-web/tercer-tiempo/">
+  <title>Tercer Tiempo FMSC | Lea Rama Dev</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- React & ReactDOM -->
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+  <!-- Babel -->
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <style>
+    body {
+      background-color: #f9fafb; /* gray-50 */
+      color: #111827; /* gray-900 */
+    }
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 9999px; }
+    @supports (padding-bottom: env(safe-area-inset-bottom)) {
+        .pb-safe { padding-bottom: calc(1.5rem + env(safe-area-inset-bottom)); }
+        .mb-safe { margin-bottom: env(safe-area-inset-bottom); }
+    }
+  </style>
+</head>
+<body class="bg-gray-50 min-h-screen font-sans antialiased selection:bg-emerald-200">
+  
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState, useMemo, useRef, useEffect } = React;
+
+    // --- ICONOS SVG ---
+    const IconUsers = () => <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>;
+    const IconPlus = () => <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>;
+    const IconTrash = () => <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>;
+    const IconDollar = () => <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>;
+    const IconCheck = () => <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>;
+    const IconSparkles = () => <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>;
+    const IconAlert = () => <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>;
+    const IconShuffle = () => <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/><polyline points="21 16 21 21 16 21"/></svg>;
+    const IconBeer = () => <svg className="w-4 h-4 text-amber-500" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M17 11h1a3 3 0 0 1 0 6h-1"/><path d="M9 12v6"/><path d="M13 12v6"/><path d="M14 7.5a2.5 2.5 0 0 0-5 0M4 11h13v8a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4V11z"/></svg>;
+    const IconWater = () => <svg className="w-4 h-4 text-blue-500" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M12 22a7 7 0 0 0 7-7c0-4.3-7-11-7-11S5 10.7 5 15a7 7 0 0 0 7 7z"/></svg>;
+    const IconSoda = () => <svg className="w-4 h-4 text-purple-500" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M12 2v20M5 12h14M12 7l5 5-5 5"/></svg>;
+    const IconFood = () => <svg className="w-4 h-4 text-orange-500" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>;
+    const IconCoins = () => <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><circle cx="8" cy="8" r="6"/><circle cx="18" cy="18" r="4"/><path d="M12 18a6 6 0 0 0-6-6"/></svg>;
+    const IconChevronDown = () => <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>;
+    const IconChevronUp = () => <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>;
+    const IconChevronRight = () => <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>;
+    const IconShare = () => <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>;
+    const IconCopy = () => <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>;
+    const IconDownload = () => <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>;
+    const IconReceipt = () => <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1-2-1z"/><path d="M6 8h12"/><path d="M6 12h12"/><path d="M6 16h8"/></svg>;
+    const IconBank = () => <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><rect width="20" height="5" x="2" y="3" rx="1"/><path d="M4 8v8"/><path d="M20 8v8"/><path d="M8 8v8"/><path d="M16 8v8"/><rect width="20" height="5" x="2" y="16" rx="1"/></svg>;
+    const IconArrowLeft = () => <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/><path d="M9 12h10"/></svg>;
+
+    const loadStoredList = (key) => {
+      try {
+        const value = JSON.parse(localStorage.getItem(key) || '[]');
+        return Array.isArray(value) ? value : [];
+      } catch {
+        return [];
+      }
+    };
+
+    const saveStoredList = (key, value) => {
+      try {
+        localStorage.setItem(key, JSON.stringify(value));
+      } catch {
+        // La aplicación sigue funcionando aunque el navegador bloquee el almacenamiento.
+      }
+    };
+
+    function App() {
+      // --- ESTADOS Y PERSISTENCIA (Local Storage) ---
+      const [players, setPlayers] = useState(() => loadStoredList('tt_players'));
+      
+      const [expenses, setExpenses] = useState(() => loadStoredList('tt_expenses'));
+
+      useEffect(() => {
+        saveStoredList('tt_players', players);
+      }, [players]);
+
+      useEffect(() => {
+        saveStoredList('tt_expenses', expenses);
+      }, [expenses]);
+
+      // --- ESTADOS DE FORMULARIOS ---
+      const [newPlayerName, setNewPlayerName] = useState('');
+      
+      const [expenseDesc, setExpenseDesc] = useState('');
+      const [expenseAmount, setExpenseAmount] = useState('');
+      const [expensePayer, setExpensePayer] = useState('');
+      const [expenseConsumers, setExpenseConsumers] = useState([]);
+      const [expenseCategory, setExpenseCategory] = useState('other');
+      
+      const [activeTab, setActiveTab] = useState('players'); 
+      const [toast, setToast] = useState(null);
+      const [expandedPlayers, setExpandedPlayers] = useState({}); 
+
+      const canvasRef = useRef(null);
+
+      const showToast = (message, type = 'success') => {
+        setToast({ message, type });
+        setTimeout(() => setToast(null), 3000);
+      };
+
+      const clearAll = () => {
+        if(window.confirm("¿Seguro que querés reiniciar todas las cuentas? Esto borrará todos los datos cargados.")){
+          setPlayers([]);
+          setExpenses([]);
+          setExpenseDesc('');
+          setExpenseAmount('');
+          setExpensePayer('');
+          setExpenseConsumers([]);
+          setExpandedPlayers({});
+          setActiveTab('players');
+          localStorage.removeItem('tt_players');
+          localStorage.removeItem('tt_expenses');
+          showToast('Aplicación reiniciada', 'info');
+        }
+      };
+
+      // --- JUGADORES ---
+      const handleAddPlayer = (e) => {
+        e.preventDefault();
+        if (!newPlayerName.trim()) return;
+        
+        const newId = `p_${Date.now()}`;
+        const newPlayer = { 
+          id: newId, 
+          name: newPlayerName.trim(),
+          alias: '' 
+        };
+        
+        setPlayers([...players, newPlayer]);
+        setNewPlayerName('');
+        
+        if (players.length === 0) setExpensePayer(newId);
+        setExpenseConsumers(prev => [...prev, newId]);
+        showToast(`${newPlayer.name} agregado`);
+      };
+
+      const handleDeletePlayer = (id) => {
+        const playerToDelete = players.find(p => p.id === id);
+        setPlayers(players.filter(p => p.id !== id));
+        setExpenses(expenses.filter(e => e.paidById !== id).map(e => ({
+          ...e, consumerIds: e.consumerIds.filter(cid => cid !== id)
+        })).filter(e => e.consumerIds.length > 0));
+        showToast(`${playerToDelete?.name} eliminado`);
+      };
+
+      const togglePlayerExpanded = (playerId) => {
+        setExpandedPlayers(prev => ({ ...prev, [playerId]: !prev[playerId] }));
+      };
+
+      const handleUpdateAlias = (id, newAlias) => {
+        setPlayers(players.map(p => p.id === id ? { ...p, alias: newAlias } : p));
+      };
+
+      // --- LÓGICA DE DIVISIÓN ---
+      const toggleFormConsumer = (id) => {
+        if (expenseConsumers.includes(id)) {
+          setExpenseConsumers(expenseConsumers.filter(cid => cid !== id));
+        } else {
+          setExpenseConsumers([...expenseConsumers, id]);
+        }
+      };
+
+      const toggleAllConsumers = () => {
+        if (expenseConsumers.length === players.length) setExpenseConsumers([]);
+        else setExpenseConsumers(players.map(p => p.id));
+      };
+
+      const handleAddExpense = (e) => {
+        e.preventDefault();
+        if (!expenseDesc.trim()) { showToast('Por favor, ingresa una descripción', 'error'); return; }
+        const amount = parseFloat(expenseAmount);
+        if (isNaN(amount) || amount <= 0) { showToast('El monto debe ser un número mayor a 0', 'error'); return; }
+        if (!expensePayer) { showToast('Debe haber alguien que pague el gasto', 'error'); return; }
+        if (expenseConsumers.length === 0) { showToast('Al menos una persona debe consumir este artículo', 'error'); return; }
+
+        const newExpense = {
+          id: `e_${Date.now()}`, description: expenseDesc.trim(), amount,
+          paidById: expensePayer, consumerIds: [...expenseConsumers], category: expenseCategory
+        };
+
+        setExpenses([...expenses, newExpense]);
+        setExpenseDesc(''); setExpenseAmount(''); setExpenseConsumers(players.map(p => p.id)); setExpenseCategory('other');
+        showToast('Gasto agregado correctamente');
+      };
+
+      const handleDeleteExpense = (id) => {
+        setExpenses(expenses.filter(e => e.id !== id));
+        showToast('Gasto eliminado', 'info');
+      };
+
+      const roundUpToCentena = (val) => Math.ceil(val / 100) * 100;
+
+      const calculations = useMemo(() => {
+        const balances = {}; const individualSpending = {}; const individualPaid = {}; const playerUsageDetails = {};
+
+        players.forEach(p => {
+          balances[p.id] = 0; individualSpending[p.id] = 0; individualPaid[p.id] = 0; playerUsageDetails[p.id] = [];
+        });
+
+        expenses.forEach(exp => {
+          const { amount, paidById, consumerIds, description } = exp;
+          if (players.some(p => p.id === paidById)) {
+            balances[paidById] += amount; individualPaid[paidById] += amount;
+          }
+          const share = amount / consumerIds.length;
+          consumerIds.forEach(cid => {
+            if (balances[cid] !== undefined) {
+              balances[cid] -= share; individualSpending[cid] += share;
+              playerUsageDetails[cid].push({ description, totalAmount: amount, consumersCount: consumerIds.length, yourShare: share });
+            }
+          });
+        });
+
+        const totalSpent = expenses.reduce((sum, e) => sum + e.amount, 0);
+
+        let debtors = []; let creditors = [];
+        Object.keys(balances).forEach(id => {
+          const balance = balances[id];
+          const player = players.find(p => p.id === id);
+          if (!player) return;
+          if (balance < -0.01) debtors.push({ id, name: player.name, balance: Math.abs(balance) });
+          else if (balance > 0.01) creditors.push({ id, name: player.name, balance });
+        });
+
+        debtors.sort((a, b) => b.balance - a.balance);
+        creditors.sort((a, b) => b.balance - a.balance);
+
+        const transactions = [];
+        let i = 0; let j = 0;
+
+        while (i < debtors.length && j < creditors.length) {
+          const debtor = debtors[i];
+          const creditor = creditors[j];
+          const payment = Math.min(debtor.balance, creditor.balance);
+          
+          const creditorPlayer = players.find(p => p.id === creditor.id);
+
+          transactions.push({
+            from: debtor.name,
+            to: creditor.name,
+            toAlias: creditorPlayer?.alias || '',
+            amountExact: payment,
+            amountRounded: roundUpToCentena(payment) 
+          });
+
+          debtor.balance -= payment; creditor.balance -= payment;
+          if (debtor.balance < 0.01) i++;
+          if (creditor.balance < 0.01) j++;
+        }
+
+        return { balances, individualSpending, individualPaid, playerUsageDetails, totalSpent, transactions };
+      }, [players, expenses]);
+
+      const categories = {
+        beer: { icon: <IconBeer />, label: 'Cerveza' }, water: { icon: <IconWater />, label: 'Agua' },
+        soda: { icon: <IconSoda />, label: 'Gaseosa' }, food: { icon: <IconFood />, label: 'Comida' },
+        other: { icon: <IconCoins />, label: 'Otro' }
+      };
+
+      // --- COMPARTIR Y EXPORTAR ---
+      const getRawTextResult = () => {
+        if (calculations.transactions.length === 0) return '';
+        let text = `⚽ *TERCER TIEMPO FMSC - LIQUIDACIÓN* 🍻\n`;
+        text += `━━━━━━━━━━━━━━━━━━━━━\n`;
+        text += `💰 *Gasto Total:* $${calculations.totalSpent.toLocaleString('es-AR')}\n`;
+        text += `👥 *Integrantes:* ${players.length}\n\n`;
+        text += `👉 *¿QUIÉN LE PAGA A QUIÉN?*\n\n`;
+        
+        calculations.transactions.forEach((t) => {
+          text += `🔴 *${t.from}* paga a *${t.to}*${t.toAlias ? ` (Alias: ${t.toAlias})` : ''}\n`;
+          text += `💵 💵 *$${t.amountRounded.toLocaleString('es-AR')}*\n`;
+          text += `(Monto exacto sin redondeo: $${Math.round(t.amountExact).toLocaleString('es-AR')})\n`;
+          text += `━━━━━━━━━━━━━━━━━━━━━\n`;
+        });
+        
+        text += `\nGenerado con ⚽ *Tercer Tiempo FMSC* & LeaRama Dev 📱`;
+        return text;
+      };
+
+      const handleShareWhatsAppText = () => {
+        const rawText = getRawTextResult();
+        if (!rawText) { showToast('No hay transacciones para compartir', 'error'); return; }
+        if (window.ReactNativeWebView) {
+          window.ReactNativeWebView.postMessage(JSON.stringify({ type: 'SHARE_TEXT', payload: rawText }));
+        } else {
+          window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(rawText)}`, '_blank', 'noopener,noreferrer');
+        }
+      };
+
+      const handleCopyText = () => {
+        const rawText = getRawTextResult();
+        if (!rawText) { showToast('No hay transacciones para copiar', 'error'); return; }
+        navigator.clipboard.writeText(rawText).then(() => showToast('¡Texto copiado al portapapeles! Listo para enviar.')).catch(() => showToast('Error al copiar el texto', 'error'));
+      };
+
+      const handleGenerateAndDownloadReceipt = () => {
+        const canvas = canvasRef.current;
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        const width = 600; const itemHeight = 100; const headerHeight = 160; const footerHeight = 100;
+        const calculatedHeight = headerHeight + (calculations.transactions.length * itemHeight) + footerHeight;
+        
+        canvas.width = width; canvas.height = calculatedHeight;
+
+        // Fondo claro
+        ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, width, calculatedHeight);
+        ctx.fillStyle = '#059669'; ctx.fillRect(0, 0, width, 15); // Borde top
+
+        ctx.fillStyle = '#111827'; ctx.font = 'bold 24px sans-serif'; ctx.textAlign = 'center';
+        ctx.fillText('⚽ TERCER TIEMPO FMSC - PAGOS ⚽', width / 2, 55);
+
+        ctx.fillStyle = '#4b5563'; ctx.font = '16px sans-serif';
+        ctx.fillText(`Gasto Total: $${calculations.totalSpent.toLocaleString('es-AR')} | ${players.length} Integrantes`, width / 2, 85);
+        ctx.fillStyle = '#059669'; ctx.font = 'italic 13px sans-serif';
+        ctx.fillText('Nota: Los montos sugeridos están redondeados a la centena', width / 2, 110);
+
+        ctx.strokeStyle = '#e5e7eb'; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(40, 130); ctx.lineTo(width - 40, 130); ctx.stroke();
+
+        let currentY = headerHeight;
+        calculations.transactions.forEach((t) => {
+          ctx.fillStyle = '#f8fafc'; ctx.beginPath();
+          if (ctx.roundRect) ctx.roundRect(30, currentY - 10, width - 60, itemHeight - 15, 12);
+          else ctx.rect(30, currentY - 10, width - 60, itemHeight - 15);
+          ctx.fill();
+          ctx.strokeStyle = '#e2e8f0'; ctx.stroke();
+
+          ctx.fillStyle = '#ef4444'; ctx.font = 'bold 16px sans-serif'; ctx.textAlign = 'left';
+          ctx.fillText(t.from, 50, currentY + 22);
+          ctx.fillStyle = '#6b7280'; ctx.font = '11px sans-serif'; ctx.fillText('Debe transferir', 50, currentY + 40);
+
+          ctx.fillStyle = '#9ca3af'; ctx.font = 'bold 20px sans-serif'; ctx.textAlign = 'center';
+          ctx.fillText('➔', width / 2 - 10, currentY + 25);
+          ctx.fillStyle = '#059669'; ctx.font = 'bold 22px sans-serif'; ctx.fillText(`$${t.amountRounded.toLocaleString('es-AR')}`, width / 2 - 10, currentY + 50);
+
+          ctx.fillStyle = '#10b981'; ctx.font = 'bold 16px sans-serif'; ctx.textAlign = 'right';
+          ctx.fillText(t.to, width - 50, currentY + 22);
+          
+          ctx.fillStyle = '#6b7280'; ctx.font = '11px sans-serif';
+          ctx.fillText(t.toAlias ? `Alias: ${t.toAlias}` : 'Efectivo/Sin Alias', width - 50, currentY + 40);
+          
+          currentY += itemHeight;
+        });
+
+        ctx.strokeStyle = '#e5e7eb'; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(40, currentY - 10); ctx.lineTo(width - 40, currentY - 10); ctx.stroke();
+
+        ctx.fillStyle = '#6b7280'; ctx.font = '12px sans-serif'; ctx.textAlign = 'center';
+        ctx.fillText('Generado gratis con Tercer Tiempo FMSC', width / 2, currentY + 25);
+        ctx.font = 'bold 12px sans-serif'; ctx.fillText('¡Evitemos las deudas y disfrutemos del fútbol! ⚽', width / 2, currentY + 45);
+
+        const imageURI = canvas.toDataURL('image/png');
+        if (window.ReactNativeWebView) {
+          window.ReactNativeWebView.postMessage(JSON.stringify({ type: 'DOWNLOAD_IMAGE', payload: imageURI }));
+        } else {
+          const link = document.createElement('a'); link.download = `liquidacion-${Date.now()}.png`; link.href = imageURI;
+          document.body.appendChild(link); link.click(); document.body.removeChild(link);
+          showToast('¡Imagen guardada! Ya podés compartirla.');
+        }
+      };
+
+      return (
+        <div className="min-h-screen flex flex-col max-w-md mx-auto shadow-2xl border-x border-gray-200 bg-gray-50 pb-safe pb-16 relative">
+          
+          {toast && (
+            <div className={`fixed bottom-24 left-1/2 -translate-x-1/2 z-50 p-4 rounded-xl shadow-2xl flex items-center gap-3 animate-bounce w-[90%] max-w-sm ${
+              toast.type === 'error' ? 'bg-red-500 text-white' : toast.type === 'info' ? 'bg-blue-600 text-white' : 'bg-emerald-600 text-white'
+            }`}>
+              <IconAlert />
+              <span className="font-semibold text-sm">{toast.message}</span>
+            </div>
+          )}
+
+          <header className="border-b border-gray-200 bg-white/90 backdrop-blur sticky top-0 z-40 px-4 py-3">
+            <div className="flex flex-col gap-2">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2.5">
+                  <div className="bg-emerald-600 p-2 rounded-lg shadow-md shadow-emerald-600/20">
+                    <IconShuffle />
+                  </div>
+                  <div>
+                    <h1 className="text-lg font-extrabold tracking-tight text-gray-900">
+                      Tercer Tiempo FMSC
+                    </h1>
+                    <p className="text-[10px] text-gray-500 font-medium">Dividir sin vueltas</p>
+                  </div>
+                </div>
+                <a
+                  href="../"
+                  aria-label="Volver al portal de Lea Rama Dev"
+                  title="Volver al portal"
+                  className="w-10 h-10 rounded-xl border border-gray-200 bg-gray-50 text-gray-600 hover:text-emerald-700 hover:border-emerald-300 flex items-center justify-center transition-colors"
+                >
+                  <IconArrowLeft />
+                </a>
+              </div>
+            </div>
+          </header>
+
+          <main className="flex-1 p-4 flex flex-col gap-5 overflow-x-hidden pb-10">
+            
+            {/* PESTAÑAS */}
+            <div className="bg-gray-100/80 p-1.5 rounded-2xl flex gap-1 border border-gray-200 shadow-inner">
+              <button
+                onClick={() => setActiveTab('players')}
+                className={`flex-1 py-2.5 px-1 rounded-xl text-[11px] sm:text-xs font-bold transition-all duration-200 flex flex-col items-center gap-1.5 ${
+                  activeTab === 'players' ? 'bg-white text-emerald-600 shadow-sm ring-1 ring-gray-900/5' : 'text-gray-500 hover:text-gray-700'
+                }`}
+              >
+                <IconUsers /><span>Convocados</span>
+              </button>
+              <button
+                onClick={() => setActiveTab('expenses')} disabled={players.length === 0}
+                className={`flex-1 py-2.5 px-1 rounded-xl text-[11px] sm:text-xs font-bold transition-all duration-200 flex flex-col items-center gap-1.5 disabled:opacity-40 ${
+                  activeTab === 'expenses' ? 'bg-white text-emerald-600 shadow-sm ring-1 ring-gray-900/5' : 'text-gray-500 hover:text-gray-700'
+                }`}
+              >
+                <IconDollar /><span>Gastos</span>
+              </button>
+              <button
+                onClick={() => setActiveTab('aliases')} disabled={players.length === 0}
+                className={`flex-1 py-2.5 px-1 rounded-xl text-[11px] sm:text-xs font-bold transition-all duration-200 flex flex-col items-center gap-1.5 disabled:opacity-40 ${
+                  activeTab === 'aliases' ? 'bg-white text-emerald-600 shadow-sm ring-1 ring-gray-900/5' : 'text-gray-500 hover:text-gray-700'
+                }`}
+              >
+                <IconBank /><span>Cobros</span>
+              </button>
+              <button
+                onClick={() => setActiveTab('summary')} disabled={players.length === 0}
+                className={`flex-1 py-2.5 px-1 rounded-xl text-[11px] sm:text-xs font-bold transition-all duration-200 flex flex-col items-center gap-1.5 disabled:opacity-40 ${
+                  activeTab === 'summary' ? 'bg-white text-emerald-600 shadow-sm ring-1 ring-gray-900/5' : 'text-gray-500 hover:text-gray-700'
+                }`}
+              >
+                <IconCheck /><span>Liquidación</span>
+              </button>
+            </div>
+
+            {/* --- PESTAÑA 1: JUGADORES --- */}
+            {activeTab === 'players' && (
+              <div className="flex flex-col gap-6 animate-fade-in">
+                <div className="bg-white p-5 rounded-2xl border border-gray-200 shadow-sm">
+                  <h2 className="text-sm font-extrabold mb-4 flex items-center gap-2 text-gray-800">
+                    <span className="bg-emerald-100 text-emerald-600 p-1.5 rounded-lg"><IconUsers /></span>
+                    Agregar a la lista
+                  </h2>
+                  <form onSubmit={handleAddPlayer} className="flex flex-col gap-3">
+                    <input
+                      type="text" value={newPlayerName} onChange={(e) => setNewPlayerName(e.target.value)}
+                      placeholder="Nombre (Ej. Mati, Lucho)"
+                      className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all"
+                    />
+                    <button type="submit" className="w-full mt-1 bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3.5 px-4 rounded-xl shadow-md shadow-emerald-500/20 transition flex items-center justify-center gap-2 active:scale-95">
+                      <IconPlus /> Guardar Jugador
+                    </button>
+                  </form>
+                </div>
+
+                <div className="bg-white p-5 rounded-2xl border border-gray-200 shadow-sm flex flex-col gap-3">
+                  <div className="flex items-center justify-between pb-2 border-b border-gray-100">
+                    <h2 className="text-sm font-extrabold text-gray-800">En la cancha ({players.length})</h2>
+                    <button onClick={clearAll} className="text-xs font-bold text-red-500 hover:text-red-600 bg-red-50 px-2 py-1 rounded">Borrar todo</button>
+                  </div>
+
+                  {players.length === 0 ? (
+                    <div className="flex flex-col items-center justify-center py-10 text-center text-gray-400">
+                      <p className="text-sm font-bold text-gray-500 mt-2">Nadie anotado aún</p>
+                      <p className="text-[11px] mt-1 max-w-[200px]">Agrega los nombres arriba en la casilla.</p>
+                    </div>
+                  ) : (
+                    <div className="flex flex-col gap-2 max-h-[350px] overflow-y-auto">
+                      {players.map((player, index) => (
+                        <div key={player.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-xl border border-gray-100">
+                          <div className="flex items-center gap-3">
+                            <span className="text-xs font-black text-gray-400 w-5 text-center">{index + 1}</span>
+                            <span className="text-sm font-bold text-gray-800">{player.name}</span>
+                          </div>
+                          <button onClick={() => handleDeletePlayer(player.id)} className="p-2 text-gray-400 hover:text-red-500 transition-colors"><IconTrash /></button>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                  
+                  {players.length > 0 && (
+                     <button onClick={() => setActiveTab('expenses')} className="mt-3 w-full bg-gray-900 text-white font-bold py-3.5 rounded-xl shadow-md transition flex items-center justify-center gap-2 active:scale-95">
+                       Ir a Registrar Gastos <IconChevronRight />
+                     </button>
+                  )}
+                </div>
+              </div>
+            )}
+
+            {/* --- PESTAÑA 2: GASTOS --- */}
+            {activeTab === 'expenses' && (
+              <div className="flex flex-col gap-6 animate-fade-in">
+                <div className="bg-white p-5 rounded-2xl border border-gray-200 shadow-sm flex flex-col gap-4">
+                  <h2 className="text-sm font-extrabold text-gray-800 flex items-center gap-2">
+                    <span className="bg-emerald-100 text-emerald-600 p-1.5 rounded-lg"><IconCoins /></span> Registrar un Gasto
+                  </h2>
+
+                  <form onSubmit={handleAddExpense} className="flex flex-col gap-4">
+                    <div>
+                      <label className="block text-[11px] text-gray-500 font-bold mb-1.5 uppercase tracking-wide">1. Categoría</label>
+                      <div className="grid grid-cols-5 gap-1.5">
+                        {Object.keys(categories).map((catKey) => (
+                          <button
+                            key={catKey} type="button"
+                            onClick={() => {
+                              setExpenseCategory(catKey);
+                              if (!expenseDesc.trim()) {
+                                if (catKey === 'beer') setExpenseDesc('Cervezas 🍻'); if (catKey === 'water') setExpenseDesc('Agua Mineral 💧');
+                                if (catKey === 'soda') setExpenseDesc('Gaseosas 🥤'); if (catKey === 'food') setExpenseDesc('Comida 🍕');
+                                if (catKey === 'other') setExpenseDesc('Cancha ⚽');
+                              }
+                            }}
+                            className={`py-2 px-1 rounded-xl flex flex-col items-center gap-1.5 transition-all text-[10px] ${
+                              expenseCategory === catKey ? 'bg-gray-900 text-white shadow-md' : 'bg-gray-50 text-gray-500 border border-gray-100 hover:bg-gray-100'
+                            }`}
+                          >
+                            {categories[catKey].icon}
+                            <span className="font-bold">{categories[catKey].label}</span>
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-3">
+                      <div className="col-span-2">
+                        <label className="block text-[11px] text-gray-500 font-bold mb-1.5 uppercase tracking-wide">2. Detalle</label>
+                        <input type="text" value={expenseDesc} onChange={(e) => setExpenseDesc(e.target.value)} placeholder="Ej. Fernet, Hielo..." className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-900 focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all outline-none" />
+                      </div>
+                      <div>
+                        <label className="block text-[11px] text-gray-500 font-bold mb-1.5 uppercase tracking-wide">3. Costo ($)</label>
+                        <input type="number" value={expenseAmount} onChange={(e) => setExpenseAmount(e.target.value)} placeholder="0.00" className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-900 focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all outline-none" />
+                      </div>
+                      <div>
+                        <label className="block text-[11px] text-gray-500 font-bold mb-1.5 uppercase tracking-wide">4. Pagó</label>
+                        <select value={expensePayer} onChange={(e) => setExpensePayer(e.target.value)} className="w-full bg-gray-50 border border-gray-200 rounded-xl px-3 py-3 text-sm text-gray-900 focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all outline-none">
+                          <option value="" disabled>Elegir...</option>
+                          {players.map(p => <option key={p.id} value={p.id}>{p.name}</option>)}
+                        </select>
+                      </div>
+                    </div>
+
+                    <div>
+                      <div className="flex items-center justify-between mb-2">
+                        <label className="text-[11px] text-gray-500 font-bold uppercase tracking-wide">5. Consumidores</label>
+                        <button type="button" onClick={toggleAllConsumers} className="text-[11px] font-bold text-emerald-600 bg-emerald-50 px-3 py-1 rounded-lg">
+                          {expenseConsumers.length === players.length ? 'Limpiar' : 'Seleccionar Todos'}
+                        </button>
+                      </div>
+                      <div className="bg-gray-50 rounded-xl border border-gray-200 p-2 max-h-[250px] overflow-y-auto flex flex-col gap-1">
+                        {players.map(p => {
+                          const isSelected = expenseConsumers.includes(p.id);
+                          return (
+                            <button key={p.id} type="button" onClick={() => toggleFormConsumer(p.id)} className={`w-full flex items-center justify-between p-3 rounded-lg transition-colors text-left text-sm ${isSelected ? 'bg-white shadow-sm border border-emerald-200' : 'hover:bg-gray-100 border border-transparent'}`}>
+                              <span className={`font-bold ${isSelected ? 'text-gray-900' : 'text-gray-500'}`}>{p.name}</span>
+                              <div className={`w-5 h-5 rounded flex items-center justify-center border ${isSelected ? 'bg-emerald-500 border-emerald-500 text-white' : 'border-gray-300 bg-white'}`}>
+                                {isSelected && <IconCheck />}
+                              </div>
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+
+                    <button type="submit" className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3.5 px-4 rounded-xl shadow-md transition flex items-center justify-center gap-2 active:scale-95">
+                      <IconPlus /> Agregar Gasto
+                    </button>
+                  </form>
+                </div>
+
+                <div className="bg-white p-5 rounded-2xl border border-gray-200 shadow-sm flex flex-col gap-3">
+                  <div className="flex justify-between items-center pb-2 border-b border-gray-100">
+                    <div>
+                      <h2 className="text-sm font-extrabold text-gray-800">Gastos Cargados ({expenses.length})</h2>
+                      <p className="text-xs text-gray-500 font-medium">Total: <span className="text-emerald-600 font-bold">${calculations.totalSpent.toLocaleString('es-AR')}</span></p>
+                    </div>
+                  </div>
+
+                  {expenses.length === 0 ? (
+                    <div className="py-8 text-center text-gray-400">
+                      <p className="text-sm font-bold text-gray-500">Ningún ticket todavía</p>
+                    </div>
+                  ) : (
+                    <div className="flex flex-col gap-3 max-h-[350px] overflow-y-auto">
+                      {expenses.map((expense) => {
+                        const payer = players.find(p => p.id === expense.paidById);
+                        const costPerPerson = expense.amount / expense.consumerIds.length;
+                        return (
+                          <div key={expense.id} className="bg-gray-50 border border-gray-200 rounded-xl p-3.5 flex flex-col gap-2 relative">
+                            <div className="flex items-start justify-between gap-3">
+                              <div className="flex items-center gap-3">
+                                <span className="p-2 bg-white rounded-lg shadow-sm border border-gray-100 shrink-0">
+                                  {categories[expense.category]?.icon || <IconCoins />}
+                                </span>
+                                <div className="flex flex-col">
+                                  <h3 className="text-sm font-bold text-gray-900">{expense.description}</h3>
+                                  <p className="text-[11px] text-gray-500 font-medium">
+                                    Puso <strong className="text-gray-700">{payer ? payer.name : 'Alguien'}</strong> • Total: <strong className="text-emerald-600">${expense.amount.toLocaleString('es-AR')}</strong>
+                                  </p>
+                                </div>
+                              </div>
+                              <button onClick={() => handleDeleteExpense(expense.id)} className="text-gray-400 hover:text-red-500 p-1 bg-white rounded shadow-sm border border-gray-100">
+                                <IconTrash />
+                              </button>
+                            </div>
+                            <div className="text-[10px] text-gray-500 border-t border-gray-200 pt-2 mt-1">
+                              <span className="font-bold text-gray-700">Dividen {expense.consumerIds.length} pers. (${Math.round(costPerPerson).toLocaleString('es-AR')} c/u):</span>
+                              <p className="italic mt-0.5">{expense.consumerIds.map(cid => players.find(p => p.id === cid)?.name).join(', ')}</p>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  )}
+                  {expenses.length > 0 && (
+                     <button onClick={() => setActiveTab('aliases')} className="mt-3 w-full bg-gray-900 text-white font-bold py-3.5 rounded-xl shadow-md transition flex items-center justify-center gap-2 active:scale-95">
+                       Ir a Cobros <IconChevronRight />
+                     </button>
+                  )}
+                </div>
+              </div>
+            )}
+
+            {/* --- PESTAÑA: ALIAS / BANCOS --- */}
+            {activeTab === 'aliases' && (
+              <div className="flex flex-col gap-6 animate-fade-in">
+                <div className="bg-white p-5 rounded-2xl border border-gray-200 shadow-sm flex flex-col gap-4">
+                  <div className="flex flex-col gap-1 mb-2">
+                    <h2 className="text-sm font-extrabold text-gray-800 flex items-center gap-2">
+                      <span className="bg-indigo-100 text-indigo-600 p-1.5 rounded-lg"><IconBank /></span>
+                      Cargar Datos de Cobro
+                    </h2>
+                    <p className="text-xs text-gray-500 font-medium">Solo se muestran los compañeros que pusieron plata física. Cargarles el Alias o CBU es opcional para el resumen.</p>
+                  </div>
+
+                  {players.filter(p => calculations.individualPaid[p.id] > 0).length === 0 ? (
+                    <div className="py-8 text-center bg-gray-50 rounded-xl border border-gray-100">
+                      <p className="text-sm font-bold text-gray-500">Nadie pagó gastos todavía</p>
+                      <p className="text-[11px] text-gray-400 mt-1">Registrá un ticket en la pestaña de Gastos primero.</p>
+                    </div>
+                  ) : (
+                    <div className="flex flex-col gap-3">
+                      {players.filter(p => calculations.individualPaid[p.id] > 0).map(player => (
+                        <div key={player.id} className="bg-gray-50 p-3.5 rounded-xl border border-gray-200 flex flex-col gap-2">
+                          <label className="text-xs font-bold text-gray-800 flex justify-between">
+                            {player.name}
+                            <span className="text-[10px] font-medium text-gray-500 bg-white px-2 py-0.5 rounded shadow-sm border border-gray-100">
+                              Aportó ${Math.round(calculations.individualPaid[player.id]).toLocaleString('es-AR')}
+                            </span>
+                          </label>
+                          <div className="relative mt-1">
+                            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
+                              <IconBank />
+                            </div>
+                            <input
+                              type="text"
+                              value={player.alias || ''}
+                              onChange={(e) => handleUpdateAlias(player.id, e.target.value)}
+                              placeholder="Alias, CBU o CVU (Opcional)"
+                              className="w-full bg-white border border-gray-200 rounded-lg pl-9 pr-3 py-2.5 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all shadow-sm"
+                            />
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
+                  <button 
+                    onClick={() => setActiveTab('summary')}
+                    className="mt-3 w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3.5 rounded-xl shadow-md transition flex items-center justify-center gap-2 active:scale-95"
+                  >
+                    Ver Liquidación Final <IconCheck />
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {/* --- PESTAÑA 3: CUENTAS --- */}
+            {activeTab === 'summary' && (
+              <div className="flex flex-col gap-6 animate-fade-in">
+                
+                <div className="grid grid-cols-3 gap-3">
+                  <div className="bg-white p-3.5 rounded-2xl border border-gray-200 shadow-sm text-center">
+                    <span className="text-[9px] text-gray-500 uppercase font-extrabold block mb-1">Total</span>
+                    <span className="text-sm font-black text-gray-900">${calculations.totalSpent.toLocaleString('es-AR')}</span>
+                  </div>
+                  <div className="bg-white p-3.5 rounded-2xl border border-gray-200 shadow-sm text-center">
+                    <span className="text-[9px] text-gray-500 uppercase font-extrabold block mb-1">Gente</span>
+                    <span className="text-sm font-black text-gray-900">{players.length}</span>
+                  </div>
+                  <div className="bg-white p-3.5 rounded-2xl border border-gray-200 shadow-sm text-center">
+                    <span className="text-[9px] text-gray-500 uppercase font-extrabold block mb-1">Transf.</span>
+                    <span className="text-sm font-black text-indigo-600">{calculations.transactions.length}</span>
+                  </div>
+                </div>
+
+                <div className="bg-white p-5 rounded-2xl border border-gray-200 shadow-sm flex flex-col gap-4">
+                  <div className="flex flex-col gap-1.5 border-b border-gray-100 pb-3">
+                    <h2 className="text-sm font-extrabold text-gray-800 flex items-center gap-2">
+                      <span className="bg-emerald-100 text-emerald-600 p-1.5 rounded-lg"><IconReceipt /></span>
+                      ¿Quién le paga a quién?
+                    </h2>
+                  </div>
+
+                  {calculations.transactions.length === 0 ? (
+                    <div className="py-8 text-center bg-gray-50 border border-gray-100 rounded-xl">
+                      <p className="font-extrabold text-gray-400 text-sm">¡Nadie debe plata!</p>
+                      <p className="text-[11px] text-gray-400 mt-1">Las cuentas están perfectas.</p>
+                    </div>
+                  ) : (
+                    <div className="flex flex-col gap-3">
+                      {calculations.transactions.map((t, idx) => (
+                        <div key={idx} className="bg-gray-50 border border-gray-200 rounded-xl p-4 flex flex-col shadow-sm">
+                          <div className="flex items-center justify-between">
+                            <div className="flex flex-col">
+                              <span className="font-extrabold text-gray-900 text-sm">{t.from}</span>
+                              <span className="text-[10px] text-red-500 font-bold">Transfiere</span>
+                            </div>
+                            
+                            <div className="flex flex-col items-center">
+                              <span className="text-sm font-black text-emerald-600">${t.amountRounded.toLocaleString('es-AR')}</span>
+                              <span className="text-[10px] text-gray-400 font-bold">➔</span>
+                            </div>
+
+                            <div className="flex flex-col text-right">
+                              <span className="font-extrabold text-gray-900 text-sm">{t.to}</span>
+                              <span className="text-[10px] text-emerald-600 font-bold">Recibe</span>
+                            </div>
+                          </div>
+                          
+                          {/* Datos Bancarios Opcionales y Monto Exacto */}
+                          <div className="bg-white rounded-lg p-2.5 mt-3 border border-gray-100 flex flex-col gap-2">
+                             <div className="flex items-center gap-2 text-gray-700 text-xs font-bold">
+                               <IconBank />
+                               <span>{t.toAlias ? `Alias: ${t.toAlias}` : 'Efectivo / Sin Alias'}</span>
+                             </div>
+                             <div className="text-[10px] text-gray-500 font-medium flex justify-between border-t border-gray-50 pt-2">
+                               <span>Monto exacto matemático:</span>
+                               <span className="text-gray-700 font-bold">${Math.round(t.amountExact).toLocaleString('es-AR')}</span>
+                             </div>
+                          </div>
+                        </div>
+                      ))}
+
+                      <div className="grid grid-cols-1 gap-2.5 pt-2">
+                        <button onClick={handleShareWhatsAppText} className="w-full bg-[#25D366] hover:bg-[#20bd5a] text-white font-bold py-3.5 px-4 rounded-xl shadow-md flex items-center justify-center gap-2 active:scale-95 transition">
+                          <IconShare /> Enviar por WhatsApp
+                        </button>
+                        <div className="grid grid-cols-2 gap-2.5">
+                          <button onClick={handleCopyText} className="bg-gray-100 hover:bg-gray-200 text-gray-800 font-bold py-3 px-2 rounded-xl text-xs flex items-center justify-center gap-1.5 active:scale-95 transition border border-gray-200">
+                            <IconCopy /> Copiar
+                          </button>
+                          <button onClick={handleGenerateAndDownloadReceipt} className="bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200 font-bold py-3 px-2 rounded-xl text-xs flex items-center justify-center gap-1.5 active:scale-95 transition">
+                            <IconDownload /> Ticket
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                {/* Resumen Individual */}
+                <div className="bg-white p-5 rounded-2xl border border-gray-200 shadow-sm flex flex-col gap-4">
+                  <div className="border-b border-gray-100 pb-2">
+                    <h2 className="text-sm font-extrabold text-gray-800">Detalle Individual</h2>
+                    <p className="text-[10px] text-gray-500 font-medium">Toca un nombre para auditar cuentas</p>
+                  </div>
+
+                  <div className="flex flex-col gap-3">
+                    {players.map(player => {
+                      const paid = calculations.individualPaid[player.id] || 0;
+                      const spent = calculations.individualSpending[player.id] || 0;
+                      const net = paid - spent;
+                      const isExpanded = !!expandedPlayers[player.id];
+                      const consumedItems = calculations.playerUsageDetails[player.id] || [];
+
+                      return (
+                        <div key={player.id} className="bg-gray-50 border border-gray-200 rounded-xl overflow-hidden transition-all shadow-sm">
+                          <button onClick={() => togglePlayerExpanded(player.id)} className="w-full p-3.5 flex items-center justify-between text-left focus:outline-none">
+                            <div className="flex items-center gap-2">
+                              <span className="text-sm font-bold text-gray-900">{player.name}</span>
+                              {isExpanded ? <IconChevronUp /> : <IconChevronDown />}
+                            </div>
+                            <span className={`text-[10px] font-extrabold px-2.5 py-1 rounded-md shadow-sm ${
+                              net > 0.01 ? 'bg-emerald-100 text-emerald-700 border border-emerald-200' : net < -0.01 ? 'bg-red-100 text-red-700 border border-red-200' : 'bg-gray-200 text-gray-600'
+                            }`}>
+                              {net > 0.01 ? `Recibe $${Math.round(net).toLocaleString('es-AR')}` : net < -0.01 ? `Debe $${Math.abs(Math.round(net)).toLocaleString('es-AR')}` : 'Al día'}
+                            </span>
+                          </button>
+
+                          {isExpanded && (
+                            <div className="bg-white border-t border-gray-100 p-4 flex flex-col gap-3">
+                              <div className="flex justify-between text-[11px] text-gray-600 pb-2 border-b border-gray-50 bg-gray-50 p-2 rounded-lg">
+                                <div className="flex flex-col">
+                                  <span className="font-medium">Consumió</span>
+                                  <strong className="text-gray-900 text-xs">${Math.round(spent).toLocaleString('es-AR')}</strong>
+                                </div>
+                                <div className="flex flex-col text-right">
+                                  <span className="font-medium">Aportó</span>
+                                  <strong className="text-gray-900 text-xs">${Math.round(paid).toLocaleString('es-AR')}</strong>
+                                </div>
+                              </div>
+                              <span className="text-[10px] uppercase font-extrabold text-gray-400 tracking-wider">Desglose de compras:</span>
+                              {consumedItems.length === 0 ? (
+                                <span className="text-xs text-gray-500 italic">No consumió nada.</span>
+                              ) : (
+                                <div className="flex flex-col gap-2">
+                                  {consumedItems.map((item, idx) => (
+                                    <div key={idx} className="flex justify-between items-start text-xs bg-gray-50 p-2.5 rounded-lg border border-gray-100">
+                                      <div className="flex flex-col">
+                                        <span className="font-bold text-gray-800">{item.description}</span>
+                                        <span className="text-[10px] text-gray-500 font-medium">Total: ${item.totalAmount.toLocaleString('es-AR')} ÷ {item.consumersCount} pers.</span>
+                                      </div>
+                                      <span className="font-extrabold text-gray-900 shrink-0">+${Math.round(item.yourShare).toLocaleString('es-AR')}</span>
+                                    </div>
+                                  ))}
+                                </div>
+                              )}
+                            </div>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+
+              </div>
+            )}
+          </main>
+
+          <footer className="fixed bottom-0 w-full max-w-md border-t border-gray-200 pt-4 pb-12 text-center bg-gray-100 mb-safe z-50">
+            <p className="font-extrabold text-[11px] tracking-wide text-gray-600">⚽ Tercer Tiempo FMSC • Lea Rama Dev ⚽</p>
+          </footer>
+
+          <canvas ref={canvasRef} className="hidden" />
+        </div>
+      );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<App />);
+  </script>
+</body>
+</html>
