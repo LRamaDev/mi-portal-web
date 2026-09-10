@@ -6,7 +6,7 @@
   var DIRECTIONS = { I:'Ida', V:'Vuelta' };
   var FIELDS = ['origin','destination','corridor','line','direction','day','company','modality'];
   var state = { data:null, geo:null, routes:null, traces:null, traceWarnings:new Set(), unsafePlaces:new Set(), profileUnsafePlaces:new Map(), engine:null, map:null, layer:null, focus:null, animationId:null, results:[], routeError:false, traceError:false, mode:'users', inspectorDirections:new Set(['I','V']), inspectorAvailableDirections:['I','V'], inspectorAllDirections:true, inspectorCompanies:new Set(), inspectorAvailableCompanies:[], inspectorAllCompanies:true, inspectorLines:new Set(), inspectorAvailableLines:[], inspectorAllLines:true, inspectorRecords:[] };
-  var splashStarted=Date.now();
+  var splashStarted=Date.now(),SPLASH_DURATION_MS=2000,SPLASH_FADE_MS=280;
   var $ = function (id) { return document.getElementById(id); };
   var esc = function (value) { return String(value == null ? '' : value).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); };
   var unique = function (xs) { return Array.from(new Set(xs)); };
@@ -363,10 +363,10 @@
     var splash=$('app-splash');
     if(!splash||splash.getAttribute('data-dismissing')==='true')return;
     splash.setAttribute('data-dismissing','true');
-    var wait=Math.max(0,900-(Date.now()-splashStarted));
+    var wait=Math.max(0,SPLASH_DURATION_MS-SPLASH_FADE_MS-(Date.now()-splashStarted));
     setTimeout(function(){
       splash.classList.add('is-leaving');
-      setTimeout(function(){splash.hidden=true;},280);
+      setTimeout(function(){splash.hidden=true;},SPLASH_FADE_MS);
     },wait);
   }
   function theme(){
