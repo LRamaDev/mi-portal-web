@@ -50,7 +50,7 @@
     if(reduced){marker.setLatLng(points[Math.floor(points.length/2)]);return;}
     var cumulative=[0];
     for(var i=1;i<points.length;i++){var dx=(points[i][1]-points[i-1][1])*Math.cos(points[i][0]*Math.PI/180),dy=points[i][0]-points[i-1][0];cumulative.push(cumulative[i-1]+Math.sqrt(dx*dx+dy*dy));}
-    var total=cumulative[cumulative.length-1],routeKilometers=total*111,cycleMs=Math.max(26000,Math.min(55000,22000+routeKilometers*180)),started=null;
+    var total=cumulative[cumulative.length-1],routeKilometers=total*111,cycleMs=Math.max(16000,Math.min(32000,13000+routeKilometers*95)),started=null;
     if(total===0)return;
     function tick(timestamp){
       if(started===null)started=timestamp;
@@ -385,11 +385,27 @@
       var requested={search:'',origin:input.origin||'',destination:input.destination||'',corridor:'',line:'',direction:'',day:input.day||'',company:'',modality:''};
       return state.engine.facet(field,requested).map(function(id){var place=state.engine.places[id];return {id:id,name:place.name,label:placeLabel(id)};}).sort(function(a,b){return a.label.localeCompare(b.label,'es');});
     }
+    function distanceKm(latitude,longitude,place){
+      var rad=Math.PI/180,dLat=(place.lat-latitude)*rad,dLon=(place.lon-longitude)*rad;
+      var a=Math.sin(dLat/2)*Math.sin(dLat/2)+Math.cos(latitude*rad)*Math.cos(place.lat*rad)*Math.sin(dLon/2)*Math.sin(dLon/2);
+      return 6371*2*Math.atan2(Math.sqrt(a),Math.sqrt(Math.max(0,1-a)));
+    }
     window.TransportSearch={
       today:function(){return String(today());},
       listPlaces:function(){return Object.keys(state.engine.places).map(function(id){var place=state.engine.places[id];return {id:id,name:place.name,label:placeLabel(id)};}).sort(function(a,b){return a.label.localeCompare(b.label,'es');});},
       listOrigins:function(day){return placeOptions('origin',{day:day});},
       listDestinations:function(origin,day){return origin?placeOptions('destination',{origin:origin,day:day}):[];},
+      nearestOrigin:function(latitude,longitude,day){
+        var lat=Number(latitude),lon=Number(longitude),best=null;
+        if(!Number.isFinite(lat)||!Number.isFinite(lon)||lat<-90||lat>90||lon<-180||lon>180)return null;
+        placeOptions('origin',{day:day}).forEach(function(option){
+          var place=state.engine.places[option.id];
+          if(!place||!Number.isFinite(place.lat)||!Number.isFinite(place.lon)||state.unsafePlaces.has(option.id))return;
+          var distance=distanceKm(lat,lon,place);
+          if(!best||distance<best.distanceKm)best={id:option.id,name:option.name,label:option.label,distanceKm:distance};
+        });
+        return best;
+      },
       query:function(input){
         input=input||{};
         var requested={search:'',origin:input.origin||'',destination:input.destination||'',corridor:'',line:'',direction:input.direction||'',day:input.day||'',company:'',modality:''};

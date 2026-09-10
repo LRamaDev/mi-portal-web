@@ -5,6 +5,7 @@
   var esc=function(value){return String(value==null?'':value).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');};
   var DAYS={'1':'lunes','2':'martes','3':'miércoles','4':'jueves','5':'viernes','6':'sábado','7':'domingo'};
   var STEP_TITLES={1:'Elegí dónde subís',2:'Elegí dónde bajás',3:'Confirmá el día',4:'Elegí el horario'};
+  var MAX_LOCATION_DISTANCE_KM=50;
 
   function currentMinutes(){
     var values=new Intl.DateTimeFormat('en-GB',{hour:'2-digit',minute:'2-digit',hourCycle:'h23',timeZone:'America/Argentina/Cordoba'}).formatToParts(new Date()),parts={};
@@ -21,6 +22,15 @@
     status.textContent=message;
     status.className='assistant-status'+(error?' error':'')+(tone?' '+tone:'');
     if(row)row.className='assistant-status-row'+(error?' error':'')+(tone?' '+tone:'');
+  }
+  function setLocationBusy(busy){
+    var button=$('assistant-location'),label=button&&button.querySelector('[data-location-label]');
+    if(!button)return;
+    button.disabled=Boolean(busy);button.setAttribute('aria-busy',String(Boolean(busy)));
+    if(label)label.textContent=busy?'Buscando ubicación…':'Usar mi ubicación';
+  }
+  function distanceText(kilometers){
+    return kilometers<1?Math.max(10,Math.round(kilometers*1000/10)*10)+' m':kilometers.toLocaleString('es-AR',{maximumFractionDigits:1})+' km';
   }
   function clearResults(){var results=$('assistant-results');results.innerHTML='';results.className='assistant-results';}
 
@@ -128,6 +138,22 @@
     if($('assistant-origin').value&&$('assistant-destination').value)runQuery();
     else{updateProgress(fieldStep(),false);setStatus('Configuré hoy desde la hora actual. Ahora elegí origen y destino.');}
   }
+  function useLocation(){
+    if(typeof navigator==='undefined'||!navigator.geolocation){setStatus('Este dispositivo no permite consultar la ubicación. Elegí el origen manualmente.',true);return;}
+    setLocationBusy(true);clearResults();setStatus('Buscando tu ubicación para sugerir la localidad de origen…',false,'searching');
+    navigator.geolocation.getCurrentPosition(function(position){
+      setLocationBusy(false);
+      var nearest=window.TransportSearch.nearestOrigin(position.coords.latitude,position.coords.longitude,$('assistant-day').value);
+      if(!nearest){setStatus('No encontramos una localidad con servicios y ubicación verificada. Elegí el origen manualmente.',true);return;}
+      if(nearest.distanceKm>MAX_LOCATION_DISTANCE_KM){setStatus('La localidad con servicios más cercana está a más de '+MAX_LOCATION_DISTANCE_KM+' km. Para evitar una sugerencia incorrecta, elegí el origen manualmente.',true);return;}
+      $('assistant-origin').value=nearest.id;populateDestinations(false);clearResults();updateSummary();updateProgress(2,false);
+      setStatus('Tu ubicación está a aproximadamente '+distanceText(nearest.distanceKm)+' de '+nearest.label+'. La elegimos como origen; confirmá que sea correcta y elegí dónde bajás.',false,'success');
+    },function(error){
+      setLocationBusy(false);
+      var messages={1:'No autorizaste el acceso a la ubicación. Podés elegir el origen manualmente.',2:'El dispositivo no pudo determinar tu ubicación. Probá nuevamente o elegí el origen manualmente.',3:'La ubicación tardó demasiado en responder. Probá nuevamente o elegí el origen manualmente.'};
+      setStatus(messages[error&&error.code]||'No pudimos obtener tu ubicación. Elegí el origen manualmente.',true);
+    },{enableHighAccuracy:true,timeout:12000,maximumAge:300000});
+  }
   function init(){
     if(initialized||!window.TransportSearch)return;
     initialized=true;$('assistant-day').value=window.TransportSearch.today();populateOrigins(false);populateDestinations(false);syncTimeMode();updateSummary();updateProgress(1,false);
@@ -138,6 +164,8 @@
     $('assistant-time-mode').addEventListener('change',function(){syncTimeMode();clearResults();updateProgress(fieldStep(4),false);});
     $('assistant-time').addEventListener('change',function(){updateSummary();clearResults();updateProgress(fieldStep(4),false);});
     Array.from(document.querySelectorAll('[data-assistant-day-offset]')).forEach(function(button){button.addEventListener('click',function(){chooseDay(Number(button.getAttribute('data-assistant-day-offset')));});});
+    var locationButton=$('assistant-location');
+    if(locationButton){locationButton.hidden=!(typeof navigator!=='undefined'&&navigator.geolocation);locationButton.addEventListener('click',useLocation);}
     $('assistant-now').addEventListener('click',useNow);$('assistant-clear').addEventListener('click',clear);$('assistant-summary-submit').addEventListener('click',runQuery);
     $('assistant-results').addEventListener('click',function(event){
       var open=event.target.closest&&event.target.closest('[data-assistant-open]');if(open){applySearch(open.getAttribute('data-assistant-open'));return;}

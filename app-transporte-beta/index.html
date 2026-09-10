@@ -11,7 +11,7 @@
     } catch (error) {}
   </script>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-  <link rel="stylesheet" href="transporte.css?v=15-beta">
+  <link rel="stylesheet" href="transporte.css?v=16-beta">
 </head>
 
 <body>
@@ -112,10 +112,20 @@
           </div>
 
           <form id="assistant-form" class="assistant-form">
-            <label class="assistant-step is-active" data-assistant-step="1" for="assistant-origin">
+            <div class="assistant-step is-active" data-assistant-step="1">
               <span class="assistant-step-number" aria-hidden="true"><b>1</b><i>✓</i></span>
-              <span class="assistant-field"><small>Primera parada</small><strong>¿Dónde subís?</strong><select id="assistant-origin" required><option value="">Elegí el origen</option></select></span>
-            </label>
+              <div class="assistant-field">
+                <small>Primera parada</small>
+                <label for="assistant-origin"><strong>¿Dónde subís?</strong></label>
+                <div class="assistant-origin-tools">
+                  <select id="assistant-origin" required><option value="">Elegí el origen</option></select>
+                  <button id="assistant-location" class="assistant-location" type="button" title="Usar la ubicación del dispositivo para sugerir el origen">
+                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21s7-6.1 7-12a7 7 0 1 0-14 0c0 5.9 7 12 7 12Z"></path><circle cx="12" cy="9" r="2.4"></circle></svg>
+                    <span data-location-label>Usar mi ubicación</span>
+                  </button>
+                </div>
+              </div>
+            </div>
             <label class="assistant-step is-pending" data-assistant-step="2" for="assistant-destination">
               <span class="assistant-step-number" aria-hidden="true"><b>2</b><i>✓</i></span>
               <span class="assistant-field"><small>Destino del viaje</small><strong>¿Dónde bajás?</strong><select id="assistant-destination" required disabled><option value="">Primero elegí el origen</option></select></span>
@@ -398,7 +408,7 @@
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 <script defer src="recorridos.js?v=12-beta"></script>
 <script defer src="historico.js?v=12-beta"></script>
-<script defer src="transporte.js?v=15-beta"></script>
-<script defer src="asistente.js?v=14-beta"></script>
+<script defer src="transporte.js?v=16-beta"></script>
+<script defer src="asistente.js?v=16-beta"></script>
 </body>
 </html>

@@ -96,14 +96,34 @@ test('la beta v15 usa un colectivo con movimiento más pausado y accesible', () 
   const html = read('index.html');
   const css = read('transporte.css');
   const transport = read('transporte.js');
-  assert.match(html, /transporte\.css\?v=15-beta/);
-  assert.match(html, /transporte\.js\?v=15-beta/);
+  assert.match(html, /transporte\.css\?v=\d+-beta/);
+  assert.match(html, /transporte\.js\?v=\d+-beta/);
   assert.match(transport, /function startBus/);
   assert.match(transport, /class="moving-bus"/);
   assert.match(transport, /routeKilometers=total\*111/);
-  assert.match(transport, /Math\.max\(26000,Math\.min\(55000/);
   assert.match(transport, /prefers-reduced-motion: reduce/);
   assert.doesNotMatch(transport, /startArrow|moving-arrow|➤/);
   assert.match(css, /\.route-bus-marker/);
   assert.match(css, /\.moving-bus-body/);
+});
+
+
+test('la beta v16 ajusta la velocidad y sugiere el origen por ubicación', () => {
+  const html = read('index.html');
+  const css = read('transporte.css');
+  const transport = read('transporte.js');
+  const assistant = read('asistente.js');
+  assert.match(html, /id="assistant-location"/);
+  assert.match(html, /data-location-label>Usar mi ubicación/);
+  assert.match(html, /transporte\.css\?v=16-beta/);
+  assert.match(html, /transporte\.js\?v=16-beta/);
+  assert.match(html, /asistente\.js\?v=16-beta/);
+  assert.match(transport, /nearestOrigin:function/);
+  assert.match(transport, /return 6371\*2\*Math\.atan2/);
+  assert.match(transport, /Math\.max\(16000,Math\.min\(32000/);
+  assert.match(assistant, /navigator\.geolocation\.getCurrentPosition/);
+  assert.match(assistant, /MAX_LOCATION_DISTANCE_KM=50/);
+  assert.match(assistant, /maximumAge:300000/);
+  assert.match(css, /\.assistant-origin-tools/);
+  assert.match(css, /@media\(max-width:520px\)/);
 });
