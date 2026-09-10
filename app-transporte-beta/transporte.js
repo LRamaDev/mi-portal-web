@@ -6,6 +6,7 @@
   var DIRECTIONS = { I:'Ida', V:'Vuelta' };
   var FIELDS = ['origin','destination','corridor','line','direction','day','company','modality'];
   var state = { data:null, geo:null, routes:null, traces:null, traceWarnings:new Set(), unsafePlaces:new Set(), profileUnsafePlaces:new Map(), engine:null, map:null, layer:null, focus:null, animationId:null, results:[], routeError:false, traceError:false, mode:'users', inspectorDirections:new Set(['I','V']), inspectorAvailableDirections:['I','V'], inspectorAllDirections:true, inspectorCompanies:new Set(), inspectorAvailableCompanies:[], inspectorAllCompanies:true, inspectorLines:new Set(), inspectorAvailableLines:[], inspectorAllLines:true, inspectorRecords:[] };
+  var splashStarted=Date.now();
   var $ = function (id) { return document.getElementById(id); };
   var esc = function (value) { return String(value == null ? '' : value).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); };
   var unique = function (xs) { return Array.from(new Set(xs)); };
@@ -358,6 +359,16 @@
     $('inspector-print').addEventListener('click',function(){printExport('inspectors');});$('inspector-image').addEventListener('click',function(){imageExport('inspectors');});
     document.addEventListener('visibilitychange',function(){if(document.hidden)stopAnimation();else renderMap(state.results,state.results.find(function(j){return j.key===state.focus;}));});
   }
+  function dismissSplash(){
+    var splash=$('app-splash');
+    if(!splash||splash.getAttribute('data-dismissing')==='true')return;
+    splash.setAttribute('data-dismissing','true');
+    var wait=Math.max(0,900-(Date.now()-splashStarted));
+    setTimeout(function(){
+      splash.classList.add('is-leaving');
+      setTimeout(function(){splash.hidden=true;},280);
+    },wait);
+  }
   function theme(){
     function label(){var light=document.documentElement.dataset.theme==='light';$('theme-icon').textContent=light?'☾':'☀';$('theme-label').textContent=light?'Modo oscuro':'Modo claro';$('theme-toggle').setAttribute('aria-pressed',String(light));}
     label();$('theme-toggle').addEventListener('click',function(){var next=document.documentElement.dataset.theme==='light'?'dark':'light';document.documentElement.dataset.theme=next;try{localStorage.setItem('transport-theme',next);}catch(e){}label();});
@@ -442,6 +453,6 @@
       state.profileUnsafePlaces=new Map(warnings.map(function(item){return [item.profile_id,new Set(item.unsafe_place_ids||[])];}));
       state.unsafePlaces=new Set(((state.traces.audit&&state.traces.audit.quarantined_places)||[]).map(function(item){return item.place_id;}));
     }
-    state.engine=R.create(state.data,state.geo,state.routes);initMap();$('filter-day').value=String(today());$('inspector-day').value=String(today());updateOptions();updateAdvancedSummary();updateInspectorControls();bind();sourceSummary();render();renderInspector();exposeSearch();
-  }).catch(function(error){$('results').innerHTML='<div class="empty-state"><strong>No se pudo cargar la información.</strong><p>'+esc(error.message)+'</p></div>';$('updated-date').textContent='Error de carga';});
+    state.engine=R.create(state.data,state.geo,state.routes);initMap();$('filter-day').value=String(today());$('inspector-day').value=String(today());updateOptions();updateAdvancedSummary();updateInspectorControls();bind();sourceSummary();render();renderInspector();exposeSearch();dismissSplash();
+  }).catch(function(error){$('results').innerHTML='<div class="empty-state"><strong>No se pudo cargar la información.</strong><p>'+esc(error.message)+'</p></div>';$('updated-date').textContent='Error de carga';dismissSplash();});
 }());
