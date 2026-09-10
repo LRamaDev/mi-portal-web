@@ -200,9 +200,9 @@ test('la beta v20 ordena los controles progresivos y mejora el encabezado móvil
   assert.match(html, /Intercambiar origen y destino/);
   assert.match(html, /class="theme-moon"/);
   assert.match(html, /class="theme-sun"/);
-  assert.match(html, /transporte\.css\?v=20-beta/);
-  assert.match(html, /transporte\.js\?v=20-beta/);
-  assert.match(html, /asistente\.js\?v=20-beta/);
+  assert.match(html, /transporte\.css\?v=\d+-beta/);
+  assert.match(html, /transporte\.js\?v=\d+-beta/);
+  assert.match(html, /asistente\.js\?v=\d+-beta/);
   assert.match(css, /\.assistant-v13 \.assistant-time-wrap\[hidden\]\{display:none\}/);
   assert.match(css, /\.assistant-swap\[hidden\]\{display:none\}/);
   assert.match(css, /grid-template-columns:44px minmax\(0,1fr\) 44px/);
@@ -210,5 +210,30 @@ test('la beta v20 ordena los controles progresivos y mejora el encabezado móvil
   assert.match(assistant, /\$\('assistant-swap'\)\.hidden=!ready/);
   assert.match(transport, /action=light\?'Activar modo oscuro':'Activar modo claro'/);
   assert.doesNotMatch(transport, /\$\('theme-icon'\)\.textContent/);
+});
+
+test('la beta v21 aclara los horarios, la fuente oficial y el acceso a reclamos', () => {
+  const html = read('index.html');
+  const css = read('transporte.css');
+  const assistant = read('asistente.js');
+  assert.match(html, /¿Qué horario querés consultar\?/);
+  assert.match(html, /Mostrar todos los horarios del día/);
+  assert.match(html, /Salir a partir de una hora elegida/);
+  assert.match(html, /Elegí la hora más temprana/);
+  assert.doesNotMatch(html, />Después de una hora</);
+  assert.doesNotMatch(html, />Hora mínima</);
+  assert.match(html, /Secretaría de Transporte de la Provincia de Córdoba/);
+  assert.match(html, /https:\/\/ersep\.cba\.gov\.ar\/usuariosnopresencial\//);
+  assert.match(html, /target="_blank" rel="noopener noreferrer"/);
+  assert.match(html, /Reclamar un servicio que no pasó/);
+  assert.match(html, /id="assistant-clear"[^>]*>[\s\S]*Nueva búsqueda/);
+  assert.match(html, /transporte\.css\?v=21-beta/);
+  assert.match(html, /transporte\.js\?v=21-beta/);
+  assert.match(html, /asistente\.js\?v=21-beta/);
+  assert.match(assistant, /A partir de las/);
+  assert.match(assistant, /a partir de las/);
+  assert.match(css, /\.assistant-swap-row \.assistant-swap\{border-color:#6d9133;background:#87b540/);
+  assert.match(css, /#assistant-clear\{[^}]*background:#a6192e/);
+  assert.match(css, /\.service-disclaimer/);
 });
 

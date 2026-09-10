@@ -332,3 +332,16 @@ html[data-theme="dark"] .theme-icon .theme-sun{display:block}
   .assistant-swap-row .assistant-swap{width:100%}
 }
 
+/* Beta v21 · horarios claros, reclamos y acciones diferenciadas */
+.assistant-swap-row .assistant-swap{border-color:#6d9133;background:#87b540;color:#172500;box-shadow:0 7px 16px rgba(91,126,37,.2)}
+.assistant-swap-row .assistant-swap:hover:not(:disabled){border-color:#5f812b;background:#7aa536;color:#111d00;box-shadow:0 9px 20px rgba(91,126,37,.28)}
+#assistant-clear{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-color:#a6192e;background:#a6192e;color:#fff;box-shadow:0 7px 16px rgba(166,25,46,.18)}
+#assistant-clear:hover:not(:disabled){border-color:#841326;background:#841326;color:#fff;box-shadow:0 9px 20px rgba(166,25,46,.25)}
+#assistant-clear svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.service-disclaimer{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:16px;align-items:center;margin:0 22px 14px;padding:14px 15px;border:1px solid rgba(241,182,43,.48);border-left:5px solid var(--ersep-yellow);border-radius:12px;background:rgba(241,182,43,.08)}
+.service-disclaimer strong{display:block;color:var(--text);font-size:14px}.service-disclaimer p{margin:4px 0 0;color:var(--text-muted);font-size:13px;line-height:1.45}
+.service-disclaimer a{display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:44px;padding:9px 13px;border-radius:9px;background:#00719f;color:#fff;font-size:13px;font-weight:850;text-decoration:none;white-space:nowrap}
+.service-disclaimer a:hover{background:#005f87;box-shadow:0 7px 16px rgba(0,113,159,.22);transform:translateY(-1px)}
+.service-disclaimer a:focus-visible{outline:3px solid rgba(0,113,159,.28);outline-offset:2px}
+@media(max-width:720px){.service-disclaimer{grid-template-columns:1fr;margin:0 13px 14px}.service-disclaimer a{width:100%;white-space:normal;text-align:center}}
+
