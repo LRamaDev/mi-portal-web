@@ -245,3 +245,21 @@ html[data-theme="dark"] .assistant-progress-copy{background:rgba(0,0,0,.12)}
 .assistant-location svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}.assistant-location[aria-busy="true"] svg{animation:assistant-location-pulse .9s ease-in-out infinite}
 @keyframes assistant-location-pulse{50%{transform:scale(.78);opacity:.5}}
 @media(max-width:520px){.assistant-origin-tools{grid-template-columns:1fr}.assistant-location{width:100%;font-size:13px}}
+
+
+/* v17 beta: vista pública limpia y contenido progresivo. */
+.public-beta{background-image:none}
+.public-beta .header{box-shadow:none}
+.public-beta .beta-banner{justify-content:flex-start;box-shadow:none}
+.public-beta .beta-banner>div{width:100%}
+.public-beta .beta-banner p{margin:4px 0 0}
+.public-beta .transport-intro{box-shadow:none}
+.public-beta .transport-shell{box-shadow:none}
+.public-results-area{display:grid;gap:14px;margin-top:14px}
+.public-results-area[hidden]{display:none}
+.share-tools{border:1px solid var(--border);border-radius:12px;background:var(--card-solid)}
+.share-tools>summary{padding:11px 14px;color:var(--text-muted);font-size:13px;font-weight:800;cursor:pointer}
+.share-tools[open]>summary{border-bottom:1px solid var(--border);color:var(--text)}
+.share-tools .export-bar{margin:0;border:0;border-radius:0;background:transparent;box-shadow:none}
+@media(max-width:720px){.public-beta .header{padding-block:10px}.public-beta .header-title span{display:none}.public-beta .transport-shell{padding-top:7px}.public-results-area{margin-top:10px}.share-tools .export-bar{padding:10px}}
+@media(max-width:520px){.public-beta #theme-label{display:none}.public-beta .theme-toggle{width:44px;padding:8px}}
