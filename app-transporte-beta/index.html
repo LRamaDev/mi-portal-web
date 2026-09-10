@@ -11,44 +11,39 @@
     } catch (error) {}
   </script>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-  <link rel="stylesheet" href="transporte.css?v=16-beta">
+  <link rel="stylesheet" href="transporte.css?v=17-beta">
 </head>
 
-<body>
-<div class="ambient-light"></div>
-<div class="ambient-light two"></div>
+<body class="public-beta">
 <div class="wrap">
   <header class="header">
-    <a class="brand" href="../" aria-label="ERSeP · Volver al portal">
+    <div class="brand">
       <img class="brand-logo" src="../app-transporte/assets/logo-ersep.png" alt="ERSeP · Ente Regulador de los Servicios Públicos">
-    </a>
+    </div>
     <div class="header-title">
       <h1>Horarios interurbanos</h1>
-      <span>Ocho corredores provinciales</span>
+      <span>Servicio de consulta ciudadana</span>
     </div>
     <div class="header-actions">
-      <a class="stable-link" href="../app-transporte/">Versión estable</a>
       <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Cambiar tema">
         <span id="theme-icon" aria-hidden="true">☀</span>
         <span id="theme-label">Modo claro</span>
       </button>
-      <a class="back-button" href="../">← Volver al portal</a>
     </div>
   </header>
 
   <aside class="beta-banner" aria-label="Aviso de versión de prueba">
     <div>
       <span class="beta-badge">VERSIÓN DE PRUEBA</span>
-      <p><strong>Este es el espacio para probar el buscador guiado y las próximas mejoras.</strong> Los horarios se leen de la misma base actualizada que usa la aplicación estable.</p>
+      <p>Buscador público en evaluación. Los horarios se actualizan desde los cronogramas oficiales.</p>
     </div>
-    <a href="../app-transporte/">Ir a la versión estable</a>
   </aside>
 
   <section class="transport-intro" aria-labelledby="page-title">
     <div>
       <span class="eyebrow">Transporte interurbano · Provincia de Córdoba</span>
       <h2 id="page-title">¿Desde dónde y hasta dónde viajás?</h2>
-      <p id="page-description">Consultá salidas publicadas, localidades intermedias y tiempos estimados. Todos los filtros se combinan.</p>
+      <p id="page-description">Elegí origen, destino, día y horario para encontrar los servicios disponibles.</p>
     </div>
     <div class="update-card" aria-live="polite">
       <span>Última publicación procesada</span>
@@ -58,33 +53,10 @@
   </section>
 
   <main class="transport-shell">
-    <nav class="mode-picker" aria-label="Modo de trabajo">
-      <div class="mode-picker-heading">
-        <span class="eyebrow">Área de trabajo</span>
-        <strong>¿Qué necesitás hacer?</strong>
-      </div>
-      <label class="mode-picker-control" for="mode-select">
-        <span>Elegí una opción</span>
-        <select id="mode-select">
-          <option value="users">Atención a usuarios</option>
-          <option value="inspectors">Control de horarios</option>
-          <option value="claims">Consulta histórica</option>
-        </select>
-      </label>
-      <p id="mode-description" class="mode-picker-description" aria-live="polite">Buscá quién viaja, a qué hora pasa y cuál es el cartel del colectivo.</p>
-    </nav>
 
-    <section id="user-mode-panel" aria-label="Consulta para atención a usuarios">
-    <details class="mode-guide user-guide">
-      <summary><span>Guía rápida</span> ¿Cómo usar Atención a usuarios?</summary>
-      <ol>
-        <li>Elegí la localidad de <strong>origen</strong> y la de <strong>destino</strong>.</li>
-        <li>Combiná corredor, línea, empresa, sentido, día o modalidad si necesitás precisar la búsqueda.</li>
-        <li>Abrí un servicio para ver salida, paso estimado, llegada, recorrido y cartel final.</li>
-        <li>Imprimí, guardá en PDF o descargá una imagen con los resultados filtrados.</li>
-      </ol>
-      <p>Los pasos por localidades intermedias son estimados y no representan seguimiento en tiempo real.</p>
-    </details>
+
+    <section id="user-mode-panel" aria-label="Consulta pública de servicios">
+
 
     <section class="travel-assistant assistant-v13" aria-labelledby="travel-assistant-title">
       <header class="assistant-hero">
@@ -177,7 +149,7 @@
       </div>
 
       <div id="assistant-results" class="assistant-results" aria-live="polite"></div>
-      <p class="assistant-note"><strong>Importante:</strong> las salidas provienen del PDF vigente. Los horarios de paso por localidades intermedias son estimados; para una fecha pasada usá <strong>Consulta histórica</strong>.</p>
+      <p class="assistant-note"><strong>Importante:</strong> los horarios de salida corresponden al cronograma vigente. Los pasos por localidades intermedias son estimados.</p>
     </section>
 
     <details id="advanced-search" class="advanced-search">
@@ -205,14 +177,9 @@
       </div>
     </details>
 
-    <p id="route-coverage" class="route-coverage" role="status">Cargando la base orientativa de recorridos…</p>
-    <section class="kpi-row" aria-label="Resumen de resultados">
-      <article><span>Servicios</span><strong id="kpi-services">—</strong></article>
-      <article><span>Líneas</span><strong id="kpi-lines">—</strong></article>
-      <article><span>Empresas</span><strong id="kpi-companies">—</strong></article>
-      <article><span>Localidades en mapa</span><strong id="kpi-mapped">—</strong></article>
-    </section>
-
+    <section id="public-results-area" class="public-results-area" aria-label="Resultados y recorrido" hidden>
+    <details class="share-tools">
+      <summary>Guardar o compartir resultados</summary>
     <section class="export-bar" aria-label="Exportar consulta de atención a usuarios">
       <div><strong>Guardar o compartir esta consulta</strong><span>El archivo incluirá únicamente los resultados filtrados en pantalla.</span></div>
       <div class="export-actions">
@@ -221,13 +188,13 @@
       </div>
       <p id="user-export-status" class="export-status" role="status"></p>
     </section>
+    </details>
 
     <section class="workspace">
       <div class="map-column">
         <div id="transport-map" role="region" aria-label="Mapa orientativo de líneas interurbanas"></div>
         <div class="map-caption">
-          <div id="map-legend" class="map-legend" aria-label="Colores de corredores"></div>
-          <p><strong>Mapa orientativo:</strong> las variantes validadas siguen calles y rutas sugeridas por OpenStreetMap. Las restantes conservan conexiones esquemáticas. No representa posición en vivo ni confirma el itinerario autorizado.</p>
+          <p><strong>Recorrido orientativo.</strong> No muestra la ubicación del colectivo en tiempo real.</p>
           <p id="map-status" class="map-status" role="status">Elegí un resultado para ver su recorrido.</p>
         </div>
         <section id="journey-detail" class="journey-detail" aria-label="Detalle del recorrido seleccionado" hidden></section>
@@ -238,9 +205,6 @@
       </aside>
     </section>
 
-    <section class="data-note">
-      <div><strong>Tres fuentes, funciones distintas</strong><p>PDF semanales: salidas y días de prestación. Excel orientativo: localidades y tiempos entre ellas. OpenStreetMap/OSRM: caminos sugeridos para los perfiles viales ya procesados. Ida y Vuelta conservan sus propias secuencias. Las estimaciones no son seguimiento en vivo ni incorporan una tolerancia de retraso.</p></div>
-      <div id="quality-note" class="quality-note"></div>
     </section>
     </section>
 
@@ -399,7 +363,7 @@
     </section>
   </main>
 
-  <footer>Versión de prueba · Lea Rama Dev · Datos de cronogramas oficiales de transporte</footer>
+  <footer>Versión de prueba · Consulta de horarios interurbanos ERSeP</footer>
 </div>
 
 <img id="export-logo-source" class="export-logo-source" src="../app-transporte/assets/logo-ersep.png" alt="" hidden>
@@ -408,7 +372,7 @@
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 <script defer src="recorridos.js?v=12-beta"></script>
 <script defer src="historico.js?v=12-beta"></script>
-<script defer src="transporte.js?v=16-beta"></script>
+<script defer src="transporte.js?v=17-beta"></script>
 <script defer src="asistente.js?v=16-beta"></script>
 </body>
 </html>

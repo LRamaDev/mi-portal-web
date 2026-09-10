@@ -12,11 +12,11 @@ function read(name) {
   return fs.readFileSync(path.join(beta, name), 'utf8');
 }
 
-test('la beta está identificada y permite volver a la versión estable', () => {
+test('la beta está identificada como versión de prueba y no enlaza herramientas internas', () => {
   const html = read('index.html');
   assert.match(html, /Versión de prueba · ERSeP/);
   assert.match(html, /class="beta-banner"/);
-  assert.ok((html.match(/href="\.\.\/app-transporte\/"/g) || []).length >= 2);
+  assert.doesNotMatch(html, /href="\.\.\/app-transporte\/"|Volver al portal|Versión estable/);
   assert.doesNotMatch(html, /id="admin-open"|id="admin-dialog"|admin\.js|admin-token/);
 });
 
@@ -78,14 +78,12 @@ test('la beta v14 compacta modos, pliega filtros y acerca el tramo elegido', () 
   const css = read('transporte.css');
   const transport = read('transporte.js');
   assert.doesNotMatch(html, /sin IA/i);
-  assert.match(html, /id="mode-select"/);
-  assert.doesNotMatch(html, /id="mode-users"|id="mode-inspectors"|id="mode-claims"/);
+  assert.doesNotMatch(html, /id="mode-select"|class="mode-picker"/);
   assert.match(html, /<details id="advanced-search"/);
   assert.match(html, /id="advanced-filter-count"/);
   assert.match(transport, /function fitActiveRoute/);
   assert.match(transport, /var visible=points\.length\?points:fallback/);
   assert.match(transport, /maxZoom:15/);
-  assert.match(transport, /mode-select/);
   assert.match(transport, /updateAdvancedSummary/);
   assert.match(css, /\.assistant-preview:not\(\.is-ready\)\{display:none\}/);
   assert.match(css, /#transport-map\{height:330px\}/);
@@ -115,8 +113,8 @@ test('la beta v16 ajusta la velocidad y sugiere el origen por ubicación', () =>
   const assistant = read('asistente.js');
   assert.match(html, /id="assistant-location"/);
   assert.match(html, /data-location-label>Usar mi ubicación/);
-  assert.match(html, /transporte\.css\?v=16-beta/);
-  assert.match(html, /transporte\.js\?v=16-beta/);
+  assert.match(html, /transporte\.css\?v=\d+-beta/);
+  assert.match(html, /transporte\.js\?v=\d+-beta/);
   assert.match(html, /asistente\.js\?v=16-beta/);
   assert.match(transport, /nearestOrigin:function/);
   assert.match(transport, /return 6371\*2\*Math\.atan2/);
@@ -126,4 +124,24 @@ test('la beta v16 ajusta la velocidad y sugiere el origen por ubicación', () =>
   assert.match(assistant, /maximumAge:300000/);
   assert.match(css, /\.assistant-origin-tools/);
   assert.match(css, /@media\(max-width:520px\)/);
+});
+
+
+test('la beta v17 prioriza la búsqueda ciudadana y oculta el contenido secundario', () => {
+  const html = read('index.html');
+  const css = read('transporte.css');
+  const transport = read('transporte.js');
+  assert.match(html, /Servicio de consulta ciudadana/);
+  assert.match(html, /VERSIÓN DE PRUEBA/);
+  assert.doesNotMatch(html, /mode-select|mode-picker|Volver al portal|Ir a la versión estable|class="stable-link"/);
+  assert.doesNotMatch(html, /class="mode-guide user-guide"|id="route-coverage"|class="kpi-row"|class="data-note"|id="map-legend"/);
+  assert.match(html, /id="public-results-area"[^>]*hidden/);
+  assert.match(html, /class="share-tools"/);
+  assert.match(html, /transporte\.css\?v=17-beta/);
+  assert.match(html, /transporte\.js\?v=17-beta/);
+  assert.match(transport, /function revealPublicResults/);
+  assert.match(transport, /updated-detail'\)\.textContent='Horarios vigentes'/);
+  assert.doesNotMatch(transport, /\$\('mode-select'\)\.addEventListener/);
+  assert.match(css, /\.public-beta\{background-image:none\}/);
+  assert.match(css, /\.public-results-area\[hidden\]\{display:none\}/);
 });
