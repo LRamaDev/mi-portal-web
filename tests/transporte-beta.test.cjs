@@ -131,17 +131,39 @@ test('la beta v17 prioriza la búsqueda ciudadana y oculta el contenido secundar
   const html = read('index.html');
   const css = read('transporte.css');
   const transport = read('transporte.js');
-  assert.match(html, /Servicio de consulta ciudadana/);
+  assert.match(html, /aria-label="Consulta pública de servicios"/);
   assert.match(html, /VERSIÓN DE PRUEBA/);
   assert.doesNotMatch(html, /mode-select|mode-picker|Volver al portal|Ir a la versión estable|class="stable-link"/);
   assert.doesNotMatch(html, /class="mode-guide user-guide"|id="route-coverage"|class="kpi-row"|class="data-note"|id="map-legend"/);
   assert.match(html, /id="public-results-area"[^>]*hidden/);
   assert.match(html, /class="share-tools"/);
-  assert.match(html, /transporte\.css\?v=17-beta/);
-  assert.match(html, /transporte\.js\?v=17-beta/);
+  assert.match(html, /transporte\.css\?v=\d+-beta/);
+  assert.match(html, /transporte\.js\?v=\d+-beta/);
   assert.match(transport, /function revealPublicResults/);
   assert.match(transport, /updated-detail'\)\.textContent='Horarios vigentes'/);
   assert.doesNotMatch(transport, /\$\('mode-select'\)\.addEventListener/);
   assert.match(css, /\.public-beta\{background-image:none\}/);
   assert.match(css, /\.public-results-area\[hidden\]\{display:none\}/);
+});
+
+
+test('la beta v18 presenta la identidad ERSeP Viaja y una entrada animada accesible', () => {
+  const html = read('index.html');
+  const css = read('transporte.css');
+  const transport = read('transporte.js');
+  const icon = read('assets/ersep-viaja-icon.svg');
+  assert.match(html, /<title>ERSeP Viaja · Versión de prueba · ERSeP<\/title>/);
+  assert.match(html, /name="theme-color" content="#00719f"/);
+  assert.match(html, /id="app-splash"/);
+  assert.match(html, /assets\/ersep-viaja-icon\.svg/);
+  assert.match(html, /transporte\.css\?v=18-beta/);
+  assert.match(html, /transporte\.js\?v=18-beta/);
+  assert.match(css, /--primary:#00719f/);
+  assert.match(css, /@keyframes ersep-splash-logo/);
+  assert.match(css, /@keyframes ersep-splash-bus/);
+  assert.match(css, /prefers-reduced-motion:reduce/);
+  assert.match(transport, /function dismissSplash/);
+  assert.match(transport, /Math\.max\(0,900-/);
+  assert.match(transport, /dismissSplash\(\)/);
+  assert.match(icon, /<title id="title">ERSeP Viaja<\/title>/);
 });
