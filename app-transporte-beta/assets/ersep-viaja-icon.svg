@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">ERSeP Viaja</title>
+  <desc id="desc">Ícono de un colectivo interurbano</desc>
+  <defs>
+    <linearGradient id="background" x1="72" y1="52" x2="454" y2="470" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0098D0"/>
+      <stop offset="1" stop-color="#00658F"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="112" fill="url(#background)"/>
+  <path d="M58 409c76-42 133-44 205-14 69 29 127 24 191-22" fill="none" stroke="#87B540" stroke-width="24" stroke-linecap="round"/>
+  <circle cx="63" cy="408" r="15" fill="#F1B62B"/>
+  <circle cx="451" cy="374" r="15" fill="#F1B62B"/>
+  <rect x="103" y="62" width="306" height="359" rx="73" fill="#fff"/>
+  <rect x="137" y="105" width="238" height="148" rx="31" fill="#C7ECF7"/>
+  <path d="M153 129h206l-19 91H172z" fill="#A9DDEA"/>
+  <rect x="126" y="277" width="260" height="30" rx="15" fill="#87B540"/>
+  <rect x="142" y="329" width="228" height="44" rx="18" fill="#EAF3F6"/>
+  <circle cx="154" cy="342" r="17" fill="#F1B62B"/>
+  <circle cx="358" cy="342" r="17" fill="#F1B62B"/>
+  <rect x="116" y="387" width="62" height="48" rx="19" fill="#253640"/>
+  <rect x="334" y="387" width="62" height="48" rx="19" fill="#253640"/>
+  <rect x="213" y="78" width="86" height="15" rx="7.5" fill="#00719F"/>
+</svg>
