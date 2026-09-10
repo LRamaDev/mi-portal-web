@@ -15,7 +15,7 @@
     } catch (error) {}
   </script>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-  <link rel="stylesheet" href="transporte.css?v=19-beta">
+  <link rel="stylesheet" href="transporte.css?v=20-beta">
 </head>
 
 <body class="public-beta">
@@ -47,9 +47,12 @@
       <span>Horarios y recorridos interurbanos de Córdoba</span>
     </div>
     <div class="header-actions">
-      <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Cambiar tema">
-        <span id="theme-icon" aria-hidden="true">☀</span>
-        <span id="theme-label">Modo claro</span>
+      <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Activar modo oscuro" title="Activar modo oscuro">
+        <span id="theme-icon" class="theme-icon" aria-hidden="true">
+          <svg class="theme-moon" viewBox="0 0 24 24" focusable="false"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"></path></svg>
+          <svg class="theme-sun" viewBox="0 0 24 24" focusable="false"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg>
+        </span>
+        <span id="theme-label">Modo oscuro</span>
       </button>
     </div>
   </header>
@@ -124,6 +127,15 @@
               <span class="assistant-step-number" aria-hidden="true"><b>2</b><i>✓</i></span>
               <span class="assistant-field"><small>Destino del viaje</small><strong>¿Dónde bajás?</strong><select id="assistant-destination" required disabled><option value="">Primero elegí el origen</option></select></span>
             </label>
+            <div class="assistant-swap-row">
+              <button id="assistant-swap" class="assistant-swap" type="button" hidden disabled>
+                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                  <path d="M7 7h11l-3-3"></path><path d="m18 7-3 3"></path>
+                  <path d="M17 17H6l3 3"></path><path d="m6 17 3-3"></path>
+                </svg>
+                <span>Intercambiar origen y destino</span>
+              </button>
+            </div>
             <label class="assistant-step is-pending" data-assistant-step="3" for="assistant-day">
               <span class="assistant-step-number" aria-hidden="true"><b>3</b><i>✓</i></span>
               <span class="assistant-field"><small>Día de subida</small><strong>¿Qué día viajás?</strong><select id="assistant-day"><option value="1">Lunes</option><option value="2">Martes</option><option value="3">Miércoles</option><option value="4">Jueves</option><option value="5">Viernes</option><option value="6">Sábado</option><option value="7">Domingo</option></select><span class="assistant-quick-days"><button type="button" data-assistant-day-offset="0">Hoy</button><button type="button" data-assistant-day-offset="1">Mañana</button></span></span>
@@ -161,13 +173,6 @@
               <i class="finish" aria-hidden="true"></i><span>Destino</span><strong id="assistant-summary-destination">Sin elegir</strong>
             </div>
           </div>
-          <button id="assistant-swap" class="assistant-swap" type="button" disabled>
-            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-              <path d="M7 7h11l-3-3"></path><path d="m18 7-3 3"></path>
-              <path d="M17 17H6l3 3"></path><path d="m6 17 3-3"></path>
-            </svg>
-            <span>Invertir origen y destino</span>
-          </button>
           <dl class="assistant-summary-data">
             <div><dt>Día</dt><dd id="assistant-summary-day">—</dd></div>
             <div><dt>Horario</dt><dd id="assistant-summary-time">Cualquier horario</dd></div>
@@ -401,7 +406,7 @@
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 <script defer src="recorridos.js?v=12-beta"></script>
 <script defer src="historico.js?v=12-beta"></script>
-<script defer src="transporte.js?v=19-beta"></script>
-<script defer src="asistente.js?v=19-beta"></script>
+<script defer src="transporte.js?v=20-beta"></script>
+<script defer src="asistente.js?v=20-beta"></script>
 </body>
 </html>

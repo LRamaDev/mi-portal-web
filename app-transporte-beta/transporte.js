@@ -370,7 +370,11 @@
     },wait);
   }
   function theme(){
-    function label(){var light=document.documentElement.dataset.theme==='light';$('theme-icon').textContent=light?'☾':'☀';$('theme-label').textContent=light?'Modo oscuro':'Modo claro';$('theme-toggle').setAttribute('aria-pressed',String(light));}
+    function label(){
+      var light=document.documentElement.dataset.theme==='light',button=$('theme-toggle'),action=light?'Activar modo oscuro':'Activar modo claro';
+      $('theme-label').textContent=light?'Modo oscuro':'Modo claro';
+      button.setAttribute('aria-label',action);button.setAttribute('title',action);button.setAttribute('aria-pressed',String(!light));
+    }
     label();$('theme-toggle').addEventListener('click',function(){var next=document.documentElement.dataset.theme==='light'?'dark':'light';document.documentElement.dataset.theme=next;try{localStorage.setItem('transport-theme',next);}catch(e){}label();});
   }
   function initMap(){

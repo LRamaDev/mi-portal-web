@@ -49,6 +49,7 @@
     $('assistant-summary-submit').disabled=!ready;
     $('assistant-summary-submit').textContent=ready?'Buscar con estos datos':'Completá origen y destino';
     $('assistant-swap').disabled=!ready;
+    $('assistant-swap').hidden=!ready;
     $('assistant-preview').classList.toggle('is-ready',ready);
   }
   function updateProgress(step,complete){
