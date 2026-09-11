@@ -28,3 +28,13 @@ test('la aplicación web tiene identidad propia y regreso al portal', () => {
   assert.match(app, /href="\.\.\/"/);
   assert.match(app, /Volver al portal de Lea Rama Dev/);
 });
+
+test('la interfaz deportiva mejora la jerarquía visual sin tapar el contenido', () => {
+  assert.match(app, /className="app-shell"/);
+  assert.match(app, /className="app-header"/);
+  assert.match(app, /className="app-tabs"/);
+  assert.match(app, /Cuentas claras después del partido/);
+  assert.match(app, /className="app-footer"/);
+  assert.doesNotMatch(app, /animate-bounce/);
+  assert.doesNotMatch(app, /fixed bottom-0 w-full max-w-md/);
+});
