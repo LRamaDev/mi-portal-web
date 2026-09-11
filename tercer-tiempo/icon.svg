@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">Tercer Tiempo FMSC</title>
+  <desc id="desc">Pelota de fútbol sobre fondo verde lima</desc>
+  <defs>
+    <linearGradient id="bg" x1="70" y1="42" x2="438" y2="470" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#d5ff98"/>
+      <stop offset="1" stop-color="#9ddb56"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="14" stdDeviation="14" flood-color="#052e22" flood-opacity=".24"/>
+    </filter>
+    <clipPath id="ballClip">
+      <circle cx="256" cy="256" r="154"/>
+    </clipPath>
+  </defs>
+  <rect width="512" height="512" rx="112" fill="url(#bg)"/>
+  <g filter="url(#shadow)">
+    <circle cx="256" cy="256" r="154" fill="#fffef8" stroke="#063f2e" stroke-width="16"/>
+    <g clip-path="url(#ballClip)" fill="#063f2e" stroke="#063f2e" stroke-linejoin="round">
+      <path d="m256 183 49 36-19 58h-60l-19-58z" stroke-width="5"/>
+      <path d="m256 102 38 41-38 40-38-40z"/>
+      <path d="m402 209-29 47-68-37 9-55z"/>
+      <path d="m347 374-56-13-5-84 53-18z"/>
+      <path d="m165 374 8-63 53-34 42 41-24 66z"/>
+      <path d="m110 209 60-21 37 31-23 58-69-7z"/>
+    </g>
+    <g fill="none" stroke="#063f2e" stroke-width="10" stroke-linecap="round" stroke-linejoin="round">
+      <path d="m218 143-48 45"/>
+      <path d="m294 143 20 21"/>
+      <path d="m373 256-34 3"/>
+      <path d="m291 361-47 23"/>
+      <path d="m173 311-58-41"/>
+    </g>
+  </g>
+</svg>

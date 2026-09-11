@@ -35,6 +35,11 @@ test('la interfaz deportiva mejora la jerarquía visual sin tapar el contenido',
   assert.match(app, /className="app-tabs"/);
   assert.match(app, /Cuentas claras después del partido/);
   assert.match(app, /className="app-footer"/);
+  assert.match(app, /position: static;/);
+  assert.match(app, /url\('\.\/assets\/cancha-fondo\.jpg'\)/);
+  assert.match(app, /href="\.\/icon\.svg"/);
+  assert.ok(fs.existsSync(path.join(root, 'tercer-tiempo', 'assets', 'cancha-fondo.jpg')));
+  assert.ok(fs.existsSync(path.join(root, 'tercer-tiempo', 'icon.svg')));
   assert.doesNotMatch(app, /animate-bounce/);
   assert.doesNotMatch(app, /fixed bottom-0 w-full max-w-md/);
 });
