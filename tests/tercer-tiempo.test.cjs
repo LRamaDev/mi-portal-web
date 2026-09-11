@@ -88,3 +88,14 @@ test('la beta v2 mantiene las versiones anteriores y sus recursos propios', () =
   assert.notEqual(betaV2, beta);
   assert.notEqual(betaV2, app);
 });
+
+test('la beta v2 suma una identidad visual de día de partido sin alterar el flujo', () => {
+  assert.match(betaV2, /BETA V2\.1: CLUB DE NOCHE/);
+  assert.match(betaV2, /Partido en curso/);
+  assert.match(betaV2, /className="section-kicker"/);
+  assert.match(betaV2, /concept-\$\{concept\.category\}/);
+  assert.match(betaV2, /data-category=\{expense\.category\}/);
+  assert.match(betaV2, /className="mini-avatar"/);
+  assert.match(betaV2, /className="mobile-settle-icon"/);
+  assert.match(betaV2, /url\('\.\/assets\/cancha-fondo\.jpg'\)/);
+});
