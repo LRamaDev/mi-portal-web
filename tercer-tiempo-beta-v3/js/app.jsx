@@ -489,17 +489,20 @@ function App() {
 
   const navItems = [
     { id: 'home', label: 'Inicio', icon: <IconHome />, enabled: true },
+    { id: 'match', label: 'Partido', icon: <IconCalendar />, enabled: true },
     { id: 'players', label: 'Jugadores', icon: <IconUsers />, enabled: TTConfig.features.playerProfiles },
     { id: 'group', label: 'Grupo', icon: <IconShield />, enabled: TTConfig.features.groups }
   ].filter(item => item.enabled);
 
+  const activeNavView = activeView === 'expenses' ? 'match' : activeView;
+
   const NavButtons = () => <>{navItems.map(item => (
     <button
       key={item.id}
-      className={`nav-button ${activeView === item.id ? 'is-active' : ''}`}
+      className={`nav-button ${activeNavView === item.id ? 'is-active' : ''}`}
       type="button"
       onClick={() => changeView(item.id)}
-      aria-current={activeView === item.id ? 'page' : undefined}
+      aria-current={activeNavView === item.id ? 'page' : undefined}
     >
       <span className="nav-icon">{item.icon}</span>
       <span>{item.label}</span>
@@ -559,21 +562,68 @@ function App() {
   };
 
   const HomeView = () => {
+    const administrator = groupPlayers.find(player => player.id === activeGroup.adminPlayerId);
+    return <>
+      <div className="view-header">
+        <div>
+          <span className="eyebrow">El grupo de fútbol</span>
+          <h1>{activeGroup.name}</h1>
+          <p>Tu punto de partida para organizar el próximo encuentro.</p>
+        </div>
+      </div>
+      <div className="home-dashboard">
+        <section className="group-hero home-match-hero">
+          <span className="hero-kicker">Próximo partido</span>
+          <strong>{DAY_LABELS[activeGroup.usualDay] || 'Día a definir'}{activeGroup.usualTime ? ` · ${activeGroup.usualTime}` : ''}</strong>
+          <span>{activeGroup.usualVenue || 'Cancha a definir'}</span>
+          <div className="group-metrics">
+            <div className="group-metric"><small>Seleccionados</small><b>{sessionPlayers.length}</b></div>
+            <div className="group-metric"><small>Habitual</small><b>{activeGroup.usualPlayerCount}</b></div>
+            <div className="group-metric"><small>Plantel activo</small><b>{activeRoster.length}</b></div>
+          </div>
+          <button className="hero-button" type="button" onClick={() => changeView('match')}><IconCalendar /> Organizar partido</button>
+        </section>
+
+        <section className="card home-group-card">
+          <div className="card-heading">
+            <div><span className="eyebrow">Tu grupo</span><h2>Todo en su momento</h2><p>Primero se organiza el partido. El tercer tiempo aparece después de jugar.</p></div>
+          </div>
+          <div className="home-flow" aria-label="Recorrido del partido">
+            <div className="flow-step is-current"><span>1</span><div><strong>Organizar</strong><small>Elegir quiénes juegan</small></div></div>
+            <div className="flow-step"><span>2</span><div><strong>Jugar</strong><small>Disfrutar el partido</small></div></div>
+            <div className="flow-step"><span>3</span><div><strong>Tercer tiempo</strong><small>Cargar y dividir gastos</small></div></div>
+          </div>
+          <div className="home-quick-actions">
+            <button className="secondary-button" type="button" onClick={() => changeView('players')}><IconUsers /> Ver jugadores</button>
+            <button className="secondary-button" type="button" onClick={() => changeView('group')}><IconShield /> Editar grupo</button>
+          </div>
+          <p className="home-admin">Administrador: <strong>{administrator?.nickname || administrator?.name || 'Sin asignar'}</strong></p>
+        </section>
+
+        {expenses.length > 0 && <section className="card pending-third-time">
+          <span className="expense-icon"><IconReceipt /></span>
+          <div><span className="eyebrow">Tercer tiempo pendiente</span><strong>Hay {expenses.length} {expenses.length === 1 ? 'gasto cargado' : 'gastos cargados'}</strong><p>Podés retomar las cuentas sin perder lo que ya registraste.</p></div>
+          <button className="secondary-button" type="button" onClick={() => changeView('expenses')}>Continuar</button>
+        </section>}
+      </div>
+    </>;
+  };
+
+  const MatchView = () => {
     const selectablePlayers = groupPlayers.filter(player => player.active || sessionPlayerIds.includes(player.id));
     return <>
       <div className="view-header">
         <div>
-          <span className="eyebrow">Partido actual</span>
-          <h1>Todo listo para jugar</h1>
-          <p>Elegí quiénes juegan y cargá los gastos como siempre.</p>
+          <span className="eyebrow">Antes de jugar</span>
+          <h1>Próximo partido</h1>
+          <p>Elegí quiénes juegan. Los gastos quedan para el tercer tiempo.</p>
         </div>
         <div className="group-pill"><span>Grupo activo</span><strong>{activeGroup.name}</strong></div>
       </div>
-      <div className="dashboard-grid">
-        <div className="home-column">
-          <section className="card">
+      <div className="match-layout">
+        <section className="card">
             <div className="card-heading">
-              <div><span className="eyebrow">01 · Jugadores</span><h2>¿Quiénes juegan hoy?</h2><p>El plantel queda guardado para los próximos partidos.</p></div>
+              <div><span className="eyebrow">Convocatoria</span><h2>¿Quiénes juegan hoy?</h2><p>El plantel queda guardado para los próximos partidos.</p></div>
               <span className="count-badge">{sessionPlayers.length}</span>
             </div>
             <div className="match-summary">
@@ -603,11 +653,38 @@ function App() {
               <button className="secondary-button" type="button" onClick={handleNewMatch}><IconPlus /> Nuevo partido</button>
               <button className="text-button" type="button" onClick={handleClearCurrentMatch}>Vaciar partido actual</button>
             </div>}
-          </section>
+        </section>
 
+        <section className="card after-match-card">
+          <span className="expense-icon"><IconReceipt /></span>
+          <div>
+            <span className="eyebrow">Después de jugar</span>
+            <h2>Ahora sí: tercer tiempo</h2>
+            <p>Cuando termine el partido, cargá la cancha, las bebidas o la comida y dividí las cuentas.</p>
+          </div>
+          <button className="primary-button" type="button" onClick={() => changeView('expenses')} disabled={sessionPlayers.length === 0}>
+            <IconReceipt /> {expenses.length > 0 ? 'Continuar tercer tiempo' : 'Abrir tercer tiempo'}
+          </button>
+          {sessionPlayers.length === 0 && <small>Elegí al menos un jugador para continuar.</small>}
+        </section>
+      </div>
+    </>;
+  };
+
+  const ExpensesView = () => <>
+    <div className="view-header">
+      <div>
+        <span className="eyebrow">Después de jugar</span>
+        <h1>Tercer tiempo</h1>
+        <p>Cargá los gastos del encuentro y cerrá las cuentas del grupo.</p>
+      </div>
+      <button className="secondary-button back-to-match" type="button" onClick={() => changeView('match')}><IconArrowLeft /> Partido</button>
+    </div>
+    <div className="dashboard-grid">
+      <div className="expenses-column">
           <section id="expense-form" className="card">
             <div className="card-heading">
-              <div><span className="eyebrow">02 · Gastos</span><h2>¿Qué se pagó?</h2><p>Elegí el concepto, quién pagó y el monto.</p></div>
+              <div><span className="eyebrow">Gastos</span><h2>¿Qué se pagó?</h2><p>Elegí el concepto, quién pagó y el monto.</p></div>
               {editingExpenseId && <span className="count-badge">Editando</span>}
             </div>
             <form onSubmit={handleAddExpense}>
@@ -668,11 +745,10 @@ function App() {
               })}
             </div>}
           </section>
-        </div>
-        <aside className="desktop-settlement">{SettlementContent({})}</aside>
       </div>
-    </>;
-  };
+      <aside className="desktop-settlement">{SettlementContent({})}</aside>
+    </div>
+  </>;
 
   const PlayersView = () => {
     const visiblePlayers = groupPlayers.filter(player => rosterFilter === 'all' || (rosterFilter === 'active' ? player.active : !player.active));
@@ -756,14 +832,16 @@ function App() {
     </header>
     <div className="workspace">
       <nav className="desktop-rail" aria-label="Secciones principales">{NavButtons()}<div className="rail-note">Grupo y plantel quedan guardados en este dispositivo. Las versiones anteriores siguen intactas.</div></nav>
-      <main className="main-content">
+      <main className={`main-content ${activeView === 'expenses' ? 'has-settle-cta' : ''}`}>
         {activeView === 'home' && HomeView()}
+        {activeView === 'match' && MatchView()}
+        {activeView === 'expenses' && ExpensesView()}
         {activeView === 'players' && PlayersView()}
         {activeView === 'group' && GroupView()}
         <footer className="footer">Tercer Tiempo · Etapa 1 · Grupo + jugadores permanentes</footer>
       </main>
     </div>
-    {activeView === 'home' && <button className="settle-cta" type="button" onClick={() => setIsSettlementOpen(true)} disabled={expenses.length === 0}><IconReceipt /><span className="settle-cta-copy"><span>Resultado en vivo</span><strong>Cerrar las cuentas</strong></span><span className="settle-pill">{calculations.transactions.length} pagos</span></button>}
+    {activeView === 'expenses' && <button className="settle-cta" type="button" onClick={() => setIsSettlementOpen(true)} disabled={expenses.length === 0}><IconReceipt /><span className="settle-cta-copy"><span>Resultado en vivo</span><strong>Cerrar las cuentas</strong></span><span className="settle-pill">{calculations.transactions.length} pagos</span></button>}
     <nav className="bottom-nav" aria-label="Secciones principales">{NavButtons()}</nav>
 
     {editingPlayer && <div className="overlay is-player-editor" role="presentation" onMouseDown={event => { if (event.target === event.currentTarget) setEditingPlayer(null); }}>
