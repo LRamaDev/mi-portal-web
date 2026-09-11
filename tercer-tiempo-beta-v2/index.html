@@ -1212,6 +1212,16 @@
       font-weight: 850;
     }
 
+    .concept-button > span:last-child {
+      min-width: 0;
+      white-space: nowrap;
+    }
+
+    .concept-button:last-child {
+      grid-column: 1 / -1;
+      justify-content: center;
+    }
+
     .concept-button.is-selected {
       color: white;
       background: #0a6448;
@@ -1517,8 +1527,9 @@
       .quick-layout { padding-right: 1.5rem; padding-left: 1.5rem; }
       .field-grid { grid-template-columns: 1.1fr 0.9fr; }
       .composer-actions { grid-template-columns: minmax(0, 1fr) auto; }
-      .concept-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-      .concept-button { justify-content: center; }
+      .concept-grid { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+      .concept-button { grid-column: span 2; justify-content: flex-start; }
+      .concept-button:nth-last-child(-n + 2) { grid-column: span 3; }
       .consumer-picker { grid-template-columns: repeat(3, minmax(0, 1fr)); }
     }
 
@@ -1825,12 +1836,16 @@
     .concept-icon { border: 0; box-shadow: 0 4px 12px rgba(4, 57, 39, 0.08); }
     .concept-court .concept-icon { color: #087a55; background: #e2f9e9; }
     .concept-drinks .concept-icon { color: #9b6500; background: #fff1c8; }
+    .concept-beer .concept-icon { color: #9b6500; background: #fff1c8; }
+    .concept-soda .concept-icon { color: #1f6e9e; background: #dff3ff; }
     .concept-food .concept-icon { color: #b54d22; background: #ffe4d5; }
     .concept-other .concept-icon { color: #5758a5; background: #e9e8ff; }
 
     .concept-button.is-selected { color: #082d21; border-color: transparent; transform: translateY(-2px); }
     .concept-court.is-selected { background: linear-gradient(145deg, #d8ff96, #bde86b); box-shadow: 0 10px 22px rgba(92, 139, 34, 0.2); }
     .concept-drinks.is-selected { background: linear-gradient(145deg, #ffdf79, #f0bd42); box-shadow: 0 10px 22px rgba(176, 117, 10, 0.19); }
+    .concept-beer.is-selected { background: linear-gradient(145deg, #ffdf79, #f0bd42); box-shadow: 0 10px 22px rgba(176, 117, 10, 0.19); }
+    .concept-soda.is-selected { background: linear-gradient(145deg, #bfeaff, #7dc7ee); box-shadow: 0 10px 22px rgba(30, 111, 158, 0.18); }
     .concept-food.is-selected { background: linear-gradient(145deg, #ffc6a7, #f39762); box-shadow: 0 10px 22px rgba(173, 71, 20, 0.18); }
     .concept-other.is-selected { background: linear-gradient(145deg, #cfcfff, #aaaaf0); box-shadow: 0 10px 22px rgba(74, 75, 155, 0.17); }
     .concept-button.is-selected .concept-icon { background: rgba(255, 255, 255, 0.72); }
@@ -2356,7 +2371,8 @@
 
       const quickConcepts = [
         { category: 'court', label: 'Cancha', description: 'Cancha ⚽', icon: <IconDollar /> },
-        { category: 'drinks', label: 'Bebidas', description: 'Bebidas 🍻', icon: <IconBeer /> },
+        { category: 'beer', label: 'Cerveza', description: 'Cerveza 🍺', icon: <IconBeer /> },
+        { category: 'soda', label: 'Gaseosa', description: 'Gaseosa 🥤', icon: <IconSoda /> },
         { category: 'food', label: 'Comida', description: 'Comida 🍕', icon: <IconFood /> },
         { category: 'other', label: 'Otro', description: '', icon: <IconCoins /> }
       ];
@@ -2601,7 +2617,7 @@
                       type="text"
                       value={expenseDesc}
                       onChange={(event) => setExpenseDesc(event.target.value)}
-                      placeholder="Ej. Cancha, bebidas o comida"
+                      placeholder="Ej. Cancha, cerveza, gaseosa o comida"
                     />
                   </div>
 
