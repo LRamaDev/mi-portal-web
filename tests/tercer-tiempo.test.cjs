@@ -6,6 +6,7 @@ const assert = require('node:assert/strict');
 const root = path.resolve(__dirname, '..');
 const portal = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
 const app = fs.readFileSync(path.join(root, 'tercer-tiempo', 'index.html'), 'utf8');
+const beta = fs.readFileSync(path.join(root, 'tercer-tiempo-beta', 'index.html'), 'utf8');
 
 test('el portal publica Tercer Tiempo como proyecto web y permite filtrarlo', () => {
   assert.match(portal, /data-filter="deportes"/);
@@ -42,4 +43,18 @@ test('la interfaz deportiva mejora la jerarquía visual sin tapar el contenido',
   assert.ok(fs.existsSync(path.join(root, 'tercer-tiempo', 'icon.svg')));
   assert.doesNotMatch(app, /animate-bounce/);
   assert.doesNotMatch(app, /fixed bottom-0 w-full max-w-md/);
+});
+
+test('publica la renovación beta sin reemplazar la versión estable', () => {
+  assert.match(beta, /className="beta-shell"/);
+  assert.match(beta, /className="beta-rail"/);
+  assert.match(beta, /className="mobile-progress"/);
+  assert.match(beta, /Armá el equipo/);
+  assert.match(beta, /Cerrá las cuentas/);
+  assert.match(beta, /loadStoredList\('tt_players'\)/);
+  assert.match(beta, /api\.whatsapp\.com\/send/);
+  assert.match(beta, /href="\.\/icon\.svg"/);
+  assert.ok(fs.existsSync(path.join(root, 'tercer-tiempo-beta', 'assets', 'cancha-fondo.jpg')));
+  assert.ok(fs.existsSync(path.join(root, 'tercer-tiempo-beta', 'icon.svg')));
+  assert.notEqual(beta, app);
 });
