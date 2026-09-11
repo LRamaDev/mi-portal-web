@@ -99,3 +99,13 @@ test('la beta v2 suma una identidad visual de día de partido sin alterar el flu
   assert.match(betaV2, /className="mobile-settle-icon"/);
   assert.match(betaV2, /url\('\.\/assets\/cancha-fondo\.jpg'\)/);
 });
+
+test('la beta v2 separa cerveza y gaseosa y mejora la grilla de conceptos', () => {
+  assert.match(betaV2, /category: 'beer', label: 'Cerveza'/);
+  assert.match(betaV2, /category: 'soda', label: 'Gaseosa'/);
+  assert.doesNotMatch(betaV2, /category: 'drinks', label: 'Bebidas', description:/);
+  assert.match(betaV2, /grid-template-columns: repeat\(6, minmax\(0, 1fr\)\)/);
+  assert.match(betaV2, /\.concept-button:nth-last-child\(-n \+ 2\)/);
+  assert.match(betaV2, /\.concept-button:last-child \{/);
+  assert.match(betaV2, /\.concept-soda\.is-selected/);
+});
