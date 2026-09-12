@@ -83,7 +83,7 @@
       }
 
       const scorers = asList(match?.scorers);
-      if (scorers.length > 0) matchesWithRegisteredScorers += 1;
+      if (match?.scorersRecorded === true || scorers.length > 0) matchesWithRegisteredScorers += 1;
       scorers.forEach(entry => {
         const scorer = playerStats.get(entry?.playerId);
         const goals = Math.max(0, Number(entry?.goals) || 0);
@@ -126,7 +126,8 @@
       recognitions: {
         mostPresent: getLeaders(calculatedPlayers, 'played'),
         mostFigures: getLeaders(calculatedPlayers, 'figures'),
-        currentUnbeaten: getLeaders(calculatedPlayers, 'currentUnbeatenStreak', 2)
+        currentUnbeaten: getLeaders(calculatedPlayers, 'currentUnbeatenStreak', 2),
+        topScorer: getLeaders(calculatedPlayers, 'registeredGoals')
       }
     };
   };
