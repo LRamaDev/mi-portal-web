@@ -84,7 +84,7 @@ test('el modelo migra sesiones anteriores y conserva formaciones válidas', () =
     matches: []
   });
 
-  assert.equal(state.schemaVersion, 3);
+  assert.equal(state.schemaVersion, 4);
   assert.deepEqual(state.draftSessions[0].teamNames, { blue: 'Azul', red: 'Rojo' });
   assert.deepEqual(state.draftSessions[0].teamAssignments.bluePlayerIds, assignments.bluePlayerIds);
   assert.deepEqual(state.draftSessions[0].teamAssignments.redPlayerIds, assignments.redPlayerIds);
@@ -113,7 +113,7 @@ test('la interfaz permite regenerar, mover e intercambiar sin ocultar la edició
   const config = read('tercer-tiempo-beta-v3/js/config.js');
 
   assert.match(config, /teamBuilder: true/);
-  assert.match(config, /schemaVersion: 3/);
+  assert.match(config, /schemaVersion: 4/);
   assert.match(config, /tacticalFormations: false/);
   assert.match(app, /Armar equipos/);
   assert.match(app, /Regenerar/);
