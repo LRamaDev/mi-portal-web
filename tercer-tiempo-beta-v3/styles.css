@@ -772,6 +772,8 @@ textarea:focus {
 .history-final span { max-width: 7rem; color: var(--lime); font-size: 0.66rem; font-weight: 800; line-height: 1.2; }
 .history-meta { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.35rem 0.8rem; margin-top: 0.7rem; color: var(--muted); font-size: 0.78rem; }
 .history-meta strong { color: var(--ink); }
+.history-scorers { display: flex; flex-wrap: wrap; gap: 0.3rem 0.45rem; margin-top: 0.6rem; padding: 0.6rem 0.7rem; color: #4f6057; background: #f2f5ef; border-left: 3px solid #79b75c; border-radius: 0.6rem; font-size: 0.76rem; line-height: 1.4; }
+.history-scorers strong { color: var(--pitch-800); }
 .history-observations { margin: 0.7rem 0 0; padding: 0.7rem; color: #4f6057; background: #f2f5ef; border-left: 3px solid var(--lime); border-radius: 0.6rem; font-size: 0.82rem; line-height: 1.45; }
 .history-details { margin-top: 0.75rem; border-top: 1px solid var(--line); }
 .history-details summary { min-height: 3rem; padding: 0.85rem 0.2rem 0.6rem; color: var(--pitch-700); cursor: pointer; font-size: 0.82rem; font-weight: 900; }
@@ -833,6 +835,7 @@ textarea:focus {
 .player-stat-heading div > span { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .player-stat-heading strong { color: var(--ink); font-size: 0.88rem; }
 .player-stat-heading div > span { margin-top: 0.08rem; color: var(--muted); font-size: 0.68rem; }
+.player-goal-tally { margin-left: auto; padding: 0.38rem 0.5rem; color: #356f25; background: #e4f3dc; border-radius: 999px; font-size: 0.72rem; font-weight: 950; white-space: nowrap; }
 .player-stat-metrics { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0.3rem; margin-top: 0.65rem; }
 .player-stat-metrics div { min-width: 0; padding: 0.48rem 0.2rem; background: #eaf1e6; border-radius: 0.65rem; text-align: center; }
 .player-stat-metrics small,
@@ -876,12 +879,23 @@ textarea:focus {
 .result-vs { align-self: center; padding-top: 1rem; color: var(--muted); font-size: 0.78rem; font-weight: 950; }
 .optional-label { color: var(--muted); font-size: 0.72rem; font-weight: 700; }
 .switch-row { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-top: 0.9rem; padding: 0.75rem; background: #f4f7f3; border-radius: 0.9rem; }
+.scorer-toggle { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin: 0.85rem 0; padding: 0.75rem; background: #f4f7f3; border: 1px solid #dce7d7; border-radius: 0.9rem; }
 .switch-copy strong { display: block; font-size: 0.9rem; }
 .switch-copy span { display: block; margin-top: 0.15rem; color: var(--muted); font-size: 0.78rem; }
 .switch { position: relative; width: 3.2rem; height: 1.85rem; flex: 0 0 auto; padding: 0; background: #aab7ae; border: 0; border-radius: 999px; }
 .switch::after { position: absolute; top: 0.2rem; left: 0.2rem; width: 1.45rem; height: 1.45rem; content: ''; background: white; border-radius: 50%; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); transition: transform 160ms ease; }
 .switch.is-on { background: var(--grass); }
 .switch.is-on::after { transform: translateX(1.35rem); }
+.scorer-editor { margin: -0.25rem 0 0.9rem; padding: 0.75rem; background: #eef5eb; border: 1px solid #dce7d7; border-radius: 0.9rem; }
+.scorer-team-grid { display: grid; gap: 0.65rem; }
+.scorer-team { min-width: 0; overflow: hidden; background: white; border: 1px solid var(--line); border-radius: 0.8rem; }
+.scorer-team.is-blue { border-top: 3px solid var(--blue); }
+.scorer-team.is-red { border-top: 3px solid var(--danger); }
+.scorer-team h3 { margin: 0; padding: 0.55rem 0.65rem; color: var(--ink); background: #f7f9f5; font-size: 0.78rem; }
+.scorer-player { display: grid; grid-template-columns: minmax(0, 1fr) 4.2rem; align-items: center; gap: 0.55rem; min-height: 2.8rem; padding: 0.35rem 0.65rem; border-top: 1px solid rgba(5, 46, 34, 0.08); }
+.scorer-player span { min-width: 0; overflow: hidden; color: var(--ink); font-size: 0.78rem; font-weight: 850; text-overflow: ellipsis; white-space: nowrap; }
+.scorer-player input { min-height: 2.2rem; padding: 0.25rem; font-size: 0.9rem; font-weight: 900; text-align: center; }
+.scorer-help { margin: 0.65rem 0 0; color: var(--muted); font-size: 0.72rem; line-height: 1.35; }
 
 .settlement-sheet { color: white; background: linear-gradient(160deg, var(--pitch-950), var(--pitch-800)); }
 .settlement-sheet .editor-heading h2 { color: white; }
@@ -952,7 +966,8 @@ textarea:focus {
   .team-builder-actions { grid-template-columns: auto minmax(14rem, 0.45fr); justify-content: end; }
   .history-empty .primary-button { width: auto; min-width: 14rem; }
   .statistics-summary { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-  .recognition-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .recognition-grid { grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr)); }
+  .scorer-team-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
 @media (min-width: 64rem) {

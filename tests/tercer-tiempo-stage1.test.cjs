@@ -46,7 +46,7 @@ test('el estado inicial crea un grupo y un plantel permanente preparado para est
   const state = models.createInitialState([
     { id: 'p_1', name: 'Martín', alias: 'martin.mp' }
   ]);
-  assert.equal(state.schemaVersion, 4);
+  assert.equal(state.schemaVersion, 5);
   assert.equal(state.groups.length, 1);
   assert.equal(state.activeGroupId, state.groups[0].id);
   assert.equal(state.groups[0].planCode, 'free');

@@ -340,12 +340,19 @@ function App() {
       showToast('Primero armá los equipos para guardar el resultado', 'error');
       return;
     }
+    const existingScorers = archivedMatch?.scorers || [];
+    const scorerGoals = Object.fromEntries(sessionPlayers.map(player => {
+      const scorer = existingScorers.find(entry => entry.playerId === player.id);
+      return [player.id, scorer ? String(scorer.goals) : ''];
+    }));
     setMatchEditor({
       matchId: archivedMatch?.id || null,
       playedOn: archivedMatch?.playedOn || getTodayInputValue(),
       venue: archivedMatch?.venue ?? activeGroup.usualVenue,
       blueScore: archivedMatch ? String(archivedMatch.result.blueScore) : '',
       redScore: archivedMatch ? String(archivedMatch.result.redScore) : '',
+      scorersEnabled: archivedMatch?.scorersRecorded === true || existingScorers.length > 0,
+      scorerGoals,
       playerOfTheMatchId: archivedMatch?.playerOfTheMatchId || '',
       observations: archivedMatch?.observations || ''
     });
@@ -363,6 +370,28 @@ function App() {
       showToast('Ingresá un resultado válido entre 0 y 99', 'error');
       return;
     }
+    const scorerGoals = matchEditor.scorerGoals && typeof matchEditor.scorerGoals === 'object'
+      ? matchEditor.scorerGoals
+      : {};
+    const scorerEntries = matchEditor.scorersEnabled
+      ? sessionPlayers.map(player => ({ playerId: player.id, rawGoals: scorerGoals[player.id] ?? '' }))
+        .filter(entry => String(entry.rawGoals).trim() !== '')
+        .map(entry => ({ playerId: entry.playerId, goals: Number(entry.rawGoals) }))
+      : [];
+    if (!scorerEntries.every(entry => Number.isInteger(entry.goals) && entry.goals >= 0 && entry.goals <= 99)) {
+      showToast('Cada goleador debe tener entre 0 y 99 goles', 'error');
+      return;
+    }
+    const countGoals = playerIds => scorerEntries
+      .filter(entry => playerIds.includes(entry.playerId))
+      .reduce((total, entry) => total + entry.goals, 0);
+    const blueGoalsAssigned = countGoals(blueTeam.map(player => player.id));
+    const redGoalsAssigned = countGoals(redTeam.map(player => player.id));
+    if (blueGoalsAssigned > blueScore || redGoalsAssigned > redScore) {
+      const teamName = blueGoalsAssigned > blueScore ? teamNames.blue : teamNames.red;
+      showToast(`Los goles cargados de ${teamName} no pueden superar el resultado`, 'error');
+      return;
+    }
     const existingMatch = matchEditor.matchId
       ? state.matches.find(match => match.id === matchEditor.matchId) || null
       : null;
@@ -376,7 +405,8 @@ function App() {
       bluePlayerIds: blueTeam.map(player => player.id),
       redPlayerIds: redTeam.map(player => player.id),
       result: { blueScore, redScore },
-      scorers: existingMatch?.scorers || [],
+      scorers: scorerEntries.filter(entry => entry.goals > 0),
+      scorersRecorded: matchEditor.scorersEnabled === true,
       playerOfTheMatchId: matchEditor.playerOfTheMatchId || null,
       observations: matchEditor.observations,
       createdAt: existingMatch?.createdAt,
@@ -1105,6 +1135,10 @@ function App() {
               <span className="recognition-emoji" aria-hidden="true">🔥</span>
               <div><small>Buena racha</small><strong>{getRecognitionNames(recognitions.currentUnbeaten) || 'Se está armando'}</strong><span>{recognitions.currentUnbeaten.value >= 2 ? `${recognitions.currentUnbeaten.value} partidos sin perder` : 'Aparece desde dos partidos sin perder'}</span></div>
             </article>
+            {summary.matchesWithRegisteredScorers > 0 && <article className="recognition-card">
+              <span className="recognition-emoji" aria-hidden="true">⚽</span>
+              <div><small>Goleador registrado</small><strong>{getRecognitionNames(recognitions.topScorer) || 'Sin goles asignados'}</strong><span>{recognitions.topScorer.value > 0 ? `${recognitions.topScorer.value} ${recognitions.topScorer.value === 1 ? 'gol cargado' : 'goles cargados'}` : 'Hay partidos con registro abierto'}</span></div>
+            </article>}
           </div>
         </section>
 
@@ -1122,6 +1156,7 @@ function App() {
                 <div className="player-stat-heading">
                   <span className="avatar" aria-hidden="true">{displayName.charAt(0).toUpperCase()}</span>
                   <div><strong>{displayName}</strong><span>{POSITION_LABELS[player.preferredPosition] || 'Polifuncional'}{player.active ? '' : ' · Inactivo'}</span></div>
+                  {summary.matchesWithRegisteredScorers > 0 && <span className="player-goal-tally" aria-label={`${player.registeredGoals} goles cargados`}>⚽ {player.registeredGoals}</span>}
                 </div>
                 <div className="player-stat-metrics">
                   <div><small>PJ</small><strong>{player.played}</strong></div>
@@ -1133,7 +1168,7 @@ function App() {
               </article>;
             })}
           </div>
-          <p className="statistics-note">Los goles individuales se incorporarán cuando habilitemos la carga opcional de goleadores.</p>
+          <p className="statistics-note">{summary.matchesWithRegisteredScorers > 0 ? `Hay goleadores cargados en ${summary.matchesWithRegisteredScorers} ${summary.matchesWithRegisteredScorers === 1 ? 'partido' : 'partidos'}. Los encuentros sin carga no se interpretan como cero goles.` : 'Todavía no se cargaron goleadores. Podés hacerlo de forma opcional al guardar o editar un resultado.'}</p>
         </section>
       </div>;
     };
@@ -1157,6 +1192,10 @@ function App() {
       </section> : <div className="history-list">
         {groupMatches.map(match => {
           const figure = TTMatchHistory.getPlayerSnapshot(match, match.playerOfTheMatchId);
+          const scorers = (match.scorers || []).map(entry => {
+            const player = TTMatchHistory.getPlayerSnapshot(match, entry.playerId);
+            return player ? `${player.nickname || player.name} (${entry.goals})` : '';
+          }).filter(Boolean);
           const isCurrent = draftSession.archivedMatchId === match.id;
           return <article className={`history-card ${isCurrent ? 'is-current' : ''}`} key={match.id}>
             <header className="history-card-header">
@@ -1172,6 +1211,7 @@ function App() {
               <span><strong>Figura:</strong> {figure ? figure.nickname || figure.name : 'Sin elegir'}</span>
               <span><strong>Jugaron:</strong> {match.players.length}</span>
             </div>
+            {match.scorersRecorded && <div className="history-scorers"><strong>⚽ Goleadores:</strong><span>{scorers.length > 0 ? scorers.join(' · ') : 'Sin goles asignados'}</span></div>}
             {match.observations && <p className="history-observations">{match.observations}</p>}
             <details className="history-details">
               <summary>Ver equipos y posiciones</summary>
@@ -1314,6 +1354,22 @@ function App() {
             <span className="result-vs" aria-hidden="true">VS</span>
             <label className="score-entry is-red" htmlFor="red-score"><span>{teamNames.red}</span><input id="red-score" type="number" inputMode="numeric" min="0" max="99" value={matchEditor.redScore} onChange={event => setMatchEditor(current => ({ ...current, redScore: event.target.value }))} required /></label>
           </div>
+          <div className="scorer-toggle">
+            <div className="switch-copy"><strong>Cargar goleadores <span className="optional-label">opcional</span></strong><span>Podés asignar sólo los que recuerden; no hace falta completar todos los goles.</span></div>
+            <button className={`switch ${matchEditor.scorersEnabled ? 'is-on' : ''}`} type="button" onClick={() => setMatchEditor(current => ({ ...current, scorersEnabled: !current.scorersEnabled }))} role="switch" aria-checked={matchEditor.scorersEnabled}><span className="sr-only">Cargar goleadores</span></button>
+          </div>
+          {matchEditor.scorersEnabled && <div className="scorer-editor">
+            <div className="scorer-team-grid">
+              {[{ id: 'blue', name: teamNames.blue, players: blueTeam }, { id: 'red', name: teamNames.red, players: redTeam }].map(team => <section className={`scorer-team is-${team.id}`} key={team.id}>
+                <h3>{team.name}</h3>
+                {team.players.map(player => <label className="scorer-player" htmlFor={`scorer-${team.id}-${player.id}`} key={player.id}>
+                  <span>{player.nickname || player.name}</span>
+                  <input id={`scorer-${team.id}-${player.id}`} type="number" inputMode="numeric" min="0" max="99" placeholder="0" value={matchEditor.scorerGoals?.[player.id] ?? ''} onChange={event => setMatchEditor(current => ({ ...current, scorerGoals: { ...current.scorerGoals, [player.id]: event.target.value } }))} />
+                </label>)}
+              </section>)}
+            </div>
+            <p className="scorer-help">No podés cargar más goles que los del resultado de cada equipo. Los goles no asignados pueden quedar en blanco.</p>
+          </div>}
           <div className="field-group"><label htmlFor="match-figure">Figura del partido <span className="optional-label">opcional</span></label><select id="match-figure" value={matchEditor.playerOfTheMatchId} onChange={event => setMatchEditor(current => ({ ...current, playerOfTheMatchId: event.target.value }))}><option value="">Sin elegir</option>{sessionPlayers.map(player => <option key={player.id} value={player.id}>{player.nickname || player.name}</option>)}</select></div>
           <div className="field-group"><label htmlFor="match-observations">Observaciones <span className="optional-label">opcional</span></label><textarea id="match-observations" value={matchEditor.observations} onChange={event => setMatchEditor(current => ({ ...current, observations: event.target.value }))} maxLength="500" rows="3" placeholder="Un golazo, una atajada, algo para recordar…"></textarea></div>
           <div className="composer-actions"><button className="primary-button" type="submit"><IconCheck /> {matchEditor.matchId ? 'Actualizar resultado' : 'Guardar partido'}</button><button className="secondary-button" type="button" onClick={() => setMatchEditor(null)}>Cancelar</button></div>

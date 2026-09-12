@@ -86,8 +86,19 @@ test('reconoce empates y conserva todos los líderes cuando comparten una marca'
   assert.deepEqual(result.recognitions.mostPresent, { value: 3, playerIds: ['p1', 'p2'] });
   assert.deepEqual(result.recognitions.mostFigures, { value: 1, playerIds: ['p1', 'p2'] });
   assert.deepEqual(result.recognitions.currentUnbeaten, { value: 2, playerIds: ['p1'] });
+  assert.deepEqual(result.recognitions.topScorer, { value: 2, playerIds: ['p1'] });
   assert.equal(statistics.getPlayerOutcome(matches[1], 'p1'), 'draw');
   assert.equal(statistics.getPlayerOutcome(matches[1], 'ausente'), null);
+});
+
+test('distingue un registro de goleadores abierto de un partido sin carga de goles', () => {
+  const result = statistics.calculateStatistics(players, [{
+    id: 'm1', playedOn: '2026-09-10',
+    bluePlayerIds: ['p1'], redPlayerIds: ['p2'], result: { blueScore: 0, redScore: 0 },
+    scorersRecorded: true, scorers: []
+  }]);
+  assert.equal(result.summary.matchesWithRegisteredScorers, 1);
+  assert.deepEqual(result.recognitions.topScorer, { value: 0, playerIds: [] });
 });
 
 test('la Etapa 5 habilita estadísticas sin sumar un sexto acceso principal', () => {
@@ -102,8 +113,11 @@ test('la Etapa 5 habilita estadísticas sin sumar un sexto acceso principal', ()
   assert.match(app, /Estadísticas/);
   assert.match(app, /V-E-D/);
   assert.match(app, /Más presente/);
+  assert.match(app, /Goleador registrado/);
+  assert.match(app, /goles cargados/i);
   assert.match(app, /TTStatistics\.calculateStatistics/);
   assert.doesNotMatch(app, /id: 'statistics'/);
   assert.match(css, /\.statistics-summary/);
   assert.match(css, /\.player-stat-card/);
+  assert.match(css, /\.player-goal-tally/);
 });

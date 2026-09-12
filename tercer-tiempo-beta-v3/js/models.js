@@ -3,7 +3,7 @@
   if (typeof module === 'object' && module.exports) module.exports = api;
   root.TercerTiempoModels = api;
 })(typeof globalThis !== 'undefined' ? globalThis : window, function createModels() {
-  const SCHEMA_VERSION = 4;
+  const SCHEMA_VERSION = 5;
   const POSITION_VALUES = ['goalkeeper', 'defender', 'midfielder', 'forward', 'versatile'];
   const DEFAULT_TEAM_NAMES = Object.freeze({ blue: 'Azul', red: 'Rojo' });
   const EMPTY_STATS = Object.freeze({
@@ -140,6 +140,7 @@
         scorerTotals.set(playerId, Math.min(99, (scorerTotals.get(playerId) || 0) + goals));
       }
     });
+    const scorers = Array.from(scorerTotals, ([playerId, goals]) => ({ playerId, goals }));
     const playerOfTheMatchId = String(source.playerOfTheMatchId || '');
     return {
       id: String(source.id || createId('match')),
@@ -154,7 +155,8 @@
         blueScore: clampScore(resultSource.blueScore ?? source.blueScore),
         redScore: clampScore(resultSource.redScore ?? source.redScore)
       },
-      scorers: Array.from(scorerTotals, ([playerId, goals]) => ({ playerId, goals })),
+      scorers,
+      scorersRecorded: source.scorersRecorded === true || scorers.length > 0,
       playerOfTheMatchId: validPlayerIds.has(playerOfTheMatchId) ? playerOfTheMatchId : null,
       observations: String(source.observations || '').trim().slice(0, 500),
       createdAt: source.createdAt || timestamp,

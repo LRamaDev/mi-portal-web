@@ -38,6 +38,7 @@ test('un partido guarda resultado, equipos y una copia estable de los jugadores'
   assert.deepEqual(match.bluePlayerIds, ['p1', 'p3']);
   assert.deepEqual(match.redPlayerIds, ['p2', 'p4']);
   assert.deepEqual(match.result, { blueScore: 6, redScore: 4 });
+  assert.equal(match.scorersRecorded, false);
   assert.equal(match.playerOfTheMatchId, 'p3');
   assert.equal(history.getPlayerSnapshot(match, 'p1').nickname, 'Tincho');
   assert.equal(history.getOutcomeLabel(match), 'Ganó Con pechera');
@@ -60,8 +61,35 @@ test('el modelo recupera datos dañados sin inventar jugadores ni resultados imp
   assert.deepEqual(match.redPlayerIds, ['p2']);
   assert.deepEqual(match.result, { blueScore: 0, redScore: 99 });
   assert.deepEqual(match.scorers, [{ playerId: 'p3', goals: 2 }]);
+  assert.equal(match.scorersRecorded, true);
   assert.equal(match.playerOfTheMatchId, null);
   assert.match(match.playedOn, /^\d{4}-\d{2}-\d{2}$/);
+});
+
+test('los goleadores son opcionales y los partidos anteriores se conservan sin carga', () => {
+  const registered = models.createMatch({
+    groupId: 'g1',
+    players: matchPlayers,
+    bluePlayerIds: ['p1', 'p3'],
+    redPlayerIds: ['p2', 'p4'],
+    result: { blueScore: 3, redScore: 1 },
+    scorersRecorded: true,
+    scorers: [{ playerId: 'p3', goals: 2 }, { playerId: 'p4', goals: 1 }, { playerId: 'desconocido', goals: 9 }]
+  });
+  const withoutScorers = models.createMatch({
+    groupId: 'g1',
+    players: matchPlayers,
+    bluePlayerIds: ['p1'],
+    redPlayerIds: ['p2'],
+    result: { blueScore: 0, redScore: 0 },
+    scorersRecorded: true,
+    scorers: []
+  });
+
+  assert.equal(registered.scorersRecorded, true);
+  assert.deepEqual(registered.scorers, [{ playerId: 'p3', goals: 2 }, { playerId: 'p4', goals: 1 }]);
+  assert.equal(withoutScorers.scorersRecorded, true);
+  assert.deepEqual(withoutScorers.scorers, []);
 });
 
 test('la migración conserva el historial y vincula el partido guardado con la sesión actual', () => {
@@ -91,9 +119,10 @@ test('la migración conserva el historial y vincula el partido guardado con la s
     matches: [match, { ...match, id: 'otro-grupo', groupId: 'g2' }]
   });
 
-  assert.equal(migrated.schemaVersion, 4);
+  assert.equal(migrated.schemaVersion, 5);
   assert.equal(migrated.matches.length, 1);
   assert.equal(migrated.matches[0].id, 'm1');
+  assert.equal(migrated.matches[0].scorersRecorded, false);
   assert.equal(migrated.draftSessions[0].archivedMatchId, 'm1');
 });
 
@@ -117,8 +146,12 @@ test('la Etapa 4 mantiene Historial como base para las estadísticas posteriores
   assert.match(config, /statistics: true/);
   assert.match(app, /Guardar en el historial/);
   assert.match(app, /Figura del partido/);
+  assert.match(app, /Cargar goleadores/);
+  assert.match(app, /scorersRecorded/);
   assert.match(app, /Ver equipos y posiciones/);
   assert.match(app, /activeView === 'history'/);
   assert.match(css, /\.history-scoreboard/);
+  assert.match(css, /\.history-scorers/);
+  assert.match(css, /\.scorer-editor/);
   assert.match(css, /\.post-match-actions/);
 });
