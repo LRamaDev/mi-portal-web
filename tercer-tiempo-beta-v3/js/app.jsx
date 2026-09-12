@@ -3,6 +3,7 @@ const TTModels = TercerTiempoModels;
 const TTStorage = TercerTiempoStorage;
 const TTConfig = TercerTiempoConfig;
 const TTTeamBuilder = TercerTiempoTeamBuilder;
+const TTMatchHistory = TercerTiempoMatchHistory;
 
 const IconHome = () => <svg className="icon" fill="none" stroke="currentColor" strokeWidth="2.3" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="m3 10 9-7 9 7"/><path d="M5 9v11h14V9"/><path d="M9 20v-6h6v6"/></svg>;
 const IconUsers = () => <svg className="icon" fill="none" stroke="currentColor" strokeWidth="2.3" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>;
@@ -24,6 +25,7 @@ const IconCopy = () => <svg className="icon" fill="none" stroke="currentColor" s
 const IconDownload = () => <svg className="icon" fill="none" stroke="currentColor" strokeWidth="2.3" strokeLinecap="round" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>;
 const IconAlert = () => <svg className="icon" fill="none" stroke="currentColor" strokeWidth="2.3" strokeLinecap="round" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>;
 const IconCalendar = () => <svg className="icon" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>;
+const IconHistory = () => <svg className="icon" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5M12 7v5l3 2"/></svg>;
 
 const POSITION_LABELS = {
   goalkeeper: 'Arquero',
@@ -63,6 +65,12 @@ const QUICK_CONCEPTS = [
 ];
 
 const formatCurrency = value => `$${Math.round(Number(value) || 0).toLocaleString('es-AR')}`;
+const getTodayInputValue = () => {
+  const today = new Date();
+  const month = String(today.getMonth() + 1).padStart(2, '0');
+  const day = String(today.getDate()).padStart(2, '0');
+  return `${today.getFullYear()}-${month}-${day}`;
+};
 
 function App() {
   const [state, setState] = useState(() => TTStorage.load());
@@ -72,6 +80,7 @@ function App() {
   const [rosterNames, setRosterNames] = useState('');
   const [rosterFilter, setRosterFilter] = useState('active');
   const [editingPlayer, setEditingPlayer] = useState(null);
+  const [matchEditor, setMatchEditor] = useState(null);
   const [swapSelection, setSwapSelection] = useState({ blue: null, red: null });
   const [isSettlementOpen, setIsSettlementOpen] = useState(false);
   const [expenseDescription, setExpenseDescription] = useState('Cancha ⚽');
@@ -97,6 +106,13 @@ function App() {
   const expenses = draftSession.expenses;
   const teamNames = draftSession.teamNames;
   const teamAssignments = draftSession.teamAssignments;
+  const groupMatches = useMemo(
+    () => TTMatchHistory.sortMatches(state.matches.filter(match => match.groupId === activeGroup.id)),
+    [state.matches, activeGroup.id]
+  );
+  const archivedMatch = draftSession.archivedMatchId
+    ? state.matches.find(match => match.id === draftSession.archivedMatchId) || null
+    : null;
   const blueTeam = TTTeamBuilder.sortPlayersForLineup(
     (teamAssignments?.bluePlayerIds || []).map(id => groupPlayers.find(player => player.id === id)).filter(Boolean)
   );
@@ -119,9 +135,9 @@ function App() {
   }, [state]);
 
   useEffect(() => {
-    document.body.classList.toggle('is-locked', Boolean(editingPlayer || isSettlementOpen));
+    document.body.classList.toggle('is-locked', Boolean(editingPlayer || matchEditor || isSettlementOpen));
     return () => document.body.classList.remove('is-locked');
-  }, [editingPlayer, isSettlementOpen]);
+  }, [editingPlayer, matchEditor, isSettlementOpen]);
 
   useEffect(() => () => window.clearTimeout(toastTimerRef.current), []);
 
@@ -312,6 +328,67 @@ function App() {
     showToast('Jugadores intercambiados', 'info');
   };
 
+  const openMatchEditor = () => {
+    if (!teamAssignments) {
+      showToast('Primero armá los equipos para guardar el resultado', 'error');
+      return;
+    }
+    setMatchEditor({
+      matchId: archivedMatch?.id || null,
+      playedOn: archivedMatch?.playedOn || getTodayInputValue(),
+      venue: archivedMatch?.venue ?? activeGroup.usualVenue,
+      blueScore: archivedMatch ? String(archivedMatch.result.blueScore) : '',
+      redScore: archivedMatch ? String(archivedMatch.result.redScore) : '',
+      playerOfTheMatchId: archivedMatch?.playerOfTheMatchId || '',
+      observations: archivedMatch?.observations || ''
+    });
+  };
+
+  const saveCompletedMatch = event => {
+    event.preventDefault();
+    if (!teamAssignments || !matchEditor) {
+      showToast('La formación ya no está disponible', 'error');
+      return;
+    }
+    const blueScore = Number(matchEditor.blueScore);
+    const redScore = Number(matchEditor.redScore);
+    if (![blueScore, redScore].every(score => Number.isInteger(score) && score >= 0 && score <= 99)) {
+      showToast('Ingresá un resultado válido entre 0 y 99', 'error');
+      return;
+    }
+    const existingMatch = matchEditor.matchId
+      ? state.matches.find(match => match.id === matchEditor.matchId) || null
+      : null;
+    const match = TTModels.createMatch({
+      id: existingMatch?.id,
+      groupId: activeGroup.id,
+      playedOn: matchEditor.playedOn,
+      venue: matchEditor.venue,
+      teamNames,
+      players: sessionPlayers,
+      bluePlayerIds: blueTeam.map(player => player.id),
+      redPlayerIds: redTeam.map(player => player.id),
+      result: { blueScore, redScore },
+      scorers: existingMatch?.scorers || [],
+      playerOfTheMatchId: matchEditor.playerOfTheMatchId || null,
+      observations: matchEditor.observations,
+      createdAt: existingMatch?.createdAt,
+      updatedAt: new Date().toISOString()
+    });
+    setState(current => ({
+      ...current,
+      matches: existingMatch
+        ? current.matches.map(item => item.id === match.id ? match : item)
+        : [...current.matches, match],
+      draftSessions: current.draftSessions.map(session => session.groupId === activeGroup.id
+        ? { ...session, archivedMatchId: match.id }
+        : session)
+    }));
+    setMatchEditor(null);
+    changeView('history');
+    showToast(existingMatch ? 'Resultado actualizado' : 'Partido guardado en el historial');
+  };
+
   const handleNewMatch = () => {
     if (expenses.length > 0 && !window.confirm('¿Empezar un partido nuevo? Se borrarán los gastos actuales, pero el grupo y el plantel quedarán guardados.')) return;
     updateSession(session => ({
@@ -319,7 +396,8 @@ function App() {
       participantIds: activeRoster.map(player => player.id),
       expenses: [],
       teamNames: TTModels.createTeamNames(),
-      teamAssignments: null
+      teamAssignments: null,
+      archivedMatchId: null
     }));
     setSwapSelection({ blue: null, red: null });
     resetExpenseForm(activeRoster.map(player => player.id));
@@ -334,7 +412,8 @@ function App() {
       participantIds: [],
       expenses: [],
       teamNames: TTModels.createTeamNames(),
-      teamAssignments: null
+      teamAssignments: null,
+      archivedMatchId: null
     }));
     setSwapSelection({ blue: null, red: null });
     resetExpenseForm([]);
@@ -609,6 +688,7 @@ function App() {
     { id: 'home', label: 'Inicio', icon: <IconHome />, enabled: true },
     { id: 'match', label: 'Partido', icon: <IconCalendar />, enabled: true },
     { id: 'players', label: 'Jugadores', icon: <IconUsers />, enabled: TTConfig.features.playerProfiles },
+    { id: 'history', label: 'Historial', icon: <IconHistory />, enabled: TTConfig.features.history },
     { id: 'group', label: 'Grupo', icon: <IconShield />, enabled: TTConfig.features.groups }
   ].filter(item => item.enabled);
 
@@ -773,7 +853,8 @@ function App() {
           <div className="home-flow" aria-label="Recorrido del partido">
             <div className="flow-step is-current"><span>1</span><div><strong>Organizar</strong><small>Elegir quiénes juegan</small></div></div>
             <div className="flow-step"><span>2</span><div><strong>Jugar</strong><small>Disfrutar el partido</small></div></div>
-            <div className="flow-step"><span>3</span><div><strong>Tercer tiempo</strong><small>Cargar y dividir gastos</small></div></div>
+            <div className="flow-step"><span>3</span><div><strong>Registrar</strong><small>Guardar resultado y figura</small></div></div>
+            <div className="flow-step"><span>4</span><div><strong>Tercer tiempo</strong><small>Cargar y dividir gastos</small></div></div>
           </div>
           <div className="home-quick-actions">
             <button className="secondary-button" type="button" onClick={() => changeView('players')}><IconUsers /> Ver jugadores</button>
@@ -839,18 +920,32 @@ function App() {
 
       </div>
       {TTConfig.features.teamBuilder && <TeamBuilderContent />}
-      <section className="card after-match-card match-third-time-card">
-        <span className="expense-icon"><IconReceipt /></span>
-        <div>
-          <span className="eyebrow">Después de jugar</span>
-          <h2>Ahora sí: tercer tiempo</h2>
-          <p>Cuando termine el partido, cargá la cancha, las bebidas o la comida y dividí las cuentas.</p>
-        </div>
-        <button className="primary-button" type="button" onClick={() => changeView('expenses')} disabled={sessionPlayers.length === 0}>
-          <IconReceipt /> {expenses.length > 0 ? 'Continuar tercer tiempo' : 'Abrir tercer tiempo'}
-        </button>
-        {sessionPlayers.length === 0 && <small>Elegí al menos un jugador para continuar.</small>}
-      </section>
+      <div className="post-match-actions">
+        {TTConfig.features.history && <section className="card after-match-card match-result-card">
+          <span className="post-match-icon"><IconHistory /></span>
+          <div>
+            <span className="eyebrow">Cuando termine</span>
+            <h2>{archivedMatch ? 'Resultado guardado' : 'Guardar el resultado'}</h2>
+            <p>Registrá el marcador, la figura y una nota para sumar el partido al historial.</p>
+          </div>
+          <button className="primary-button" type="button" onClick={openMatchEditor} disabled={!teamAssignments}>
+            <IconHistory /> {archivedMatch ? 'Editar resultado' : 'Registrar partido'}
+          </button>
+          {!teamAssignments && <small>Primero armá los equipos para registrar el partido.</small>}
+        </section>}
+        <section className="card after-match-card match-third-time-card">
+          <span className="post-match-icon"><IconReceipt /></span>
+          <div>
+            <span className="eyebrow">Después de jugar</span>
+            <h2>Ahora sí: tercer tiempo</h2>
+            <p>Cargá la cancha, las bebidas o la comida y dividí las cuentas.</p>
+          </div>
+          <button className="primary-button" type="button" onClick={() => changeView('expenses')} disabled={sessionPlayers.length === 0}>
+            <IconReceipt /> {expenses.length > 0 ? 'Continuar tercer tiempo' : 'Abrir tercer tiempo'}
+          </button>
+          {sessionPlayers.length === 0 && <small>Elegí al menos un jugador para continuar.</small>}
+        </section>
+      </div>
     </>;
   };
 
@@ -932,6 +1027,64 @@ function App() {
       <aside className="desktop-settlement">{SettlementContent({})}</aside>
     </div>
   </>;
+
+  const HistoryView = () => {
+    const HistoryTeam = ({ match, team }) => {
+      const playerIds = team === 'blue' ? match.bluePlayerIds : match.redPlayerIds;
+      const outcome = TTMatchHistory.getOutcome(match);
+      return <div className={`history-team is-${team} ${outcome === team ? 'is-winner' : ''}`}>
+        <div className="history-team-score">
+          <span>{match.teamNames[team]}</span>
+          <strong>{team === 'blue' ? match.result.blueScore : match.result.redScore}</strong>
+        </div>
+        <ol className="history-player-list">
+          {playerIds.map(playerId => {
+            const player = TTMatchHistory.getPlayerSnapshot(match, playerId);
+            return player && <li key={playerId}><span>{player.nickname || player.name}</span><small>{POSITION_LABELS[player.preferredPosition]}</small></li>;
+          })}
+        </ol>
+      </div>;
+    };
+
+    return <>
+      <div className="view-header">
+        <div><span className="eyebrow">Partidos jugados</span><h1>Historial</h1><p>Los resultados del grupo, sin convertir el fútbol en una planilla.</p></div>
+        <div className="group-pill"><span>Guardados</span><strong>{groupMatches.length} {groupMatches.length === 1 ? 'partido' : 'partidos'}</strong></div>
+      </div>
+      {groupMatches.length === 0 ? <section className="card history-empty">
+        <span className="post-match-icon"><IconHistory /></span>
+        <h2>Todavía no hay partidos guardados</h2>
+        <p>Cuando termine el próximo, registrá el resultado y aparecerá acá.</p>
+        <button className="primary-button" type="button" onClick={() => changeView('match')}><IconCalendar /> Organizar partido</button>
+      </section> : <div className="history-list">
+        {groupMatches.map(match => {
+          const figure = TTMatchHistory.getPlayerSnapshot(match, match.playerOfTheMatchId);
+          const isCurrent = draftSession.archivedMatchId === match.id;
+          return <article className={`history-card ${isCurrent ? 'is-current' : ''}`} key={match.id}>
+            <header className="history-card-header">
+              <div><span>{TTMatchHistory.formatMatchDate(match.playedOn)}</span><small>{match.venue || 'Cancha sin registrar'}</small></div>
+              {isCurrent && <span className="history-current-badge">Partido actual</span>}
+            </header>
+            <div className="history-scoreboard" aria-label={`${match.teamNames.blue} ${match.result.blueScore}, ${match.teamNames.red} ${match.result.redScore}`}>
+              <div className={`history-score-team is-blue ${TTMatchHistory.getOutcome(match) === 'blue' ? 'is-winner' : ''}`}><span>{match.teamNames.blue}</span><strong>{match.result.blueScore}</strong></div>
+              <div className="history-final"><strong>Final</strong><span>{TTMatchHistory.getOutcomeLabel(match)}</span></div>
+              <div className={`history-score-team is-red ${TTMatchHistory.getOutcome(match) === 'red' ? 'is-winner' : ''}`}><span>{match.teamNames.red}</span><strong>{match.result.redScore}</strong></div>
+            </div>
+            <div className="history-meta">
+              <span><strong>Figura:</strong> {figure ? figure.nickname || figure.name : 'Sin elegir'}</span>
+              <span><strong>Jugaron:</strong> {match.players.length}</span>
+            </div>
+            {match.observations && <p className="history-observations">{match.observations}</p>}
+            <details className="history-details">
+              <summary>Ver equipos y posiciones</summary>
+              <div className="history-lineups"><HistoryTeam match={match} team="blue" /><HistoryTeam match={match} team="red" /></div>
+            </details>
+            {isCurrent && <button className="secondary-button history-edit-button" type="button" onClick={openMatchEditor}>Editar este resultado</button>}
+          </article>;
+        })}
+      </div>}
+    </>;
+  };
 
   const PlayersView = () => {
     const visiblePlayers = groupPlayers.filter(player => rosterFilter === 'all' || (rosterFilter === 'active' ? player.active : !player.active));
@@ -1020,8 +1173,9 @@ function App() {
         {activeView === 'match' && MatchView()}
         {activeView === 'expenses' && ExpensesView()}
         {activeView === 'players' && PlayersView()}
+        {activeView === 'history' && HistoryView()}
         {activeView === 'group' && GroupView()}
-        <footer className="footer">Tercer Tiempo · Etapa 3 · Equipos equilibrados</footer>
+        <footer className="footer">Tercer Tiempo · Etapa 4 · Historial de partidos</footer>
       </main>
     </div>
     {activeView === 'expenses' && <button className="settle-cta" type="button" onClick={() => setIsSettlementOpen(true)} disabled={expenses.length === 0}><IconReceipt /><span className="settle-cta-copy"><span>Resultado en vivo</span><strong>Cerrar las cuentas</strong></span><span className="settle-pill">{calculations.transactions.length} pagos</span></button>}
@@ -1041,6 +1195,30 @@ function App() {
           <div className="field-group"><label htmlFor="player-payment-alias">Alias para cobrar</label><input id="player-payment-alias" value={editingPlayer.paymentAlias} onChange={event => setEditingPlayer(current => ({ ...current, paymentAlias: event.target.value }))} placeholder="Alias, CBU o CVU" /></div>
           <div className="switch-row"><div className="switch-copy"><strong>Jugador activo</strong><span>Los inactivos no se agregan automáticamente a partidos nuevos.</span></div><button className={`switch ${editingPlayer.active ? 'is-on' : ''}`} type="button" onClick={() => setEditingPlayer(current => ({ ...current, active: !current.active }))} role="switch" aria-checked={editingPlayer.active}><span className="sr-only">Cambiar estado del jugador</span></button></div>
           <div className="composer-actions"><button className="primary-button" type="submit"><IconCheck /> Guardar jugador</button><button className="secondary-button" type="button" onClick={() => setEditingPlayer(null)}>Cancelar</button></div>
+        </form>
+      </section>
+    </div>}
+
+    {matchEditor && <div className="overlay is-match-editor" role="presentation" onMouseDown={event => { if (event.target === event.currentTarget) setMatchEditor(null); }}>
+      <section className="sheet match-editor-sheet" role="dialog" aria-modal="true" aria-labelledby="match-editor-title">
+        <div className="sheet-handle" aria-hidden="true"></div>
+        <div className="editor-heading">
+          <div><span className="eyebrow">Partido jugado</span><h2 id="match-editor-title">{matchEditor.matchId ? 'Editar resultado' : 'Guardar en el historial'}</h2><p>La formación queda guardada tal como está ahora.</p></div>
+          <button className="sheet-close" type="button" onClick={() => setMatchEditor(null)} aria-label="Cerrar">×</button>
+        </div>
+        <form onSubmit={saveCompletedMatch}>
+          <div className="field-grid">
+            <div className="field-group"><label htmlFor="match-date">Fecha</label><input id="match-date" type="date" value={matchEditor.playedOn} onChange={event => setMatchEditor(current => ({ ...current, playedOn: event.target.value }))} required /></div>
+            <div className="field-group"><label htmlFor="match-venue">Cancha</label><input id="match-venue" value={matchEditor.venue} onChange={event => setMatchEditor(current => ({ ...current, venue: event.target.value }))} maxLength="80" placeholder="Ej. La Redonda" /></div>
+          </div>
+          <div className="result-score-grid" aria-label="Resultado final">
+            <label className="score-entry is-blue" htmlFor="blue-score"><span>{teamNames.blue}</span><input id="blue-score" type="number" inputMode="numeric" min="0" max="99" value={matchEditor.blueScore} onChange={event => setMatchEditor(current => ({ ...current, blueScore: event.target.value }))} required /></label>
+            <span className="result-vs" aria-hidden="true">VS</span>
+            <label className="score-entry is-red" htmlFor="red-score"><span>{teamNames.red}</span><input id="red-score" type="number" inputMode="numeric" min="0" max="99" value={matchEditor.redScore} onChange={event => setMatchEditor(current => ({ ...current, redScore: event.target.value }))} required /></label>
+          </div>
+          <div className="field-group"><label htmlFor="match-figure">Figura del partido <span className="optional-label">opcional</span></label><select id="match-figure" value={matchEditor.playerOfTheMatchId} onChange={event => setMatchEditor(current => ({ ...current, playerOfTheMatchId: event.target.value }))}><option value="">Sin elegir</option>{sessionPlayers.map(player => <option key={player.id} value={player.id}>{player.nickname || player.name}</option>)}</select></div>
+          <div className="field-group"><label htmlFor="match-observations">Observaciones <span className="optional-label">opcional</span></label><textarea id="match-observations" value={matchEditor.observations} onChange={event => setMatchEditor(current => ({ ...current, observations: event.target.value }))} maxLength="500" rows="3" placeholder="Un golazo, una atajada, algo para recordar…"></textarea></div>
+          <div className="composer-actions"><button className="primary-button" type="submit"><IconCheck /> {matchEditor.matchId ? 'Actualizar resultado' : 'Guardar partido'}</button><button className="secondary-button" type="button" onClick={() => setMatchEditor(null)}>Cancelar</button></div>
         </form>
       </section>
     </div>}

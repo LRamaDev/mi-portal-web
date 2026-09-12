@@ -3,7 +3,7 @@
   if (typeof module === 'object' && module.exports) module.exports = api;
   root.TercerTiempoModels = api;
 })(typeof globalThis !== 'undefined' ? globalThis : window, function createModels() {
-  const SCHEMA_VERSION = 3;
+  const SCHEMA_VERSION = 4;
   const POSITION_VALUES = ['goalkeeper', 'defender', 'midfielder', 'forward', 'versatile'];
   const DEFAULT_TEAM_NAMES = Object.freeze({ blue: 'Azul', red: 'Rojo' });
   const EMPTY_STATS = Object.freeze({
@@ -86,6 +86,82 @@
     };
   };
 
+  const clampScore = (value) => {
+    const parsed = Number(value);
+    if (!Number.isFinite(parsed)) return 0;
+    return Math.min(99, Math.max(0, Math.round(parsed)));
+  };
+
+  const normalizePlayedOn = (value) => {
+    const candidate = String(value || '');
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(candidate)) return nowIso().slice(0, 10);
+    const parsed = new Date(`${candidate}T00:00:00Z`);
+    return Number.isNaN(parsed.getTime()) || parsed.toISOString().slice(0, 10) !== candidate
+      ? nowIso().slice(0, 10)
+      : candidate;
+  };
+
+  const createMatchPlayerSnapshot = (input = {}) => {
+    const source = input && typeof input === 'object' ? input : {};
+    const id = String(source.id || source.playerId || '').trim();
+    const name = String(source.name || '').trim().slice(0, 80);
+    if (!id || !name) return null;
+    return {
+      id,
+      name,
+      nickname: String(source.nickname || '').trim().slice(0, 40),
+      preferredPosition: POSITION_VALUES.includes(source.preferredPosition)
+        ? source.preferredPosition
+        : 'versatile'
+    };
+  };
+
+  const createMatch = (input = {}) => {
+    const source = input && typeof input === 'object' ? input : {};
+    const timestamp = nowIso();
+    const snapshotMap = new Map();
+    (Array.isArray(source.players) ? source.players : []).forEach(player => {
+      const snapshot = createMatchPlayerSnapshot(player);
+      if (snapshot && !snapshotMap.has(snapshot.id)) snapshotMap.set(snapshot.id, snapshot);
+    });
+    const players = Array.from(snapshotMap.values());
+    const validPlayerIds = new Set(players.map(player => player.id));
+    const bluePlayerIds = Array.from(new Set(Array.isArray(source.bluePlayerIds) ? source.bluePlayerIds.map(String) : []))
+      .filter(id => validPlayerIds.has(id));
+    const blueIds = new Set(bluePlayerIds);
+    const redPlayerIds = Array.from(new Set(Array.isArray(source.redPlayerIds) ? source.redPlayerIds.map(String) : []))
+      .filter(id => validPlayerIds.has(id) && !blueIds.has(id));
+    const resultSource = source.result && typeof source.result === 'object' ? source.result : {};
+    const scorerTotals = new Map();
+    (Array.isArray(source.scorers) ? source.scorers : []).forEach(entry => {
+      const playerId = String(entry?.playerId || '');
+      const goals = clampScore(entry?.goals);
+      if (validPlayerIds.has(playerId) && goals > 0) {
+        scorerTotals.set(playerId, Math.min(99, (scorerTotals.get(playerId) || 0) + goals));
+      }
+    });
+    const playerOfTheMatchId = String(source.playerOfTheMatchId || '');
+    return {
+      id: String(source.id || createId('match')),
+      groupId: String(source.groupId || ''),
+      playedOn: normalizePlayedOn(source.playedOn),
+      venue: String(source.venue || '').trim().slice(0, 80),
+      teamNames: createTeamNames(source.teamNames),
+      players,
+      bluePlayerIds,
+      redPlayerIds,
+      result: {
+        blueScore: clampScore(resultSource.blueScore ?? source.blueScore),
+        redScore: clampScore(resultSource.redScore ?? source.redScore)
+      },
+      scorers: Array.from(scorerTotals, ([playerId, goals]) => ({ playerId, goals })),
+      playerOfTheMatchId: validPlayerIds.has(playerOfTheMatchId) ? playerOfTheMatchId : null,
+      observations: String(source.observations || '').trim().slice(0, 500),
+      createdAt: source.createdAt || timestamp,
+      updatedAt: source.updatedAt || timestamp
+    };
+  };
+
   const sanitizeTeamAssignments = (input, participantIds = []) => {
     if (!input || typeof input !== 'object') return null;
     const validIds = new Set(participantIds);
@@ -106,7 +182,7 @@
     };
   };
 
-  const createDraftSession = (groupId, participantIds = [], expenses = [], teamAssignments = null, teamNames = DEFAULT_TEAM_NAMES) => {
+  const createDraftSession = (groupId, participantIds = [], expenses = [], teamAssignments = null, teamNames = DEFAULT_TEAM_NAMES, archivedMatchId = null) => {
     const uniqueParticipantIds = Array.from(new Set(participantIds.filter(Boolean)));
     return {
       groupId,
@@ -116,7 +192,8 @@
         consumerIds: Array.isArray(expense.consumerIds) ? [...expense.consumerIds] : []
       })) : [],
       teamNames: createTeamNames(teamNames),
-      teamAssignments: sanitizeTeamAssignments(teamAssignments, uniqueParticipantIds)
+      teamAssignments: sanitizeTeamAssignments(teamAssignments, uniqueParticipantIds),
+      archivedMatchId: archivedMatchId ? String(archivedMatchId) : null
     };
   };
 
@@ -144,6 +221,10 @@
       .filter(player => player && groupIds.has(player.groupId))
       .map(createPlayer);
     const playerIds = new Set(players.map(player => player.id));
+    const matches = (Array.isArray(candidate.matches) ? candidate.matches : [])
+      .filter(match => match && groupIds.has(match.groupId))
+      .map(createMatch);
+    const matchIds = new Set(matches.map(match => match.id));
     const draftSessions = groups.map(group => {
       const existing = (Array.isArray(candidate.draftSessions) ? candidate.draftSessions : [])
         .find(session => session && session.groupId === group.id);
@@ -155,7 +236,8 @@
         (existing.participantIds || []).filter(id => playerIds.has(id)),
         existing.expenses || [],
         existing.teamAssignments,
-        existing.teamNames
+        existing.teamNames,
+        matchIds.has(String(existing.archivedMatchId || '')) ? existing.archivedMatchId : null
       );
     });
     return {
@@ -164,7 +246,7 @@
       groups,
       players,
       draftSessions,
-      matches: Array.isArray(candidate.matches) ? candidate.matches : []
+      matches
     };
   };
 
@@ -258,9 +340,12 @@
     createId,
     normalizeName,
     clampRating,
+    clampScore,
     createGroup,
     createPlayer,
     createTeamNames,
+    createMatchPlayerSnapshot,
+    createMatch,
     sanitizeTeamAssignments,
     createDraftSession,
     createInitialState,

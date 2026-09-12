@@ -1,6 +1,6 @@
 (function exposeConfig(root) {
   root.TercerTiempoConfig = Object.freeze({
-    schemaVersion: 3,
+    schemaVersion: 4,
     storageKey: 'tt_app_v1',
     features: Object.freeze({
       groups: true,
@@ -9,7 +9,7 @@
       confirmations: false,
       teamBuilder: true,
       tacticalFormations: false,
-      history: false,
+      history: true,
       statistics: false,
       proEntitlements: false
     })
