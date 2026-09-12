@@ -10,7 +10,7 @@
       teamBuilder: true,
       tacticalFormations: false,
       history: true,
-      statistics: false,
+      statistics: true,
       proEntitlements: false
     })
   });
