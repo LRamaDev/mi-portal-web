@@ -3,8 +3,9 @@
   if (typeof module === 'object' && module.exports) module.exports = api;
   root.TercerTiempoModels = api;
 })(typeof globalThis !== 'undefined' ? globalThis : window, function createModels() {
-  const SCHEMA_VERSION = 2;
+  const SCHEMA_VERSION = 3;
   const POSITION_VALUES = ['goalkeeper', 'defender', 'midfielder', 'forward', 'versatile'];
+  const DEFAULT_TEAM_NAMES = Object.freeze({ blue: 'Azul', red: 'Rojo' });
   const EMPTY_STATS = Object.freeze({
     played: 0,
     goals: 0,
@@ -75,6 +76,16 @@
     };
   };
 
+  const sanitizeTeamName = (value, fallback) => String(value || '').trim().slice(0, 24) || fallback;
+
+  const createTeamNames = (input = {}) => {
+    const source = input && typeof input === 'object' ? input : {};
+    return {
+      blue: sanitizeTeamName(source.blue, DEFAULT_TEAM_NAMES.blue),
+      red: sanitizeTeamName(source.red, DEFAULT_TEAM_NAMES.red)
+    };
+  };
+
   const sanitizeTeamAssignments = (input, participantIds = []) => {
     if (!input || typeof input !== 'object') return null;
     const validIds = new Set(participantIds);
@@ -95,7 +106,7 @@
     };
   };
 
-  const createDraftSession = (groupId, participantIds = [], expenses = [], teamAssignments = null) => {
+  const createDraftSession = (groupId, participantIds = [], expenses = [], teamAssignments = null, teamNames = DEFAULT_TEAM_NAMES) => {
     const uniqueParticipantIds = Array.from(new Set(participantIds.filter(Boolean)));
     return {
       groupId,
@@ -104,6 +115,7 @@
         ...expense,
         consumerIds: Array.isArray(expense.consumerIds) ? [...expense.consumerIds] : []
       })) : [],
+      teamNames: createTeamNames(teamNames),
       teamAssignments: sanitizeTeamAssignments(teamAssignments, uniqueParticipantIds)
     };
   };
@@ -142,7 +154,8 @@
         group.id,
         (existing.participantIds || []).filter(id => playerIds.has(id)),
         existing.expenses || [],
-        existing.teamAssignments
+        existing.teamAssignments,
+        existing.teamNames
       );
     });
     return {
@@ -240,12 +253,14 @@
   return {
     SCHEMA_VERSION,
     POSITION_VALUES,
+    DEFAULT_TEAM_NAMES,
     EMPTY_STATS,
     createId,
     normalizeName,
     clampRating,
     createGroup,
     createPlayer,
+    createTeamNames,
     sanitizeTeamAssignments,
     createDraftSession,
     createInitialState,
