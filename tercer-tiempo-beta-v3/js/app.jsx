@@ -130,7 +130,18 @@ function App() {
     () => TTModels.calculateSettlement(sessionPlayers, expenses),
     [sessionPlayers, expenses]
   );
-
+  const courtSummary = useMemo(() => {
+    const courtExpenses = expenses.filter(expense => expense.category === 'court');
+    const total = courtExpenses.reduce((sum, expense) => sum + (Number(expense.amount) || 0), 0);
+    const consumerIds = Array.from(new Set(courtExpenses.flatMap(expense => Array.isArray(expense.consumerIds) ? expense.consumerIds : [])
+      .filter(id => sessionPlayerIds.includes(id))));
+    const playerCount = consumerIds.length || sessionPlayers.length;
+    return {
+      total,
+      playerCount,
+      perPlayer: playerCount > 0 ? total / playerCount : 0
+    };
+  }, [expenses, sessionPlayerIds.join('|'), sessionPlayers.length]);
   const scheduleText = [
     DAY_LABELS[activeGroup.usualDay],
     activeGroup.usualTime,
@@ -614,6 +625,9 @@ function App() {
     text += `━━━━━━━━━━━━━━━━━━━━━\n`;
     text += `💰 *Gasto total:* ${formatCurrency(calculations.totalSpent)}\n`;
     text += `👥 *Jugadores:* ${sessionPlayers.length}\n\n`;
+    if (courtSummary.total > 0) {
+      text += `⚽ *Cancha:* ${formatCurrency(courtSummary.total)} · ${courtSummary.playerCount} ${courtSummary.playerCount === 1 ? 'jugador' : 'jugadores'} · ${formatCurrency(courtSummary.perPlayer)} por persona\n\n`;
+    }
     text += `👉 *¿QUIÉN LE PAGA A QUIÉN?*\n\n`;
     if (calculations.transactions.length === 0) {
       text += '✅ *Las cuentas ya están equilibradas.*\n';
@@ -744,6 +758,18 @@ function App() {
     </button>
   ))}</>;
 
+  const CourtSummary = ({ compact = false }) => {
+    if (courtSummary.total <= 0) return null;
+    return <section className={`court-summary ${compact ? 'is-compact' : 'card'}`} aria-label="Resumen de cancha">
+      <div className="court-summary-heading"><span>⚽ Cancha</span><strong>{formatCurrency(courtSummary.total)}</strong></div>
+      <div className="court-summary-metrics">
+        <div><small>Jugadores</small><strong>{courtSummary.playerCount}</strong></div>
+        <div><small>Por persona</small><strong>{formatCurrency(courtSummary.perPlayer)}</strong></div>
+      </div>
+      <p>Referencia según quienes participan de la cancha.</p>
+    </section>;
+  };
+
   const SettlementContent = ({ closable = false }) => {
     const creditors = sessionPlayers.filter(player => calculations.transactions.some(transaction => transaction.toId === player.id));
     return <div className="sheet settlement-sheet">
@@ -761,6 +787,7 @@ function App() {
         <div className="score-cell"><span>Juegan</span><strong>{sessionPlayers.length}</strong></div>
         <div className="score-cell"><span>Pagos</span><strong>{calculations.transactions.length}</strong></div>
       </div>
+      <CourtSummary compact />
       {expenses.length === 0 ? (
         <div className="settlement-empty">Cargá un gasto y acá aparecerá quién le paga a quién.</div>
       ) : calculations.transactions.length === 0 ? (
@@ -997,6 +1024,7 @@ function App() {
     </div>
     <div className="dashboard-grid">
       <div className="expenses-column">
+        <CourtSummary />
           <section id="expense-form" className="card">
             <div className="card-heading">
               <div><span className="eyebrow">Gastos</span><h2>¿Qué se pagó?</h2><p>Elegí el concepto, quién pagó y el monto.</p></div>

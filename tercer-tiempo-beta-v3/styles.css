@@ -463,6 +463,17 @@ textarea:focus {
 .expense-actions { display: flex; justify-content: flex-end; gap: 0.2rem; margin-top: 0.2rem; }
 .expense-action { min-height: 2rem; padding: 0.25rem 0.35rem; color: var(--pitch-700); background: transparent; border: 0; font-size: 0.76rem; }
 .expense-action.is-danger { color: var(--danger); }
+.court-summary { min-width: 0; padding: 0.9rem; color: var(--ink); background: linear-gradient(135deg, #e5f1df, #f4f8ed); border: 1px solid #cfe0c7; border-radius: 1rem; }
+.court-summary-heading { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; }
+.court-summary-heading span { color: var(--grass); font-size: 0.82rem; font-weight: 950; }
+.court-summary-heading strong { color: var(--pitch-900); font-size: 1.1rem; font-weight: 950; }
+.court-summary-metrics { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.45rem; margin-top: 0.7rem; }
+.court-summary-metrics div { min-width: 0; padding: 0.55rem; background: rgba(255, 255, 255, 0.74); border-radius: 0.7rem; }
+.court-summary-metrics small,
+.court-summary-metrics strong { display: block; }
+.court-summary-metrics small { color: var(--muted); font-size: 0.66rem; font-weight: 850; }
+.court-summary-metrics strong { margin-top: 0.12rem; overflow: hidden; color: var(--pitch-800); font-size: 0.92rem; font-weight: 950; text-overflow: ellipsis; white-space: nowrap; }
+.court-summary p { margin: 0.65rem 0 0; color: #5f7165; font-size: 0.7rem; line-height: 1.35; }
 
 .settle-cta {
   position: fixed;
@@ -905,6 +916,13 @@ textarea:focus {
 .score-cell { min-width: 0; padding: 0.55rem 0.3rem; text-align: center; }
 .score-cell span { display: block; color: rgba(255, 255, 255, 0.58); font-size: 0.72rem; font-weight: 750; }
 .score-cell strong { display: block; margin-top: 0.15rem; overflow: hidden; color: white; font-size: 1rem; font-weight: 950; text-overflow: ellipsis; }
+.settlement-sheet .court-summary { margin-top: 0.8rem; color: white; background: rgba(255, 255, 255, 0.08); border-color: rgba(255, 255, 255, 0.14); }
+.settlement-sheet .court-summary-heading span { color: var(--lime); }
+.settlement-sheet .court-summary-heading strong { color: white; }
+.settlement-sheet .court-summary-metrics div { background: rgba(255, 255, 255, 0.08); }
+.settlement-sheet .court-summary-metrics small,
+.settlement-sheet .court-summary p { color: rgba(255, 255, 255, 0.64); }
+.settlement-sheet .court-summary-metrics strong { color: white; }
 .transfer-list { display: grid; gap: 0.55rem; margin-top: 0.8rem; }
 .transfer-row { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: center; gap: 0.45rem; padding: 0.7rem; color: var(--ink); background: white; border-radius: 0.9rem; }
 .transfer-person { min-width: 0; }
