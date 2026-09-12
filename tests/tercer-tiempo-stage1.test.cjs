@@ -187,6 +187,7 @@ test('la Beta v3 conserva gastos, WhatsApp, ticket y puente con la APK', () => {
   assert.match(app, /link\.download = `liquidacion-/);
   assert.match(app, /Cerveza/);
   assert.match(app, /Gaseosa/);
+  assert.match(app, /Por persona/);
 });
 
 test('la interfaz mantiene controles grandes y diseños específicos para celular y escritorio', () => {
