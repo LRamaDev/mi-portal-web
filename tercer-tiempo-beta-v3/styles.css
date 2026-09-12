@@ -671,9 +671,24 @@ select:focus {
 .team-panel.is-red { background: #fff0f1; border-color: #edc4ca; }
 .team-panel-heading { display: flex; align-items: center; justify-content: space-between; gap: 0.6rem; margin-bottom: 0.65rem; }
 .team-panel-heading span { display: block; color: var(--muted); font-size: 0.7rem; font-weight: 800; text-transform: uppercase; }
-.team-panel-heading h3 { margin: 0.08rem 0 0; font-size: 1.05rem; font-weight: 950; }
-.is-blue .team-panel-heading h3 { color: #245b9e; }
-.is-red .team-panel-heading h3 { color: #a52d3e; }
+.team-name-field { display: block; min-width: 0; }
+.team-name-field input {
+  display: block;
+  width: min(100%, 13rem);
+  margin-top: 0.08rem;
+  padding: 0.12rem 1.5rem 0.12rem 0;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px dashed currentColor;
+  border-radius: 0;
+  font: inherit;
+  font-size: 1.05rem;
+  font-weight: 950;
+  text-overflow: ellipsis;
+}
+.team-name-field input:focus { outline: 2px solid rgba(17, 132, 93, 0.2); outline-offset: 2px; }
+.is-blue .team-name-field input { color: #245b9e; }
+.is-red .team-name-field input { color: #a52d3e; }
 .team-total { flex: 0 0 auto; text-align: right; }
 .team-total strong { display: block; font-size: 1rem; font-weight: 950; }
 .team-total span { margin-top: 0.08rem; font-size: 0.66rem; text-transform: none; }

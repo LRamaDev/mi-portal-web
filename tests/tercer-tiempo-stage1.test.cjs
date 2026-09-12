@@ -45,7 +45,7 @@ test('el estado inicial crea un grupo y un plantel permanente preparado para est
   const state = models.createInitialState([
     { id: 'p_1', name: 'Martín', alias: 'martin.mp' }
   ]);
-  assert.equal(state.schemaVersion, 2);
+  assert.equal(state.schemaVersion, 3);
   assert.equal(state.groups.length, 1);
   assert.equal(state.activeGroupId, state.groups[0].id);
   assert.equal(state.groups[0].planCode, 'free');
@@ -58,6 +58,7 @@ test('el estado inicial crea un grupo y un plantel permanente preparado para est
   assert.equal(state.players[0].paymentAlias, 'martin.mp');
   assert.equal(state.players[0].active, true);
   assert.equal(state.draftSessions[0].teamAssignments, null);
+  assert.deepEqual(state.draftSessions[0].teamNames, { blue: 'Azul', red: 'Rojo' });
   assert.deepEqual(state.players[0].stats, {
     played: 0,
     goals: 0,

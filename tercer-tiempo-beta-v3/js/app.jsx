@@ -95,6 +95,7 @@ function App() {
   const sessionPlayerIds = draftSession.participantIds;
   const sessionPlayers = sessionPlayerIds.map(id => groupPlayers.find(player => player.id === id)).filter(Boolean);
   const expenses = draftSession.expenses;
+  const teamNames = draftSession.teamNames;
   const teamAssignments = draftSession.teamAssignments;
   const blueTeam = TTTeamBuilder.sortPlayersForLineup(
     (teamAssignments?.bluePlayerIds || []).map(id => groupPlayers.find(player => player.id === id)).filter(Boolean)
@@ -247,6 +248,20 @@ function App() {
     showToast(teamAssignments ? 'Equipos regenerados' : 'Equipos armados');
   };
 
+  const updateTeamName = (team, value) => {
+    updateSession(session => ({
+      ...session,
+      teamNames: {
+        ...session.teamNames,
+        [team]: String(value || '').slice(0, 24)
+      }
+    }));
+  };
+
+  const finishTeamNameEdit = () => {
+    updateSession(session => ({ ...session, teamNames: TTModels.createTeamNames(session.teamNames) }));
+  };
+
   const moveTeamPlayer = (playerId, fromTeam) => {
     if (!teamAssignments) return;
     const destinationTeam = fromTeam === 'blue' ? 'red' : 'blue';
@@ -268,7 +283,8 @@ function App() {
     }));
     setSwapSelection({ blue: null, red: null });
     const player = groupPlayers.find(item => item.id === playerId);
-    showToast(`${player?.nickname || player?.name || 'Jugador'} pasó a ${destinationTeam === 'blue' ? 'Azules' : 'Rojos'}`, 'info');
+    const destinationName = teamNames[destinationTeam] || TTModels.DEFAULT_TEAM_NAMES[destinationTeam];
+    showToast(`${player?.nickname || player?.name || 'Jugador'} pasó a ${destinationName}`, 'info');
   };
 
   const selectPlayerForSwap = (team, playerId) => {
@@ -302,6 +318,7 @@ function App() {
       ...session,
       participantIds: activeRoster.map(player => player.id),
       expenses: [],
+      teamNames: TTModels.createTeamNames(),
       teamAssignments: null
     }));
     setSwapSelection({ blue: null, red: null });
@@ -312,7 +329,13 @@ function App() {
 
   const handleClearCurrentMatch = () => {
     if (!window.confirm('¿Vaciar el partido actual? El plantel permanente no se borrará.')) return;
-    updateSession(session => ({ ...session, participantIds: [], expenses: [], teamAssignments: null }));
+    updateSession(session => ({
+      ...session,
+      participantIds: [],
+      expenses: [],
+      teamNames: TTModels.createTeamNames(),
+      teamAssignments: null
+    }));
     setSwapSelection({ blue: null, red: null });
     resetExpenseForm([]);
     showToast('Partido actual vacío. El plantel sigue guardado.', 'info');
@@ -662,9 +685,18 @@ function App() {
     const ratingDifference = Math.abs(blueMetrics.rating - redMetrics.rating);
     const canSwap = Boolean(swapSelection.blue && swapSelection.red);
 
-    const TeamPanel = ({ team, title, players, selectedId }) => <section className={`team-panel is-${team}`}>
+    const TeamPanel = ({ team, players, selectedId }) => <section className={`team-panel is-${team}`}>
       <div className="team-panel-heading">
-        <div><span>{team === 'blue' ? 'Equipo azul' : 'Equipo rojo'}</span><h3>{title}</h3></div>
+        <label className="team-name-field">
+          <span>{team === 'blue' ? 'Equipo azul' : 'Equipo rojo'} · Tocá para editar</span>
+          <input
+            aria-label={`Nombre del equipo ${team === 'blue' ? 'azul' : 'rojo'}`}
+            maxLength="24"
+            value={teamNames[team]}
+            onChange={event => updateTeamName(team, event.target.value)}
+            onBlur={finishTeamNameEdit}
+          />
+        </label>
         <div className="team-total"><strong>{players.length}</strong><span>jugadores</span></div>
       </div>
       {players.length === 0 ? <div className="team-empty">Mové un jugador a este equipo o regenerá la propuesta.</div> : <div className="team-player-list">
@@ -676,7 +708,7 @@ function App() {
               <span className="team-player-copy"><strong>{player.nickname || player.name}</strong><small>{POSITION_LABELS[player.preferredPosition]}</small></span>
               <span className="swap-check">{selected ? <IconCheck /> : <IconSwap />}</span>
             </button>
-            <button className="team-move" type="button" onClick={() => moveTeamPlayer(player.id, team)} aria-label={`Mover ${player.name} a ${team === 'blue' ? 'Rojos' : 'Azules'}`}>
+            <button className="team-move" type="button" onClick={() => moveTeamPlayer(player.id, team)} aria-label={`Mover ${player.name} a ${team === 'blue' ? teamNames.red : teamNames.blue}`}>
               {team === 'blue' ? <IconArrowRight /> : <IconArrowLeft />}
             </button>
           </article>;
@@ -698,9 +730,9 @@ function App() {
           <strong>{ratingDifference <= 1 ? 'Balance parejo' : 'Balance aproximado'}</strong>
         </div>
         <div className="teams-grid">
-          <TeamPanel team="blue" title="Azules" players={blueTeam} selectedId={swapSelection.blue} />
+          <TeamPanel team="blue" players={blueTeam} selectedId={swapSelection.blue} />
           <div className="versus-badge" aria-hidden="true">VS</div>
-          <TeamPanel team="red" title="Rojos" players={redTeam} selectedId={swapSelection.red} />
+          <TeamPanel team="red" players={redTeam} selectedId={swapSelection.red} />
         </div>
         <p className="swap-help">Para intercambiar, elegí un jugador de cada equipo. También podés moverlos directamente con la flecha.</p>
         <div className="team-builder-actions">

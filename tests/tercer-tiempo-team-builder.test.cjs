@@ -84,12 +84,27 @@ test('el modelo migra sesiones anteriores y conserva formaciones válidas', () =
     matches: []
   });
 
-  assert.equal(state.schemaVersion, 2);
+  assert.equal(state.schemaVersion, 3);
+  assert.deepEqual(state.draftSessions[0].teamNames, { blue: 'Azul', red: 'Rojo' });
   assert.deepEqual(state.draftSessions[0].teamAssignments.bluePlayerIds, assignments.bluePlayerIds);
   assert.deepEqual(state.draftSessions[0].teamAssignments.redPlayerIds, assignments.redPlayerIds);
 
   const stale = models.createDraftSession(group.id, [...roster.map(player => player.id), 'jugador-nuevo'], [], assignments);
   assert.equal(stale.teamAssignments, null);
+});
+
+test('los nombres de los equipos se validan, limitan y persisten separados de la formación', () => {
+  assert.deepEqual(models.createTeamNames(), { blue: 'Azul', red: 'Rojo' });
+  assert.deepEqual(models.createTeamNames({ blue: '  Talleres  ', red: '' }), { blue: 'Talleres', red: 'Rojo' });
+  assert.equal(models.createTeamNames({ blue: 'A'.repeat(40) }).blue.length, 24);
+
+  const session = models.createDraftSession('g1', [], [], null, { blue: 'Celeste', red: 'Negro' });
+  assert.deepEqual(session.teamNames, { blue: 'Celeste', red: 'Negro' });
+
+  const savedState = models.createInitialState();
+  savedState.draftSessions[0].teamNames = { blue: 'Con pechera', red: 'Sin pechera' };
+  const restoredState = models.sanitizeState(savedState);
+  assert.deepEqual(restoredState.draftSessions[0].teamNames, { blue: 'Con pechera', red: 'Sin pechera' });
 });
 
 test('la interfaz permite regenerar, mover e intercambiar sin ocultar la edición manual', () => {
@@ -98,12 +113,16 @@ test('la interfaz permite regenerar, mover e intercambiar sin ocultar la edició
   const config = read('tercer-tiempo-beta-v3/js/config.js');
 
   assert.match(config, /teamBuilder: true/);
+  assert.match(config, /schemaVersion: 3/);
   assert.match(config, /tacticalFormations: false/);
   assert.match(app, /Armar equipos/);
   assert.match(app, /Regenerar/);
   assert.match(app, /Intercambiar elegidos/);
   assert.match(app, /moveTeamPlayer/);
   assert.match(app, /manuallyEdited: true/);
+  assert.match(app, /Nombre del equipo/);
+  assert.match(app, /updateTeamName/);
+  assert.match(app, /TTModels\.createTeamNames\(\)/);
   assert.match(app, /posición y arqueros/);
   const teamBlock = app.slice(app.indexOf('const TeamBuilderContent'), app.indexOf('const HomeView'));
   assert.doesNotMatch(teamBlock, /Nivel \{player\.rating\}|Diferencia de nivel/);
