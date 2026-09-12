@@ -750,6 +750,7 @@ textarea:focus {
 .team-empty { padding: 0.9rem; color: var(--muted); background: rgba(255, 255, 255, 0.58); border: 1px dashed rgba(5, 46, 34, 0.2); border-radius: 0.75rem; font-size: 0.76rem; line-height: 1.4; text-align: center; }
 .swap-help { margin: 0.75rem 0 0; color: var(--muted); font-size: 0.76rem; line-height: 1.4; text-align: center; }
 .team-builder-actions { display: grid; gap: 0.55rem; margin-top: 0.75rem; }
+.share-formation-button { grid-column: 1 / -1; }
 
 .history-empty {
   display: grid;
@@ -802,7 +803,9 @@ textarea:focus {
 .history-player-list small { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .history-player-list span { color: var(--ink); font-size: 0.77rem; font-weight: 850; }
 .history-player-list small { margin-top: 0.08rem; color: var(--muted); font-size: 0.65rem; }
-.history-edit-button { width: 100%; margin-top: 0.75rem; }
+.history-card-actions { display: grid; gap: 0.55rem; margin-top: 0.75rem; }
+.history-card-actions .secondary-button { width: 100%; }
+.history-edit-button { margin-top: 0; }
 
 .history-tabs {
   display: grid;
