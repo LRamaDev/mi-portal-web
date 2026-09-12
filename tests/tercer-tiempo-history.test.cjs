@@ -106,7 +106,7 @@ test('el historial ordena por fecha y presenta fechas recreativas en castellano'
   assert.match(history.formatMatchDate('2026-09-09'), /^Miércoles 9 de septiembre de 2026$/);
 });
 
-test('la Etapa 4 habilita Historial y mantiene las estadísticas como función futura', () => {
+test('la Etapa 4 mantiene Historial como base para las estadísticas posteriores', () => {
   const html = read('tercer-tiempo-beta-v3/index.html');
   const app = read('tercer-tiempo-beta-v3/js/app.jsx');
   const config = read('tercer-tiempo-beta-v3/js/config.js');
@@ -114,7 +114,7 @@ test('la Etapa 4 habilita Historial y mantiene las estadísticas como función f
 
   assert.match(html, /\.\/js\/match-history\.js/);
   assert.match(config, /history: true/);
-  assert.match(config, /statistics: false/);
+  assert.match(config, /statistics: true/);
   assert.match(app, /Guardar en el historial/);
   assert.match(app, /Figura del partido/);
   assert.match(app, /Ver equipos y posiciones/);

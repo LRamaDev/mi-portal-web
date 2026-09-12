@@ -142,7 +142,7 @@ test('el motor de liquidación conserva el cálculo y utiliza el alias bancario 
   });
 });
 
-test('la interfaz incorpora Inicio, Partido, Jugadores, Historial y Grupo sin funciones futuras visibles', () => {
+test('la interfaz incorpora Inicio, Partido, Jugadores, Historial y Grupo sin funciones Pro visibles', () => {
   const app = read('tercer-tiempo-beta-v3/js/app.jsx');
   const config = read('tercer-tiempo-beta-v3/js/config.js');
   assert.match(app, /label: 'Inicio'/);
@@ -155,7 +155,7 @@ test('la interfaz incorpora Inicio, Partido, Jugadores, Historial y Grupo sin fu
   assert.match(app, /El plantel permanente no se borrará/);
   assert.match(config, /teamBuilder: true/);
   assert.match(config, /history: true/);
-  assert.match(config, /statistics: false/);
+  assert.match(config, /statistics: true/);
   assert.match(config, /proEntitlements: false/);
   assert.doesNotMatch(app, /Tercer Tiempo Pro/);
 });

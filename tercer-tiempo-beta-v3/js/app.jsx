@@ -4,6 +4,7 @@ const TTStorage = TercerTiempoStorage;
 const TTConfig = TercerTiempoConfig;
 const TTTeamBuilder = TercerTiempoTeamBuilder;
 const TTMatchHistory = TercerTiempoMatchHistory;
+const TTStatistics = TercerTiempoStatistics;
 
 const IconHome = () => <svg className="icon" fill="none" stroke="currentColor" strokeWidth="2.3" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="m3 10 9-7 9 7"/><path d="M5 9v11h14V9"/><path d="M9 20v-6h6v6"/></svg>;
 const IconUsers = () => <svg className="icon" fill="none" stroke="currentColor" strokeWidth="2.3" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>;
@@ -26,6 +27,7 @@ const IconDownload = () => <svg className="icon" fill="none" stroke="currentColo
 const IconAlert = () => <svg className="icon" fill="none" stroke="currentColor" strokeWidth="2.3" strokeLinecap="round" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>;
 const IconCalendar = () => <svg className="icon" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>;
 const IconHistory = () => <svg className="icon" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5M12 7v5l3 2"/></svg>;
+const IconStats = () => <svg className="icon" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M4 19V9M10 19V5M16 19v-7M22 19V2"/><path d="M2 19h22"/></svg>;
 
 const POSITION_LABELS = {
   goalkeeper: 'Arquero',
@@ -79,6 +81,7 @@ function App() {
   const [quickNames, setQuickNames] = useState('');
   const [rosterNames, setRosterNames] = useState('');
   const [rosterFilter, setRosterFilter] = useState('active');
+  const [historyTab, setHistoryTab] = useState('matches');
   const [editingPlayer, setEditingPlayer] = useState(null);
   const [matchEditor, setMatchEditor] = useState(null);
   const [swapSelection, setSwapSelection] = useState({ blue: null, red: null });
@@ -109,6 +112,10 @@ function App() {
   const groupMatches = useMemo(
     () => TTMatchHistory.sortMatches(state.matches.filter(match => match.groupId === activeGroup.id)),
     [state.matches, activeGroup.id]
+  );
+  const groupStatistics = useMemo(
+    () => TTStatistics.calculateStatistics(groupPlayers, groupMatches),
+    [groupPlayers, groupMatches]
   );
   const archivedMatch = draftSession.archivedMatchId
     ? state.matches.find(match => match.id === draftSession.archivedMatchId) || null
@@ -1046,12 +1053,103 @@ function App() {
       </div>;
     };
 
+    const StatisticsPanel = () => {
+      const { summary, players, recognitions } = groupStatistics;
+      const statsById = new Map(players.map(player => [player.playerId, player]));
+      const getRecognitionNames = recognition => recognition.playerIds
+        .map(playerId => {
+          const player = statsById.get(playerId);
+          return player ? player.nickname || player.name : '';
+        })
+        .filter(Boolean)
+        .join(', ');
+      const sortedPlayers = [...players].sort((left, right) => {
+        if (left.active !== right.active) return left.active ? -1 : 1;
+        return (left.nickname || left.name).localeCompare(right.nickname || right.name, 'es-AR');
+      });
+      const lastOutcomeLabel = {
+        win: 'victoria',
+        draw: 'empate',
+        loss: 'derrota'
+      };
+
+      if (summary.matchesPlayed === 0) {
+        return <section className="card history-empty statistics-empty">
+          <span className="post-match-icon"><IconStats /></span>
+          <h2>Las estadísticas arrancan con el primer resultado</h2>
+          <p>Guardá un partido terminado y la app hará las cuentas automáticamente.</p>
+          <button className="primary-button" type="button" onClick={() => changeView('match')}><IconCalendar /> Organizar partido</button>
+        </section>;
+      }
+
+      return <div className="statistics-view">
+        <section className="statistics-summary" aria-label="Resumen del grupo">
+          <article><span>Partidos</span><strong>{summary.matchesPlayed}</strong></article>
+          <article><span>Goles del grupo</span><strong>{summary.totalGoals}</strong></article>
+          <article><span>Goles por partido</span><strong>{summary.goalsPerMatch.toLocaleString('es-AR')}</strong></article>
+          <article><span>Figuras elegidas</span><strong>{summary.figuresChosen}</strong></article>
+        </section>
+
+        <section className="card recognition-section">
+          <div className="card-heading"><div><span className="eyebrow">Distinciones del vestuario</span><h2>Para compartir y divertirse</h2><p>Sin tablas rígidas ni puestos: sólo pequeños reconocimientos del grupo.</p></div></div>
+          <div className="recognition-grid">
+            <article className="recognition-card">
+              <span className="recognition-emoji" aria-hidden="true">👟</span>
+              <div><small>Más presente</small><strong>{getRecognitionNames(recognitions.mostPresent) || 'A estrenar'}</strong><span>{recognitions.mostPresent.value > 0 ? `${recognitions.mostPresent.value} ${recognitions.mostPresent.value === 1 ? 'partido' : 'partidos'}` : 'Todavía sin partidos'}</span></div>
+            </article>
+            <article className="recognition-card">
+              <span className="recognition-emoji" aria-hidden="true">⭐</span>
+              <div><small>Más veces figura</small><strong>{getRecognitionNames(recognitions.mostFigures) || 'Sin elegir todavía'}</strong><span>{recognitions.mostFigures.value > 0 ? `${recognitions.mostFigures.value} ${recognitions.mostFigures.value === 1 ? 'distinción' : 'distinciones'}` : 'Podés elegirla al guardar un resultado'}</span></div>
+            </article>
+            <article className="recognition-card">
+              <span className="recognition-emoji" aria-hidden="true">🔥</span>
+              <div><small>Buena racha</small><strong>{getRecognitionNames(recognitions.currentUnbeaten) || 'Se está armando'}</strong><span>{recognitions.currentUnbeaten.value >= 2 ? `${recognitions.currentUnbeaten.value} partidos sin perder` : 'Aparece desde dos partidos sin perder'}</span></div>
+            </article>
+          </div>
+        </section>
+
+        <section className="card player-statistics-section">
+          <div className="card-heading"><div><span className="eyebrow">La temporada del grupo</span><h2>Jugador por jugador</h2><p>Las cifras se recalculan cada vez que editás un resultado.</p></div><span className="count-badge">{players.filter(player => player.played > 0).length}</span></div>
+          <div className="player-stat-list">
+            {sortedPlayers.map(player => {
+              const displayName = player.nickname || player.name;
+              const streakText = player.played === 0
+                ? 'Todavía sin partidos registrados'
+                : player.currentUnbeatenStreak >= 2
+                  ? `${player.currentUnbeatenStreak} partidos sin perder`
+                  : `Último: ${lastOutcomeLabel[player.lastOutcome]}`;
+              return <article className={`player-stat-card ${player.active ? '' : 'is-inactive'}`} key={player.playerId}>
+                <div className="player-stat-heading">
+                  <span className="avatar" aria-hidden="true">{displayName.charAt(0).toUpperCase()}</span>
+                  <div><strong>{displayName}</strong><span>{POSITION_LABELS[player.preferredPosition] || 'Polifuncional'}{player.active ? '' : ' · Inactivo'}</span></div>
+                </div>
+                <div className="player-stat-metrics">
+                  <div><small>PJ</small><strong>{player.played}</strong></div>
+                  <div><small>V-E-D</small><strong>{player.wins}-{player.draws}-{player.losses}</strong></div>
+                  <div><small>Victorias</small><strong>{player.winPercentage}%</strong></div>
+                  <div><small>Figuras</small><strong>{player.figures}</strong></div>
+                </div>
+                <p className="player-streak">{streakText}</p>
+              </article>;
+            })}
+          </div>
+          <p className="statistics-note">Los goles individuales se incorporarán cuando habilitemos la carga opcional de goleadores.</p>
+        </section>
+      </div>;
+    };
+
+    const showingStatistics = historyTab === 'statistics' && TTConfig.features.statistics;
+
     return <>
       <div className="view-header">
-        <div><span className="eyebrow">Partidos jugados</span><h1>Historial</h1><p>Los resultados del grupo, sin convertir el fútbol en una planilla.</p></div>
-        <div className="group-pill"><span>Guardados</span><strong>{groupMatches.length} {groupMatches.length === 1 ? 'partido' : 'partidos'}</strong></div>
+        <div><span className="eyebrow">Actividad del grupo</span><h1>{showingStatistics ? 'Estadísticas' : 'Historial'}</h1><p>{showingStatistics ? 'Números simples y recreativos, calculados desde los partidos guardados.' : 'Los resultados del grupo, sin convertir el fútbol en una planilla.'}</p></div>
+        <div className="group-pill"><span>{showingStatistics ? 'Temporada' : 'Guardados'}</span><strong>{groupMatches.length} {groupMatches.length === 1 ? 'partido' : 'partidos'}</strong></div>
       </div>
-      {groupMatches.length === 0 ? <section className="card history-empty">
+      {TTConfig.features.statistics && <div className="history-tabs" role="tablist" aria-label="Actividad del grupo">
+        <button className={showingStatistics ? '' : 'is-active'} type="button" role="tab" aria-selected={!showingStatistics} onClick={() => setHistoryTab('matches')}><IconHistory /> Partidos</button>
+        <button className={showingStatistics ? 'is-active' : ''} type="button" role="tab" aria-selected={showingStatistics} onClick={() => setHistoryTab('statistics')}><IconStats /> Estadísticas</button>
+      </div>}
+      {showingStatistics ? <StatisticsPanel /> : groupMatches.length === 0 ? <section className="card history-empty">
         <span className="post-match-icon"><IconHistory /></span>
         <h2>Todavía no hay partidos guardados</h2>
         <p>Cuando termine el próximo, registrá el resultado y aparecerá acá.</p>
@@ -1175,7 +1273,7 @@ function App() {
         {activeView === 'players' && PlayersView()}
         {activeView === 'history' && HistoryView()}
         {activeView === 'group' && GroupView()}
-        <footer className="footer">Tercer Tiempo · Etapa 4 · Historial de partidos</footer>
+        <footer className="footer">Tercer Tiempo · Etapa 5 · Estadísticas del grupo</footer>
       </main>
     </div>
     {activeView === 'expenses' && <button className="settle-cta" type="button" onClick={() => setIsSettlementOpen(true)} disabled={expenses.length === 0}><IconReceipt /><span className="settle-cta-copy"><span>Resultado en vivo</span><strong>Cerrar las cuentas</strong></span><span className="settle-pill">{calculations.transactions.length} pagos</span></button>}
