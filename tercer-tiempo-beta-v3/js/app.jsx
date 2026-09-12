@@ -662,6 +662,213 @@ function App() {
       .catch(() => showToast('No se pudo copiar el texto', 'error'));
   };
 
+  const getDisplayName = player => String(player?.nickname || player?.name || 'Jugador').trim().slice(0, 26);
+
+  const truncateCanvasText = (context, value, maxWidth) => {
+    const text = String(value || '');
+    if (context.measureText(text).width <= maxWidth) return text;
+    let shortened = text;
+    while (shortened.length > 1 && context.measureText(`${shortened}…`).width > maxWidth) shortened = shortened.slice(0, -1);
+    return `${shortened}…`;
+  };
+
+  const drawShareCard = ({ kind, bluePlayers, redPlayers, teamLabels = teamNames, score = null, dateText, venue, figure, scorers = [] }) => {
+    const canvas = canvasRef.current;
+    if (!canvas) return null;
+    const context = canvas.getContext('2d');
+    const width = 1080;
+    const rosterRows = Math.max(bluePlayers.length, redPlayers.length, 1);
+    const height = kind === 'formation' ? Math.max(1350, 720 + rosterRows * 72) : 1350;
+    const pad = 64;
+    const cardGap = 24;
+    const teamWidth = (width - pad * 2 - cardGap) / 2;
+    canvas.width = width;
+    canvas.height = height;
+
+    const background = context.createLinearGradient(0, 0, width, height);
+    background.addColorStop(0, '#062b20');
+    background.addColorStop(0.5, '#0b5c42');
+    background.addColorStop(1, '#073f2e');
+    context.fillStyle = background;
+    context.fillRect(0, 0, width, height);
+    for (let stripe = 0; stripe < 9; stripe += 1) {
+      context.fillStyle = stripe % 2 === 0 ? 'rgba(198, 244, 123, 0.055)' : 'rgba(0, 0, 0, 0.035)';
+      context.fillRect(0, stripe * (height / 9), width, height / 9);
+    }
+    context.strokeStyle = 'rgba(255, 255, 255, 0.16)';
+    context.lineWidth = 3;
+    context.strokeRect(32, 32, width - 64, height - 64);
+    context.beginPath();
+    context.moveTo(32, height / 2);
+    context.lineTo(width - 32, height / 2);
+    context.stroke();
+    context.beginPath();
+    context.arc(width / 2, height / 2, 112, 0, Math.PI * 2);
+    context.stroke();
+
+    context.textAlign = 'left';
+    context.fillStyle = '#c6f47b';
+    context.font = '900 25px sans-serif';
+    context.fillText('⚽  TERCER TIEMPO', pad, 96);
+    context.textAlign = 'right';
+    context.fillStyle = 'rgba(255, 255, 255, 0.72)';
+    context.font = '700 20px sans-serif';
+    context.fillText(kind === 'formation' ? 'FORMACIÓN' : 'RESULTADO FINAL', width - pad, 96);
+    context.textAlign = 'left';
+    context.fillStyle = 'white';
+    context.font = '900 52px sans-serif';
+    context.fillText(truncateCanvasText(context, activeGroup.name, width - pad * 2), pad, 166);
+    context.fillStyle = 'rgba(255, 255, 255, 0.72)';
+    context.font = '700 24px sans-serif';
+    context.fillText(truncateCanvasText(context, [dateText, venue].filter(Boolean).join(' · ') || 'Partido del grupo', width - pad * 2), pad, 210);
+
+    let contentTop = 276;
+    if (score) {
+      context.fillStyle = 'rgba(255, 255, 255, 0.12)';
+      context.fillRect(pad, contentTop, width - pad * 2, 176);
+      context.textAlign = 'center';
+      context.fillStyle = '#75a8ef';
+      context.font = '900 27px sans-serif';
+      context.fillText(truncateCanvasText(context, teamLabels.blue, 250), 225, contentTop + 53);
+      context.fillStyle = 'white';
+      context.font = '900 88px sans-serif';
+      context.fillText(String(score.blue), 225, contentTop + 137);
+      context.fillStyle = 'rgba(255, 255, 255, 0.66)';
+      context.font = '900 30px sans-serif';
+      context.fillText('VS', width / 2, contentTop + 102);
+      context.fillStyle = '#ff98a5';
+      context.font = '900 27px sans-serif';
+      context.fillText(truncateCanvasText(context, teamLabels.red, 250), width - 225, contentTop + 53);
+      context.fillStyle = 'white';
+      context.font = '900 88px sans-serif';
+      context.fillText(String(score.red), width - 225, contentTop + 137);
+      contentTop += 226;
+    }
+
+    const drawTeam = (team, title, players, x, color, accent) => {
+      const panelHeight = kind === 'formation' ? Math.max(300, 110 + players.length * 62) : 270;
+      context.fillStyle = color;
+      context.fillRect(x, contentTop, teamWidth, panelHeight);
+      context.fillStyle = accent;
+      context.fillRect(x, contentTop, 12, panelHeight);
+      context.fillStyle = 'white';
+      context.font = '900 31px sans-serif';
+      context.textAlign = 'left';
+      context.fillText(truncateCanvasText(context, title, teamWidth - 56), x + 34, contentTop + 53);
+      context.fillStyle = 'rgba(255, 255, 255, 0.62)';
+      context.font = '700 18px sans-serif';
+      context.fillText(`${players.length} ${players.length === 1 ? 'jugador' : 'jugadores'}`, x + 34, contentTop + 84);
+      if (kind === 'formation') {
+        players.forEach((player, index) => {
+          const y = contentTop + 125 + index * 62;
+          context.fillStyle = 'rgba(255, 255, 255, 0.1)';
+          context.fillRect(x + 28, y - 29, teamWidth - 56, 48);
+          context.fillStyle = 'rgba(255, 255, 255, 0.55)';
+          context.font = '800 16px sans-serif';
+          context.fillText(POSITION_LABELS[player.preferredPosition] || 'Jugador', x + 44, y - 1);
+          context.fillStyle = 'white';
+          context.font = '900 22px sans-serif';
+          context.fillText(truncateCanvasText(context, getDisplayName(player), teamWidth - 86), x + 44, y + 21);
+        });
+      }
+    };
+
+    drawTeam('blue', teamLabels.blue, bluePlayers, pad, '#1d579d', '#75a8ef');
+    drawTeam('red', teamLabels.red, redPlayers, pad + teamWidth + cardGap, '#a83246', '#ff98a5');
+
+    if (kind === 'result') {
+      let detailY = contentTop + 310;
+      const detailLines = [];
+      if (figure) detailLines.push(`Figura: ${getDisplayName(figure)}`);
+      if (scorers.length > 0) detailLines.push(`Goleadores: ${scorers.join(' · ')}`);
+      if (detailLines.length === 0) detailLines.push('Un partido más para el grupo.');
+      context.fillStyle = 'rgba(255, 255, 255, 0.1)';
+      context.fillRect(pad, detailY, width - pad * 2, 142);
+      detailLines.slice(0, 2).forEach((line, index) => {
+        context.textAlign = 'center';
+        context.fillStyle = index === 0 ? '#c6f47b' : 'rgba(255, 255, 255, 0.76)';
+        context.font = index === 0 ? '900 27px sans-serif' : '700 20px sans-serif';
+        context.fillText(truncateCanvasText(context, line, width - pad * 2 - 50), width / 2, detailY + 51 + index * 48);
+      });
+    }
+
+    context.textAlign = 'center';
+    context.fillStyle = 'rgba(255, 255, 255, 0.62)';
+    context.font = '800 18px sans-serif';
+    context.fillText('Generado con Tercer Tiempo', width / 2, height - 64);
+    return canvas;
+  };
+
+  const shareGeneratedCard = (canvas, filename) => {
+    if (!canvas) return;
+    const fallbackDownload = () => {
+      const link = document.createElement('a');
+      link.download = filename;
+      link.href = canvas.toDataURL('image/png');
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      showToast('Tarjeta guardada. Ya podés enviarla por WhatsApp.');
+    };
+    if (window.ReactNativeWebView) {
+      window.ReactNativeWebView.postMessage(JSON.stringify({ type: 'DOWNLOAD_IMAGE', payload: canvas.toDataURL('image/png') }));
+      showToast('Tarjeta lista para compartir.');
+      return;
+    }
+    if (!navigator.share || !canvas.toBlob || typeof File === 'undefined') {
+      fallbackDownload();
+      return;
+    }
+    canvas.toBlob(async blob => {
+      if (!blob) return fallbackDownload();
+      const file = new File([blob], filename, { type: 'image/png' });
+      if (navigator.canShare && !navigator.canShare({ files: [file] })) return fallbackDownload();
+      try {
+        await navigator.share({ files: [file], title: 'Tercer Tiempo' });
+        showToast('Elegí WhatsApp para enviar la tarjeta.');
+      } catch (error) {
+        if (error?.name !== 'AbortError') fallbackDownload();
+      }
+    }, 'image/png');
+  };
+
+  const shareCurrentFormation = () => {
+    if (!teamAssignments) return showToast('Primero armá los equipos', 'error');
+    const card = drawShareCard({
+      kind: 'formation',
+      bluePlayers: blueTeam,
+      redPlayers: redTeam,
+      dateText: [DAY_LABELS[activeGroup.usualDay], activeGroup.usualTime].filter(Boolean).join(' · '),
+      venue: activeGroup.usualVenue
+    });
+    shareGeneratedCard(card, `formacion-${Date.now()}.png`);
+  };
+
+  const shareMatchResult = match => {
+    const getTeamPlayers = team => TTTeamBuilder.sortPlayersForLineup(
+      (match[team === 'blue' ? 'bluePlayerIds' : 'redPlayerIds'] || [])
+        .map(id => TTMatchHistory.getPlayerSnapshot(match, id))
+        .filter(Boolean)
+    );
+    const figure = TTMatchHistory.getPlayerSnapshot(match, match.playerOfTheMatchId);
+    const scorers = (match.scorers || []).map(entry => {
+      const player = TTMatchHistory.getPlayerSnapshot(match, entry.playerId);
+      return player && entry.goals > 0 ? `${getDisplayName(player)} (${entry.goals})` : '';
+    }).filter(Boolean);
+    const card = drawShareCard({
+      kind: 'result',
+      bluePlayers: getTeamPlayers('blue'),
+      redPlayers: getTeamPlayers('red'),
+      teamLabels: match.teamNames,
+      score: { blue: match.result.blueScore, red: match.result.redScore },
+      dateText: TTMatchHistory.formatMatchDate(match.playedOn),
+      venue: match.venue,
+      figure,
+      scorers
+    });
+    shareGeneratedCard(card, `resultado-${match.playedOn}.png`);
+  };
+
   const downloadReceipt = () => {
     const canvas = canvasRef.current;
     if (!canvas || expenses.length === 0) return;
@@ -882,6 +1089,7 @@ function App() {
         <div className="team-builder-actions">
           <button className="secondary-button" type="button" onClick={generateTeams}><IconRefresh /> Regenerar</button>
           <button className="primary-button" type="button" onClick={swapTeamPlayers} disabled={!canSwap}><IconSwap /> Intercambiar elegidos</button>
+          <button className="secondary-button share-formation-button" type="button" onClick={shareCurrentFormation}><IconShare /> Compartir formación</button>
         </div>
       </>}
     </section>;
@@ -1245,7 +1453,10 @@ function App() {
               <summary>Ver equipos y posiciones</summary>
               <div className="history-lineups"><HistoryTeam match={match} team="blue" /><HistoryTeam match={match} team="red" /></div>
             </details>
-            {isCurrent && <button className="secondary-button history-edit-button" type="button" onClick={openMatchEditor}>Editar este resultado</button>}
+            <div className="history-card-actions">
+              <button className="secondary-button" type="button" onClick={() => shareMatchResult(match)}><IconShare /> Compartir resultado</button>
+              {isCurrent && <button className="secondary-button history-edit-button" type="button" onClick={openMatchEditor}>Editar este resultado</button>}
+            </div>
           </article>;
         })}
       </div>}

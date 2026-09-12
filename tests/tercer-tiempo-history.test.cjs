@@ -155,3 +155,19 @@ test('la Etapa 4 mantiene Historial como base para las estadísticas posteriores
   assert.match(css, /\.scorer-editor/);
   assert.match(css, /\.post-match-actions/);
 });
+
+test('la Etapa 7 genera tarjetas compartibles de formación y resultado sin dependencias externas', () => {
+  const app = read('tercer-tiempo-beta-v3/js/app.jsx');
+  const css = read('tercer-tiempo-beta-v3/styles.css');
+
+  assert.match(app, /const drawShareCard/);
+  assert.match(app, /navigator\.share/);
+  assert.match(app, /new File\(\[blob\]/);
+  assert.match(app, /Compartir formación/);
+  assert.match(app, /Compartir resultado/);
+  assert.match(app, /teamLabels: match\.teamNames/);
+  assert.match(app, /TTMatchHistory\.getPlayerSnapshot/);
+  assert.doesNotMatch(app, /teamNames\.blue\s*=/);
+  assert.match(css, /\.share-formation-button/);
+  assert.match(css, /\.history-card-actions/);
+});
