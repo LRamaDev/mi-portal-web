@@ -54,6 +54,18 @@ test('la misma semilla produce la misma formación y menos de dos jugadores no b
   assert.equal(teamBuilder.buildBalancedTeams(players.slice(0, 1), 'insuficiente'), null);
 });
 
+test('cada equipo se presenta por línea: arquero, defensa, medio, ataque y polifuncionales', () => {
+  const unordered = [
+    { id: 'v', name: 'Versátil', preferredPosition: 'versatile' },
+    { id: 'f', name: 'Delantero', preferredPosition: 'forward' },
+    { id: 'g', name: 'Arquero', preferredPosition: 'goalkeeper' },
+    { id: 'm', name: 'Medio', preferredPosition: 'midfielder' },
+    { id: 'd', name: 'Defensor', preferredPosition: 'defender' }
+  ];
+
+  assert.deepEqual(teamBuilder.sortPlayersForLineup(unordered).map(player => player.id), ['g', 'd', 'm', 'f', 'v']);
+});
+
 test('el modelo migra sesiones anteriores y conserva formaciones válidas', () => {
   const group = models.createGroup({ id: 'g1', name: 'Los del Miércoles' });
   const roster = players.slice(0, 4).map(player => models.createPlayer({ ...player, groupId: group.id }));
@@ -86,12 +98,16 @@ test('la interfaz permite regenerar, mover e intercambiar sin ocultar la edició
   const config = read('tercer-tiempo-beta-v3/js/config.js');
 
   assert.match(config, /teamBuilder: true/);
+  assert.match(config, /tacticalFormations: false/);
   assert.match(app, /Armar equipos/);
   assert.match(app, /Regenerar/);
   assert.match(app, /Intercambiar elegidos/);
   assert.match(app, /moveTeamPlayer/);
   assert.match(app, /manuallyEdited: true/);
   assert.match(app, /posición y arqueros/);
+  const teamBlock = app.slice(app.indexOf('const TeamBuilderContent'), app.indexOf('const HomeView'));
+  assert.doesNotMatch(teamBlock, /Nivel \{player\.rating\}|Diferencia de nivel/);
+  assert.match(teamBlock, /POSITION_LABELS\[player\.preferredPosition\]/);
   assert.match(css, /\.teams-grid/);
   assert.match(css, /@media \(min-width: 40rem\)/);
 });
