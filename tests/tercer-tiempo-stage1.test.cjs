@@ -137,10 +137,11 @@ test('el motor de liquidación conserva el cálculo y utiliza el alias bancario 
   });
 });
 
-test('la interfaz incorpora Inicio, Jugadores y Grupo sin funciones futuras visibles', () => {
+test('la interfaz incorpora Inicio, Partido, Jugadores y Grupo sin funciones futuras visibles', () => {
   const app = read('tercer-tiempo-beta-v3/js/app.jsx');
   const config = read('tercer-tiempo-beta-v3/js/config.js');
   assert.match(app, /label: 'Inicio'/);
+  assert.match(app, /label: 'Partido'/);
   assert.match(app, /label: 'Jugadores'/);
   assert.match(app, /label: 'Grupo'/);
   assert.match(app, /Plantel permanente/);
@@ -151,6 +152,23 @@ test('la interfaz incorpora Inicio, Jugadores y Grupo sin funciones futuras visi
   assert.match(config, /statistics: false/);
   assert.match(config, /proEntitlements: false/);
   assert.doesNotMatch(app, /Tercer Tiempo Pro/);
+});
+
+test('el inicio prioriza el próximo partido y reserva los gastos para el tercer tiempo', () => {
+  const app = read('tercer-tiempo-beta-v3/js/app.jsx');
+  const homeBlock = app.slice(app.indexOf('const HomeView'), app.indexOf('const MatchView'));
+  const matchBlock = app.slice(app.indexOf('const MatchView'), app.indexOf('const ExpensesView'));
+  const expensesBlock = app.slice(app.indexOf('const ExpensesView'), app.indexOf('const PlayersView'));
+
+  assert.match(homeBlock, /Próximo partido/);
+  assert.match(homeBlock, /Organizar partido/);
+  assert.doesNotMatch(homeBlock, /expense-form|¿Qué se pagó\?|Gastos del partido/);
+  assert.match(matchBlock, /¿Quiénes juegan hoy\?/);
+  assert.match(matchBlock, /Abrir tercer tiempo/);
+  assert.match(expensesBlock, /Después de jugar/);
+  assert.match(expensesBlock, /¿Qué se pagó\?/);
+  assert.match(expensesBlock, /Gastos del partido/);
+  assert.match(app, /activeView === 'expenses' \? 'match' : activeView/);
 });
 
 test('la Beta v3 conserva gastos, WhatsApp, ticket y puente con la APK', () => {
