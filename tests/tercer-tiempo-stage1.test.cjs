@@ -35,6 +35,7 @@ test('la Beta v3 separa interfaz, estilos, datos y almacenamiento', () => {
   assert.match(html, /\.\/styles\.css/);
   assert.match(html, /\.\/js\/config\.js/);
   assert.match(html, /\.\/js\/models\.js/);
+  assert.match(html, /\.\/js\/team-builder\.js/);
   assert.match(html, /\.\/js\/storage\.js/);
   assert.match(html, /\.\/js\/app\.jsx/);
   assert.doesNotMatch(html, /const \{ useState/);
@@ -44,7 +45,7 @@ test('el estado inicial crea un grupo y un plantel permanente preparado para est
   const state = models.createInitialState([
     { id: 'p_1', name: 'Martín', alias: 'martin.mp' }
   ]);
-  assert.equal(state.schemaVersion, 1);
+  assert.equal(state.schemaVersion, 2);
   assert.equal(state.groups.length, 1);
   assert.equal(state.activeGroupId, state.groups[0].id);
   assert.equal(state.groups[0].planCode, 'free');
@@ -56,6 +57,7 @@ test('el estado inicial crea un grupo y un plantel permanente preparado para est
   assert.equal(state.players[0].rating, 3);
   assert.equal(state.players[0].paymentAlias, 'martin.mp');
   assert.equal(state.players[0].active, true);
+  assert.equal(state.draftSessions[0].teamAssignments, null);
   assert.deepEqual(state.players[0].stats, {
     played: 0,
     goals: 0,
@@ -137,7 +139,7 @@ test('el motor de liquidación conserva el cálculo y utiliza el alias bancario 
   });
 });
 
-test('la interfaz incorpora Inicio, Partido, Jugadores y Grupo sin funciones futuras visibles', () => {
+test('la interfaz incorpora Inicio, Partido, equipos, Jugadores y Grupo sin funciones futuras visibles', () => {
   const app = read('tercer-tiempo-beta-v3/js/app.jsx');
   const config = read('tercer-tiempo-beta-v3/js/config.js');
   assert.match(app, /label: 'Inicio'/);
@@ -147,7 +149,7 @@ test('la interfaz incorpora Inicio, Partido, Jugadores y Grupo sin funciones fut
   assert.match(app, /Plantel permanente/);
   assert.match(app, /Nivel recreativo/);
   assert.match(app, /El plantel permanente no se borrará/);
-  assert.match(config, /teamBuilder: false/);
+  assert.match(config, /teamBuilder: true/);
   assert.match(config, /history: false/);
   assert.match(config, /statistics: false/);
   assert.match(config, /proEntitlements: false/);

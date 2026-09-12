@@ -3,7 +3,7 @@
   if (typeof module === 'object' && module.exports) module.exports = api;
   root.TercerTiempoModels = api;
 })(typeof globalThis !== 'undefined' ? globalThis : window, function createModels() {
-  const SCHEMA_VERSION = 1;
+  const SCHEMA_VERSION = 2;
   const POSITION_VALUES = ['goalkeeper', 'defender', 'midfielder', 'forward', 'versatile'];
   const EMPTY_STATS = Object.freeze({
     played: 0,
@@ -75,14 +75,38 @@
     };
   };
 
-  const createDraftSession = (groupId, participantIds = [], expenses = []) => ({
-    groupId,
-    participantIds: Array.from(new Set(participantIds.filter(Boolean))),
-    expenses: Array.isArray(expenses) ? expenses.map(expense => ({
-      ...expense,
-      consumerIds: Array.isArray(expense.consumerIds) ? [...expense.consumerIds] : []
-    })) : []
-  });
+  const sanitizeTeamAssignments = (input, participantIds = []) => {
+    if (!input || typeof input !== 'object') return null;
+    const validIds = new Set(participantIds);
+    const bluePlayerIds = Array.from(new Set(Array.isArray(input.bluePlayerIds) ? input.bluePlayerIds : []))
+      .filter(id => validIds.has(id));
+    const blueIds = new Set(bluePlayerIds);
+    const redPlayerIds = Array.from(new Set(Array.isArray(input.redPlayerIds) ? input.redPlayerIds : []))
+      .filter(id => validIds.has(id) && !blueIds.has(id));
+    if (bluePlayerIds.length + redPlayerIds.length !== validIds.size) return null;
+    return {
+      bluePlayerIds,
+      redPlayerIds,
+      balanceScore: Number.isFinite(Number(input.balanceScore)) ? Number(input.balanceScore) : null,
+      seed: String(input.seed || ''),
+      algorithmVersion: Math.max(1, Number(input.algorithmVersion) || 1),
+      manuallyEdited: input.manuallyEdited === true,
+      generatedAt: input.generatedAt || nowIso()
+    };
+  };
+
+  const createDraftSession = (groupId, participantIds = [], expenses = [], teamAssignments = null) => {
+    const uniqueParticipantIds = Array.from(new Set(participantIds.filter(Boolean)));
+    return {
+      groupId,
+      participantIds: uniqueParticipantIds,
+      expenses: Array.isArray(expenses) ? expenses.map(expense => ({
+        ...expense,
+        consumerIds: Array.isArray(expense.consumerIds) ? [...expense.consumerIds] : []
+      })) : [],
+      teamAssignments: sanitizeTeamAssignments(teamAssignments, uniqueParticipantIds)
+    };
+  };
 
   const createInitialState = (legacyPlayers = [], legacyExpenses = []) => {
     const group = createGroup();
@@ -117,7 +141,8 @@
       return createDraftSession(
         group.id,
         (existing.participantIds || []).filter(id => playerIds.has(id)),
-        existing.expenses || []
+        existing.expenses || [],
+        existing.teamAssignments
       );
     });
     return {
@@ -221,6 +246,7 @@
     clampRating,
     createGroup,
     createPlayer,
+    sanitizeTeamAssignments,
     createDraftSession,
     createInitialState,
     sanitizeState,
