@@ -8,6 +8,7 @@
       multipleGroups: false,
       confirmations: false,
       teamBuilder: true,
+      tacticalFormations: false,
       history: false,
       statistics: false,
       proEntitlements: false

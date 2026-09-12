@@ -4,6 +4,13 @@
   root.TercerTiempoTeamBuilder = api;
 })(typeof globalThis !== 'undefined' ? globalThis : window, function createTeamBuilder() {
   const BALANCED_POSITIONS = ['goalkeeper', 'defender', 'midfielder', 'forward'];
+  const POSITION_ORDER = Object.freeze({
+    goalkeeper: 0,
+    defender: 1,
+    midfielder: 2,
+    forward: 3,
+    versatile: 4
+  });
 
   const hashSeed = (value) => {
     const text = String(value ?? 'tercer-tiempo');
@@ -39,6 +46,13 @@
     const rating = Number(player?.rating);
     return Number.isFinite(rating) ? Math.min(5, Math.max(1, rating)) : 3;
   };
+
+  const sortPlayersForLineup = (playersInput) => [...(Array.isArray(playersInput) ? playersInput : [])]
+    .sort((left, right) => {
+      const positionDifference = (POSITION_ORDER[left?.preferredPosition] ?? 4) - (POSITION_ORDER[right?.preferredPosition] ?? 4);
+      if (positionDifference !== 0) return positionDifference;
+      return String(left?.nickname || left?.name || '').localeCompare(String(right?.nickname || right?.name || ''), 'es-AR');
+    });
 
   const getMetrics = (team) => ({
     size: team.length,
@@ -155,8 +169,8 @@
     }
 
     return {
-      bluePlayerIds: best.blue.map(player => player.id),
-      redPlayerIds: best.red.map(player => player.id),
+      bluePlayerIds: sortPlayersForLineup(best.blue).map(player => player.id),
+      redPlayerIds: sortPlayersForLineup(best.red).map(player => player.id),
       balanceScore: best.score,
       seed: String(seed),
       algorithmVersion: 1,
@@ -167,11 +181,13 @@
 
   return {
     BALANCED_POSITIONS,
+    POSITION_ORDER,
     buildBalancedTeams,
     createRandom,
     getMetrics,
     getRating,
     hashSeed,
-    scoreTeams
+    scoreTeams,
+    sortPlayersForLineup
   };
 });

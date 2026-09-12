@@ -96,8 +96,12 @@ function App() {
   const sessionPlayers = sessionPlayerIds.map(id => groupPlayers.find(player => player.id === id)).filter(Boolean);
   const expenses = draftSession.expenses;
   const teamAssignments = draftSession.teamAssignments;
-  const blueTeam = (teamAssignments?.bluePlayerIds || []).map(id => groupPlayers.find(player => player.id === id)).filter(Boolean);
-  const redTeam = (teamAssignments?.redPlayerIds || []).map(id => groupPlayers.find(player => player.id === id)).filter(Boolean);
+  const blueTeam = TTTeamBuilder.sortPlayersForLineup(
+    (teamAssignments?.bluePlayerIds || []).map(id => groupPlayers.find(player => player.id === id)).filter(Boolean)
+  );
+  const redTeam = TTTeamBuilder.sortPlayersForLineup(
+    (teamAssignments?.redPlayerIds || []).map(id => groupPlayers.find(player => player.id === id)).filter(Boolean)
+  );
   const calculations = useMemo(
     () => TTModels.calculateSettlement(sessionPlayers, expenses),
     [sessionPlayers, expenses]
@@ -661,7 +665,7 @@ function App() {
     const TeamPanel = ({ team, title, players, selectedId }) => <section className={`team-panel is-${team}`}>
       <div className="team-panel-heading">
         <div><span>{team === 'blue' ? 'Equipo azul' : 'Equipo rojo'}</span><h3>{title}</h3></div>
-        <div className="team-total"><strong>{players.length}</strong><span>Nivel {TTTeamBuilder.getMetrics(players).rating}</span></div>
+        <div className="team-total"><strong>{players.length}</strong><span>jugadores</span></div>
       </div>
       {players.length === 0 ? <div className="team-empty">Mové un jugador a este equipo o regenerá la propuesta.</div> : <div className="team-player-list">
         {players.map(player => {
@@ -669,7 +673,7 @@ function App() {
           return <article className={`team-player ${selected ? 'is-selected' : ''}`} key={player.id}>
             <button className="team-player-select" type="button" onClick={() => selectPlayerForSwap(team, player.id)} aria-pressed={selected}>
               <span className="team-avatar">{player.name.charAt(0).toUpperCase()}</span>
-              <span className="team-player-copy"><strong>{player.nickname || player.name}</strong><small>{POSITION_LABELS[player.preferredPosition]} · Nivel {player.rating}</small></span>
+              <span className="team-player-copy"><strong>{player.nickname || player.name}</strong><small>{POSITION_LABELS[player.preferredPosition]}</small></span>
               <span className="swap-check">{selected ? <IconCheck /> : <IconSwap />}</span>
             </button>
             <button className="team-move" type="button" onClick={() => moveTeamPlayer(player.id, team)} aria-label={`Mover ${player.name} a ${team === 'blue' ? 'Rojos' : 'Azules'}`}>
@@ -691,7 +695,7 @@ function App() {
       </div> : <>
         <div className="balance-summary">
           <span>{teamAssignments.manuallyEdited ? 'Equipos editados manualmente' : 'Propuesta automática'}</span>
-          <strong>{ratingDifference === 0 ? 'Nivel parejo' : `Diferencia de nivel: ${ratingDifference}`}</strong>
+          <strong>{ratingDifference <= 1 ? 'Balance parejo' : 'Balance aproximado'}</strong>
         </div>
         <div className="teams-grid">
           <TeamPanel team="blue" title="Azules" players={blueTeam} selectedId={swapSelection.blue} />
