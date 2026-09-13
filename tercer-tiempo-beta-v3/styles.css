@@ -750,7 +750,7 @@ textarea:focus {
 .team-empty { padding: 0.9rem; color: var(--muted); background: rgba(255, 255, 255, 0.58); border: 1px dashed rgba(5, 46, 34, 0.2); border-radius: 0.75rem; font-size: 0.76rem; line-height: 1.4; text-align: center; }
 .swap-help { margin: 0.75rem 0 0; color: var(--muted); font-size: 0.76rem; line-height: 1.4; text-align: center; }
 .team-builder-actions { display: grid; gap: 0.55rem; margin-top: 0.75rem; }
-.share-formation-button { grid-column: 1 / -1; }
+.share-card-actions { display: grid; grid-column: 1 / -1; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.55rem; }
 
 .history-empty {
   display: grid;
