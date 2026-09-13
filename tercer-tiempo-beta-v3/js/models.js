@@ -3,8 +3,9 @@
   if (typeof module === 'object' && module.exports) module.exports = api;
   root.TercerTiempoModels = api;
 })(typeof globalThis !== 'undefined' ? globalThis : window, function createModels() {
-  const SCHEMA_VERSION = 5;
+  const SCHEMA_VERSION = 6;
   const POSITION_VALUES = ['goalkeeper', 'defender', 'midfielder', 'forward', 'versatile'];
+  const MIXED_GROUP_VALUES = ['female', 'male', 'unspecified'];
   const DEFAULT_TEAM_NAMES = Object.freeze({ blue: 'Azul', red: 'Rojo' });
   const EMPTY_STATS = Object.freeze({
     played: 0,
@@ -64,6 +65,7 @@
       name: String(input.name || '').trim(),
       nickname: String(input.nickname || ''),
       preferredPosition: position,
+      mixedGroup: MIXED_GROUP_VALUES.includes(input.mixedGroup) ? input.mixedGroup : 'unspecified',
       rating: clampRating(input.rating),
       paymentAlias: String(input.paymentAlias || input.alias || ''),
       active: input.active !== false,
@@ -173,6 +175,17 @@
     const redPlayerIds = Array.from(new Set(Array.isArray(input.redPlayerIds) ? input.redPlayerIds : []))
       .filter(id => validIds.has(id) && !blueIds.has(id));
     if (bluePlayerIds.length + redPlayerIds.length !== validIds.size) return null;
+    const sanitizeLineup = (lineup, teamIds) => {
+      if (!lineup || typeof lineup !== 'object') return null;
+      const playerIds = Array.from(new Set(Array.isArray(lineup.playerIds) ? lineup.playerIds.map(String) : []));
+      if (playerIds.length !== teamIds.length || playerIds.some(id => !teamIds.includes(id))) return null;
+      const goalkeeperId = String(lineup.goalkeeperId || playerIds[0] || '');
+      return playerIds.includes(goalkeeperId) ? {
+        formationId: String(lineup.formationId || ''),
+        goalkeeperId,
+        playerIds
+      } : null;
+    };
     return {
       bluePlayerIds,
       redPlayerIds,
@@ -180,7 +193,11 @@
       seed: String(input.seed || ''),
       algorithmVersion: Math.max(1, Number(input.algorithmVersion) || 1),
       manuallyEdited: input.manuallyEdited === true,
-      generatedAt: input.generatedAt || nowIso()
+      generatedAt: input.generatedAt || nowIso(),
+      lineups: {
+        blue: sanitizeLineup(input.lineups?.blue, bluePlayerIds),
+        red: sanitizeLineup(input.lineups?.red, redPlayerIds)
+      }
     };
   };
 

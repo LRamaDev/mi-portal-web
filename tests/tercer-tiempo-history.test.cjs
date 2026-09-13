@@ -119,7 +119,7 @@ test('la migración conserva el historial y vincula el partido guardado con la s
     matches: [match, { ...match, id: 'otro-grupo', groupId: 'g2' }]
   });
 
-  assert.equal(migrated.schemaVersion, 5);
+  assert.equal(migrated.schemaVersion, 6);
   assert.equal(migrated.matches.length, 1);
   assert.equal(migrated.matches[0].id, 'm1');
   assert.equal(migrated.matches[0].scorersRecorded, false);
@@ -149,7 +149,8 @@ test('la Etapa 4 mantiene Historial como base para las estadísticas posteriores
   assert.match(app, /Cargar goleadores/);
   assert.match(app, /scorersRecorded/);
   assert.match(app, /Ver equipos y posiciones/);
-  assert.match(app, /activeView === 'history'/);
+  assert.match(app, /showingActivity \? HistoryView\(\)/);
+  assert.match(app, /<IconHistory \/> Historial/);
   assert.match(css, /\.history-scoreboard/);
   assert.match(css, /\.history-scorers/);
   assert.match(css, /\.scorer-editor/);
