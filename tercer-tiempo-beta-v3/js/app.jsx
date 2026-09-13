@@ -2,6 +2,7 @@ const { useEffect, useMemo, useRef, useState } = React;
 const TTModels = TercerTiempoModels;
 const TTStorage = TercerTiempoStorage;
 const TTConfig = TercerTiempoConfig;
+const TTEntitlements = TercerTiempoEntitlements;
 const TTTeamBuilder = TercerTiempoTeamBuilder;
 const TTMatchHistory = TercerTiempoMatchHistory;
 const TTStatistics = TercerTiempoStatistics;
@@ -45,6 +46,13 @@ const DAY_LABELS = {
   '5': 'Viernes',
   '6': 'Sábado',
   '7': 'Domingo'
+};
+
+const VIEW_FEATURES = {
+  players: 'playerProfiles',
+  history: 'history',
+  group: 'groups',
+  expenses: 'expenses'
 };
 
 const EXPENSE_CATEGORIES = {
@@ -97,6 +105,11 @@ function App() {
   const toastTimerRef = useRef(null);
 
   const activeGroup = state.groups.find(group => group.id === state.activeGroupId) || state.groups[0];
+  const groupAccess = useMemo(
+    () => TTEntitlements.resolveGroupEntitlements(activeGroup, TTConfig),
+    [activeGroup]
+  );
+  const canUse = groupAccess.canUse;
   const groupPlayers = useMemo(
     () => state.players.filter(player => player.groupId === activeGroup.id),
     [state.players, activeGroup.id]
@@ -178,6 +191,11 @@ function App() {
   };
 
   const changeView = view => {
+    const requiredFeature = VIEW_FEATURES[view];
+    if (requiredFeature && !canUse(requiredFeature)) {
+      showToast('Esta función no está habilitada para este grupo.', 'info');
+      return;
+    }
     setActiveView(view);
     setIsSettlementOpen(false);
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -945,9 +963,9 @@ function App() {
   const navItems = [
     { id: 'home', label: 'Inicio', icon: <IconHome />, enabled: true },
     { id: 'match', label: 'Partido', icon: <IconCalendar />, enabled: true },
-    { id: 'players', label: 'Jugadores', icon: <IconUsers />, enabled: TTConfig.features.playerProfiles },
-    { id: 'history', label: 'Historial', icon: <IconHistory />, enabled: TTConfig.features.history },
-    { id: 'group', label: 'Grupo', icon: <IconShield />, enabled: TTConfig.features.groups }
+    { id: 'players', label: 'Jugadores', icon: <IconUsers />, enabled: canUse('playerProfiles') },
+    { id: 'history', label: 'Historial', icon: <IconHistory />, enabled: canUse('history') },
+    { id: 'group', label: 'Grupo', icon: <IconShield />, enabled: canUse('groups') }
   ].filter(item => item.enabled);
 
   const activeNavView = activeView === 'expenses' ? 'match' : activeView;
@@ -1089,7 +1107,7 @@ function App() {
         <div className="team-builder-actions">
           <button className="secondary-button" type="button" onClick={generateTeams}><IconRefresh /> Regenerar</button>
           <button className="primary-button" type="button" onClick={swapTeamPlayers} disabled={!canSwap}><IconSwap /> Intercambiar elegidos</button>
-          <button className="secondary-button share-formation-button" type="button" onClick={shareCurrentFormation}><IconShare /> Compartir formación</button>
+          {canUse('shareCards') && <button className="secondary-button share-formation-button" type="button" onClick={shareCurrentFormation}><IconShare /> Compartir formación</button>}
         </div>
       </>}
     </section>;
@@ -1135,7 +1153,7 @@ function App() {
           <p className="home-admin">Administrador: <strong>{administrator?.nickname || administrator?.name || 'Sin asignar'}</strong></p>
         </section>
 
-        {expenses.length > 0 && <section className="card pending-third-time">
+        {canUse('expenses') && expenses.length > 0 && <section className="card pending-third-time">
           <span className="expense-icon"><IconReceipt /></span>
           <div><span className="eyebrow">Tercer tiempo pendiente</span><strong>Hay {expenses.length} {expenses.length === 1 ? 'gasto cargado' : 'gastos cargados'}</strong><p>Podés retomar las cuentas sin perder lo que ya registraste.</p></div>
           <button className="secondary-button" type="button" onClick={() => changeView('expenses')}>Continuar</button>
@@ -1191,9 +1209,9 @@ function App() {
         </section>
 
       </div>
-      {TTConfig.features.teamBuilder && <TeamBuilderContent />}
+      {canUse('teamBuilder') && <TeamBuilderContent />}
       <div className="post-match-actions">
-        {TTConfig.features.history && <section className="card after-match-card match-result-card">
+        {canUse('history') && <section className="card after-match-card match-result-card">
           <span className="post-match-icon"><IconHistory /></span>
           <div>
             <span className="eyebrow">Cuando termine</span>
@@ -1205,7 +1223,7 @@ function App() {
           </button>
           {!teamAssignments && <small>Primero armá los equipos para registrar el partido.</small>}
         </section>}
-        <section className="card after-match-card match-third-time-card">
+        {canUse('expenses') && <section className="card after-match-card match-third-time-card">
           <span className="post-match-icon"><IconReceipt /></span>
           <div>
             <span className="eyebrow">Después de jugar</span>
@@ -1216,7 +1234,7 @@ function App() {
             <IconReceipt /> {expenses.length > 0 ? 'Continuar tercer tiempo' : 'Abrir tercer tiempo'}
           </button>
           {sessionPlayers.length === 0 && <small>Elegí al menos un jugador para continuar.</small>}
-        </section>
+        </section>}
       </div>
     </>;
   };
@@ -1409,14 +1427,14 @@ function App() {
       </div>;
     };
 
-    const showingStatistics = historyTab === 'statistics' && TTConfig.features.statistics;
+    const showingStatistics = historyTab === 'statistics' && canUse('statistics');
 
     return <>
       <div className="view-header">
         <div><span className="eyebrow">Actividad del grupo</span><h1>{showingStatistics ? 'Estadísticas' : 'Historial'}</h1><p>{showingStatistics ? 'Números simples y recreativos, calculados desde los partidos guardados.' : 'Los resultados del grupo, sin convertir el fútbol en una planilla.'}</p></div>
         <div className="group-pill"><span>{showingStatistics ? 'Temporada' : 'Guardados'}</span><strong>{groupMatches.length} {groupMatches.length === 1 ? 'partido' : 'partidos'}</strong></div>
       </div>
-      {TTConfig.features.statistics && <div className="history-tabs" role="tablist" aria-label="Actividad del grupo">
+      {canUse('statistics') && <div className="history-tabs" role="tablist" aria-label="Actividad del grupo">
         <button className={showingStatistics ? '' : 'is-active'} type="button" role="tab" aria-selected={!showingStatistics} onClick={() => setHistoryTab('matches')}><IconHistory /> Partidos</button>
         <button className={showingStatistics ? 'is-active' : ''} type="button" role="tab" aria-selected={showingStatistics} onClick={() => setHistoryTab('statistics')}><IconStats /> Estadísticas</button>
       </div>}
@@ -1454,7 +1472,7 @@ function App() {
               <div className="history-lineups"><HistoryTeam match={match} team="blue" /><HistoryTeam match={match} team="red" /></div>
             </details>
             <div className="history-card-actions">
-              <button className="secondary-button" type="button" onClick={() => shareMatchResult(match)}><IconShare /> Compartir resultado</button>
+              {canUse('shareCards') && <button className="secondary-button" type="button" onClick={() => shareMatchResult(match)}><IconShare /> Compartir resultado</button>}
               {isCurrent && <button className="secondary-button history-edit-button" type="button" onClick={openMatchEditor}>Editar este resultado</button>}
             </div>
           </article>;
