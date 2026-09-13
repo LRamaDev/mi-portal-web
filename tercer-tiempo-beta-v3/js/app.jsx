@@ -90,6 +90,8 @@ function App() {
   const [rosterNames, setRosterNames] = useState('');
   const [rosterFilter, setRosterFilter] = useState('active');
   const [historyTab, setHistoryTab] = useState('matches');
+  const [groupTab, setGroupTab] = useState('settings');
+  const [newGroupName, setNewGroupName] = useState('');
   const [editingPlayer, setEditingPlayer] = useState(null);
   const [matchEditor, setMatchEditor] = useState(null);
   const [swapSelection, setSwapSelection] = useState({ blue: null, red: null });
@@ -133,12 +135,17 @@ function App() {
   const archivedMatch = draftSession.archivedMatchId
     ? state.matches.find(match => match.id === draftSession.archivedMatchId) || null
     : null;
-  const blueTeam = TTTeamBuilder.sortPlayersForLineup(
-    (teamAssignments?.bluePlayerIds || []).map(id => groupPlayers.find(player => player.id === id)).filter(Boolean)
-  );
-  const redTeam = TTTeamBuilder.sortPlayersForLineup(
-    (teamAssignments?.redPlayerIds || []).map(id => groupPlayers.find(player => player.id === id)).filter(Boolean)
-  );
+  const getLineupPlayers = team => {
+    const teamIds = teamAssignments?.[`${team}PlayerIds`] || [];
+    const lineup = teamAssignments?.lineups?.[team];
+    const orderedIds = lineup?.playerIds?.length === teamIds.length ? lineup.playerIds : teamIds;
+    const players = orderedIds.map(id => groupPlayers.find(player => player.id === id)).filter(Boolean);
+    return lineup ? players : TTTeamBuilder.sortPlayersForLineup(players);
+  };
+  const blueTeam = getLineupPlayers('blue');
+  const redTeam = getLineupPlayers('red');
+  const blueLineup = teamAssignments?.lineups?.blue || null;
+  const redLineup = teamAssignments?.lineups?.red || null;
   const calculations = useMemo(
     () => TTModels.calculateSettlement(sessionPlayers, expenses),
     [sessionPlayers, expenses]
@@ -197,6 +204,7 @@ function App() {
       return;
     }
     setActiveView(view);
+    if (view === 'group') setGroupTab('settings');
     setIsSettlementOpen(false);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -289,13 +297,21 @@ function App() {
     return TTTeamBuilder.scoreTeams(bluePlayers, redPlayers, totalGoalkeepers);
   };
 
+  const createLineupsForAssignments = (bluePlayerIds, redPlayerIds) => ({
+    blue: TTTeamBuilder.buildSuggestedLineup(bluePlayerIds.map(id => groupPlayers.find(player => player.id === id)).filter(Boolean)),
+    red: TTTeamBuilder.buildSuggestedLineup(redPlayerIds.map(id => groupPlayers.find(player => player.id === id)).filter(Boolean))
+  });
+
   const generateTeams = () => {
     const assignments = TTTeamBuilder.buildBalancedTeams(sessionPlayers, TTModels.createId('teams'));
     if (!assignments) {
       showToast('Elegí al menos dos jugadores para armar los equipos', 'error');
       return;
     }
-    updateSession(session => ({ ...session, teamAssignments: assignments }));
+    updateSession(session => ({ ...session, teamAssignments: {
+      ...assignments,
+      lineups: createLineupsForAssignments(assignments.bluePlayerIds, assignments.redPlayerIds)
+    } }));
     setSwapSelection({ blue: null, red: null });
     showToast(teamAssignments ? 'Equipos regenerados' : 'Equipos armados');
   };
@@ -314,6 +330,38 @@ function App() {
     updateSession(session => ({ ...session, teamNames: TTModels.createTeamNames(session.teamNames) }));
   };
 
+  const updateLineup = (team, updater) => {
+    if (!teamAssignments) return;
+    updateSession(session => ({
+      ...session,
+      teamAssignments: {
+        ...session.teamAssignments,
+        lineups: {
+          ...session.teamAssignments.lineups,
+          [team]: updater(session.teamAssignments.lineups?.[team] || TTTeamBuilder.buildSuggestedLineup(
+            session.teamAssignments[`${team}PlayerIds`].map(id => groupPlayers.find(player => player.id === id)).filter(Boolean)
+          ))
+        },
+        manuallyEdited: true
+      }
+    }));
+  };
+
+  const changeFormation = (team, formationId) => updateLineup(team, lineup => ({ ...lineup, formationId }));
+
+  const changeTemporaryGoalkeeper = (team, goalkeeperId) => updateLineup(team, lineup => {
+    const playerIds = [goalkeeperId, ...lineup.playerIds.filter(id => id !== goalkeeperId)];
+    return { ...lineup, goalkeeperId, playerIds };
+  });
+
+  const moveLineupPlayer = (team, index, direction) => updateLineup(team, lineup => {
+    const nextIndex = index + direction;
+    if (index <= 0 || nextIndex <= 0 || nextIndex >= lineup.playerIds.length) return lineup;
+    const playerIds = [...lineup.playerIds];
+    [playerIds[index], playerIds[nextIndex]] = [playerIds[nextIndex], playerIds[index]];
+    return { ...lineup, playerIds };
+  });
+
   const moveTeamPlayer = (playerId, fromTeam) => {
     if (!teamAssignments) return;
     const destinationTeam = fromTeam === 'blue' ? 'red' : 'blue';
@@ -329,6 +377,7 @@ function App() {
         ...session.teamAssignments,
         bluePlayerIds,
         redPlayerIds,
+        lineups: createLineupsForAssignments(bluePlayerIds, redPlayerIds),
         balanceScore: scoreAssignment(bluePlayerIds, redPlayerIds),
         manuallyEdited: true
       }
@@ -356,6 +405,7 @@ function App() {
         ...session.teamAssignments,
         bluePlayerIds,
         redPlayerIds,
+        lineups: createLineupsForAssignments(bluePlayerIds, redPlayerIds),
         balanceScore: scoreAssignment(bluePlayerIds, redPlayerIds),
         manuallyEdited: true
       }
@@ -451,7 +501,8 @@ function App() {
         : session)
     }));
     setMatchEditor(null);
-    changeView('history');
+    changeView('group');
+    setGroupTab('activity');
     showToast(existingMatch ? 'Resultado actualizado' : 'Partido guardado en el historial');
   };
 
@@ -546,6 +597,37 @@ function App() {
       }) : group)
     }));
     showToast('Datos del grupo guardados');
+  };
+
+  const switchActiveGroup = groupId => {
+    if (!state.groups.some(group => group.id === groupId) || groupId === activeGroup.id) return;
+    setState(current => ({ ...current, activeGroupId: groupId }));
+    setSwapSelection({ blue: null, red: null });
+    setIsSettlementOpen(false);
+    showToast('Grupo activo actualizado');
+  };
+
+  const createAdditionalGroup = event => {
+    event.preventDefault();
+    const name = newGroupName.trim();
+    if (!name) {
+      showToast('Escribí un nombre para el nuevo grupo', 'error');
+      return;
+    }
+    if (state.groups.some(group => TTModels.normalizeName(group.name) === TTModels.normalizeName(name))) {
+      showToast('Ya existe un grupo con ese nombre', 'error');
+      return;
+    }
+    const group = TTModels.createGroup({ name });
+    setState(current => ({
+      ...current,
+      activeGroupId: group.id,
+      groups: [...current.groups, group],
+      draftSessions: [...current.draftSessions, TTModels.createDraftSession(group.id)]
+    }));
+    setNewGroupName('');
+    setGroupTab('settings');
+    showToast('Nuevo grupo creado. Ya podés cargar su plantel.');
   };
 
   const resetExpenseForm = (consumerIds = sessionPlayerIds) => {
@@ -710,24 +792,16 @@ function App() {
     return Math.min(lines.length, maxLines);
   };
 
-  const getPitchRows = players => {
-    const sorted = TTTeamBuilder.sortPlayersForLineup(players);
-    if (sorted.length === 0) return { goalkeeper: [], defender: [], midfielder: [], forward: [] };
-    const actualGoalkeeper = sorted.find(player => player.preferredPosition === 'goalkeeper');
-    const goalkeeper = actualGoalkeeper || sorted[0];
-    const rows = { goalkeeper: [goalkeeper], defender: [], midfielder: [], forward: [] };
-    const flexible = [];
-    sorted.filter(player => player.id !== goalkeeper.id).forEach(player => {
-      if (player.preferredPosition === 'defender') rows.defender.push(player);
-      else if (player.preferredPosition === 'midfielder') rows.midfielder.push(player);
-      else if (player.preferredPosition === 'forward') rows.forward.push(player);
-      else flexible.push(player);
-    });
-    flexible.forEach(player => {
-      const target = ['defender', 'midfielder', 'forward'].reduce((best, row) => rows[row].length < rows[best].length ? row : best, 'defender');
-      rows[target].push(player);
-    });
-    return rows;
+  const getPitchRows = (players, lineup) => {
+    if (players.length === 0) return { goalkeeper: [], defender: [], midfielder: [], forward: [] };
+    const formation = TTTeamBuilder.getFormation(players.length, lineup?.formationId);
+    const [defenders, midfielders] = formation.lines;
+    return {
+      goalkeeper: players.slice(0, 1),
+      defender: players.slice(1, 1 + defenders),
+      midfielder: players.slice(1 + defenders, 1 + defenders + midfielders),
+      forward: players.slice(1 + defenders + midfielders)
+    };
   };
 
   const drawPitchFormationCard = () => {
@@ -736,7 +810,7 @@ function App() {
     const context = canvas.getContext('2d');
     const width = 1080;
     const height = 1920;
-    const pitch = { x: 62, y: 314, width: 956, height: 1440 };
+    const pitch = { x: 62, y: 350, width: 956, height: 1404 };
     canvas.width = width;
     canvas.height = height;
     const background = context.createLinearGradient(0, 0, width, height);
@@ -825,14 +899,14 @@ function App() {
       const color = isTop ? '#1e64ae' : '#bd3a51';
       const accent = isTop ? '#91c3ff' : '#ffb1bb';
       const yByRole = isTop
-        ? { goalkeeper: 465, defender: 635, midfielder: 805, forward: 965 }
-        : { goalkeeper: 1605, defender: 1435, midfielder: 1265, forward: 1105 };
+        ? { goalkeeper: 500, defender: 670, midfielder: 840, forward: 1010 }
+        : { goalkeeper: 1600, defender: 1430, midfielder: 1260, forward: 1090 };
       context.fillStyle = color;
-      context.fillRect(88, isTop ? 336 : 1762, width - 176, 54);
+      context.fillRect(88, isTop ? 292 : 1762, width - 176, 54);
       context.textAlign = 'center';
       context.fillStyle = 'white';
       context.font = '900 25px sans-serif';
-      context.fillText(`${label.toLocaleUpperCase('es-AR')} · ${[...rows.goalkeeper, ...rows.defender, ...rows.midfielder, ...rows.forward].length} JUGADORES`, width / 2, isTop ? 372 : 1798);
+      context.fillText(`${label.toLocaleUpperCase('es-AR')} · ${[...rows.goalkeeper, ...rows.defender, ...rows.midfielder, ...rows.forward].length} JUGADORES`, width / 2, isTop ? 328 : 1798);
       Object.entries(rows).forEach(([role, players]) => {
         const y = yByRole[role];
         players.forEach((player, index) => {
@@ -842,8 +916,8 @@ function App() {
       });
     };
 
-    drawTeam(getPitchRows(blueTeam), 'blue');
-    drawTeam(getPitchRows(redTeam), 'red');
+    drawTeam(getPitchRows(blueTeam, blueLineup), 'blue');
+    drawTeam(getPitchRows(redTeam, redLineup), 'red');
     context.textAlign = 'center';
     context.fillStyle = 'rgba(255, 255, 255, 0.62)';
     context.font = '800 18px sans-serif';
@@ -1145,11 +1219,11 @@ function App() {
     { id: 'home', label: 'Inicio', icon: <IconHome />, enabled: true },
     { id: 'match', label: 'Partido', icon: <IconCalendar />, enabled: true },
     { id: 'players', label: 'Jugadores', icon: <IconUsers />, enabled: canUse('playerProfiles') },
-    { id: 'history', label: 'Historial', icon: <IconHistory />, enabled: canUse('history') },
+    { id: 'expenses', label: 'Tercer tiempo', icon: <IconReceipt />, enabled: canUse('expenses') },
     { id: 'group', label: 'Grupo', icon: <IconShield />, enabled: canUse('groups') }
   ].filter(item => item.enabled);
 
-  const activeNavView = activeView === 'expenses' ? 'match' : activeView;
+  const activeNavView = activeView;
 
   const NavButtons = () => <>{navItems.map(item => (
     <button
@@ -1235,7 +1309,11 @@ function App() {
     const ratingDifference = Math.abs(blueMetrics.rating - redMetrics.rating);
     const canSwap = Boolean(swapSelection.blue && swapSelection.red);
 
-    const TeamPanel = ({ team, players, selectedId }) => <section className={`team-panel is-${team}`}>
+    const TeamPanel = ({ team, players, selectedId, lineup }) => {
+      const formationOptions = TTTeamBuilder.getFormationOptions(players.length);
+      const roles = TTTeamBuilder.getLineupRoleLabels(lineup?.formationId, players.length);
+      const hasNaturalGoalkeeper = players.some(player => player.preferredPosition === 'goalkeeper');
+      return <section className={`team-panel is-${team}`}>
       <div className="team-panel-heading">
         <label className="team-name-field">
           <span>{team === 'blue' ? 'Equipo azul' : 'Equipo rojo'} · Tocá para editar</span>
@@ -1249,22 +1327,31 @@ function App() {
         </label>
         <div className="team-total"><strong>{players.length}</strong><span>jugadores</span></div>
       </div>
+      {players.length > 0 && <div className="lineup-controls">
+        <label><span>Sistema</span><select value={lineup?.formationId || formationOptions[0]?.id || ''} onChange={event => changeFormation(team, event.target.value)}>{formationOptions.map(option => <option key={option.id} value={option.id}>{option.label}</option>)}</select></label>
+        <label><span>{hasNaturalGoalkeeper ? 'Arquero' : 'Arquero temporal'}</span><select value={lineup?.goalkeeperId || players[0]?.id || ''} onChange={event => changeTemporaryGoalkeeper(team, event.target.value)}>{players.map(player => <option key={player.id} value={player.id}>{player.nickname || player.name}</option>)}</select></label>
+      </div>}
       {players.length === 0 ? <div className="team-empty">Mové un jugador a este equipo o regenerá la propuesta.</div> : <div className="team-player-list">
-        {players.map(player => {
+        {players.map((player, index) => {
           const selected = selectedId === player.id;
           return <article className={`team-player ${selected ? 'is-selected' : ''}`} key={player.id}>
             <button className="team-player-select" type="button" onClick={() => selectPlayerForSwap(team, player.id)} aria-pressed={selected}>
               <span className="team-avatar">{player.name.charAt(0).toUpperCase()}</span>
-              <span className="team-player-copy"><strong>{player.nickname || player.name}</strong><small>{POSITION_LABELS[player.preferredPosition]}</small></span>
+              <span className="team-player-copy"><strong>{player.nickname || player.name}</strong><small>{roles[index] || POSITION_LABELS[player.preferredPosition]}</small></span>
               <span className="swap-check">{selected ? <IconCheck /> : <IconSwap />}</span>
             </button>
-            <button className="team-move" type="button" onClick={() => moveTeamPlayer(player.id, team)} aria-label={`Mover ${player.name} a ${team === 'blue' ? teamNames.red : teamNames.blue}`}>
-              {team === 'blue' ? <IconArrowRight /> : <IconArrowLeft />}
-            </button>
+            <div className="team-player-actions">
+              <button className="team-move is-lineup-move" type="button" onClick={() => moveLineupPlayer(team, index, -1)} disabled={index < 2} aria-label={`Subir a ${player.name} en la alineación`}>↑</button>
+              <button className="team-move is-lineup-move" type="button" onClick={() => moveLineupPlayer(team, index, 1)} disabled={index === 0 || index === players.length - 1} aria-label={`Bajar a ${player.name} en la alineación`}>↓</button>
+              <button className="team-move" type="button" onClick={() => moveTeamPlayer(player.id, team)} aria-label={`Mover ${player.name} a ${team === 'blue' ? teamNames.red : teamNames.blue}`}>
+                {team === 'blue' ? <IconArrowRight /> : <IconArrowLeft />}
+              </button>
+            </div>
           </article>;
         })}
       </div>}
     </section>;
+    };
 
     return <section className="card team-builder-card" id="team-builder">
       <div className="card-heading">
@@ -1280,11 +1367,11 @@ function App() {
           <strong>{ratingDifference <= 1 ? 'Balance parejo' : 'Balance aproximado'}</strong>
         </div>
         <div className="teams-grid">
-          <TeamPanel team="blue" players={blueTeam} selectedId={swapSelection.blue} />
+          <TeamPanel team="blue" players={blueTeam} selectedId={swapSelection.blue} lineup={blueLineup} />
           <div className="versus-badge" aria-hidden="true">VS</div>
-          <TeamPanel team="red" players={redTeam} selectedId={swapSelection.red} />
+          <TeamPanel team="red" players={redTeam} selectedId={swapSelection.red} lineup={redLineup} />
         </div>
-        <p className="swap-help">Para intercambiar, elegí un jugador de cada equipo. También podés moverlos directamente con la flecha.</p>
+        <p className="swap-help">Elegí un sistema y un arquero para el partido. Con ↑ y ↓ movés a alguien un casillero; con la flecha lateral lo pasás al otro equipo.</p>
         <div className="team-builder-actions">
           <button className="secondary-button" type="button" onClick={generateTeams}><IconRefresh /> Regenerar</button>
           <button className="primary-button" type="button" onClick={swapTeamPlayers} disabled={!canSwap}><IconSwap /> Intercambiar elegidos</button>
@@ -1702,10 +1789,27 @@ function App() {
 
   const GroupView = () => {
     const administrator = groupPlayers.find(player => player.id === activeGroup.adminPlayerId);
+    const showingActivity = groupTab === 'activity';
     return <>
       <div className="view-header">
-        <div><span className="eyebrow">Tu equipo de siempre</span><h1>Grupo</h1><p>La información habitual queda lista para cada partido.</p></div>
+        <div><span className="eyebrow">Tu equipo de siempre</span><h1>Grupo</h1><p>{showingActivity ? 'Partidos y estadísticas de este grupo.' : 'La información habitual queda lista para cada partido.'}</p></div>
       </div>
+      <div className="group-tabs" role="tablist" aria-label="Secciones del grupo">
+        <button className={showingActivity ? '' : 'is-active'} type="button" role="tab" aria-selected={!showingActivity} onClick={() => setGroupTab('settings')}><IconShield /> Datos</button>
+        <button className={showingActivity ? 'is-active' : ''} type="button" role="tab" aria-selected={showingActivity} onClick={() => setGroupTab('activity')}><IconHistory /> Historial</button>
+      </div>
+      {showingActivity ? HistoryView() : <>
+      <section className="card group-switcher">
+        <div className="card-heading"><div><span className="eyebrow">Cambiar de grupo</span><h2>¿Con quién jugás hoy?</h2><p>Cada grupo conserva su propio plantel, partidos y tercer tiempo.</p></div></div>
+        <div className="group-switcher-controls">
+          <label className="sr-only" htmlFor="active-group">Grupo activo</label>
+          <select id="active-group" value={activeGroup.id} onChange={event => switchActiveGroup(event.target.value)}>{state.groups.map(group => <option key={group.id} value={group.id}>{group.name}</option>)}</select>
+        </div>
+        <form className="inline-form group-create-form" onSubmit={createAdditionalGroup}>
+          <input value={newGroupName} onChange={event => setNewGroupName(event.target.value)} maxLength="60" placeholder="Ej. Fútbol de los jueves" aria-label="Nombre del nuevo grupo" />
+          <button className="secondary-button" type="submit"><IconPlus /> Nuevo grupo</button>
+        </form>
+      </section>
       <div className="group-layout">
         <section className="group-hero">
           <strong>{activeGroup.name}</strong>
@@ -1734,6 +1838,7 @@ function App() {
           <p className="form-note">En esta etapa el administrador es un dato del grupo. Los permisos reales llegarán más adelante, junto con las cuentas de usuario.</p>
         </section>
       </div>
+      </>}
     </>;
   };
 
@@ -1742,6 +1847,7 @@ function App() {
     <header className="topbar">
       <div className="topbar-inner">
         <div className="brand"><img className="brand-logo" src="./icon.svg" alt="" aria-hidden="true" /><div className="brand-copy"><strong>Tercer Tiempo</strong><span>{activeGroup.name} · Beta v3</span></div></div>
+        <label className="topbar-group-switch"><span className="sr-only">Cambiar grupo activo</span><select value={activeGroup.id} onChange={event => switchActiveGroup(event.target.value)}>{state.groups.map(group => <option key={group.id} value={group.id}>{group.name}</option>)}</select></label>
         <a className="portal-link" href="../" aria-label="Volver al portal de Lea Rama Dev"><IconArrowLeft /></a>
       </div>
     </header>
@@ -1752,7 +1858,6 @@ function App() {
         {activeView === 'match' && MatchView()}
         {activeView === 'expenses' && ExpensesView()}
         {activeView === 'players' && PlayersView()}
-        {activeView === 'history' && HistoryView()}
         {activeView === 'group' && GroupView()}
         <footer className="footer">Tercer Tiempo · Etapa 5 · Estadísticas del grupo</footer>
       </main>
@@ -1771,6 +1876,7 @@ function App() {
             <div className="field-group"><label htmlFor="player-position">Posición preferida</label><select id="player-position" value={editingPlayer.preferredPosition} onChange={event => setEditingPlayer(current => ({ ...current, preferredPosition: event.target.value }))}>{Object.entries(POSITION_LABELS).map(([value, label]) => <option key={value} value={value}>{label}</option>)}</select></div>
             <div className="field-group"><label htmlFor="player-rating">Nivel recreativo</label><select id="player-rating" value={editingPlayer.rating} onChange={event => setEditingPlayer(current => ({ ...current, rating: Number(event.target.value) }))}>{[1, 2, 3, 4, 5].map(value => <option key={value} value={value}>{value} de 5</option>)}</select></div>
           </div>
+          <div className="field-group"><label htmlFor="player-mixed-group">Equilibrio mixto <span className="optional-label">opcional</span></label><select id="player-mixed-group" value={editingPlayer.mixedGroup || 'unspecified'} onChange={event => setEditingPlayer(current => ({ ...current, mixedGroup: event.target.value }))}><option value="unspecified">Sin indicar</option><option value="female">Mujer</option><option value="male">Varón</option></select><small className="form-note">Se usa sólo para equilibrar equipos mixtos. No aparece en listas ni tarjetas.</small></div>
           <div className="field-group"><label htmlFor="player-payment-alias">Alias para cobrar</label><input id="player-payment-alias" value={editingPlayer.paymentAlias} onChange={event => setEditingPlayer(current => ({ ...current, paymentAlias: event.target.value }))} placeholder="Alias, CBU o CVU" /></div>
           <div className="switch-row"><div className="switch-copy"><strong>Jugador activo</strong><span>Los inactivos no se agregan automáticamente a partidos nuevos.</span></div><button className={`switch ${editingPlayer.active ? 'is-on' : ''}`} type="button" onClick={() => setEditingPlayer(current => ({ ...current, active: !current.active }))} role="switch" aria-checked={editingPlayer.active}><span className="sr-only">Cambiar estado del jugador</span></button></div>
           <div className="composer-actions"><button className="primary-button" type="submit"><IconCheck /> Guardar jugador</button><button className="secondary-button" type="button" onClick={() => setEditingPlayer(null)}>Cancelar</button></div>

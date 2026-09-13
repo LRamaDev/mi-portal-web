@@ -84,7 +84,7 @@ test('el modelo migra sesiones anteriores y conserva formaciones válidas', () =
     matches: []
   });
 
-  assert.equal(state.schemaVersion, 5);
+  assert.equal(state.schemaVersion, 6);
   assert.deepEqual(state.draftSessions[0].teamNames, { blue: 'Azul', red: 'Rojo' });
   assert.deepEqual(state.draftSessions[0].teamAssignments.bluePlayerIds, assignments.bluePlayerIds);
   assert.deepEqual(state.draftSessions[0].teamAssignments.redPlayerIds, assignments.redPlayerIds);
@@ -113,8 +113,8 @@ test('la interfaz permite regenerar, mover e intercambiar sin ocultar la edició
   const config = read('tercer-tiempo-beta-v3/js/config.js');
 
   assert.match(config, /teamBuilder: true/);
-  assert.match(config, /schemaVersion: 5/);
-  assert.match(config, /tacticalFormations: false/);
+  assert.match(config, /schemaVersion: 6/);
+  assert.match(config, /tacticalFormations: true/);
   assert.match(app, /Armar equipos/);
   assert.match(app, /Regenerar/);
   assert.match(app, /Intercambiar elegidos/);
@@ -122,11 +122,40 @@ test('la interfaz permite regenerar, mover e intercambiar sin ocultar la edició
   assert.match(app, /manuallyEdited: true/);
   assert.match(app, /Nombre del equipo/);
   assert.match(app, /updateTeamName/);
+  assert.match(app, /changeFormation/);
+  assert.match(app, /changeTemporaryGoalkeeper/);
+  assert.match(app, /moveLineupPlayer/);
   assert.match(app, /TTModels\.createTeamNames\(\)/);
   assert.match(app, /posición y arqueros/);
   const teamBlock = app.slice(app.indexOf('const TeamBuilderContent'), app.indexOf('const HomeView'));
   assert.doesNotMatch(teamBlock, /Nivel \{player\.rating\}|Diferencia de nivel/);
-  assert.match(teamBlock, /POSITION_LABELS\[player\.preferredPosition\]/);
+  assert.match(teamBlock, /getLineupRoleLabels/);
   assert.match(css, /\.teams-grid/);
   assert.match(css, /@media \(min-width: 40rem\)/);
+});
+
+test('las formaciones proponen roles de cancha y permiten un arquero temporal', () => {
+  assert.deepEqual(teamBuilder.getFormationOptions(5).map(option => option.id), ['2-2', '2-1-1', '1-2-1']);
+  assert.deepEqual(teamBuilder.getLineupRoleLabels('4-3-3', 11).slice(0, 5), ['Arquero', 'Lateral derecho', 'Central derecho', 'Central izquierdo', 'Lateral izquierdo']);
+  const withoutGoalkeeper = players.filter(player => player.preferredPosition !== 'goalkeeper').slice(0, 5);
+  const lineup = teamBuilder.buildSuggestedLineup(withoutGoalkeeper, '2-1-1');
+  assert.equal(lineup.playerIds.length, 5);
+  assert.equal(lineup.playerIds[0], lineup.goalkeeperId);
+  assert.equal(lineup.formationId, '2-1-1');
+});
+
+test('el balance mixto es opcional y ayuda a repartir las categorías indicadas', () => {
+  const mixedPlayers = [
+    { id: 'f1', name: 'Ana', rating: 3, preferredPosition: 'versatile', mixedGroup: 'female' },
+    { id: 'f2', name: 'Caro', rating: 3, preferredPosition: 'versatile', mixedGroup: 'female' },
+    { id: 'm1', name: 'Beto', rating: 3, preferredPosition: 'versatile', mixedGroup: 'male' },
+    { id: 'm2', name: 'Dani', rating: 3, preferredPosition: 'versatile', mixedGroup: 'male' }
+  ];
+  const result = teamBuilder.buildBalancedTeams(mixedPlayers, 'mixto');
+  const blue = result.bluePlayerIds.map(id => mixedPlayers.find(player => player.id === id));
+  const red = result.redPlayerIds.map(id => mixedPlayers.find(player => player.id === id));
+  assert.equal(teamBuilder.getMetrics(blue).mixedGroups.female, 1);
+  assert.equal(teamBuilder.getMetrics(red).mixedGroups.female, 1);
+  assert.equal(teamBuilder.getMetrics(blue).mixedGroups.male, 1);
+  assert.equal(teamBuilder.getMetrics(red).mixedGroups.male, 1);
 });

@@ -11,6 +11,49 @@
     forward: 3,
     versatile: 4
   });
+  const MIXED_GROUP_VALUES = Object.freeze(['female', 'male', 'unspecified']);
+  const FORMATION_OPTIONS = Object.freeze({
+    5: [{ id: '2-2', label: '2-2', lines: [2, 2, 0] }, { id: '2-1-1', label: '2-1-1', lines: [2, 1, 1] }, { id: '1-2-1', label: '1-2-1', lines: [1, 2, 1] }],
+    6: [{ id: '2-2-1', label: '2-2-1', lines: [2, 2, 1] }, { id: '2-1-2', label: '2-1-2', lines: [2, 1, 2] }, { id: '3-1-1', label: '3-1-1', lines: [3, 1, 1] }],
+    7: [{ id: '2-3-1', label: '2-3-1', lines: [2, 3, 1] }, { id: '3-2-1', label: '3-2-1', lines: [3, 2, 1] }, { id: '2-2-2', label: '2-2-2', lines: [2, 2, 2] }],
+    8: [{ id: '3-2-2', label: '3-2-2', lines: [3, 2, 2] }, { id: '2-3-2', label: '2-3-2', lines: [2, 3, 2] }, { id: '3-3-1', label: '3-3-1', lines: [3, 3, 1] }],
+    9: [{ id: '3-3-2', label: '3-3-2', lines: [3, 3, 2] }, { id: '4-2-2', label: '4-2-2', lines: [4, 2, 2] }, { id: '3-2-3', label: '3-2-3', lines: [3, 2, 3] }],
+    10: [{ id: '4-3-2', label: '4-3-2', lines: [4, 3, 2] }, { id: '3-4-2', label: '3-4-2', lines: [3, 4, 2] }, { id: '4-2-3', label: '4-2-3', lines: [4, 2, 3] }],
+    11: [{ id: '4-3-3', label: '4-3-3', lines: [4, 3, 3] }, { id: '4-4-2', label: '4-4-2', lines: [4, 4, 2] }, { id: '3-5-2', label: '3-5-2', lines: [3, 5, 2] }]
+  });
+
+  const getMixedGroupValue = player => MIXED_GROUP_VALUES.includes(player?.mixedGroup)
+    ? player.mixedGroup
+    : 'unspecified';
+
+  const getFormationOptions = playerCount => FORMATION_OPTIONS[Math.max(5, Math.min(11, Number(playerCount) || 5))] || [];
+  const getFormation = (playerCount, formationId) => getFormationOptions(playerCount)
+    .find(item => item.id === formationId) || getFormationOptions(playerCount)[0] || { id: 'libre', label: 'Libre', lines: [0, 0, Math.max(0, playerCount - 1)] };
+
+  const getLineupRoleLabels = (formationId, playerCount) => {
+    const formation = getFormation(playerCount, formationId);
+    const makeRoles = (count, singular, variants) => Array.from({ length: count }, (_, index) => variants[index] || (count === 1 ? singular : `${singular} ${index + 1}`));
+    const [defenders, midfielders, forwards] = formation.lines;
+    return [
+      'Arquero',
+      ...makeRoles(defenders, 'Defensor', defenders === 4 ? ['Lateral derecho', 'Central derecho', 'Central izquierdo', 'Lateral izquierdo'] : defenders === 3 ? ['Central derecho', 'Central', 'Central izquierdo'] : defenders === 2 ? ['Central derecho', 'Central izquierdo'] : ['Defensor central']),
+      ...makeRoles(midfielders, 'Mediocampista', midfielders === 3 ? ['Volante derecho', 'Volante central', 'Volante izquierdo'] : midfielders === 2 ? ['Volante derecho', 'Volante izquierdo'] : ['Volante central']),
+      ...makeRoles(forwards, 'Delantero', forwards === 3 ? ['Extremo derecho', 'Centrodelantero', 'Extremo izquierdo'] : forwards === 2 ? ['Delantero derecho', 'Delantero izquierdo'] : ['Centrodelantero'])
+    ];
+  };
+
+  const buildSuggestedLineup = (playersInput, formationId) => {
+    const players = Array.isArray(playersInput) ? playersInput.filter(player => player?.id) : [];
+    const actualGoalkeeper = players.find(player => player.preferredPosition === 'goalkeeper');
+    const temporaryGoalkeeper = actualGoalkeeper || players.find(player => player.preferredPosition === 'versatile') || players[0] || null;
+    const outfield = sortPlayersForLineup(players.filter(player => player.id !== temporaryGoalkeeper?.id));
+    const formation = getFormation(players.length, formationId);
+    return {
+      formationId: formation.id,
+      goalkeeperId: temporaryGoalkeeper?.id || null,
+      playerIds: temporaryGoalkeeper ? [temporaryGoalkeeper.id, ...outfield.map(player => player.id)] : []
+    };
+  };
 
   const hashSeed = (value) => {
     const text = String(value ?? 'tercer-tiempo');
@@ -60,7 +103,8 @@
     positions: BALANCED_POSITIONS.reduce((counts, position) => ({
       ...counts,
       [position]: team.filter(player => player.preferredPosition === position).length
-    }), {})
+    }), {}),
+    mixedGroups: MIXED_GROUP_VALUES.reduce((counts, value) => ({ ...counts, [value]: team.filter(player => getMixedGroupValue(player) === value).length }), {})
   });
 
   const scoreTeams = (blue, red, totalGoalkeepers = 0) => {
@@ -72,6 +116,9 @@
     BALANCED_POSITIONS.forEach(position => {
       const weight = position === 'goalkeeper' ? 32 : 5;
       score += Math.abs(blueMetrics.positions[position] - redMetrics.positions[position]) * weight;
+    });
+    ['female', 'male'].forEach(value => {
+      score += Math.abs(blueMetrics.mixedGroups[value] - redMetrics.mixedGroups[value]) * 18;
     });
 
     if (totalGoalkeepers >= 2 && (blueMetrics.positions.goalkeeper === 0 || redMetrics.positions.goalkeeper === 0)) {
@@ -182,11 +229,17 @@
   return {
     BALANCED_POSITIONS,
     POSITION_ORDER,
+    FORMATION_OPTIONS,
+    MIXED_GROUP_VALUES,
     buildBalancedTeams,
+    buildSuggestedLineup,
     createRandom,
     getMetrics,
     getRating,
     hashSeed,
+    getFormation,
+    getFormationOptions,
+    getLineupRoleLabels,
     scoreTeams,
     sortPlayersForLineup
   };

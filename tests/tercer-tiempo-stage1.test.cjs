@@ -46,7 +46,7 @@ test('el estado inicial crea un grupo y un plantel permanente preparado para est
   const state = models.createInitialState([
     { id: 'p_1', name: 'Martín', alias: 'martin.mp' }
   ]);
-  assert.equal(state.schemaVersion, 5);
+  assert.equal(state.schemaVersion, 6);
   assert.equal(state.groups.length, 1);
   assert.equal(state.activeGroupId, state.groups[0].id);
   assert.equal(state.groups[0].planCode, 'free');
@@ -142,20 +142,24 @@ test('el motor de liquidación conserva el cálculo y utiliza el alias bancario 
   });
 });
 
-test('la interfaz incorpora Inicio, Partido, Jugadores, Historial y Grupo sin funciones Pro visibles', () => {
+test('la interfaz incorpora Inicio, Partido, Jugadores, Tercer tiempo y Grupo sin funciones Pro visibles', () => {
   const app = read('tercer-tiempo-beta-v3/js/app.jsx');
   const config = read('tercer-tiempo-beta-v3/js/config.js');
   assert.match(app, /label: 'Inicio'/);
   assert.match(app, /label: 'Partido'/);
   assert.match(app, /label: 'Jugadores'/);
-  assert.match(app, /label: 'Historial'/);
+  assert.match(app, /label: 'Tercer tiempo'/);
   assert.match(app, /label: 'Grupo'/);
+  assert.match(app, /<IconHistory \/> Historial/);
+  assert.match(app, /Nuevo grupo/);
+  assert.match(app, /switchActiveGroup/);
   assert.match(app, /Plantel permanente/);
   assert.match(app, /Nivel recreativo/);
   assert.match(app, /El plantel permanente no se borrará/);
   assert.match(config, /teamBuilder: true/);
   assert.match(config, /history: true/);
   assert.match(config, /statistics: true/);
+  assert.match(config, /multipleGroups: true/);
   assert.match(config, /proEntitlements: true/);
   assert.match(config, /enforcementMode: 'preview'/);
   assert.doesNotMatch(app, /Tercer Tiempo Pro/);
@@ -175,7 +179,7 @@ test('el inicio prioriza el próximo partido y reserva los gastos para el tercer
   assert.match(expensesBlock, /Después de jugar/);
   assert.match(expensesBlock, /¿Qué se pagó\?/);
   assert.match(expensesBlock, /Gastos del partido/);
-  assert.match(app, /activeView === 'expenses' \? 'match' : activeView/);
+  assert.match(app, /const activeNavView = activeView/);
 });
 
 test('la Beta v3 conserva gastos, WhatsApp, ticket y puente con la APK', () => {
