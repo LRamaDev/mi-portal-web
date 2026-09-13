@@ -156,7 +156,8 @@ test('la interfaz incorpora Inicio, Partido, Jugadores, Historial y Grupo sin fu
   assert.match(config, /teamBuilder: true/);
   assert.match(config, /history: true/);
   assert.match(config, /statistics: true/);
-  assert.match(config, /proEntitlements: false/);
+  assert.match(config, /proEntitlements: true/);
+  assert.match(config, /enforcementMode: 'preview'/);
   assert.doesNotMatch(app, /Tercer Tiempo Pro/);
 });
 
