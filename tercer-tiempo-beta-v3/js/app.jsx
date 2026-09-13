@@ -864,7 +864,30 @@ function App() {
     const drawJersey = (player, x, y, color, accent) => {
       context.save();
       context.translate(x, y);
-      context.fillStyle = color;
+      context.save();
+      context.translate(3, 5);
+      context.fillStyle = 'rgba(0, 0, 0, 0.22)';
+      context.beginPath();
+      context.moveTo(-28, -22);
+      context.lineTo(-54, -9);
+      context.lineTo(-42, 22);
+      context.lineTo(-24, 15);
+      context.lineTo(-24, 43);
+      context.lineTo(24, 43);
+      context.lineTo(24, 15);
+      context.lineTo(42, 22);
+      context.lineTo(54, -9);
+      context.lineTo(28, -22);
+      context.lineTo(16, -12);
+      context.lineTo(-16, -12);
+      context.closePath();
+      context.fill();
+      context.restore();
+      const jerseyGradient = context.createLinearGradient(-54, -22, 54, 48);
+      jerseyGradient.addColorStop(0, accent);
+      jerseyGradient.addColorStop(0.34, color);
+      jerseyGradient.addColorStop(1, color);
+      context.fillStyle = jerseyGradient;
       context.beginPath();
       context.moveTo(-28, -22);
       context.lineTo(-54, -9);
@@ -883,12 +906,29 @@ function App() {
       context.strokeStyle = accent;
       context.lineWidth = 4;
       context.stroke();
+      context.strokeStyle = 'rgba(255, 255, 255, 0.74)';
+      context.lineWidth = 3;
+      context.beginPath();
+      context.moveTo(-13, -13);
+      context.lineTo(0, -2);
+      context.lineTo(13, -13);
+      context.stroke();
+      context.strokeStyle = 'rgba(255, 255, 255, 0.34)';
+      context.lineWidth = 2;
+      context.beginPath();
+      context.moveTo(-42, -8);
+      context.lineTo(-26, -1);
+      context.moveTo(42, -8);
+      context.lineTo(26, -1);
+      context.stroke();
       context.textAlign = 'center';
       context.fillStyle = 'white';
-      context.font = '900 25px sans-serif';
+      context.font = '900 26px sans-serif';
       context.fillText(getDisplayName(player).charAt(0).toUpperCase(), 0, 18);
-      context.fillStyle = 'white';
+      context.fillStyle = 'rgba(0, 0, 0, 0.38)';
       context.font = '900 20px sans-serif';
+      context.fillText(truncateCanvasText(context, getDisplayName(player), 150), 1, 77);
+      context.fillStyle = 'white';
       context.fillText(truncateCanvasText(context, getDisplayName(player), 150), 0, 76);
       context.restore();
     };
@@ -899,8 +939,8 @@ function App() {
       const color = isTop ? '#1e64ae' : '#bd3a51';
       const accent = isTop ? '#91c3ff' : '#ffb1bb';
       const yByRole = isTop
-        ? { goalkeeper: 500, defender: 670, midfielder: 840, forward: 1010 }
-        : { goalkeeper: 1600, defender: 1430, midfielder: 1260, forward: 1090 };
+        ? { goalkeeper: 470, defender: 620, midfielder: 770, forward: 920 }
+        : { goalkeeper: 1640, defender: 1490, midfielder: 1340, forward: 1190 };
       context.fillStyle = color;
       context.fillRect(88, isTop ? 292 : 1762, width - 176, 54);
       context.textAlign = 'center';
@@ -1876,7 +1916,7 @@ function App() {
             <div className="field-group"><label htmlFor="player-position">Posición preferida</label><select id="player-position" value={editingPlayer.preferredPosition} onChange={event => setEditingPlayer(current => ({ ...current, preferredPosition: event.target.value }))}>{Object.entries(POSITION_LABELS).map(([value, label]) => <option key={value} value={value}>{label}</option>)}</select></div>
             <div className="field-group"><label htmlFor="player-rating">Nivel recreativo</label><select id="player-rating" value={editingPlayer.rating} onChange={event => setEditingPlayer(current => ({ ...current, rating: Number(event.target.value) }))}>{[1, 2, 3, 4, 5].map(value => <option key={value} value={value}>{value} de 5</option>)}</select></div>
           </div>
-          <div className="field-group"><label htmlFor="player-mixed-group">Equilibrio mixto <span className="optional-label">opcional</span></label><select id="player-mixed-group" value={editingPlayer.mixedGroup || 'unspecified'} onChange={event => setEditingPlayer(current => ({ ...current, mixedGroup: event.target.value }))}><option value="unspecified">Sin indicar</option><option value="female">Mujer</option><option value="male">Varón</option></select><small className="form-note">Se usa sólo para equilibrar equipos mixtos. No aparece en listas ni tarjetas.</small></div>
+          <div className="field-group"><label htmlFor="player-mixed-group">Equilibrio mixto <span className="optional-label">opcional</span></label><select id="player-mixed-group" value={editingPlayer.mixedGroup || 'unspecified'} onChange={event => setEditingPlayer(current => ({ ...current, mixedGroup: event.target.value }))}><option value="unspecified">Sin indicar</option><option value="female">Mujer</option><option value="male">Varón</option></select><small className="field-help">Se usa sólo para equilibrar equipos mixtos. No aparece en listas ni tarjetas.</small></div>
           <div className="field-group"><label htmlFor="player-payment-alias">Alias para cobrar</label><input id="player-payment-alias" value={editingPlayer.paymentAlias} onChange={event => setEditingPlayer(current => ({ ...current, paymentAlias: event.target.value }))} placeholder="Alias, CBU o CVU" /></div>
           <div className="switch-row"><div className="switch-copy"><strong>Jugador activo</strong><span>Los inactivos no se agregan automáticamente a partidos nuevos.</span></div><button className={`switch ${editingPlayer.active ? 'is-on' : ''}`} type="button" onClick={() => setEditingPlayer(current => ({ ...current, active: !current.active }))} role="switch" aria-checked={editingPlayer.active}><span className="sr-only">Cambiar estado del jugador</span></button></div>
           <div className="composer-actions"><button className="primary-button" type="submit"><IconCheck /> Guardar jugador</button><button className="secondary-button" type="button" onClick={() => setEditingPlayer(null)}>Cancelar</button></div>
