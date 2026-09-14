@@ -40,7 +40,7 @@ test('los recursos locales de la beta existen y su JavaScript es válido', () =>
   for (const resource of localResources) {
     assert.ok(fs.existsSync(path.resolve(beta, resource)), `No existe ${resource}`);
   }
-  for (const name of ['recorridos.js', 'historico.js', 'transporte.js', 'asistente.js']) {
+  for (const name of ['analitica.js', 'recorridos.js', 'historico.js', 'transporte.js', 'asistente.js']) {
     assert.doesNotThrow(() => new vm.Script(read(name), { filename: name }));
   }
 });
@@ -237,3 +237,17 @@ test('la beta v21 aclara los horarios, la fuente oficial y el acceso a reclamos'
   assert.match(css, /\.service-disclaimer/);
 });
 
+
+test('la beta prepara un contador privado de búsquedas sin datos del trayecto', () => {
+  const html = read('index.html');
+  const analytics = read('analitica.js');
+  const assistant = read('asistente.js');
+  assert.match(html, /analitica\\.js\\?v=1-beta/);
+  assert.match(html, /asistente\\.js\\?v=22-beta/);
+  assert.match(analytics, /busqueda_realizada/);
+  assert.match(analytics, /MEASUREMENT_ID/);
+  assert.match(analytics, /anonymize_ip/);
+  assert.match(assistant, /ERSePAnalytics/);
+  assert.match(assistant, /resultsCount:results\.total/);
+  assert.doesNotMatch(analytics, /assistant-origin|assistant-destination|filter-origin|filter-destination/);
+});
