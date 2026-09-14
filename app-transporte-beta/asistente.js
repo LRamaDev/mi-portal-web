@@ -116,6 +116,7 @@
     if($('assistant-time-mode').value==='after'&&input.after===null){setStatus('Indicá desde qué hora querés viajar.',true);clearResults();updateProgress(4,false);return;}
     clearResults();setStatus('Buscando coincidencias en los cronogramas publicados…',false,'searching');
     var results=api.query(input),origin=optionLabel('assistant-origin',''),destination=optionLabel('assistant-destination','');
+    if(window.ERSePAnalytics&&typeof window.ERSePAnalytics.trackSearch==='function')window.ERSePAnalytics.trackSearch({method:'guiada',resultsCount:results.total,timeMode:$('assistant-time-mode').value});
     var timeText=$('assistant-time-mode').value==='after'?' a partir de las '+formatMinute(input.after):$('assistant-time-mode').value==='last'?' · último servicio':'';
     updateProgress(4,true);
     if(!results.total){
