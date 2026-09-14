@@ -1,0 +1,13 @@
+{
+  "name": "Ingreso Belgrano · Monserrat",
+  "short_name": "Ingreso BM",
+  "description": "Entrenamiento interactivo para los ingresos al Manuel Belgrano y al Colegio Nacional de Monserrat.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f4f7fb",
+  "theme_color": "#173f6b",
+  "icons": [
+    {"src":"./assets/icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}
+  ]
+}

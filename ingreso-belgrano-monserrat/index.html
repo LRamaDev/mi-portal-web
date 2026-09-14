@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#173f6b">
+  <meta name="description" content="Entrenamiento interactivo para los ingresos al Manuel Belgrano y al Colegio Nacional de Monserrat.">
+  <title>Ingreso Belgrano · Monserrat</title>
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <a class="skip" href="#app-main">Saltar al contenido</a>
+
+  <section id="profile-gate" class="gate" aria-labelledby="gate-title">
+    <div class="gate-card">
+      <div class="brand-lockup">
+        <span class="brand-mark" aria-hidden="true">∑A</span>
+        <div>
+          <p class="eyebrow">Preparación de ingreso</p>
+          <h1 id="gate-title">Belgrano · Monserrat</h1>
+        </div>
+      </div>
+      <p class="gate-lead">Elegí quién va a estudiar. Cada perfil guarda su propio diagnóstico, fortalezas y temas para reforzar.</p>
+      <div class="profile-grid">
+        <button class="profile-card" type="button" data-profile="p1">
+          <span class="avatar">1</span>
+          <strong id="gate-name-p1">Perfil 1</strong>
+          <small>Progreso individual</small>
+        </button>
+        <button class="profile-card" type="button" data-profile="p2">
+          <span class="avatar">2</span>
+          <strong id="gate-name-p2">Perfil 2</strong>
+          <small>Progreso individual</small>
+        </button>
+        <button class="profile-card together" type="button" data-profile="together">
+          <span class="avatar">👭</span>
+          <strong>Estudiar juntas</strong>
+          <small>Turnos alternados en un solo dispositivo</small>
+        </button>
+      </div>
+      <p class="privacy-note">Los nombres no forman parte del código público. Se guardan en el dispositivo y, cuando actives la sincronización, dentro de la cuenta familiar.</p>
+    </div>
+  </section>
+
+  <div id="app-shell" class="app-shell" hidden>
+    <header class="topbar">
+      <a class="top-brand" href="#inicio" data-nav="inicio">
+        <span class="mini-mark">∑A</span>
+        <span><strong>Ingreso</strong><small>Belgrano · Monserrat</small></span>
+      </a>
+      <div class="top-actions">
+        <button id="profile-switch" class="ghost-button" type="button">Cambiar perfil</button>
+        <button id="active-profile" class="profile-pill" type="button" title="Cambiar perfil">Perfil</button>
+      </div>
+    </header>
+
+    <div class="layout">
+      <nav class="sidebar" aria-label="Navegación principal">
+        <button class="nav-button active" data-nav="inicio" type="button"><span>⌂</span>Inicio</button>
+        <button class="nav-button" data-nav="entrenar" type="button"><span>◎</span>Entrenar</button>
+        <button class="nav-button" data-nav="contenidos" type="button"><span>▦</span>Contenidos</button>
+        <button class="nav-button" data-nav="progreso" type="button"><span>↗</span>Progreso</button>
+        <button class="nav-button" data-nav="familia" type="button"><span>⚙</span>Familia</button>
+      </nav>
+
+      <main id="app-main" class="main">
+        <section class="view active" data-view="inicio">
+          <div class="hero-panel">
+            <div>
+              <p class="eyebrow">Sesión personalizada</p>
+              <h2 id="welcome-title">¡Hola!</h2>
+              <p id="welcome-copy">Primero vamos a descubrir qué contenidos ya están firmes y cuáles conviene reforzar.</p>
+              <div class="hero-actions">
+                <button id="start-recommended" class="primary-button" type="button">Empezar entrenamiento</button>
+                <button id="start-diagnostic" class="secondary-button" type="button">Hacer diagnóstico</button>
+              </div>
+            </div>
+            <div class="today-card" aria-label="Resumen de hoy">
+              <span class="today-icon">✎</span>
+              <strong>Cuaderno a mano</strong>
+              <p>La app evita copiar consignas, pero las cuentas, esquemas y producciones se resuelven en papel.</p>
+            </div>
+          </div>
+
+          <div class="stats-grid">
+            <article class="stat-card"><small>Matemática</small><strong id="stat-math">Sin evaluar</strong><span id="stat-math-note">Hacé el diagnóstico inicial</span></article>
+            <article class="stat-card"><small>Lengua</small><strong id="stat-lang">Sin evaluar</strong><span id="stat-lang-note">Hacé el diagnóstico inicial</span></article>
+            <article class="stat-card"><small>Prácticas</small><strong id="stat-sessions">0</strong><span>sesiones completadas</span></article>
+          </div>
+
+          <section class="panel">
+            <div class="panel-heading">
+              <div><p class="eyebrow">Qué conviene trabajar</p><h3>Prioridades actuales</h3></div>
+              <button class="text-button" data-nav="progreso" type="button">Ver todo el progreso</button>
+            </div>
+            <div id="priority-list" class="priority-list"></div>
+          </section>
+        </section>
+
+        <section class="view" data-view="entrenar">
+          <div class="page-heading">
+            <p class="eyebrow">Práctica adaptativa</p>
+            <h2>Elegí cómo entrenar</h2>
+            <p>Durante la práctica hay pistas y devolución inmediata. En los simulacros, la corrección aparece al final.</p>
+          </div>
+          <div class="training-grid">
+            <article class="training-card math-card"><span class="training-icon">÷</span><h3>Matemática</h3><p>Problemas, fracciones, divisibilidad, geometría, magnitudes y contenidos específicos.</p><button class="primary-button" data-practice="matematica" type="button">Entrenar Matemática</button></article>
+            <article class="training-card language-card"><span class="training-icon">Aa</span><h3>Lengua</h3><p>Comprensión, gramática, ortografía, discurso y producción escrita.</p><button class="primary-button" data-practice="lengua" type="button">Entrenar Lengua</button></article>
+          </div>
+
+          <section class="panel exam-panel">
+            <div class="panel-heading"><div><p class="eyebrow">Modo ingreso</p><h3>Simulacros breves</h3></div></div>
+            <div class="exam-grid">
+              <button class="exam-button" data-sim-school="belgrano" data-sim-area="matematica" type="button"><strong>Belgrano</strong><span>Matemática</span></button>
+              <button class="exam-button" data-sim-school="belgrano" data-sim-area="lengua" type="button"><strong>Belgrano</strong><span>Lengua</span></button>
+              <button class="exam-button" data-sim-school="monserrat" data-sim-area="matematica" type="button"><strong>Monserrat</strong><span>Matemática</span></button>
+              <button class="exam-button" data-sim-school="monserrat" data-sim-area="lengua" type="button"><strong>Monserrat</strong><span>Lengua</span></button>
+            </div>
+          </section>
+        </section>
+
+        <section class="view" data-view="contenidos">
+          <div class="page-heading">
+            <p class="eyebrow">Mapa de contenidos</p>
+            <h2>Qué se prepara para cada ingreso</h2>
+            <p>El tronco común sirve para ambos colegios; los bloques específicos refuerzan lo que cada programa agrega o enfatiza.</p>
+          </div>
+          <div class="filter-row" role="group" aria-label="Filtrar contenidos">
+            <button class="chip active" data-skill-filter="all" type="button">Todos</button>
+            <button class="chip" data-skill-filter="comun" type="button">Común</button>
+            <button class="chip" data-skill-filter="belgrano" type="button">Belgrano</button>
+            <button class="chip" data-skill-filter="monserrat" type="button">Monserrat</button>
+          </div>
+          <div id="skills-container"></div>
+        </section>
+
+        <section class="view" data-view="progreso">
+          <div class="page-heading">
+            <p class="eyebrow">Seguimiento</p>
+            <h2>Fortalezas y temas para reforzar</h2>
+            <p>El dominio se calcula a partir de respuestas, dificultad y cantidad de intentos. No se toma un solo error como diagnóstico definitivo.</p>
+          </div>
+          <div id="progress-summary" class="stats-grid"></div>
+          <div id="progress-detail" class="progress-detail"></div>
+        </section>
+
+        <section class="view" data-view="familia">
+          <div class="page-heading">
+            <p class="eyebrow">Panel familiar</p>
+            <h2>Perfiles y sincronización</h2>
+            <p>Podés cambiar los nombres de los perfiles y, cuando configures Supabase, usar una cuenta familiar para ver el mismo progreso desde cualquier dispositivo.</p>
+          </div>
+
+          <div class="family-grid">
+            <section class="panel">
+              <h3>Perfiles</h3>
+              <label class="field">Nombre del Perfil 1<input id="profile-name-p1" maxlength="24" autocomplete="off"></label>
+              <label class="field">Nombre del Perfil 2<input id="profile-name-p2" maxlength="24" autocomplete="off"></label>
+              <button id="save-profile-names" class="primary-button" type="button">Guardar nombres</button>
+            </section>
+
+            <section class="panel sync-panel">
+              <div class="sync-title"><div><h3>Sincronización</h3><p id="sync-status">Modo local</p></div><span id="sync-dot" class="status-dot"></span></div>
+              <p id="sync-help">La versión funciona en este dispositivo. Para sincronizar entre celulares y PC hay que conectar un proyecto Supabase.</p>
+              <div id="auth-box" class="auth-box">
+                <label class="field">Correo familiar<input id="auth-email" type="email" autocomplete="email"></label>
+                <label class="field">Contraseña<input id="auth-password" type="password" minlength="6" autocomplete="current-password"></label>
+                <div class="auth-actions"><button id="sign-in" class="primary-button" type="button">Ingresar</button><button id="sign-up" class="secondary-button" type="button">Crear cuenta</button></div>
+              </div>
+              <button id="sign-out" class="secondary-button" type="button" hidden>Cerrar sesión familiar</button>
+            </section>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <nav class="mobile-nav" aria-label="Navegación móvil">
+      <button class="active" data-nav="inicio" type="button"><span>⌂</span>Inicio</button>
+      <button data-nav="entrenar" type="button"><span>◎</span>Entrenar</button>
+      <button data-nav="contenidos" type="button"><span>▦</span>Temas</button>
+      <button data-nav="progreso" type="button"><span>↗</span>Progreso</button>
+    </nav>
+  </div>
+
+  <dialog id="exercise-dialog" class="exercise-dialog">
+    <div class="exercise-frame">
+      <header class="exercise-header">
+        <div><span id="exercise-mode" class="mode-badge">Práctica</span><strong id="exercise-progress">1 de 8</strong></div>
+        <button id="close-exercise" class="icon-button" type="button" aria-label="Cerrar">×</button>
+      </header>
+      <div class="progress-track"><span id="exercise-progress-bar"></span></div>
+      <div id="turn-banner" class="turn-banner" hidden></div>
+      <article class="exercise-content">
+        <div id="exercise-tags" class="exercise-tags"></div>
+        <p id="exercise-paper" class="paper-note" hidden>✎ Resolvelo en tu cuaderno y después ingresá o elegí la respuesta.</p>
+        <blockquote id="exercise-text" class="source-text" hidden></blockquote>
+        <h2 id="exercise-prompt"></h2>
+        <div id="exercise-answer"></div>
+        <div id="exercise-feedback" class="feedback" hidden></div>
+        <div id="exercise-selfcheck" class="selfcheck" hidden></div>
+      </article>
+      <footer class="exercise-footer">
+        <button id="hint-button" class="secondary-button" type="button">Necesito una pista</button>
+        <button id="check-answer" class="primary-button" type="button">Comprobar</button>
+        <button id="next-exercise" class="primary-button" type="button" hidden>Siguiente</button>
+      </footer>
+    </div>
+  </dialog>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="./config.js"></script>
+  <script src="./app.js"></script>
+</body>
+</html>
