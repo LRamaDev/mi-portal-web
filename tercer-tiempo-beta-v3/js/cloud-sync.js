@@ -3,10 +3,11 @@
   const storage = root.TercerTiempoStorage;
   const supabaseLib = root.supabase;
 
+  const publicKey = config.supabasePublishableKey || config.supabaseAnonKey || '';
   const configured = Boolean(
     config.enabled &&
     config.supabaseUrl &&
-    config.supabaseAnonKey &&
+    publicKey &&
     supabaseLib &&
     typeof supabaseLib.createClient === 'function' &&
     storage
@@ -20,7 +21,7 @@
     return;
   }
 
-  const client = supabaseLib.createClient(config.supabaseUrl, config.supabaseAnonKey, {
+  const client = supabaseLib.createClient(config.supabaseUrl, publicKey, {
     auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true }
   });
   const tableName = config.tableName || 'user_app_state';
@@ -30,6 +31,7 @@
   let suppressRemoteWrite = false;
 
   const getUserId = () => currentSession?.user?.id || null;
+  const getUserEmail = () => currentSession?.user?.email || null;
 
   async function loadRemoteState() {
     const userId = getUserId();
@@ -84,18 +86,18 @@
       } finally {
         suppressRemoteWrite = false;
       }
-      return { direction: 'download', state: remote.state };
+      return { direction: 'download', state: remote.state, updatedAt: remote.updated_at || null };
     }
     await saveRemoteState(localState);
-    return { direction: 'upload', state: localState };
+    return { direction: 'upload', state: localState, updatedAt: new Date().toISOString() };
   }
 
   async function signUp(email, password) {
     const { data, error } = await client.auth.signUp({ email, password });
     if (error) throw error;
     currentSession = data.session || null;
-    if (currentSession) await syncOnLogin();
-    return data;
+    const sync = currentSession ? await syncOnLogin() : null;
+    return { ...data, sync };
   }
 
   async function signIn(email, password) {
@@ -137,12 +139,19 @@
 
   client.auth.onAuthStateChange((_event, session) => {
     currentSession = session || null;
+    root.dispatchEvent?.(new CustomEvent('tercer-tiempo-auth-change', {
+      detail: {
+        signedIn: Boolean(currentSession),
+        email: getUserEmail()
+      }
+    }));
   });
 
   getSession().catch(err => console.error('[TercerTiempoCloudSync] session load failed', err));
 
   root.TercerTiempoCloudSync = {
     configured: true,
+    status: 'ready',
     client,
     signUp,
     signIn,
@@ -151,6 +160,7 @@
     loadRemoteState,
     uploadLocalNow,
     downloadRemoteNow,
-    syncOnLogin
+    syncOnLogin,
+    getUserEmail
   };
 })(typeof globalThis !== 'undefined' ? globalThis : window);
