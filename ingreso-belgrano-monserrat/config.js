@@ -5,3 +5,104 @@ window.INGRESO_CONFIG = {
   supabaseUrl: "https://vyacdprekslhrmrlpcgx.supabase.co",
   supabaseAnonKey: "sb_publishable_j_UMMBMDRhKaMY2Iji152Q_kkZ48sUG"
 };
+
+// V3 pedagógica: ampliación del banco sin duplicar el archivo base.
+(() => {
+  const EXTRA = [
+    {id:'M101',area:'matematica',habilidad:'MAT-NAT-OPS',colegios:['comun'],dificultad:2,tipo:'input',consigna:'Calculá 7.248 ÷ 6.',respuesta:'1208',alternativas:['1.208'],pista:'Dividí de izquierda a derecha y comprobá multiplicando el cociente por 6.',explicacion:'7.248 ÷ 6 = 1.208.',papel:true},
+    {id:'M102',area:'matematica',habilidad:'MAT-NAT-OPS',colegios:['comun'],dificultad:3,tipo:'input',consigna:'Calculá 3.406 × 27.',respuesta:'91962',alternativas:['91.962'],pista:'Separá 27 en 20 + 7 y sumá los productos parciales.',explicacion:'3.406×20=68.120 y 3.406×7=23.842; total 91.962.',papel:true},
+    {id:'M103',area:'matematica',habilidad:'MAT-MCD',colegios:['comun'],dificultad:3,tipo:'input',consigna:'Tres cintas miden 48 cm, 72 cm y 120 cm. Se quieren cortar en trozos iguales lo más largos posible. ¿Cuánto debe medir cada trozo?',respuesta:'24',pista:'Buscá el divisor común mayor de las tres longitudes.',explicacion:'El MCD de 48, 72 y 120 es 24.',papel:true},
+    {id:'M104',area:'matematica',habilidad:'MAT-MCM',colegios:['comun'],dificultad:3,tipo:'input',consigna:'Una alarma suena cada 12 minutos y otra cada 18. Si sonaron juntas, ¿cuántos minutos pasarán hasta que vuelvan a coincidir?',respuesta:'36',pista:'Buscá el mínimo común múltiplo de 12 y 18.',explicacion:'El MCM de 12 y 18 es 36.',papel:true},
+    {id:'M105',area:'matematica',habilidad:'MAT-DIV',colegios:['comun'],dificultad:3,tipo:'choice',consigna:'¿Cuál número es divisible simultáneamente por 3 y por 5?',opciones:['2.430','2.431','2.435','2.438'],respuesta:'2.430',pista:'Para 5 debe terminar en 0 o 5; para 3, la suma de cifras debe ser múltiplo de 3.',explicacion:'2+4+3+0=9 y termina en 0.'},
+    {id:'M106',area:'matematica',habilidad:'MAT-FR-EQ',colegios:['comun'],dificultad:3,tipo:'input',consigna:'Completá: 14/21 = __/3. Escribí solo el numerador.',respuesta:'2',pista:'Simplificá 14/21 dividiendo numerador y denominador por el mismo número.',explicacion:'14/21 simplificado por 7 es 2/3.'},
+    {id:'M107',area:'matematica',habilidad:'MAT-FR-ORD',colegios:['comun'],dificultad:3,tipo:'choice',consigna:'Ordená de menor a mayor: 2/3, 3/4 y 5/6.',opciones:['2/3 < 3/4 < 5/6','5/6 < 3/4 < 2/3','3/4 < 2/3 < 5/6','2/3 < 5/6 < 3/4'],respuesta:'2/3 < 3/4 < 5/6',pista:'Podés llevarlas a denominador común 12.',explicacion:'Son 8/12, 9/12 y 10/12.',papel:true},
+    {id:'M108',area:'matematica',habilidad:'MAT-FR-PROB',colegios:['comun'],dificultad:4,tipo:'input',consigna:'Un tanque tenía 180 litros. Se usó 1/3 del total y luego 2/5 de lo que quedaba. ¿Cuántos litros quedaron?',respuesta:'72',pista:'Primero hallá el resto después de usar 1/3; luego calculá 2/5 de ese resto.',explicacion:'Quedan 120 L; se usan 48 L más y quedan 72 L.',papel:true},
+    {id:'M109',area:'matematica',habilidad:'MAT-DEC-OPS',colegios:['comun'],dificultad:3,tipo:'input',consigna:'Calculá 18,75 + 6,8 − 4,35.',respuesta:'21,2',alternativas:['21.2','21,20','21.20'],pista:'Alineá las comas.',explicacion:'18,75+6,80=25,55 y 25,55−4,35=21,20.',papel:true},
+    {id:'M110',area:'matematica',habilidad:'MAT-PER',colegios:['comun'],dificultad:4,tipo:'input',consigna:'Una figura en L surge de un rectángulo de 10 cm por 8 cm al quitar un rectángulo de 4 cm por 3 cm de una esquina. ¿Cuál es su perímetro?',respuesta:'36',pista:'Los tramos quitados del borde se reemplazan por tramos internos de la misma longitud.',explicacion:'El perímetro total es 36 cm.',papel:true},
+    {id:'M111',area:'matematica',habilidad:'MAT-ANG-CS',colegios:['comun'],dificultad:3,tipo:'input',consigna:'Un ángulo mide 128°. ¿Cuánto mide su suplementario?',respuesta:'52',pista:'Los suplementarios suman 180°.',explicacion:'180−128=52°.'},
+    {id:'M112',area:'matematica',habilidad:'MAT-PROP',colegios:['belgrano'],dificultad:4,tipo:'input',consigna:'Una receta para 6 personas usa 450 g de harina. ¿Cuántos gramos necesita para 14 personas manteniendo la proporción?',respuesta:'1050',alternativas:['1.050'],pista:'Calculá primero cuántos gramos corresponden a una persona.',explicacion:'450÷6=75 y 75×14=1.050 g.',papel:true},
+    {id:'M113',area:'matematica',habilidad:'MAT-SEX',colegios:['belgrano'],dificultad:3,tipo:'input',consigna:'Calculá 215° − 87°. Escribí solo el número.',respuesta:'128',pista:'Trabajá los grados como números naturales.',explicacion:'215−87=128°.'},
+    {id:'M114',area:'matematica',habilidad:'MAT-ROM',colegios:['monserrat'],dificultad:3,tipo:'input',consigna:'Escribí 49 en números romanos.',respuesta:'XLIX',alternativas:['xlix'],pista:'40 es XL y 9 es IX.',explicacion:'49 = XLIX.'},
+    {id:'M115',area:'matematica',habilidad:'MAT-COMB',colegios:['monserrat'],dificultad:4,tipo:'input',consigna:'Resolvé: 48 ÷ [3 × (5 − 1)] + 2³.',respuesta:'12',pista:'Primero paréntesis y potencia; luego producto, división y suma.',explicacion:'48÷12=4 y 2³=8; total 12.',papel:true},
+    {id:'M116',area:'matematica',habilidad:'MAT-CIRC',colegios:['monserrat'],dificultad:4,tipo:'input',consigna:'Una rueda de radio 12,5 cm da 20 vueltas. Usando π=3,14, ¿qué distancia recorre en centímetros?',respuesta:'1570',alternativas:['1.570'],pista:'Primero calculá una vuelta con 2×π×radio.',explicacion:'Una vuelta mide 78,5 cm; por 20 son 1.570 cm.',papel:true},
+    {id:'M117',area:'matematica',habilidad:'MAT-FR-OPS',colegios:['monserrat'],dificultad:3,tipo:'input',consigna:'Calculá 5/6 − 1/4. Escribí la fracción irreducible.',respuesta:'7/12',pista:'Buscá denominador común.',explicacion:'10/12−3/12=7/12.',papel:true},
+    {id:'M118',area:'matematica',habilidad:'MAT-MED-MASA',colegios:['monserrat'],dificultad:3,tipo:'input',consigna:'Convertí 2,75 kg a gramos. Escribí solo el número.',respuesta:'2750',alternativas:['2.750'],pista:'1 kg = 1.000 g.',explicacion:'2,75×1.000=2.750 g.'},
+    {id:'L101',area:'lengua',habilidad:'LEN-COMP-LIT',colegios:['comun'],dificultad:2,tipo:'choice',texto:'El museo abre de martes a domingo de 10 a 18. Los lunes permanece cerrado por tareas de mantenimiento.',consigna:'¿Qué día no abre el museo?',opciones:['Domingo','Lunes','Martes','Miércoles'],respuesta:'Lunes',pista:'La respuesta aparece explícitamente.',explicacion:'El texto dice que los lunes permanece cerrado.'},
+    {id:'L102',area:'lengua',habilidad:'LEN-COMP-INF',colegios:['comun'],dificultad:3,tipo:'choice',texto:'Cuando Elena entró, todos guardaron rápidamente las cartulinas detrás del escritorio y dejaron de hablar.',consigna:'¿Qué se puede inferir con mayor fundamento?',opciones:['Preparaban una sorpresa para Elena','Estaban por rendir un examen','Elena era la maestra','Las cartulinas estaban rotas'],respuesta:'Preparaban una sorpresa para Elena',pista:'Pensá por qué ocultarían algo justo cuando ella entra.',explicacion:'Las pistas sugieren que preparaban algo que no querían que Elena descubriera.'},
+    {id:'L103',area:'lengua',habilidad:'LEN-FUNC',colegios:['comun'],dificultad:3,tipo:'choice',texto:'Por favor, cerrá la puerta antes de salir.',consigna:'¿Qué función del lenguaje predomina?',opciones:['Apelativa','Referencial','Poética','Metalingüística'],respuesta:'Apelativa',pista:'Busca provocar una acción en el receptor.',explicacion:'Es apelativa porque formula un pedido.'},
+    {id:'L104',area:'lengua',habilidad:'LEN-TRAMA',colegios:['comun'],dificultad:3,tipo:'choice',texto:'Para germinar una lenteja, colocá algodón húmedo en un frasco, apoyá la semilla y mantené la humedad durante varios días.',consigna:'¿Qué trama predomina?',opciones:['Instructiva','Narrativa','Descriptiva literaria','Conversacional'],respuesta:'Instructiva',pista:'Organiza pasos para realizar una acción.',explicacion:'Predomina la trama instructiva.'},
+    {id:'L105',area:'lengua',habilidad:'LEN-CON',colegios:['comun'],dificultad:3,tipo:'choice',consigna:'Elegí el conector: «Había estudiado mucho; ____, el ejercicio final le resultó difícil».',opciones:['sin embargo','por eso','entonces','además'],respuesta:'sin embargo',pista:'Las ideas contrastan.',explicacion:'«Sin embargo» expresa oposición.'},
+    {id:'L106',area:'lengua',habilidad:'LEN-NARR',colegios:['comun'],dificultad:3,tipo:'choice',texto:'Durante la tormenta, un árbol cayó frente a la casa. A la mañana siguiente, los vecinos salieron con herramientas y despejaron la calle.',consigna:'¿Qué relación organiza principalmente los hechos?',opciones:['Causa y consecuencia','Comparación','Enumeración sin relación','Definición'],respuesta:'Causa y consecuencia',pista:'El segundo hecho ocurre como respuesta al primero.',explicacion:'La caída del árbol provoca la necesidad de despejar la calle.'},
+    {id:'L107',area:'lengua',habilidad:'LEN-REC-LIT',colegios:['comun'],dificultad:3,tipo:'choice',consigna:'¿Qué recurso aparece en «La luna era como una moneda de plata»?',opciones:['Comparación','Personificación','Onomatopeya','Definición'],respuesta:'Comparación',pista:'Aparece el nexo «como».',explicacion:'Se compara la luna con una moneda.'},
+    {id:'L108',area:'lengua',habilidad:'LEN-VERB',colegios:['comun'],dificultad:4,tipo:'choice',consigna:'Elegí la oración cuyo verbo está en condicional simple.',opciones:['Viajaríamos mañana si pudiéramos.','Viajaremos mañana.','Habíamos viajado antes.','Viajamos ayer.'],respuesta:'Viajaríamos mañana si pudiéramos.',pista:'Suele terminar en -ría, -rías, -ríamos.',explicacion:'«Viajaríamos» está en condicional simple.'},
+    {id:'L109',area:'lengua',habilidad:'LEN-ACENT',colegios:['comun'],dificultad:3,tipo:'choice',consigna:'¿Cuál palabra es esdrújula y está correctamente tildada?',opciones:['música','canción','pared','reloj'],respuesta:'música',pista:'Las esdrújulas siempre llevan tilde.',explicacion:'«Música» es esdrújula.'},
+    {id:'L110',area:'lengua',habilidad:'LEN-CSZ',colegios:['comun'],dificultad:3,tipo:'choice',consigna:'¿Cuál palabra está escrita correctamente?',opciones:['escasez','escases','ezcasez','escazez'],respuesta:'escasez',pista:'Prestá atención a la raíz y a la terminación.',explicacion:'La forma correcta es «escasez».'},
+    {id:'L111',area:'lengua',habilidad:'LEN-PUNT',colegios:['comun'],dificultad:3,tipo:'choice',consigna:'¿Cuál oración usa correctamente los dos puntos?',opciones:['Llevó tres cosas: agua, abrigo y linterna.','Llevó: tres cosas agua, abrigo y linterna.','Llevó tres: cosas agua abrigo.','Llevó tres cosas agua: abrigo y linterna.'],respuesta:'Llevó tres cosas: agua, abrigo y linterna.',pista:'Los dos puntos pueden anunciar una enumeración.',explicacion:'La primera opción introduce correctamente la lista.'},
+    {id:'L112',area:'lengua',habilidad:'LEN-PARAT',colegios:['belgrano'],dificultad:3,tipo:'choice',consigna:'En una noticia digital, ¿qué paratexto permite anticipar el tema principal antes de leer el cuerpo?',opciones:['El titular','Un conector','El predicado','Un pronombre'],respuesta:'El titular',pista:'Es el elemento destacado que anuncia el contenido.',explicacion:'El titular permite anticipar el tema.'},
+    {id:'L113',area:'lengua',habilidad:'LEN-REF',colegios:['belgrano'],dificultad:4,tipo:'choice',texto:'Los científicos observaron a los cóndores durante semanas. Estas aves regresaban cada tarde al mismo paredón.',consigna:'¿A qué expresión reemplaza «Estas aves»?',opciones:['Los científicos','Los cóndores','Las semanas','El paredón'],respuesta:'Los cóndores',pista:'Buscá el antecedente compatible con «aves».',explicacion:'«Estas aves» retoma «los cóndores».'},
+    {id:'L114',area:'lengua',habilidad:'LEN-UNI-BI',colegios:['belgrano'],dificultad:3,tipo:'choice',consigna:'¿Cuál oración es bimembre?',opciones:['Hace frío.','¡Buenas tardes!','Los corredores llegaron temprano.','Hay mucha gente.'],respuesta:'Los corredores llegaron temprano.',pista:'Debe poder dividirse en sujeto y predicado.',explicacion:'«Los corredores» es sujeto y «llegaron temprano» es predicado.'},
+    {id:'L115',area:'lengua',habilidad:'LEN-DIP-HIA',colegios:['monserrat'],dificultad:3,tipo:'choice',consigna:'¿Cuál palabra contiene diptongo?',opciones:['aire','país','río','maíz'],respuesta:'aire',pista:'En el diptongo dos vocales pertenecen a la misma sílaba.',explicacion:'«aire» se divide ai-re.'},
+    {id:'L116',area:'lengua',habilidad:'LEN-SUJ-PRED',colegios:['monserrat'],dificultad:4,tipo:'choice',consigna:'En «Los viejos árboles del patio resistieron la tormenta», ¿cuál es el núcleo del sujeto?',opciones:['árboles','viejos','patio','resistieron'],respuesta:'árboles',pista:'El sujeto completo es «Los viejos árboles del patio».',explicacion:'El núcleo del sujeto es «árboles».'},
+    {id:'L117',area:'lengua',habilidad:'LEN-PYC',colegios:['monserrat'],dificultad:4,tipo:'choice',consigna:'¿Cuál opción usa correctamente el punto y coma?',opciones:['El grupo A investigó los ríos; el grupo B, las montañas; el grupo C, los bosques.','El grupo A; investigó los ríos y el grupo B las montañas.','El grupo A investigó; los ríos, las montañas y los bosques.','El grupo A investigó los ríos,; el grupo B las montañas.'],respuesta:'El grupo A investigó los ríos; el grupo B, las montañas; el grupo C, los bosques.',pista:'Puede separar miembros complejos de una enumeración.',explicacion:'La primera opción separa correctamente tres miembros paralelos.'},
+    {id:'L118',area:'lengua',habilidad:'LEN-PROD',colegios:['monserrat'],dificultad:4,tipo:'selfcheck',consigna:'En tu cuaderno, continuá en 12 a 15 renglones: «La luz del pasillo se apagó justo cuando escuchó tres golpes detrás de la puerta…». Debe haber complicación y resolución. No uses diálogo.',criterios:['Escribí entre 12 y 15 renglones','Agregué un título adecuado','Desarrollé una complicación clara','Incluí una resolución','Mantuve coherencia con el inicio','Usé al menos una comparación o imagen sensorial','Evité repeticiones innecesarias','Revisé ortografía y concordancia'],pista:'Planificá el problema, lo que hace el personaje y cómo se resuelve.',explicacion:'La revisión toma criterios centrales de producción escrita del examen de Monserrat.',papel:true}
+  ];
+
+  const originalFetch = window.fetch.bind(window);
+  window.fetch = async function ingresoFetch(input, init) {
+    const url = typeof input === 'string' ? input : (input?.url || '');
+    const isBaseBank = url === './data/ejercicios.json' || url.endsWith('/data/ejercicios.json');
+    if (!isBaseBank) return originalFetch(input, init);
+    const response = await originalFetch(input, init);
+    if (!response.ok) return response;
+    try {
+      const data = await response.clone().json();
+      data.version = 3;
+      data.ejercicios = [...(data.ejercicios || []), ...EXTRA];
+      return new Response(JSON.stringify(data), { status: response.status, statusText: response.statusText, headers: { 'Content-Type': 'application/json; charset=utf-8' } });
+    } catch (error) {
+      console.error('[Ingreso V3] No se pudo ampliar el banco', error);
+      return response;
+    }
+  };
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const grid = document.querySelector('.family-grid');
+    if (!grid || document.querySelector('#reset-all-progress')) return;
+    const section = document.createElement('section');
+    section.className = 'panel';
+    section.innerHTML = '<p class="eyebrow">Herramientas de familia</p><h3>Reiniciar avance</h3><p>Borra los diagnósticos, prácticas e historial de ambos perfiles, pero conserva sus nombres.</p><button id="reset-all-progress" class="secondary-button" type="button">Reiniciar progreso de ambos perfiles</button>';
+    grid.appendChild(section);
+
+    section.querySelector('#reset-all-progress').addEventListener('click', async () => {
+      if (!confirm('¿Reiniciar todo el avance de ambos perfiles? Los nombres se conservan. Esta acción no se puede deshacer.')) return;
+      const key = 'ingreso-belgrano-monserrat-v1';
+      let current;
+      try { current = JSON.parse(localStorage.getItem(key) || '{}'); } catch { current = {}; }
+      current.profiles ||= {};
+      for (const id of ['p1','p2']) {
+        current.profiles[id] ||= { name: id === 'p1' ? 'Perfil 1' : 'Perfil 2' };
+        current.profiles[id].progress = {};
+        current.profiles[id].history = [];
+        current.profiles[id].sessions = 0;
+      }
+      current.version = current.version || 1;
+      current.updatedAt = Date.now();
+      localStorage.setItem(key, JSON.stringify(current));
+
+      const button = section.querySelector('#reset-all-progress');
+      button.disabled = true;
+      button.textContent = 'Sincronizando…';
+      try {
+        if (window.supabase && window.INGRESO_CONFIG?.supabaseUrl && window.INGRESO_CONFIG?.supabaseAnonKey) {
+          const client = window.supabase.createClient(window.INGRESO_CONFIG.supabaseUrl, window.INGRESO_CONFIG.supabaseAnonKey);
+          const { data } = await client.auth.getSession();
+          const user = data.session?.user;
+          if (user) await client.from('study_state').upsert({ user_id: user.id, payload: current, updated_at: new Date().toISOString() }, { onConflict: 'user_id' });
+        }
+      } catch (error) {
+        console.error('[Ingreso V3] Reinicio remoto', error);
+      }
+      location.reload();
+    });
+  }, { once: true });
+})();
