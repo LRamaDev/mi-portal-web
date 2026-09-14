@@ -4,7 +4,9 @@ Aplicación web de estudio para preparar, en una misma plataforma, los ingresos 
 
 ## Estado actual
 
-La V1 ya está publicada y validada en GitHub Pages. La V2 incorpora la base para que una misma cuenta familiar pueda conservar el progreso en distintos dispositivos mediante Supabase.
+- **V1:** publicada y validada en GitHub Pages con perfiles, diagnóstico, práctica, contenidos, progreso y simulacros.
+- **V2:** sincronización familiar entre dispositivos mediante Supabase; validada con cambios de perfil y avance pedagógico desde PC y celular.
+- **V3 pedagógica – etapa 1:** ampliación del banco de ejercicios, mayor presencia de niveles 3 y 4 y herramienta familiar para reiniciar el progreso sin borrar los nombres de los perfiles.
 
 ## Funcionalidades
 
@@ -14,16 +16,18 @@ La V1 ya está publicada y validada en GitHub Pages. La V2 incorpora la base par
 - Mapa de habilidades con contenidos comunes y específicos de cada colegio.
 - Práctica adaptativa que prioriza habilidades con menor dominio sin abandonar el repaso.
 - Pistas y explicaciones durante la práctica.
-- Simulacros breves Belgrano/Monserrat con corrección al final.
+- Simulacros Belgrano/Monserrat con corrección al final.
 - Actividades que indican cuándo conviene resolver en cuaderno.
 - Seguimiento de progreso por habilidad.
 - PWA instalable.
-- Persistencia local inmediata.
-- Cuenta familiar y sincronización preparada con Supabase Auth + RLS.
+- Persistencia local inmediata y sincronización en Supabase.
+- Reinicio seguro del progreso de ambos perfiles desde el Panel familiar, conservando sus nombres y sincronizando el estado limpio en la nube.
 
-## Fuente pedagógica
+## Banco pedagógico
 
-La matriz curricular se construyó a partir de los programas de ingreso 2026, modelos de examen y materiales de estudio aportados por la familia. El banco inicial usa ejercicios originales alineados con esos contenidos; no pretende reproducir ni sustituir exámenes oficiales.
+La V1 contenía 46 actividades originales. La primera etapa de V3 agrega 36 nuevas actividades, llevando el banco a **82 ejercicios**. La ampliación refuerza especialmente problemas de varios pasos, fracciones, decimales, divisibilidad, perímetros, proporcionalidad, numeración romana, operaciones combinadas, circunferencia, comprensión, inferencias, conectores, tiempos verbales, ortografía, sintaxis y producción escrita.
+
+Las consignas son originales y están alineadas a los programas de ingreso 2026, modelos de examen y materiales de estudio aportados por la familia. No reproducen ni sustituyen exámenes oficiales.
 
 ## Estructura
 
@@ -43,51 +47,36 @@ ingreso-belgrano-monserrat/
    └─ ejercicios.json
 ```
 
+En V3 la ampliación pedagógica se inyecta desde `config.js` sobre el banco base para conservar compatibilidad con la V1/V2 sin migrar el progreso ya registrado.
+
 ## Sincronización entre dispositivos
 
-La app siempre guarda primero en `localStorage`, por lo que puede seguir usándose aunque no haya conexión. Cuando hay una cuenta familiar autenticada, el estado también se guarda en Supabase y puede recuperarse desde otro celular, tablet o PC.
+La app siempre guarda primero en `localStorage`. Cuando hay una cuenta familiar autenticada, el estado también se guarda en Supabase y puede recuperarse desde otro celular, tablet o PC.
 
-La V2 reutiliza el mismo proyecto Supabase ya configurado para otras aplicaciones del portal. `config.js` contiene únicamente la URL y la clave pública/publicable del proyecto; no contiene claves privadas ni `service_role`.
+La aplicación reutiliza el proyecto Supabase configurado para el portal. `config.js` contiene únicamente la URL y la clave pública/publicable del proyecto; no contiene claves privadas ni `service_role`.
 
-### Crear la tabla privada de estudio
+La tabla `public.study_state` tiene Row Level Security habilitado. Cada usuario autenticado puede leer, crear y modificar exclusivamente su propia fila.
 
-Ejecutar el archivo `supabase-study-state.sql` en el proyecto Supabase. El script:
+## Reiniciar progreso
 
-- crea `public.study_state`;
-- activa Row Level Security;
-- permite a cada usuario autenticado leer, crear, modificar o borrar exclusivamente su propia fila;
-- guarda dentro de `payload` los perfiles, avances e historial de la cuenta familiar.
+En `Familia` aparece la opción **Reiniciar progreso de ambos perfiles**. La operación:
 
-La estructura principal es:
+1. pide confirmación explícita;
+2. conserva los nombres de los perfiles;
+3. borra progreso por habilidad, historial y cantidad de sesiones;
+4. actualiza `localStorage`;
+5. si hay una cuenta familiar iniciada, guarda inmediatamente el estado limpio en `study_state`;
+6. recarga la aplicación.
 
-```sql
-create table if not exists public.study_state (
-  user_id uuid primary key references auth.users(id) on delete cascade,
-  payload jsonb not null default '{}'::jsonb,
-  updated_at timestamptz not null default now()
-);
-```
+## Caché PWA
 
-### Flujo familiar
+La V3 incrementa el caché a `ingreso-bm-v3` para que los dispositivos que ya usaron la V1/V2 reciban la nueva configuración y el banco ampliado.
 
-1. Un adulto crea una cuenta familiar desde el panel de la app con correo y contraseña.
-2. Se configuran los nombres de los dos perfiles dentro de la cuenta.
-3. La práctica se guarda localmente y se sube a `study_state`.
-4. En otro dispositivo se ingresa con la misma cuenta familiar.
-5. La app compara las fechas del estado local y remoto y conserva la versión más reciente.
+## Siguiente etapa V3
 
-Los nombres de los perfiles y el progreso no se publican en GitHub: quedan en el almacenamiento local y, al activar la cuenta familiar, dentro de la fila privada protegida por RLS.
-
-## Importante para pruebas de V2
-
-Al cambiar la configuración de nube también se incrementó la versión del caché de la PWA a `ingreso-bm-v2`. Si un dispositivo mantuviera una versión anterior abierta, conviene recargar una vez la página para que el nuevo service worker tome control.
-
-## Próximas etapas
-
-- Mejorar la sincronización activa cuando dos dispositivos permanecen abiertos al mismo tiempo.
-- Ampliar el banco de ejercicios por habilidad y dificultad.
-- Incorporar un diagnóstico adaptativo por ramas, que detenga o profundice una habilidad según respuestas previas.
-- Agregar simulacros extensos que repliquen mejor la estructura y ponderación de cada colegio.
-- Mejorar la evaluación guiada de producción escrita.
-- Incorporar estadísticas temporales y repaso espaciado.
-- Agregar una tarjeta de acceso desde la portada de `mi-portal-web`.
+- Convertir el diagnóstico inicial en un diagnóstico adaptativo por ramas: una respuesta correcta habilitará una variante más exigente de la misma habilidad y un error derivará a una comprobación más básica.
+- Reorganizar la práctica en una mezcla aproximada de 60% de habilidades débiles, 25% en desarrollo y 15% consolidadas.
+- Ampliar los simulacros para aproximarlos mejor a la estructura y ponderación de cada colegio.
+- Dar un tratamiento especial a la producción escrita de Monserrat, que tiene un peso importante en su evaluación.
+- Incorporar repaso espaciado y evolución temporal.
+- Agregar una tarjeta de acceso desde la portada de `mi-portal-web` cuando la V3 quede validada.
