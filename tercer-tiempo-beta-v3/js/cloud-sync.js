@@ -34,6 +34,8 @@
   let pollTimer = null;
   let polling = false;
   let suppressRemoteWrite = false;
+  let initialSyncComplete = false;
+  let localDirty = false;
   let lastLocalSaveAt = 0;
 
   const getUserId = () => currentSession?.user?.id || null;
@@ -77,22 +79,27 @@
         updated_at: new Date().toISOString()
       }, { onConflict: 'user_id' });
     if (error) throw error;
+
+    if (fingerprint(storage.load()) === fingerprint(sanitized)) {
+      localDirty = false;
+    }
     return true;
   }
 
   function scheduleRemoteSave(state) {
     lastLocalSaveAt = Date.now();
+    localDirty = true;
     clearTimeout(pendingTimer);
     pendingTimer = setTimeout(() => {
       pendingTimer = null;
-      if (suppressRemoteWrite) return;
+      if (suppressRemoteWrite || !initialSyncComplete) return;
       saveRemoteState(state).catch(err => console.error('[TercerTiempoCloudSync] save failed', err));
     }, 500);
   }
 
   storage.save = function saveWithCloud(state) {
     const ok = localSave(state);
-    scheduleRemoteSave(state);
+    if (!suppressRemoteWrite) scheduleRemoteSave(state);
     return ok;
   };
 
@@ -101,6 +108,7 @@
     suppressRemoteWrite = true;
     try {
       localSave(remoteState);
+      localDirty = false;
     } finally {
       suppressRemoteWrite = false;
     }
@@ -114,10 +122,13 @@
   async function syncOnLogin() {
     const remote = await loadRemoteState();
     const localState = storage.load();
+    initialSyncComplete = true;
+
     if (remote?.state) {
       await applyRemoteState(remote.state, { reload: false });
       return { direction: 'download', state: remote.state, updatedAt: remote.updated_at || null };
     }
+
     await saveRemoteState(localState);
     return { direction: 'upload', state: localState, updatedAt: new Date().toISOString() };
   }
@@ -144,6 +155,8 @@
     const { error } = await client.auth.signOut();
     if (error) throw error;
     currentSession = null;
+    initialSyncComplete = true;
+    localDirty = false;
   }
 
   async function getSession() {
@@ -153,18 +166,20 @@
   async function uploadLocalNow() {
     clearTimeout(pendingTimer);
     pendingTimer = null;
+    initialSyncComplete = true;
     return saveRemoteState(storage.load());
   }
 
   async function downloadRemoteNow() {
     const remote = await loadRemoteState();
     if (!remote?.state) return false;
+    initialSyncComplete = true;
     await applyRemoteState(remote.state, { reload: false });
     return true;
   }
 
   async function checkRemoteForChanges() {
-    if (polling || suppressRemoteWrite || pendingTimer) return false;
+    if (!initialSyncComplete || polling || suppressRemoteWrite || pendingTimer || localDirty) return false;
     if (Date.now() - lastLocalSaveAt < LOCAL_GRACE_MS) return false;
     await ensureSession();
     if (!getUserId()) return false;
@@ -185,9 +200,40 @@
     }
   }
 
+  async function bootstrapSync() {
+    try {
+      const session = await ensureSession();
+      if (!session) {
+        initialSyncComplete = true;
+        localDirty = false;
+        return;
+      }
+
+      const remote = await loadRemoteState();
+      const localState = storage.load();
+      if (remote?.state) {
+        if (fingerprint(remote.state) !== fingerprint(localState)) {
+          initialSyncComplete = true;
+          await applyRemoteState(remote.state, { reload: true });
+          return;
+        }
+        initialSyncComplete = true;
+        localDirty = false;
+      } else {
+        initialSyncComplete = true;
+        await saveRemoteState(localState);
+      }
+
+      startAutoSync();
+    } catch (error) {
+      initialSyncComplete = true;
+      console.error('[TercerTiempoCloudSync] bootstrap failed', error);
+    }
+  }
+
   function startAutoSync() {
     stopAutoSync();
-    if (!getUserId()) return;
+    if (!getUserId() || !initialSyncComplete) return;
     pollTimer = root.setInterval?.(() => {
       checkRemoteForChanges();
     }, POLL_INTERVAL_MS) || null;
@@ -200,8 +246,8 @@
 
   client.auth.onAuthStateChange((_event, session) => {
     currentSession = session || null;
-    if (currentSession) startAutoSync();
-    else stopAutoSync();
+    if (currentSession && initialSyncComplete) startAutoSync();
+    else if (!currentSession) stopAutoSync();
     root.dispatchEvent?.(new CustomEvent('tercer-tiempo-auth-change', {
       detail: {
         signedIn: Boolean(currentSession),
@@ -212,24 +258,23 @@
 
   if (typeof document !== 'undefined') {
     document.addEventListener('visibilitychange', () => {
-      if (document.visibilityState === 'visible') checkRemoteForChanges();
+      if (document.visibilityState !== 'visible') return;
+      if (localDirty) uploadLocalNow().catch(err => console.error('[TercerTiempoCloudSync] resume upload failed', err));
+      else checkRemoteForChanges();
     });
   }
-  root.addEventListener?.('focus', () => checkRemoteForChanges());
-  root.addEventListener?.('online', () => {
-    uploadLocalNow()
-      .then(() => checkRemoteForChanges())
-      .catch(err => console.error('[TercerTiempoCloudSync] reconnect sync failed', err));
+
+  root.addEventListener?.('focus', () => {
+    if (localDirty) uploadLocalNow().catch(err => console.error('[TercerTiempoCloudSync] focus upload failed', err));
+    else checkRemoteForChanges();
   });
 
-  ensureSession()
-    .then(session => {
-      if (session) {
-        startAutoSync();
-        checkRemoteForChanges();
-      }
-    })
-    .catch(err => console.error('[TercerTiempoCloudSync] session load failed', err));
+  root.addEventListener?.('online', () => {
+    const task = localDirty ? uploadLocalNow() : checkRemoteForChanges();
+    Promise.resolve(task).catch(err => console.error('[TercerTiempoCloudSync] reconnect sync failed', err));
+  });
+
+  bootstrapSync();
 
   root.TercerTiempoCloudSync = {
     configured: true,
