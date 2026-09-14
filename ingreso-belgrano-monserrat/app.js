@@ -1,9 +1,11 @@
 (() => {
   'use strict';
 
+  const APP_VERSION = 3;
   const STORAGE_KEY = 'ingreso-belgrano-monserrat-v1';
+  const DAY_MS = 86400000;
   const DEFAULT_STATE = {
-    version: 1,
+    version: APP_VERSION,
     updatedAt: 0,
     profiles: {
       p1: { name: 'Perfil 1', progress: {}, history: [], sessions: 0 },
@@ -73,24 +75,31 @@
 
   function cloneDefault() { return JSON.parse(JSON.stringify(DEFAULT_STATE)); }
 
+  function hydrateState(raw) {
+    const base = cloneDefault();
+    const parsed = raw && typeof raw === 'object' ? raw : {};
+    return {
+      ...base,
+      ...parsed,
+      version: APP_VERSION,
+      profiles: {
+        p1: { ...base.profiles.p1, ...(parsed.profiles?.p1 || {}), progress: { ...(parsed.profiles?.p1?.progress || {}) }, history: [...(parsed.profiles?.p1?.history || [])] },
+        p2: { ...base.profiles.p2, ...(parsed.profiles?.p2 || {}), progress: { ...(parsed.profiles?.p2?.progress || {}) }, history: [...(parsed.profiles?.p2?.history || [])] }
+      }
+    };
+  }
+
   function loadLocalState() {
     try {
       const raw = localStorage.getItem(STORAGE_KEY);
-      if (!raw) return cloneDefault();
-      const parsed = JSON.parse(raw);
-      const base = cloneDefault();
-      return {
-        ...base,
-        ...parsed,
-        profiles: {
-          p1: { ...base.profiles.p1, ...(parsed.profiles?.p1 || {}) },
-          p2: { ...base.profiles.p2, ...(parsed.profiles?.p2 || {}) }
-        }
-      };
-    } catch { return cloneDefault(); }
+      return raw ? hydrateState(JSON.parse(raw)) : cloneDefault();
+    } catch {
+      return cloneDefault();
+    }
   }
 
   function saveState({ sync = true } = {}) {
+    state.version = APP_VERSION;
     state.updatedAt = Date.now();
     localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
     if (sync && authUser && supa) queueRemoteSync();
@@ -132,6 +141,11 @@
 
   function primaryProfileId() { return activeMode === 'p2' ? 'p2' : 'p1'; }
 
+  function currentResponderId() {
+    if (activeMode !== 'together') return primaryProfileId();
+    return session?.jointTurn % 2 === 0 ? 'p1' : 'p2';
+  }
+
   function updateActiveProfilePill() {
     const label = activeMode === 'together'
       ? `${state.profiles.p1.name} + ${state.profiles.p2.name}`
@@ -162,10 +176,10 @@
       ? `¡Hola, ${state.profiles.p1.name} y ${state.profiles.p2.name}!`
       : `¡Hola, ${state.profiles[primaryProfileId()].name}!`;
     $('#welcome-title').textContent = title;
-    const totalAttempts = ids.reduce((sum, id) => sum + totalProfileAttempts(id), 0);
-    $('#welcome-copy').textContent = totalAttempts === 0
-      ? 'Primero vamos a descubrir qué contenidos ya están firmes y cuáles conviene reforzar.'
-      : 'La práctica de hoy combina temas a reforzar con un repaso de contenidos que ya vienen bien.';
+    const needsDiagnostic = ids.some(id => !hasCompletedDiagnostic(id));
+    $('#welcome-copy').textContent = needsDiagnostic
+      ? 'Primero vamos a descubrir qué contenidos ya están firmes. El diagnóstico ajusta la dificultad según las respuestas.'
+      : 'La práctica de hoy prioriza lo que cuesta, sostiene lo que está en desarrollo y repasa lo que ya está firme.';
 
     renderAreaStat('math', aggregateArea(ids, 'matematica'));
     renderAreaStat('lang', aggregateArea(ids, 'lengua'));
@@ -287,18 +301,29 @@
     toast('Nombres guardados.');
   }
 
+  function hasCompletedDiagnostic(id) {
+    return (state.profiles[id]?.history || []).some(item => item.type === 'diagnostico');
+  }
+
   function startRecommended() {
     const ids = activeProfileIds();
-    const attempts = ids.reduce((sum, id) => sum + totalProfileAttempts(id), 0);
-    if (attempts < 8) startSession({ type: 'diagnostico', area: 'all' });
+    if (ids.some(id => !hasCompletedDiagnostic(id))) startSession({ type: 'diagnostico', area: 'all' });
     else startSession({ type: 'practica', area: 'all' });
   }
 
   function startSession({ type, area, school = null }) {
     if (!exercises.length) return toast('Todavía se están cargando los ejercicios.');
+    if (type === 'diagnostico' && activeMode === 'together') {
+      toast('El diagnóstico es individual. Hacelo desde cada perfil para que el mapa de fortalezas sea preciso.');
+      return;
+    }
     const pool = buildSessionPool(type, area, school);
     if (!pool.length) return toast('No hay ejercicios disponibles para esta selección.');
-    session = { type, area, school, items: pool, index: 0, correct: 0, answers: [], hintUsed: false, checked: false, finished: false, jointTurn: 0, selfcheckOpen: false };
+    session = {
+      type, area, school, items: pool, index: 0, correct: 0, answers: [], hintUsed: false,
+      checked: false, finished: false, jointTurn: 0, selfcheckOpen: false,
+      diagnosticExtensions: 0, diagnosticMaxExtensions: 6
+    };
     $('#exercise-dialog').showModal();
     renderExercise();
   }
@@ -306,17 +331,184 @@
   function buildSessionPool(type, area, school) {
     let pool = exercises.filter(e => area === 'all' || e.area === area);
     if (school) pool = pool.filter(e => e.colegios.includes('comun') || e.colegios.includes(school));
-    if (type === 'diagnostico') {
-      const math = shuffle(pool.filter(e => e.area === 'matematica' && e.tipo !== 'selfcheck')).slice(0, 8);
-      const lang = shuffle(pool.filter(e => e.area === 'lengua' && e.tipo !== 'selfcheck')).slice(0, 8);
-      return shuffle([...math, ...lang]);
+    if (type === 'diagnostico') return buildAdaptiveDiagnostic(pool);
+    if (type === 'simulacro') return buildSimulationPool(pool, school, area);
+    return buildAdaptivePractice(pool, 8);
+  }
+
+  function buildAdaptiveDiagnostic(pool) {
+    const selected = [];
+    const usedExerciseIds = new Set();
+    ['matematica', 'lengua'].forEach(area => {
+      const usedSkillIds = new Set();
+      const usedGroups = new Set();
+      const common = pickDiagnosticSkills(area, 'comun', 5, pool, usedSkillIds, usedGroups);
+      const belgrano = pickDiagnosticSkills(area, 'belgrano', 1, pool, usedSkillIds, usedGroups);
+      const monserrat = pickDiagnosticSkills(area, 'monserrat', 1, pool, usedSkillIds, usedGroups);
+      [...common, ...belgrano, ...monserrat].forEach(skillId => {
+        const exercise = chooseExerciseForSkill(skillId, 2.5, pool, usedExerciseIds);
+        if (exercise) { selected.push(exercise); usedExerciseIds.add(exercise.id); }
+      });
+    });
+    return shuffle(selected);
+  }
+
+  function pickDiagnosticSkills(area, tag, count, pool, usedSkillIds, usedGroups) {
+    const pid = primaryProfileId();
+    const candidates = skills
+      .filter(skill => skill.area === area && skill.colegios.includes(tag) && !usedSkillIds.has(skill.id))
+      .filter(skill => pool.some(e => e.habilidad === skill.id && e.tipo !== 'selfcheck'))
+      .map(skill => ({ skill, progress: state.profiles[pid]?.progress?.[skill.id] || null }))
+      .sort((a, b) => {
+        const aUnseen = a.progress?.attempts ? 0 : 1;
+        const bUnseen = b.progress?.attempts ? 0 : 1;
+        return (bUnseen - aUnseen) || ((b.skill.prioridad || 0) - (a.skill.prioridad || 0)) || a.skill.id.localeCompare(b.skill.id);
+      });
+    const picked = [];
+    for (const row of candidates) {
+      if (picked.length >= count) break;
+      if (usedGroups.has(row.skill.grupo)) continue;
+      picked.push(row.skill.id); usedSkillIds.add(row.skill.id); usedGroups.add(row.skill.grupo);
     }
-    if (type === 'simulacro') return shuffle(pool.filter(e => e.tipo !== 'selfcheck')).slice(0, 8);
+    for (const row of candidates) {
+      if (picked.length >= count) break;
+      if (usedSkillIds.has(row.skill.id)) continue;
+      picked.push(row.skill.id); usedSkillIds.add(row.skill.id);
+    }
+    return picked;
+  }
+
+  function chooseExerciseForSkill(skillId, targetDifficulty, pool, usedExerciseIds = new Set()) {
+    const candidates = pool
+      .filter(e => e.habilidad === skillId && e.tipo !== 'selfcheck' && !usedExerciseIds.has(e.id))
+      .map(e => ({ e, distance: Math.abs((e.dificultad || 2) - targetDifficulty), rnd: Math.random() * .2 }))
+      .sort((a, b) => (a.distance + a.rnd) - (b.distance + b.rnd));
+    return candidates[0]?.e || null;
+  }
+
+  function buildAdaptivePractice(pool, count) {
     const ids = activeProfileIds();
-    return pool.map(e => {
+    const candidatePool = pool.filter(e => e.tipo !== 'selfcheck' || e.area === 'lengua');
+    const rows = candidatePool.map(e => {
       const agg = aggregateSkill(ids, e.habilidad);
-      return { e, weakness: agg.attempts ? 100 - agg.mastery : 55, rnd: Math.random() * 28 };
-    }).sort((a,b) => (b.weakness + b.rnd) - (a.weakness + a.rnd)).slice(0, 8).map(x => x.e);
+      const category = agg.attempts === 0 ? 'developing' : agg.mastery < 55 ? 'weak' : agg.mastery < 80 ? 'developing' : 'mastered';
+      return { e, agg, category, score: practiceScore(e, agg, category) };
+    });
+    const selected = [];
+    takePracticeRows(rows.filter(r => r.category === 'weak'), 5, selected);
+    takePracticeRows(rows.filter(r => r.category === 'developing'), 2, selected);
+    takePracticeRows(rows.filter(r => r.category === 'mastered'), 1, selected);
+    if (selected.length < count) takePracticeRows(rows, count - selected.length, selected, false);
+    return shuffle(selected.slice(0, count));
+  }
+
+  function practiceScore(e, agg, category) {
+    const skill = skillsById.get(e.habilidad);
+    const target = preferredDifficulty(agg);
+    const priority = skill?.prioridad || 3;
+    const distancePenalty = Math.abs((e.dificultad || 2) - target) * 6;
+    const weaknessBonus = category === 'weak' ? (100 - agg.mastery) / 7 : 0;
+    const noveltyBonus = agg.attempts === 0 ? 5 : Math.max(0, 4 - agg.attempts);
+    const ageDays = agg.lastAt ? (Date.now() - agg.lastAt) / DAY_MS : 30;
+    const reviewBonus = category === 'mastered' ? Math.min(10, ageDays / 3) : 0;
+    return priority * 3 + weaknessBonus + noveltyBonus + reviewBonus - distancePenalty + Math.random() * 3;
+  }
+
+  function preferredDifficulty(agg) {
+    if (!agg.attempts) return 2;
+    if (agg.mastery < 35) return 1.5;
+    if (agg.mastery < 55) return 2.2;
+    if (agg.mastery < 80) return 3;
+    return 3.6;
+  }
+
+  function takePracticeRows(rows, count, selected, preferUniqueSkill = true) {
+    if (count <= 0) return;
+    const selectedIds = new Set(selected.map(e => e.id));
+    const selectedSkills = new Set(selected.map(e => e.habilidad));
+    const ordered = [...rows].sort((a, b) => b.score - a.score);
+    let remaining = count;
+    for (const row of ordered) {
+      if (!remaining) break;
+      if (selectedIds.has(row.e.id)) continue;
+      if (preferUniqueSkill && selectedSkills.has(row.e.habilidad)) continue;
+      selected.push(row.e); selectedIds.add(row.e.id); selectedSkills.add(row.e.habilidad); remaining -= 1;
+    }
+    if (remaining && preferUniqueSkill) takePracticeRows(ordered, remaining, selected, false);
+  }
+
+  function buildSimulationPool(pool, school, area) {
+    const objective = pool.filter(e => e.tipo !== 'selfcheck');
+    const selected = [];
+    const blueprints = simulationBlueprint(school, area);
+    blueprints.forEach(block => takeSimulationBlock(objective, block.groups, block.count, selected));
+    const target = blueprints.reduce((sum, block) => sum + block.count, 0);
+    if (selected.length < target) takeSimulationBlock(objective, null, target - selected.length, selected);
+    if (school === 'monserrat' && area === 'lengua') {
+      const writing = shuffle(pool.filter(e => e.tipo === 'selfcheck' && e.habilidad === 'LEN-PROD'))[0];
+      if (writing) selected.push(writing);
+    }
+    return selected;
+  }
+
+  function simulationBlueprint(school, area) {
+    if (school === 'belgrano' && area === 'matematica') return [
+      { groups: ['Números naturales', 'Divisibilidad'], count: 4 },
+      { groups: ['Fracciones', 'Decimales'], count: 4 },
+      { groups: ['Magnitudes', 'Geometría', 'Problemas'], count: 4 }
+    ];
+    if (school === 'monserrat' && area === 'matematica') return [
+      { groups: ['Números naturales', 'Numeración', 'Patrones', 'Datos'], count: 3 },
+      { groups: ['Divisibilidad', 'Fracciones', 'Decimales'], count: 3 },
+      { groups: ['Magnitudes', 'Geometría', 'Problemas'], count: 4 }
+    ];
+    if (school === 'belgrano' && area === 'lengua') return [
+      { groups: ['Comprensión', 'Texto y discurso', 'Comunicación', 'Cohesión', 'Semántica'], count: 5 },
+      { groups: ['Narración', 'Literatura', 'Gramática', 'Sintaxis'], count: 4 },
+      { groups: ['Ortografía', 'Puntuación'], count: 3 }
+    ];
+    if (school === 'monserrat' && area === 'lengua') return [
+      { groups: ['Comprensión', 'Texto y discurso', 'Cohesión', 'Semántica', 'Narración', 'Literatura'], count: 4 },
+      { groups: ['Gramática', 'Sintaxis'], count: 2 },
+      { groups: ['Ortografía', 'Puntuación'], count: 4 }
+    ];
+    return [{ groups: null, count: 8 }];
+  }
+
+  function takeSimulationBlock(pool, groups, count, selected) {
+    const selectedIds = new Set(selected.map(e => e.id));
+    const selectedSkills = new Set(selected.map(e => e.habilidad));
+    const candidates = pool
+      .filter(e => !selectedIds.has(e.id))
+      .filter(e => !groups || groups.includes(skillsById.get(e.habilidad)?.grupo))
+      .map(e => ({ e, score: (e.dificultad || 2) * 2 + (skillsById.get(e.habilidad)?.prioridad || 3) + Math.random() * 5 }))
+      .sort((a, b) => b.score - a.score);
+    let remaining = count;
+    for (const row of candidates) {
+      if (!remaining) break;
+      if (selectedSkills.has(row.e.habilidad)) continue;
+      selected.push(row.e); selectedIds.add(row.e.id); selectedSkills.add(row.e.habilidad); remaining -= 1;
+    }
+    for (const row of candidates) {
+      if (!remaining) break;
+      if (selectedIds.has(row.e.id)) continue;
+      selected.push(row.e); selectedIds.add(row.e.id); remaining -= 1;
+    }
+  }
+
+  function maybeExtendDiagnostic(e, correct) {
+    if (session?.type !== 'diagnostico' || session.diagnosticExtensions >= session.diagnosticMaxExtensions) return false;
+    const used = new Set(session.items.map(item => item.id));
+    const direction = correct ? 1 : -1;
+    const candidates = exercises
+      .filter(item => item.habilidad === e.habilidad && item.tipo !== 'selfcheck' && !used.has(item.id))
+      .filter(item => direction > 0 ? item.dificultad > e.dificultad : item.dificultad < e.dificultad)
+      .sort((a, b) => Math.abs(a.dificultad - (e.dificultad + direction)) - Math.abs(b.dificultad - (e.dificultad + direction)));
+    const next = candidates[0];
+    if (!next) return false;
+    session.items.push(next);
+    session.diagnosticExtensions += 1;
+    return true;
   }
 
   function currentExercise() { return session?.items[session.index]; }
@@ -324,11 +516,8 @@
   function renderExercise() {
     const e = currentExercise();
     if (!e) return finishSession();
-    session.hintUsed = false;
-    session.checked = false;
-    session.selfcheckOpen = false;
-
-    $('#exercise-mode').textContent = session.type === 'diagnostico' ? 'Diagnóstico' : session.type === 'simulacro' ? 'Simulacro' : 'Práctica';
+    session.hintUsed = false; session.checked = false; session.selfcheckOpen = false;
+    $('#exercise-mode').textContent = session.type === 'diagnostico' ? 'Diagnóstico adaptativo' : session.type === 'simulacro' ? 'Simulacro' : 'Práctica adaptativa';
     $('#exercise-progress').textContent = `${session.index + 1} de ${session.items.length}`;
     $('#exercise-progress-bar').style.width = `${(session.index / session.items.length) * 100}%`;
     $('#exercise-tags').innerHTML = exerciseTags(e);
@@ -336,23 +525,15 @@
     $('#exercise-text').hidden = !e.texto;
     $('#exercise-text').textContent = e.texto || '';
     $('#exercise-prompt').textContent = e.consigna;
-    $('#exercise-feedback').hidden = true;
-    $('#exercise-feedback').className = 'feedback';
-    $('#exercise-feedback').innerHTML = '';
-    $('#exercise-selfcheck').hidden = true;
-    $('#exercise-selfcheck').innerHTML = '';
+    $('#exercise-feedback').hidden = true; $('#exercise-feedback').className = 'feedback'; $('#exercise-feedback').innerHTML = '';
+    $('#exercise-selfcheck').hidden = true; $('#exercise-selfcheck').innerHTML = '';
     $('#hint-button').hidden = session.type !== 'practica';
-    $('#check-answer').hidden = false;
-    $('#check-answer').textContent = 'Comprobar';
-    $('#next-exercise').hidden = true;
-    $('#next-exercise').textContent = 'Siguiente';
-
+    $('#check-answer').hidden = false; $('#check-answer').textContent = 'Comprobar';
+    $('#next-exercise').hidden = true; $('#next-exercise').textContent = 'Siguiente';
     if (activeMode === 'together') {
-      const pid = session.jointTurn % 2 === 0 ? 'p1' : 'p2';
-      $('#turn-banner').hidden = false;
-      $('#turn-banner').textContent = `Turno de ${state.profiles[pid].name}`;
+      const pid = currentResponderId();
+      $('#turn-banner').hidden = false; $('#turn-banner').textContent = `Turno de ${state.profiles[pid].name}`;
     } else $('#turn-banner').hidden = true;
-
     const answerBox = $('#exercise-answer');
     answerBox.hidden = false;
     if (e.tipo === 'choice') {
@@ -368,7 +549,8 @@
   function exerciseTags(e) {
     const skill = skillsById.get(e.habilidad);
     const school = e.colegios.includes('comun') ? 'Común a ambos' : e.colegios.map(capitalize).join(' · ');
-    return `<span class="exercise-tag">${e.area === 'matematica' ? 'Matemática' : 'Lengua'}</span><span class="exercise-tag">${school}</span><span class="exercise-tag">Nivel ${e.dificultad}</span>${skill ? `<span class="exercise-tag">${escapeHtml(skill.nombre)}</span>` : ''}`;
+    const level = ['Descubrir', 'Practicar', 'Desafiarme', 'Modo ingreso'][clamp((e.dificultad || 1) - 1, 0, 3)];
+    return `<span class="exercise-tag">${e.area === 'matematica' ? 'Matemática' : 'Lengua'}</span><span class="exercise-tag">${school}</span><span class="exercise-tag">${level}</span>${skill ? `<span class="exercise-tag">${escapeHtml(skill.nombre)}</span>` : ''}`;
   }
 
   function showHint() {
@@ -376,8 +558,7 @@
     if (!e || session.checked) return;
     session.hintUsed = true;
     const box = $('#exercise-feedback');
-    box.hidden = false;
-    box.className = 'feedback hint';
+    box.hidden = false; box.className = 'feedback hint';
     box.innerHTML = `<strong>Pista</strong>${escapeHtml(e.pista || 'Volvé a leer la consigna y revisá el procedimiento.')}`;
   }
 
@@ -388,30 +569,28 @@
       if (!session.selfcheckOpen) return openSelfCheck(e);
       return saveSelfCheck(e);
     }
-
     const answer = readAnswer(e);
     if (answer === null || answer === '') return toast('Elegí o escribí una respuesta antes de continuar.');
     const correct = isCorrect(e, answer);
-    session.checked = true;
-    session.correct += correct ? 1 : 0;
-    recordAttempt(e, correct);
-    session.answers.push({ id: e.id, correct, answer });
-
+    const profileId = currentResponderId();
+    session.checked = true; session.correct += correct ? 1 : 0;
+    recordAttempt(e, correct, 1, profileId);
+    session.answers.push({ id: e.id, correct, answer, profileId });
+    const extended = maybeExtendDiagnostic(e, correct);
     const feedback = $('#exercise-feedback');
     feedback.hidden = false;
     if (session.type === 'practica') {
       feedback.className = `feedback ${correct ? 'ok' : 'bad'}`;
-      feedback.innerHTML = correct
-        ? `<strong>¡Bien!</strong>${escapeHtml(e.explicacion)}`
-        : `<strong>Revisemos.</strong>La respuesta esperada es <b>${escapeHtml(String(e.respuesta))}</b>. ${escapeHtml(e.explicacion)}`;
-    } else {
+      feedback.innerHTML = correct ? `<strong>¡Bien!</strong>${escapeHtml(e.explicacion)}` : `<strong>Revisemos.</strong>La respuesta esperada es <b>${escapeHtml(String(e.respuesta))}</b>. ${escapeHtml(e.explicacion)}`;
+    } else if (session.type === 'diagnostico') {
       feedback.className = 'feedback hint';
-      feedback.innerHTML = '<strong>Respuesta registrada.</strong>La corrección completa aparece al terminar.';
+      feedback.innerHTML = extended ? '<strong>Respuesta registrada.</strong>El diagnóstico ajustó la dificultad de esta habilidad. La corrección aparece al final.' : '<strong>Respuesta registrada.</strong>La corrección aparece al final.';
+    } else {
+      feedback.className = 'feedback hint'; feedback.innerHTML = '<strong>Respuesta registrada.</strong>La corrección completa aparece al terminar.';
     }
     lockCurrentInputs();
-    $('#check-answer').hidden = true;
-    $('#hint-button').hidden = true;
-    $('#next-exercise').hidden = false;
+    $('#check-answer').hidden = true; $('#hint-button').hidden = true; $('#next-exercise').hidden = false;
+    $('#exercise-progress').textContent = `${session.index + 1} de ${session.items.length}`;
   }
 
   function openSelfCheck(e) {
@@ -419,24 +598,20 @@
     const box = $('#exercise-selfcheck');
     box.hidden = false;
     box.innerHTML = `<p><strong>Revisá tu producción antes de continuar:</strong></p>${e.criterios.map((c,i) => `<label><input type="checkbox" value="${i}"><span>${escapeHtml(c)}</span></label>`).join('')}`;
-    $('#exercise-answer').hidden = true;
-    $('#check-answer').textContent = 'Guardar revisión';
+    $('#exercise-answer').hidden = true; $('#check-answer').textContent = 'Guardar revisión';
   }
 
   function saveSelfCheck(e) {
     const checked = $$('#exercise-selfcheck input:checked').length;
     if (!checked) return toast('Marcá los criterios que cumpliste después de revisar el texto.');
     const correct = checked >= Math.ceil(e.criterios.length * .7);
-    session.checked = true;
-    session.correct += correct ? 1 : 0;
-    recordAttempt(e, correct, .65);
-    session.answers.push({ id: e.id, correct, selfChecked: checked });
-    $('#exercise-feedback').hidden = false;
-    $('#exercise-feedback').className = 'feedback hint';
+    const profileId = currentResponderId();
+    session.checked = true; session.correct += correct ? 1 : 0;
+    recordAttempt(e, correct, .65, profileId);
+    session.answers.push({ id: e.id, correct, selfChecked: checked, profileId });
+    $('#exercise-feedback').hidden = false; $('#exercise-feedback').className = 'feedback hint';
     $('#exercise-feedback').innerHTML = `<strong>Revisión guardada.</strong>Marcaste ${checked} de ${e.criterios.length} criterios. Conservá la producción para revisarla nuevamente más adelante.`;
-    $('#check-answer').hidden = true;
-    $('#hint-button').hidden = true;
-    $('#next-exercise').hidden = false;
+    $('#check-answer').hidden = true; $('#hint-button').hidden = true; $('#next-exercise').hidden = false;
   }
 
   function readAnswer(e) {
@@ -465,27 +640,42 @@
   function finishSession() {
     if (!session) return;
     activeProfileIds().forEach(id => {
+      const ownAnswers = session.answers.filter(a => a.profileId === id);
+      const ownScore = ownAnswers.filter(a => a.correct).length;
+      const ownTotal = ownAnswers.length;
       state.profiles[id].sessions = (state.profiles[id].sessions || 0) + 1;
       state.profiles[id].history = [...(state.profiles[id].history || []), {
-        at: Date.now(), type: session.type, area: session.area, school: session.school, score: session.correct, total: session.items.length
+        at: Date.now(), type: session.type, area: session.area, school: session.school,
+        score: ownScore, total: ownTotal,
+        adaptiveExtensions: session.type === 'diagnostico' ? session.diagnosticExtensions : 0
       }].slice(-60);
     });
     saveState();
     session.finished = true;
     $('#exercise-progress-bar').style.width = '100%';
-    $('#exercise-tags').innerHTML = '';
-    $('#exercise-paper').hidden = true;
-    $('#exercise-text').hidden = true;
-    $('#exercise-prompt').textContent = session.type === 'diagnostico' ? 'Diagnóstico inicial completado' : session.type === 'simulacro' ? 'Simulacro completado' : '¡Sesión completada!';
-    $('#exercise-answer').hidden = false;
-    $('#exercise-answer').innerHTML = `<div class="today-card"><strong>${session.correct} de ${session.items.length} respuestas correctas</strong><p>${summaryMessage(session.correct / session.items.length)}</p></div>`;
-    $('#exercise-feedback').hidden = true;
-    $('#exercise-selfcheck').hidden = true;
-    $('#hint-button').hidden = true;
-    $('#check-answer').hidden = true;
-    $('#next-exercise').hidden = false;
-    $('#next-exercise').textContent = 'Ver mi progreso';
+    $('#exercise-tags').innerHTML = ''; $('#exercise-paper').hidden = true; $('#exercise-text').hidden = true;
+    $('#exercise-prompt').textContent = session.type === 'diagnostico' ? 'Diagnóstico adaptativo completado' : session.type === 'simulacro' ? 'Simulacro completado' : '¡Sesión completada!';
+    $('#exercise-answer').hidden = false; $('#exercise-answer').innerHTML = sessionSummaryHtml();
+    $('#exercise-feedback').hidden = true; $('#exercise-selfcheck').hidden = true; $('#hint-button').hidden = true; $('#check-answer').hidden = true;
+    $('#next-exercise').hidden = false; $('#next-exercise').textContent = 'Ver mi progreso';
     renderAll();
+  }
+
+  function sessionSummaryHtml() {
+    const total = session.answers.length;
+    const correct = session.answers.filter(a => a.correct).length;
+    const ratio = total ? correct / total : 0;
+    let extra = '';
+    if (session.type === 'diagnostico') extra = `<p>El diagnóstico agregó ${session.diagnosticExtensions} comprobación${session.diagnosticExtensions === 1 ? '' : 'es'} de dificultad para precisar el mapa.</p>`;
+    if (session.type === 'simulacro' && session.school === 'monserrat' && session.area === 'lengua') extra += '<p>La producción escrita se incluye como revisión guiada; su ponderación todavía no equivale al puntaje oficial del examen.</p>';
+    const review = session.type === 'practica' ? '' : sessionReviewHtml();
+    return `<div class="today-card"><strong>${correct} de ${total} respuestas logradas</strong><p>${summaryMessage(ratio)}</p>${extra}</div>${review}`;
+  }
+
+  function sessionReviewHtml() {
+    const wrong = session.answers.filter(a => !a.correct).map(a => ({ a, e: exercises.find(e => e.id === a.id) })).filter(x => x.e && x.e.tipo !== 'selfcheck');
+    if (!wrong.length) return '<div class="feedback ok"><strong>Corrección final</strong>No quedaron respuestas objetivas para revisar.</div>';
+    return `<div class="progress-group"><h3>Para revisar</h3>${wrong.map(({e}) => `<div class="priority-item"><div><strong>${escapeHtml(skillsById.get(e.habilidad)?.nombre || 'Actividad')}</strong><small>Respuesta esperada: ${escapeHtml(String(e.respuesta))}. ${escapeHtml(e.explicacion || '')}</small></div></div>`).join('')}</div>`;
   }
 
   function summaryMessage(ratio) {
@@ -504,8 +694,8 @@
     renderAll();
   }
 
-  function recordAttempt(e, correct, weight = 1) {
-    const pid = activeMode === 'together' ? (session.jointTurn % 2 === 0 ? 'p1' : 'p2') : primaryProfileId();
+  function recordAttempt(e, correct, weight = 1, profileId = null) {
+    const pid = profileId || currentResponderId();
     const profile = state.profiles[pid];
     const prev = profile.progress[e.habilidad] || { attempts: 0, correct: 0, mastery: 0, lastAt: 0 };
     let evidence = correct ? 52 + e.dificultad * 10 : Math.max(8, 38 - e.dificultad * 4);
@@ -518,11 +708,12 @@
 
   function aggregateSkill(ids, skillId) {
     const rows = ids.map(id => state.profiles[id]?.progress?.[skillId]).filter(Boolean);
-    if (!rows.length) return { attempts: 0, correct: 0, mastery: 0 };
+    if (!rows.length) return { attempts: 0, correct: 0, mastery: 0, lastAt: 0 };
     return {
-      attempts: rows.reduce((s,r) => s + r.attempts, 0),
-      correct: rows.reduce((s,r) => s + r.correct, 0),
-      mastery: Math.round(rows.reduce((s,r) => s + r.mastery, 0) / rows.length)
+      attempts: rows.reduce((s,r) => s + (r.attempts || 0), 0),
+      correct: rows.reduce((s,r) => s + (r.correct || 0), 0),
+      mastery: Math.round(rows.reduce((s,r) => s + (r.mastery || 0), 0) / rows.length),
+      lastAt: Math.max(...rows.map(r => r.lastAt || 0))
     };
   }
 
@@ -541,23 +732,14 @@
     if (!cfg.supabaseUrl || !cfg.supabaseAnonKey || !window.supabase) { renderFamily(); return; }
     try {
       supa = window.supabase.createClient(cfg.supabaseUrl, cfg.supabaseAnonKey);
-      supa.auth.getSession().then(({ data }) => {
-        authUser = data.session?.user || null;
-        if (authUser) loadRemoteState();
-        renderFamily();
-      });
-      supa.auth.onAuthStateChange((_event, sessionData) => {
-        authUser = sessionData?.user || null;
-        if (authUser) loadRemoteState();
-        renderFamily();
-      });
+      supa.auth.getSession().then(({ data }) => { authUser = data.session?.user || null; if (authUser) loadRemoteState(); renderFamily(); });
+      supa.auth.onAuthStateChange((_event, sessionData) => { authUser = sessionData?.user || null; if (authUser) loadRemoteState(); renderFamily(); });
     } catch (error) { console.error(error); supa = null; renderFamily(); }
   }
 
   async function signIn() {
     if (!supa) return;
-    const email = $('#auth-email').value.trim();
-    const password = $('#auth-password').value;
+    const email = $('#auth-email').value.trim(); const password = $('#auth-password').value;
     if (!email || password.length < 6) return toast('Completá correo y una contraseña de al menos 6 caracteres.');
     const { error } = await supa.auth.signInWithPassword({ email, password });
     if (error) toast('No se pudo ingresar: ' + error.message); else toast('Cuenta familiar conectada.');
@@ -565,8 +747,7 @@
 
   async function signUp() {
     if (!supa) return;
-    const email = $('#auth-email').value.trim();
-    const password = $('#auth-password').value;
+    const email = $('#auth-email').value.trim(); const password = $('#auth-password').value;
     if (!email || password.length < 6) return toast('Completá correo y una contraseña de al menos 6 caracteres.');
     const { error } = await supa.auth.signUp({ email, password });
     if (error) toast('No se pudo crear la cuenta: ' + error.message);
@@ -575,9 +756,7 @@
 
   async function signOut() {
     if (!supa) return;
-    await supa.auth.signOut();
-    authUser = null;
-    renderFamily();
+    await supa.auth.signOut(); authUser = null; renderFamily();
     toast('Sesión familiar cerrada. El progreso local se conserva.');
   }
 
@@ -586,12 +765,9 @@
     const { data, error } = await supa.from('study_state').select('payload,updated_at').eq('user_id', authUser.id).maybeSingle();
     if (error) { console.error(error); toast('Supabase está conectado, pero falta crear la tabla study_state o revisar sus permisos.'); return; }
     if (!data?.payload) { await syncRemoteState(); return; }
-    const remote = data.payload;
+    const remote = hydrateState(data.payload);
     if ((remote.updatedAt || 0) > (state.updatedAt || 0)) {
-      state = remote;
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-      refreshGateNames();
-      if (activeMode) renderAll();
+      state = remote; localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); refreshGateNames(); if (activeMode) renderAll();
       toast('Progreso actualizado desde la nube.');
     } else await syncRemoteState();
   }
@@ -603,11 +779,8 @@
   }
 
   function toast(message) {
-    const el = $('#toast');
-    el.textContent = message;
-    el.classList.add('show');
-    clearTimeout(toast._timer);
-    toast._timer = setTimeout(() => el.classList.remove('show'), 3200);
+    const el = $('#toast'); el.textContent = message; el.classList.add('show');
+    clearTimeout(toast._timer); toast._timer = setTimeout(() => el.classList.remove('show'), 3600);
   }
 
   function groupBy(list, key) { return list.reduce((acc, item) => { (acc[item[key]] ||= []).push(item); return acc; }, {}); }
