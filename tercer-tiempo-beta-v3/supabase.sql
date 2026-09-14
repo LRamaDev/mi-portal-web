@@ -6,6 +6,10 @@ create table if not exists public.user_app_state (
 
 alter table public.user_app_state enable row level security;
 
+drop policy if exists "users can read own app state" on public.user_app_state;
+drop policy if exists "users can insert own app state" on public.user_app_state;
+drop policy if exists "users can update own app state" on public.user_app_state;
+
 create policy "users can read own app state"
 on public.user_app_state
 for select
