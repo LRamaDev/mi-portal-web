@@ -8,6 +8,7 @@ const root = path.join(__dirname, '..');
 const appDir = path.join(root, 'ingreso-belgrano-monserrat');
 const bankPath = path.join(appDir, 'banco-v6.js');
 const uiPath = path.join(appDir, 'ui-v6.js');
+const togetherUiPath = path.join(appDir, 'ui-v6-4.js');
 const stylesPath = path.join(appDir, 'styles-v6.css');
 const indexPath = path.join(appDir, 'index.html');
 const swPath = path.join(appDir, 'sw.js');
@@ -15,6 +16,7 @@ const skillsPath = path.join(appDir, 'data', 'habilidades.json');
 
 const bank = fs.readFileSync(bankPath, 'utf8');
 const ui = fs.readFileSync(uiPath, 'utf8');
+const togetherUi = fs.readFileSync(togetherUiPath, 'utf8');
 const styles = fs.readFileSync(stylesPath, 'utf8');
 const index = fs.readFileSync(indexPath, 'utf8');
 const sw = fs.readFileSync(swPath, 'utf8');
@@ -28,6 +30,11 @@ test('banco V6 tiene sintaxis JavaScript válida', () => {
 
 test('UI V6 tiene sintaxis JavaScript válida', () => {
   const result = spawnSync(process.execPath, ['--check', uiPath], { encoding: 'utf8' });
+  assert.equal(result.status, 0, result.stderr);
+});
+
+test('UI V6.4 de modo juntas tiene sintaxis JavaScript válida', () => {
+  const result = spawnSync(process.execPath, ['--check', togetherUiPath], { encoding: 'utf8' });
   assert.equal(result.status, 0, result.stderr);
 });
 
@@ -49,8 +56,10 @@ test('la página carga V6 en el orden correcto', () => {
   assert.match(index, /styles-v6\.css/);
   assert.match(index, /banco-v6\.js/);
   assert.match(index, /ui-v6\.js/);
+  assert.match(index, /ui-v6-4\.js/);
   assert.ok(index.indexOf('banco-v6.js') < index.indexOf('app.js'));
   assert.ok(index.indexOf('ui-v6.js') > index.indexOf('app.js'));
+  assert.ok(index.indexOf('ui-v6-4.js') > index.indexOf('ui-v6.js'));
 });
 
 test('la salida segura sincroniza study_state antes de cerrar la sesión local', () => {
@@ -72,14 +81,22 @@ test('el selector oculto no puede reaparecer debajo de la app', () => {
   assert.match(styles, /#profile-gate\[hidden\],#app-shell\[hidden\]\{display:none!important\}/);
 });
 
-test('la versión 6.3 queda visible incluso en la pantalla de acceso', () => {
-  assert.match(index, /<meta name="app-version" content="6\.3">/);
+test('modo juntas evita diagnóstico y simulacro compartidos', () => {
+  assert.match(togetherUi, /Elegir qué entrenar/);
+  assert.match(togetherUi, /diagnostic\.hidden = togetherMode/);
+  assert.match(togetherUi, /examPanel\.hidden = togetherMode/);
+  assert.match(togetherUi, /Los simulacros completos quedan reservados para los perfiles individuales/);
+  assert.match(togetherUi, /data-nav="entrenar"/);
+});
+
+test('la versión 6.4 queda visible incluso en la pantalla de acceso', () => {
+  assert.match(index, /<meta name="app-version" content="6\.4">/);
   assert.match(index, /class="build-version"/);
-  assert.match(index, />Versión 6\.3<\/div>/);
+  assert.match(index, />Versión 6\.4<\/div>/);
   assert.match(index, /z-index:100000/);
 });
 
 test('service worker cachea todos los recursos V6 renovados', () => {
-  assert.match(sw, /ingreso-bm-v6-3-version-visible/);
-  for (const asset of ['styles-v6.css','banco-v6.js','ui-v6.js']) assert.match(sw, new RegExp(asset.replace('.', '\\.')));
+  assert.match(sw, /ingreso-bm-v6-4-modo-juntas/);
+  for (const asset of ['styles-v6.css','banco-v6.js','ui-v6.js','ui-v6-4.js']) assert.match(sw, new RegExp(asset.replace('.', '\\.')));
 });
