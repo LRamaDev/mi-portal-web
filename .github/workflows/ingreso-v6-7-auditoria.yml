@@ -1,0 +1,31 @@
+name: Ingreso V6.7 - auditoría pedagógica
+
+on:
+  pull_request:
+    paths:
+      - 'ingreso-belgrano-monserrat/**'
+      - 'tests/ingreso-v6-7-auditoria.test.cjs'
+      - 'tools/auditar-ingreso-v6-7.cjs'
+      - '.github/workflows/ingreso-v6-7-auditoria.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'ingreso-belgrano-monserrat/**'
+      - 'tests/ingreso-v6-7-auditoria.test.cjs'
+      - 'tools/auditar-ingreso-v6-7.cjs'
+
+permissions:
+  contents: read
+
+jobs:
+  auditar-banco:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Auditoría V6.7
+        run: node --test tests/ingreso-v6-7-auditoria.test.cjs
