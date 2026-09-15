@@ -3,8 +3,9 @@
 
   const STORAGE_KEY = 'ingreso-belgrano-monserrat-v1';
   const PROFILE_IDS = ['p1', 'p2'];
-  const DISPLAY_VERSION = '6.5';
+  const DISPLAY_VERSION = '6.6';
   let togetherMode = false;
+  let lastSelectedProfile = null;
 
   // ---------------------------------------------------------------------------
   // V6.5 · Sincronización concurrente por perfil
@@ -217,7 +218,7 @@
         nativeSetItem.call(localStorage, STORAGE_KEY, JSON.stringify(next));
         window.setTimeout(() => window.location.reload(), 80);
       } catch (error) {
-        console.warn('[Ingreso 6.5] No se pudo refrescar el progreso por perfil', error);
+        console.warn('[Ingreso 6.6] No se pudo refrescar el progreso por perfil', error);
       }
     }
 
@@ -238,7 +239,49 @@
     if (badge) {
       badge.textContent = `Versión ${DISPLAY_VERSION}`;
       badge.setAttribute('aria-label', `Versión instalada ${DISPLAY_VERSION}`);
-      badge.title = `Versión ${DISPLAY_VERSION} · sincronización simultánea por perfil`;
+      badge.title = `Versión ${DISPLAY_VERSION} · identidad visual por perfil`;
+    }
+  }
+
+  // ---------------------------------------------------------------------------
+  // V6.6 · Identidad visual por perfil
+  // ---------------------------------------------------------------------------
+  function applyProfileTheme(profileId) {
+    const allowed = ['p1', 'p2', 'together'];
+    const theme = allowed.includes(profileId) ? profileId : '';
+    if (theme) document.body.dataset.profileTheme = theme;
+    else delete document.body.dataset.profileTheme;
+
+    const themeMeta = document.querySelector('meta[name="theme-color"]');
+    if (themeMeta) {
+      const colors = { p1: '#dff7f3', p2: '#eee5f8', together: '#f1eef8' };
+      themeMeta.setAttribute('content', colors[theme] || '#173f6b');
+    }
+  }
+
+  function bindProfileThemes() {
+    document.querySelectorAll('.profile-card[data-profile]').forEach(button => {
+      button.addEventListener('click', () => {
+        lastSelectedProfile = button.dataset.profile;
+        applyProfileTheme(lastSelectedProfile);
+      });
+    });
+
+    document.querySelectorAll('#profile-switch, #active-profile').forEach(button => {
+      button.addEventListener('click', () => {
+        lastSelectedProfile = null;
+        window.setTimeout(() => {
+          if (!document.querySelector('#profile-gate')?.hidden) applyProfileTheme(null);
+        }, 0);
+      });
+    });
+
+    const shell = document.querySelector('#app-shell');
+    if (shell) {
+      new MutationObserver(() => {
+        if (!shell.hidden && lastSelectedProfile) applyProfileTheme(lastSelectedProfile);
+        if (shell.hidden && !lastSelectedProfile) applyProfileTheme(null);
+      }).observe(shell, { attributes: true, attributeFilter: ['hidden'] });
     }
   }
 
@@ -341,13 +384,40 @@
   }
 
   function injectStyles() {
-    if (document.querySelector('#v6-4-together-styles')) return;
+    if (document.querySelector('#v6-6-profile-styles')) return;
     const style = document.createElement('style');
-    style.id = 'v6-4-together-styles';
+    style.id = 'v6-6-profile-styles';
     style.textContent = `
       .together-mode-note{margin:12px 0 0;padding:10px 12px;border-left:3px solid #7d68b8;border-radius:8px;background:#f7f3ff;color:#5e5277;font-size:.88rem;line-height:1.45}
       .together-training-note{display:grid;gap:4px;margin:18px 0;padding:16px 18px;border:1px solid #d8cfee;border-radius:16px;background:linear-gradient(145deg,#fff,#f8f4ff);color:#5d5174}
       .together-training-note strong{color:#4d3d70;font-size:1rem}.together-training-note span{font-size:.9rem;line-height:1.45}
+
+      .profile-card[data-profile="p1"]{background:linear-gradient(145deg,#fff,#e4faf6);border-color:#a7ddd5}
+      .profile-card[data-profile="p1"] .avatar{background:#cff3ed;color:#176f68}
+      .profile-card[data-profile="p1"]:hover,.profile-card[data-profile="p1"]:focus-visible{border-color:#69bfb5;box-shadow:0 14px 30px rgba(42,128,120,.14)}
+      .profile-card[data-profile="p2"]{background:linear-gradient(145deg,#fff,#f1e9fb);border-color:#d0bce9}
+      .profile-card[data-profile="p2"] .avatar{background:#e8dcf7;color:#6b4d91}
+      .profile-card[data-profile="p2"]:hover,.profile-card[data-profile="p2"]:focus-visible{border-color:#ad8dd2;box-shadow:0 14px 30px rgba(117,91,155,.14)}
+      .profile-card[data-profile="together"]{background:linear-gradient(120deg,#e7faf7 0%,#fff 50%,#f2eafb 100%);border-color:#c8c8dd}
+
+      body[data-profile-theme="p1"]{--brand:#287f78;--brand2:#42a59b;--surface2:#eaf9f6;background:radial-gradient(circle at 88% 0,#dff7f3 0,transparent 34%),#f4f9f8}
+      body[data-profile-theme="p1"] .topbar{background:rgba(239,250,248,.92);border-bottom-color:#cfe8e3}
+      body[data-profile-theme="p1"] .hero-panel{background:linear-gradient(135deg,#fff,#e7f9f5);border-color:#cbe9e3}
+      body[data-profile-theme="p1"] .profile-pill{background:#e0f6f2;border-color:#abdcd4;color:#176f68}
+      body[data-profile-theme="p1"] .today-card{border-color:#b9e2dc;background:rgba(248,255,253,.82)}
+      body[data-profile-theme="p1"] .mobile-nav{border-color:#c9e5e0}
+
+      body[data-profile-theme="p2"]{--brand:#755b9b;--brand2:#9576bc;--surface2:#f4eefb;background:radial-gradient(circle at 88% 0,#eee5f8 0,transparent 34%),#f8f6fb}
+      body[data-profile-theme="p2"] .topbar{background:rgba(248,245,252,.93);border-bottom-color:#e0d5ed}
+      body[data-profile-theme="p2"] .hero-panel{background:linear-gradient(135deg,#fff,#f1eafb);border-color:#dfd2ee}
+      body[data-profile-theme="p2"] .profile-pill{background:#eee4f8;border-color:#cdb8e4;color:#684b8f}
+      body[data-profile-theme="p2"] .today-card{border-color:#dac9eb;background:rgba(253,250,255,.84)}
+      body[data-profile-theme="p2"] .mobile-nav{border-color:#dfd3eb}
+
+      body[data-profile-theme="together"]{--brand:#5f6f93;--brand2:#7f76a5;--surface2:#f0f4f7;background:radial-gradient(circle at 20% 0,#e2f8f4 0,transparent 29%),radial-gradient(circle at 88% 0,#eee5f8 0,transparent 31%),#f6f7fa}
+      body[data-profile-theme="together"] .topbar{background:rgba(247,247,251,.94)}
+      body[data-profile-theme="together"] .hero-panel{background:linear-gradient(120deg,#eefaf8,#fff 48%,#f4eefb)}
+      body[data-profile-theme="together"] .profile-pill{background:linear-gradient(90deg,#def5f1,#eee4f8);border-color:#c9c8dc;color:#59607b}
     `;
     document.head.appendChild(style);
   }
@@ -355,9 +425,11 @@
   function init() {
     setVisibleVersion();
     injectStyles();
+    bindProfileThemes();
     bindTogetherActions();
     watchProfileChanges();
     syncTogetherUi();
+    applyProfileTheme(null);
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init, { once: true });
