@@ -9,7 +9,7 @@
   <link rel="manifest" href="./manifest.webmanifest">
   <link rel="stylesheet" href="./styles.css">
 </head>
-<body>
+<body class="security-pending">
   <a class="skip" href="#app-main">Saltar al contenido</a>
 
   <section id="profile-gate" class="gate" aria-labelledby="gate-title">
@@ -149,7 +149,7 @@
           <div class="page-heading">
             <p class="eyebrow">Panel familiar</p>
             <h2>Perfiles y sincronización</h2>
-            <p>Podés cambiar los nombres de los perfiles y, cuando configures Supabase, usar una cuenta familiar para ver el mismo progreso desde cualquier dispositivo.</p>
+            <p>Podés cambiar los nombres de los perfiles y usar la cuenta familiar habilitada para ver el mismo progreso desde cualquier dispositivo.</p>
           </div>
 
           <div class="family-grid">
@@ -162,7 +162,7 @@
 
             <section class="panel sync-panel">
               <div class="sync-title"><div><h3>Sincronización</h3><p id="sync-status">Modo local</p></div><span id="sync-dot" class="status-dot"></span></div>
-              <p id="sync-help">La versión funciona en este dispositivo. Para sincronizar entre celulares y PC hay que conectar un proyecto Supabase.</p>
+              <p id="sync-help">El acceso familiar y el progreso se verifican con Supabase.</p>
               <div id="auth-box" class="auth-box">
                 <label class="field">Correo familiar<input id="auth-email" type="email" autocomplete="email"></label>
                 <label class="field">Contraseña<input id="auth-password" type="password" minlength="6" autocomplete="current-password"></label>
@@ -212,7 +212,9 @@
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="./config.js"></script>
+  <script src="./seguridad.js"></script>
   <script src="./banco-v4.js"></script>
+  <script src="./banco-v5.js"></script>
   <script src="./app.js"></script>
   <script src="./simulacros.js"></script>
   <script src="./testeo.js"></script>
