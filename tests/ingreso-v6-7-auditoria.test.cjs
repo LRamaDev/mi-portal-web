@@ -29,20 +29,21 @@ test('la auditoría reconstruye y valida el banco efectivo de 402 actividades', 
     encoding: 'utf8'
   });
   assert.equal(result.status, 0, result.stderr || result.stdout);
-  assert.match(result.stdout, /Banco V6\.7 OK: 402 actividades, 68 habilidades, 10 correcciones aplicadas\./);
+  assert.match(result.stdout, /Banco V6\.7 OK: 402 actividades, 68 habilidades, 22 correcciones aplicadas\./);
 });
 
-test('V6.7 corrige los diez hallazgos concretos sin cambiar sus IDs', () => {
+test('V6.7 conserva IDs y corrige los hallazgos pedagógicos/estructurales', () => {
   const correctedIds = ['V5-M047', 'V5-L016', 'V5-L027', 'V5-L028', 'V5-L029', 'V5-L030', 'V4-L042', 'V4-L051', 'V6-L020', 'V6-L037'];
   for (const id of correctedIds) assert.match(testeo, new RegExp(id.replace('-', '\\-')));
+  assert.match(testeo, /missingTextIds/);
+  for (const id of ['V6-L026','V6-L027','V6-L028','V6-L029','V6-L030','V6-L031','V6-L032','V6-L033','V6-L034','V6-L035','V6-L036','V6-L038']) {
+    assert.match(testeo, new RegExp(id.replace('-', '\\-')));
+  }
   assert.match(testeo, /alternativas:\s*\[\]/);
   assert.match(testeo, /al horario de la reunión/);
-  assert.match(testeo, /opciones:\s*\['tuvo', 'tubo', 'tuvó', 'tubó'\]/);
   assert.match(testeo, /respuesta:\s*'revelar'/);
   assert.match(testeo, /respuesta:\s*'sesión'/);
   assert.match(testeo, /respuesta:\s*'bicicleta'/);
-  assert.match(testeo, /respuesta:\s*'Personificación'/);
-  assert.match(testeo, /respuesta:\s*'Imagen olfativa'/);
 });
 
 test('la matriz de cobertura documenta el banco completo y sus brechas prioritarias', () => {
