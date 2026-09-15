@@ -435,3 +435,139 @@
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init, { once: true });
   else init();
 })();
+
+(() => {
+  'use strict';
+  const VERSION = '6.8.1';
+  const MAX_VIEWS = 2;
+  const COPY = {
+    p1: {
+      title: 'Un mensaje antes de empezar',
+      paragraphs: [
+        'Hoy no necesitás demostrar que sabés todo. Lo importante es animarte a pensar, probar y volver a intentar cuando algo no sale de una.',
+        'Cada ejercicio difícil es una oportunidad para descubrir una forma nueva de resolver. Equivocarte no te hace menos capaz: te da información para aprender mejor.',
+        'Confiá en tu esfuerzo y en tus ideas. Desafiate un poquito más de lo que creés posible, sin apurarte ni compararte. Todo avance cuenta.'
+      ],
+      closing: 'Tenés mucho por descubrir. Andá paso a paso y creé en vos.'
+    },
+    p2: {
+      title: 'Antes de abrir el primer desafío',
+      paragraphs: [
+        'Hay desafíos que se entienden rápido y otros que piden paciencia. Los dos sirven, porque aprender también es quedarse un rato con una pregunta hasta encontrarle la vuelta.',
+        'Cuando algo parezca complicado, hacé lugar a la curiosidad: preguntate qué sabés, qué podrías probar distinto y qué pista te puede ayudar a seguir.',
+        'No busques hacerlo perfecto. Buscá avanzar con valentía, celebrar lo que descubrís y volver a intentar lo que cuesta. Tu capacidad crece cada vez que te animás a ir un poco más lejos.'
+      ],
+      closing: 'Confiá en vos y disfrutá el desafío. Podés aprender muchísimo.'
+    }
+  };
+  let introClient = null;
+
+  function setIntroVersion() {
+    const meta = document.querySelector('meta[name="app-version"]');
+    if (meta) meta.setAttribute('content', VERSION);
+    const badge = document.querySelector('.build-version');
+    if (badge) {
+      badge.textContent = `Versión ${VERSION}`;
+      badge.setAttribute('aria-label', `Versión instalada ${VERSION}`);
+      badge.title = `Versión ${VERSION} · bienvenida motivacional inicial`;
+    }
+  }
+
+  function getIntroClient() {
+    if (introClient) return introClient;
+    const cfg = window.INGRESO_CONFIG || {};
+    if (!window.supabase || !cfg.supabaseUrl || !cfg.supabaseAnonKey) return null;
+    introClient = window.supabase.createClient(cfg.supabaseUrl, cfg.supabaseAnonKey);
+    return introClient;
+  }
+
+  async function consumeIntro(profileId) {
+    const client = getIntroClient();
+    if (!client) return null;
+    const { data: sessionData } = await client.auth.getSession();
+    const user = sessionData?.session?.user;
+    if (!user) return null;
+    const { data: row, error } = await client
+      .from('study_profile_intro_state')
+      .select('recipient_name,motivation_views')
+      .eq('user_id', user.id)
+      .eq('profile_id', profileId)
+      .maybeSingle();
+    if (error || !row) return null;
+    const current = Number(row.motivation_views || 0);
+    if (current >= MAX_VIEWS) return null;
+    const next = current + 1;
+    const { error: writeError } = await client
+      .from('study_profile_intro_state')
+      .update({ motivation_views: next, last_shown_at: new Date().toISOString() })
+      .eq('user_id', user.id)
+      .eq('profile_id', profileId);
+    if (writeError) return null;
+    return { name: row.recipient_name || '', viewNumber: next };
+  }
+
+  function ensureIntroDialog() {
+    let dialog = document.querySelector('#motivation-dialog');
+    if (dialog) return dialog;
+    dialog = document.createElement('dialog');
+    dialog.id = 'motivation-dialog';
+    dialog.innerHTML = `
+      <article class="mot-card">
+        <span class="mot-star">✦</span>
+        <p class="eyebrow">Para empezar con confianza</p>
+        <h2 id="mot-title"></h2>
+        <div id="mot-copy"></div>
+        <p id="mot-end"></p>
+        <button id="mot-close" class="primary-button" type="button">Estoy lista</button>
+      </article>`;
+    document.body.appendChild(dialog);
+    dialog.querySelector('#mot-close').addEventListener('click', () => dialog.close());
+
+    const style = document.createElement('style');
+    style.id = 'motivation-v6-8-1-style';
+    style.textContent = `
+      #motivation-dialog{border:0;padding:0;border-radius:22px;background:transparent;max-width:min(92vw,600px)}
+      #motivation-dialog::backdrop{background:rgba(18,35,52,.48);backdrop-filter:blur(3px)}
+      .mot-card{padding:28px;border-radius:22px;background:linear-gradient(145deg,#fff,#effbf8);box-shadow:0 24px 70px rgba(13,35,55,.25)}
+      #motivation-dialog[data-profile="p2"] .mot-card{background:linear-gradient(145deg,#fff,#f7f1fc)}
+      .mot-card h2{color:#173f6b;margin:.3rem 0 1rem}.mot-card #mot-copy{display:grid;gap:10px;color:#4c6071;line-height:1.6}.mot-card #mot-copy p{margin:0}
+      .mot-card #mot-end{font-weight:800;color:#29495f;padding:11px 13px;border-radius:12px;background:#dff7f3}.mot-star{font-size:1.6rem}
+      #motivation-dialog[data-profile="p2"] .mot-card #mot-end{background:#eee5f8}.mot-card .primary-button{width:100%}
+      @media(max-width:620px){.mot-card{padding:22px}.mot-card #mot-copy{font-size:.96rem}}
+    `;
+    document.head.appendChild(style);
+    return dialog;
+  }
+
+  async function maybeShowIntro(profileId) {
+    if (!COPY[profileId]) return;
+    const key = `ingreso-intro-seen-${profileId}`;
+    if (sessionStorage.getItem(key)) return;
+    sessionStorage.setItem(key, '1');
+    const result = await consumeIntro(profileId);
+    if (!result) return;
+    const copy = COPY[profileId];
+    const dialog = ensureIntroDialog();
+    dialog.dataset.profile = profileId;
+    dialog.querySelector('#mot-title').textContent = result.name ? `${copy.title}, ${result.name}` : copy.title;
+    dialog.querySelector('#mot-copy').innerHTML = copy.paragraphs.map(text => `<p>${text}</p>`).join('');
+    dialog.querySelector('#mot-end').textContent = copy.closing;
+    if (!dialog.open) dialog.showModal();
+  }
+
+  function initIntro() {
+    ensureIntroDialog();
+    window.setTimeout(setIntroVersion, 100);
+    window.setTimeout(setIntroVersion, 700);
+    document.querySelectorAll('.profile-card[data-profile]').forEach(button => {
+      button.addEventListener('click', () => {
+        const profileId = button.dataset.profile;
+        if (!COPY[profileId]) return;
+        window.setTimeout(() => maybeShowIntro(profileId), 360);
+      });
+    });
+  }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initIntro, { once: true });
+  else initIntro();
+})();
