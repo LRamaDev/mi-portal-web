@@ -56,7 +56,7 @@ test('la matriz de cobertura documenta el banco completo y sus brechas prioritar
   assert.match(coverage, /`MAT-DEC-OPS` \| 16 \|/);
 });
 
-test('la versión visible y el caché quedan identificados como V6.7', () => {
+test('el parche V6.7 sigue presente y el caché puede avanzar a versiones posteriores', () => {
   assert.match(testeo, /PEDAGOGICAL_VERSION = '6\.7'/);
-  assert.match(sw, /ingreso-bm-v6-7-auditoria-pedagogica/);
+  assert.match(sw, /ingreso-bm-v6-(?:7-auditoria-pedagogica|8-repaso-espaciado)/);
 });
