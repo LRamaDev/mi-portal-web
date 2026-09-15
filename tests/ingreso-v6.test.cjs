@@ -8,12 +8,14 @@ const root = path.join(__dirname, '..');
 const appDir = path.join(root, 'ingreso-belgrano-monserrat');
 const bankPath = path.join(appDir, 'banco-v6.js');
 const uiPath = path.join(appDir, 'ui-v6.js');
+const stylesPath = path.join(appDir, 'styles-v6.css');
 const indexPath = path.join(appDir, 'index.html');
 const swPath = path.join(appDir, 'sw.js');
 const skillsPath = path.join(appDir, 'data', 'habilidades.json');
 
 const bank = fs.readFileSync(bankPath, 'utf8');
 const ui = fs.readFileSync(uiPath, 'utf8');
+const styles = fs.readFileSync(stylesPath, 'utf8');
 const index = fs.readFileSync(indexPath, 'utf8');
 const sw = fs.readFileSync(swPath, 'utf8');
 const skills = JSON.parse(fs.readFileSync(skillsPath, 'utf8')).habilidades;
@@ -66,7 +68,11 @@ test('la selección de perfil usa una transición de contracción y subida', () 
   assert.match(ui, /v6ShellRise/);
 });
 
+test('el selector oculto no puede reaparecer debajo de la app', () => {
+  assert.match(styles, /#profile-gate\[hidden\],#app-shell\[hidden\]\{display:none!important\}/);
+});
+
 test('service worker cachea todos los recursos V6 renovados', () => {
-  assert.match(sw, /ingreso-bm-v6-salida-segura/);
+  assert.match(sw, /ingreso-bm-v6-2-fix-transicion/);
   for (const asset of ['styles-v6.css','banco-v6.js','ui-v6.js']) assert.match(sw, new RegExp(asset.replace('.', '\\.')));
 });
