@@ -7,6 +7,9 @@
   --v6-mint:#dff4ea;
 }
 
+/* El atributo hidden debe ganar siempre sobre las reglas visuales de .gate y .app-shell. */
+#profile-gate[hidden],#app-shell[hidden]{display:none!important}
+
 body{
   background:
     radial-gradient(circle at 8% 0%,rgba(81,154,206,.16),transparent 30%),
