@@ -92,6 +92,15 @@
             pista: '«Revelar» significa dar a conocer; «rebelar(se)» significa sublevar(se).',
             explicacion: 'En este contexto corresponde «revelar», porque la periodista decide dar a conocer los resultados.'
           }),
+          'V6-L020': exercise => ({
+            ...exercise,
+            texto: '',
+            consigna: '¿Cuál es un hipónimo de «vehículo»?',
+            opciones: ['bicicleta', 'transporte', 'movimiento', 'camino'],
+            respuesta: 'bicicleta',
+            pista: 'El hipónimo es un caso particular dentro de una categoría más general.',
+            explicacion: 'Una bicicleta es un tipo de vehículo.'
+          }),
           'V6-L037': exercise => ({
             ...exercise,
             consigna: 'Elegí el parónimo adecuado: «La ___ de estudio comenzará a las cinco».',
