@@ -3,10 +3,94 @@
 
   const STORAGE_KEY = 'ingreso-belgrano-monserrat-v1';
   const LOCAL_FEEDBACK_KEY = 'ingreso-belgrano-monserrat-feedback-v1';
+  const PEDAGOGICAL_VERSION = '6.7';
   let activeProfile = null;
   let lastContext = { sessionType: 'otro', area: null, school: null };
 
+  installPedagogicalCorrections();
   document.addEventListener('DOMContentLoaded', init);
+
+  function installPedagogicalCorrections() {
+    if (window.__INGRESO_V67_PEDAGOGICAL_PATCH__) return;
+    window.__INGRESO_V67_PEDAGOGICAL_PATCH__ = true;
+    const previousFetch = window.fetch.bind(window);
+
+    window.fetch = async function ingresoV67PedagogicalFetch(input, initOptions) {
+      const url = typeof input === 'string' ? input : (input?.url || '');
+      const isBank = url === './data/ejercicios.json' || url.endsWith('/data/ejercicios.json');
+      if (!isBank) return previousFetch(input, initOptions);
+
+      const response = await previousFetch(input, initOptions);
+      if (!response.ok) return response;
+
+      try {
+        const data = await response.clone().json();
+        const fixes = {
+          'V5-M047': exercise => ({
+            ...exercise,
+            alternativas: [],
+            pista: 'Sumá 3 horas y después 50 minutos. Si superás 60 minutos, convertílos en una hora.',
+            explicacion: '08:35 + 3 h = 11:35; + 50 min = 12:25.'
+          }),
+          'V5-L016': exercise => ({
+            ...exercise,
+            texto: 'Camila necesitaba el horario de la reunión. Sofía se lo envió por mensaje.',
+            consigna: 'En «Sofía se lo envió», ¿a qué se refiere «lo»?',
+            opciones: ['al horario de la reunión', 'a Sofía', 'a Camila', 'al mensaje'],
+            respuesta: 'al horario de la reunión',
+            pista: 'Buscá qué información necesitaba Camila y qué fue lo que Sofía envió.',
+            explicacion: 'El pronombre «lo» retoma «el horario de la reunión» sin repetir esa expresión.'
+          }),
+          'V4-L051': exercise => ({
+            ...exercise,
+            consigna: 'Elegí el parónimo adecuado: «La periodista decidió ___ los resultados de la investigación».',
+            opciones: ['revelar', 'rebelar', 'revelarse', 'rebelarse'],
+            respuesta: 'revelar',
+            pista: '«Revelar» significa dar a conocer; «rebelar(se)» significa sublevar(se).',
+            explicacion: 'En este contexto corresponde «revelar», porque la periodista decide dar a conocer los resultados.'
+          }),
+          'V6-L037': exercise => ({
+            ...exercise,
+            consigna: 'Elegí el parónimo adecuado: «La ___ de estudio comenzará a las cinco».',
+            opciones: ['sesión', 'cesión', 'sección', 'ocasión'],
+            respuesta: 'sesión',
+            pista: '«Sesión» es un período dedicado a una actividad; «cesión» significa transferencia o entrega.',
+            explicacion: 'La expresión correcta es «sesión de estudio». «Sesión» y «cesión» suenan de manera semejante, pero tienen significados distintos.'
+          })
+        };
+
+        let corrected = 0;
+        data.ejercicios = (data.ejercicios || []).map(exercise => {
+          const fix = fixes[exercise.id];
+          if (!fix) return exercise;
+          corrected += 1;
+          return fix(exercise);
+        });
+        data.version = 7;
+        data.auditoriaV67 = { corrected, ids: Object.keys(fixes) };
+
+        return new Response(JSON.stringify(data), {
+          status: response.status,
+          statusText: response.statusText,
+          headers: { 'Content-Type': 'application/json; charset=utf-8' }
+        });
+      } catch (error) {
+        console.error('[Ingreso V6.7] No se pudieron aplicar las correcciones pedagógicas', error);
+        return response;
+      }
+    };
+  }
+
+  function setVisibleVersion() {
+    const meta = document.querySelector('meta[name="app-version"]');
+    if (meta) meta.setAttribute('content', PEDAGOGICAL_VERSION);
+    const badge = document.querySelector('.build-version');
+    if (badge) {
+      badge.textContent = `Versión ${PEDAGOGICAL_VERSION}`;
+      badge.setAttribute('aria-label', `Versión instalada ${PEDAGOGICAL_VERSION}`);
+      badge.title = `Versión ${PEDAGOGICAL_VERSION} · auditoría pedagógica y cobertura`;
+    }
+  }
 
   function init() {
     injectStyles();
@@ -14,6 +98,7 @@
     addFeedbackButton();
     addFamilyTestPanel();
     addFeedbackDialog();
+    window.setTimeout(setVisibleVersion, 0);
   }
 
   function trackContext() {
