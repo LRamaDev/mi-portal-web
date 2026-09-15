@@ -26,6 +26,6 @@ jobs:
       - name: Node
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '24'
       - name: Auditoría V6.7
         run: node --test tests/ingreso-v6-7-auditoria.test.cjs
