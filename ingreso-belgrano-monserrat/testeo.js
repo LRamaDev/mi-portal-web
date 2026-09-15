@@ -29,7 +29,7 @@
           'V5-M047': exercise => ({
             ...exercise,
             alternativas: [],
-            pista: 'Sumá 3 horas y después 50 minutos. Si superás 60 minutos, convertílos en una hora.',
+            pista: 'Sumá 3 horas y después 50 minutos. Si superás 60 minutos, convertí esos minutos en una hora.',
             explicacion: '08:35 + 3 h = 11:35; + 50 min = 12:25.'
           }),
           'V5-L016': exercise => ({
@@ -40,6 +40,13 @@
             respuesta: 'al horario de la reunión',
             pista: 'Buscá qué información necesitaba Camila y qué fue lo que Sofía envió.',
             explicacion: 'El pronombre «lo» retoma «el horario de la reunión» sin repetir esa expresión.'
+          }),
+          'V4-L042': exercise => ({
+            ...exercise,
+            opciones: ['tuvo', 'tubo', 'tuvó', 'tubó'],
+            respuesta: 'tuvo',
+            pista: 'Es una forma del verbo «tener»: revisá la consonante y recordá que no lleva tilde.',
+            explicacion: 'La forma correcta es «tuvo»: se escribe con v y no lleva tilde.'
           }),
           'V4-L051': exercise => ({
             ...exercise,
