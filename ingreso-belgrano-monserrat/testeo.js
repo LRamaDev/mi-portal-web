@@ -41,6 +41,42 @@
             pista: 'Buscá qué información necesitaba Camila y qué fue lo que Sofía envió.',
             explicacion: 'El pronombre «lo» retoma «el horario de la reunión» sin repetir esa expresión.'
           }),
+          'V5-L027': exercise => ({
+            ...exercise,
+            texto: '«El viento cantaba entre las ramas».',
+            consigna: '¿Qué recurso aparece?',
+            opciones: ['Personificación', 'Comparación', 'Definición', 'Hipérbaton'],
+            respuesta: 'Personificación',
+            pista: 'Observá que se atribuye al viento una acción propia de seres humanos.',
+            explicacion: '«Cantar» es una acción humana atribuida al viento: es una personificación.'
+          }),
+          'V5-L028': exercise => ({
+            ...exercise,
+            texto: '«Sus ojos brillaban como dos faros».',
+            consigna: '¿Qué recurso aparece?',
+            opciones: ['Comparación', 'Personificación', 'Onomatopeya', 'Enumeración'],
+            respuesta: 'Comparación',
+            pista: 'Buscá el nexo que relaciona dos elementos.',
+            explicacion: 'El nexo «como» compara el brillo de los ojos con dos faros.'
+          }),
+          'V5-L029': exercise => ({
+            ...exercise,
+            texto: '«¡Pum! La puerta se cerró de golpe».',
+            consigna: '¿Qué recurso aparece?',
+            opciones: ['Onomatopeya', 'Comparación', 'Metáfora', 'Hipérbole'],
+            respuesta: 'Onomatopeya',
+            pista: 'Una palabra reproduce directamente un sonido.',
+            explicacion: '«Pum» imita el sonido del golpe de la puerta: es una onomatopeya.'
+          }),
+          'V5-L030': exercise => ({
+            ...exercise,
+            texto: '«El aroma dulce del pan recién hecho llenó la cocina».',
+            consigna: '¿Qué recurso predomina?',
+            opciones: ['Imagen olfativa', 'Imagen visual', 'Onomatopeya', 'Diálogo'],
+            respuesta: 'Imagen olfativa',
+            pista: 'Identificá qué sentido se activa principalmente.',
+            explicacion: 'La referencia al aroma apela principalmente al olfato.'
+          }),
           'V4-L042': exercise => ({
             ...exercise,
             opciones: ['tuvo', 'tubo', 'tuvó', 'tubó'],
