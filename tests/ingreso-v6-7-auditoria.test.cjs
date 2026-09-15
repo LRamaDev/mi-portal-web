@@ -58,5 +58,5 @@ test('la matriz de cobertura documenta el banco completo y sus brechas prioritar
 
 test('el parche V6.7 sigue presente y el caché puede avanzar a versiones posteriores', () => {
   assert.match(testeo, /PEDAGOGICAL_VERSION = '6\.7'/);
-  assert.match(sw, /ingreso-bm-v6-(?:7-auditoria-pedagogica|8-repaso-espaciado)/);
+  assert.match(sw, /ingreso-bm-v6-(?:7-auditoria-pedagogica|8-repaso-espaciado|8-1-bienvenida-motivacional)/);
 });
