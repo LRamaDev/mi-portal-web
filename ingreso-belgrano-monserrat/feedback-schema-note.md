@@ -1,0 +1,1 @@
+El esquema privado de feedback se encuentra en `supabase-study-feedback.sql` y ya fue aplicado al proyecto Supabase usado por la app.
