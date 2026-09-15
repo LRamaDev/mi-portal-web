@@ -90,8 +90,10 @@ test('la bienvenida inicial queda limitada y usa estado privado por perfil', () 
 test('V6.8 sigue cargada y la actualización fuerza caché nuevo', () => {
   assert.match(index, /meta name="app-version" content="6\.8"/);
   assert.match(index, /\.\/adaptive-v6-8\.js/);
-  assert.match(sw, /ingreso-bm-v6-8-1-bienvenida-motivacional/);
+  assert.match(index, /\.\/choice-order-v6-8-2\.js/);
+  assert.match(sw, /ingreso-bm-v6-8-2-opciones-aleatorias/);
   assert.match(sw, /adaptive-v6-8\.js/);
+  assert.match(sw, /choice-order-v6-8-2\.js/);
   assert.match(adaptive, /practiceSelectionActive/);
   assert.match(adaptive, /MAT-FR-CON/);
   assert.match(adaptive, /Repaso espaciado/);
