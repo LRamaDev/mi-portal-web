@@ -29,17 +29,18 @@ test('la auditoría reconstruye y valida el banco efectivo de 402 actividades', 
     encoding: 'utf8'
   });
   assert.equal(result.status, 0, result.stderr || result.stdout);
-  assert.match(result.stdout, /Banco V6\.7 OK: 402 actividades, 68 habilidades, 9 correcciones aplicadas\./);
+  assert.match(result.stdout, /Banco V6\.7 OK: 402 actividades, 68 habilidades, 10 correcciones aplicadas\./);
 });
 
-test('V6.7 corrige los nueve hallazgos concretos sin cambiar sus IDs', () => {
-  const correctedIds = ['V5-M047', 'V5-L016', 'V5-L027', 'V5-L028', 'V5-L029', 'V5-L030', 'V4-L042', 'V4-L051', 'V6-L037'];
+test('V6.7 corrige los diez hallazgos concretos sin cambiar sus IDs', () => {
+  const correctedIds = ['V5-M047', 'V5-L016', 'V5-L027', 'V5-L028', 'V5-L029', 'V5-L030', 'V4-L042', 'V4-L051', 'V6-L020', 'V6-L037'];
   for (const id of correctedIds) assert.match(testeo, new RegExp(id.replace('-', '\\-')));
   assert.match(testeo, /alternativas:\s*\[\]/);
   assert.match(testeo, /al horario de la reunión/);
   assert.match(testeo, /opciones:\s*\['tuvo', 'tubo', 'tuvó', 'tubó'\]/);
   assert.match(testeo, /respuesta:\s*'revelar'/);
   assert.match(testeo, /respuesta:\s*'sesión'/);
+  assert.match(testeo, /respuesta:\s*'bicicleta'/);
   assert.match(testeo, /respuesta:\s*'Personificación'/);
   assert.match(testeo, /respuesta:\s*'Imagen olfativa'/);
 });
