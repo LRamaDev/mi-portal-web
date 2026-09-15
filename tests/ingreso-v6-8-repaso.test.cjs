@@ -9,16 +9,20 @@ const { spawnSync } = require('node:child_process');
 const ROOT = path.resolve(__dirname, '..');
 const APP = path.join(ROOT, 'ingreso-belgrano-monserrat');
 const adaptivePath = path.join(APP, 'adaptive-v6-8.js');
+const uiPath = path.join(APP, 'ui-v6-4.js');
 const index = fs.readFileSync(path.join(APP, 'index.html'), 'utf8');
 const sw = fs.readFileSync(path.join(APP, 'sw.js'), 'utf8');
 const adaptive = fs.readFileSync(adaptivePath, 'utf8');
+const ui = fs.readFileSync(uiPath, 'utf8');
 const core = require(adaptivePath);
 
 function days(n) { return n * core.DAY_MS; }
 
-test('adaptive-v6-8.js tiene sintaxis válida y exporta el núcleo de repaso', () => {
-  const result = spawnSync(process.execPath, ['--check', adaptivePath], { encoding: 'utf8' });
-  assert.equal(result.status, 0, result.stderr || result.stdout);
+test('los scripts V6.8 tienen sintaxis válida', () => {
+  for (const file of [adaptivePath, uiPath]) {
+    const result = spawnSync(process.execPath, ['--check', file], { encoding: 'utf8' });
+    assert.equal(result.status, 0, result.stderr || result.stdout);
+  }
   assert.equal(typeof core.intervalDays, 'function');
   assert.equal(typeof core.profileReviewStatus, 'function');
   assert.equal(typeof core.aggregateReviewStatus, 'function');
@@ -75,11 +79,18 @@ test('un repaso vencido recibe más prioridad que uno todavía fresco', () => {
   assert.ok(core.priorityAdjustment(due, 0) > core.priorityAdjustment(fresh, 0));
 });
 
-test('V6.8 queda cargada, versionada y cacheada', () => {
+test('la bienvenida inicial queda limitada y usa estado privado por perfil', () => {
+  assert.match(ui, /const VERSION = '6\.8\.1'/);
+  assert.match(ui, /const MAX_VIEWS = 2/);
+  assert.match(ui, /study_profile_intro_state/);
+  assert.match(ui, /motivation_views/);
+  assert.match(ui, /sessionStorage/);
+});
+
+test('V6.8 sigue cargada y la actualización fuerza caché nuevo', () => {
   assert.match(index, /meta name="app-version" content="6\.8"/);
   assert.match(index, /\.\/adaptive-v6-8\.js/);
-  assert.match(index, /Versión 6\.8/);
-  assert.match(sw, /ingreso-bm-v6-8-repaso-espaciado/);
+  assert.match(sw, /ingreso-bm-v6-8-1-bienvenida-motivacional/);
   assert.match(sw, /adaptive-v6-8\.js/);
   assert.match(adaptive, /practiceSelectionActive/);
   assert.match(adaptive, /MAT-FR-CON/);
