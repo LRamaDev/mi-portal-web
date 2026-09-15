@@ -1,0 +1,1 @@
+Preparación de testeo familiar V3. Ver TESTEO_FAMILIAR.md.
