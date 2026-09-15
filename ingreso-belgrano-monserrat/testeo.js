@@ -103,6 +103,7 @@
           }),
           'V6-L037': exercise => ({
             ...exercise,
+            texto: '',
             consigna: 'Elegí el parónimo adecuado: «La ___ de estudio comenzará a las cinco».',
             opciones: ['sesión', 'cesión', 'sección', 'ocasión'],
             respuesta: 'sesión',
@@ -111,15 +112,35 @@
           })
         };
 
+        const missingTextIds = new Set([
+          'V6-L026','V6-L027','V6-L028','V6-L029','V6-L030','V6-L031',
+          'V6-L032','V6-L033','V6-L034','V6-L035','V6-L036','V6-L038'
+        ]);
+        const repairMissingText = exercise => ({
+          ...exercise,
+          texto: '',
+          consigna: exercise.texto,
+          opciones: Array.isArray(exercise.consigna) ? exercise.consigna : [],
+          respuesta: exercise.opciones,
+          pista: exercise.respuesta,
+          explicacion: exercise.pista
+        });
+
         let corrected = 0;
         data.ejercicios = (data.ejercicios || []).map(exercise => {
           const fix = fixes[exercise.id];
-          if (!fix) return exercise;
-          corrected += 1;
-          return fix(exercise);
+          if (fix) {
+            corrected += 1;
+            return fix(exercise);
+          }
+          if (missingTextIds.has(exercise.id)) {
+            corrected += 1;
+            return repairMissingText(exercise);
+          }
+          return exercise;
         });
         data.version = 7;
-        data.auditoriaV67 = { corrected, ids: Object.keys(fixes) };
+        data.auditoriaV67 = { corrected, ids: [...Object.keys(fixes), ...missingTextIds] };
 
         return new Response(JSON.stringify(data), {
           status: response.status,
