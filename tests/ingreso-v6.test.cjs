@@ -72,7 +72,14 @@ test('el selector oculto no puede reaparecer debajo de la app', () => {
   assert.match(styles, /#profile-gate\[hidden\],#app-shell\[hidden\]\{display:none!important\}/);
 });
 
+test('la versión 6.3 queda visible incluso en la pantalla de acceso', () => {
+  assert.match(index, /<meta name="app-version" content="6\.3">/);
+  assert.match(index, /class="build-version"/);
+  assert.match(index, />Versión 6\.3<\/div>/);
+  assert.match(index, /z-index:100000/);
+});
+
 test('service worker cachea todos los recursos V6 renovados', () => {
-  assert.match(sw, /ingreso-bm-v6-2-fix-transicion/);
+  assert.match(sw, /ingreso-bm-v6-3-version-visible/);
   for (const asset of ['styles-v6.css','banco-v6.js','ui-v6.js']) assert.match(sw, new RegExp(asset.replace('.', '\\.')));
 });
