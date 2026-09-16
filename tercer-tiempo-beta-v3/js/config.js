@@ -1,7 +1,7 @@
 (function exposeConfig(root) {
   root.TercerTiempoConfig = Object.freeze({
-    appVersion: '3.4.0',
-    versionLabel: 'Beta v3.4.0',
+    appVersion: '3.4.1',
+    versionLabel: 'Beta v3.4.1',
     schemaVersion: 6,
     storageKey: 'tt_app_v1',
     features: Object.freeze({
