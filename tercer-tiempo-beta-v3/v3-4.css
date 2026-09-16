@@ -1,0 +1,55 @@
+.tt-v34-whatsapp {
+  border-color: rgba(37, 211, 102, 0.42) !important;
+  background: rgba(37, 211, 102, 0.09) !important;
+  color: #dfffea !important;
+}
+
+.tt-v34-whatsapp:hover,
+.tt-v34-whatsapp:focus-visible {
+  border-color: rgba(37, 211, 102, 0.72) !important;
+  background: rgba(37, 211, 102, 0.16) !important;
+}
+
+.share-card-actions {
+  flex-wrap: wrap;
+}
+
+.tt-v34-toast {
+  position: fixed;
+  z-index: 9999;
+  left: 50%;
+  bottom: max(1rem, env(safe-area-inset-bottom));
+  width: min(92vw, 34rem);
+  transform: translate(-50%, 1rem);
+  padding: 0.85rem 1rem;
+  border-radius: 0.9rem;
+  background: rgba(5, 37, 28, 0.96);
+  border: 1px solid rgba(223, 242, 117, 0.30);
+  box-shadow: 0 1rem 2.5rem rgba(0, 0, 0, 0.28);
+  color: #fff;
+  font-size: 0.9rem;
+  font-weight: 700;
+  line-height: 1.35;
+  text-align: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 160ms ease, transform 160ms ease;
+}
+
+.tt-v34-toast.is-visible {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+@media (max-width: 720px) {
+  .share-card-actions .tt-v34-whatsapp {
+    flex: 1 1 calc(50% - 0.35rem);
+    min-width: 9.6rem;
+  }
+}
+
+@media (max-width: 430px) {
+  .share-card-actions .tt-v34-whatsapp {
+    flex-basis: 100%;
+  }
+}
