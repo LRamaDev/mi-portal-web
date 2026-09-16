@@ -125,25 +125,30 @@
     body.innerHTML = `
       <div class="tt-cloud-user">
         <span class="tt-cloud-status-icon">✓</span>
-        <div><strong>Sincronización activa</strong><small>${escapeHtml(email)}</small></div>
+        <div><strong>Sincronización automática</strong><small>${escapeHtml(email)}</small></div>
       </div>
-      <p class="tt-cloud-intro">Los cambios que hagas se guardan en este dispositivo y también en la nube.</p>
-      <div class="tt-cloud-actions">
-        <button type="button" class="tt-cloud-primary" data-action="upload">Subir datos de este dispositivo</button>
-        <button type="button" class="tt-cloud-secondary" data-action="download">Traer datos de la nube</button>
-        <button type="button" class="tt-cloud-link" data-action="signout">Cerrar sesión</button>
-      </div>
+      <p class="tt-cloud-auto-note">No tenés que hacer nada: los cambios se guardan en este dispositivo y se sincronizan con la nube automáticamente.</p>
       <div class="tt-cloud-message" hidden></div>
-      <p class="tt-cloud-note">La sincronización automática se realiza al guardar cambios. Usá los botones manuales sólo si necesitás forzar una copia.</p>`;
+      <details class="tt-cloud-advanced">
+        <summary>Opciones avanzadas de sincronización</summary>
+        <div class="tt-cloud-actions">
+          <button type="button" class="tt-cloud-primary" data-action="upload">Forzar copia de este dispositivo</button>
+          <button type="button" class="tt-cloud-secondary" data-action="download">Recuperar copia de la nube</button>
+        </div>
+        <p class="tt-cloud-note">Usá estas opciones sólo si necesitás resolver manualmente una sincronización. La copia elegida puede reemplazar datos de la otra ubicación.</p>
+      </details>
+      <button type="button" class="tt-cloud-link" data-action="signout">Cerrar sesión</button>`;
 
     body.querySelector('[data-action="upload"]').addEventListener('click', async event => {
       if (busy) return;
+      const confirmed = root.confirm('¿Forzar la copia de este dispositivo en la nube?\n\nUsalo sólo si estás seguro de que estos son los datos que querés conservar.');
+      if (!confirmed) return;
       busy = true;
       event.currentTarget.disabled = true;
-      message('Subiendo datos…');
+      message('Guardando esta copia en la nube…');
       try {
         await sync.uploadLocalNow();
-        message('Datos de este dispositivo guardados en la nube.', 'success');
+        message('Copia de este dispositivo guardada en la nube.', 'success');
       } catch (error) {
         message(error?.message || 'No se pudieron subir los datos.', 'error');
       } finally {
@@ -154,15 +159,17 @@
 
     body.querySelector('[data-action="download"]').addEventListener('click', async event => {
       if (busy) return;
+      const confirmed = root.confirm('¿Recuperar la copia guardada en la nube?\n\nLa copia de la nube reemplazará los datos locales de este dispositivo.');
+      if (!confirmed) return;
       busy = true;
       event.currentTarget.disabled = true;
-      message('Descargando datos…');
+      message('Recuperando la copia de la nube…');
       try {
         const found = await sync.downloadRemoteNow();
         if (!found) {
           message('Todavía no hay una copia guardada en la nube.', 'info');
         } else {
-          message('Datos descargados. Actualizando la app…', 'success');
+          message('Copia recuperada. Actualizando la app…', 'success');
           setTimeout(() => root.location.reload(), 350);
         }
       } catch (error) {
