@@ -236,7 +236,7 @@
     const color = isBlue ? BLUE : RED;
     const light = isBlue ? BLUE_LIGHT : RED_LIGHT;
     const yMap = isBlue ? [390, 555, 720, 885] : [1570, 1405, 1240, 1075];
-    const tagY = isBlue ? 292 : 1647;
+    const tagY = isBlue ? 292 : 1745;
 
     ctx.fillStyle = 'rgba(5,25,18,0.84)';
     roundedRect(ctx, 390, tagY - 30, 420, 58, 24);
@@ -406,7 +406,7 @@
 
   const desktopWhatsappFallback = async ({ blob, filename, text }) => {
     const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(text)}`;
-    const whatsappWindow = root.open('about:blank', '_blank');
+    root.open(whatsappUrl, '_blank', 'noopener,noreferrer');
     let copied = false;
 
     try {
@@ -419,12 +419,6 @@
     }
 
     if (!copied) downloadBlob(blob, filename);
-
-    if (whatsappWindow) {
-      whatsappWindow.location.replace(whatsappUrl);
-    } else {
-      root.open(whatsappUrl, '_blank', 'noopener,noreferrer');
-    }
 
     showToast(copied
       ? 'Imagen copiada. Se abrió WhatsApp: pegala en el chat con Ctrl+V.'
