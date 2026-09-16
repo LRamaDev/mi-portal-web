@@ -256,7 +256,8 @@
       document.body.classList.add('ingreso-visitor');
 
       const privacy = document.querySelector('#profile-gate .privacy-note');
-      if (privacy) privacy.textContent = 'Modo visitante: estos perfiles y su progreso se guardan únicamente en este navegador y están separados de cualquier cuenta familiar.';
+      const visitorPrivacy = 'Modo visitante: estos perfiles y su progreso se guardan únicamente en este navegador y están separados de cualquier cuenta familiar.';
+      if (privacy && privacy.textContent !== visitorPrivacy) privacy.textContent = visitorPrivacy;
 
       const actions = document.querySelector('.top-actions');
       if (actions && !actions.querySelector('#visitor-mode-badge')) {
@@ -283,7 +284,8 @@
       }
 
       const exit = document.querySelector('#safe-sign-out');
-      if (exit) {
+      if (exit && exit.dataset.visitorMode !== 'true') {
+        exit.dataset.visitorMode = 'true';
         exit.title = 'Salir del modo visitante y volver al acceso familiar';
         exit.innerHTML = '<span class="exit-icon" aria-hidden="true">↩</span><span class="exit-long">Salir del modo visitante</span><span class="exit-short">Salir</span>';
       }
@@ -292,14 +294,8 @@
     apply();
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', apply, { once: true });
     window.setTimeout(apply, 0);
-    window.setTimeout(apply, 500);
-
-    if (typeof MutationObserver !== 'undefined') {
-      const observer = new MutationObserver(apply);
-      const start = () => observer.observe(document.body, { childList: true, subtree: true });
-      if (document.body) start();
-      else document.addEventListener('DOMContentLoaded', start, { once: true });
-    }
+    window.setTimeout(apply, 450);
+    window.setTimeout(apply, 1200);
   }
 
   document.addEventListener('click', event => {
