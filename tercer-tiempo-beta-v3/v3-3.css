@@ -1,0 +1,86 @@
+.tt-sync-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 1.55rem;
+  padding: 0.24rem 0.58rem;
+  border: 1px solid rgba(255,255,255,0.18);
+  border-radius: 999px;
+  background: rgba(255,255,255,0.08);
+  color: #eaf2ee;
+  font: inherit;
+  font-size: 0.68rem;
+  font-weight: 900;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: transform 140ms ease, background 140ms ease, border-color 140ms ease;
+}
+
+.tt-sync-badge:hover {
+  transform: translateY(-1px);
+}
+
+.tt-sync-badge.is-online {
+  background: rgba(82, 196, 124, 0.14);
+  border-color: rgba(119, 222, 156, 0.42);
+  color: #bdf1cf;
+}
+
+.tt-sync-badge.is-saving,
+.tt-sync-badge.is-checking {
+  background: rgba(255,255,255,0.09);
+  color: #f4f7f5;
+}
+
+.tt-sync-badge.is-local {
+  background: rgba(255, 207, 92, 0.12);
+  border-color: rgba(255, 207, 92, 0.34);
+  color: #ffe4a1;
+}
+
+.tt-sync-badge.is-offline,
+.tt-sync-badge.is-error {
+  background: rgba(239, 112, 112, 0.12);
+  border-color: rgba(239, 112, 112, 0.34);
+  color: #ffd0d0;
+}
+
+.tt-whatsapp-formation {
+  gap: 0.45rem;
+  border-color: rgba(37, 211, 102, 0.42) !important;
+  background: rgba(37, 211, 102, 0.09) !important;
+}
+
+.tt-whatsapp-formation:hover {
+  background: rgba(37, 211, 102, 0.15) !important;
+}
+
+@media (max-width: 720px) {
+  .tt-sync-badge {
+    min-height: 1.35rem;
+    padding: 0.18rem 0.42rem;
+    font-size: 0.6rem;
+  }
+
+  .team-builder-card .share-card-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.45rem;
+  }
+
+  .team-builder-card .share-card-actions .tt-whatsapp-formation {
+    grid-column: 1 / -1;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 430px) {
+  .topbar .brand {
+    flex-wrap: wrap;
+  }
+
+  .tt-sync-badge {
+    order: 4;
+  }
+}
