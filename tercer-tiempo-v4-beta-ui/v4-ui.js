@@ -2,21 +2,17 @@
   const storage = root.TercerTiempoStorage;
   if (typeof document === 'undefined' || !storage) return;
 
+  const config = root.TercerTiempoConfig || {};
   const normalize = value => String(value || '').replace(/\s+/g, ' ').trim().toLocaleLowerCase('es-AR');
   let scheduled = false;
   let matchStep = null;
 
-  const icon = (name) => {
-    const icons = {
-      more: '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="12" r="1.8"/><circle cx="12" cy="12" r="1.8"/><circle cx="19" cy="12" r="1.8"/></svg>',
-      play: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>',
-      receipt: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2V3z"/><path d="M9 8h6M9 12h6"/></svg>',
-      users: '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3"/><path d="M3 20a6 6 0 0 1 12 0M17 7a3 3 0 0 1 0 6M17 16a5 5 0 0 1 4 4"/></svg>',
-      shield: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l7 3v5c0 5-3 8-7 10-4-2-7-5-7-10V6l7-3z"/></svg>',
-      cloud: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 18h10a4 4 0 0 0 .5-8A6 6 0 0 0 6 8.5 4.5 4.5 0 0 0 7 18z"/></svg>'
-    };
-    return icons[name] || icons.more;
-  };
+  const icon = name => ({
+    more: '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="12" r="1.8"/><circle cx="12" cy="12" r="1.8"/><circle cx="19" cy="12" r="1.8"/></svg>',
+    users: '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3"/><path d="M3 20a6 6 0 0 1 12 0M17 7a3 3 0 0 1 0 6M17 16a5 5 0 0 1 4 4"/></svg>',
+    shield: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l7 3v5c0 5-3 8-7 10-4-2-7-5-7-10V6l7-3z"/></svg>',
+    cloud: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 18h10a4 4 0 0 0 .5-8A6 6 0 0 0 6 8.5 4.5 4.5 0 0 0 7 18z"/></svg>'
+  }[name] || '');
 
   const navButtons = () => Array.from(document.querySelectorAll('.nav-button'));
   const findNavButton = label => navButtons().find(button => normalize(button.textContent).includes(normalize(label)));
@@ -31,8 +27,9 @@
   };
 
   function ensureMoreSheet() {
-    if (document.getElementById('tt-v4-more-sheet')) return document.getElementById('tt-v4-more-sheet');
-    const overlay = document.createElement('div');
+    let overlay = document.getElementById('tt-v4-more-sheet');
+    if (overlay) return overlay;
+    overlay = document.createElement('div');
     overlay.id = 'tt-v4-more-sheet';
     overlay.className = 'tt-v4-sheet-overlay';
     overlay.hidden = true;
@@ -52,7 +49,10 @@
       </section>`;
     document.body.appendChild(overlay);
 
-    const close = () => { overlay.hidden = true; document.body.classList.remove('tt-v4-sheet-open'); };
+    const close = () => {
+      overlay.hidden = true;
+      document.body.classList.remove('tt-v4-sheet-open');
+    };
     overlay.querySelector('.tt-v4-sheet-close').addEventListener('click', close);
     overlay.addEventListener('click', event => { if (event.target === overlay) close(); });
     overlay.querySelectorAll('[data-v4-nav]').forEach(button => button.addEventListener('click', () => {
@@ -78,14 +78,12 @@
     if (!buttons.length) return;
     const hosts = [...new Set(buttons.map(button => button.parentElement).filter(Boolean))];
     const active = currentViewLabel();
-
     hosts.forEach(host => {
       host.classList.add('tt-v4-nav-host');
       Array.from(host.querySelectorAll('.nav-button')).forEach(button => {
         const label = normalize(button.textContent);
         button.classList.toggle('tt-v4-hidden-nav', label.includes('jugadores') || label.includes('grupo'));
       });
-
       let more = host.querySelector('[data-v4-more]');
       if (!more) {
         more = document.createElement('button');
@@ -102,13 +100,16 @@
 
   function mountVersionBadge() {
     const brand = document.querySelector('.topbar .brand');
-    if (!brand || document.getElementById('tt-v4-badge')) return;
-    const badge = document.createElement('span');
-    badge.id = 'tt-v4-badge';
-    badge.className = 'tt-v4-badge';
-    badge.textContent = 'V4 · Beta UI';
-    badge.title = 'Nueva experiencia visual de Tercer Tiempo';
-    brand.appendChild(badge);
+    if (!brand) return;
+    let badge = document.getElementById('tt-v4-badge');
+    if (!badge) {
+      badge = document.createElement('span');
+      badge.id = 'tt-v4-badge';
+      badge.className = 'tt-v4-badge';
+      brand.appendChild(badge);
+    }
+    badge.textContent = config.versionLabel || 'V4.0.1 Beta UI';
+    badge.title = `Versión instalada: ${config.versionLabel || 'V4.0.1 Beta UI'}`;
   }
 
   function stateSummary() {
@@ -122,16 +123,17 @@
 
   function mountHomeHero() {
     const dashboard = document.querySelector('.home-dashboard');
-    if (!dashboard) return;
-    let hero = document.querySelector('.tt-v4-home-intro');
     const summary = stateSummary();
-    if (!summary) return;
-
+    if (!dashboard || !summary) return;
+    let hero = document.querySelector('.tt-v4-home-intro');
     if (!hero) {
       hero = document.createElement('section');
       hero.className = 'tt-v4-home-intro';
       dashboard.parentElement.insertBefore(hero, dashboard);
     }
+    const signature = `${summary.group.id}|${summary.group.name}|${summary.activePlayers}|${summary.participants}`;
+    if (hero.dataset.v4Summary === signature) return;
+    hero.dataset.v4Summary = signature;
     hero.innerHTML = `
       <div class="tt-v4-home-copy">
         <span class="tt-v4-eyebrow">Grupo activo</span>
@@ -153,8 +155,10 @@
     return 2;
   }
 
-  function applyMatchStep(step) {
-    matchStep = Math.max(1, Math.min(3, Number(step) || 1));
+  function applyMatchStep(step, options = {}) {
+    const nextStep = Math.max(1, Math.min(3, Number(step) || 1));
+    const changed = matchStep !== nextStep;
+    matchStep = nextStep;
     document.documentElement.dataset.v4MatchStep = String(matchStep);
     const roster = document.querySelector('.match-layout .card:first-child');
     const team = document.querySelector('.team-builder-card');
@@ -167,7 +171,7 @@
       button.classList.toggle('is-active', isActive);
       button.setAttribute('aria-current', isActive ? 'step' : 'false');
     });
-    root.scrollTo?.({ top: 0, behavior: 'smooth' });
+    if (changed && options.scroll !== false) root.scrollTo?.({ top: 0, behavior: 'smooth' });
   }
 
   function mountMatchStepper() {
@@ -213,7 +217,7 @@
     }
 
     if (matchStep === null) matchStep = inferMatchStep();
-    applyMatchStep(matchStep);
+    applyMatchStep(matchStep, { scroll: false });
   }
 
   function enhanceThirdTime() {
@@ -228,8 +232,7 @@
   }
 
   function cleanSectionBanners() {
-    const label = currentViewLabel();
-    if (!label.includes('tercer tiempo')) document.querySelectorAll('.tt-v4-section-banner').forEach(node => node.remove());
+    if (!currentViewLabel().includes('tercer tiempo')) document.querySelectorAll('.tt-v4-section-banner').forEach(node => node.remove());
   }
 
   function refresh() {
@@ -254,7 +257,7 @@
   };
 
   const observer = new MutationObserver(schedule);
-  observer.observe(document.documentElement, { childList: true, subtree: true, attributes: true, attributeFilter: ['class'] });
+  observer.observe(document.documentElement, { childList: true, subtree: true });
   root.addEventListener?.('tercer-tiempo-cloud-update', schedule);
   root.addEventListener?.('tercer-tiempo-auth-change', schedule);
   document.addEventListener('DOMContentLoaded', schedule);
