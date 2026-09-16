@@ -1,0 +1,62 @@
+(function exposeConfig(root) {
+  root.TercerTiempoConfig = Object.freeze({
+    appVersion: '4.0.0-beta-ui',
+    versionLabel: 'V4 Beta UI',
+    schemaVersion: 6,
+    storageKey: 'tt_app_v1',
+    features: Object.freeze({
+      groups: true,
+      playerProfiles: true,
+      multipleGroups: true,
+      confirmations: false,
+      teamBuilder: true,
+      tacticalFormations: true,
+      history: true,
+      statistics: true,
+      expenses: true,
+      shareCards: true,
+      proEntitlements: true
+    }),
+    access: Object.freeze({
+      enforcementMode: 'preview',
+      paidScope: 'group_admin',
+      defaultPlanCode: 'free',
+      plans: Object.freeze({
+        free: Object.freeze({
+          label: 'Gratis',
+          groupLimit: 1,
+          features: Object.freeze({
+            groups: true,
+            playerProfiles: true,
+            teamBuilder: true,
+            history: true,
+            statistics: true,
+            expenses: true,
+            shareCards: true,
+            multipleGroups: false,
+            tacticalFormations: false,
+            advancedExports: false,
+            personalization: false
+          })
+        }),
+        pro_group: Object.freeze({
+          label: 'Tercer Tiempo Pro — Grupo',
+          groupLimit: null,
+          features: Object.freeze({
+            groups: true,
+            playerProfiles: true,
+            teamBuilder: true,
+            history: true,
+            statistics: true,
+            expenses: true,
+            shareCards: true,
+            multipleGroups: true,
+            tacticalFormations: true,
+            advancedExports: true,
+            personalization: true
+          })
+        })
+      })
+    })
+  });
+})(typeof globalThis !== 'undefined' ? globalThis : window);
