@@ -4,18 +4,22 @@ on:
   pull_request:
     paths:
       - 'ingreso-belgrano-monserrat/**'
+      - 'index.html'
       - 'tests/ingreso-v6-7-auditoria.test.cjs'
       - 'tests/ingreso-v6-8-repaso.test.cjs'
       - 'tests/ingreso-v6-8-2-opciones.test.cjs'
+      - 'tests/ingreso-visitante-portal.test.cjs'
       - 'tools/auditar-ingreso-v6-7.cjs'
       - '.github/workflows/ingreso-v6-8-repaso.yml'
   push:
     branches: [main]
     paths:
       - 'ingreso-belgrano-monserrat/**'
+      - 'index.html'
       - 'tests/ingreso-v6-7-auditoria.test.cjs'
       - 'tests/ingreso-v6-8-repaso.test.cjs'
       - 'tests/ingreso-v6-8-2-opciones.test.cjs'
+      - 'tests/ingreso-visitante-portal.test.cjs'
       - 'tools/auditar-ingreso-v6-7.cjs'
 
 permissions:
@@ -37,3 +41,5 @@ jobs:
         run: node --test tests/ingreso-v6-8-repaso.test.cjs
       - name: Opciones múltiples V6.8.2
         run: node --test tests/ingreso-v6-8-2-opciones.test.cjs
+      - name: Modo visitante y acceso desde portal
+        run: node --test tests/ingreso-visitante-portal.test.cjs
