@@ -217,7 +217,7 @@
       ? [365, 535, 705, 875]
       : [1570, 1400, 1230, 1060];
 
-    const headerY = isBlue ? 275 : 1635;
+    const headerY = isBlue ? 210 : 1725;
     context.save();
     context.textAlign = 'center';
     context.fillStyle = 'rgba(5,25,18,0.84)';
@@ -283,10 +283,10 @@
 
     context.fillStyle = '#5d6d65';
     context.font = '700 19px system-ui, -apple-system, sans-serif';
-    context.fillText('Formación orientativa · Tercer Tiempo', WIDTH / 2, 1770);
+    context.fillText('Formación orientativa · Tercer Tiempo', WIDTH / 2, 1810);
     context.fillStyle = '#173f34';
     context.font = '900 21px system-ui, -apple-system, sans-serif';
-    context.fillText(`${bluePlayers.length + redPlayers.length} jugadores`, WIDTH / 2, 1810);
+    context.fillText(`${bluePlayers.length + redPlayers.length} jugadores`, WIDTH / 2, 1850);
 
     const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png', 0.95));
     if (!blob) return;
