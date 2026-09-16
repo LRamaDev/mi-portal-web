@@ -1,0 +1,447 @@
+/* Tercer Tiempo V3.1 — capa de consolidación UX
+   Objetivo: priorizar el recorrido real de partido y bajar el peso visual de la administración.
+   No modifica lógica, datos ni permisos. */
+
+:root {
+  --focus-soft: rgba(7, 63, 46, 0.06);
+  --focus-line: rgba(7, 63, 46, 0.14);
+  --focus-muted: #68756f;
+}
+
+/* Menos sensación de panel administrativo */
+.rail-note,
+.footer {
+  display: none !important;
+}
+
+.main-content {
+  padding-bottom: 2rem;
+}
+
+.view-header {
+  margin-bottom: 1.05rem;
+}
+
+.view-header p {
+  max-width: 44rem;
+}
+
+/* INICIO: una sola decisión principal */
+.home-dashboard {
+  gap: 1rem;
+}
+
+.home-match-hero {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.12);
+  box-shadow: 0 16px 38px rgba(7, 63, 46, 0.14);
+}
+
+.home-match-hero::after {
+  content: '';
+  position: absolute;
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  right: -72px;
+  bottom: -88px;
+  background: rgba(255,255,255,0.08);
+  pointer-events: none;
+}
+
+.home-match-hero .hero-button {
+  min-height: 3.15rem;
+  font-weight: 900;
+  box-shadow: 0 9px 20px rgba(0,0,0,0.16);
+}
+
+.home-group-card {
+  background: rgba(255,255,255,0.76);
+  box-shadow: none;
+  border-color: var(--focus-line);
+}
+
+.home-group-card .card-heading h2 {
+  font-size: 1.05rem;
+}
+
+.home-group-card .card-heading p,
+.home-admin {
+  color: var(--focus-muted);
+}
+
+.home-flow {
+  gap: 0.55rem;
+}
+
+.flow-step {
+  min-height: 0;
+  padding: 0.65rem;
+  background: #fff;
+  border: 1px solid rgba(7,63,46,0.09);
+}
+
+.flow-step strong {
+  font-size: 0.87rem;
+}
+
+.flow-step small {
+  font-size: 0.72rem;
+  line-height: 1.25;
+}
+
+.home-quick-actions .secondary-button {
+  background: transparent;
+  border-color: rgba(7,63,46,0.12);
+  color: #536159;
+}
+
+/* PARTIDO: diferenciar claramente las etapas */
+.match-layout + .team-builder-card,
+.team-builder-card {
+  margin-top: 1rem;
+}
+
+.team-builder-card {
+  border-top: 4px solid var(--lime, #b8d435);
+}
+
+.team-builder-card > .card-heading {
+  position: relative;
+  padding-top: 2rem;
+}
+
+.team-builder-card > .card-heading::before {
+  content: 'Paso 2 · Equipos y posiciones';
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-size: 0.71rem;
+  line-height: 1;
+  font-weight: 900;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: #476057;
+}
+
+.match-layout .card:first-child > .card-heading {
+  position: relative;
+  padding-top: 2rem;
+}
+
+.match-layout .card:first-child > .card-heading::before {
+  content: 'Paso 1 · Quiénes juegan';
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-size: 0.71rem;
+  line-height: 1;
+  font-weight: 900;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: #476057;
+}
+
+.balance-summary {
+  border-radius: 0.85rem;
+  background: var(--focus-soft);
+  border: 1px solid var(--focus-line);
+}
+
+.lineup-controls {
+  position: relative;
+  margin-top: 0.7rem;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(255,255,255,0.16);
+}
+
+.lineup-controls::before {
+  content: 'Cómo se paran';
+  position: absolute;
+  top: 0.6rem;
+  left: 0;
+  font-size: 0.69rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  opacity: 0.78;
+}
+
+.swap-help {
+  margin-top: 0.75rem;
+  padding: 0.65rem 0.8rem;
+  border-radius: 0.75rem;
+  background: #f5f7f4;
+  color: #65726c;
+  font-size: 0.78rem;
+}
+
+.team-builder-actions {
+  gap: 0.55rem;
+}
+
+.team-builder-actions > .secondary-button,
+.team-builder-actions > .primary-button {
+  min-height: 2.55rem;
+}
+
+/* Lo que sucede después del partido se ve como una etapa aparte, no como tareas simultáneas */
+.post-match-actions {
+  position: relative;
+  margin-top: 2rem;
+  padding-top: 2.4rem;
+  border-top: 1px dashed rgba(7,63,46,0.24);
+}
+
+.post-match-actions::before {
+  content: 'Después del partido';
+  position: absolute;
+  top: 0.65rem;
+  left: 0;
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #64726b;
+}
+
+.after-match-card {
+  box-shadow: none;
+  border-color: rgba(7,63,46,0.1);
+}
+
+/* GRUPO: conserva toda la gestión, pero no compite con el día de partido */
+.group-switcher,
+.group-layout > .card {
+  box-shadow: none;
+}
+
+.group-tabs {
+  margin-bottom: 0.8rem;
+}
+
+.form-note {
+  color: #718079;
+}
+
+/* Sincronización: lo normal es el estado, no los botones manuales */
+.tt-cloud-advanced {
+  margin-top: 0.8rem;
+  border-top: 1px solid rgba(7,63,46,0.12);
+  padding-top: 0.65rem;
+}
+
+.tt-cloud-advanced summary {
+  cursor: pointer;
+  list-style: none;
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: #66756e;
+}
+
+.tt-cloud-advanced summary::-webkit-details-marker {
+  display: none;
+}
+
+.tt-cloud-advanced summary::after {
+  content: ' ▾';
+}
+
+.tt-cloud-advanced[open] summary::after {
+  content: ' ▴';
+}
+
+.tt-cloud-advanced .tt-cloud-actions {
+  margin-top: 0.75rem;
+}
+
+.tt-cloud-auto-note {
+  margin: 0.7rem 0 0;
+  padding: 0.65rem 0.75rem;
+  border-radius: 0.7rem;
+  background: rgba(7,63,46,0.06);
+  color: #52625a;
+  font-size: 0.77rem;
+  line-height: 1.4;
+}
+
+/* CELULAR: una pantalla de partido, no un tablero de administración */
+@media (max-width: 720px) {
+  .main-content {
+    padding-top: 0.85rem;
+    padding-bottom: calc(5.7rem + env(safe-area-inset-bottom));
+  }
+
+  .view-header {
+    margin-bottom: 0.7rem;
+  }
+
+  .view-header h1 {
+    font-size: clamp(1.55rem, 7vw, 2rem);
+  }
+
+  .view-header p {
+    font-size: 0.86rem;
+    line-height: 1.4;
+  }
+
+  .home-dashboard {
+    gap: 0.75rem;
+  }
+
+  .home-match-hero {
+    padding: 1.05rem;
+    border-radius: 1.1rem;
+  }
+
+  .home-match-hero .group-metrics {
+    margin-top: 0.8rem;
+  }
+
+  .home-match-hero .hero-button {
+    width: 100%;
+    justify-content: center;
+    margin-top: 0.85rem;
+  }
+
+  .home-group-card {
+    padding: 0.8rem;
+  }
+
+  .home-group-card .card-heading p,
+  .home-admin {
+    display: none;
+  }
+
+  .home-flow {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0.35rem;
+  }
+
+  .flow-step {
+    padding: 0.45rem 0.25rem;
+    text-align: center;
+    justify-items: center;
+  }
+
+  .flow-step > span {
+    width: 1.55rem;
+    height: 1.55rem;
+    font-size: 0.72rem;
+  }
+
+  .flow-step small {
+    display: none;
+  }
+
+  .flow-step strong {
+    font-size: 0.67rem;
+    line-height: 1.15;
+  }
+
+  .home-quick-actions {
+    margin-top: 0.55rem;
+    gap: 0.4rem;
+  }
+
+  .home-quick-actions .secondary-button {
+    min-height: 2.35rem;
+    font-size: 0.76rem;
+  }
+
+  .match-summary {
+    gap: 0.35rem;
+  }
+
+  .match-stat {
+    padding: 0.55rem 0.35rem;
+  }
+
+  .match-stat span {
+    font-size: 0.67rem;
+  }
+
+  .match-stat strong {
+    font-size: 1.15rem;
+  }
+
+  .participant-picker {
+    gap: 0.4rem;
+  }
+
+  .team-builder-card {
+    padding: 0.85rem;
+  }
+
+  .team-builder-card > .card-heading,
+  .match-layout .card:first-child > .card-heading {
+    padding-top: 1.75rem;
+  }
+
+  .teams-grid {
+    gap: 0.65rem;
+  }
+
+  .lineup-controls {
+    grid-template-columns: 1fr 1fr;
+    gap: 0.45rem;
+  }
+
+  .lineup-controls label span {
+    font-size: 0.66rem;
+  }
+
+  .team-player-actions {
+    gap: 0.2rem;
+  }
+
+  .team-move.is-lineup-move {
+    opacity: 0.62;
+  }
+
+  .swap-help {
+    font-size: 0.72rem;
+    line-height: 1.35;
+  }
+
+  .team-builder-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .share-card-actions {
+    grid-column: 1 / -1;
+  }
+
+  .post-match-actions {
+    margin-top: 1.5rem;
+  }
+
+  .after-match-card p {
+    font-size: 0.78rem;
+  }
+
+  .group-switcher .card-heading p,
+  .group-layout .form-note {
+    display: none;
+  }
+
+  .bottom-nav button span:not(.icon) {
+    font-size: 0.62rem;
+  }
+}
+
+@media (min-width: 721px) {
+  .desktop-rail {
+    padding-bottom: 1rem;
+  }
+
+  .home-dashboard {
+    max-width: 1080px;
+  }
+
+  .home-match-hero {
+    min-height: 300px;
+  }
+}
