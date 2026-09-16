@@ -2,7 +2,7 @@
   const config = root.TercerTiempoConfig || {};
   if (typeof document === 'undefined') return;
 
-  const version = String(config.appVersion || '3.4.0');
+  const version = String(config.appVersion || '3.4.1');
   const label = String(config.versionLabel || `Beta v${version}`);
   const badgeId = 'tt-version-badge';
 
