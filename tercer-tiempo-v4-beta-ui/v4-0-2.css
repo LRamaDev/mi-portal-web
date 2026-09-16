@@ -1,0 +1,61 @@
+/* V4.0.2 · cabecera legible y estados de nube con contraste */
+.tt-v4 .brand-logo {
+  display: block;
+  object-fit: cover;
+  background: #f7f5ef;
+}
+
+.tt-v4 .brand-copy strong {
+  color: #17221f !important;
+}
+
+.tt-v4 .brand-copy span {
+  color: #52605a !important;
+  opacity: 1 !important;
+  font-weight: 700;
+}
+
+.tt-v4 .topbar-group-switch select {
+  color: #17221f !important;
+  background: #ffffff !important;
+  border-color: #cfd5d1 !important;
+}
+
+.tt-v4 .tt-sync-badge {
+  border-color: #c5d3cc !important;
+  color: #314039 !important;
+  background: #f3f6f4 !important;
+  opacity: 1 !important;
+}
+
+.tt-v4 .tt-sync-badge.is-online {
+  border-color: #9bcdb7 !important;
+  color: #07513c !important;
+  background: #dff1e9 !important;
+}
+
+.tt-v4 .tt-sync-badge.is-saving,
+.tt-v4 .tt-sync-badge.is-checking {
+  border-color: #bfcac5 !important;
+  color: #33423b !important;
+  background: #edf1ef !important;
+}
+
+.tt-v4 .tt-sync-badge.is-local {
+  border-color: #dfc986 !important;
+  color: #725515 !important;
+  background: #fff5d8 !important;
+}
+
+.tt-v4 .tt-sync-badge.is-offline,
+.tt-v4 .tt-sync-badge.is-error {
+  border-color: #e0a7a7 !important;
+  color: #7d2525 !important;
+  background: #fff0f0 !important;
+}
+
+@media (max-width: 430px) {
+  .tt-v4 .brand-copy span {
+    max-width: min(62vw, 15rem) !important;
+  }
+}
