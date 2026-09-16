@@ -11,8 +11,8 @@ test('la versión visible se centraliza en config y se carga en la interfaz', ()
   const html = read('tercer-tiempo-beta-v3/index.html');
   const ui = read('tercer-tiempo-beta-v3/js/version-ui.js');
 
-  assert.match(config, /appVersion: '3\.2\.1'/);
-  assert.match(config, /versionLabel: 'Beta v3\.2\.1'/);
+  assert.match(config, /appVersion:\s*'\d+\.\d+\.\d+'/);
+  assert.match(config, /versionLabel:\s*'Beta v\d+\.\d+\.\d+'/);
   assert.match(html, /version-badge\.css/);
   assert.match(html, /js\/version-ui\.js/);
   assert.match(ui, /tt-version-badge/);
