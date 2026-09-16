@@ -1,0 +1,185 @@
+/* V4.0.1 · correcciones de legibilidad y desplazamiento */
+html.tt-v4-root,
+body.tt-v4 {
+  min-height: 100%;
+  height: auto !important;
+}
+
+body.tt-v4 {
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+  min-height: 100dvh !important;
+  touch-action: pan-y;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-y: auto;
+}
+
+/* Sólo bloquear el fondo cuando hay un modal real abierto. */
+body.tt-v4.is-locked,
+body.tt-v4.tt-v4-sheet-open,
+body.tt-v4.tt-share-sheet-open {
+  overflow: hidden !important;
+}
+
+.tt-v4 #root,
+.tt-v4 .app-shell,
+.tt-v4 .main-content {
+  min-height: 0 !important;
+  height: auto !important;
+  overflow: visible !important;
+}
+
+.tt-v4 .main-content {
+  padding-bottom: calc(8.5rem + env(safe-area-inset-bottom)) !important;
+}
+
+/* Contraste explícito: la V4 no depende de colores heredados de la V3. */
+.tt-v4 .card,
+.tt-v4 .panel,
+.tt-v4 .summary-card,
+.tt-v4 .group-card,
+.tt-v4 .history-card,
+.tt-v4 .statistics-card,
+.tt-v4 .player-row,
+.tt-v4 .participant-button,
+.tt-v4 .quick-concept-button,
+.tt-v4 .expense-card,
+.tt-v4 .settlement-card {
+  color: var(--v4-ink) !important;
+}
+
+.tt-v4 .card h1,
+.tt-v4 .card h2,
+.tt-v4 .card h3,
+.tt-v4 .card h4,
+.tt-v4 .card strong,
+.tt-v4 .panel h1,
+.tt-v4 .panel h2,
+.tt-v4 .panel h3,
+.tt-v4 .panel strong,
+.tt-v4 .player-row strong,
+.tt-v4 .participant-button strong,
+.tt-v4 label,
+.tt-v4 legend,
+.tt-v4 .field-label,
+.tt-v4 .form-label {
+  color: var(--v4-ink) !important;
+}
+
+.tt-v4 .card p,
+.tt-v4 .card small,
+.tt-v4 .panel p,
+.tt-v4 .panel small,
+.tt-v4 .player-row small,
+.tt-v4 .participant-button small,
+.tt-v4 .field-help,
+.tt-v4 .muted,
+.tt-v4 .helper-text {
+  color: #59645f !important;
+}
+
+.tt-v4 input,
+.tt-v4 select,
+.tt-v4 textarea {
+  color: #17221f !important;
+  background: #ffffff !important;
+  border-color: #cfd5d1 !important;
+}
+
+.tt-v4 input::placeholder,
+.tt-v4 textarea::placeholder {
+  color: #7b8580 !important;
+  opacity: 1;
+}
+
+.tt-v4 option {
+  color: #17221f;
+  background: #ffffff;
+}
+
+.tt-v4 .participant-button {
+  color: #24312d !important;
+}
+
+.tt-v4 .participant-button.is-selected {
+  color: #064a36 !important;
+}
+
+.tt-v4 .team-card.is-blue,
+.tt-v4 .team-panel.is-blue,
+.tt-v4 .team-card.is-blue p,
+.tt-v4 .team-panel.is-blue p,
+.tt-v4 .team-card.is-blue span,
+.tt-v4 .team-panel.is-blue span {
+  color: #173e67 !important;
+}
+
+.tt-v4 .team-card.is-red,
+.tt-v4 .team-panel.is-red,
+.tt-v4 .team-card.is-red p,
+.tt-v4 .team-panel.is-red p,
+.tt-v4 .team-card.is-red span,
+.tt-v4 .team-panel.is-red span {
+  color: #74212b !important;
+}
+
+.tt-v4 .primary-button,
+.tt-v4 .tt-v4-primary {
+  color: #ffffff !important;
+}
+
+.tt-v4 .tt-v4-home-actions .tt-v4-primary {
+  color: #064532 !important;
+}
+
+.tt-v4 .secondary-button,
+.tt-v4 .tt-v4-secondary,
+.tt-v4 .quick-concept-button {
+  color: #1f2b28 !important;
+}
+
+.tt-v4 .tt-v4-stepper button {
+  color: #55615c !important;
+}
+
+.tt-v4 .tt-v4-stepper button.is-active {
+  color: #064a36 !important;
+}
+
+.tt-v4 .bottom-nav,
+.tt-v4 .tt-v4-nav-host {
+  color: #44514c;
+}
+
+.tt-v4 .bottom-nav .nav-button,
+.tt-v4 .tt-v4-nav-host .nav-button {
+  color: #66716c !important;
+}
+
+.tt-v4 .bottom-nav .nav-button.is-active,
+.tt-v4 .tt-v4-nav-host .nav-button.is-active {
+  color: #07513c !important;
+}
+
+.tt-v4 .tt-v4-sheet,
+.tt-v4 .tt-v4-sheet button,
+.tt-v4 .tt-v4-sheet a {
+  color: #1f2b28 !important;
+}
+
+.tt-v4 .tt-v4-sheet small {
+  color: #63706a !important;
+}
+
+@media (max-width: 720px) {
+  .tt-v4 .main-content {
+    width: min(100% - 1rem, 72rem) !important;
+    padding-bottom: calc(9.25rem + env(safe-area-inset-bottom)) !important;
+  }
+
+  .tt-v4 .tt-v4-stepper {
+    position: sticky;
+    top: calc(0.4rem + env(safe-area-inset-top));
+    z-index: 12;
+  }
+}
