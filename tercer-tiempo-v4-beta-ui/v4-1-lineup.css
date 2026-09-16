@@ -1,0 +1,126 @@
+/* V4.1 · formación más directa: arrastrar para reordenar */
+.tt-v4 .team-player {
+  position: relative;
+  grid-template-columns: 2.55rem minmax(0, 1fr) auto !important;
+  transition: transform 150ms ease, box-shadow 150ms ease, border-color 150ms ease, opacity 150ms ease;
+}
+
+.tt-v4 .tt-v41-drag-handle {
+  display: grid;
+  width: 2.55rem;
+  min-width: 2.55rem;
+  min-height: 3.3rem;
+  grid-column: 1;
+  grid-row: 1;
+  place-items: center;
+  align-self: stretch;
+  padding: 0;
+  color: #65736d;
+  background: transparent;
+  border: 0;
+  border-right: 1px solid rgba(31, 43, 40, 0.07);
+  border-radius: 0;
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.tt-v4 .tt-v41-drag-handle span {
+  display: inline-block;
+  font-size: 1.05rem;
+  font-weight: 950;
+  letter-spacing: -0.22rem;
+  transform: translateX(-0.08rem);
+}
+
+.tt-v4 .tt-v41-drag-handle:hover,
+.tt-v4 .tt-v41-drag-handle:focus-visible {
+  color: #07513c;
+  background: #edf6f1;
+}
+
+.tt-v4 .tt-v41-drag-handle:focus-visible {
+  outline: 3px solid rgba(11, 118, 85, 0.24);
+  outline-offset: -3px;
+}
+
+.tt-v4 .tt-v41-drag-handle:disabled {
+  color: #b4bbb7;
+  background: #f7f8f7;
+  cursor: default;
+  opacity: 1;
+}
+
+.tt-v4 .team-player > .team-player-select {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.tt-v4 .team-player > .team-player-actions {
+  grid-column: 3;
+  grid-row: 1;
+}
+
+.tt-v4 .team-player.is-dragging {
+  z-index: 3;
+  border-color: rgba(11, 118, 85, 0.45) !important;
+  box-shadow: 0 10px 24px rgba(7, 81, 60, 0.16), 0 0 0 2px rgba(11, 118, 85, 0.12) !important;
+  transform: scale(1.015);
+}
+
+.tt-v4 .team-player.is-dragging .tt-v41-drag-handle {
+  color: #07513c;
+  background: #dff1e9;
+  cursor: grabbing;
+}
+
+.tt-v4-lineup-dragging,
+.tt-v4-lineup-dragging * {
+  cursor: grabbing !important;
+}
+
+.tt-v4 .tt-v41-drag-hint {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin: -0.1rem 0 0.6rem;
+  color: #5c6862;
+  font-size: 0.73rem;
+  font-weight: 760;
+  line-height: 1.3;
+}
+
+.tt-v4 .tt-v41-drag-hint > span {
+  color: #0b7655;
+  font-size: 0.92rem;
+  font-weight: 950;
+  letter-spacing: -0.2rem;
+  transform: translateX(-0.06rem);
+}
+
+.tt-v4 .tt-v41-goalkeeper-row .team-player-copy small::after {
+  content: ' · fijo arriba';
+  color: #75807b;
+  font-weight: 700;
+}
+
+@media (max-width: 720px) {
+  .tt-v4 .team-player {
+    grid-template-columns: 2.75rem minmax(0, 1fr) auto !important;
+  }
+
+  .tt-v4 .tt-v41-drag-handle {
+    width: 2.75rem;
+    min-width: 2.75rem;
+    min-height: 3.55rem;
+  }
+
+  .tt-v4 .team-move.is-lineup-move {
+    width: 1.85rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tt-v4 .team-player { transition: none; }
+}
