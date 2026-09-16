@@ -1,0 +1,178 @@
+body.tt-v341-ready .share-card-actions.tt-share-menu-managed {
+  display: block !important;
+}
+
+body.tt-v341-ready .share-card-actions.tt-share-menu-managed > *:not(.tt-share-main-button) {
+  display: none !important;
+}
+
+body.tt-v341-ready .share-card-actions.tt-share-menu-managed .tt-share-main-button {
+  display: inline-flex !important;
+  width: 100%;
+  min-height: 3.4rem;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
+  border-radius: 1rem;
+  font-size: 1rem;
+  font-weight: 900;
+}
+
+.tt-share-main-icon {
+  font-size: 1.15rem;
+  line-height: 1;
+}
+
+.tt-share-sheet-open {
+  overflow: hidden;
+}
+
+.tt-share-sheet-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 10020;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 1rem;
+  background: rgba(2, 24, 17, 0.48);
+  backdrop-filter: blur(3px);
+}
+
+.tt-share-sheet-backdrop[hidden] {
+  display: none !important;
+}
+
+.tt-share-sheet {
+  width: min(100%, 34rem);
+  padding: 0.7rem 1rem max(1rem, env(safe-area-inset-bottom));
+  border: 1px solid rgba(7, 63, 46, 0.12);
+  border-radius: 1.5rem 1.5rem 1.1rem 1.1rem;
+  background: #fbfdfb;
+  box-shadow: 0 -1rem 3rem rgba(2, 32, 22, 0.18);
+  color: #173f34;
+}
+
+.tt-share-sheet-handle {
+  width: 2.8rem;
+  height: 0.28rem;
+  margin: 0.1rem auto 0.8rem;
+  border-radius: 999px;
+  background: rgba(23, 63, 52, 0.22);
+}
+
+.tt-share-sheet-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.9rem;
+}
+
+.tt-share-sheet-head strong {
+  display: block;
+  font-size: 1.1rem;
+  font-weight: 900;
+}
+
+.tt-share-sheet-head small {
+  display: block;
+  margin-top: 0.2rem;
+  color: #6d7b76;
+  font-size: 0.82rem;
+  line-height: 1.35;
+}
+
+.tt-share-sheet-close {
+  flex: 0 0 auto;
+  width: 2.25rem;
+  height: 2.25rem;
+  border: 0;
+  border-radius: 999px;
+  background: #edf3ef;
+  color: #34574d;
+  font-size: 1.55rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.tt-share-sheet-options {
+  display: grid;
+  gap: 0.7rem;
+}
+
+.tt-share-option {
+  display: grid;
+  grid-template-columns: 2.8rem minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.8rem;
+  width: 100%;
+  padding: 0.9rem;
+  border: 1px solid rgba(7, 63, 46, 0.13);
+  border-radius: 1rem;
+  background: #ffffff;
+  color: #173f34;
+  text-align: left;
+  cursor: pointer;
+  box-shadow: 0 0.25rem 0.9rem rgba(5, 37, 28, 0.05);
+}
+
+.tt-share-option:active {
+  transform: translateY(1px);
+}
+
+.tt-share-option-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.8rem;
+  height: 2.8rem;
+  border-radius: 0.85rem;
+  background: #eaf5ee;
+  font-size: 1.35rem;
+}
+
+.tt-share-option-copy strong,
+.tt-share-option-copy small {
+  display: block;
+}
+
+.tt-share-option-copy strong {
+  font-size: 0.96rem;
+  font-weight: 900;
+}
+
+.tt-share-option-copy small {
+  margin-top: 0.15rem;
+  color: #71807a;
+  font-size: 0.78rem;
+  line-height: 1.3;
+}
+
+.tt-share-option-arrow {
+  color: #6e8279;
+  font-size: 1.7rem;
+  line-height: 1;
+}
+
+.tt-share-sheet-note {
+  margin: 0.85rem 0 0;
+  color: #7a8782;
+  font-size: 0.74rem;
+  line-height: 1.4;
+  text-align: center;
+}
+
+@media (min-width: 721px) {
+  .tt-share-sheet-backdrop {
+    align-items: center;
+  }
+
+  .tt-share-sheet {
+    border-radius: 1.4rem;
+  }
+
+  .tt-share-sheet-handle {
+    display: none;
+  }
+}
