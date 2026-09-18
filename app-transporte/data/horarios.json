@@ -1,11 +1,11 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-08-28T00:00:00Z",
+  "generated_at": "2026-09-18T00:00:00Z",
   "timezone": "America/Argentina/Cordoba",
   "sources": [
     {
       "filename": "01-este-sudeste.pdf",
-      "sha256": "89d1bfed60c7c888c91feef6162a95d8ce854d4af0930cf1ccf26f9f51f30bd6",
+      "sha256": "6a16332c54c26f81e4b9a9b8640efa3d8e3ae1357c6e01c159f2d935bbf3f40f",
       "publication_date": "2026-08-28",
       "unchanged_since": null,
       "pages": 29,
@@ -14,7 +14,7 @@
     },
     {
       "filename": "02-noreste.pdf",
-      "sha256": "2065afb737ee8948272e3fdb63b31b7d6cecefacda2163b61a5721acfa8aa83d",
+      "sha256": "41cd4fd1e8c2fb3b7aea1bde97cf40b6010b0a036c76ec292082ea1d9aeb6f56",
       "publication_date": "2026-08-21",
       "unchanged_since": null,
       "pages": 20,
@@ -23,16 +23,16 @@
     },
     {
       "filename": "03-norte.pdf",
-      "sha256": "aa75b316b3353bcb3f03c9806fa676d46ba5b097a85a596c1cde606e0daa2f9d",
-      "publication_date": "2026-08-21",
+      "sha256": "8647a447e0ecd470bbfb3f07f14e3a972985df7138faabf5205050147c043a30",
+      "publication_date": "2026-09-18",
       "unchanged_since": null,
-      "pages": 34,
-      "source_rows": 711,
+      "pages": 35,
+      "source_rows": 717,
       "corridor": "NORTE"
     },
     {
       "filename": "04-punilla.pdf",
-      "sha256": "2bce12114f262e1afdfc2ed4944ba215553323a3fa7937b86b8aac7a267cfd12",
+      "sha256": "699cf014e624022b2aaf8aff6c618a8d7c37779dd63957594a303d0581401c74",
       "publication_date": "2026-08-21",
       "unchanged_since": null,
       "pages": 69,
@@ -41,7 +41,7 @@
     },
     {
       "filename": "05-ruta-5.pdf",
-      "sha256": "23b83b30aa8047ce1bf99b8bea3a6d236f86b8692ea78f3b7a8b73050c0592da",
+      "sha256": "ae077abbfa95b57f009baeb1e3a4cf9d78c81d8a3555444e713f4d1289c05b2a",
       "publication_date": "2026-08-21",
       "unchanged_since": null,
       "pages": 27,
@@ -50,7 +50,7 @@
     },
     {
       "filename": "06-sierras-chicas.pdf",
-      "sha256": "527342f4ff3825bf904191ee1301b723548027f1858c57b592979f17f1928338",
+      "sha256": "b1b524f877c06647a16611e22be7ffa71c6c6ff1bd390de182d6dac24feb2f10",
       "publication_date": "2026-08-21",
       "unchanged_since": null,
       "pages": 54,
@@ -59,7 +59,7 @@
     },
     {
       "filename": "07-sur.pdf",
-      "sha256": "755c43db34e2d5c73dc25d4a7508b82256e8c9d259fb0b6655d3d00268979669",
+      "sha256": "dbe008569b055b0982cf18a09f3a74b97cf99cb9e8d38520635dbe0a82308183",
       "publication_date": "2026-08-21",
       "unchanged_since": null,
       "pages": 21,
@@ -68,7 +68,7 @@
     },
     {
       "filename": "08-traslasierra.pdf",
-      "sha256": "4e993cb678ab1c0fcc1bf53b2068ba1ad7ec37df17b7260a0c2074a34d0ab01b",
+      "sha256": "35f7ac1a46d23fcb4ce4ad8e6be3535d5057e9c4c47bb68d6ab61373c7d76afb",
       "publication_date": "2026-08-21",
       "unchanged_since": null,
       "pages": 11,
@@ -78,12 +78,12 @@
   ],
   "ignored_older_sources": [],
   "stats": {
-    "source_rows": 5504,
-    "services": 5504,
+    "source_rows": 5510,
+    "services": 5510,
     "corridors": 8,
     "lines": 261,
     "companies": 39,
-    "possible_duplicate_excess": 14,
+    "possible_duplicate_excess": 16,
     "without_route_description": 2045,
     "cuit_not_available": 16
   },
@@ -27524,7 +27524,7 @@
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-35a8887fe779-1",
+      "id": "svc-2a72bac2e92f-1",
       "corridor": "NORTE",
       "line": "CÓRDOBA - COLONIA CAROYA",
       "line_id": "norte-cordoba-colonia-caroya",
@@ -27533,8 +27533,8 @@
         "COLONIA CAROYA"
       ],
       "direction": "I",
-      "time": "05:00",
-      "minutes": 300,
+      "time": "04:50",
+      "minutes": 290,
       "company": "COLONIA TIROLESA S.R.L.",
       "cuit": "30-59873589-8",
       "service_days_text": "LUNES A VIERNES",
@@ -27553,7 +27553,7 @@
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-6cf3d7f6ed14-1",
+      "id": "svc-9a70634071ef-1",
       "corridor": "NORTE",
       "line": "CÓRDOBA - COLONIA CAROYA",
       "line_id": "norte-cordoba-colonia-caroya",
@@ -27562,8 +27562,8 @@
         "COLONIA CAROYA"
       ],
       "direction": "I",
-      "time": "06:00",
-      "minutes": 360,
+      "time": "05:50",
+      "minutes": 350,
       "company": "COLONIA TIROLESA S.R.L.",
       "cuit": "30-59873589-8",
       "service_days_text": "LUNES A VIERNES",
@@ -27754,31 +27754,6 @@
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-7c4a8d115c2c-1",
-      "corridor": "NORTE",
-      "line": "CÓRDOBA - COLONIA CAROYA",
-      "line_id": "norte-cordoba-colonia-caroya",
-      "nodes": [
-        "CÓRDOBA",
-        "COLONIA CAROYA"
-      ],
-      "direction": "I",
-      "time": "08:30",
-      "minutes": 510,
-      "company": "COLONIA TIROLESA S.R.L.",
-      "cuit": "30-59873589-8",
-      "service_days_text": "DOMINGO",
-      "service_days": [
-        7
-      ],
-      "modality": "REGULAR COMÚN",
-      "route": "RP A174",
-      "source_file": "03-norte.pdf",
-      "source_page": 1,
-      "possible_duplicate": false,
-      "duplicate_ordinal": 1
-    },
-    {
       "id": "svc-4010f5c8e805-1",
       "corridor": "NORTE",
       "line": "CÓRDOBA - COLONIA CAROYA",
@@ -27808,7 +27783,7 @@
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-78335658a016-1",
+      "id": "svc-f3eefe73b798-1",
       "corridor": "NORTE",
       "line": "CÓRDOBA - COLONIA CAROYA",
       "line_id": "norte-cordoba-colonia-caroya",
@@ -27817,47 +27792,18 @@
         "COLONIA CAROYA"
       ],
       "direction": "I",
-      "time": "09:10",
-      "minutes": 550,
+      "time": "09:00",
+      "minutes": 540,
       "company": "COLONIA TIROLESA S.R.L.",
       "cuit": "30-59873589-8",
-      "service_days_text": "LUNES A VIERNES",
+      "service_days_text": "DOMINGO",
       "service_days": [
-        1,
-        2,
-        3,
-        4,
-        5
+        7
       ],
       "modality": "REGULAR COMÚN",
       "route": "RP A174",
       "source_file": "03-norte.pdf",
       "source_page": 1,
-      "possible_duplicate": false,
-      "duplicate_ordinal": 1
-    },
-    {
-      "id": "svc-3b1e2e495e48-1",
-      "corridor": "NORTE",
-      "line": "CÓRDOBA - COLONIA CAROYA",
-      "line_id": "norte-cordoba-colonia-caroya",
-      "nodes": [
-        "CÓRDOBA",
-        "COLONIA CAROYA"
-      ],
-      "direction": "I",
-      "time": "09:30",
-      "minutes": 570,
-      "company": "COLONIA TIROLESA S.R.L.",
-      "cuit": "30-59873589-8",
-      "service_days_text": "SÁBADO",
-      "service_days": [
-        6
-      ],
-      "modality": "REGULAR COMÚN",
-      "route": "RP A174",
-      "source_file": "03-norte.pdf",
-      "source_page": 2,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -27888,12 +27834,12 @@
       "modality": "REGULAR DIFERENCIAL",
       "route": "POR PEDRO PATAT - LLEGA A JESÚS MARÍA",
       "source_file": "03-norte.pdf",
-      "source_page": 2,
+      "source_page": 1,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-db195d1f6a89-1",
+      "id": "svc-67bc726dcb1b-1",
       "corridor": "NORTE",
       "line": "CÓRDOBA - COLONIA CAROYA",
       "line_id": "norte-cordoba-colonia-caroya",
@@ -27902,18 +27848,18 @@
         "COLONIA CAROYA"
       ],
       "direction": "I",
-      "time": "10:00",
-      "minutes": 600,
+      "time": "09:30",
+      "minutes": 570,
       "company": "COLONIA TIROLESA S.R.L.",
       "cuit": "30-59873589-8",
-      "service_days_text": "LUNES A VIERNES Y DOMINGOS",
+      "service_days_text": "LUNES A SÁBADOS",
       "service_days": [
         1,
         2,
         3,
         4,
         5,
-        7
+        6
       ],
       "modality": "REGULAR COMÚN",
       "route": "RP A174",
@@ -27952,7 +27898,36 @@
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-272e20ebc63c-1",
+      "id": "svc-5a98437d4bc8-1",
+      "corridor": "NORTE",
+      "line": "CÓRDOBA - COLONIA CAROYA",
+      "line_id": "norte-cordoba-colonia-caroya",
+      "nodes": [
+        "CÓRDOBA",
+        "COLONIA CAROYA"
+      ],
+      "direction": "I",
+      "time": "10:50",
+      "minutes": 650,
+      "company": "COLONIA TIROLESA S.R.L.",
+      "cuit": "30-59873589-8",
+      "service_days_text": "LUNES A VIERNES",
+      "service_days": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "modality": "REGULAR COMÚN",
+      "route": "RP A174",
+      "source_file": "03-norte.pdf",
+      "source_page": 2,
+      "possible_duplicate": false,
+      "duplicate_ordinal": 1
+    },
+    {
+      "id": "svc-012083c4fdb1-1",
       "corridor": "NORTE",
       "line": "CÓRDOBA - COLONIA CAROYA",
       "line_id": "norte-cordoba-colonia-caroya",
@@ -27965,14 +27940,10 @@
       "minutes": 660,
       "company": "COLONIA TIROLESA S.R.L.",
       "cuit": "30-59873589-8",
-      "service_days_text": "LUNES A SÁBADOS",
+      "service_days_text": "FINES DE SEMANA",
       "service_days": [
-        1,
-        2,
-        3,
-        4,
-        5,
-        6
+        6,
+        7
       ],
       "modality": "REGULAR COMÚN",
       "route": "RP A174",
@@ -28011,7 +27982,7 @@
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-28270bedb8aa-1",
+      "id": "svc-a6c26daa7e97-1",
       "corridor": "NORTE",
       "line": "CÓRDOBA - COLONIA CAROYA",
       "line_id": "norte-cordoba-colonia-caroya",
@@ -28020,18 +27991,17 @@
         "COLONIA CAROYA"
       ],
       "direction": "I",
-      "time": "12:00",
-      "minutes": 720,
+      "time": "11:50",
+      "minutes": 710,
       "company": "COLONIA TIROLESA S.R.L.",
       "cuit": "30-59873589-8",
-      "service_days_text": "LUNES A VIERNES Y DOMINGOS",
+      "service_days_text": "LUNES A VIERNES",
       "service_days": [
         1,
         2,
         3,
         4,
-        5,
-        7
+        5
       ],
       "modality": "REGULAR COMÚN",
       "route": "RP A174",
@@ -28155,7 +28125,32 @@
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-e8bb1e408cf0-1",
+      "id": "svc-8f7adba1eb34-1",
+      "corridor": "NORTE",
+      "line": "CÓRDOBA - COLONIA CAROYA",
+      "line_id": "norte-cordoba-colonia-caroya",
+      "nodes": [
+        "CÓRDOBA",
+        "COLONIA CAROYA"
+      ],
+      "direction": "I",
+      "time": "13:30",
+      "minutes": 810,
+      "company": "COLONIA TIROLESA S.R.L.",
+      "cuit": "30-59873589-8",
+      "service_days_text": "DOMINGO",
+      "service_days": [
+        7
+      ],
+      "modality": "REGULAR COMÚN",
+      "route": "RP A174",
+      "source_file": "03-norte.pdf",
+      "source_page": 2,
+      "possible_duplicate": false,
+      "duplicate_ordinal": 1
+    },
+    {
+      "id": "svc-1fa58415f4ac-1",
       "corridor": "NORTE",
       "line": "CÓRDOBA - COLONIA CAROYA",
       "line_id": "norte-cordoba-colonia-caroya",
@@ -28168,15 +28163,38 @@
       "minutes": 840,
       "company": "COLONIA TIROLESA S.R.L.",
       "cuit": "30-59873589-8",
-      "service_days_text": "DIARIO",
+      "service_days_text": "SÁBADO",
+      "service_days": [
+        6
+      ],
+      "modality": "REGULAR COMÚN",
+      "route": "RP A174",
+      "source_file": "03-norte.pdf",
+      "source_page": 2,
+      "possible_duplicate": false,
+      "duplicate_ordinal": 1
+    },
+    {
+      "id": "svc-79a41851a980-1",
+      "corridor": "NORTE",
+      "line": "CÓRDOBA - COLONIA CAROYA",
+      "line_id": "norte-cordoba-colonia-caroya",
+      "nodes": [
+        "CÓRDOBA",
+        "COLONIA CAROYA"
+      ],
+      "direction": "I",
+      "time": "14:10",
+      "minutes": 850,
+      "company": "COLONIA TIROLESA S.R.L.",
+      "cuit": "30-59873589-8",
+      "service_days_text": "LUNES A VIERNES",
       "service_days": [
         1,
         2,
         3,
         4,
-        5,
-        6,
-        7
+        5
       ],
       "modality": "REGULAR COMÚN",
       "route": "RP A174",
@@ -28215,7 +28233,7 @@
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-6975e495313e-1",
+      "id": "svc-a28e0fb09209-1",
       "corridor": "NORTE",
       "line": "CÓRDOBA - COLONIA CAROYA",
       "line_id": "norte-cordoba-colonia-caroya",
@@ -28228,38 +28246,9 @@
       "minutes": 900,
       "company": "COLONIA TIROLESA S.R.L.",
       "cuit": "30-59873589-8",
-      "service_days_text": "LUNES A VIERNES",
+      "service_days_text": "DOMINGO",
       "service_days": [
-        1,
-        2,
-        3,
-        4,
-        5
-      ],
-      "modality": "REGULAR COMÚN",
-      "route": "RP A174",
-      "source_file": "03-norte.pdf",
-      "source_page": 2,
-      "possible_duplicate": false,
-      "duplicate_ordinal": 1
-    },
-    {
-      "id": "svc-e4a1b4810478-1",
-      "corridor": "NORTE",
-      "line": "CÓRDOBA - COLONIA CAROYA",
-      "line_id": "norte-cordoba-colonia-caroya",
-      "nodes": [
-        "CÓRDOBA",
-        "COLONIA CAROYA"
-      ],
-      "direction": "I",
-      "time": "15:30",
-      "minutes": 930,
-      "company": "COLONIA TIROLESA S.R.L.",
-      "cuit": "30-59873589-8",
-      "service_days_text": "SÁBADO",
-      "service_days": [
-        6
+        7
       ],
       "modality": "REGULAR COMÚN",
       "route": "RP A174",
@@ -28298,7 +28287,7 @@
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-b995ac4807a6-1",
+      "id": "svc-2051644c3bf9-1",
       "corridor": "NORTE",
       "line": "CÓRDOBA - COLONIA CAROYA",
       "line_id": "norte-cordoba-colonia-caroya",
@@ -28307,18 +28296,18 @@
         "COLONIA CAROYA"
       ],
       "direction": "I",
-      "time": "16:00",
-      "minutes": 960,
+      "time": "15:30",
+      "minutes": 930,
       "company": "COLONIA TIROLESA S.R.L.",
       "cuit": "30-59873589-8",
-      "service_days_text": "LUNES A VIERNES Y DOMINGOS",
+      "service_days_text": "LUNES A SÁBADOS",
       "service_days": [
         1,
         2,
         3,
         4,
         5,
-        7
+        6
       ],
       "modality": "REGULAR COMÚN",
       "route": "RP A174",
@@ -28357,7 +28346,61 @@
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-62cdd3c80473-1",
+      "id": "svc-8cd8793ada86-1",
+      "corridor": "NORTE",
+      "line": "CÓRDOBA - COLONIA CAROYA",
+      "line_id": "norte-cordoba-colonia-caroya",
+      "nodes": [
+        "CÓRDOBA",
+        "COLONIA CAROYA"
+      ],
+      "direction": "I",
+      "time": "16:30",
+      "minutes": 990,
+      "company": "COLONIA TIROLESA S.R.L.",
+      "cuit": "30-59873589-8",
+      "service_days_text": "DOMINGO",
+      "service_days": [
+        7
+      ],
+      "modality": "REGULAR COMÚN",
+      "route": "RP A174",
+      "source_file": "03-norte.pdf",
+      "source_page": 2,
+      "possible_duplicate": false,
+      "duplicate_ordinal": 1
+    },
+    {
+      "id": "svc-8abe68065854-1",
+      "corridor": "NORTE",
+      "line": "CÓRDOBA - COLONIA CAROYA",
+      "line_id": "norte-cordoba-colonia-caroya",
+      "nodes": [
+        "CÓRDOBA",
+        "COLONIA CAROYA"
+      ],
+      "direction": "I",
+      "time": "16:50",
+      "minutes": 1010,
+      "company": "COLONIA TIROLESA S.R.L.",
+      "cuit": "30-59873589-8",
+      "service_days_text": "LUNES A VIERNES",
+      "service_days": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "modality": "REGULAR COMÚN",
+      "route": "RP A174",
+      "source_file": "03-norte.pdf",
+      "source_page": 2,
+      "possible_duplicate": false,
+      "duplicate_ordinal": 1
+    },
+    {
+      "id": "svc-c276f9a31bd2-1",
       "corridor": "NORTE",
       "line": "CÓRDOBA - COLONIA CAROYA",
       "line_id": "norte-cordoba-colonia-caroya",
@@ -28370,13 +28413,8 @@
       "minutes": 1020,
       "company": "COLONIA TIROLESA S.R.L.",
       "cuit": "30-59873589-8",
-      "service_days_text": "LUNES A SÁBADOS",
+      "service_days_text": "SÁBADO",
       "service_days": [
-        1,
-        2,
-        3,
-        4,
-        5,
         6
       ],
       "modality": "REGULAR COMÚN",
@@ -28413,7 +28451,7 @@
       "modality": "REGULAR DIFERENCIAL",
       "route": "POR PEDRO PATAT - LLEGA A JESÚS MARÍA",
       "source_file": "03-norte.pdf",
-      "source_page": 2,
+      "source_page": 3,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -28443,7 +28481,7 @@
       "modality": "REGULAR COMÚN",
       "route": "RP A174",
       "source_file": "03-norte.pdf",
-      "source_page": 2,
+      "source_page": 3,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -28502,7 +28540,7 @@
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-ef51a3aad4d6-1",
+      "id": "svc-a59f67736db5-1",
       "corridor": "NORTE",
       "line": "CÓRDOBA - COLONIA CAROYA",
       "line_id": "norte-cordoba-colonia-caroya",
@@ -28511,8 +28549,8 @@
         "COLONIA CAROYA"
       ],
       "direction": "I",
-      "time": "19:00",
-      "minutes": 1140,
+      "time": "19:30",
+      "minutes": 1170,
       "company": "COLONIA TIROLESA S.R.L.",
       "cuit": "30-59873589-8",
       "service_days_text": "LUNES A VIERNES",
@@ -28560,7 +28598,7 @@
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-a9a8d6c447b3-1",
+      "id": "svc-cbae254a80fc-1",
       "corridor": "NORTE",
       "line": "CÓRDOBA - COLONIA CAROYA",
       "line_id": "norte-cordoba-colonia-caroya",
@@ -28573,13 +28611,8 @@
       "minutes": 1200,
       "company": "COLONIA TIROLESA S.R.L.",
       "cuit": "30-59873589-8",
-      "service_days_text": "DIARIO",
+      "service_days_text": "FINES DE SEMANA",
       "service_days": [
-        1,
-        2,
-        3,
-        4,
-        5,
         6,
         7
       ],
@@ -28620,36 +28653,6 @@
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-8a6850bcbb36-1",
-      "corridor": "NORTE",
-      "line": "CÓRDOBA - COLONIA CAROYA",
-      "line_id": "norte-cordoba-colonia-caroya",
-      "nodes": [
-        "CÓRDOBA",
-        "COLONIA CAROYA"
-      ],
-      "direction": "I",
-      "time": "21:30",
-      "minutes": 1290,
-      "company": "COLONIA TIROLESA S.R.L.",
-      "cuit": "30-59873589-8",
-      "service_days_text": "LUNES A SÁBADOS",
-      "service_days": [
-        1,
-        2,
-        3,
-        4,
-        5,
-        6
-      ],
-      "modality": "REGULAR COMÚN",
-      "route": "RP A174",
-      "source_file": "03-norte.pdf",
-      "source_page": 3,
-      "possible_duplicate": false,
-      "duplicate_ordinal": 1
-    },
-    {
       "id": "svc-1b851385eec8-1",
       "corridor": "NORTE",
       "line": "CÓRDOBA - COLONIA CAROYA",
@@ -28679,7 +28682,7 @@
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-a8334d4b5867-1",
+      "id": "svc-4f3d799f004b-1",
       "corridor": "NORTE",
       "line": "CÓRDOBA - COLONIA CAROYA",
       "line_id": "norte-cordoba-colonia-caroya",
@@ -28688,13 +28691,13 @@
         "COLONIA CAROYA"
       ],
       "direction": "I",
-      "time": "22:00",
-      "minutes": 1320,
+      "time": "21:30",
+      "minutes": 1290,
       "company": "COLONIA TIROLESA S.R.L.",
       "cuit": "30-59873589-8",
-      "service_days_text": "DOMINGO",
+      "service_days_text": "SÁBADO",
       "service_days": [
-        7
+        6
       ],
       "modality": "REGULAR COMÚN",
       "route": "RP A174",
@@ -28704,7 +28707,7 @@
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-5bfa3185aace-1",
+      "id": "svc-bbe8358eec76-1",
       "corridor": "NORTE",
       "line": "CÓRDOBA - COLONIA CAROYA",
       "line_id": "norte-cordoba-colonia-caroya",
@@ -28713,13 +28716,42 @@
         "COLONIA CAROYA"
       ],
       "direction": "I",
-      "time": "22:30",
-      "minutes": 1350,
+      "time": "21:40",
+      "minutes": 1300,
       "company": "COLONIA TIROLESA S.R.L.",
       "cuit": "30-59873589-8",
-      "service_days_text": "SÁBADO",
+      "service_days_text": "LUNES A VIERNES",
       "service_days": [
-        6
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "modality": "REGULAR COMÚN",
+      "route": "RP A174",
+      "source_file": "03-norte.pdf",
+      "source_page": 3,
+      "possible_duplicate": false,
+      "duplicate_ordinal": 1
+    },
+    {
+      "id": "svc-fa016b939ba2-1",
+      "corridor": "NORTE",
+      "line": "CÓRDOBA - COLONIA CAROYA",
+      "line_id": "norte-cordoba-colonia-caroya",
+      "nodes": [
+        "CÓRDOBA",
+        "COLONIA CAROYA"
+      ],
+      "direction": "I",
+      "time": "22:10",
+      "minutes": 1330,
+      "company": "COLONIA TIROLESA S.R.L.",
+      "cuit": "30-59873589-8",
+      "service_days_text": "DOMINGO",
+      "service_days": [
+        7
       ],
       "modality": "REGULAR COMÚN",
       "route": "RP A174",
@@ -28755,6 +28787,31 @@
       "duplicate_ordinal": 1
     },
     {
+      "id": "svc-5bfa3185aace-1",
+      "corridor": "NORTE",
+      "line": "CÓRDOBA - COLONIA CAROYA",
+      "line_id": "norte-cordoba-colonia-caroya",
+      "nodes": [
+        "CÓRDOBA",
+        "COLONIA CAROYA"
+      ],
+      "direction": "I",
+      "time": "22:30",
+      "minutes": 1350,
+      "company": "COLONIA TIROLESA S.R.L.",
+      "cuit": "30-59873589-8",
+      "service_days_text": "SÁBADO",
+      "service_days": [
+        6
+      ],
+      "modality": "REGULAR COMÚN",
+      "route": "RP A174",
+      "source_file": "03-norte.pdf",
+      "source_page": 3,
+      "possible_duplicate": false,
+      "duplicate_ordinal": 1
+    },
+    {
       "id": "svc-14446c7960b9-1",
       "corridor": "NORTE",
       "line": "CÓRDOBA - COLONIA CAROYA",
@@ -28784,7 +28841,7 @@
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-894fe0d99c09-1",
+      "id": "svc-8931f057e99a-1",
       "corridor": "NORTE",
       "line": "CÓRDOBA - COLONIA CAROYA",
       "line_id": "norte-cordoba-colonia-caroya",
@@ -28793,8 +28850,8 @@
         "COLONIA CAROYA"
       ],
       "direction": "V",
-      "time": "05:25",
-      "minutes": 325,
+      "time": "05:15",
+      "minutes": 315,
       "company": "COLONIA TIROLESA S.R.L.",
       "cuit": "30-59873589-8",
       "service_days_text": "LUNES A VIERNES",
@@ -28842,7 +28899,7 @@
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-55cadea29c3f-1",
+      "id": "svc-5689da0bc160-1",
       "corridor": "NORTE",
       "line": "CÓRDOBA - COLONIA CAROYA",
       "line_id": "norte-cordoba-colonia-caroya",
@@ -28851,8 +28908,8 @@
         "COLONIA CAROYA"
       ],
       "direction": "V",
-      "time": "06:25",
-      "minutes": 385,
+      "time": "06:15",
+      "minutes": 375,
       "company": "COLONIA TIROLESA S.R.L.",
       "cuit": "30-59873589-8",
       "service_days_text": "LUNES A VIERNES",
@@ -28900,7 +28957,7 @@
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-978059e65d94-1",
+      "id": "svc-8b52aad45631-1",
       "corridor": "NORTE",
       "line": "CÓRDOBA - COLONIA CAROYA",
       "line_id": "norte-cordoba-colonia-caroya",
@@ -28913,10 +28970,9 @@
       "minutes": 415,
       "company": "COLONIA TIROLESA S.R.L.",
       "cuit": "30-59873589-8",
-      "service_days_text": "FINES DE SEMANA",
+      "service_days_text": "SÁBADO",
       "service_days": [
-        6,
-        7
+        6
       ],
       "modality": "REGULAR COMÚN",
       "route": "RP A174",
@@ -28926,7 +28982,7 @@
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-db9560e65ab8-1",
+      "id": "svc-6f63275c58f1-1",
       "corridor": "NORTE",
       "line": "CÓRDOBA - COLONIA CAROYA",
       "line_id": "norte-cordoba-colonia-caroya",
@@ -28939,13 +28995,14 @@
       "minutes": 445,
       "company": "COLONIA TIROLESA S.R.L.",
       "cuit": "30-59873589-8",
-      "service_days_text": "LUNES A VIERNES",
+      "service_days_text": "LUNES A VIERNES Y DOMINGOS",
       "service_days": [
         1,
         2,
         3,
         4,
-        5
+        5,
+        7
       ],
       "modality": "REGULAR COMÚN",
       "route": "RP A174",
@@ -28981,12 +29038,12 @@
       "modality": "REGULAR DIFERENCIAL",
       "route": "POR PEDRO PATAT - SALE DE JESÚS MARÍA",
       "source_file": "03-norte.pdf",
-      "source_page": 3,
+      "source_page": 4,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-edd954a60c09-1",
+      "id": "svc-c696ca26a9b5-1",
       "corridor": "NORTE",
       "line": "CÓRDOBA - COLONIA CAROYA",
       "line_id": "norte-cordoba-colonia-caroya",
@@ -28999,20 +29056,19 @@
       "minutes": 505,
       "company": "COLONIA TIROLESA S.R.L.",
       "cuit": "30-59873589-8",
-      "service_days_text": "DIARIO",
+      "service_days_text": "LUNES A SÁBADOS",
       "service_days": [
         1,
         2,
         3,
         4,
         5,
-        6,
-        7
+        6
       ],
       "modality": "REGULAR COMÚN",
       "route": "RP A174",
       "source_file": "03-norte.pdf",
-      "source_page": 3,
+      "source_page": 4,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -29041,7 +29097,7 @@
       "modality": "REGULAR DIFERENCIAL",
       "route": "POR PEDRO PATAT - SALE DE JESÚS MARÍA",
       "source_file": "03-norte.pdf",
-      "source_page": 3,
+      "source_page": 4,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -29069,6 +29125,31 @@
       ],
       "modality": "REGULAR COMÚN",
       "route": "POR JESÚS MARÍA",
+      "source_file": "03-norte.pdf",
+      "source_page": 4,
+      "possible_duplicate": false,
+      "duplicate_ordinal": 1
+    },
+    {
+      "id": "svc-cdb11036877d-1",
+      "corridor": "NORTE",
+      "line": "CÓRDOBA - COLONIA CAROYA",
+      "line_id": "norte-cordoba-colonia-caroya",
+      "nodes": [
+        "CÓRDOBA",
+        "COLONIA CAROYA"
+      ],
+      "direction": "V",
+      "time": "09:25",
+      "minutes": 565,
+      "company": "COLONIA TIROLESA S.R.L.",
+      "cuit": "30-59873589-8",
+      "service_days_text": "DOMINGO",
+      "service_days": [
+        7
+      ],
+      "modality": "REGULAR COMÚN",
+      "route": "RP A174",
       "source_file": "03-norte.pdf",
       "source_page": 4,
       "possible_duplicate": false,
@@ -29134,31 +29215,6 @@
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-4dcb64432161-1",
-      "corridor": "NORTE",
-      "line": "CÓRDOBA - COLONIA CAROYA",
-      "line_id": "norte-cordoba-colonia-caroya",
-      "nodes": [
-        "CÓRDOBA",
-        "COLONIA CAROYA"
-      ],
-      "direction": "V",
-      "time": "10:25",
-      "minutes": 625,
-      "company": "COLONIA TIROLESA S.R.L.",
-      "cuit": "30-59873589-8",
-      "service_days_text": "DOMINGO",
-      "service_days": [
-        7
-      ],
-      "modality": "REGULAR COMÚN",
-      "route": "RP A174",
-      "source_file": "03-norte.pdf",
-      "source_page": 4,
-      "possible_duplicate": false,
-      "duplicate_ordinal": 1
-    },
-    {
       "id": "svc-a075d77f45a5-1",
       "corridor": "NORTE",
       "line": "CÓRDOBA - COLONIA CAROYA",
@@ -29188,7 +29244,36 @@
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-58e14d2c9b49-1",
+      "id": "svc-31838d6e7fb9-1",
+      "corridor": "NORTE",
+      "line": "CÓRDOBA - COLONIA CAROYA",
+      "line_id": "norte-cordoba-colonia-caroya",
+      "nodes": [
+        "CÓRDOBA",
+        "COLONIA CAROYA"
+      ],
+      "direction": "V",
+      "time": "11:15",
+      "minutes": 675,
+      "company": "COLONIA TIROLESA S.R.L.",
+      "cuit": "30-59873589-8",
+      "service_days_text": "LUNES A VIERNES",
+      "service_days": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "modality": "REGULAR COMÚN",
+      "route": "RP A174",
+      "source_file": "03-norte.pdf",
+      "source_page": 4,
+      "possible_duplicate": false,
+      "duplicate_ordinal": 1
+    },
+    {
+      "id": "svc-a2c7b7096826-1",
       "corridor": "NORTE",
       "line": "CÓRDOBA - COLONIA CAROYA",
       "line_id": "norte-cordoba-colonia-caroya",
@@ -29201,14 +29286,10 @@
       "minutes": 685,
       "company": "COLONIA TIROLESA S.R.L.",
       "cuit": "30-59873589-8",
-      "service_days_text": "LUNES A SÁBADOS",
+      "service_days_text": "FINES DE SEMANA",
       "service_days": [
-        1,
-        2,
-        3,
-        4,
-        5,
-        6
+        6,
+        7
       ],
       "modality": "REGULAR COMÚN",
       "route": "RP A174",
@@ -29249,7 +29330,7 @@
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-d831e1e87f64-1",
+      "id": "svc-08abcd6f0a1c-1",
       "corridor": "NORTE",
       "line": "CÓRDOBA - COLONIA CAROYA",
       "line_id": "norte-cordoba-colonia-caroya",
@@ -29258,33 +29339,8 @@
         "COLONIA CAROYA"
       ],
       "direction": "V",
-      "time": "12:25",
-      "minutes": 745,
-      "company": "COLONIA TIROLESA S.R.L.",
-      "cuit": "30-59873589-8",
-      "service_days_text": "DOMINGO",
-      "service_days": [
-        7
-      ],
-      "modality": "REGULAR COMÚN",
-      "route": "RP A174",
-      "source_file": "03-norte.pdf",
-      "source_page": 4,
-      "possible_duplicate": false,
-      "duplicate_ordinal": 1
-    },
-    {
-      "id": "svc-7776fe6179ac-1",
-      "corridor": "NORTE",
-      "line": "CÓRDOBA - COLONIA CAROYA",
-      "line_id": "norte-cordoba-colonia-caroya",
-      "nodes": [
-        "CÓRDOBA",
-        "COLONIA CAROYA"
-      ],
-      "direction": "V",
-      "time": "12:35",
-      "minutes": 755,
+      "time": "12:15",
+      "minutes": 735,
       "company": "COLONIA TIROLESA S.R.L.",
       "cuit": "30-59873589-8",
       "service_days_text": "LUNES A VIERNES",
@@ -29415,7 +29471,32 @@
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-7a462b36dde5-1",
+      "id": "svc-8f8b1ee5d029-1",
+      "corridor": "NORTE",
+      "line": "CÓRDOBA - COLONIA CAROYA",
+      "line_id": "norte-cordoba-colonia-caroya",
+      "nodes": [
+        "CÓRDOBA",
+        "COLONIA CAROYA"
+      ],
+      "direction": "V",
+      "time": "13:55",
+      "minutes": 835,
+      "company": "COLONIA TIROLESA S.R.L.",
+      "cuit": "30-59873589-8",
+      "service_days_text": "DOMINGO",
+      "service_days": [
+        7
+      ],
+      "modality": "REGULAR COMÚN",
+      "route": "RP A174",
+      "source_file": "03-norte.pdf",
+      "source_page": 4,
+      "possible_duplicate": false,
+      "duplicate_ordinal": 1
+    },
+    {
+      "id": "svc-7b86ef11d234-1",
       "corridor": "NORTE",
       "line": "CÓRDOBA - COLONIA CAROYA",
       "line_id": "norte-cordoba-colonia-caroya",
@@ -29428,15 +29509,38 @@
       "minutes": 865,
       "company": "COLONIA TIROLESA S.R.L.",
       "cuit": "30-59873589-8",
-      "service_days_text": "DIARIO",
+      "service_days_text": "SÁBADO",
+      "service_days": [
+        6
+      ],
+      "modality": "REGULAR COMÚN",
+      "route": "RP A174",
+      "source_file": "03-norte.pdf",
+      "source_page": 4,
+      "possible_duplicate": false,
+      "duplicate_ordinal": 1
+    },
+    {
+      "id": "svc-609734de972f-1",
+      "corridor": "NORTE",
+      "line": "CÓRDOBA - COLONIA CAROYA",
+      "line_id": "norte-cordoba-colonia-caroya",
+      "nodes": [
+        "CÓRDOBA",
+        "COLONIA CAROYA"
+      ],
+      "direction": "V",
+      "time": "14:35",
+      "minutes": 875,
+      "company": "COLONIA TIROLESA S.R.L.",
+      "cuit": "30-59873589-8",
+      "service_days_text": "LUNES A VIERNES",
       "service_days": [
         1,
         2,
         3,
         4,
-        5,
-        6,
-        7
+        5
       ],
       "modality": "REGULAR COMÚN",
       "route": "RP A174",
@@ -29475,36 +29579,7 @@
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-2c6c7bda3740-1",
-      "corridor": "NORTE",
-      "line": "CÓRDOBA - COLONIA CAROYA",
-      "line_id": "norte-cordoba-colonia-caroya",
-      "nodes": [
-        "CÓRDOBA",
-        "COLONIA CAROYA"
-      ],
-      "direction": "V",
-      "time": "14:55",
-      "minutes": 895,
-      "company": "COLONIA TIROLESA S.R.L.",
-      "cuit": "30-59873589-8",
-      "service_days_text": "LUNES A VIERNES",
-      "service_days": [
-        1,
-        2,
-        3,
-        4,
-        5
-      ],
-      "modality": "REGULAR COMÚN",
-      "route": "RP A174",
-      "source_file": "03-norte.pdf",
-      "source_page": 4,
-      "possible_duplicate": false,
-      "duplicate_ordinal": 1
-    },
-    {
-      "id": "svc-7aed46dd0777-1",
+      "id": "svc-05e11af5428e-1",
       "corridor": "NORTE",
       "line": "CÓRDOBA - COLONIA CAROYA",
       "line_id": "norte-cordoba-colonia-caroya",
@@ -29517,13 +29592,9 @@
       "minutes": 925,
       "company": "COLONIA TIROLESA S.R.L.",
       "cuit": "30-59873589-8",
-      "service_days_text": "LUNES A VIERNES",
+      "service_days_text": "DOMINGO",
       "service_days": [
-        1,
-        2,
-        3,
-        4,
-        5
+        7
       ],
       "modality": "REGULAR COMÚN",
       "route": "RP A174",
@@ -29559,12 +29630,12 @@
       "modality": "REGULAR DIFERENCIAL",
       "route": "POR PEDRO PATAT - SALE DE JESÚS MARÍA",
       "source_file": "03-norte.pdf",
-      "source_page": 4,
+      "source_page": 5,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-0c0741e47898-1",
+      "id": "svc-84ba8a2fedc0-1",
       "corridor": "NORTE",
       "line": "CÓRDOBA - COLONIA CAROYA",
       "line_id": "norte-cordoba-colonia-caroya",
@@ -29577,44 +29648,19 @@
       "minutes": 955,
       "company": "COLONIA TIROLESA S.R.L.",
       "cuit": "30-59873589-8",
-      "service_days_text": "SÁBADO",
-      "service_days": [
-        6
-      ],
-      "modality": "REGULAR COMÚN",
-      "route": "RP A174",
-      "source_file": "03-norte.pdf",
-      "source_page": 4,
-      "possible_duplicate": false,
-      "duplicate_ordinal": 1
-    },
-    {
-      "id": "svc-802c08cc168d-1",
-      "corridor": "NORTE",
-      "line": "CÓRDOBA - COLONIA CAROYA",
-      "line_id": "norte-cordoba-colonia-caroya",
-      "nodes": [
-        "CÓRDOBA",
-        "COLONIA CAROYA"
-      ],
-      "direction": "V",
-      "time": "16:25",
-      "minutes": 985,
-      "company": "COLONIA TIROLESA S.R.L.",
-      "cuit": "30-59873589-8",
-      "service_days_text": "LUNES A VIERNES Y DOMINGOS",
+      "service_days_text": "LUNES A SÁBADOS",
       "service_days": [
         1,
         2,
         3,
         4,
         5,
-        7
+        6
       ],
       "modality": "REGULAR COMÚN",
       "route": "RP A174",
       "source_file": "03-norte.pdf",
-      "source_page": 4,
+      "source_page": 5,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -29643,12 +29689,66 @@
       "modality": "REGULAR DIFERENCIAL",
       "route": "POR PEDRO PATAT - SALE DE JESÚS MARÍA",
       "source_file": "03-norte.pdf",
-      "source_page": 4,
+      "source_page": 5,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-ea9aa9a14fc0-1",
+      "id": "svc-66b3ba13fd01-1",
+      "corridor": "NORTE",
+      "line": "CÓRDOBA - COLONIA CAROYA",
+      "line_id": "norte-cordoba-colonia-caroya",
+      "nodes": [
+        "CÓRDOBA",
+        "COLONIA CAROYA"
+      ],
+      "direction": "V",
+      "time": "16:55",
+      "minutes": 1015,
+      "company": "COLONIA TIROLESA S.R.L.",
+      "cuit": "30-59873589-8",
+      "service_days_text": "DOMINGO",
+      "service_days": [
+        7
+      ],
+      "modality": "REGULAR COMÚN",
+      "route": "RP A174",
+      "source_file": "03-norte.pdf",
+      "source_page": 5,
+      "possible_duplicate": false,
+      "duplicate_ordinal": 1
+    },
+    {
+      "id": "svc-bd7bfdf60dea-1",
+      "corridor": "NORTE",
+      "line": "CÓRDOBA - COLONIA CAROYA",
+      "line_id": "norte-cordoba-colonia-caroya",
+      "nodes": [
+        "CÓRDOBA",
+        "COLONIA CAROYA"
+      ],
+      "direction": "V",
+      "time": "17:15",
+      "minutes": 1035,
+      "company": "COLONIA TIROLESA S.R.L.",
+      "cuit": "30-59873589-8",
+      "service_days_text": "LUNES A VIERNES",
+      "service_days": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "modality": "REGULAR COMÚN",
+      "route": "RP A174",
+      "source_file": "03-norte.pdf",
+      "source_page": 5,
+      "possible_duplicate": false,
+      "duplicate_ordinal": 1
+    },
+    {
+      "id": "svc-732408118b83-1",
       "corridor": "NORTE",
       "line": "CÓRDOBA - COLONIA CAROYA",
       "line_id": "norte-cordoba-colonia-caroya",
@@ -29661,13 +29761,8 @@
       "minutes": 1045,
       "company": "COLONIA TIROLESA S.R.L.",
       "cuit": "30-59873589-8",
-      "service_days_text": "LUNES A SÁBADOS",
+      "service_days_text": "SÁBADO",
       "service_days": [
-        1,
-        2,
-        3,
-        4,
-        5,
         6
       ],
       "modality": "REGULAR COMÚN",
@@ -29791,35 +29886,6 @@
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-b2638cb7071a-1",
-      "corridor": "NORTE",
-      "line": "CÓRDOBA - COLONIA CAROYA",
-      "line_id": "norte-cordoba-colonia-caroya",
-      "nodes": [
-        "CÓRDOBA",
-        "COLONIA CAROYA"
-      ],
-      "direction": "V",
-      "time": "19:25",
-      "minutes": 1165,
-      "company": "COLONIA TIROLESA S.R.L.",
-      "cuit": "30-59873589-8",
-      "service_days_text": "LUNES A VIERNES",
-      "service_days": [
-        1,
-        2,
-        3,
-        4,
-        5
-      ],
-      "modality": "REGULAR COMÚN",
-      "route": "RP A174",
-      "source_file": "03-norte.pdf",
-      "source_page": 5,
-      "possible_duplicate": false,
-      "duplicate_ordinal": 1
-    },
-    {
       "id": "svc-c4a6d5fc7eed-1",
       "corridor": "NORTE",
       "line": "CÓRDOBA - COLONIA CAROYA",
@@ -29851,7 +29917,65 @@
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-099932c44bbe-1",
+      "id": "svc-b53510a1b3ba-1",
+      "corridor": "NORTE",
+      "line": "CÓRDOBA - COLONIA CAROYA",
+      "line_id": "norte-cordoba-colonia-caroya",
+      "nodes": [
+        "CÓRDOBA",
+        "COLONIA CAROYA"
+      ],
+      "direction": "V",
+      "time": "19:55",
+      "minutes": 1195,
+      "company": "COLONIA TIROLESA S.R.L.",
+      "cuit": "30-59873589-8",
+      "service_days_text": "LUNES A VIERNES",
+      "service_days": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "modality": "REGULAR COMÚN",
+      "route": "RP A174",
+      "source_file": "03-norte.pdf",
+      "source_page": 5,
+      "possible_duplicate": false,
+      "duplicate_ordinal": 1
+    },
+    {
+      "id": "svc-a2f488b895b7-1",
+      "corridor": "NORTE",
+      "line": "CÓRDOBA - COLONIA CAROYA",
+      "line_id": "norte-cordoba-colonia-caroya",
+      "nodes": [
+        "CÓRDOBA",
+        "COLONIA CAROYA"
+      ],
+      "direction": "V",
+      "time": "20:05",
+      "minutes": 1205,
+      "company": "COLONIA TIROLESA S.R.L.",
+      "cuit": "30-59873589-8",
+      "service_days_text": "LUNES A VIERNES",
+      "service_days": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "modality": "REGULAR COMÚN",
+      "route": "RP A174",
+      "source_file": "03-norte.pdf",
+      "source_page": 5,
+      "possible_duplicate": false,
+      "duplicate_ordinal": 1
+    },
+    {
+      "id": "svc-9ce184553ea4-1",
       "corridor": "NORTE",
       "line": "CÓRDOBA - COLONIA CAROYA",
       "line_id": "norte-cordoba-colonia-caroya",
@@ -29864,13 +29988,8 @@
       "minutes": 1225,
       "company": "COLONIA TIROLESA S.R.L.",
       "cuit": "30-59873589-8",
-      "service_days_text": "DIARIO",
+      "service_days_text": "FINES DE SEMANA",
       "service_days": [
-        1,
-        2,
-        3,
-        4,
-        5,
         6,
         7
       ],
@@ -29940,7 +30059,7 @@
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-74fd82c47d6a-1",
+      "id": "svc-700eceb527e0-1",
       "corridor": "NORTE",
       "line": "CÓRDOBA - COLONIA CAROYA",
       "line_id": "norte-cordoba-colonia-caroya",
@@ -29953,13 +30072,8 @@
       "minutes": 1315,
       "company": "COLONIA TIROLESA S.R.L.",
       "cuit": "30-59873589-8",
-      "service_days_text": "LUNES A SÁBADOS",
+      "service_days_text": "SÁBADO",
       "service_days": [
-        1,
-        2,
-        3,
-        4,
-        5,
         6
       ],
       "modality": "REGULAR COMÚN",
@@ -29970,7 +30084,7 @@
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-5fd83d0f744b-1",
+      "id": "svc-8a13f84f8d26-1",
       "corridor": "NORTE",
       "line": "CÓRDOBA - COLONIA CAROYA",
       "line_id": "norte-cordoba-colonia-caroya",
@@ -29979,8 +30093,8 @@
         "COLONIA CAROYA"
       ],
       "direction": "V",
-      "time": "22:25",
-      "minutes": 1345,
+      "time": "22:35",
+      "minutes": 1355,
       "company": "COLONIA TIROLESA S.R.L.",
       "cuit": "30-59873589-8",
       "service_days_text": "DOMINGO",
@@ -30102,7 +30216,7 @@
       "modality": "REGULAR COMÚN",
       "route": "RP A174",
       "source_file": "03-norte.pdf",
-      "source_page": 5,
+      "source_page": 6,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -30131,12 +30245,12 @@
       "modality": "REGULAR COMÚN",
       "route": "RP A174",
       "source_file": "03-norte.pdf",
-      "source_page": 5,
+      "source_page": 6,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-6048784a9ed8-1",
+      "id": "svc-f4219297f1fe-1",
       "corridor": "NORTE",
       "line": "CÓRDOBA - COLONIA TIROLESA",
       "line_id": "norte-cordoba-colonia-tirolesa",
@@ -30145,8 +30259,8 @@
         "COLONIA TIROLESA"
       ],
       "direction": "I",
-      "time": "23:20",
-      "minutes": 1400,
+      "time": "18:30",
+      "minutes": 1110,
       "company": "COLONIA TIROLESA S.R.L.",
       "cuit": "30-59873589-8",
       "service_days_text": "LUNES A VIERNES",
@@ -30160,12 +30274,70 @@
       "modality": "REGULAR COMÚN",
       "route": "RP A174",
       "source_file": "03-norte.pdf",
-      "source_page": 5,
+      "source_page": 6,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-37dae6d767b6-1",
+      "id": "svc-164d50f2093e-1",
+      "corridor": "NORTE",
+      "line": "CÓRDOBA - COLONIA TIROLESA",
+      "line_id": "norte-cordoba-colonia-tirolesa",
+      "nodes": [
+        "CÓRDOBA",
+        "COLONIA TIROLESA"
+      ],
+      "direction": "I",
+      "time": "20:30",
+      "minutes": 1230,
+      "company": "COLONIA TIROLESA S.R.L.",
+      "cuit": "30-59873589-8",
+      "service_days_text": "LUNES A VIERNES",
+      "service_days": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "modality": "REGULAR COMÚN",
+      "route": "RP A174",
+      "source_file": "03-norte.pdf",
+      "source_page": 6,
+      "possible_duplicate": false,
+      "duplicate_ordinal": 1
+    },
+    {
+      "id": "svc-79cbd5a44858-1",
+      "corridor": "NORTE",
+      "line": "CÓRDOBA - COLONIA TIROLESA",
+      "line_id": "norte-cordoba-colonia-tirolesa",
+      "nodes": [
+        "CÓRDOBA",
+        "COLONIA TIROLESA"
+      ],
+      "direction": "I",
+      "time": "22:30",
+      "minutes": 1350,
+      "company": "COLONIA TIROLESA S.R.L.",
+      "cuit": "30-59873589-8",
+      "service_days_text": "LUNES A VIERNES",
+      "service_days": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "modality": "REGULAR COMÚN",
+      "route": "RP A174",
+      "source_file": "03-norte.pdf",
+      "source_page": 6,
+      "possible_duplicate": false,
+      "duplicate_ordinal": 1
+    },
+    {
+      "id": "svc-11d8aa1046ec-1",
       "corridor": "NORTE",
       "line": "CÓRDOBA - COLONIA TIROLESA",
       "line_id": "norte-cordoba-colonia-tirolesa",
@@ -30174,8 +30346,8 @@
         "COLONIA TIROLESA"
       ],
       "direction": "V",
-      "time": "06:15",
-      "minutes": 375,
+      "time": "05:50",
+      "minutes": 350,
       "company": "COLONIA TIROLESA S.R.L.",
       "cuit": "30-59873589-8",
       "service_days_text": "LUNES A VIERNES",
@@ -30189,7 +30361,7 @@
       "modality": "REGULAR COMÚN",
       "route": "RP A174",
       "source_file": "03-norte.pdf",
-      "source_page": 5,
+      "source_page": 6,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -30218,7 +30390,7 @@
       "modality": "REGULAR COMÚN",
       "route": "RP A174",
       "source_file": "03-norte.pdf",
-      "source_page": 5,
+      "source_page": 6,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -30247,7 +30419,7 @@
       "modality": "REGULAR COMÚN",
       "route": "RP A174",
       "source_file": "03-norte.pdf",
-      "source_page": 5,
+      "source_page": 6,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -30292,6 +30464,64 @@
       "direction": "V",
       "time": "17:30",
       "minutes": 1050,
+      "company": "COLONIA TIROLESA S.R.L.",
+      "cuit": "30-59873589-8",
+      "service_days_text": "LUNES A VIERNES",
+      "service_days": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "modality": "REGULAR COMÚN",
+      "route": "RP A174",
+      "source_file": "03-norte.pdf",
+      "source_page": 6,
+      "possible_duplicate": false,
+      "duplicate_ordinal": 1
+    },
+    {
+      "id": "svc-16c3076d4d5e-1",
+      "corridor": "NORTE",
+      "line": "CÓRDOBA - COLONIA TIROLESA",
+      "line_id": "norte-cordoba-colonia-tirolesa",
+      "nodes": [
+        "CÓRDOBA",
+        "COLONIA TIROLESA"
+      ],
+      "direction": "V",
+      "time": "19:30",
+      "minutes": 1170,
+      "company": "COLONIA TIROLESA S.R.L.",
+      "cuit": "30-59873589-8",
+      "service_days_text": "LUNES A VIERNES",
+      "service_days": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "modality": "REGULAR COMÚN",
+      "route": "RP A174",
+      "source_file": "03-norte.pdf",
+      "source_page": 6,
+      "possible_duplicate": false,
+      "duplicate_ordinal": 1
+    },
+    {
+      "id": "svc-829bee2be389-1",
+      "corridor": "NORTE",
+      "line": "CÓRDOBA - COLONIA TIROLESA",
+      "line_id": "norte-cordoba-colonia-tirolesa",
+      "nodes": [
+        "CÓRDOBA",
+        "COLONIA TIROLESA"
+      ],
+      "direction": "V",
+      "time": "21:30",
+      "minutes": 1290,
       "company": "COLONIA TIROLESA S.R.L.",
       "cuit": "30-59873589-8",
       "service_days_text": "LUNES A VIERNES",
@@ -30588,7 +30818,7 @@
       "modality": "REGULAR DIFERENCIAL",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 6,
+      "source_page": 7,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -30617,7 +30847,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR RN 9 N",
       "source_file": "03-norte.pdf",
-      "source_page": 6,
+      "source_page": 7,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -30647,7 +30877,7 @@
       "modality": "REGULAR DIFERENCIAL",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 6,
+      "source_page": 7,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -30676,7 +30906,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR RN 9 N",
       "source_file": "03-norte.pdf",
-      "source_page": 6,
+      "source_page": 7,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -30706,7 +30936,7 @@
       "modality": "REGULAR DIFERENCIAL",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 6,
+      "source_page": 7,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -30731,7 +30961,7 @@
       "modality": "REGULAR DIFERENCIAL",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 6,
+      "source_page": 7,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -30761,7 +30991,7 @@
       "modality": "REGULAR DIFERENCIAL",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 6,
+      "source_page": 7,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -30786,7 +31016,7 @@
       "modality": "REGULAR DIFERENCIAL",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 6,
+      "source_page": 7,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -30811,7 +31041,7 @@
       "modality": "REGULAR DIFERENCIAL",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 6,
+      "source_page": 7,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -30842,7 +31072,7 @@
       "modality": "REGULAR COMÚN",
       "route": "RUTA 9 y 60",
       "source_file": "03-norte.pdf",
-      "source_page": 6,
+      "source_page": 7,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -31179,7 +31409,7 @@
       "modality": "REGULAR COMÚN",
       "route": "RUTA 9 y 60",
       "source_file": "03-norte.pdf",
-      "source_page": 7,
+      "source_page": 8,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -31208,7 +31438,7 @@
       "modality": "REGULAR DIFERENCIAL",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 7,
+      "source_page": 8,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -31239,7 +31469,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR RN 9 N",
       "source_file": "03-norte.pdf",
-      "source_page": 7,
+      "source_page": 8,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -31264,7 +31494,7 @@
       "modality": "REGULAR COMÚN",
       "route": "RUTA 9 y 60",
       "source_file": "03-norte.pdf",
-      "source_page": 7,
+      "source_page": 8,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -31294,7 +31524,7 @@
       "modality": "REGULAR DIFERENCIAL",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 7,
+      "source_page": 8,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -31324,7 +31554,7 @@
       "modality": "REGULAR DIFERENCIAL",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 7,
+      "source_page": 8,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -31349,7 +31579,7 @@
       "modality": "REGULAR DIFERENCIAL",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 7,
+      "source_page": 8,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -31378,7 +31608,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR RN 9 N",
       "source_file": "03-norte.pdf",
-      "source_page": 7,
+      "source_page": 8,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -31408,7 +31638,7 @@
       "modality": "REGULAR DIFERENCIAL",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 7,
+      "source_page": 8,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -31433,7 +31663,7 @@
       "modality": "REGULAR DIFERENCIAL",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 7,
+      "source_page": 8,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -31777,7 +32007,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR RN 9 N",
       "source_file": "03-norte.pdf",
-      "source_page": 8,
+      "source_page": 9,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -31806,7 +32036,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR RN 9 N",
       "source_file": "03-norte.pdf",
-      "source_page": 8,
+      "source_page": 9,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -31835,7 +32065,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR RN 9 N",
       "source_file": "03-norte.pdf",
-      "source_page": 8,
+      "source_page": 9,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -31864,7 +32094,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR RN 9 N",
       "source_file": "03-norte.pdf",
-      "source_page": 8,
+      "source_page": 9,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -31893,7 +32123,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 8,
+      "source_page": 9,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -31918,7 +32148,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 8,
+      "source_page": 9,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -31947,7 +32177,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 8,
+      "source_page": 9,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -31972,7 +32202,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 8,
+      "source_page": 9,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -32001,7 +32231,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 8,
+      "source_page": 9,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -32031,7 +32261,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 8,
+      "source_page": 9,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -32358,7 +32588,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 9,
+      "source_page": 10,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -32387,7 +32617,7 @@
       "modality": "REGULAR COMÚN",
       "route": "RUTA 9 NORTE HASTA CAMPUS UNC",
       "source_file": "03-norte.pdf",
-      "source_page": 9,
+      "source_page": 10,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -32416,7 +32646,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 9,
+      "source_page": 10,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -32441,7 +32671,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 9,
+      "source_page": 10,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -32471,7 +32701,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 9,
+      "source_page": 10,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -32496,7 +32726,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 9,
+      "source_page": 10,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -32525,7 +32755,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 9,
+      "source_page": 10,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -32555,7 +32785,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 9,
+      "source_page": 10,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -32584,7 +32814,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 9,
+      "source_page": 10,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -32614,7 +32844,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 9,
+      "source_page": 10,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -32940,7 +33170,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 10,
+      "source_page": 11,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -32965,7 +33195,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 10,
+      "source_page": 11,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -32990,7 +33220,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 10,
+      "source_page": 11,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -33019,7 +33249,7 @@
       "modality": "REGULAR COMÚN",
       "route": "RUTA 9 NORTE HASTA CAMPUS UNC",
       "source_file": "03-norte.pdf",
-      "source_page": 10,
+      "source_page": 11,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -33048,7 +33278,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 10,
+      "source_page": 11,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -33073,7 +33303,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 10,
+      "source_page": 11,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -33098,7 +33328,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 10,
+      "source_page": 11,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -33123,7 +33353,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 10,
+      "source_page": 11,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -33152,7 +33382,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 10,
+      "source_page": 11,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -33181,7 +33411,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 10,
+      "source_page": 11,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -33512,7 +33742,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 11,
+      "source_page": 12,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -33537,7 +33767,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 11,
+      "source_page": 12,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -33562,7 +33792,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 11,
+      "source_page": 12,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -33591,7 +33821,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 11,
+      "source_page": 12,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -33616,7 +33846,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 11,
+      "source_page": 12,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -33645,7 +33875,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 11,
+      "source_page": 12,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -33670,7 +33900,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 11,
+      "source_page": 12,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -33695,7 +33925,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 11,
+      "source_page": 12,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -33724,7 +33954,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 11,
+      "source_page": 12,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -33749,7 +33979,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 11,
+      "source_page": 12,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -34079,7 +34309,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 12,
+      "source_page": 13,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -34104,7 +34334,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 12,
+      "source_page": 13,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -34133,7 +34363,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 12,
+      "source_page": 13,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -34158,7 +34388,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 12,
+      "source_page": 13,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -34183,7 +34413,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 12,
+      "source_page": 13,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -34212,7 +34442,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 12,
+      "source_page": 13,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -34237,7 +34467,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 12,
+      "source_page": 13,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -34262,7 +34492,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 12,
+      "source_page": 13,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -34291,7 +34521,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 12,
+      "source_page": 13,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -34316,7 +34546,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 12,
+      "source_page": 13,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -34649,7 +34879,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 13,
+      "source_page": 14,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -34678,7 +34908,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 13,
+      "source_page": 14,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -34703,7 +34933,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 13,
+      "source_page": 14,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -34732,7 +34962,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 13,
+      "source_page": 14,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -34757,7 +34987,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 13,
+      "source_page": 14,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -34786,7 +35016,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 13,
+      "source_page": 14,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -34811,7 +35041,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 13,
+      "source_page": 14,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -34836,7 +35066,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 13,
+      "source_page": 14,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -34865,7 +35095,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 13,
+      "source_page": 14,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -34890,7 +35120,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 13,
+      "source_page": 14,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -35224,7 +35454,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 14,
+      "source_page": 15,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -35253,7 +35483,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 14,
+      "source_page": 15,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -35278,7 +35508,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 14,
+      "source_page": 15,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -35303,7 +35533,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 14,
+      "source_page": 15,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -35332,7 +35562,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 14,
+      "source_page": 15,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -35357,7 +35587,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 14,
+      "source_page": 15,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -35386,7 +35616,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 14,
+      "source_page": 15,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -35411,7 +35641,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 14,
+      "source_page": 15,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -35436,7 +35666,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 14,
+      "source_page": 15,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -35466,7 +35696,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 14,
+      "source_page": 15,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -35793,7 +36023,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 15,
+      "source_page": 16,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -35822,7 +36052,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 15,
+      "source_page": 16,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -35851,7 +36081,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 15,
+      "source_page": 16,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -35876,7 +36106,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 15,
+      "source_page": 16,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -35905,7 +36135,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 15,
+      "source_page": 16,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -35935,7 +36165,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 15,
+      "source_page": 16,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -35964,7 +36194,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 15,
+      "source_page": 16,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -35989,7 +36219,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 15,
+      "source_page": 16,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -36014,7 +36244,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 15,
+      "source_page": 16,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -36039,7 +36269,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 15,
+      "source_page": 16,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -36364,7 +36594,7 @@
       "modality": "REGULAR COMÚN",
       "route": "RUTA 9 NORTE HASTA CAMPUS UNC",
       "source_file": "03-norte.pdf",
-      "source_page": 16,
+      "source_page": 17,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -36393,7 +36623,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 16,
+      "source_page": 17,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -36422,7 +36652,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 16,
+      "source_page": 17,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -36447,7 +36677,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 16,
+      "source_page": 17,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -36472,7 +36702,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 16,
+      "source_page": 17,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -36501,7 +36731,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 16,
+      "source_page": 17,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -36531,7 +36761,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 16,
+      "source_page": 17,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -36556,7 +36786,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 16,
+      "source_page": 17,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -36581,7 +36811,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 16,
+      "source_page": 17,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -36606,7 +36836,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 16,
+      "source_page": 17,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -36940,7 +37170,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 17,
+      "source_page": 18,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -36969,7 +37199,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 17,
+      "source_page": 18,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -36994,7 +37224,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 17,
+      "source_page": 18,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -37023,7 +37253,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 17,
+      "source_page": 18,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -37052,7 +37282,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 17,
+      "source_page": 18,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -37077,7 +37307,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 17,
+      "source_page": 18,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -37106,7 +37336,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 17,
+      "source_page": 18,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -37132,7 +37362,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 17,
+      "source_page": 18,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -37157,7 +37387,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 17,
+      "source_page": 18,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -37182,7 +37412,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 17,
+      "source_page": 18,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -37506,7 +37736,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 18,
+      "source_page": 19,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -37535,7 +37765,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 18,
+      "source_page": 19,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -37560,7 +37790,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 18,
+      "source_page": 19,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -37589,7 +37819,7 @@
       "modality": "REGULAR COMÚN",
       "route": "RUTA 9 NORTE HASTA CAMPUS UNC",
       "source_file": "03-norte.pdf",
-      "source_page": 18,
+      "source_page": 19,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -37618,7 +37848,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 18,
+      "source_page": 19,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -37647,7 +37877,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 18,
+      "source_page": 19,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -37672,7 +37902,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 18,
+      "source_page": 19,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -37697,7 +37927,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 18,
+      "source_page": 19,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -37727,7 +37957,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 18,
+      "source_page": 19,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -37756,7 +37986,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 18,
+      "source_page": 19,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -38081,7 +38311,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 19,
+      "source_page": 20,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -38110,7 +38340,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 19,
+      "source_page": 20,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -38135,7 +38365,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 19,
+      "source_page": 20,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -38164,7 +38394,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 19,
+      "source_page": 20,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -38189,7 +38419,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 19,
+      "source_page": 20,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -38214,7 +38444,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 19,
+      "source_page": 20,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -38243,7 +38473,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 19,
+      "source_page": 20,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -38268,7 +38498,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 19,
+      "source_page": 20,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -38297,7 +38527,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 19,
+      "source_page": 20,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -38326,7 +38556,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 19,
+      "source_page": 20,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -38680,7 +38910,7 @@
       "modality": "REGULAR COMÚN",
       "route": "RN 9 N - POR DEÁN FUNES",
       "source_file": "03-norte.pdf",
-      "source_page": 20,
+      "source_page": 21,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -38711,7 +38941,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR RN 9 N",
       "source_file": "03-norte.pdf",
-      "source_page": 20,
+      "source_page": 21,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -38740,7 +38970,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR RN 9 N",
       "source_file": "03-norte.pdf",
-      "source_page": 20,
+      "source_page": 21,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -38769,7 +38999,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR DEAN FUNES R9-60-16",
       "source_file": "03-norte.pdf",
-      "source_page": 20,
+      "source_page": 21,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -38798,7 +39028,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 20,
+      "source_page": 21,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -38829,7 +39059,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR DEAN FUNES R9-60-16",
       "source_file": "03-norte.pdf",
-      "source_page": 20,
+      "source_page": 21,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -38858,7 +39088,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR RN 9 N",
       "source_file": "03-norte.pdf",
-      "source_page": 20,
+      "source_page": 21,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -38887,7 +39117,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR RUTA 17 - OBISPO TREJO",
       "source_file": "03-norte.pdf",
-      "source_page": 20,
+      "source_page": 21,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -38916,7 +39146,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR RN 9 N",
       "source_file": "03-norte.pdf",
-      "source_page": 20,
+      "source_page": 21,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -38945,7 +39175,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR RUTA 17 - OBISPO TREJO",
       "source_file": "03-norte.pdf",
-      "source_page": 20,
+      "source_page": 21,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -39299,7 +39529,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR RUTA 9 Y 17",
       "source_file": "03-norte.pdf",
-      "source_page": 21,
+      "source_page": 22,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -39329,7 +39559,7 @@
       "modality": "REGULAR DIFERENCIAL",
       "route": "POR RUTA 9 N",
       "source_file": "03-norte.pdf",
-      "source_page": 21,
+      "source_page": 22,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -39358,7 +39588,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR RUTA 9 Y 17",
       "source_file": "03-norte.pdf",
-      "source_page": 21,
+      "source_page": 22,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -39383,7 +39613,7 @@
       "modality": "REGULAR DIFERENCIAL",
       "route": "POR RUTA 9 N",
       "source_file": "03-norte.pdf",
-      "source_page": 21,
+      "source_page": 22,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -39412,7 +39642,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 21,
+      "source_page": 22,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -39442,7 +39672,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR RN 9 N",
       "source_file": "03-norte.pdf",
-      "source_page": 21,
+      "source_page": 22,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -39471,7 +39701,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR RN 9 N",
       "source_file": "03-norte.pdf",
-      "source_page": 21,
+      "source_page": 22,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -39496,7 +39726,7 @@
       "modality": "REGULAR DIFERENCIAL",
       "route": "POR RN 9 N",
       "source_file": "03-norte.pdf",
-      "source_page": 21,
+      "source_page": 22,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -39525,7 +39755,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 21,
+      "source_page": 22,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -39555,7 +39785,7 @@
       "modality": "REGULAR DIFERENCIAL",
       "route": "POR RN 9 N",
       "source_file": "03-norte.pdf",
-      "source_page": 21,
+      "source_page": 22,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -39895,7 +40125,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR RUTA 9 - SANTA ELENA",
       "source_file": "03-norte.pdf",
-      "source_page": 22,
+      "source_page": 23,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -39925,7 +40155,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR GUTEMBERG",
       "source_file": "03-norte.pdf",
-      "source_page": 22,
+      "source_page": 23,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -39955,7 +40185,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR GUTEMBERG",
       "source_file": "03-norte.pdf",
-      "source_page": 22,
+      "source_page": 23,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -39984,7 +40214,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR RN 9 N",
       "source_file": "03-norte.pdf",
-      "source_page": 22,
+      "source_page": 23,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -40015,7 +40245,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR RUTA 9 - NO ENTRA A GRAL PAZ",
       "source_file": "03-norte.pdf",
-      "source_page": 22,
+      "source_page": 23,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -40045,7 +40275,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 22,
+      "source_page": 23,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -40076,7 +40306,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR RN 9 N",
       "source_file": "03-norte.pdf",
-      "source_page": 22,
+      "source_page": 23,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -40105,7 +40335,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 22,
+      "source_page": 23,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -40136,7 +40366,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR RN 9 N",
       "source_file": "03-norte.pdf",
-      "source_page": 22,
+      "source_page": 23,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -40167,7 +40397,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR RN 9 N",
       "source_file": "03-norte.pdf",
-      "source_page": 22,
+      "source_page": 23,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -40531,7 +40761,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR RN 9 N",
       "source_file": "03-norte.pdf",
-      "source_page": 23,
+      "source_page": 24,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -40561,7 +40791,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 23,
+      "source_page": 24,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -40592,7 +40822,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR RN 9 N",
       "source_file": "03-norte.pdf",
-      "source_page": 23,
+      "source_page": 24,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -40623,7 +40853,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR RN 9 N",
       "source_file": "03-norte.pdf",
-      "source_page": 23,
+      "source_page": 24,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -40649,7 +40879,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR RN 9 N",
       "source_file": "03-norte.pdf",
-      "source_page": 23,
+      "source_page": 24,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -40678,7 +40908,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR RN 9 N",
       "source_file": "03-norte.pdf",
-      "source_page": 23,
+      "source_page": 24,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -40709,7 +40939,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 23,
+      "source_page": 24,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -40735,7 +40965,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR RN 9 N",
       "source_file": "03-norte.pdf",
-      "source_page": 23,
+      "source_page": 24,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -40764,7 +40994,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 23,
+      "source_page": 24,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -40793,7 +41023,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR RN 9 N",
       "source_file": "03-norte.pdf",
-      "source_page": 23,
+      "source_page": 24,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -41141,7 +41371,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 24,
+      "source_page": 25,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -41170,7 +41400,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR RN 9 N",
       "source_file": "03-norte.pdf",
-      "source_page": 24,
+      "source_page": 25,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -41201,7 +41431,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR RN 9 N",
       "source_file": "03-norte.pdf",
-      "source_page": 24,
+      "source_page": 25,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -41230,7 +41460,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR RN 9 N",
       "source_file": "03-norte.pdf",
-      "source_page": 24,
+      "source_page": 25,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -41259,7 +41489,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 24,
+      "source_page": 25,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -41290,7 +41520,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR RN 9 N",
       "source_file": "03-norte.pdf",
-      "source_page": 24,
+      "source_page": 25,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -41319,7 +41549,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR RN 9 N",
       "source_file": "03-norte.pdf",
-      "source_page": 24,
+      "source_page": 25,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -41348,7 +41578,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR RN 9 N",
       "source_file": "03-norte.pdf",
-      "source_page": 24,
+      "source_page": 25,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -41379,7 +41609,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR RN 9 N",
       "source_file": "03-norte.pdf",
-      "source_page": 24,
+      "source_page": 25,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -41410,7 +41640,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR RN 9 N",
       "source_file": "03-norte.pdf",
-      "source_page": 24,
+      "source_page": 25,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -41771,7 +42001,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR RN 9 N",
       "source_file": "03-norte.pdf",
-      "source_page": 25,
+      "source_page": 26,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -41802,7 +42032,7 @@
       "modality": "REGULAR COMÚN",
       "route": "RUTA 9 y 60",
       "source_file": "03-norte.pdf",
-      "source_page": 25,
+      "source_page": 26,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -41833,7 +42063,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR RN 9 N",
       "source_file": "03-norte.pdf",
-      "source_page": 25,
+      "source_page": 26,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -41864,7 +42094,7 @@
       "modality": "REGULAR COMÚN",
       "route": "RUTA 9 y 60",
       "source_file": "03-norte.pdf",
-      "source_page": 25,
+      "source_page": 26,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -41895,7 +42125,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR RN 9 N",
       "source_file": "03-norte.pdf",
-      "source_page": 25,
+      "source_page": 26,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -41924,7 +42154,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR RN 9 N",
       "source_file": "03-norte.pdf",
-      "source_page": 25,
+      "source_page": 26,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -41949,7 +42179,7 @@
       "modality": "REGULAR COMÚN",
       "route": "RUTA 9 y 60",
       "source_file": "03-norte.pdf",
-      "source_page": 25,
+      "source_page": 26,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -41980,7 +42210,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR RN 9 N",
       "source_file": "03-norte.pdf",
-      "source_page": 25,
+      "source_page": 26,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -42010,7 +42240,7 @@
       "modality": "REGULAR COMÚN",
       "route": "RUTA 9 y 60",
       "source_file": "03-norte.pdf",
-      "source_page": 25,
+      "source_page": 26,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -42041,7 +42271,7 @@
       "modality": "REGULAR COMÚN",
       "route": "RUTA 9 y 60",
       "source_file": "03-norte.pdf",
-      "source_page": 25,
+      "source_page": 26,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -42377,7 +42607,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 26,
+      "source_page": 27,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -42406,7 +42636,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 26,
+      "source_page": 27,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -42435,7 +42665,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 26,
+      "source_page": 27,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -42464,7 +42694,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "03-norte.pdf",
-      "source_page": 26,
+      "source_page": 27,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -42493,7 +42723,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR RP 16",
       "source_file": "03-norte.pdf",
-      "source_page": 26,
+      "source_page": 27,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -42522,7 +42752,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR RP 16",
       "source_file": "03-norte.pdf",
-      "source_page": 26,
+      "source_page": 27,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -42551,7 +42781,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR RP 16",
       "source_file": "03-norte.pdf",
-      "source_page": 26,
+      "source_page": 27,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -42580,7 +42810,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR RP 16",
       "source_file": "03-norte.pdf",
-      "source_page": 26,
+      "source_page": 27,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -42609,7 +42839,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR RP 16",
       "source_file": "03-norte.pdf",
-      "source_page": 26,
+      "source_page": 27,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -42638,7 +42868,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR RP 16",
       "source_file": "03-norte.pdf",
-      "source_page": 26,
+      "source_page": 27,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -42980,7 +43210,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR INTI HUASI",
       "source_file": "03-norte.pdf",
-      "source_page": 27,
+      "source_page": 28,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -43007,7 +43237,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR INTI HUASI",
       "source_file": "03-norte.pdf",
-      "source_page": 27,
+      "source_page": 28,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -43036,7 +43266,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR RP 16",
       "source_file": "03-norte.pdf",
-      "source_page": 27,
+      "source_page": 28,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -43065,7 +43295,7 @@
       "modality": "REGULAR COMÚN",
       "route": "RUTA 9 y 60",
       "source_file": "03-norte.pdf",
-      "source_page": 27,
+      "source_page": 28,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -43094,7 +43324,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR RP 16",
       "source_file": "03-norte.pdf",
-      "source_page": 27,
+      "source_page": 28,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -43123,7 +43353,7 @@
       "modality": "REGULAR COMÚN",
       "route": "RUTA 9 y 60",
       "source_file": "03-norte.pdf",
-      "source_page": 27,
+      "source_page": 28,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -43152,7 +43382,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR RP 16",
       "source_file": "03-norte.pdf",
-      "source_page": 27,
+      "source_page": 28,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -43181,7 +43411,7 @@
       "modality": "REGULAR COMÚN",
       "route": "RUTA 9 y 60",
       "source_file": "03-norte.pdf",
-      "source_page": 27,
+      "source_page": 28,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -43210,7 +43440,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR RP 16",
       "source_file": "03-norte.pdf",
-      "source_page": 27,
+      "source_page": 28,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -43239,7 +43469,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR RP 16",
       "source_file": "03-norte.pdf",
-      "source_page": 27,
+      "source_page": 28,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -43448,7 +43678,7 @@
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-dc2aed87f7ec-1",
+      "id": "svc-d390d365bcde-1",
       "corridor": "NORTE",
       "line": "JESÚS MARÍA - COLONIA CAROYA",
       "line_id": "norte-jesus-maria-colonia-caroya",
@@ -43457,8 +43687,8 @@
         "COLONIA CAROYA"
       ],
       "direction": "I",
-      "time": "05:00",
-      "minutes": 300,
+      "time": "04:50",
+      "minutes": 290,
       "company": "COLONIA TIROLESA S.R.L.",
       "cuit": "30-59873589-8",
       "service_days_text": "LUNES A VIERNES",
@@ -43477,7 +43707,7 @@
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-ca64beceee81-1",
+      "id": "svc-f54a0e661381-1",
       "corridor": "NORTE",
       "line": "JESÚS MARÍA - COLONIA CAROYA",
       "line_id": "norte-jesus-maria-colonia-caroya",
@@ -43486,8 +43716,8 @@
         "COLONIA CAROYA"
       ],
       "direction": "I",
-      "time": "06:00",
-      "minutes": 360,
+      "time": "05:50",
+      "minutes": 350,
       "company": "COLONIA TIROLESA S.R.L.",
       "cuit": "30-59873589-8",
       "service_days_text": "LUNES A VIERNES",
@@ -43506,7 +43736,7 @@
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-4631c6aac9e7-1",
+      "id": "svc-f1283e670698-1",
       "corridor": "NORTE",
       "line": "JESÚS MARÍA - COLONIA CAROYA",
       "line_id": "norte-jesus-maria-colonia-caroya",
@@ -43515,8 +43745,8 @@
         "COLONIA CAROYA"
       ],
       "direction": "I",
-      "time": "06:20",
-      "minutes": 380,
+      "time": "06:05",
+      "minutes": 365,
       "company": "COLONIA TIROLESA S.R.L.",
       "cuit": "30-59873589-8",
       "service_days_text": "LUNES A VIERNES",
@@ -43585,7 +43815,7 @@
       "modality": "REGULAR COMÚN",
       "route": "RP A174",
       "source_file": "03-norte.pdf",
-      "source_page": 28,
+      "source_page": 29,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -43614,12 +43844,12 @@
       "modality": "REGULAR DIFERENCIAL",
       "route": "POR RPA174",
       "source_file": "03-norte.pdf",
-      "source_page": 28,
+      "source_page": 29,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-730f5f8f219f-1",
+      "id": "svc-ae14f35aa0c2-1",
       "corridor": "NORTE",
       "line": "JESÚS MARÍA - COLONIA CAROYA",
       "line_id": "norte-jesus-maria-colonia-caroya",
@@ -43628,8 +43858,8 @@
         "COLONIA CAROYA"
       ],
       "direction": "I",
-      "time": "06:50",
-      "minutes": 410,
+      "time": "06:40",
+      "minutes": 400,
       "company": "COLONIA TIROLESA S.R.L.",
       "cuit": "30-59873589-8",
       "service_days_text": "LUNES A VIERNES",
@@ -43643,7 +43873,7 @@
       "modality": "REGULAR COMÚN",
       "route": "RP A174",
       "source_file": "03-norte.pdf",
-      "source_page": 28,
+      "source_page": 29,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -43672,9 +43902,38 @@
       "modality": "REGULAR COMÚN",
       "route": "RP A174",
       "source_file": "03-norte.pdf",
-      "source_page": 28,
-      "possible_duplicate": false,
+      "source_page": 29,
+      "possible_duplicate": true,
       "duplicate_ordinal": 1
+    },
+    {
+      "id": "svc-b93e5077b2ca-2",
+      "corridor": "NORTE",
+      "line": "JESÚS MARÍA - COLONIA CAROYA",
+      "line_id": "norte-jesus-maria-colonia-caroya",
+      "nodes": [
+        "JESÚS MARÍA",
+        "COLONIA CAROYA"
+      ],
+      "direction": "I",
+      "time": "07:00",
+      "minutes": 420,
+      "company": "COLONIA TIROLESA S.R.L.",
+      "cuit": "30-59873589-8",
+      "service_days_text": "LUNES A VIERNES",
+      "service_days": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "modality": "REGULAR COMÚN",
+      "route": "RP A174",
+      "source_file": "03-norte.pdf",
+      "source_page": 29,
+      "possible_duplicate": true,
+      "duplicate_ordinal": 2
     },
     {
       "id": "svc-d9ff46547f0d-1",
@@ -43701,7 +43960,7 @@
       "modality": "REGULAR COMÚN",
       "route": "RP A174",
       "source_file": "03-norte.pdf",
-      "source_page": 28,
+      "source_page": 29,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -43732,7 +43991,7 @@
       "modality": "REGULAR DIFERENCIAL",
       "route": "POR RPA174",
       "source_file": "03-norte.pdf",
-      "source_page": 28,
+      "source_page": 29,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -43761,12 +44020,12 @@
       "modality": "REGULAR COMÚN",
       "route": "RP A174",
       "source_file": "03-norte.pdf",
-      "source_page": 28,
+      "source_page": 29,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-56fb8afb355f-1",
+      "id": "svc-c12aee56a26c-1",
       "corridor": "NORTE",
       "line": "JESÚS MARÍA - COLONIA CAROYA",
       "line_id": "norte-jesus-maria-colonia-caroya",
@@ -43779,49 +44038,19 @@
       "minutes": 480,
       "company": "COLONIA TIROLESA S.R.L.",
       "cuit": "30-59873589-8",
-      "service_days_text": "DIARIO",
+      "service_days_text": "LUNES A SÁBADOS",
       "service_days": [
         1,
         2,
         3,
         4,
         5,
-        6,
-        7
+        6
       ],
       "modality": "REGULAR COMÚN",
       "route": "RP A174",
       "source_file": "03-norte.pdf",
-      "source_page": 28,
-      "possible_duplicate": false,
-      "duplicate_ordinal": 1
-    },
-    {
-      "id": "svc-f83345f978a3-1",
-      "corridor": "NORTE",
-      "line": "JESÚS MARÍA - COLONIA CAROYA",
-      "line_id": "norte-jesus-maria-colonia-caroya",
-      "nodes": [
-        "JESÚS MARÍA",
-        "COLONIA CAROYA"
-      ],
-      "direction": "I",
-      "time": "08:25",
-      "minutes": 505,
-      "company": "COLONIA TIROLESA S.R.L.",
-      "cuit": "30-59873589-8",
-      "service_days_text": "LUNES A VIERNES",
-      "service_days": [
-        1,
-        2,
-        3,
-        4,
-        5
-      ],
-      "modality": "REGULAR COMÚN",
-      "route": "RP A174",
-      "source_file": "03-norte.pdf",
-      "source_page": 28,
+      "source_page": 29,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -43850,12 +44079,12 @@
       "modality": "REGULAR DIFERENCIAL",
       "route": "POR RPA174",
       "source_file": "03-norte.pdf",
-      "source_page": 28,
+      "source_page": 29,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-1db0fde6ecf1-1",
+      "id": "svc-383c6544aae8-1",
       "corridor": "NORTE",
       "line": "JESÚS MARÍA - COLONIA CAROYA",
       "line_id": "norte-jesus-maria-colonia-caroya",
@@ -43864,8 +44093,8 @@
         "COLONIA CAROYA"
       ],
       "direction": "I",
-      "time": "09:25",
-      "minutes": 565,
+      "time": "08:40",
+      "minutes": 520,
       "company": "COLONIA TIROLESA S.R.L.",
       "cuit": "30-59873589-8",
       "service_days_text": "LUNES A VIERNES",
@@ -43884,7 +44113,7 @@
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-ef3b53926f3d-1",
+      "id": "svc-d0bbe62e4275-1",
       "corridor": "NORTE",
       "line": "JESÚS MARÍA - COLONIA CAROYA",
       "line_id": "norte-jesus-maria-colonia-caroya",
@@ -43893,18 +44122,13 @@
         "COLONIA CAROYA"
       ],
       "direction": "I",
-      "time": "09:30",
-      "minutes": 570,
+      "time": "09:00",
+      "minutes": 540,
       "company": "COLONIA TIROLESA S.R.L.",
       "cuit": "30-59873589-8",
-      "service_days_text": "LUNES A SÁBADOS",
+      "service_days_text": "DOMINGO",
       "service_days": [
-        1,
-        2,
-        3,
-        4,
-        5,
-        6
+        7
       ],
       "modality": "REGULAR COMÚN",
       "route": "RP A174",
@@ -43943,7 +44167,7 @@
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-0fecd1037d2b-1",
+      "id": "svc-ef3b53926f3d-1",
       "corridor": "NORTE",
       "line": "JESÚS MARÍA - COLONIA CAROYA",
       "line_id": "norte-jesus-maria-colonia-caroya",
@@ -43952,8 +44176,38 @@
         "COLONIA CAROYA"
       ],
       "direction": "I",
-      "time": "10:00",
-      "minutes": 600,
+      "time": "09:30",
+      "minutes": 570,
+      "company": "COLONIA TIROLESA S.R.L.",
+      "cuit": "30-59873589-8",
+      "service_days_text": "LUNES A SÁBADOS",
+      "service_days": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "modality": "REGULAR COMÚN",
+      "route": "RP A174",
+      "source_file": "03-norte.pdf",
+      "source_page": 29,
+      "possible_duplicate": false,
+      "duplicate_ordinal": 1
+    },
+    {
+      "id": "svc-2eceaac7860b-1",
+      "corridor": "NORTE",
+      "line": "JESÚS MARÍA - COLONIA CAROYA",
+      "line_id": "norte-jesus-maria-colonia-caroya",
+      "nodes": [
+        "JESÚS MARÍA",
+        "COLONIA CAROYA"
+      ],
+      "direction": "I",
+      "time": "10:10",
+      "minutes": 610,
       "company": "COLONIA TIROLESA S.R.L.",
       "cuit": "30-59873589-8",
       "service_days_text": "LUNES A VIERNES Y DOMINGOS",
@@ -43964,35 +44218,6 @@
         4,
         5,
         7
-      ],
-      "modality": "REGULAR COMÚN",
-      "route": "RP A174",
-      "source_file": "03-norte.pdf",
-      "source_page": 29,
-      "possible_duplicate": false,
-      "duplicate_ordinal": 1
-    },
-    {
-      "id": "svc-8b627a6e44c8-1",
-      "corridor": "NORTE",
-      "line": "JESÚS MARÍA - COLONIA CAROYA",
-      "line_id": "norte-jesus-maria-colonia-caroya",
-      "nodes": [
-        "JESÚS MARÍA",
-        "COLONIA CAROYA"
-      ],
-      "direction": "I",
-      "time": "10:30",
-      "minutes": 630,
-      "company": "COLONIA TIROLESA S.R.L.",
-      "cuit": "30-59873589-8",
-      "service_days_text": "LUNES A VIERNES",
-      "service_days": [
-        1,
-        2,
-        3,
-        4,
-        5
       ],
       "modality": "REGULAR COMÚN",
       "route": "RP A174",
@@ -44031,7 +44256,36 @@
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-9cef0a6aefeb-1",
+      "id": "svc-81a943041d37-1",
+      "corridor": "NORTE",
+      "line": "JESÚS MARÍA - COLONIA CAROYA",
+      "line_id": "norte-jesus-maria-colonia-caroya",
+      "nodes": [
+        "JESÚS MARÍA",
+        "COLONIA CAROYA"
+      ],
+      "direction": "I",
+      "time": "10:50",
+      "minutes": 650,
+      "company": "COLONIA TIROLESA S.R.L.",
+      "cuit": "30-59873589-8",
+      "service_days_text": "LUNES A VIERNES",
+      "service_days": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "modality": "REGULAR COMÚN",
+      "route": "RP A174",
+      "source_file": "03-norte.pdf",
+      "source_page": 29,
+      "possible_duplicate": false,
+      "duplicate_ordinal": 1
+    },
+    {
+      "id": "svc-dccfc0e30fa4-1",
       "corridor": "NORTE",
       "line": "JESÚS MARÍA - COLONIA CAROYA",
       "line_id": "norte-jesus-maria-colonia-caroya",
@@ -44044,14 +44298,15 @@
       "minutes": 660,
       "company": "COLONIA TIROLESA S.R.L.",
       "cuit": "30-59873589-8",
-      "service_days_text": "LUNES A SÁBADOS",
+      "service_days_text": "DIARIO",
       "service_days": [
         1,
         2,
         3,
         4,
         5,
-        6
+        6,
+        7
       ],
       "modality": "REGULAR COMÚN",
       "route": "RP A174",
@@ -44121,7 +44376,7 @@
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-73b57a136fda-1",
+      "id": "svc-e112fa6f7394-1",
       "corridor": "NORTE",
       "line": "JESÚS MARÍA - COLONIA CAROYA",
       "line_id": "norte-jesus-maria-colonia-caroya",
@@ -44130,33 +44385,8 @@
         "COLONIA CAROYA"
       ],
       "direction": "I",
-      "time": "12:00",
-      "minutes": 720,
-      "company": "COLONIA TIROLESA S.R.L.",
-      "cuit": "30-59873589-8",
-      "service_days_text": "DOMINGO",
-      "service_days": [
-        7
-      ],
-      "modality": "REGULAR COMÚN",
-      "route": "RP A174",
-      "source_file": "03-norte.pdf",
-      "source_page": 29,
-      "possible_duplicate": false,
-      "duplicate_ordinal": 1
-    },
-    {
-      "id": "svc-6be288e2d06e-1",
-      "corridor": "NORTE",
-      "line": "JESÚS MARÍA - COLONIA CAROYA",
-      "line_id": "norte-jesus-maria-colonia-caroya",
-      "nodes": [
-        "JESÚS MARÍA",
-        "COLONIA CAROYA"
-      ],
-      "direction": "I",
-      "time": "12:00",
-      "minutes": 720,
+      "time": "11:50",
+      "minutes": 710,
       "company": "COLONIA TIROLESA S.R.L.",
       "cuit": "30-59873589-8",
       "service_days_text": "LUNES A VIERNES",
@@ -44171,8 +44401,37 @@
       "route": "RP A174",
       "source_file": "03-norte.pdf",
       "source_page": 29,
-      "possible_duplicate": false,
+      "possible_duplicate": true,
       "duplicate_ordinal": 1
+    },
+    {
+      "id": "svc-e112fa6f7394-2",
+      "corridor": "NORTE",
+      "line": "JESÚS MARÍA - COLONIA CAROYA",
+      "line_id": "norte-jesus-maria-colonia-caroya",
+      "nodes": [
+        "JESÚS MARÍA",
+        "COLONIA CAROYA"
+      ],
+      "direction": "I",
+      "time": "11:50",
+      "minutes": 710,
+      "company": "COLONIA TIROLESA S.R.L.",
+      "cuit": "30-59873589-8",
+      "service_days_text": "LUNES A VIERNES",
+      "service_days": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "modality": "REGULAR COMÚN",
+      "route": "RP A174",
+      "source_file": "03-norte.pdf",
+      "source_page": 30,
+      "possible_duplicate": true,
+      "duplicate_ordinal": 2
     },
     {
       "id": "svc-96ae855dc863-1",
@@ -44199,7 +44458,7 @@
       "modality": "REGULAR COMÚN",
       "route": "RP A174",
       "source_file": "03-norte.pdf",
-      "source_page": 29,
+      "source_page": 30,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -44224,7 +44483,7 @@
       "modality": "REGULAR COMÚN",
       "route": "RP A174",
       "source_file": "03-norte.pdf",
-      "source_page": 29,
+      "source_page": 30,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -44253,7 +44512,7 @@
       "modality": "REGULAR DIFERENCIAL",
       "route": "POR RPA174",
       "source_file": "03-norte.pdf",
-      "source_page": 29,
+      "source_page": 30,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -44282,7 +44541,7 @@
       "modality": "REGULAR COMÚN",
       "route": "RP A174",
       "source_file": "03-norte.pdf",
-      "source_page": 29,
+      "source_page": 30,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -44311,7 +44570,7 @@
       "modality": "REGULAR COMÚN",
       "route": "RP A174",
       "source_file": "03-norte.pdf",
-      "source_page": 29,
+      "source_page": 30,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -44340,7 +44599,7 @@
       "modality": "REGULAR COMÚN",
       "route": "RP A174",
       "source_file": "03-norte.pdf",
-      "source_page": 29,
+      "source_page": 30,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -44369,12 +44628,12 @@
       "modality": "REGULAR DIFERENCIAL",
       "route": "POR RPA174",
       "source_file": "03-norte.pdf",
-      "source_page": 29,
+      "source_page": 30,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-061b4f07813e-1",
+      "id": "svc-0d54cb0cca4d-1",
       "corridor": "NORTE",
       "line": "JESÚS MARÍA - COLONIA CAROYA",
       "line_id": "norte-jesus-maria-colonia-caroya",
@@ -44383,8 +44642,33 @@
         "COLONIA CAROYA"
       ],
       "direction": "I",
-      "time": "13:35",
-      "minutes": 815,
+      "time": "13:30",
+      "minutes": 810,
+      "company": "COLONIA TIROLESA S.R.L.",
+      "cuit": "30-59873589-8",
+      "service_days_text": "DOMINGO",
+      "service_days": [
+        7
+      ],
+      "modality": "REGULAR COMÚN",
+      "route": "RP A174",
+      "source_file": "03-norte.pdf",
+      "source_page": 30,
+      "possible_duplicate": false,
+      "duplicate_ordinal": 1
+    },
+    {
+      "id": "svc-e5c2f43967be-1",
+      "corridor": "NORTE",
+      "line": "JESÚS MARÍA - COLONIA CAROYA",
+      "line_id": "norte-jesus-maria-colonia-caroya",
+      "nodes": [
+        "JESÚS MARÍA",
+        "COLONIA CAROYA"
+      ],
+      "direction": "I",
+      "time": "13:40",
+      "minutes": 820,
       "company": "COLONIA TIROLESA S.R.L.",
       "cuit": "30-59873589-8",
       "service_days_text": "LUNES A VIERNES",
@@ -44398,12 +44682,12 @@
       "modality": "REGULAR COMÚN",
       "route": "RP A174",
       "source_file": "03-norte.pdf",
-      "source_page": 29,
+      "source_page": 30,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-5425bd476707-1",
+      "id": "svc-cb7eb4d0b6e6-1",
       "corridor": "NORTE",
       "line": "JESÚS MARÍA - COLONIA CAROYA",
       "line_id": "norte-jesus-maria-colonia-caroya",
@@ -44416,25 +44700,24 @@
       "minutes": 840,
       "company": "COLONIA TIROLESA S.R.L.",
       "cuit": "30-59873589-8",
-      "service_days_text": "DIARIO",
+      "service_days_text": "LUNES A SÁBADOS",
       "service_days": [
         1,
         2,
         3,
         4,
         5,
-        6,
-        7
+        6
       ],
       "modality": "REGULAR COMÚN",
       "route": "RP A174",
       "source_file": "03-norte.pdf",
-      "source_page": 29,
+      "source_page": 30,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-4dfcc88da622-1",
+      "id": "svc-db3ff5b0f23f-1",
       "corridor": "NORTE",
       "line": "JESÚS MARÍA - COLONIA CAROYA",
       "line_id": "norte-jesus-maria-colonia-caroya",
@@ -44443,8 +44726,8 @@
         "COLONIA CAROYA"
       ],
       "direction": "I",
-      "time": "14:25",
-      "minutes": 865,
+      "time": "14:10",
+      "minutes": 850,
       "company": "COLONIA TIROLESA S.R.L.",
       "cuit": "30-59873589-8",
       "service_days_text": "LUNES A VIERNES",
@@ -44458,7 +44741,36 @@
       "modality": "REGULAR COMÚN",
       "route": "RP A174",
       "source_file": "03-norte.pdf",
-      "source_page": 29,
+      "source_page": 30,
+      "possible_duplicate": false,
+      "duplicate_ordinal": 1
+    },
+    {
+      "id": "svc-b530d09bcb4c-1",
+      "corridor": "NORTE",
+      "line": "JESÚS MARÍA - COLONIA CAROYA",
+      "line_id": "norte-jesus-maria-colonia-caroya",
+      "nodes": [
+        "JESÚS MARÍA",
+        "COLONIA CAROYA"
+      ],
+      "direction": "I",
+      "time": "14:20",
+      "minutes": 860,
+      "company": "COLONIA TIROLESA S.R.L.",
+      "cuit": "30-59873589-8",
+      "service_days_text": "LUNES A VIERNES",
+      "service_days": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "modality": "REGULAR COMÚN",
+      "route": "RP A174",
+      "source_file": "03-norte.pdf",
+      "source_page": 30,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -44492,7 +44804,7 @@
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-d1232cebb60e-1",
+      "id": "svc-4f099c49cc1d-1",
       "corridor": "NORTE",
       "line": "JESÚS MARÍA - COLONIA CAROYA",
       "line_id": "norte-jesus-maria-colonia-caroya",
@@ -44505,96 +44817,9 @@
       "minutes": 900,
       "company": "COLONIA TIROLESA S.R.L.",
       "cuit": "30-59873589-8",
-      "service_days_text": "LUNES A VIERNES",
+      "service_days_text": "DOMINGO",
       "service_days": [
-        1,
-        2,
-        3,
-        4,
-        5
-      ],
-      "modality": "REGULAR COMÚN",
-      "route": "RP A174",
-      "source_file": "03-norte.pdf",
-      "source_page": 30,
-      "possible_duplicate": true,
-      "duplicate_ordinal": 1
-    },
-    {
-      "id": "svc-d1232cebb60e-2",
-      "corridor": "NORTE",
-      "line": "JESÚS MARÍA - COLONIA CAROYA",
-      "line_id": "norte-jesus-maria-colonia-caroya",
-      "nodes": [
-        "JESÚS MARÍA",
-        "COLONIA CAROYA"
-      ],
-      "direction": "I",
-      "time": "15:00",
-      "minutes": 900,
-      "company": "COLONIA TIROLESA S.R.L.",
-      "cuit": "30-59873589-8",
-      "service_days_text": "LUNES A VIERNES",
-      "service_days": [
-        1,
-        2,
-        3,
-        4,
-        5
-      ],
-      "modality": "REGULAR COMÚN",
-      "route": "RP A174",
-      "source_file": "03-norte.pdf",
-      "source_page": 30,
-      "possible_duplicate": true,
-      "duplicate_ordinal": 2
-    },
-    {
-      "id": "svc-9c32cc5443d3-1",
-      "corridor": "NORTE",
-      "line": "JESÚS MARÍA - COLONIA CAROYA",
-      "line_id": "norte-jesus-maria-colonia-caroya",
-      "nodes": [
-        "JESÚS MARÍA",
-        "COLONIA CAROYA"
-      ],
-      "direction": "I",
-      "time": "15:25",
-      "minutes": 925,
-      "company": "COLONIA TIROLESA S.R.L.",
-      "cuit": "30-59873589-8",
-      "service_days_text": "LUNES A VIERNES",
-      "service_days": [
-        1,
-        2,
-        3,
-        4,
-        5
-      ],
-      "modality": "REGULAR COMÚN",
-      "route": "RP A174",
-      "source_file": "03-norte.pdf",
-      "source_page": 30,
-      "possible_duplicate": false,
-      "duplicate_ordinal": 1
-    },
-    {
-      "id": "svc-3b07f869ced7-1",
-      "corridor": "NORTE",
-      "line": "JESÚS MARÍA - COLONIA CAROYA",
-      "line_id": "norte-jesus-maria-colonia-caroya",
-      "nodes": [
-        "JESÚS MARÍA",
-        "COLONIA CAROYA"
-      ],
-      "direction": "I",
-      "time": "15:30",
-      "minutes": 930,
-      "company": "COLONIA TIROLESA S.R.L.",
-      "cuit": "30-59873589-8",
-      "service_days_text": "SÁBADO",
-      "service_days": [
-        6
+        7
       ],
       "modality": "REGULAR COMÚN",
       "route": "RP A174",
@@ -44635,7 +44860,7 @@
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-d8fe756e77da-1",
+      "id": "svc-14c562a36258-1",
       "corridor": "NORTE",
       "line": "JESÚS MARÍA - COLONIA CAROYA",
       "line_id": "norte-jesus-maria-colonia-caroya",
@@ -44644,17 +44869,18 @@
         "COLONIA CAROYA"
       ],
       "direction": "I",
-      "time": "15:40",
-      "minutes": 940,
+      "time": "15:30",
+      "minutes": 930,
       "company": "COLONIA TIROLESA S.R.L.",
       "cuit": "30-59873589-8",
-      "service_days_text": "LUNES A VIERNES",
+      "service_days_text": "LUNES A SÁBADOS",
       "service_days": [
         1,
         2,
         3,
         4,
-        5
+        5,
+        6
       ],
       "modality": "REGULAR COMÚN",
       "route": "RP A174",
@@ -44694,35 +44920,6 @@
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-42e65802c073-1",
-      "corridor": "NORTE",
-      "line": "JESÚS MARÍA - COLONIA CAROYA",
-      "line_id": "norte-jesus-maria-colonia-caroya",
-      "nodes": [
-        "JESÚS MARÍA",
-        "COLONIA CAROYA"
-      ],
-      "direction": "I",
-      "time": "16:25",
-      "minutes": 985,
-      "company": "COLONIA TIROLESA S.R.L.",
-      "cuit": "30-59873589-8",
-      "service_days_text": "LUNES A VIERNES",
-      "service_days": [
-        1,
-        2,
-        3,
-        4,
-        5
-      ],
-      "modality": "REGULAR COMÚN",
-      "route": "RP A174",
-      "source_file": "03-norte.pdf",
-      "source_page": 30,
-      "possible_duplicate": false,
-      "duplicate_ordinal": 1
-    },
-    {
       "id": "svc-3e2b6d5191aa-1",
       "corridor": "NORTE",
       "line": "JESÚS MARÍA - COLONIA CAROYA",
@@ -44752,7 +44949,7 @@
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-83c1954f6929-1",
+      "id": "svc-32995522f1c9-1",
       "corridor": "NORTE",
       "line": "JESÚS MARÍA - COLONIA CAROYA",
       "line_id": "norte-jesus-maria-colonia-caroya",
@@ -44761,8 +44958,33 @@
         "COLONIA CAROYA"
       ],
       "direction": "I",
-      "time": "16:40",
-      "minutes": 1000,
+      "time": "16:30",
+      "minutes": 990,
+      "company": "COLONIA TIROLESA S.R.L.",
+      "cuit": "30-59873589-8",
+      "service_days_text": "DOMINGO",
+      "service_days": [
+        7
+      ],
+      "modality": "REGULAR COMÚN",
+      "route": "RP A174",
+      "source_file": "03-norte.pdf",
+      "source_page": 30,
+      "possible_duplicate": false,
+      "duplicate_ordinal": 1
+    },
+    {
+      "id": "svc-4c5cab8d6713-1",
+      "corridor": "NORTE",
+      "line": "JESÚS MARÍA - COLONIA CAROYA",
+      "line_id": "norte-jesus-maria-colonia-caroya",
+      "nodes": [
+        "JESÚS MARÍA",
+        "COLONIA CAROYA"
+      ],
+      "direction": "I",
+      "time": "16:50",
+      "minutes": 1010,
       "company": "COLONIA TIROLESA S.R.L.",
       "cuit": "30-59873589-8",
       "service_days_text": "LUNES A VIERNES",
@@ -44781,7 +45003,7 @@
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-b51fcf51cbdc-1",
+      "id": "svc-7974a9023543-1",
       "corridor": "NORTE",
       "line": "JESÚS MARÍA - COLONIA CAROYA",
       "line_id": "norte-jesus-maria-colonia-caroya",
@@ -44794,48 +45016,14 @@
       "minutes": 1020,
       "company": "COLONIA TIROLESA S.R.L.",
       "cuit": "30-59873589-8",
-      "service_days_text": "LUNES A SÁBADOS",
+      "service_days_text": "SÁBADO",
       "service_days": [
-        1,
-        2,
-        3,
-        4,
-        5,
         6
       ],
       "modality": "REGULAR COMÚN",
       "route": "RP A174",
       "source_file": "03-norte.pdf",
-      "source_page": 30,
-      "possible_duplicate": false,
-      "duplicate_ordinal": 1
-    },
-    {
-      "id": "svc-6ad54fa54a9d-1",
-      "corridor": "NORTE",
-      "line": "JESÚS MARÍA - COLONIA CAROYA",
-      "line_id": "norte-jesus-maria-colonia-caroya",
-      "nodes": [
-        "JESÚS MARÍA",
-        "COLONIA CAROYA"
-      ],
-      "direction": "I",
-      "time": "17:20",
-      "minutes": 1040,
-      "company": "COLONIA TIROLESA S.R.L.",
-      "cuit": "30-59873589-8",
-      "service_days_text": "LUNES A VIERNES",
-      "service_days": [
-        1,
-        2,
-        3,
-        4,
-        5
-      ],
-      "modality": "REGULAR COMÚN",
-      "route": "RP A174",
-      "source_file": "03-norte.pdf",
-      "source_page": 30,
+      "source_page": 31,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -44864,12 +45052,12 @@
       "modality": "REGULAR DIFERENCIAL",
       "route": "POR RPA174",
       "source_file": "03-norte.pdf",
-      "source_page": 30,
+      "source_page": 31,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-a620099e16eb-1",
+      "id": "svc-60db31e3db6e-1",
       "corridor": "NORTE",
       "line": "JESÚS MARÍA - COLONIA CAROYA",
       "line_id": "norte-jesus-maria-colonia-caroya",
@@ -44878,8 +45066,8 @@
         "COLONIA CAROYA"
       ],
       "direction": "I",
-      "time": "17:40",
-      "minutes": 1060,
+      "time": "17:35",
+      "minutes": 1055,
       "company": "COLONIA TIROLESA S.R.L.",
       "cuit": "30-59873589-8",
       "service_days_text": "LUNES A VIERNES",
@@ -44893,7 +45081,7 @@
       "modality": "REGULAR COMÚN",
       "route": "RP A174",
       "source_file": "03-norte.pdf",
-      "source_page": 30,
+      "source_page": 31,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -44923,65 +45111,7 @@
       "modality": "REGULAR COMÚN",
       "route": "RP A174",
       "source_file": "03-norte.pdf",
-      "source_page": 30,
-      "possible_duplicate": false,
-      "duplicate_ordinal": 1
-    },
-    {
-      "id": "svc-5b345b947a6d-1",
-      "corridor": "NORTE",
-      "line": "JESÚS MARÍA - COLONIA CAROYA",
-      "line_id": "norte-jesus-maria-colonia-caroya",
-      "nodes": [
-        "JESÚS MARÍA",
-        "COLONIA CAROYA"
-      ],
-      "direction": "I",
-      "time": "18:00",
-      "minutes": 1080,
-      "company": "COLONIA TIROLESA S.R.L.",
-      "cuit": "30-59873589-8",
-      "service_days_text": "LUNES A VIERNES",
-      "service_days": [
-        1,
-        2,
-        3,
-        4,
-        5
-      ],
-      "modality": "REGULAR COMÚN",
-      "route": "RP A174",
-      "source_file": "03-norte.pdf",
-      "source_page": 30,
-      "possible_duplicate": false,
-      "duplicate_ordinal": 1
-    },
-    {
-      "id": "svc-5b5a33c520c5-1",
-      "corridor": "NORTE",
-      "line": "JESÚS MARÍA - COLONIA CAROYA",
-      "line_id": "norte-jesus-maria-colonia-caroya",
-      "nodes": [
-        "JESÚS MARÍA",
-        "COLONIA CAROYA"
-      ],
-      "direction": "I",
-      "time": "18:25",
-      "minutes": 1105,
-      "company": "COLONIA TIROLESA S.R.L.",
-      "cuit": "30-59873589-8",
-      "service_days_text": "LUNES A VIERNES",
-      "service_days": [
-        1,
-        2,
-        3,
-        4,
-        5
-      ],
-      "modality": "REGULAR COMÚN",
-      "route": "RP A174",
-      "source_file": "03-norte.pdf",
-      "source_page": 30,
+      "source_page": 31,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -45006,7 +45136,7 @@
       "modality": "REGULAR COMÚN",
       "route": "RP A174",
       "source_file": "03-norte.pdf",
-      "source_page": 30,
+      "source_page": 31,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -45035,7 +45165,7 @@
       "modality": "REGULAR DIFERENCIAL",
       "route": "POR RPA174",
       "source_file": "03-norte.pdf",
-      "source_page": 30,
+      "source_page": 31,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -45064,41 +45194,12 @@
       "modality": "REGULAR COMÚN",
       "route": "RP A174",
       "source_file": "03-norte.pdf",
-      "source_page": 30,
-      "possible_duplicate": false,
-      "duplicate_ordinal": 1
-    },
-    {
-      "id": "svc-710a2220d6b8-1",
-      "corridor": "NORTE",
-      "line": "JESÚS MARÍA - COLONIA CAROYA",
-      "line_id": "norte-jesus-maria-colonia-caroya",
-      "nodes": [
-        "JESÚS MARÍA",
-        "COLONIA CAROYA"
-      ],
-      "direction": "I",
-      "time": "19:00",
-      "minutes": 1140,
-      "company": "COLONIA TIROLESA S.R.L.",
-      "cuit": "30-59873589-8",
-      "service_days_text": "LUNES A VIERNES",
-      "service_days": [
-        1,
-        2,
-        3,
-        4,
-        5
-      ],
-      "modality": "REGULAR COMÚN",
-      "route": "RP A174",
-      "source_file": "03-norte.pdf",
       "source_page": 31,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-b58da9d3e66b-1",
+      "id": "svc-d5da6cea7321-1",
       "corridor": "NORTE",
       "line": "JESÚS MARÍA - COLONIA CAROYA",
       "line_id": "norte-jesus-maria-colonia-caroya",
@@ -45107,8 +45208,8 @@
         "COLONIA CAROYA"
       ],
       "direction": "I",
-      "time": "19:25",
-      "minutes": 1165,
+      "time": "19:30",
+      "minutes": 1170,
       "company": "COLONIA TIROLESA S.R.L.",
       "cuit": "30-59873589-8",
       "service_days_text": "LUNES A VIERNES",
@@ -45158,66 +45259,6 @@
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-27a8fce20804-1",
-      "corridor": "NORTE",
-      "line": "JESÚS MARÍA - COLONIA CAROYA",
-      "line_id": "norte-jesus-maria-colonia-caroya",
-      "nodes": [
-        "JESÚS MARÍA",
-        "COLONIA CAROYA"
-      ],
-      "direction": "I",
-      "time": "20:00",
-      "minutes": 1200,
-      "company": "COLONIA TIROLESA S.R.L.",
-      "cuit": "30-59873589-8",
-      "service_days_text": "DIARIO",
-      "service_days": [
-        1,
-        2,
-        3,
-        4,
-        5,
-        6,
-        7
-      ],
-      "modality": "REGULAR COMÚN",
-      "route": "RP A174",
-      "source_file": "03-norte.pdf",
-      "source_page": 31,
-      "possible_duplicate": false,
-      "duplicate_ordinal": 1
-    },
-    {
-      "id": "svc-6e3db75442a6-1",
-      "corridor": "NORTE",
-      "line": "JESÚS MARÍA - COLONIA CAROYA",
-      "line_id": "norte-jesus-maria-colonia-caroya",
-      "nodes": [
-        "JESÚS MARÍA",
-        "COLONIA CAROYA"
-      ],
-      "direction": "I",
-      "time": "20:20",
-      "minutes": 1220,
-      "company": "COLONIA TIROLESA S.R.L.",
-      "cuit": "30-59873589-8",
-      "service_days_text": "LUNES A VIERNES",
-      "service_days": [
-        1,
-        2,
-        3,
-        4,
-        5
-      ],
-      "modality": "REGULAR COMÚN",
-      "route": "RP A174",
-      "source_file": "03-norte.pdf",
-      "source_page": 31,
-      "possible_duplicate": false,
-      "duplicate_ordinal": 1
-    },
-    {
       "id": "svc-7ea75c3e5048-1",
       "corridor": "NORTE",
       "line": "JESÚS MARÍA - COLONIA CAROYA",
@@ -45247,36 +45288,7 @@
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-6e306e0dc3a9-1",
-      "corridor": "NORTE",
-      "line": "JESÚS MARÍA - COLONIA CAROYA",
-      "line_id": "norte-jesus-maria-colonia-caroya",
-      "nodes": [
-        "JESÚS MARÍA",
-        "COLONIA CAROYA"
-      ],
-      "direction": "I",
-      "time": "21:00",
-      "minutes": 1260,
-      "company": "COLONIA TIROLESA S.R.L.",
-      "cuit": "30-59873589-8",
-      "service_days_text": "LUNES A VIERNES",
-      "service_days": [
-        1,
-        2,
-        3,
-        4,
-        5
-      ],
-      "modality": "REGULAR COMÚN",
-      "route": "RP A174",
-      "source_file": "03-norte.pdf",
-      "source_page": 31,
-      "possible_duplicate": false,
-      "duplicate_ordinal": 1
-    },
-    {
-      "id": "svc-2f88669bf491-1",
+      "id": "svc-424e95a3a030-1",
       "corridor": "NORTE",
       "line": "JESÚS MARÍA - COLONIA CAROYA",
       "line_id": "norte-jesus-maria-colonia-caroya",
@@ -45289,13 +45301,8 @@
       "minutes": 1290,
       "company": "COLONIA TIROLESA S.R.L.",
       "cuit": "30-59873589-8",
-      "service_days_text": "LUNES A SÁBADOS",
+      "service_days_text": "SÁBADO",
       "service_days": [
-        1,
-        2,
-        3,
-        4,
-        5,
         6
       ],
       "modality": "REGULAR COMÚN",
@@ -45306,7 +45313,36 @@
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-fc1ec384af18-1",
+      "id": "svc-aa987c1718a9-1",
+      "corridor": "NORTE",
+      "line": "JESÚS MARÍA - COLONIA CAROYA",
+      "line_id": "norte-jesus-maria-colonia-caroya",
+      "nodes": [
+        "JESÚS MARÍA",
+        "COLONIA CAROYA"
+      ],
+      "direction": "I",
+      "time": "21:40",
+      "minutes": 1300,
+      "company": "COLONIA TIROLESA S.R.L.",
+      "cuit": "30-59873589-8",
+      "service_days_text": "LUNES A VIERNES",
+      "service_days": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "modality": "REGULAR COMÚN",
+      "route": "RP A174",
+      "source_file": "03-norte.pdf",
+      "source_page": 31,
+      "possible_duplicate": false,
+      "duplicate_ordinal": 1
+    },
+    {
+      "id": "svc-a5054b3ace3e-1",
       "corridor": "NORTE",
       "line": "JESÚS MARÍA - COLONIA CAROYA",
       "line_id": "norte-jesus-maria-colonia-caroya",
@@ -45319,9 +45355,13 @@
       "minutes": 1320,
       "company": "COLONIA TIROLESA S.R.L.",
       "cuit": "30-59873589-8",
-      "service_days_text": "DOMINGO",
+      "service_days_text": "LUNES A VIERNES",
       "service_days": [
-        7
+        1,
+        2,
+        3,
+        4,
+        5
       ],
       "modality": "REGULAR COMÚN",
       "route": "RP A174",
@@ -45331,7 +45371,7 @@
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-6d662cdbbab9-1",
+      "id": "svc-5e23eff0e8e2-1",
       "corridor": "NORTE",
       "line": "JESÚS MARÍA - COLONIA CAROYA",
       "line_id": "norte-jesus-maria-colonia-caroya",
@@ -45344,13 +45384,9 @@
       "minutes": 1330,
       "company": "COLONIA TIROLESA S.R.L.",
       "cuit": "30-59873589-8",
-      "service_days_text": "LUNES A VIERNES",
+      "service_days_text": "DOMINGO",
       "service_days": [
-        1,
-        2,
-        3,
-        4,
-        5
+        7
       ],
       "modality": "REGULAR COMÚN",
       "route": "RP A174",
@@ -45376,6 +45412,93 @@
       "service_days_text": "SÁBADO",
       "service_days": [
         6
+      ],
+      "modality": "REGULAR COMÚN",
+      "route": "RP A174",
+      "source_file": "03-norte.pdf",
+      "source_page": 31,
+      "possible_duplicate": false,
+      "duplicate_ordinal": 1
+    },
+    {
+      "id": "svc-2ef41a002358-1",
+      "corridor": "NORTE",
+      "line": "JESÚS MARÍA - COLONIA CAROYA",
+      "line_id": "norte-jesus-maria-colonia-caroya",
+      "nodes": [
+        "JESÚS MARÍA",
+        "COLONIA CAROYA"
+      ],
+      "direction": "V",
+      "time": "05:30",
+      "minutes": 330,
+      "company": "COLONIA TIROLESA S.R.L.",
+      "cuit": "30-59873589-8",
+      "service_days_text": "LUNES A VIERNES",
+      "service_days": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "modality": "REGULAR COMÚN",
+      "route": "RP A174",
+      "source_file": "03-norte.pdf",
+      "source_page": 31,
+      "possible_duplicate": false,
+      "duplicate_ordinal": 1
+    },
+    {
+      "id": "svc-9831b3d4c49e-1",
+      "corridor": "NORTE",
+      "line": "JESÚS MARÍA - COLONIA CAROYA",
+      "line_id": "norte-jesus-maria-colonia-caroya",
+      "nodes": [
+        "JESÚS MARÍA",
+        "COLONIA CAROYA"
+      ],
+      "direction": "V",
+      "time": "05:50",
+      "minutes": 350,
+      "company": "COLONIA TIROLESA S.R.L.",
+      "cuit": "30-59873589-8",
+      "service_days_text": "LUNES A VIERNES",
+      "service_days": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "modality": "REGULAR COMÚN",
+      "route": "RP A174",
+      "source_file": "03-norte.pdf",
+      "source_page": 31,
+      "possible_duplicate": false,
+      "duplicate_ordinal": 1
+    },
+    {
+      "id": "svc-93c6b5aafd14-1",
+      "corridor": "NORTE",
+      "line": "JESÚS MARÍA - COLONIA CAROYA",
+      "line_id": "norte-jesus-maria-colonia-caroya",
+      "nodes": [
+        "JESÚS MARÍA",
+        "COLONIA CAROYA"
+      ],
+      "direction": "V",
+      "time": "06:10",
+      "minutes": 370,
+      "company": "COLONIA TIROLESA S.R.L.",
+      "cuit": "30-59873589-8",
+      "service_days_text": "LUNES A VIERNES",
+      "service_days": [
+        1,
+        2,
+        3,
+        4,
+        5
       ],
       "modality": "REGULAR COMÚN",
       "route": "RP A174",
@@ -45443,7 +45566,7 @@
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-2ee68aa7d605-1",
+      "id": "svc-f9e6fefd8fc9-1",
       "corridor": "NORTE",
       "line": "JESÚS MARÍA - COLONIA CAROYA",
       "line_id": "norte-jesus-maria-colonia-caroya",
@@ -45452,8 +45575,8 @@
         "COLONIA CAROYA"
       ],
       "direction": "V",
-      "time": "06:45",
-      "minutes": 405,
+      "time": "06:40",
+      "minutes": 400,
       "company": "COLONIA TIROLESA S.R.L.",
       "cuit": "30-59873589-8",
       "service_days_text": "LUNES A VIERNES",
@@ -45496,12 +45619,12 @@
       "modality": "REGULAR DIFERENCIAL",
       "route": "POR RPA174",
       "source_file": "03-norte.pdf",
-      "source_page": 31,
+      "source_page": 32,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-143fcdec92ff-1",
+      "id": "svc-98bafd09241c-1",
       "corridor": "NORTE",
       "line": "JESÚS MARÍA - COLONIA CAROYA",
       "line_id": "norte-jesus-maria-colonia-caroya",
@@ -45510,8 +45633,8 @@
         "COLONIA CAROYA"
       ],
       "direction": "V",
-      "time": "07:15",
-      "minutes": 435,
+      "time": "07:10",
+      "minutes": 430,
       "company": "COLONIA TIROLESA S.R.L.",
       "cuit": "30-59873589-8",
       "service_days_text": "LUNES A VIERNES",
@@ -45525,12 +45648,12 @@
       "modality": "REGULAR COMÚN",
       "route": "RP A174",
       "source_file": "03-norte.pdf",
-      "source_page": 31,
-      "possible_duplicate": false,
+      "source_page": 32,
+      "possible_duplicate": true,
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-6b812349193d-1",
+      "id": "svc-98bafd09241c-2",
       "corridor": "NORTE",
       "line": "JESÚS MARÍA - COLONIA CAROYA",
       "line_id": "norte-jesus-maria-colonia-caroya",
@@ -45539,8 +45662,8 @@
         "COLONIA CAROYA"
       ],
       "direction": "V",
-      "time": "07:20",
-      "minutes": 440,
+      "time": "07:10",
+      "minutes": 430,
       "company": "COLONIA TIROLESA S.R.L.",
       "cuit": "30-59873589-8",
       "service_days_text": "LUNES A VIERNES",
@@ -45554,9 +45677,9 @@
       "modality": "REGULAR COMÚN",
       "route": "RP A174",
       "source_file": "03-norte.pdf",
-      "source_page": 31,
-      "possible_duplicate": false,
-      "duplicate_ordinal": 1
+      "source_page": 32,
+      "possible_duplicate": true,
+      "duplicate_ordinal": 2
     },
     {
       "id": "svc-7820e7557213-1",
@@ -45583,7 +45706,7 @@
       "modality": "REGULAR DIFERENCIAL",
       "route": "POR RPA174",
       "source_file": "03-norte.pdf",
-      "source_page": 31,
+      "source_page": 32,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -45613,7 +45736,7 @@
       "modality": "REGULAR COMÚN",
       "route": "RP A174",
       "source_file": "03-norte.pdf",
-      "source_page": 31,
+      "source_page": 32,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -45643,36 +45766,7 @@
       "modality": "REGULAR COMÚN",
       "route": "RP A174",
       "source_file": "03-norte.pdf",
-      "source_page": 31,
-      "possible_duplicate": false,
-      "duplicate_ordinal": 1
-    },
-    {
-      "id": "svc-2aa9beef0389-1",
-      "corridor": "NORTE",
-      "line": "JESÚS MARÍA - COLONIA CAROYA",
-      "line_id": "norte-jesus-maria-colonia-caroya",
-      "nodes": [
-        "JESÚS MARÍA",
-        "COLONIA CAROYA"
-      ],
-      "direction": "V",
-      "time": "08:30",
-      "minutes": 510,
-      "company": "COLONIA TIROLESA S.R.L.",
-      "cuit": "30-59873589-8",
-      "service_days_text": "LUNES A VIERNES",
-      "service_days": [
-        1,
-        2,
-        3,
-        4,
-        5
-      ],
-      "modality": "REGULAR COMÚN",
-      "route": "RP A174",
-      "source_file": "03-norte.pdf",
-      "source_page": 31,
+      "source_page": 32,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -45706,7 +45800,7 @@
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-fe908cefdbfb-1",
+      "id": "svc-e1f21e9d5eb0-1",
       "corridor": "NORTE",
       "line": "JESÚS MARÍA - COLONIA CAROYA",
       "line_id": "norte-jesus-maria-colonia-caroya",
@@ -45715,8 +45809,37 @@
         "COLONIA CAROYA"
       ],
       "direction": "V",
-      "time": "08:55",
-      "minutes": 535,
+      "time": "08:40",
+      "minutes": 520,
+      "company": "COLONIA TIROLESA S.R.L.",
+      "cuit": "30-59873589-8",
+      "service_days_text": "LUNES A VIERNES",
+      "service_days": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "modality": "REGULAR COMÚN",
+      "route": "RP A174",
+      "source_file": "03-norte.pdf",
+      "source_page": 32,
+      "possible_duplicate": false,
+      "duplicate_ordinal": 1
+    },
+    {
+      "id": "svc-11517cc3df08-1",
+      "corridor": "NORTE",
+      "line": "JESÚS MARÍA - COLONIA CAROYA",
+      "line_id": "norte-jesus-maria-colonia-caroya",
+      "nodes": [
+        "JESÚS MARÍA",
+        "COLONIA CAROYA"
+      ],
+      "direction": "V",
+      "time": "09:00",
+      "minutes": 540,
       "company": "COLONIA TIROLESA S.R.L.",
       "cuit": "30-59873589-8",
       "service_days_text": "LUNES A VIERNES",
@@ -45794,31 +45917,6 @@
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-07193f427ecf-1",
-      "corridor": "NORTE",
-      "line": "JESÚS MARÍA - COLONIA CAROYA",
-      "line_id": "norte-jesus-maria-colonia-caroya",
-      "nodes": [
-        "JESÚS MARÍA",
-        "COLONIA CAROYA"
-      ],
-      "direction": "V",
-      "time": "09:50",
-      "minutes": 590,
-      "company": "COLONIA TIROLESA S.R.L.",
-      "cuit": "30-59873589-8",
-      "service_days_text": "DOMINGO",
-      "service_days": [
-        7
-      ],
-      "modality": "REGULAR COMÚN",
-      "route": "RP A174",
-      "source_file": "03-norte.pdf",
-      "source_page": 32,
-      "possible_duplicate": false,
-      "duplicate_ordinal": 1
-    },
-    {
       "id": "svc-e5ba36da5e9f-1",
       "corridor": "NORTE",
       "line": "JESÚS MARÍA - COLONIA CAROYA",
@@ -45848,7 +45946,7 @@
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-e61242ecc9f1-1",
+      "id": "svc-307b4797a505-1",
       "corridor": "NORTE",
       "line": "JESÚS MARÍA - COLONIA CAROYA",
       "line_id": "norte-jesus-maria-colonia-caroya",
@@ -45857,17 +45955,13 @@
         "COLONIA CAROYA"
       ],
       "direction": "V",
-      "time": "10:30",
-      "minutes": 630,
+      "time": "10:20",
+      "minutes": 620,
       "company": "COLONIA TIROLESA S.R.L.",
       "cuit": "30-59873589-8",
-      "service_days_text": "LUNES A VIERNES",
+      "service_days_text": "DOMINGO",
       "service_days": [
-        1,
-        2,
-        3,
-        4,
-        5
+        7
       ],
       "modality": "REGULAR COMÚN",
       "route": "RP A174",
@@ -45908,7 +46002,7 @@
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-77422dcd1595-1",
+      "id": "svc-1de7a2f09ff3-1",
       "corridor": "NORTE",
       "line": "JESÚS MARÍA - COLONIA CAROYA",
       "line_id": "norte-jesus-maria-colonia-caroya",
@@ -45921,8 +46015,13 @@
       "minutes": 650,
       "company": "COLONIA TIROLESA S.R.L.",
       "cuit": "30-59873589-8",
-      "service_days_text": "SÁBADO",
+      "service_days_text": "LUNES A SÁBADOS",
       "service_days": [
+        1,
+        2,
+        3,
+        4,
+        5,
         6
       ],
       "modality": "REGULAR COMÚN",
@@ -45933,7 +46032,7 @@
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-f02de68b698f-1",
+      "id": "svc-b5957324db69-1",
       "corridor": "NORTE",
       "line": "JESÚS MARÍA - COLONIA CAROYA",
       "line_id": "norte-jesus-maria-colonia-caroya",
@@ -45942,8 +46041,8 @@
         "COLONIA CAROYA"
       ],
       "direction": "V",
-      "time": "11:00",
-      "minutes": 660,
+      "time": "10:55",
+      "minutes": 655,
       "company": "COLONIA TIROLESA S.R.L.",
       "cuit": "30-59873589-8",
       "service_days_text": "LUNES A VIERNES",
@@ -45962,7 +46061,7 @@
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-e05893d6b47e-1",
+      "id": "svc-d5b19de10bfc-1",
       "corridor": "NORTE",
       "line": "JESÚS MARÍA - COLONIA CAROYA",
       "line_id": "norte-jesus-maria-colonia-caroya",
@@ -45971,8 +46070,8 @@
         "COLONIA CAROYA"
       ],
       "direction": "V",
-      "time": "11:20",
-      "minutes": 680,
+      "time": "11:00",
+      "minutes": 660,
       "company": "COLONIA TIROLESA S.R.L.",
       "cuit": "30-59873589-8",
       "service_days_text": "LUNES A VIERNES Y DOMINGOS",
@@ -46079,7 +46178,36 @@
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-287728dc3925-1",
+      "id": "svc-7db921cd493f-1",
+      "corridor": "NORTE",
+      "line": "JESÚS MARÍA - COLONIA CAROYA",
+      "line_id": "norte-jesus-maria-colonia-caroya",
+      "nodes": [
+        "JESÚS MARÍA",
+        "COLONIA CAROYA"
+      ],
+      "direction": "V",
+      "time": "12:10",
+      "minutes": 730,
+      "company": "COLONIA TIROLESA S.R.L.",
+      "cuit": "30-59873589-8",
+      "service_days_text": "LUNES A VIERNES",
+      "service_days": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "modality": "REGULAR COMÚN",
+      "route": "RP A174",
+      "source_file": "03-norte.pdf",
+      "source_page": 32,
+      "possible_duplicate": false,
+      "duplicate_ordinal": 1
+    },
+    {
+      "id": "svc-e6e746e49ae9-1",
       "corridor": "NORTE",
       "line": "JESÚS MARÍA - COLONIA CAROYA",
       "line_id": "norte-jesus-maria-colonia-caroya",
@@ -46092,19 +46220,15 @@
       "minutes": 740,
       "company": "COLONIA TIROLESA S.R.L.",
       "cuit": "30-59873589-8",
-      "service_days_text": "LUNES A SÁBADOS",
+      "service_days_text": "FINES DE SEMANA",
       "service_days": [
-        1,
-        2,
-        3,
-        4,
-        5,
-        6
+        6,
+        7
       ],
       "modality": "REGULAR COMÚN",
       "route": "RP A174",
       "source_file": "03-norte.pdf",
-      "source_page": 32,
+      "source_page": 33,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -46133,7 +46257,7 @@
       "modality": "REGULAR COMÚN",
       "route": "RP A174",
       "source_file": "03-norte.pdf",
-      "source_page": 32,
+      "source_page": 33,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -46162,7 +46286,7 @@
       "modality": "REGULAR DIFERENCIAL",
       "route": "POR RPA174",
       "source_file": "03-norte.pdf",
-      "source_page": 32,
+      "source_page": 33,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -46191,7 +46315,36 @@
       "modality": "REGULAR COMÚN",
       "route": "RP A174",
       "source_file": "03-norte.pdf",
-      "source_page": 32,
+      "source_page": 33,
+      "possible_duplicate": false,
+      "duplicate_ordinal": 1
+    },
+    {
+      "id": "svc-db8681609b61-1",
+      "corridor": "NORTE",
+      "line": "JESÚS MARÍA - COLONIA CAROYA",
+      "line_id": "norte-jesus-maria-colonia-caroya",
+      "nodes": [
+        "JESÚS MARÍA",
+        "COLONIA CAROYA"
+      ],
+      "direction": "V",
+      "time": "13:10",
+      "minutes": 790,
+      "company": "COLONIA TIROLESA S.R.L.",
+      "cuit": "30-59873589-8",
+      "service_days_text": "LUNES A VIERNES",
+      "service_days": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "modality": "REGULAR COMÚN",
+      "route": "RP A174",
+      "source_file": "03-norte.pdf",
+      "source_page": 33,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -46220,7 +46373,7 @@
       "modality": "REGULAR COMÚN",
       "route": "RP A174",
       "source_file": "03-norte.pdf",
-      "source_page": 32,
+      "source_page": 33,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -46249,7 +46402,7 @@
       "modality": "REGULAR COMÚN",
       "route": "RP A174",
       "source_file": "03-norte.pdf",
-      "source_page": 32,
+      "source_page": 33,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -46278,7 +46431,7 @@
       "modality": "REGULAR DIFERENCIAL",
       "route": "POR RPA174",
       "source_file": "03-norte.pdf",
-      "source_page": 32,
+      "source_page": 33,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -46337,35 +46490,6 @@
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-b3110d757f28-1",
-      "corridor": "NORTE",
-      "line": "JESÚS MARÍA - COLONIA CAROYA",
-      "line_id": "norte-jesus-maria-colonia-caroya",
-      "nodes": [
-        "JESÚS MARÍA",
-        "COLONIA CAROYA"
-      ],
-      "direction": "V",
-      "time": "14:20",
-      "minutes": 860,
-      "company": "COLONIA TIROLESA S.R.L.",
-      "cuit": "30-59873589-8",
-      "service_days_text": "LUNES A VIERNES",
-      "service_days": [
-        1,
-        2,
-        3,
-        4,
-        5
-      ],
-      "modality": "REGULAR COMÚN",
-      "route": "RP A174",
-      "source_file": "03-norte.pdf",
-      "source_page": 33,
-      "possible_duplicate": false,
-      "duplicate_ordinal": 1
-    },
-    {
       "id": "svc-069c498e1071-1",
       "corridor": "NORTE",
       "line": "JESÚS MARÍA - COLONIA CAROYA",
@@ -46391,6 +46515,60 @@
       ],
       "modality": "REGULAR DIFERENCIAL",
       "route": "POR RPA174",
+      "source_file": "03-norte.pdf",
+      "source_page": 33,
+      "possible_duplicate": false,
+      "duplicate_ordinal": 1
+    },
+    {
+      "id": "svc-e07c32ed3198-1",
+      "corridor": "NORTE",
+      "line": "JESÚS MARÍA - COLONIA CAROYA",
+      "line_id": "norte-jesus-maria-colonia-caroya",
+      "nodes": [
+        "JESÚS MARÍA",
+        "COLONIA CAROYA"
+      ],
+      "direction": "V",
+      "time": "14:40",
+      "minutes": 880,
+      "company": "COLONIA TIROLESA S.R.L.",
+      "cuit": "30-59873589-8",
+      "service_days_text": "LUNES A VIERNES",
+      "service_days": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "modality": "REGULAR COMÚN",
+      "route": "RP A174",
+      "source_file": "03-norte.pdf",
+      "source_page": 33,
+      "possible_duplicate": false,
+      "duplicate_ordinal": 1
+    },
+    {
+      "id": "svc-bd589c34278c-1",
+      "corridor": "NORTE",
+      "line": "JESÚS MARÍA - COLONIA CAROYA",
+      "line_id": "norte-jesus-maria-colonia-caroya",
+      "nodes": [
+        "JESÚS MARÍA",
+        "COLONIA CAROYA"
+      ],
+      "direction": "V",
+      "time": "14:50",
+      "minutes": 890,
+      "company": "COLONIA TIROLESA S.R.L.",
+      "cuit": "30-59873589-8",
+      "service_days_text": "DOMINGO",
+      "service_days": [
+        7
+      ],
+      "modality": "REGULAR COMÚN",
+      "route": "RP A174",
       "source_file": "03-norte.pdf",
       "source_page": 33,
       "possible_duplicate": false,
@@ -46426,7 +46604,7 @@
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-1de059a510c1-1",
+      "id": "svc-bc7101cf6411-1",
       "corridor": "NORTE",
       "line": "JESÚS MARÍA - COLONIA CAROYA",
       "line_id": "norte-jesus-maria-colonia-caroya",
@@ -46439,15 +46617,38 @@
       "minutes": 920,
       "company": "COLONIA TIROLESA S.R.L.",
       "cuit": "30-59873589-8",
-      "service_days_text": "DIARIO",
+      "service_days_text": "SÁBADO",
+      "service_days": [
+        6
+      ],
+      "modality": "REGULAR COMÚN",
+      "route": "RP A174",
+      "source_file": "03-norte.pdf",
+      "source_page": 33,
+      "possible_duplicate": false,
+      "duplicate_ordinal": 1
+    },
+    {
+      "id": "svc-e8345f97fbe0-1",
+      "corridor": "NORTE",
+      "line": "JESÚS MARÍA - COLONIA CAROYA",
+      "line_id": "norte-jesus-maria-colonia-caroya",
+      "nodes": [
+        "JESÚS MARÍA",
+        "COLONIA CAROYA"
+      ],
+      "direction": "V",
+      "time": "15:30",
+      "minutes": 930,
+      "company": "COLONIA TIROLESA S.R.L.",
+      "cuit": "30-59873589-8",
+      "service_days_text": "LUNES A VIERNES",
       "service_days": [
         1,
         2,
         3,
         4,
-        5,
-        6,
-        7
+        5
       ],
       "modality": "REGULAR COMÚN",
       "route": "RP A174",
@@ -46486,65 +46687,7 @@
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-fbaa9a823864-1",
-      "corridor": "NORTE",
-      "line": "JESÚS MARÍA - COLONIA CAROYA",
-      "line_id": "norte-jesus-maria-colonia-caroya",
-      "nodes": [
-        "JESÚS MARÍA",
-        "COLONIA CAROYA"
-      ],
-      "direction": "V",
-      "time": "15:50",
-      "minutes": 950,
-      "company": "COLONIA TIROLESA S.R.L.",
-      "cuit": "30-59873589-8",
-      "service_days_text": "LUNES A VIERNES",
-      "service_days": [
-        1,
-        2,
-        3,
-        4,
-        5
-      ],
-      "modality": "REGULAR COMÚN",
-      "route": "RP A174",
-      "source_file": "03-norte.pdf",
-      "source_page": 33,
-      "possible_duplicate": false,
-      "duplicate_ordinal": 1
-    },
-    {
-      "id": "svc-b8b36419c41d-1",
-      "corridor": "NORTE",
-      "line": "JESÚS MARÍA - COLONIA CAROYA",
-      "line_id": "norte-jesus-maria-colonia-caroya",
-      "nodes": [
-        "JESÚS MARÍA",
-        "COLONIA CAROYA"
-      ],
-      "direction": "V",
-      "time": "16:15",
-      "minutes": 975,
-      "company": "COLONIA TIROLESA S.R.L.",
-      "cuit": "30-59873589-8",
-      "service_days_text": "LUNES A VIERNES",
-      "service_days": [
-        1,
-        2,
-        3,
-        4,
-        5
-      ],
-      "modality": "REGULAR COMÚN",
-      "route": "RP A174",
-      "source_file": "03-norte.pdf",
-      "source_page": 33,
-      "possible_duplicate": false,
-      "duplicate_ordinal": 1
-    },
-    {
-      "id": "svc-20a2ebad8b19-1",
+      "id": "svc-1300e648b716-1",
       "corridor": "NORTE",
       "line": "JESÚS MARÍA - COLONIA CAROYA",
       "line_id": "norte-jesus-maria-colonia-caroya",
@@ -46557,13 +46700,9 @@
       "minutes": 980,
       "company": "COLONIA TIROLESA S.R.L.",
       "cuit": "30-59873589-8",
-      "service_days_text": "LUNES A VIERNES",
+      "service_days_text": "DOMINGO",
       "service_days": [
-        1,
-        2,
-        3,
-        4,
-        5
+        7
       ],
       "modality": "REGULAR COMÚN",
       "route": "RP A174",
@@ -46602,7 +46741,7 @@
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-99ad7bce1e04-1",
+      "id": "svc-e95492a43e5f-1",
       "corridor": "NORTE",
       "line": "JESÚS MARÍA - COLONIA CAROYA",
       "line_id": "norte-jesus-maria-colonia-caroya",
@@ -46615,38 +46754,14 @@
       "minutes": 1010,
       "company": "COLONIA TIROLESA S.R.L.",
       "cuit": "30-59873589-8",
-      "service_days_text": "SÁBADO",
-      "service_days": [
-        6
-      ],
-      "modality": "REGULAR COMÚN",
-      "route": "RP A174",
-      "source_file": "03-norte.pdf",
-      "source_page": 33,
-      "possible_duplicate": false,
-      "duplicate_ordinal": 1
-    },
-    {
-      "id": "svc-eae9c3a2a721-1",
-      "corridor": "NORTE",
-      "line": "JESÚS MARÍA - COLONIA CAROYA",
-      "line_id": "norte-jesus-maria-colonia-caroya",
-      "nodes": [
-        "JESÚS MARÍA",
-        "COLONIA CAROYA"
-      ],
-      "direction": "V",
-      "time": "17:00",
-      "minutes": 1020,
-      "company": "COLONIA TIROLESA S.R.L.",
-      "cuit": "30-59873589-8",
-      "service_days_text": "LUNES A VIERNES",
+      "service_days_text": "LUNES A SÁBADOS",
       "service_days": [
         1,
         2,
         3,
         4,
-        5
+        5,
+        6
       ],
       "modality": "REGULAR COMÚN",
       "route": "RP A174",
@@ -46685,36 +46800,6 @@
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-2fc6b47f7a1f-1",
-      "corridor": "NORTE",
-      "line": "JESÚS MARÍA - COLONIA CAROYA",
-      "line_id": "norte-jesus-maria-colonia-caroya",
-      "nodes": [
-        "JESÚS MARÍA",
-        "COLONIA CAROYA"
-      ],
-      "direction": "V",
-      "time": "17:20",
-      "minutes": 1040,
-      "company": "COLONIA TIROLESA S.R.L.",
-      "cuit": "30-59873589-8",
-      "service_days_text": "LUNES A VIERNES Y DOMINGOS",
-      "service_days": [
-        1,
-        2,
-        3,
-        4,
-        5,
-        7
-      ],
-      "modality": "REGULAR COMÚN",
-      "route": "RP A174",
-      "source_file": "03-norte.pdf",
-      "source_page": 33,
-      "possible_duplicate": false,
-      "duplicate_ordinal": 1
-    },
-    {
       "id": "svc-53c337336ee8-1",
       "corridor": "NORTE",
       "line": "JESÚS MARÍA - COLONIA CAROYA",
@@ -46739,7 +46824,32 @@
       "modality": "REGULAR DIFERENCIAL",
       "route": "POR RPA174",
       "source_file": "03-norte.pdf",
-      "source_page": 33,
+      "source_page": 34,
+      "possible_duplicate": false,
+      "duplicate_ordinal": 1
+    },
+    {
+      "id": "svc-a9aa10a2cb0e-1",
+      "corridor": "NORTE",
+      "line": "JESÚS MARÍA - COLONIA CAROYA",
+      "line_id": "norte-jesus-maria-colonia-caroya",
+      "nodes": [
+        "JESÚS MARÍA",
+        "COLONIA CAROYA"
+      ],
+      "direction": "V",
+      "time": "17:50",
+      "minutes": 1070,
+      "company": "COLONIA TIROLESA S.R.L.",
+      "cuit": "30-59873589-8",
+      "service_days_text": "DOMINGO",
+      "service_days": [
+        7
+      ],
+      "modality": "REGULAR COMÚN",
+      "route": "RP A174",
+      "source_file": "03-norte.pdf",
+      "source_page": 34,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -46768,12 +46878,12 @@
       "modality": "REGULAR COMÚN",
       "route": "RP A174",
       "source_file": "03-norte.pdf",
-      "source_page": 33,
+      "source_page": 34,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-b922f878a661-1",
+      "id": "svc-ceeabdc0bb4a-1",
       "corridor": "NORTE",
       "line": "JESÚS MARÍA - COLONIA CAROYA",
       "line_id": "norte-jesus-maria-colonia-caroya",
@@ -46782,8 +46892,8 @@
         "COLONIA CAROYA"
       ],
       "direction": "V",
-      "time": "18:20",
-      "minutes": 1100,
+      "time": "18:10",
+      "minutes": 1090,
       "company": "COLONIA TIROLESA S.R.L.",
       "cuit": "30-59873589-8",
       "service_days_text": "LUNES A SÁBADOS",
@@ -46798,7 +46908,32 @@
       "modality": "REGULAR COMÚN",
       "route": "RP A174",
       "source_file": "03-norte.pdf",
-      "source_page": 33,
+      "source_page": 34,
+      "possible_duplicate": false,
+      "duplicate_ordinal": 1
+    },
+    {
+      "id": "svc-f8e3334dccbb-1",
+      "corridor": "NORTE",
+      "line": "JESÚS MARÍA - COLONIA CAROYA",
+      "line_id": "norte-jesus-maria-colonia-caroya",
+      "nodes": [
+        "JESÚS MARÍA",
+        "COLONIA CAROYA"
+      ],
+      "direction": "V",
+      "time": "18:20",
+      "minutes": 1100,
+      "company": "COLONIA TIROLESA S.R.L.",
+      "cuit": "30-59873589-8",
+      "service_days_text": "SÁBADO",
+      "service_days": [
+        6
+      ],
+      "modality": "REGULAR COMÚN",
+      "route": "RP A174",
+      "source_file": "03-norte.pdf",
+      "source_page": 34,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -46829,65 +46964,7 @@
       "modality": "REGULAR DIFERENCIAL",
       "route": "POR RPA174",
       "source_file": "03-norte.pdf",
-      "source_page": 33,
-      "possible_duplicate": false,
-      "duplicate_ordinal": 1
-    },
-    {
-      "id": "svc-a0048e5d2168-1",
-      "corridor": "NORTE",
-      "line": "JESÚS MARÍA - COLONIA CAROYA",
-      "line_id": "norte-jesus-maria-colonia-caroya",
-      "nodes": [
-        "JESÚS MARÍA",
-        "COLONIA CAROYA"
-      ],
-      "direction": "V",
-      "time": "18:45",
-      "minutes": 1125,
-      "company": "COLONIA TIROLESA S.R.L.",
-      "cuit": "30-59873589-8",
-      "service_days_text": "LUNES A VIERNES",
-      "service_days": [
-        1,
-        2,
-        3,
-        4,
-        5
-      ],
-      "modality": "REGULAR COMÚN",
-      "route": "RP A174",
-      "source_file": "03-norte.pdf",
-      "source_page": 33,
-      "possible_duplicate": false,
-      "duplicate_ordinal": 1
-    },
-    {
-      "id": "svc-30290f165a0f-1",
-      "corridor": "NORTE",
-      "line": "JESÚS MARÍA - COLONIA CAROYA",
-      "line_id": "norte-jesus-maria-colonia-caroya",
-      "nodes": [
-        "JESÚS MARÍA",
-        "COLONIA CAROYA"
-      ],
-      "direction": "V",
-      "time": "19:00",
-      "minutes": 1140,
-      "company": "COLONIA TIROLESA S.R.L.",
-      "cuit": "30-59873589-8",
-      "service_days_text": "LUNES A VIERNES",
-      "service_days": [
-        1,
-        2,
-        3,
-        4,
-        5
-      ],
-      "modality": "REGULAR COMÚN",
-      "route": "RP A174",
-      "source_file": "03-norte.pdf",
-      "source_page": 33,
+      "source_page": 34,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -47005,7 +47082,7 @@
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-8f0bd669a61a-1",
+      "id": "svc-abf1be51a29c-1",
       "corridor": "NORTE",
       "line": "JESÚS MARÍA - COLONIA CAROYA",
       "line_id": "norte-jesus-maria-colonia-caroya",
@@ -47018,42 +47095,15 @@
       "minutes": 1200,
       "company": "COLONIA TIROLESA S.R.L.",
       "cuit": "30-59873589-8",
-      "service_days_text": "LUNES A VIERNES",
+      "service_days_text": "DIARIO",
       "service_days": [
         1,
         2,
         3,
         4,
-        5
-      ],
-      "modality": "REGULAR COMÚN",
-      "route": "RP A174",
-      "source_file": "03-norte.pdf",
-      "source_page": 34,
-      "possible_duplicate": false,
-      "duplicate_ordinal": 1
-    },
-    {
-      "id": "svc-d02a4b3899ee-1",
-      "corridor": "NORTE",
-      "line": "JESÚS MARÍA - COLONIA CAROYA",
-      "line_id": "norte-jesus-maria-colonia-caroya",
-      "nodes": [
-        "JESÚS MARÍA",
-        "COLONIA CAROYA"
-      ],
-      "direction": "V",
-      "time": "20:20",
-      "minutes": 1220,
-      "company": "COLONIA TIROLESA S.R.L.",
-      "cuit": "30-59873589-8",
-      "service_days_text": "LUNES A VIERNES",
-      "service_days": [
-        1,
-        2,
-        3,
-        4,
-        5
+        5,
+        6,
+        7
       ],
       "modality": "REGULAR COMÚN",
       "route": "RP A174",
@@ -47092,7 +47142,7 @@
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-5dbbc89cbcf0-1",
+      "id": "svc-fdbe0ab5aef3-1",
       "corridor": "NORTE",
       "line": "JESÚS MARÍA - COLONIA CAROYA",
       "line_id": "norte-jesus-maria-colonia-caroya",
@@ -47105,13 +47155,8 @@
       "minutes": 1280,
       "company": "COLONIA TIROLESA S.R.L.",
       "cuit": "30-59873589-8",
-      "service_days_text": "DIARIO",
+      "service_days_text": "FINES DE SEMANA",
       "service_days": [
-        1,
-        2,
-        3,
-        4,
-        5,
         6,
         7
       ],
@@ -47181,7 +47226,7 @@
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-b0c37db3dc8d-1",
+      "id": "svc-1d8abc9deb2e-1",
       "corridor": "NORTE",
       "line": "JESÚS MARÍA - COLONIA CAROYA",
       "line_id": "norte-jesus-maria-colonia-caroya",
@@ -47194,13 +47239,8 @@
       "minutes": 1370,
       "company": "COLONIA TIROLESA S.R.L.",
       "cuit": "30-59873589-8",
-      "service_days_text": "LUNES A SÁBADOS",
+      "service_days_text": "SÁBADO",
       "service_days": [
-        1,
-        2,
-        3,
-        4,
-        5,
         6
       ],
       "modality": "REGULAR COMÚN",
@@ -47211,7 +47251,7 @@
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-7b125c58d57d-1",
+      "id": "svc-d647d76f8791-1",
       "corridor": "NORTE",
       "line": "JESÚS MARÍA - COLONIA CAROYA",
       "line_id": "norte-jesus-maria-colonia-caroya",
@@ -47220,8 +47260,37 @@
         "COLONIA CAROYA"
       ],
       "direction": "V",
-      "time": "23:20",
-      "minutes": 1400,
+      "time": "23:00",
+      "minutes": 1380,
+      "company": "COLONIA TIROLESA S.R.L.",
+      "cuit": "30-59873589-8",
+      "service_days_text": "LUNES A VIERNES",
+      "service_days": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "modality": "REGULAR COMÚN",
+      "route": "RP A174",
+      "source_file": "03-norte.pdf",
+      "source_page": 34,
+      "possible_duplicate": false,
+      "duplicate_ordinal": 1
+    },
+    {
+      "id": "svc-57649c088d7d-1",
+      "corridor": "NORTE",
+      "line": "JESÚS MARÍA - COLONIA CAROYA",
+      "line_id": "norte-jesus-maria-colonia-caroya",
+      "nodes": [
+        "JESÚS MARÍA",
+        "COLONIA CAROYA"
+      ],
+      "direction": "V",
+      "time": "23:30",
+      "minutes": 1410,
       "company": "COLONIA TIROLESA S.R.L.",
       "cuit": "30-59873589-8",
       "service_days_text": "DOMINGO",
@@ -47334,7 +47403,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR LA TOMA",
       "source_file": "03-norte.pdf",
-      "source_page": 34,
+      "source_page": 35,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -47363,7 +47432,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR GUTENBERG",
       "source_file": "03-norte.pdf",
-      "source_page": 34,
+      "source_page": 35,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -47392,7 +47461,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR GUTENBERG",
       "source_file": "03-norte.pdf",
-      "source_page": 34,
+      "source_page": 35,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },

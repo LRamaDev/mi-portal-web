@@ -27,7 +27,7 @@
     {
       "publication_date": "2026-08-28",
       "valid_from": "2026-08-28",
-      "valid_until": null,
+      "valid_until": "2026-09-17",
       "services": 5504,
       "corridors": 8,
       "source_dates": {
@@ -54,8 +54,39 @@
         "added": 0,
         "removed": 2
       }
+    },
+    {
+      "publication_date": "2026-09-18",
+      "valid_from": "2026-09-18",
+      "valid_until": null,
+      "services": 5510,
+      "corridors": 8,
+      "source_dates": {
+        "ESTE-SUDESTE": "2026-08-28",
+        "NORESTE": "2026-08-21",
+        "NORTE": "2026-09-18",
+        "PUNILLA": "2026-08-21",
+        "RUTA 5": "2026-08-21",
+        "SIERRAS CHICAS": "2026-08-21",
+        "SUR": "2026-08-21",
+        "TRASLASIERRA": "2026-08-21"
+      },
+      "snapshot": "backups/horarios-2026-09-18.json.gz",
+      "snapshot_sha256": "b42bb3e95f1bbd507e0fa3a9067eb2b8bae5a07f5713767f14e0ee31a8bc2d7a",
+      "content_sha256": "59a5254103a92068db0c0fb25df3dd9322b86d73eac20a165c15d0d44f6c2432",
+      "compressed_bytes": 269270,
+      "changes": "cambios/cambios-2026-09-18.json",
+      "changes_sha256": "89c8c5c4c85e4335d54df39460c9b3d616bbd42c4f0d82eaa3182aedfb23c3e9",
+      "summary": {
+        "previous_services": 5504,
+        "current_services": 5510,
+        "unchanged": 5404,
+        "modified": 91,
+        "added": 15,
+        "removed": 9
+      }
     }
   ],
   "first_available_date": "2026-08-21",
-  "latest_publication_date": "2026-08-28"
+  "latest_publication_date": "2026-09-18"
 }
