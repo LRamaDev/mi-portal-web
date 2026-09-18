@@ -552,6 +552,12 @@
       "source_name": "La Granja",
       "department": "Colón"
     },
+    "LA JUANITA": {
+      "lat": -31.493041079817747,
+      "lon": -64.45523762038567,
+      "source": "Dato aportado por Lea el 2026-09-02",
+      "source_name": "LA JUANITA"
+    },
     "LA LAGUNA": {
       "lat": -32.8025264638807,
       "lon": -63.2470933409626,
@@ -838,6 +844,12 @@
       "source": "Georef Argentina · localidades",
       "source_name": "Pilar",
       "department": "Río Segundo"
+    },
+    "PRIMERO DE MAYO": {
+      "lat": -31.43790754895127,
+      "lon": -64.31412505844993,
+      "source": "Dato aportado por Lea el 2026-09-02",
+      "source_name": "PRIMERO DE MAYO"
     },
     "PUESTO DEL GALLO": {
       "lat": -30.6101805626065,
@@ -1230,18 +1242,6 @@
       "source": "Georef Argentina · asentamientos",
       "source_name": "Yocsina",
       "department": "Santa María"
-    },
-    "PRIMERO DE MAYO": {
-      "lat": -31.43790754895127,
-      "lon": -64.31412505844993,
-      "source": "Dato aportado por Lea el 2026-09-02",
-      "source_name": "PRIMERO DE MAYO"
-    },
-    "LA JUANITA": {
-      "lat": -31.493041079817747,
-      "lon": -64.45523762038567,
-      "source": "Dato aportado por Lea el 2026-09-02",
-      "source_name": "LA JUANITA"
     }
   },
   "unresolved": [

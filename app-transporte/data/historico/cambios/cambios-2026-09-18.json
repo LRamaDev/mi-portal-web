@@ -1,0 +1,6841 @@
+{
+  "schema_version": 1,
+  "previous_publication_date": "2026-08-28",
+  "publication_date": "2026-09-18",
+  "summary": {
+    "previous_services": 5504,
+    "current_services": 5510,
+    "unchanged": 5404,
+    "modified": 91,
+    "added": 15,
+    "removed": 9
+  },
+  "corridors": [
+    {
+      "corridor": "ESTE-SUDESTE",
+      "previous": 535,
+      "current": 535,
+      "difference": 0
+    },
+    {
+      "corridor": "NORESTE",
+      "previous": 407,
+      "current": 407,
+      "difference": 0
+    },
+    {
+      "corridor": "NORTE",
+      "previous": 711,
+      "current": 717,
+      "difference": 6
+    },
+    {
+      "corridor": "PUNILLA",
+      "previous": 1431,
+      "current": 1431,
+      "difference": 0
+    },
+    {
+      "corridor": "RUTA 5",
+      "previous": 555,
+      "current": 555,
+      "difference": 0
+    },
+    {
+      "corridor": "SIERRAS CHICAS",
+      "previous": 1167,
+      "current": 1167,
+      "difference": 0
+    },
+    {
+      "corridor": "SUR",
+      "previous": 480,
+      "current": 480,
+      "difference": 0
+    },
+    {
+      "corridor": "TRASLASIERRA",
+      "previous": 218,
+      "current": 218,
+      "difference": 0
+    }
+  ],
+  "new_lines": [],
+  "removed_lines": [],
+  "geography": {
+    "located": 176,
+    "unresolved": 7,
+    "newly_unresolved": []
+  },
+  "modified": [
+    {
+      "id": "chg-00404b5f36a82f6d",
+      "fields": {
+        "time": {
+          "before": "05:00",
+          "after": "04:50"
+        }
+      },
+      "before": {
+        "corridor": "NORTE",
+        "line": "CÓRDOBA - COLONIA CAROYA",
+        "line_id": "norte-cordoba-colonia-caroya",
+        "nodes": [
+          "CÓRDOBA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "I",
+        "time": "05:00",
+        "minutes": 300,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 1
+      },
+      "after": {
+        "corridor": "NORTE",
+        "line": "CÓRDOBA - COLONIA CAROYA",
+        "line_id": "norte-cordoba-colonia-caroya",
+        "nodes": [
+          "CÓRDOBA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "I",
+        "time": "04:50",
+        "minutes": 290,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 1
+      }
+    },
+    {
+      "id": "chg-25bb876cc467ca54",
+      "fields": {
+        "time": {
+          "before": "06:00",
+          "after": "05:50"
+        }
+      },
+      "before": {
+        "corridor": "NORTE",
+        "line": "CÓRDOBA - COLONIA CAROYA",
+        "line_id": "norte-cordoba-colonia-caroya",
+        "nodes": [
+          "CÓRDOBA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "I",
+        "time": "06:00",
+        "minutes": 360,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 1
+      },
+      "after": {
+        "corridor": "NORTE",
+        "line": "CÓRDOBA - COLONIA CAROYA",
+        "line_id": "norte-cordoba-colonia-caroya",
+        "nodes": [
+          "CÓRDOBA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "I",
+        "time": "05:50",
+        "minutes": 350,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 1
+      }
+    },
+    {
+      "id": "chg-95a60772fa95654c",
+      "fields": {
+        "time": {
+          "before": "08:30",
+          "after": "09:00"
+        }
+      },
+      "before": {
+        "corridor": "NORTE",
+        "line": "CÓRDOBA - COLONIA CAROYA",
+        "line_id": "norte-cordoba-colonia-caroya",
+        "nodes": [
+          "CÓRDOBA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "I",
+        "time": "08:30",
+        "minutes": 510,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "DOMINGO",
+        "service_days": [
+          7
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 1
+      },
+      "after": {
+        "corridor": "NORTE",
+        "line": "CÓRDOBA - COLONIA CAROYA",
+        "line_id": "norte-cordoba-colonia-caroya",
+        "nodes": [
+          "CÓRDOBA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "I",
+        "time": "09:00",
+        "minutes": 540,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "DOMINGO",
+        "service_days": [
+          7
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 1
+      }
+    },
+    {
+      "id": "chg-11190b547b37b60b",
+      "fields": {
+        "time": {
+          "before": "09:10",
+          "after": "10:50"
+        }
+      },
+      "before": {
+        "corridor": "NORTE",
+        "line": "CÓRDOBA - COLONIA CAROYA",
+        "line_id": "norte-cordoba-colonia-caroya",
+        "nodes": [
+          "CÓRDOBA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "I",
+        "time": "09:10",
+        "minutes": 550,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 1
+      },
+      "after": {
+        "corridor": "NORTE",
+        "line": "CÓRDOBA - COLONIA CAROYA",
+        "line_id": "norte-cordoba-colonia-caroya",
+        "nodes": [
+          "CÓRDOBA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "I",
+        "time": "10:50",
+        "minutes": 650,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 2
+      }
+    },
+    {
+      "id": "chg-168ffd0c344a80c2",
+      "fields": {
+        "time": {
+          "before": "09:30",
+          "after": "11:00"
+        },
+        "service_days": {
+          "before": [
+            6
+          ],
+          "after": [
+            6,
+            7
+          ]
+        },
+        "service_days_text": {
+          "before": "SÁBADO",
+          "after": "FINES DE SEMANA"
+        }
+      },
+      "before": {
+        "corridor": "NORTE",
+        "line": "CÓRDOBA - COLONIA CAROYA",
+        "line_id": "norte-cordoba-colonia-caroya",
+        "nodes": [
+          "CÓRDOBA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "I",
+        "time": "09:30",
+        "minutes": 570,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "SÁBADO",
+        "service_days": [
+          6
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 2
+      },
+      "after": {
+        "corridor": "NORTE",
+        "line": "CÓRDOBA - COLONIA CAROYA",
+        "line_id": "norte-cordoba-colonia-caroya",
+        "nodes": [
+          "CÓRDOBA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "I",
+        "time": "11:00",
+        "minutes": 660,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "FINES DE SEMANA",
+        "service_days": [
+          6,
+          7
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 2
+      }
+    },
+    {
+      "id": "chg-1c963da2aad88319",
+      "fields": {
+        "time": {
+          "before": "10:00",
+          "after": "11:50"
+        },
+        "service_days": {
+          "before": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            7
+          ],
+          "after": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        },
+        "service_days_text": {
+          "before": "LUNES A VIERNES Y DOMINGOS",
+          "after": "LUNES A VIERNES"
+        }
+      },
+      "before": {
+        "corridor": "NORTE",
+        "line": "CÓRDOBA - COLONIA CAROYA",
+        "line_id": "norte-cordoba-colonia-caroya",
+        "nodes": [
+          "CÓRDOBA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "I",
+        "time": "10:00",
+        "minutes": 600,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A VIERNES Y DOMINGOS",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          7
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 2
+      },
+      "after": {
+        "corridor": "NORTE",
+        "line": "CÓRDOBA - COLONIA CAROYA",
+        "line_id": "norte-cordoba-colonia-caroya",
+        "nodes": [
+          "CÓRDOBA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "I",
+        "time": "11:50",
+        "minutes": 710,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 2
+      }
+    },
+    {
+      "id": "chg-ad3f62dcaedc7915",
+      "fields": {
+        "time": {
+          "before": "11:00",
+          "after": "14:00"
+        },
+        "service_days": {
+          "before": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "after": [
+            6
+          ]
+        },
+        "service_days_text": {
+          "before": "LUNES A SÁBADOS",
+          "after": "SÁBADO"
+        }
+      },
+      "before": {
+        "corridor": "NORTE",
+        "line": "CÓRDOBA - COLONIA CAROYA",
+        "line_id": "norte-cordoba-colonia-caroya",
+        "nodes": [
+          "CÓRDOBA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "I",
+        "time": "11:00",
+        "minutes": 660,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A SÁBADOS",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 2
+      },
+      "after": {
+        "corridor": "NORTE",
+        "line": "CÓRDOBA - COLONIA CAROYA",
+        "line_id": "norte-cordoba-colonia-caroya",
+        "nodes": [
+          "CÓRDOBA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "I",
+        "time": "14:00",
+        "minutes": 840,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "SÁBADO",
+        "service_days": [
+          6
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 2
+      }
+    },
+    {
+      "id": "chg-93899809315f882d",
+      "fields": {
+        "time": {
+          "before": "12:00",
+          "after": "14:10"
+        },
+        "service_days": {
+          "before": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            7
+          ],
+          "after": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        },
+        "service_days_text": {
+          "before": "LUNES A VIERNES Y DOMINGOS",
+          "after": "LUNES A VIERNES"
+        }
+      },
+      "before": {
+        "corridor": "NORTE",
+        "line": "CÓRDOBA - COLONIA CAROYA",
+        "line_id": "norte-cordoba-colonia-caroya",
+        "nodes": [
+          "CÓRDOBA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "I",
+        "time": "12:00",
+        "minutes": 720,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A VIERNES Y DOMINGOS",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          7
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 2
+      },
+      "after": {
+        "corridor": "NORTE",
+        "line": "CÓRDOBA - COLONIA CAROYA",
+        "line_id": "norte-cordoba-colonia-caroya",
+        "nodes": [
+          "CÓRDOBA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "I",
+        "time": "14:10",
+        "minutes": 850,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 2
+      }
+    },
+    {
+      "id": "chg-bf5334895c464118",
+      "fields": {
+        "time": {
+          "before": "14:00",
+          "after": "15:00"
+        },
+        "service_days": {
+          "before": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "after": [
+            7
+          ]
+        },
+        "service_days_text": {
+          "before": "DIARIO",
+          "after": "DOMINGO"
+        }
+      },
+      "before": {
+        "corridor": "NORTE",
+        "line": "CÓRDOBA - COLONIA CAROYA",
+        "line_id": "norte-cordoba-colonia-caroya",
+        "nodes": [
+          "CÓRDOBA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "I",
+        "time": "14:00",
+        "minutes": 840,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "DIARIO",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 2
+      },
+      "after": {
+        "corridor": "NORTE",
+        "line": "CÓRDOBA - COLONIA CAROYA",
+        "line_id": "norte-cordoba-colonia-caroya",
+        "nodes": [
+          "CÓRDOBA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "I",
+        "time": "15:00",
+        "minutes": 900,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "DOMINGO",
+        "service_days": [
+          7
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 2
+      }
+    },
+    {
+      "id": "chg-15b69ae1e542f8ce",
+      "fields": {
+        "time": {
+          "before": "15:00",
+          "after": "15:30"
+        },
+        "service_days": {
+          "before": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "after": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ]
+        },
+        "service_days_text": {
+          "before": "LUNES A VIERNES",
+          "after": "LUNES A SÁBADOS"
+        }
+      },
+      "before": {
+        "corridor": "NORTE",
+        "line": "CÓRDOBA - COLONIA CAROYA",
+        "line_id": "norte-cordoba-colonia-caroya",
+        "nodes": [
+          "CÓRDOBA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "I",
+        "time": "15:00",
+        "minutes": 900,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 2
+      },
+      "after": {
+        "corridor": "NORTE",
+        "line": "CÓRDOBA - COLONIA CAROYA",
+        "line_id": "norte-cordoba-colonia-caroya",
+        "nodes": [
+          "CÓRDOBA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "I",
+        "time": "15:30",
+        "minutes": 930,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A SÁBADOS",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 2
+      }
+    },
+    {
+      "id": "chg-aab7546bf4b6bf03",
+      "fields": {
+        "time": {
+          "before": "15:30",
+          "after": "16:30"
+        },
+        "service_days": {
+          "before": [
+            6
+          ],
+          "after": [
+            7
+          ]
+        },
+        "service_days_text": {
+          "before": "SÁBADO",
+          "after": "DOMINGO"
+        }
+      },
+      "before": {
+        "corridor": "NORTE",
+        "line": "CÓRDOBA - COLONIA CAROYA",
+        "line_id": "norte-cordoba-colonia-caroya",
+        "nodes": [
+          "CÓRDOBA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "I",
+        "time": "15:30",
+        "minutes": 930,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "SÁBADO",
+        "service_days": [
+          6
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 2
+      },
+      "after": {
+        "corridor": "NORTE",
+        "line": "CÓRDOBA - COLONIA CAROYA",
+        "line_id": "norte-cordoba-colonia-caroya",
+        "nodes": [
+          "CÓRDOBA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "I",
+        "time": "16:30",
+        "minutes": 990,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "DOMINGO",
+        "service_days": [
+          7
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 2
+      }
+    },
+    {
+      "id": "chg-f2895d1e43fe4f7a",
+      "fields": {
+        "time": {
+          "before": "16:00",
+          "after": "16:50"
+        },
+        "service_days": {
+          "before": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            7
+          ],
+          "after": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        },
+        "service_days_text": {
+          "before": "LUNES A VIERNES Y DOMINGOS",
+          "after": "LUNES A VIERNES"
+        }
+      },
+      "before": {
+        "corridor": "NORTE",
+        "line": "CÓRDOBA - COLONIA CAROYA",
+        "line_id": "norte-cordoba-colonia-caroya",
+        "nodes": [
+          "CÓRDOBA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "I",
+        "time": "16:00",
+        "minutes": 960,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A VIERNES Y DOMINGOS",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          7
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 2
+      },
+      "after": {
+        "corridor": "NORTE",
+        "line": "CÓRDOBA - COLONIA CAROYA",
+        "line_id": "norte-cordoba-colonia-caroya",
+        "nodes": [
+          "CÓRDOBA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "I",
+        "time": "16:50",
+        "minutes": 1010,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 2
+      }
+    },
+    {
+      "id": "chg-a5dafa1e7a376fc4",
+      "fields": {
+        "service_days": {
+          "before": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "after": [
+            6
+          ]
+        },
+        "service_days_text": {
+          "before": "LUNES A SÁBADOS",
+          "after": "SÁBADO"
+        }
+      },
+      "before": {
+        "corridor": "NORTE",
+        "line": "CÓRDOBA - COLONIA CAROYA",
+        "line_id": "norte-cordoba-colonia-caroya",
+        "nodes": [
+          "CÓRDOBA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "I",
+        "time": "17:00",
+        "minutes": 1020,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A SÁBADOS",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 2
+      },
+      "after": {
+        "corridor": "NORTE",
+        "line": "CÓRDOBA - COLONIA CAROYA",
+        "line_id": "norte-cordoba-colonia-caroya",
+        "nodes": [
+          "CÓRDOBA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "I",
+        "time": "17:00",
+        "minutes": 1020,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "SÁBADO",
+        "service_days": [
+          6
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 2
+      }
+    },
+    {
+      "id": "chg-ac0dd0b58d08af1b",
+      "fields": {
+        "time": {
+          "before": "19:00",
+          "after": "19:30"
+        }
+      },
+      "before": {
+        "corridor": "NORTE",
+        "line": "CÓRDOBA - COLONIA CAROYA",
+        "line_id": "norte-cordoba-colonia-caroya",
+        "nodes": [
+          "CÓRDOBA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "I",
+        "time": "19:00",
+        "minutes": 1140,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 3
+      },
+      "after": {
+        "corridor": "NORTE",
+        "line": "CÓRDOBA - COLONIA CAROYA",
+        "line_id": "norte-cordoba-colonia-caroya",
+        "nodes": [
+          "CÓRDOBA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "I",
+        "time": "19:30",
+        "minutes": 1170,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 3
+      }
+    },
+    {
+      "id": "chg-5f2ea064291c6ef2",
+      "fields": {
+        "service_days": {
+          "before": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "after": [
+            6,
+            7
+          ]
+        },
+        "service_days_text": {
+          "before": "DIARIO",
+          "after": "FINES DE SEMANA"
+        }
+      },
+      "before": {
+        "corridor": "NORTE",
+        "line": "CÓRDOBA - COLONIA CAROYA",
+        "line_id": "norte-cordoba-colonia-caroya",
+        "nodes": [
+          "CÓRDOBA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "I",
+        "time": "20:00",
+        "minutes": 1200,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "DIARIO",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 3
+      },
+      "after": {
+        "corridor": "NORTE",
+        "line": "CÓRDOBA - COLONIA CAROYA",
+        "line_id": "norte-cordoba-colonia-caroya",
+        "nodes": [
+          "CÓRDOBA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "I",
+        "time": "20:00",
+        "minutes": 1200,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "FINES DE SEMANA",
+        "service_days": [
+          6,
+          7
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 3
+      }
+    },
+    {
+      "id": "chg-55e43d63f268f0c7",
+      "fields": {
+        "time": {
+          "before": "21:30",
+          "after": "21:40"
+        },
+        "service_days": {
+          "before": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "after": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        },
+        "service_days_text": {
+          "before": "LUNES A SÁBADOS",
+          "after": "LUNES A VIERNES"
+        }
+      },
+      "before": {
+        "corridor": "NORTE",
+        "line": "CÓRDOBA - COLONIA CAROYA",
+        "line_id": "norte-cordoba-colonia-caroya",
+        "nodes": [
+          "CÓRDOBA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "I",
+        "time": "21:30",
+        "minutes": 1290,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A SÁBADOS",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 3
+      },
+      "after": {
+        "corridor": "NORTE",
+        "line": "CÓRDOBA - COLONIA CAROYA",
+        "line_id": "norte-cordoba-colonia-caroya",
+        "nodes": [
+          "CÓRDOBA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "I",
+        "time": "21:40",
+        "minutes": 1300,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 3
+      }
+    },
+    {
+      "id": "chg-ca184584b3c2acba",
+      "fields": {
+        "time": {
+          "before": "22:00",
+          "after": "22:10"
+        }
+      },
+      "before": {
+        "corridor": "NORTE",
+        "line": "CÓRDOBA - COLONIA CAROYA",
+        "line_id": "norte-cordoba-colonia-caroya",
+        "nodes": [
+          "CÓRDOBA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "I",
+        "time": "22:00",
+        "minutes": 1320,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "DOMINGO",
+        "service_days": [
+          7
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 3
+      },
+      "after": {
+        "corridor": "NORTE",
+        "line": "CÓRDOBA - COLONIA CAROYA",
+        "line_id": "norte-cordoba-colonia-caroya",
+        "nodes": [
+          "CÓRDOBA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "I",
+        "time": "22:10",
+        "minutes": 1330,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "DOMINGO",
+        "service_days": [
+          7
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 3
+      }
+    },
+    {
+      "id": "chg-af854c9fc6d25029",
+      "fields": {
+        "time": {
+          "before": "05:25",
+          "after": "05:15"
+        }
+      },
+      "before": {
+        "corridor": "NORTE",
+        "line": "CÓRDOBA - COLONIA CAROYA",
+        "line_id": "norte-cordoba-colonia-caroya",
+        "nodes": [
+          "CÓRDOBA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "V",
+        "time": "05:25",
+        "minutes": 325,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 3
+      },
+      "after": {
+        "corridor": "NORTE",
+        "line": "CÓRDOBA - COLONIA CAROYA",
+        "line_id": "norte-cordoba-colonia-caroya",
+        "nodes": [
+          "CÓRDOBA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "V",
+        "time": "05:15",
+        "minutes": 315,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 3
+      }
+    },
+    {
+      "id": "chg-415920a1b1e54de7",
+      "fields": {
+        "time": {
+          "before": "06:25",
+          "after": "06:15"
+        }
+      },
+      "before": {
+        "corridor": "NORTE",
+        "line": "CÓRDOBA - COLONIA CAROYA",
+        "line_id": "norte-cordoba-colonia-caroya",
+        "nodes": [
+          "CÓRDOBA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "V",
+        "time": "06:25",
+        "minutes": 385,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 3
+      },
+      "after": {
+        "corridor": "NORTE",
+        "line": "CÓRDOBA - COLONIA CAROYA",
+        "line_id": "norte-cordoba-colonia-caroya",
+        "nodes": [
+          "CÓRDOBA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "V",
+        "time": "06:15",
+        "minutes": 375,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 3
+      }
+    },
+    {
+      "id": "chg-2f0fc2a583cac8ce",
+      "fields": {
+        "service_days": {
+          "before": [
+            6,
+            7
+          ],
+          "after": [
+            6
+          ]
+        },
+        "service_days_text": {
+          "before": "FINES DE SEMANA",
+          "after": "SÁBADO"
+        }
+      },
+      "before": {
+        "corridor": "NORTE",
+        "line": "CÓRDOBA - COLONIA CAROYA",
+        "line_id": "norte-cordoba-colonia-caroya",
+        "nodes": [
+          "CÓRDOBA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "V",
+        "time": "06:55",
+        "minutes": 415,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "FINES DE SEMANA",
+        "service_days": [
+          6,
+          7
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 3
+      },
+      "after": {
+        "corridor": "NORTE",
+        "line": "CÓRDOBA - COLONIA CAROYA",
+        "line_id": "norte-cordoba-colonia-caroya",
+        "nodes": [
+          "CÓRDOBA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "V",
+        "time": "06:55",
+        "minutes": 415,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "SÁBADO",
+        "service_days": [
+          6
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 3
+      }
+    },
+    {
+      "id": "chg-b1d36bfbe9f31810",
+      "fields": {
+        "service_days": {
+          "before": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "after": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            7
+          ]
+        },
+        "service_days_text": {
+          "before": "LUNES A VIERNES",
+          "after": "LUNES A VIERNES Y DOMINGOS"
+        }
+      },
+      "before": {
+        "corridor": "NORTE",
+        "line": "CÓRDOBA - COLONIA CAROYA",
+        "line_id": "norte-cordoba-colonia-caroya",
+        "nodes": [
+          "CÓRDOBA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "V",
+        "time": "07:25",
+        "minutes": 445,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 3
+      },
+      "after": {
+        "corridor": "NORTE",
+        "line": "CÓRDOBA - COLONIA CAROYA",
+        "line_id": "norte-cordoba-colonia-caroya",
+        "nodes": [
+          "CÓRDOBA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "V",
+        "time": "07:25",
+        "minutes": 445,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A VIERNES Y DOMINGOS",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          7
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 3
+      }
+    },
+    {
+      "id": "chg-373ff4bc3d76b50e",
+      "fields": {
+        "service_days": {
+          "before": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "after": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ]
+        },
+        "service_days_text": {
+          "before": "DIARIO",
+          "after": "LUNES A SÁBADOS"
+        }
+      },
+      "before": {
+        "corridor": "NORTE",
+        "line": "CÓRDOBA - COLONIA CAROYA",
+        "line_id": "norte-cordoba-colonia-caroya",
+        "nodes": [
+          "CÓRDOBA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "V",
+        "time": "08:25",
+        "minutes": 505,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "DIARIO",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 3
+      },
+      "after": {
+        "corridor": "NORTE",
+        "line": "CÓRDOBA - COLONIA CAROYA",
+        "line_id": "norte-cordoba-colonia-caroya",
+        "nodes": [
+          "CÓRDOBA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "V",
+        "time": "08:25",
+        "minutes": 505,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A SÁBADOS",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 4
+      }
+    },
+    {
+      "id": "chg-26b4250fbb837c94",
+      "fields": {
+        "time": {
+          "before": "10:25",
+          "after": "09:25"
+        }
+      },
+      "before": {
+        "corridor": "NORTE",
+        "line": "CÓRDOBA - COLONIA CAROYA",
+        "line_id": "norte-cordoba-colonia-caroya",
+        "nodes": [
+          "CÓRDOBA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "V",
+        "time": "10:25",
+        "minutes": 625,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "DOMINGO",
+        "service_days": [
+          7
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 4
+      },
+      "after": {
+        "corridor": "NORTE",
+        "line": "CÓRDOBA - COLONIA CAROYA",
+        "line_id": "norte-cordoba-colonia-caroya",
+        "nodes": [
+          "CÓRDOBA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "V",
+        "time": "09:25",
+        "minutes": 565,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "DOMINGO",
+        "service_days": [
+          7
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 4
+      }
+    },
+    {
+      "id": "chg-d9f9acc133301877",
+      "fields": {
+        "time": {
+          "before": "11:25",
+          "after": "11:15"
+        },
+        "service_days": {
+          "before": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "after": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        },
+        "service_days_text": {
+          "before": "LUNES A SÁBADOS",
+          "after": "LUNES A VIERNES"
+        }
+      },
+      "before": {
+        "corridor": "NORTE",
+        "line": "CÓRDOBA - COLONIA CAROYA",
+        "line_id": "norte-cordoba-colonia-caroya",
+        "nodes": [
+          "CÓRDOBA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "V",
+        "time": "11:25",
+        "minutes": 685,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A SÁBADOS",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 4
+      },
+      "after": {
+        "corridor": "NORTE",
+        "line": "CÓRDOBA - COLONIA CAROYA",
+        "line_id": "norte-cordoba-colonia-caroya",
+        "nodes": [
+          "CÓRDOBA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "V",
+        "time": "11:15",
+        "minutes": 675,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 4
+      }
+    },
+    {
+      "id": "chg-8f23f5dae6935e96",
+      "fields": {
+        "time": {
+          "before": "12:25",
+          "after": "11:25"
+        },
+        "service_days": {
+          "before": [
+            7
+          ],
+          "after": [
+            6,
+            7
+          ]
+        },
+        "service_days_text": {
+          "before": "DOMINGO",
+          "after": "FINES DE SEMANA"
+        }
+      },
+      "before": {
+        "corridor": "NORTE",
+        "line": "CÓRDOBA - COLONIA CAROYA",
+        "line_id": "norte-cordoba-colonia-caroya",
+        "nodes": [
+          "CÓRDOBA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "V",
+        "time": "12:25",
+        "minutes": 745,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "DOMINGO",
+        "service_days": [
+          7
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 4
+      },
+      "after": {
+        "corridor": "NORTE",
+        "line": "CÓRDOBA - COLONIA CAROYA",
+        "line_id": "norte-cordoba-colonia-caroya",
+        "nodes": [
+          "CÓRDOBA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "V",
+        "time": "11:25",
+        "minutes": 685,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "FINES DE SEMANA",
+        "service_days": [
+          6,
+          7
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 4
+      }
+    },
+    {
+      "id": "chg-cf127f235e89e1a0",
+      "fields": {
+        "time": {
+          "before": "12:35",
+          "after": "12:15"
+        }
+      },
+      "before": {
+        "corridor": "NORTE",
+        "line": "CÓRDOBA - COLONIA CAROYA",
+        "line_id": "norte-cordoba-colonia-caroya",
+        "nodes": [
+          "CÓRDOBA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "V",
+        "time": "12:35",
+        "minutes": 755,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 4
+      },
+      "after": {
+        "corridor": "NORTE",
+        "line": "CÓRDOBA - COLONIA CAROYA",
+        "line_id": "norte-cordoba-colonia-caroya",
+        "nodes": [
+          "CÓRDOBA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "V",
+        "time": "12:15",
+        "minutes": 735,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 4
+      }
+    },
+    {
+      "id": "chg-ed0d7ffa6055e609",
+      "fields": {
+        "service_days": {
+          "before": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "after": [
+            6
+          ]
+        },
+        "service_days_text": {
+          "before": "DIARIO",
+          "after": "SÁBADO"
+        }
+      },
+      "before": {
+        "corridor": "NORTE",
+        "line": "CÓRDOBA - COLONIA CAROYA",
+        "line_id": "norte-cordoba-colonia-caroya",
+        "nodes": [
+          "CÓRDOBA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "V",
+        "time": "14:25",
+        "minutes": 865,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "DIARIO",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 4
+      },
+      "after": {
+        "corridor": "NORTE",
+        "line": "CÓRDOBA - COLONIA CAROYA",
+        "line_id": "norte-cordoba-colonia-caroya",
+        "nodes": [
+          "CÓRDOBA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "V",
+        "time": "14:25",
+        "minutes": 865,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "SÁBADO",
+        "service_days": [
+          6
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 4
+      }
+    },
+    {
+      "id": "chg-3e803fbfa944a6af",
+      "fields": {
+        "time": {
+          "before": "14:55",
+          "after": "14:35"
+        }
+      },
+      "before": {
+        "corridor": "NORTE",
+        "line": "CÓRDOBA - COLONIA CAROYA",
+        "line_id": "norte-cordoba-colonia-caroya",
+        "nodes": [
+          "CÓRDOBA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "V",
+        "time": "14:55",
+        "minutes": 895,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 4
+      },
+      "after": {
+        "corridor": "NORTE",
+        "line": "CÓRDOBA - COLONIA CAROYA",
+        "line_id": "norte-cordoba-colonia-caroya",
+        "nodes": [
+          "CÓRDOBA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "V",
+        "time": "14:35",
+        "minutes": 875,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 4
+      }
+    },
+    {
+      "id": "chg-a31f41926af8931c",
+      "fields": {
+        "time": {
+          "before": "15:25",
+          "after": "15:55"
+        },
+        "service_days": {
+          "before": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "after": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ]
+        },
+        "service_days_text": {
+          "before": "LUNES A VIERNES",
+          "after": "LUNES A SÁBADOS"
+        }
+      },
+      "before": {
+        "corridor": "NORTE",
+        "line": "CÓRDOBA - COLONIA CAROYA",
+        "line_id": "norte-cordoba-colonia-caroya",
+        "nodes": [
+          "CÓRDOBA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "V",
+        "time": "15:25",
+        "minutes": 925,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 4
+      },
+      "after": {
+        "corridor": "NORTE",
+        "line": "CÓRDOBA - COLONIA CAROYA",
+        "line_id": "norte-cordoba-colonia-caroya",
+        "nodes": [
+          "CÓRDOBA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "V",
+        "time": "15:55",
+        "minutes": 955,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A SÁBADOS",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 5
+      }
+    },
+    {
+      "id": "chg-53deaee1c1bb9749",
+      "fields": {
+        "time": {
+          "before": "15:55",
+          "after": "16:55"
+        },
+        "service_days": {
+          "before": [
+            6
+          ],
+          "after": [
+            7
+          ]
+        },
+        "service_days_text": {
+          "before": "SÁBADO",
+          "after": "DOMINGO"
+        }
+      },
+      "before": {
+        "corridor": "NORTE",
+        "line": "CÓRDOBA - COLONIA CAROYA",
+        "line_id": "norte-cordoba-colonia-caroya",
+        "nodes": [
+          "CÓRDOBA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "V",
+        "time": "15:55",
+        "minutes": 955,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "SÁBADO",
+        "service_days": [
+          6
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 4
+      },
+      "after": {
+        "corridor": "NORTE",
+        "line": "CÓRDOBA - COLONIA CAROYA",
+        "line_id": "norte-cordoba-colonia-caroya",
+        "nodes": [
+          "CÓRDOBA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "V",
+        "time": "16:55",
+        "minutes": 1015,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "DOMINGO",
+        "service_days": [
+          7
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 5
+      }
+    },
+    {
+      "id": "chg-5bc461a767b54e98",
+      "fields": {
+        "time": {
+          "before": "16:25",
+          "after": "17:15"
+        },
+        "service_days": {
+          "before": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            7
+          ],
+          "after": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        },
+        "service_days_text": {
+          "before": "LUNES A VIERNES Y DOMINGOS",
+          "after": "LUNES A VIERNES"
+        }
+      },
+      "before": {
+        "corridor": "NORTE",
+        "line": "CÓRDOBA - COLONIA CAROYA",
+        "line_id": "norte-cordoba-colonia-caroya",
+        "nodes": [
+          "CÓRDOBA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "V",
+        "time": "16:25",
+        "minutes": 985,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A VIERNES Y DOMINGOS",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          7
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 4
+      },
+      "after": {
+        "corridor": "NORTE",
+        "line": "CÓRDOBA - COLONIA CAROYA",
+        "line_id": "norte-cordoba-colonia-caroya",
+        "nodes": [
+          "CÓRDOBA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "V",
+        "time": "17:15",
+        "minutes": 1035,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 5
+      }
+    },
+    {
+      "id": "chg-44a9423b69e1a16d",
+      "fields": {
+        "time": {
+          "before": "17:25",
+          "after": "19:55"
+        },
+        "service_days": {
+          "before": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "after": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        },
+        "service_days_text": {
+          "before": "LUNES A SÁBADOS",
+          "after": "LUNES A VIERNES"
+        }
+      },
+      "before": {
+        "corridor": "NORTE",
+        "line": "CÓRDOBA - COLONIA CAROYA",
+        "line_id": "norte-cordoba-colonia-caroya",
+        "nodes": [
+          "CÓRDOBA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "V",
+        "time": "17:25",
+        "minutes": 1045,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A SÁBADOS",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 5
+      },
+      "after": {
+        "corridor": "NORTE",
+        "line": "CÓRDOBA - COLONIA CAROYA",
+        "line_id": "norte-cordoba-colonia-caroya",
+        "nodes": [
+          "CÓRDOBA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "V",
+        "time": "19:55",
+        "minutes": 1195,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 5
+      }
+    },
+    {
+      "id": "chg-c82fa80df1bff538",
+      "fields": {
+        "time": {
+          "before": "19:25",
+          "after": "20:05"
+        }
+      },
+      "before": {
+        "corridor": "NORTE",
+        "line": "CÓRDOBA - COLONIA CAROYA",
+        "line_id": "norte-cordoba-colonia-caroya",
+        "nodes": [
+          "CÓRDOBA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "V",
+        "time": "19:25",
+        "minutes": 1165,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 5
+      },
+      "after": {
+        "corridor": "NORTE",
+        "line": "CÓRDOBA - COLONIA CAROYA",
+        "line_id": "norte-cordoba-colonia-caroya",
+        "nodes": [
+          "CÓRDOBA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "V",
+        "time": "20:05",
+        "minutes": 1205,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 5
+      }
+    },
+    {
+      "id": "chg-c0c56d985f6c5161",
+      "fields": {
+        "service_days": {
+          "before": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "after": [
+            6,
+            7
+          ]
+        },
+        "service_days_text": {
+          "before": "DIARIO",
+          "after": "FINES DE SEMANA"
+        }
+      },
+      "before": {
+        "corridor": "NORTE",
+        "line": "CÓRDOBA - COLONIA CAROYA",
+        "line_id": "norte-cordoba-colonia-caroya",
+        "nodes": [
+          "CÓRDOBA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "V",
+        "time": "20:25",
+        "minutes": 1225,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "DIARIO",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 5
+      },
+      "after": {
+        "corridor": "NORTE",
+        "line": "CÓRDOBA - COLONIA CAROYA",
+        "line_id": "norte-cordoba-colonia-caroya",
+        "nodes": [
+          "CÓRDOBA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "V",
+        "time": "20:25",
+        "minutes": 1225,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "FINES DE SEMANA",
+        "service_days": [
+          6,
+          7
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 5
+      }
+    },
+    {
+      "id": "chg-03fd8ad422673e4c",
+      "fields": {
+        "service_days": {
+          "before": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "after": [
+            6
+          ]
+        },
+        "service_days_text": {
+          "before": "LUNES A SÁBADOS",
+          "after": "SÁBADO"
+        }
+      },
+      "before": {
+        "corridor": "NORTE",
+        "line": "CÓRDOBA - COLONIA CAROYA",
+        "line_id": "norte-cordoba-colonia-caroya",
+        "nodes": [
+          "CÓRDOBA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "V",
+        "time": "21:55",
+        "minutes": 1315,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A SÁBADOS",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 5
+      },
+      "after": {
+        "corridor": "NORTE",
+        "line": "CÓRDOBA - COLONIA CAROYA",
+        "line_id": "norte-cordoba-colonia-caroya",
+        "nodes": [
+          "CÓRDOBA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "V",
+        "time": "21:55",
+        "minutes": 1315,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "SÁBADO",
+        "service_days": [
+          6
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 5
+      }
+    },
+    {
+      "id": "chg-022954d727ed4ae4",
+      "fields": {
+        "time": {
+          "before": "22:25",
+          "after": "22:35"
+        }
+      },
+      "before": {
+        "corridor": "NORTE",
+        "line": "CÓRDOBA - COLONIA CAROYA",
+        "line_id": "norte-cordoba-colonia-caroya",
+        "nodes": [
+          "CÓRDOBA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "V",
+        "time": "22:25",
+        "minutes": 1345,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "DOMINGO",
+        "service_days": [
+          7
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 5
+      },
+      "after": {
+        "corridor": "NORTE",
+        "line": "CÓRDOBA - COLONIA CAROYA",
+        "line_id": "norte-cordoba-colonia-caroya",
+        "nodes": [
+          "CÓRDOBA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "V",
+        "time": "22:35",
+        "minutes": 1355,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "DOMINGO",
+        "service_days": [
+          7
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 5
+      }
+    },
+    {
+      "id": "chg-f651714a7d2f4573",
+      "fields": {
+        "time": {
+          "before": "23:20",
+          "after": "22:30"
+        }
+      },
+      "before": {
+        "corridor": "NORTE",
+        "line": "CÓRDOBA - COLONIA TIROLESA",
+        "line_id": "norte-cordoba-colonia-tirolesa",
+        "nodes": [
+          "CÓRDOBA",
+          "COLONIA TIROLESA"
+        ],
+        "direction": "I",
+        "time": "23:20",
+        "minutes": 1400,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 5
+      },
+      "after": {
+        "corridor": "NORTE",
+        "line": "CÓRDOBA - COLONIA TIROLESA",
+        "line_id": "norte-cordoba-colonia-tirolesa",
+        "nodes": [
+          "CÓRDOBA",
+          "COLONIA TIROLESA"
+        ],
+        "direction": "I",
+        "time": "22:30",
+        "minutes": 1350,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 6
+      }
+    },
+    {
+      "id": "chg-a8da9fa9f8c72d04",
+      "fields": {
+        "time": {
+          "before": "06:15",
+          "after": "05:50"
+        }
+      },
+      "before": {
+        "corridor": "NORTE",
+        "line": "CÓRDOBA - COLONIA TIROLESA",
+        "line_id": "norte-cordoba-colonia-tirolesa",
+        "nodes": [
+          "CÓRDOBA",
+          "COLONIA TIROLESA"
+        ],
+        "direction": "V",
+        "time": "06:15",
+        "minutes": 375,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 5
+      },
+      "after": {
+        "corridor": "NORTE",
+        "line": "CÓRDOBA - COLONIA TIROLESA",
+        "line_id": "norte-cordoba-colonia-tirolesa",
+        "nodes": [
+          "CÓRDOBA",
+          "COLONIA TIROLESA"
+        ],
+        "direction": "V",
+        "time": "05:50",
+        "minutes": 350,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 6
+      }
+    },
+    {
+      "id": "chg-576f41e5c66422b1",
+      "fields": {
+        "time": {
+          "before": "05:00",
+          "after": "04:50"
+        }
+      },
+      "before": {
+        "corridor": "NORTE",
+        "line": "JESÚS MARÍA - COLONIA CAROYA",
+        "line_id": "norte-jesus-maria-colonia-caroya",
+        "nodes": [
+          "JESÚS MARÍA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "I",
+        "time": "05:00",
+        "minutes": 300,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 28
+      },
+      "after": {
+        "corridor": "NORTE",
+        "line": "JESÚS MARÍA - COLONIA CAROYA",
+        "line_id": "norte-jesus-maria-colonia-caroya",
+        "nodes": [
+          "JESÚS MARÍA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "I",
+        "time": "04:50",
+        "minutes": 290,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 28
+      }
+    },
+    {
+      "id": "chg-0cb8cde0e9b796e4",
+      "fields": {
+        "time": {
+          "before": "06:00",
+          "after": "05:50"
+        }
+      },
+      "before": {
+        "corridor": "NORTE",
+        "line": "JESÚS MARÍA - COLONIA CAROYA",
+        "line_id": "norte-jesus-maria-colonia-caroya",
+        "nodes": [
+          "JESÚS MARÍA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "I",
+        "time": "06:00",
+        "minutes": 360,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 28
+      },
+      "after": {
+        "corridor": "NORTE",
+        "line": "JESÚS MARÍA - COLONIA CAROYA",
+        "line_id": "norte-jesus-maria-colonia-caroya",
+        "nodes": [
+          "JESÚS MARÍA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "I",
+        "time": "05:50",
+        "minutes": 350,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 28
+      }
+    },
+    {
+      "id": "chg-2b705be77760f13e",
+      "fields": {
+        "time": {
+          "before": "06:20",
+          "after": "06:05"
+        }
+      },
+      "before": {
+        "corridor": "NORTE",
+        "line": "JESÚS MARÍA - COLONIA CAROYA",
+        "line_id": "norte-jesus-maria-colonia-caroya",
+        "nodes": [
+          "JESÚS MARÍA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "I",
+        "time": "06:20",
+        "minutes": 380,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 28
+      },
+      "after": {
+        "corridor": "NORTE",
+        "line": "JESÚS MARÍA - COLONIA CAROYA",
+        "line_id": "norte-jesus-maria-colonia-caroya",
+        "nodes": [
+          "JESÚS MARÍA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "I",
+        "time": "06:05",
+        "minutes": 365,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 28
+      }
+    },
+    {
+      "id": "chg-a1ae784e3369b634",
+      "fields": {
+        "time": {
+          "before": "06:50",
+          "after": "06:40"
+        }
+      },
+      "before": {
+        "corridor": "NORTE",
+        "line": "JESÚS MARÍA - COLONIA CAROYA",
+        "line_id": "norte-jesus-maria-colonia-caroya",
+        "nodes": [
+          "JESÚS MARÍA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "I",
+        "time": "06:50",
+        "minutes": 410,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 28
+      },
+      "after": {
+        "corridor": "NORTE",
+        "line": "JESÚS MARÍA - COLONIA CAROYA",
+        "line_id": "norte-jesus-maria-colonia-caroya",
+        "nodes": [
+          "JESÚS MARÍA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "I",
+        "time": "06:40",
+        "minutes": 400,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 29
+      }
+    },
+    {
+      "id": "chg-a167ff9481119510",
+      "fields": {
+        "time": {
+          "before": "08:00",
+          "after": "07:00"
+        },
+        "service_days": {
+          "before": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "after": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        },
+        "service_days_text": {
+          "before": "DIARIO",
+          "after": "LUNES A VIERNES"
+        }
+      },
+      "before": {
+        "corridor": "NORTE",
+        "line": "JESÚS MARÍA - COLONIA CAROYA",
+        "line_id": "norte-jesus-maria-colonia-caroya",
+        "nodes": [
+          "JESÚS MARÍA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "I",
+        "time": "08:00",
+        "minutes": 480,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "DIARIO",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 28
+      },
+      "after": {
+        "corridor": "NORTE",
+        "line": "JESÚS MARÍA - COLONIA CAROYA",
+        "line_id": "norte-jesus-maria-colonia-caroya",
+        "nodes": [
+          "JESÚS MARÍA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "I",
+        "time": "07:00",
+        "minutes": 420,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 29
+      }
+    },
+    {
+      "id": "chg-09e4e50feb7fab4c",
+      "fields": {
+        "time": {
+          "before": "08:25",
+          "after": "08:00"
+        },
+        "service_days": {
+          "before": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "after": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ]
+        },
+        "service_days_text": {
+          "before": "LUNES A VIERNES",
+          "after": "LUNES A SÁBADOS"
+        }
+      },
+      "before": {
+        "corridor": "NORTE",
+        "line": "JESÚS MARÍA - COLONIA CAROYA",
+        "line_id": "norte-jesus-maria-colonia-caroya",
+        "nodes": [
+          "JESÚS MARÍA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "I",
+        "time": "08:25",
+        "minutes": 505,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 28
+      },
+      "after": {
+        "corridor": "NORTE",
+        "line": "JESÚS MARÍA - COLONIA CAROYA",
+        "line_id": "norte-jesus-maria-colonia-caroya",
+        "nodes": [
+          "JESÚS MARÍA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "I",
+        "time": "08:00",
+        "minutes": 480,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A SÁBADOS",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 29
+      }
+    },
+    {
+      "id": "chg-2bfd41a0f0fb6202",
+      "fields": {
+        "time": {
+          "before": "09:25",
+          "after": "08:40"
+        }
+      },
+      "before": {
+        "corridor": "NORTE",
+        "line": "JESÚS MARÍA - COLONIA CAROYA",
+        "line_id": "norte-jesus-maria-colonia-caroya",
+        "nodes": [
+          "JESÚS MARÍA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "I",
+        "time": "09:25",
+        "minutes": 565,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 29
+      },
+      "after": {
+        "corridor": "NORTE",
+        "line": "JESÚS MARÍA - COLONIA CAROYA",
+        "line_id": "norte-jesus-maria-colonia-caroya",
+        "nodes": [
+          "JESÚS MARÍA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "I",
+        "time": "08:40",
+        "minutes": 520,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 29
+      }
+    },
+    {
+      "id": "chg-0e5a8564afc7646d",
+      "fields": {
+        "time": {
+          "before": "10:00",
+          "after": "10:10"
+        }
+      },
+      "before": {
+        "corridor": "NORTE",
+        "line": "JESÚS MARÍA - COLONIA CAROYA",
+        "line_id": "norte-jesus-maria-colonia-caroya",
+        "nodes": [
+          "JESÚS MARÍA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "I",
+        "time": "10:00",
+        "minutes": 600,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A VIERNES Y DOMINGOS",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          7
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 29
+      },
+      "after": {
+        "corridor": "NORTE",
+        "line": "JESÚS MARÍA - COLONIA CAROYA",
+        "line_id": "norte-jesus-maria-colonia-caroya",
+        "nodes": [
+          "JESÚS MARÍA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "I",
+        "time": "10:10",
+        "minutes": 610,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A VIERNES Y DOMINGOS",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          7
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 29
+      }
+    },
+    {
+      "id": "chg-4b2f0802196b59d8",
+      "fields": {
+        "time": {
+          "before": "10:30",
+          "after": "10:50"
+        }
+      },
+      "before": {
+        "corridor": "NORTE",
+        "line": "JESÚS MARÍA - COLONIA CAROYA",
+        "line_id": "norte-jesus-maria-colonia-caroya",
+        "nodes": [
+          "JESÚS MARÍA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "I",
+        "time": "10:30",
+        "minutes": 630,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 29
+      },
+      "after": {
+        "corridor": "NORTE",
+        "line": "JESÚS MARÍA - COLONIA CAROYA",
+        "line_id": "norte-jesus-maria-colonia-caroya",
+        "nodes": [
+          "JESÚS MARÍA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "I",
+        "time": "10:50",
+        "minutes": 650,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 29
+      }
+    },
+    {
+      "id": "chg-72a15a57cf30e8ac",
+      "fields": {
+        "service_days": {
+          "before": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "after": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ]
+        },
+        "service_days_text": {
+          "before": "LUNES A SÁBADOS",
+          "after": "DIARIO"
+        }
+      },
+      "before": {
+        "corridor": "NORTE",
+        "line": "JESÚS MARÍA - COLONIA CAROYA",
+        "line_id": "norte-jesus-maria-colonia-caroya",
+        "nodes": [
+          "JESÚS MARÍA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "I",
+        "time": "11:00",
+        "minutes": 660,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A SÁBADOS",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 29
+      },
+      "after": {
+        "corridor": "NORTE",
+        "line": "JESÚS MARÍA - COLONIA CAROYA",
+        "line_id": "norte-jesus-maria-colonia-caroya",
+        "nodes": [
+          "JESÚS MARÍA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "I",
+        "time": "11:00",
+        "minutes": 660,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "DIARIO",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 29
+      }
+    },
+    {
+      "id": "chg-a72bb2f88aafab8b",
+      "fields": {
+        "time": {
+          "before": "12:00",
+          "after": "11:50"
+        }
+      },
+      "before": {
+        "corridor": "NORTE",
+        "line": "JESÚS MARÍA - COLONIA CAROYA",
+        "line_id": "norte-jesus-maria-colonia-caroya",
+        "nodes": [
+          "JESÚS MARÍA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "I",
+        "time": "12:00",
+        "minutes": 720,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 29
+      },
+      "after": {
+        "corridor": "NORTE",
+        "line": "JESÚS MARÍA - COLONIA CAROYA",
+        "line_id": "norte-jesus-maria-colonia-caroya",
+        "nodes": [
+          "JESÚS MARÍA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "I",
+        "time": "11:50",
+        "minutes": 710,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 29
+      }
+    },
+    {
+      "id": "chg-4c840676c68036fd",
+      "fields": {
+        "time": {
+          "before": "13:35",
+          "after": "11:50"
+        }
+      },
+      "before": {
+        "corridor": "NORTE",
+        "line": "JESÚS MARÍA - COLONIA CAROYA",
+        "line_id": "norte-jesus-maria-colonia-caroya",
+        "nodes": [
+          "JESÚS MARÍA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "I",
+        "time": "13:35",
+        "minutes": 815,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 29
+      },
+      "after": {
+        "corridor": "NORTE",
+        "line": "JESÚS MARÍA - COLONIA CAROYA",
+        "line_id": "norte-jesus-maria-colonia-caroya",
+        "nodes": [
+          "JESÚS MARÍA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "I",
+        "time": "11:50",
+        "minutes": 710,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 30
+      }
+    },
+    {
+      "id": "chg-d037cdf381664974",
+      "fields": {
+        "time": {
+          "before": "14:00",
+          "after": "13:30"
+        },
+        "service_days": {
+          "before": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "after": [
+            7
+          ]
+        },
+        "service_days_text": {
+          "before": "DIARIO",
+          "after": "DOMINGO"
+        }
+      },
+      "before": {
+        "corridor": "NORTE",
+        "line": "JESÚS MARÍA - COLONIA CAROYA",
+        "line_id": "norte-jesus-maria-colonia-caroya",
+        "nodes": [
+          "JESÚS MARÍA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "I",
+        "time": "14:00",
+        "minutes": 840,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "DIARIO",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 29
+      },
+      "after": {
+        "corridor": "NORTE",
+        "line": "JESÚS MARÍA - COLONIA CAROYA",
+        "line_id": "norte-jesus-maria-colonia-caroya",
+        "nodes": [
+          "JESÚS MARÍA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "I",
+        "time": "13:30",
+        "minutes": 810,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "DOMINGO",
+        "service_days": [
+          7
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 30
+      }
+    },
+    {
+      "id": "chg-c6bcd00a53f66bb1",
+      "fields": {
+        "time": {
+          "before": "14:25",
+          "after": "13:40"
+        }
+      },
+      "before": {
+        "corridor": "NORTE",
+        "line": "JESÚS MARÍA - COLONIA CAROYA",
+        "line_id": "norte-jesus-maria-colonia-caroya",
+        "nodes": [
+          "JESÚS MARÍA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "I",
+        "time": "14:25",
+        "minutes": 865,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 29
+      },
+      "after": {
+        "corridor": "NORTE",
+        "line": "JESÚS MARÍA - COLONIA CAROYA",
+        "line_id": "norte-jesus-maria-colonia-caroya",
+        "nodes": [
+          "JESÚS MARÍA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "I",
+        "time": "13:40",
+        "minutes": 820,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 30
+      }
+    },
+    {
+      "id": "chg-0df9ec02f4a27a0c",
+      "fields": {
+        "time": {
+          "before": "15:00",
+          "after": "14:00"
+        },
+        "service_days": {
+          "before": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "after": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ]
+        },
+        "service_days_text": {
+          "before": "LUNES A VIERNES",
+          "after": "LUNES A SÁBADOS"
+        }
+      },
+      "before": {
+        "corridor": "NORTE",
+        "line": "JESÚS MARÍA - COLONIA CAROYA",
+        "line_id": "norte-jesus-maria-colonia-caroya",
+        "nodes": [
+          "JESÚS MARÍA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "I",
+        "time": "15:00",
+        "minutes": 900,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 30
+      },
+      "after": {
+        "corridor": "NORTE",
+        "line": "JESÚS MARÍA - COLONIA CAROYA",
+        "line_id": "norte-jesus-maria-colonia-caroya",
+        "nodes": [
+          "JESÚS MARÍA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "I",
+        "time": "14:00",
+        "minutes": 840,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A SÁBADOS",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 30
+      }
+    },
+    {
+      "id": "chg-c2de346ac2db64a5",
+      "fields": {
+        "time": {
+          "before": "15:00",
+          "after": "14:10"
+        }
+      },
+      "before": {
+        "corridor": "NORTE",
+        "line": "JESÚS MARÍA - COLONIA CAROYA",
+        "line_id": "norte-jesus-maria-colonia-caroya",
+        "nodes": [
+          "JESÚS MARÍA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "I",
+        "time": "15:00",
+        "minutes": 900,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 30
+      },
+      "after": {
+        "corridor": "NORTE",
+        "line": "JESÚS MARÍA - COLONIA CAROYA",
+        "line_id": "norte-jesus-maria-colonia-caroya",
+        "nodes": [
+          "JESÚS MARÍA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "I",
+        "time": "14:10",
+        "minutes": 850,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 30
+      }
+    },
+    {
+      "id": "chg-a3b9f17a7ca8b7c3",
+      "fields": {
+        "time": {
+          "before": "15:25",
+          "after": "14:20"
+        }
+      },
+      "before": {
+        "corridor": "NORTE",
+        "line": "JESÚS MARÍA - COLONIA CAROYA",
+        "line_id": "norte-jesus-maria-colonia-caroya",
+        "nodes": [
+          "JESÚS MARÍA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "I",
+        "time": "15:25",
+        "minutes": 925,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 30
+      },
+      "after": {
+        "corridor": "NORTE",
+        "line": "JESÚS MARÍA - COLONIA CAROYA",
+        "line_id": "norte-jesus-maria-colonia-caroya",
+        "nodes": [
+          "JESÚS MARÍA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "I",
+        "time": "14:20",
+        "minutes": 860,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 30
+      }
+    },
+    {
+      "id": "chg-f3dd311c97238463",
+      "fields": {
+        "time": {
+          "before": "15:30",
+          "after": "15:00"
+        },
+        "service_days": {
+          "before": [
+            6
+          ],
+          "after": [
+            7
+          ]
+        },
+        "service_days_text": {
+          "before": "SÁBADO",
+          "after": "DOMINGO"
+        }
+      },
+      "before": {
+        "corridor": "NORTE",
+        "line": "JESÚS MARÍA - COLONIA CAROYA",
+        "line_id": "norte-jesus-maria-colonia-caroya",
+        "nodes": [
+          "JESÚS MARÍA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "I",
+        "time": "15:30",
+        "minutes": 930,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "SÁBADO",
+        "service_days": [
+          6
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 30
+      },
+      "after": {
+        "corridor": "NORTE",
+        "line": "JESÚS MARÍA - COLONIA CAROYA",
+        "line_id": "norte-jesus-maria-colonia-caroya",
+        "nodes": [
+          "JESÚS MARÍA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "I",
+        "time": "15:00",
+        "minutes": 900,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "DOMINGO",
+        "service_days": [
+          7
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 30
+      }
+    },
+    {
+      "id": "chg-481fd64cae51c1d6",
+      "fields": {
+        "time": {
+          "before": "15:40",
+          "after": "15:30"
+        },
+        "service_days": {
+          "before": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "after": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ]
+        },
+        "service_days_text": {
+          "before": "LUNES A VIERNES",
+          "after": "LUNES A SÁBADOS"
+        }
+      },
+      "before": {
+        "corridor": "NORTE",
+        "line": "JESÚS MARÍA - COLONIA CAROYA",
+        "line_id": "norte-jesus-maria-colonia-caroya",
+        "nodes": [
+          "JESÚS MARÍA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "I",
+        "time": "15:40",
+        "minutes": 940,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 30
+      },
+      "after": {
+        "corridor": "NORTE",
+        "line": "JESÚS MARÍA - COLONIA CAROYA",
+        "line_id": "norte-jesus-maria-colonia-caroya",
+        "nodes": [
+          "JESÚS MARÍA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "I",
+        "time": "15:30",
+        "minutes": 930,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A SÁBADOS",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 30
+      }
+    },
+    {
+      "id": "chg-ece66c2b4be21866",
+      "fields": {
+        "time": {
+          "before": "16:25",
+          "after": "16:30"
+        },
+        "service_days": {
+          "before": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "after": [
+            7
+          ]
+        },
+        "service_days_text": {
+          "before": "LUNES A VIERNES",
+          "after": "DOMINGO"
+        }
+      },
+      "before": {
+        "corridor": "NORTE",
+        "line": "JESÚS MARÍA - COLONIA CAROYA",
+        "line_id": "norte-jesus-maria-colonia-caroya",
+        "nodes": [
+          "JESÚS MARÍA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "I",
+        "time": "16:25",
+        "minutes": 985,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 30
+      },
+      "after": {
+        "corridor": "NORTE",
+        "line": "JESÚS MARÍA - COLONIA CAROYA",
+        "line_id": "norte-jesus-maria-colonia-caroya",
+        "nodes": [
+          "JESÚS MARÍA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "I",
+        "time": "16:30",
+        "minutes": 990,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "DOMINGO",
+        "service_days": [
+          7
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 30
+      }
+    },
+    {
+      "id": "chg-77acea7f61cd716c",
+      "fields": {
+        "time": {
+          "before": "16:40",
+          "after": "16:50"
+        }
+      },
+      "before": {
+        "corridor": "NORTE",
+        "line": "JESÚS MARÍA - COLONIA CAROYA",
+        "line_id": "norte-jesus-maria-colonia-caroya",
+        "nodes": [
+          "JESÚS MARÍA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "I",
+        "time": "16:40",
+        "minutes": 1000,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 30
+      },
+      "after": {
+        "corridor": "NORTE",
+        "line": "JESÚS MARÍA - COLONIA CAROYA",
+        "line_id": "norte-jesus-maria-colonia-caroya",
+        "nodes": [
+          "JESÚS MARÍA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "I",
+        "time": "16:50",
+        "minutes": 1010,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 30
+      }
+    },
+    {
+      "id": "chg-3c155aa6756435cf",
+      "fields": {
+        "service_days": {
+          "before": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "after": [
+            6
+          ]
+        },
+        "service_days_text": {
+          "before": "LUNES A SÁBADOS",
+          "after": "SÁBADO"
+        }
+      },
+      "before": {
+        "corridor": "NORTE",
+        "line": "JESÚS MARÍA - COLONIA CAROYA",
+        "line_id": "norte-jesus-maria-colonia-caroya",
+        "nodes": [
+          "JESÚS MARÍA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "I",
+        "time": "17:00",
+        "minutes": 1020,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A SÁBADOS",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 30
+      },
+      "after": {
+        "corridor": "NORTE",
+        "line": "JESÚS MARÍA - COLONIA CAROYA",
+        "line_id": "norte-jesus-maria-colonia-caroya",
+        "nodes": [
+          "JESÚS MARÍA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "I",
+        "time": "17:00",
+        "minutes": 1020,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "SÁBADO",
+        "service_days": [
+          6
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 31
+      }
+    },
+    {
+      "id": "chg-84bd6068d2e1c88e",
+      "fields": {
+        "time": {
+          "before": "17:40",
+          "after": "17:35"
+        }
+      },
+      "before": {
+        "corridor": "NORTE",
+        "line": "JESÚS MARÍA - COLONIA CAROYA",
+        "line_id": "norte-jesus-maria-colonia-caroya",
+        "nodes": [
+          "JESÚS MARÍA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "I",
+        "time": "17:40",
+        "minutes": 1060,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 30
+      },
+      "after": {
+        "corridor": "NORTE",
+        "line": "JESÚS MARÍA - COLONIA CAROYA",
+        "line_id": "norte-jesus-maria-colonia-caroya",
+        "nodes": [
+          "JESÚS MARÍA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "I",
+        "time": "17:35",
+        "minutes": 1055,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 31
+      }
+    },
+    {
+      "id": "chg-9978953e23fe16fc",
+      "fields": {
+        "time": {
+          "before": "19:25",
+          "after": "19:30"
+        }
+      },
+      "before": {
+        "corridor": "NORTE",
+        "line": "JESÚS MARÍA - COLONIA CAROYA",
+        "line_id": "norte-jesus-maria-colonia-caroya",
+        "nodes": [
+          "JESÚS MARÍA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "I",
+        "time": "19:25",
+        "minutes": 1165,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 31
+      },
+      "after": {
+        "corridor": "NORTE",
+        "line": "JESÚS MARÍA - COLONIA CAROYA",
+        "line_id": "norte-jesus-maria-colonia-caroya",
+        "nodes": [
+          "JESÚS MARÍA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "I",
+        "time": "19:30",
+        "minutes": 1170,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 31
+      }
+    },
+    {
+      "id": "chg-e3fca26b72b04f2b",
+      "fields": {
+        "time": {
+          "before": "20:00",
+          "after": "21:30"
+        },
+        "service_days": {
+          "before": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "after": [
+            6
+          ]
+        },
+        "service_days_text": {
+          "before": "DIARIO",
+          "after": "SÁBADO"
+        }
+      },
+      "before": {
+        "corridor": "NORTE",
+        "line": "JESÚS MARÍA - COLONIA CAROYA",
+        "line_id": "norte-jesus-maria-colonia-caroya",
+        "nodes": [
+          "JESÚS MARÍA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "I",
+        "time": "20:00",
+        "minutes": 1200,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "DIARIO",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 31
+      },
+      "after": {
+        "corridor": "NORTE",
+        "line": "JESÚS MARÍA - COLONIA CAROYA",
+        "line_id": "norte-jesus-maria-colonia-caroya",
+        "nodes": [
+          "JESÚS MARÍA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "I",
+        "time": "21:30",
+        "minutes": 1290,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "SÁBADO",
+        "service_days": [
+          6
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 31
+      }
+    },
+    {
+      "id": "chg-2b6032cbb7731149",
+      "fields": {
+        "time": {
+          "before": "20:20",
+          "after": "21:40"
+        }
+      },
+      "before": {
+        "corridor": "NORTE",
+        "line": "JESÚS MARÍA - COLONIA CAROYA",
+        "line_id": "norte-jesus-maria-colonia-caroya",
+        "nodes": [
+          "JESÚS MARÍA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "I",
+        "time": "20:20",
+        "minutes": 1220,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 31
+      },
+      "after": {
+        "corridor": "NORTE",
+        "line": "JESÚS MARÍA - COLONIA CAROYA",
+        "line_id": "norte-jesus-maria-colonia-caroya",
+        "nodes": [
+          "JESÚS MARÍA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "I",
+        "time": "21:40",
+        "minutes": 1300,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 31
+      }
+    },
+    {
+      "id": "chg-a823ccaea1e375c5",
+      "fields": {
+        "time": {
+          "before": "21:00",
+          "after": "22:00"
+        }
+      },
+      "before": {
+        "corridor": "NORTE",
+        "line": "JESÚS MARÍA - COLONIA CAROYA",
+        "line_id": "norte-jesus-maria-colonia-caroya",
+        "nodes": [
+          "JESÚS MARÍA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "I",
+        "time": "21:00",
+        "minutes": 1260,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 31
+      },
+      "after": {
+        "corridor": "NORTE",
+        "line": "JESÚS MARÍA - COLONIA CAROYA",
+        "line_id": "norte-jesus-maria-colonia-caroya",
+        "nodes": [
+          "JESÚS MARÍA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "I",
+        "time": "22:00",
+        "minutes": 1320,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 31
+      }
+    },
+    {
+      "id": "chg-2d7d7f045c8d9a43",
+      "fields": {
+        "time": {
+          "before": "22:00",
+          "after": "22:10"
+        }
+      },
+      "before": {
+        "corridor": "NORTE",
+        "line": "JESÚS MARÍA - COLONIA CAROYA",
+        "line_id": "norte-jesus-maria-colonia-caroya",
+        "nodes": [
+          "JESÚS MARÍA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "I",
+        "time": "22:00",
+        "minutes": 1320,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "DOMINGO",
+        "service_days": [
+          7
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 31
+      },
+      "after": {
+        "corridor": "NORTE",
+        "line": "JESÚS MARÍA - COLONIA CAROYA",
+        "line_id": "norte-jesus-maria-colonia-caroya",
+        "nodes": [
+          "JESÚS MARÍA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "I",
+        "time": "22:10",
+        "minutes": 1330,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "DOMINGO",
+        "service_days": [
+          7
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 31
+      }
+    },
+    {
+      "id": "chg-118a440836b19262",
+      "fields": {
+        "time": {
+          "before": "06:45",
+          "after": "05:30"
+        }
+      },
+      "before": {
+        "corridor": "NORTE",
+        "line": "JESÚS MARÍA - COLONIA CAROYA",
+        "line_id": "norte-jesus-maria-colonia-caroya",
+        "nodes": [
+          "JESÚS MARÍA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "V",
+        "time": "06:45",
+        "minutes": 405,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 31
+      },
+      "after": {
+        "corridor": "NORTE",
+        "line": "JESÚS MARÍA - COLONIA CAROYA",
+        "line_id": "norte-jesus-maria-colonia-caroya",
+        "nodes": [
+          "JESÚS MARÍA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "V",
+        "time": "05:30",
+        "minutes": 330,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 31
+      }
+    },
+    {
+      "id": "chg-28baeef137b4a115",
+      "fields": {
+        "time": {
+          "before": "07:15",
+          "after": "05:50"
+        }
+      },
+      "before": {
+        "corridor": "NORTE",
+        "line": "JESÚS MARÍA - COLONIA CAROYA",
+        "line_id": "norte-jesus-maria-colonia-caroya",
+        "nodes": [
+          "JESÚS MARÍA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "V",
+        "time": "07:15",
+        "minutes": 435,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 31
+      },
+      "after": {
+        "corridor": "NORTE",
+        "line": "JESÚS MARÍA - COLONIA CAROYA",
+        "line_id": "norte-jesus-maria-colonia-caroya",
+        "nodes": [
+          "JESÚS MARÍA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "V",
+        "time": "05:50",
+        "minutes": 350,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 31
+      }
+    },
+    {
+      "id": "chg-b08281d2f4f542ac",
+      "fields": {
+        "time": {
+          "before": "07:20",
+          "after": "06:10"
+        }
+      },
+      "before": {
+        "corridor": "NORTE",
+        "line": "JESÚS MARÍA - COLONIA CAROYA",
+        "line_id": "norte-jesus-maria-colonia-caroya",
+        "nodes": [
+          "JESÚS MARÍA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "V",
+        "time": "07:20",
+        "minutes": 440,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 31
+      },
+      "after": {
+        "corridor": "NORTE",
+        "line": "JESÚS MARÍA - COLONIA CAROYA",
+        "line_id": "norte-jesus-maria-colonia-caroya",
+        "nodes": [
+          "JESÚS MARÍA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "V",
+        "time": "06:10",
+        "minutes": 370,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 31
+      }
+    },
+    {
+      "id": "chg-5cdcecfea8b2aab1",
+      "fields": {
+        "time": {
+          "before": "08:30",
+          "after": "06:40"
+        }
+      },
+      "before": {
+        "corridor": "NORTE",
+        "line": "JESÚS MARÍA - COLONIA CAROYA",
+        "line_id": "norte-jesus-maria-colonia-caroya",
+        "nodes": [
+          "JESÚS MARÍA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "V",
+        "time": "08:30",
+        "minutes": 510,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 31
+      },
+      "after": {
+        "corridor": "NORTE",
+        "line": "JESÚS MARÍA - COLONIA CAROYA",
+        "line_id": "norte-jesus-maria-colonia-caroya",
+        "nodes": [
+          "JESÚS MARÍA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "V",
+        "time": "06:40",
+        "minutes": 400,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 31
+      }
+    },
+    {
+      "id": "chg-d9507955a4e9e92e",
+      "fields": {
+        "time": {
+          "before": "08:55",
+          "after": "07:10"
+        }
+      },
+      "before": {
+        "corridor": "NORTE",
+        "line": "JESÚS MARÍA - COLONIA CAROYA",
+        "line_id": "norte-jesus-maria-colonia-caroya",
+        "nodes": [
+          "JESÚS MARÍA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "V",
+        "time": "08:55",
+        "minutes": 535,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 32
+      },
+      "after": {
+        "corridor": "NORTE",
+        "line": "JESÚS MARÍA - COLONIA CAROYA",
+        "line_id": "norte-jesus-maria-colonia-caroya",
+        "nodes": [
+          "JESÚS MARÍA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "V",
+        "time": "07:10",
+        "minutes": 430,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 32
+      }
+    },
+    {
+      "id": "chg-11531d2d4efaaf75",
+      "fields": {
+        "time": {
+          "before": "10:30",
+          "after": "07:10"
+        }
+      },
+      "before": {
+        "corridor": "NORTE",
+        "line": "JESÚS MARÍA - COLONIA CAROYA",
+        "line_id": "norte-jesus-maria-colonia-caroya",
+        "nodes": [
+          "JESÚS MARÍA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "V",
+        "time": "10:30",
+        "minutes": 630,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 32
+      },
+      "after": {
+        "corridor": "NORTE",
+        "line": "JESÚS MARÍA - COLONIA CAROYA",
+        "line_id": "norte-jesus-maria-colonia-caroya",
+        "nodes": [
+          "JESÚS MARÍA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "V",
+        "time": "07:10",
+        "minutes": 430,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 32
+      }
+    },
+    {
+      "id": "chg-0f5e57403d738bd3",
+      "fields": {
+        "time": {
+          "before": "11:00",
+          "after": "08:40"
+        }
+      },
+      "before": {
+        "corridor": "NORTE",
+        "line": "JESÚS MARÍA - COLONIA CAROYA",
+        "line_id": "norte-jesus-maria-colonia-caroya",
+        "nodes": [
+          "JESÚS MARÍA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "V",
+        "time": "11:00",
+        "minutes": 660,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 32
+      },
+      "after": {
+        "corridor": "NORTE",
+        "line": "JESÚS MARÍA - COLONIA CAROYA",
+        "line_id": "norte-jesus-maria-colonia-caroya",
+        "nodes": [
+          "JESÚS MARÍA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "V",
+        "time": "08:40",
+        "minutes": 520,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 32
+      }
+    },
+    {
+      "id": "chg-a980f53905dc7a0f",
+      "fields": {
+        "time": {
+          "before": "11:20",
+          "after": "09:00"
+        },
+        "service_days": {
+          "before": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            7
+          ],
+          "after": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        },
+        "service_days_text": {
+          "before": "LUNES A VIERNES Y DOMINGOS",
+          "after": "LUNES A VIERNES"
+        }
+      },
+      "before": {
+        "corridor": "NORTE",
+        "line": "JESÚS MARÍA - COLONIA CAROYA",
+        "line_id": "norte-jesus-maria-colonia-caroya",
+        "nodes": [
+          "JESÚS MARÍA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "V",
+        "time": "11:20",
+        "minutes": 680,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A VIERNES Y DOMINGOS",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          7
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 32
+      },
+      "after": {
+        "corridor": "NORTE",
+        "line": "JESÚS MARÍA - COLONIA CAROYA",
+        "line_id": "norte-jesus-maria-colonia-caroya",
+        "nodes": [
+          "JESÚS MARÍA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "V",
+        "time": "09:00",
+        "minutes": 540,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 32
+      }
+    },
+    {
+      "id": "chg-dc2f3f3e13d8dc0e",
+      "fields": {
+        "time": {
+          "before": "12:20",
+          "after": "10:50"
+        }
+      },
+      "before": {
+        "corridor": "NORTE",
+        "line": "JESÚS MARÍA - COLONIA CAROYA",
+        "line_id": "norte-jesus-maria-colonia-caroya",
+        "nodes": [
+          "JESÚS MARÍA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "V",
+        "time": "12:20",
+        "minutes": 740,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A SÁBADOS",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 32
+      },
+      "after": {
+        "corridor": "NORTE",
+        "line": "JESÚS MARÍA - COLONIA CAROYA",
+        "line_id": "norte-jesus-maria-colonia-caroya",
+        "nodes": [
+          "JESÚS MARÍA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "V",
+        "time": "10:50",
+        "minutes": 650,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A SÁBADOS",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 32
+      }
+    },
+    {
+      "id": "chg-861d3e44999589bf",
+      "fields": {
+        "time": {
+          "before": "14:20",
+          "after": "10:55"
+        }
+      },
+      "before": {
+        "corridor": "NORTE",
+        "line": "JESÚS MARÍA - COLONIA CAROYA",
+        "line_id": "norte-jesus-maria-colonia-caroya",
+        "nodes": [
+          "JESÚS MARÍA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "V",
+        "time": "14:20",
+        "minutes": 860,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 33
+      },
+      "after": {
+        "corridor": "NORTE",
+        "line": "JESÚS MARÍA - COLONIA CAROYA",
+        "line_id": "norte-jesus-maria-colonia-caroya",
+        "nodes": [
+          "JESÚS MARÍA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "V",
+        "time": "10:55",
+        "minutes": 655,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 32
+      }
+    },
+    {
+      "id": "chg-5d24635fecd5985c",
+      "fields": {
+        "time": {
+          "before": "15:20",
+          "after": "11:00"
+        },
+        "service_days": {
+          "before": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "after": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            7
+          ]
+        },
+        "service_days_text": {
+          "before": "DIARIO",
+          "after": "LUNES A VIERNES Y DOMINGOS"
+        }
+      },
+      "before": {
+        "corridor": "NORTE",
+        "line": "JESÚS MARÍA - COLONIA CAROYA",
+        "line_id": "norte-jesus-maria-colonia-caroya",
+        "nodes": [
+          "JESÚS MARÍA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "V",
+        "time": "15:20",
+        "minutes": 920,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "DIARIO",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 33
+      },
+      "after": {
+        "corridor": "NORTE",
+        "line": "JESÚS MARÍA - COLONIA CAROYA",
+        "line_id": "norte-jesus-maria-colonia-caroya",
+        "nodes": [
+          "JESÚS MARÍA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "V",
+        "time": "11:00",
+        "minutes": 660,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A VIERNES Y DOMINGOS",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          7
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 32
+      }
+    },
+    {
+      "id": "chg-e4b0e78603780941",
+      "fields": {
+        "time": {
+          "before": "15:50",
+          "after": "12:10"
+        }
+      },
+      "before": {
+        "corridor": "NORTE",
+        "line": "JESÚS MARÍA - COLONIA CAROYA",
+        "line_id": "norte-jesus-maria-colonia-caroya",
+        "nodes": [
+          "JESÚS MARÍA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "V",
+        "time": "15:50",
+        "minutes": 950,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 33
+      },
+      "after": {
+        "corridor": "NORTE",
+        "line": "JESÚS MARÍA - COLONIA CAROYA",
+        "line_id": "norte-jesus-maria-colonia-caroya",
+        "nodes": [
+          "JESÚS MARÍA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "V",
+        "time": "12:10",
+        "minutes": 730,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 32
+      }
+    },
+    {
+      "id": "chg-dd04e043127ef552",
+      "fields": {
+        "time": {
+          "before": "16:15",
+          "after": "13:10"
+        }
+      },
+      "before": {
+        "corridor": "NORTE",
+        "line": "JESÚS MARÍA - COLONIA CAROYA",
+        "line_id": "norte-jesus-maria-colonia-caroya",
+        "nodes": [
+          "JESÚS MARÍA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "V",
+        "time": "16:15",
+        "minutes": 975,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 33
+      },
+      "after": {
+        "corridor": "NORTE",
+        "line": "JESÚS MARÍA - COLONIA CAROYA",
+        "line_id": "norte-jesus-maria-colonia-caroya",
+        "nodes": [
+          "JESÚS MARÍA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "V",
+        "time": "13:10",
+        "minutes": 790,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 33
+      }
+    },
+    {
+      "id": "chg-9e3a112a80115455",
+      "fields": {
+        "time": {
+          "before": "16:20",
+          "after": "14:40"
+        }
+      },
+      "before": {
+        "corridor": "NORTE",
+        "line": "JESÚS MARÍA - COLONIA CAROYA",
+        "line_id": "norte-jesus-maria-colonia-caroya",
+        "nodes": [
+          "JESÚS MARÍA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "V",
+        "time": "16:20",
+        "minutes": 980,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 33
+      },
+      "after": {
+        "corridor": "NORTE",
+        "line": "JESÚS MARÍA - COLONIA CAROYA",
+        "line_id": "norte-jesus-maria-colonia-caroya",
+        "nodes": [
+          "JESÚS MARÍA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "V",
+        "time": "14:40",
+        "minutes": 880,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 33
+      }
+    },
+    {
+      "id": "chg-ab3a9ff97d556fa1",
+      "fields": {
+        "time": {
+          "before": "16:50",
+          "after": "15:20"
+        }
+      },
+      "before": {
+        "corridor": "NORTE",
+        "line": "JESÚS MARÍA - COLONIA CAROYA",
+        "line_id": "norte-jesus-maria-colonia-caroya",
+        "nodes": [
+          "JESÚS MARÍA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "V",
+        "time": "16:50",
+        "minutes": 1010,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "SÁBADO",
+        "service_days": [
+          6
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 33
+      },
+      "after": {
+        "corridor": "NORTE",
+        "line": "JESÚS MARÍA - COLONIA CAROYA",
+        "line_id": "norte-jesus-maria-colonia-caroya",
+        "nodes": [
+          "JESÚS MARÍA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "V",
+        "time": "15:20",
+        "minutes": 920,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "SÁBADO",
+        "service_days": [
+          6
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 33
+      }
+    },
+    {
+      "id": "chg-e5d9d4e1a12da877",
+      "fields": {
+        "time": {
+          "before": "17:00",
+          "after": "15:30"
+        }
+      },
+      "before": {
+        "corridor": "NORTE",
+        "line": "JESÚS MARÍA - COLONIA CAROYA",
+        "line_id": "norte-jesus-maria-colonia-caroya",
+        "nodes": [
+          "JESÚS MARÍA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "V",
+        "time": "17:00",
+        "minutes": 1020,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 33
+      },
+      "after": {
+        "corridor": "NORTE",
+        "line": "JESÚS MARÍA - COLONIA CAROYA",
+        "line_id": "norte-jesus-maria-colonia-caroya",
+        "nodes": [
+          "JESÚS MARÍA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "V",
+        "time": "15:30",
+        "minutes": 930,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 33
+      }
+    },
+    {
+      "id": "chg-7683e235ca925676",
+      "fields": {
+        "time": {
+          "before": "17:20",
+          "after": "16:20"
+        },
+        "service_days": {
+          "before": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            7
+          ],
+          "after": [
+            7
+          ]
+        },
+        "service_days_text": {
+          "before": "LUNES A VIERNES Y DOMINGOS",
+          "after": "DOMINGO"
+        }
+      },
+      "before": {
+        "corridor": "NORTE",
+        "line": "JESÚS MARÍA - COLONIA CAROYA",
+        "line_id": "norte-jesus-maria-colonia-caroya",
+        "nodes": [
+          "JESÚS MARÍA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "V",
+        "time": "17:20",
+        "minutes": 1040,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A VIERNES Y DOMINGOS",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          7
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 33
+      },
+      "after": {
+        "corridor": "NORTE",
+        "line": "JESÚS MARÍA - COLONIA CAROYA",
+        "line_id": "norte-jesus-maria-colonia-caroya",
+        "nodes": [
+          "JESÚS MARÍA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "V",
+        "time": "16:20",
+        "minutes": 980,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "DOMINGO",
+        "service_days": [
+          7
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 33
+      }
+    },
+    {
+      "id": "chg-4a504bb3a3c700c4",
+      "fields": {
+        "time": {
+          "before": "18:20",
+          "after": "16:50"
+        }
+      },
+      "before": {
+        "corridor": "NORTE",
+        "line": "JESÚS MARÍA - COLONIA CAROYA",
+        "line_id": "norte-jesus-maria-colonia-caroya",
+        "nodes": [
+          "JESÚS MARÍA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "V",
+        "time": "18:20",
+        "minutes": 1100,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A SÁBADOS",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 33
+      },
+      "after": {
+        "corridor": "NORTE",
+        "line": "JESÚS MARÍA - COLONIA CAROYA",
+        "line_id": "norte-jesus-maria-colonia-caroya",
+        "nodes": [
+          "JESÚS MARÍA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "V",
+        "time": "16:50",
+        "minutes": 1010,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A SÁBADOS",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 33
+      }
+    },
+    {
+      "id": "chg-a96c8c6aaaf77498",
+      "fields": {
+        "time": {
+          "before": "18:45",
+          "after": "17:50"
+        },
+        "service_days": {
+          "before": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "after": [
+            7
+          ]
+        },
+        "service_days_text": {
+          "before": "LUNES A VIERNES",
+          "after": "DOMINGO"
+        }
+      },
+      "before": {
+        "corridor": "NORTE",
+        "line": "JESÚS MARÍA - COLONIA CAROYA",
+        "line_id": "norte-jesus-maria-colonia-caroya",
+        "nodes": [
+          "JESÚS MARÍA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "V",
+        "time": "18:45",
+        "minutes": 1125,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 33
+      },
+      "after": {
+        "corridor": "NORTE",
+        "line": "JESÚS MARÍA - COLONIA CAROYA",
+        "line_id": "norte-jesus-maria-colonia-caroya",
+        "nodes": [
+          "JESÚS MARÍA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "V",
+        "time": "17:50",
+        "minutes": 1070,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "DOMINGO",
+        "service_days": [
+          7
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 34
+      }
+    },
+    {
+      "id": "chg-8688376c39011ea5",
+      "fields": {
+        "time": {
+          "before": "19:00",
+          "after": "18:10"
+        },
+        "service_days": {
+          "before": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "after": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ]
+        },
+        "service_days_text": {
+          "before": "LUNES A VIERNES",
+          "after": "LUNES A SÁBADOS"
+        }
+      },
+      "before": {
+        "corridor": "NORTE",
+        "line": "JESÚS MARÍA - COLONIA CAROYA",
+        "line_id": "norte-jesus-maria-colonia-caroya",
+        "nodes": [
+          "JESÚS MARÍA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "V",
+        "time": "19:00",
+        "minutes": 1140,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 33
+      },
+      "after": {
+        "corridor": "NORTE",
+        "line": "JESÚS MARÍA - COLONIA CAROYA",
+        "line_id": "norte-jesus-maria-colonia-caroya",
+        "nodes": [
+          "JESÚS MARÍA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "V",
+        "time": "18:10",
+        "minutes": 1090,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A SÁBADOS",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 34
+      }
+    },
+    {
+      "id": "chg-d5939485f5e68835",
+      "fields": {
+        "time": {
+          "before": "20:00",
+          "after": "18:20"
+        },
+        "service_days": {
+          "before": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "after": [
+            6
+          ]
+        },
+        "service_days_text": {
+          "before": "LUNES A VIERNES",
+          "after": "SÁBADO"
+        }
+      },
+      "before": {
+        "corridor": "NORTE",
+        "line": "JESÚS MARÍA - COLONIA CAROYA",
+        "line_id": "norte-jesus-maria-colonia-caroya",
+        "nodes": [
+          "JESÚS MARÍA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "V",
+        "time": "20:00",
+        "minutes": 1200,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 34
+      },
+      "after": {
+        "corridor": "NORTE",
+        "line": "JESÚS MARÍA - COLONIA CAROYA",
+        "line_id": "norte-jesus-maria-colonia-caroya",
+        "nodes": [
+          "JESÚS MARÍA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "V",
+        "time": "18:20",
+        "minutes": 1100,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "SÁBADO",
+        "service_days": [
+          6
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 34
+      }
+    },
+    {
+      "id": "chg-bcadd0827a5c0ede",
+      "fields": {
+        "time": {
+          "before": "20:20",
+          "after": "20:00"
+        },
+        "service_days": {
+          "before": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "after": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ]
+        },
+        "service_days_text": {
+          "before": "LUNES A VIERNES",
+          "after": "DIARIO"
+        }
+      },
+      "before": {
+        "corridor": "NORTE",
+        "line": "JESÚS MARÍA - COLONIA CAROYA",
+        "line_id": "norte-jesus-maria-colonia-caroya",
+        "nodes": [
+          "JESÚS MARÍA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "V",
+        "time": "20:20",
+        "minutes": 1220,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 34
+      },
+      "after": {
+        "corridor": "NORTE",
+        "line": "JESÚS MARÍA - COLONIA CAROYA",
+        "line_id": "norte-jesus-maria-colonia-caroya",
+        "nodes": [
+          "JESÚS MARÍA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "V",
+        "time": "20:00",
+        "minutes": 1200,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "DIARIO",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 34
+      }
+    },
+    {
+      "id": "chg-46cc17b5dd806a98",
+      "fields": {
+        "service_days": {
+          "before": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "after": [
+            6,
+            7
+          ]
+        },
+        "service_days_text": {
+          "before": "DIARIO",
+          "after": "FINES DE SEMANA"
+        }
+      },
+      "before": {
+        "corridor": "NORTE",
+        "line": "JESÚS MARÍA - COLONIA CAROYA",
+        "line_id": "norte-jesus-maria-colonia-caroya",
+        "nodes": [
+          "JESÚS MARÍA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "V",
+        "time": "21:20",
+        "minutes": 1280,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "DIARIO",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 34
+      },
+      "after": {
+        "corridor": "NORTE",
+        "line": "JESÚS MARÍA - COLONIA CAROYA",
+        "line_id": "norte-jesus-maria-colonia-caroya",
+        "nodes": [
+          "JESÚS MARÍA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "V",
+        "time": "21:20",
+        "minutes": 1280,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "FINES DE SEMANA",
+        "service_days": [
+          6,
+          7
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 34
+      }
+    },
+    {
+      "id": "chg-f34257a460cdcd75",
+      "fields": {
+        "time": {
+          "before": "22:50",
+          "after": "23:00"
+        },
+        "service_days": {
+          "before": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "after": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        },
+        "service_days_text": {
+          "before": "LUNES A SÁBADOS",
+          "after": "LUNES A VIERNES"
+        }
+      },
+      "before": {
+        "corridor": "NORTE",
+        "line": "JESÚS MARÍA - COLONIA CAROYA",
+        "line_id": "norte-jesus-maria-colonia-caroya",
+        "nodes": [
+          "JESÚS MARÍA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "V",
+        "time": "22:50",
+        "minutes": 1370,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A SÁBADOS",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 34
+      },
+      "after": {
+        "corridor": "NORTE",
+        "line": "JESÚS MARÍA - COLONIA CAROYA",
+        "line_id": "norte-jesus-maria-colonia-caroya",
+        "nodes": [
+          "JESÚS MARÍA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "V",
+        "time": "23:00",
+        "minutes": 1380,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 34
+      }
+    },
+    {
+      "id": "chg-0913bb48c9a65e3e",
+      "fields": {
+        "time": {
+          "before": "23:20",
+          "after": "23:30"
+        }
+      },
+      "before": {
+        "corridor": "NORTE",
+        "line": "JESÚS MARÍA - COLONIA CAROYA",
+        "line_id": "norte-jesus-maria-colonia-caroya",
+        "nodes": [
+          "JESÚS MARÍA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "V",
+        "time": "23:20",
+        "minutes": 1400,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "DOMINGO",
+        "service_days": [
+          7
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 34
+      },
+      "after": {
+        "corridor": "NORTE",
+        "line": "JESÚS MARÍA - COLONIA CAROYA",
+        "line_id": "norte-jesus-maria-colonia-caroya",
+        "nodes": [
+          "JESÚS MARÍA",
+          "COLONIA CAROYA"
+        ],
+        "direction": "V",
+        "time": "23:30",
+        "minutes": 1410,
+        "company": "COLONIA TIROLESA S.R.L.",
+        "cuit": "30-59873589-8",
+        "service_days_text": "DOMINGO",
+        "service_days": [
+          7
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP A174",
+        "source_file": "03-norte.pdf",
+        "source_page": 34
+      }
+    }
+  ],
+  "added": [
+    {
+      "corridor": "NORTE",
+      "line": "CÓRDOBA - COLONIA CAROYA",
+      "line_id": "norte-cordoba-colonia-caroya",
+      "nodes": [
+        "CÓRDOBA",
+        "COLONIA CAROYA"
+      ],
+      "direction": "I",
+      "time": "09:30",
+      "minutes": 570,
+      "company": "COLONIA TIROLESA S.R.L.",
+      "cuit": "30-59873589-8",
+      "service_days_text": "LUNES A SÁBADOS",
+      "service_days": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "modality": "REGULAR COMÚN",
+      "route": "RP A174",
+      "source_file": "03-norte.pdf",
+      "source_page": 2
+    },
+    {
+      "corridor": "NORTE",
+      "line": "CÓRDOBA - COLONIA CAROYA",
+      "line_id": "norte-cordoba-colonia-caroya",
+      "nodes": [
+        "CÓRDOBA",
+        "COLONIA CAROYA"
+      ],
+      "direction": "I",
+      "time": "13:30",
+      "minutes": 810,
+      "company": "COLONIA TIROLESA S.R.L.",
+      "cuit": "30-59873589-8",
+      "service_days_text": "DOMINGO",
+      "service_days": [
+        7
+      ],
+      "modality": "REGULAR COMÚN",
+      "route": "RP A174",
+      "source_file": "03-norte.pdf",
+      "source_page": 2
+    },
+    {
+      "corridor": "NORTE",
+      "line": "CÓRDOBA - COLONIA CAROYA",
+      "line_id": "norte-cordoba-colonia-caroya",
+      "nodes": [
+        "CÓRDOBA",
+        "COLONIA CAROYA"
+      ],
+      "direction": "I",
+      "time": "21:30",
+      "minutes": 1290,
+      "company": "COLONIA TIROLESA S.R.L.",
+      "cuit": "30-59873589-8",
+      "service_days_text": "SÁBADO",
+      "service_days": [
+        6
+      ],
+      "modality": "REGULAR COMÚN",
+      "route": "RP A174",
+      "source_file": "03-norte.pdf",
+      "source_page": 3
+    },
+    {
+      "corridor": "NORTE",
+      "line": "CÓRDOBA - COLONIA CAROYA",
+      "line_id": "norte-cordoba-colonia-caroya",
+      "nodes": [
+        "CÓRDOBA",
+        "COLONIA CAROYA"
+      ],
+      "direction": "V",
+      "time": "13:55",
+      "minutes": 835,
+      "company": "COLONIA TIROLESA S.R.L.",
+      "cuit": "30-59873589-8",
+      "service_days_text": "DOMINGO",
+      "service_days": [
+        7
+      ],
+      "modality": "REGULAR COMÚN",
+      "route": "RP A174",
+      "source_file": "03-norte.pdf",
+      "source_page": 4
+    },
+    {
+      "corridor": "NORTE",
+      "line": "CÓRDOBA - COLONIA CAROYA",
+      "line_id": "norte-cordoba-colonia-caroya",
+      "nodes": [
+        "CÓRDOBA",
+        "COLONIA CAROYA"
+      ],
+      "direction": "V",
+      "time": "15:25",
+      "minutes": 925,
+      "company": "COLONIA TIROLESA S.R.L.",
+      "cuit": "30-59873589-8",
+      "service_days_text": "DOMINGO",
+      "service_days": [
+        7
+      ],
+      "modality": "REGULAR COMÚN",
+      "route": "RP A174",
+      "source_file": "03-norte.pdf",
+      "source_page": 4
+    },
+    {
+      "corridor": "NORTE",
+      "line": "CÓRDOBA - COLONIA CAROYA",
+      "line_id": "norte-cordoba-colonia-caroya",
+      "nodes": [
+        "CÓRDOBA",
+        "COLONIA CAROYA"
+      ],
+      "direction": "V",
+      "time": "17:25",
+      "minutes": 1045,
+      "company": "COLONIA TIROLESA S.R.L.",
+      "cuit": "30-59873589-8",
+      "service_days_text": "SÁBADO",
+      "service_days": [
+        6
+      ],
+      "modality": "REGULAR COMÚN",
+      "route": "RP A174",
+      "source_file": "03-norte.pdf",
+      "source_page": 5
+    },
+    {
+      "corridor": "NORTE",
+      "line": "CÓRDOBA - COLONIA TIROLESA",
+      "line_id": "norte-cordoba-colonia-tirolesa",
+      "nodes": [
+        "CÓRDOBA",
+        "COLONIA TIROLESA"
+      ],
+      "direction": "I",
+      "time": "18:30",
+      "minutes": 1110,
+      "company": "COLONIA TIROLESA S.R.L.",
+      "cuit": "30-59873589-8",
+      "service_days_text": "LUNES A VIERNES",
+      "service_days": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "modality": "REGULAR COMÚN",
+      "route": "RP A174",
+      "source_file": "03-norte.pdf",
+      "source_page": 6
+    },
+    {
+      "corridor": "NORTE",
+      "line": "CÓRDOBA - COLONIA TIROLESA",
+      "line_id": "norte-cordoba-colonia-tirolesa",
+      "nodes": [
+        "CÓRDOBA",
+        "COLONIA TIROLESA"
+      ],
+      "direction": "I",
+      "time": "20:30",
+      "minutes": 1230,
+      "company": "COLONIA TIROLESA S.R.L.",
+      "cuit": "30-59873589-8",
+      "service_days_text": "LUNES A VIERNES",
+      "service_days": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "modality": "REGULAR COMÚN",
+      "route": "RP A174",
+      "source_file": "03-norte.pdf",
+      "source_page": 6
+    },
+    {
+      "corridor": "NORTE",
+      "line": "CÓRDOBA - COLONIA TIROLESA",
+      "line_id": "norte-cordoba-colonia-tirolesa",
+      "nodes": [
+        "CÓRDOBA",
+        "COLONIA TIROLESA"
+      ],
+      "direction": "V",
+      "time": "19:30",
+      "minutes": 1170,
+      "company": "COLONIA TIROLESA S.R.L.",
+      "cuit": "30-59873589-8",
+      "service_days_text": "LUNES A VIERNES",
+      "service_days": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "modality": "REGULAR COMÚN",
+      "route": "RP A174",
+      "source_file": "03-norte.pdf",
+      "source_page": 6
+    },
+    {
+      "corridor": "NORTE",
+      "line": "CÓRDOBA - COLONIA TIROLESA",
+      "line_id": "norte-cordoba-colonia-tirolesa",
+      "nodes": [
+        "CÓRDOBA",
+        "COLONIA TIROLESA"
+      ],
+      "direction": "V",
+      "time": "21:30",
+      "minutes": 1290,
+      "company": "COLONIA TIROLESA S.R.L.",
+      "cuit": "30-59873589-8",
+      "service_days_text": "LUNES A VIERNES",
+      "service_days": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "modality": "REGULAR COMÚN",
+      "route": "RP A174",
+      "source_file": "03-norte.pdf",
+      "source_page": 6
+    },
+    {
+      "corridor": "NORTE",
+      "line": "JESÚS MARÍA - COLONIA CAROYA",
+      "line_id": "norte-jesus-maria-colonia-caroya",
+      "nodes": [
+        "JESÚS MARÍA",
+        "COLONIA CAROYA"
+      ],
+      "direction": "I",
+      "time": "09:00",
+      "minutes": 540,
+      "company": "COLONIA TIROLESA S.R.L.",
+      "cuit": "30-59873589-8",
+      "service_days_text": "DOMINGO",
+      "service_days": [
+        7
+      ],
+      "modality": "REGULAR COMÚN",
+      "route": "RP A174",
+      "source_file": "03-norte.pdf",
+      "source_page": 29
+    },
+    {
+      "corridor": "NORTE",
+      "line": "JESÚS MARÍA - COLONIA CAROYA",
+      "line_id": "norte-jesus-maria-colonia-caroya",
+      "nodes": [
+        "JESÚS MARÍA",
+        "COLONIA CAROYA"
+      ],
+      "direction": "V",
+      "time": "10:20",
+      "minutes": 620,
+      "company": "COLONIA TIROLESA S.R.L.",
+      "cuit": "30-59873589-8",
+      "service_days_text": "DOMINGO",
+      "service_days": [
+        7
+      ],
+      "modality": "REGULAR COMÚN",
+      "route": "RP A174",
+      "source_file": "03-norte.pdf",
+      "source_page": 32
+    },
+    {
+      "corridor": "NORTE",
+      "line": "JESÚS MARÍA - COLONIA CAROYA",
+      "line_id": "norte-jesus-maria-colonia-caroya",
+      "nodes": [
+        "JESÚS MARÍA",
+        "COLONIA CAROYA"
+      ],
+      "direction": "V",
+      "time": "12:20",
+      "minutes": 740,
+      "company": "COLONIA TIROLESA S.R.L.",
+      "cuit": "30-59873589-8",
+      "service_days_text": "FINES DE SEMANA",
+      "service_days": [
+        6,
+        7
+      ],
+      "modality": "REGULAR COMÚN",
+      "route": "RP A174",
+      "source_file": "03-norte.pdf",
+      "source_page": 33
+    },
+    {
+      "corridor": "NORTE",
+      "line": "JESÚS MARÍA - COLONIA CAROYA",
+      "line_id": "norte-jesus-maria-colonia-caroya",
+      "nodes": [
+        "JESÚS MARÍA",
+        "COLONIA CAROYA"
+      ],
+      "direction": "V",
+      "time": "14:50",
+      "minutes": 890,
+      "company": "COLONIA TIROLESA S.R.L.",
+      "cuit": "30-59873589-8",
+      "service_days_text": "DOMINGO",
+      "service_days": [
+        7
+      ],
+      "modality": "REGULAR COMÚN",
+      "route": "RP A174",
+      "source_file": "03-norte.pdf",
+      "source_page": 33
+    },
+    {
+      "corridor": "NORTE",
+      "line": "JESÚS MARÍA - COLONIA CAROYA",
+      "line_id": "norte-jesus-maria-colonia-caroya",
+      "nodes": [
+        "JESÚS MARÍA",
+        "COLONIA CAROYA"
+      ],
+      "direction": "V",
+      "time": "22:50",
+      "minutes": 1370,
+      "company": "COLONIA TIROLESA S.R.L.",
+      "cuit": "30-59873589-8",
+      "service_days_text": "SÁBADO",
+      "service_days": [
+        6
+      ],
+      "modality": "REGULAR COMÚN",
+      "route": "RP A174",
+      "source_file": "03-norte.pdf",
+      "source_page": 34
+    }
+  ],
+  "removed": [
+    {
+      "corridor": "NORTE",
+      "line": "JESÚS MARÍA - COLONIA CAROYA",
+      "line_id": "norte-jesus-maria-colonia-caroya",
+      "nodes": [
+        "JESÚS MARÍA",
+        "COLONIA CAROYA"
+      ],
+      "direction": "I",
+      "time": "12:00",
+      "minutes": 720,
+      "company": "COLONIA TIROLESA S.R.L.",
+      "cuit": "30-59873589-8",
+      "service_days_text": "DOMINGO",
+      "service_days": [
+        7
+      ],
+      "modality": "REGULAR COMÚN",
+      "route": "RP A174",
+      "source_file": "03-norte.pdf",
+      "source_page": 29
+    },
+    {
+      "corridor": "NORTE",
+      "line": "JESÚS MARÍA - COLONIA CAROYA",
+      "line_id": "norte-jesus-maria-colonia-caroya",
+      "nodes": [
+        "JESÚS MARÍA",
+        "COLONIA CAROYA"
+      ],
+      "direction": "I",
+      "time": "17:20",
+      "minutes": 1040,
+      "company": "COLONIA TIROLESA S.R.L.",
+      "cuit": "30-59873589-8",
+      "service_days_text": "LUNES A VIERNES",
+      "service_days": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "modality": "REGULAR COMÚN",
+      "route": "RP A174",
+      "source_file": "03-norte.pdf",
+      "source_page": 30
+    },
+    {
+      "corridor": "NORTE",
+      "line": "JESÚS MARÍA - COLONIA CAROYA",
+      "line_id": "norte-jesus-maria-colonia-caroya",
+      "nodes": [
+        "JESÚS MARÍA",
+        "COLONIA CAROYA"
+      ],
+      "direction": "I",
+      "time": "18:00",
+      "minutes": 1080,
+      "company": "COLONIA TIROLESA S.R.L.",
+      "cuit": "30-59873589-8",
+      "service_days_text": "LUNES A VIERNES",
+      "service_days": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "modality": "REGULAR COMÚN",
+      "route": "RP A174",
+      "source_file": "03-norte.pdf",
+      "source_page": 30
+    },
+    {
+      "corridor": "NORTE",
+      "line": "JESÚS MARÍA - COLONIA CAROYA",
+      "line_id": "norte-jesus-maria-colonia-caroya",
+      "nodes": [
+        "JESÚS MARÍA",
+        "COLONIA CAROYA"
+      ],
+      "direction": "I",
+      "time": "18:25",
+      "minutes": 1105,
+      "company": "COLONIA TIROLESA S.R.L.",
+      "cuit": "30-59873589-8",
+      "service_days_text": "LUNES A VIERNES",
+      "service_days": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "modality": "REGULAR COMÚN",
+      "route": "RP A174",
+      "source_file": "03-norte.pdf",
+      "source_page": 30
+    },
+    {
+      "corridor": "NORTE",
+      "line": "JESÚS MARÍA - COLONIA CAROYA",
+      "line_id": "norte-jesus-maria-colonia-caroya",
+      "nodes": [
+        "JESÚS MARÍA",
+        "COLONIA CAROYA"
+      ],
+      "direction": "I",
+      "time": "19:00",
+      "minutes": 1140,
+      "company": "COLONIA TIROLESA S.R.L.",
+      "cuit": "30-59873589-8",
+      "service_days_text": "LUNES A VIERNES",
+      "service_days": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "modality": "REGULAR COMÚN",
+      "route": "RP A174",
+      "source_file": "03-norte.pdf",
+      "source_page": 31
+    },
+    {
+      "corridor": "NORTE",
+      "line": "JESÚS MARÍA - COLONIA CAROYA",
+      "line_id": "norte-jesus-maria-colonia-caroya",
+      "nodes": [
+        "JESÚS MARÍA",
+        "COLONIA CAROYA"
+      ],
+      "direction": "I",
+      "time": "21:30",
+      "minutes": 1290,
+      "company": "COLONIA TIROLESA S.R.L.",
+      "cuit": "30-59873589-8",
+      "service_days_text": "LUNES A SÁBADOS",
+      "service_days": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "modality": "REGULAR COMÚN",
+      "route": "RP A174",
+      "source_file": "03-norte.pdf",
+      "source_page": 31
+    },
+    {
+      "corridor": "NORTE",
+      "line": "JESÚS MARÍA - COLONIA CAROYA",
+      "line_id": "norte-jesus-maria-colonia-caroya",
+      "nodes": [
+        "JESÚS MARÍA",
+        "COLONIA CAROYA"
+      ],
+      "direction": "I",
+      "time": "22:10",
+      "minutes": 1330,
+      "company": "COLONIA TIROLESA S.R.L.",
+      "cuit": "30-59873589-8",
+      "service_days_text": "LUNES A VIERNES",
+      "service_days": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "modality": "REGULAR COMÚN",
+      "route": "RP A174",
+      "source_file": "03-norte.pdf",
+      "source_page": 31
+    },
+    {
+      "corridor": "NORTE",
+      "line": "JESÚS MARÍA - COLONIA CAROYA",
+      "line_id": "norte-jesus-maria-colonia-caroya",
+      "nodes": [
+        "JESÚS MARÍA",
+        "COLONIA CAROYA"
+      ],
+      "direction": "V",
+      "time": "09:50",
+      "minutes": 590,
+      "company": "COLONIA TIROLESA S.R.L.",
+      "cuit": "30-59873589-8",
+      "service_days_text": "DOMINGO",
+      "service_days": [
+        7
+      ],
+      "modality": "REGULAR COMÚN",
+      "route": "RP A174",
+      "source_file": "03-norte.pdf",
+      "source_page": 32
+    },
+    {
+      "corridor": "NORTE",
+      "line": "JESÚS MARÍA - COLONIA CAROYA",
+      "line_id": "norte-jesus-maria-colonia-caroya",
+      "nodes": [
+        "JESÚS MARÍA",
+        "COLONIA CAROYA"
+      ],
+      "direction": "V",
+      "time": "10:50",
+      "minutes": 650,
+      "company": "COLONIA TIROLESA S.R.L.",
+      "cuit": "30-59873589-8",
+      "service_days_text": "SÁBADO",
+      "service_days": [
+        6
+      ],
+      "modality": "REGULAR COMÚN",
+      "route": "RP A174",
+      "source_file": "03-norte.pdf",
+      "source_page": 32
+    }
+  ],
+  "warnings": []
+}
