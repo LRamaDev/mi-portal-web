@@ -11,7 +11,7 @@
     } catch (error) {}
   </script>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-  <link rel="stylesheet" href="transporte.css?v=11">
+  <link rel="stylesheet" href="transporte.css?v=11.2">
 </head>
 
 <body>
@@ -297,16 +297,16 @@
         <div><span class="eyebrow">Actualización semanal</span><h2 id="admin-title">Cargar los ocho cronogramas</h2></div>
         <button id="admin-close" class="admin-close" type="button" aria-label="Cerrar">×</button>
       </header>
-      <p class="admin-lead">Elegí los ocho PDF juntos. La aplicación reconoce cada corredor, los sube en un único envío y prepara una rama para validar los horarios, generar el informe de cambios y actualizar el historial.</p>
+      <p class="admin-lead">Elegí los ocho PDF juntos. El panel crea la carga y te acompaña en las dos fusiones necesarias: primero incorpora los archivos y después publica los horarios validados con su informe e historial.</p>
       <section class="admin-security">
         <strong>Acceso seguro</strong>
-        <p>Usá una clave personal de GitHub limitada a este repositorio y al permiso <em>Contents: Read and write</em>. La clave no se guarda y se borra del campo al terminar.</p>
+        <p>Usá una clave personal limitada a este repositorio con <em>Contents: Read and write</em> y <em>Pull requests: Read and write</em>. La clave no se guarda; el panel conserva únicamente el estado del trámite para poder retomarlo.</p>
         <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener noreferrer">Crear o renovar la clave en GitHub ↗</a>
       </section>
       <label class="admin-field"><span>Los ocho archivos PDF</span><input id="admin-files" type="file" accept="application/pdf,.pdf" multiple required></label>
       <div id="admin-file-list" class="admin-file-list" aria-live="polite">Todavía no elegiste archivos.</div>
       <label class="admin-field"><span>Clave de acceso de GitHub</span><input id="admin-token" type="password" inputmode="text" autocomplete="off" autocapitalize="none" spellcheck="false" placeholder="github_pat_…" required></label>
-      <p class="admin-help">La carga no publica horarios directamente: crea una rama <code>actualizacion/carga-web-…</code>. GitHub valida los ocho PDF y prepara el Pull Request con el cronograma vigente, el informe y el respaldo histórico.</p>
+      <p class="admin-help">La publicación sigue protegida por la validación automática: el segundo botón solo aparece cuando GitHub terminó de extraer y controlar los ocho corredores.</p>
       <progress id="admin-progress" class="admin-progress" max="100" value="0" hidden></progress>
       <p id="admin-status" class="admin-status" role="status"></p>
       <div id="admin-result" class="admin-result" hidden></div>
@@ -327,6 +327,6 @@
 <script defer src="recorridos.js?v=11"></script>
 <script defer src="historico.js?v=11"></script>
 <script defer src="transporte.js?v=11"></script>
-<script defer src="admin.js?v=11"></script>
+<script defer src="admin.js?v=11.2"></script>
 </body>
 </html>
