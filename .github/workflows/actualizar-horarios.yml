@@ -3,7 +3,7 @@ name: Actualizar horarios interurbanos
 on:
   push:
     branches:
-      - "actualizacion/**"
+      - main
     paths:
       - "datos-fuente/transporte/*.pdf"
   workflow_dispatch:
@@ -26,7 +26,7 @@ jobs:
     name: Extraer, validar y preparar publicación
     runs-on: ubuntu-latest
     env:
-      SOURCE_BRANCH: ${{ github.event.inputs.source_branch || github.ref_name }}
+      SOURCE_BRANCH: ${{ github.event.inputs.source_branch || 'main' }}
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
