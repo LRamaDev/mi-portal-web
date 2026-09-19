@@ -20,6 +20,16 @@ test('la portada diferencia proyectos principales y complementarios', () => {
   assert.equal((portal.match(/class="project-meta"/g) || []).length, 6);
 });
 
+test('la etapa 2 comunica casos de uso y proyectos activos', () => {
+  assert.match(portal, /id="impacto"/);
+  assert.match(portal, /De cronogramas a respuestas rápidas/);
+  assert.match(portal, /De estudiar “a ciegas” a practicar con guía/);
+  assert.match(portal, /De cuentas confusas a acuerdos simples/);
+  assert.match(portal, /ERSeP Viaja:/);
+  assert.match(portal, /Ingreso Belgrano · Monserrat:/);
+  assert.match(portal, /\.use-cases \{[\s\S]*grid-template-columns: 1fr/);
+});
+
 test('la identidad para navegador y redes tiene archivos válidos', () => {
   assert.match(portal, /property="og:image" content="https:\/\/lramadev\.github\.io\/mi-portal-web\/assets\/img\/og-lea-rama-dev\.png"/);
   assert.match(portal, /rel="icon" href="\.\/assets\/img\/favicon\.svg"/);
