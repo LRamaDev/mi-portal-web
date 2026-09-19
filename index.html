@@ -893,6 +893,80 @@
       font-size: 0.88rem;
     }
 
+    .impact-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(17rem, 0.95fr);
+      gap: clamp(1.25rem, 4vw, 2.25rem);
+      align-items: stretch;
+    }
+
+    .use-cases {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1rem;
+    }
+
+    .use-case,
+    .now-card {
+      border: 1px solid var(--line);
+      border-radius: var(--radius-large);
+      background: var(--surface);
+      box-shadow: var(--shadow-small);
+    }
+
+    .use-case { padding: 1.35rem; }
+
+    .use-case-label {
+      display: block;
+      margin-bottom: 1rem;
+      color: var(--case-color, var(--brand));
+      font-size: 0.76rem;
+      font-weight: 850;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .use-case h3 { margin-bottom: 0.65rem; font-size: 1.2rem; letter-spacing: -0.03em; line-height: 1.2; }
+    .use-case p { margin-bottom: 0; color: var(--muted); font-size: 0.93rem; line-height: 1.55; }
+    .use-case p strong { color: var(--text); }
+
+    .now-card {
+      position: relative;
+      padding: clamp(1.5rem, 4vw, 2.1rem);
+      overflow: hidden;
+      background: linear-gradient(135deg, var(--brand-soft), var(--surface) 72%);
+    }
+
+    .now-card::after {
+      content: "AHORA";
+      position: absolute;
+      right: -1rem;
+      bottom: -1.8rem;
+      color: color-mix(in srgb, var(--brand) 8%, transparent);
+      font-size: clamp(4rem, 10vw, 7rem);
+      font-weight: 950;
+      letter-spacing: -0.08em;
+      line-height: 1;
+      pointer-events: none;
+    }
+
+    .now-card > * { position: relative; z-index: 1; }
+    .now-card h3 { margin-bottom: 1rem; font-size: clamp(1.45rem, 3vw, 2rem); letter-spacing: -0.04em; line-height: 1.1; }
+
+    .now-list { display: grid; gap: 0.85rem; margin: 0; padding: 0; list-style: none; }
+    .now-list li { padding-left: 1.15rem; color: var(--muted); font-size: 0.94rem; line-height: 1.45; }
+    .now-list li::before {
+      content: "";
+      display: inline-block;
+      width: 0.48rem;
+      height: 0.48rem;
+      margin: 0 0.62rem 0.08rem -1.12rem;
+      border-radius: 50%;
+      background: var(--brand);
+      box-shadow: 0 0 0 0.18rem color-mix(in srgb, var(--brand) 16%, transparent);
+    }
+    .now-list strong { color: var(--text); }
+
     .about-grid {
       display: grid;
       grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
@@ -1093,6 +1167,10 @@
         grid-template-columns: 1fr;
       }
 
+      .impact-layout {
+        grid-template-columns: 1fr;
+      }
+
       .section-heading {
         display: block;
       }
@@ -1139,6 +1217,10 @@
 
       .project-card {
         min-height: 20rem;
+      }
+
+      .use-cases {
+        grid-template-columns: 1fr;
       }
 
       .principles {
@@ -1496,11 +1578,53 @@
       </div>
     </section>
 
+    <section class="section section-divider" id="impacto" aria-labelledby="impact-title">
+      <div class="shell">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Del problema a la herramienta</p>
+            <h2 id="impact-title">Proyectos que nacen de situaciones reales.</h2>
+          </div>
+          <p>La tecnología es el medio: el punto de partida es entender una necesidad concreta y transformarla en una experiencia clara.</p>
+        </div>
+
+        <div class="impact-layout">
+          <div class="use-cases" aria-label="Casos de uso">
+            <article class="use-case" style="--case-color: var(--brand);">
+              <span class="use-case-label">Transporte</span>
+              <h3>De cronogramas a respuestas rápidas</h3>
+              <p><strong>Información dispersa</strong> se convierte en servicios, recorridos y horarios fáciles de consultar.</p>
+            </article>
+            <article class="use-case" style="--case-color: var(--education);">
+              <span class="use-case-label">Educación</span>
+              <h3>De estudiar “a ciegas” a practicar con guía</h3>
+              <p><strong>Contenidos y diagnósticos</strong> se transforman en práctica adaptativa, seguimiento y simulacros.</p>
+            </article>
+            <article class="use-case" style="--case-color: var(--sport);">
+              <span class="use-case-label">Vida cotidiana</span>
+              <h3>De cuentas confusas a acuerdos simples</h3>
+              <p><strong>Tareas repetitivas del grupo</strong> pasan a resolverse con una herramienta clara y compartible.</p>
+            </article>
+          </div>
+
+          <aside class="now-card" aria-labelledby="now-title">
+            <p class="eyebrow">Actualmente</p>
+            <h3 id="now-title">Herramientas en movimiento.</h3>
+            <ul class="now-list">
+              <li><strong>ERSeP Viaja:</strong> consulta ciudadana de servicios interurbanos.</li>
+              <li><strong>Horarios Interurbanos:</strong> apoyo operativo para la gestión y el control.</li>
+              <li><strong>Ingreso Belgrano · Monserrat:</strong> preparación educativa con práctica personalizada.</li>
+            </ul>
+          </aside>
+        </div>
+      </div>
+    </section>
+
     <section class="section section-divider" id="sobre-mi" aria-labelledby="about-title">
       <div class="shell about-grid">
         <div class="about-copy">
           <p class="eyebrow">Sobre mí</p>
-          <h2 id="about-title">Tecnología con los pies en la realidad.</h2>
+          <h2 id="about-title">Tecnología pensada para que sirva.</h2>
           <p>Trabajo en el área de Transporte del ERSeP y curso la Licenciatura en Pedagogía Social. Ese cruce entre gestión, territorio y educación guía los proyectos que desarrollo.</p>
           <p>No busco agregar tecnología porque sí: busco que la información sea más clara, que una tarea lleve menos tiempo y que la herramienta pueda usarla quien realmente la necesita.</p>
 
