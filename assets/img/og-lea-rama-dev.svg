@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+  <title id="title">Lea Rama Dev</title>
+  <desc id="desc">Soluciones digitales con propósito para transporte, gestión pública y educación.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f7f9fc"/>
+      <stop offset="1" stop-color="#e8f2f8"/>
+    </linearGradient>
+    <radialGradient id="halo">
+      <stop offset="0" stop-color="#55b4e4" stop-opacity=".34"/>
+      <stop offset="1" stop-color="#55b4e4" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="shadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="18" stdDeviation="22" flood-color="#12314a" flood-opacity=".17"/>
+    </filter>
+    <pattern id="grid" width="48" height="48" patternUnits="userSpaceOnUse">
+      <path d="M48 0H0v48" fill="none" stroke="#9ab4c5" stroke-opacity=".17"/>
+    </pattern>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect width="1200" height="630" fill="url(#grid)"/>
+  <circle cx="1060" cy="-10" r="390" fill="url(#halo)"/>
+  <circle cx="75" cy="605" r="250" fill="url(#halo)" opacity=".55"/>
+
+  <g transform="translate(92 82)" filter="url(#shadow)">
+    <rect width="128" height="128" rx="34" fill="#075e8f"/>
+    <text x="64" y="82" text-anchor="middle" fill="#fff" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="47" font-weight="900" letter-spacing="-4">LR</text>
+    <circle cx="109" cy="20" r="10" fill="#e69121"/>
+  </g>
+
+  <text x="92" y="278" fill="#075e8f" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="30" font-weight="800" letter-spacing="2">LEA RAMA DEV</text>
+  <text x="92" y="370" fill="#11243d" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="70" font-weight="900" letter-spacing="-3">Soluciones digitales</text>
+  <text x="92" y="450" fill="#11243d" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="70" font-weight="900" letter-spacing="-3">con <tspan fill="#075e8f">propósito.</tspan></text>
+
+  <g transform="translate(92 518)" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="24" font-weight="700">
+    <rect width="192" height="52" rx="26" fill="#dceef8"/>
+    <text x="96" y="34" text-anchor="middle" fill="#075e8f">Transporte</text>
+    <rect x="208" width="218" height="52" rx="26" fill="#fff0d8"/>
+    <text x="317" y="34" text-anchor="middle" fill="#9b5700">Gestión pública</text>
+    <rect x="442" width="178" height="52" rx="26" fill="#def3ec"/>
+    <text x="531" y="34" text-anchor="middle" fill="#167861">Educación</text>
+  </g>
+
+  <g transform="translate(854 150)">
+    <path d="M0 78h160c37 0 67 30 67 67v113" fill="none" stroke="#075e8f" stroke-width="12" stroke-linecap="round"/>
+    <circle cx="0" cy="78" r="20" fill="#075e8f" stroke="#fff" stroke-width="8"/>
+    <circle cx="227" cy="258" r="20" fill="#e69121" stroke="#fff" stroke-width="8"/>
+    <path d="m204 232 23 26 23-26" fill="none" stroke="#e69121" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="108" cy="78" r="10" fill="#55b4e4"/>
+    <circle cx="227" cy="174" r="10" fill="#55b4e4"/>
+  </g>
+</svg>

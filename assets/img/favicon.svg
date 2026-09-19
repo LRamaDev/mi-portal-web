@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Lea Rama Dev">
+  <rect width="64" height="64" rx="18" fill="#075e8f"/>
+  <path d="M16 17h7v24h13v6H16V17Zm22 0h9.5c7.2 0 11.5 3.6 11.5 9.6 0 4-2.1 7-5.8 8.5L61 47h-8.1l-6.7-10.6H45V47h-7V17Zm7 6v7.5h2.3c3 0 4.6-1.2 4.6-3.8 0-2.5-1.6-3.7-4.6-3.7H45Z" fill="#fff"/>
+  <circle cx="52" cy="12" r="4" fill="#e69121"/>
+</svg>

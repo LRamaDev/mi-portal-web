@@ -13,6 +13,16 @@
   <meta property="og:title" content="Lea Rama Dev | Soluciones digitales con propósito">
   <meta property="og:description" content="Proyectos web para simplificar tareas reales en transporte, gestión pública y educación.">
   <meta property="og:url" content="https://lramadev.github.io/mi-portal-web/">
+  <meta property="og:image" content="https://lramadev.github.io/mi-portal-web/assets/img/og-lea-rama-dev.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Lea Rama Dev — Soluciones digitales con propósito">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Lea Rama Dev | Soluciones digitales con propósito">
+  <meta name="twitter:description" content="Proyectos web para simplificar tareas reales en transporte, gestión pública y educación.">
+  <meta name="twitter:image" content="https://lramadev.github.io/mi-portal-web/assets/img/og-lea-rama-dev.png">
+  <link rel="icon" href="./assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="./assets/img/apple-touch-icon.png">
   <title>Lea Rama Dev | Soluciones digitales con propósito</title>
 
   <script>
@@ -200,6 +210,12 @@
       gap: 0.2rem;
     }
 
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+    }
+
     .nav a {
       min-height: 2.75rem;
       display: inline-flex;
@@ -234,6 +250,38 @@
     .theme-toggle:hover {
       border-color: var(--brand);
       color: var(--brand);
+    }
+
+    .menu-toggle {
+      width: 2.75rem;
+      height: 2.75rem;
+      display: none;
+      place-items: center;
+      padding: 0;
+      border: 1px solid var(--line);
+      border-radius: 0.8rem;
+      background: var(--surface);
+      color: var(--text);
+      cursor: pointer;
+      box-shadow: var(--shadow-small);
+    }
+
+    .menu-toggle svg {
+      width: 1.35rem;
+      height: 1.35rem;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2;
+      stroke-linecap: round;
+    }
+
+    .menu-toggle .menu-close,
+    .menu-toggle[aria-expanded="true"] .menu-open {
+      display: none;
+    }
+
+    .menu-toggle[aria-expanded="true"] .menu-close {
+      display: block;
     }
 
     .theme-toggle svg {
@@ -519,6 +567,37 @@
       margin-bottom: 1.4rem;
     }
 
+    .project-group + .project-group {
+      margin-top: 3rem;
+      padding-top: 2.5rem;
+      border-top: 1px solid var(--line);
+    }
+
+    .project-group[hidden] {
+      display: none;
+    }
+
+    .project-group-heading {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .project-group-heading h3 {
+      margin-bottom: 0.2rem;
+      font-size: clamp(1.25rem, 2.8vw, 1.7rem);
+      letter-spacing: -0.035em;
+    }
+
+    .project-group-heading p {
+      max-width: 38rem;
+      margin-bottom: 0;
+      color: var(--muted);
+      font-size: 0.96rem;
+    }
+
     .filter-button {
       min-height: 2.75rem;
       padding: 0.55rem 0.9rem;
@@ -610,7 +689,7 @@
       align-items: center;
       justify-content: space-between;
       gap: 1rem;
-      margin-bottom: 2.25rem;
+      margin-bottom: 1.8rem;
     }
 
     .project-icon {
@@ -642,6 +721,47 @@
       font-weight: 850;
       letter-spacing: 0.055em;
       text-transform: uppercase;
+    }
+
+    .project-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+      margin: -0.65rem 0 1.25rem;
+    }
+
+    .project-meta span {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.38rem;
+      padding: 0.32rem 0.6rem;
+      border-radius: 99rem;
+      background: var(--surface-soft);
+      color: var(--muted);
+      font-size: 0.78rem;
+      font-weight: 760;
+      line-height: 1.35;
+    }
+
+    .project-meta span:first-child::before {
+      content: "";
+      width: 0.48rem;
+      height: 0.48rem;
+      border-radius: 50%;
+      background: var(--project-color, var(--brand));
+      box-shadow: 0 0 0 0.16rem color-mix(in srgb, var(--project-color, var(--brand)) 16%, transparent);
+    }
+
+    .secondary-projects .project-card {
+      min-height: 18rem;
+    }
+
+    .secondary-projects {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .secondary-projects .project-card h3 {
+      font-size: clamp(1.4rem, 2.6vw, 1.9rem);
     }
 
     .project-card h3 {
@@ -917,8 +1037,39 @@
     }
 
     @media (max-width: 52rem) {
-      .nav a {
+      .topbar-inner {
+        position: relative;
+      }
+
+      .menu-toggle {
+        display: grid;
+      }
+
+      .nav {
+        position: absolute;
+        top: calc(100% + 0.65rem);
+        right: 0;
+        width: min(22rem, calc(100vw - 2rem));
         display: none;
+        align-items: stretch;
+        padding: 0.65rem;
+        border: 1px solid var(--line);
+        border-radius: 1rem;
+        background: color-mix(in srgb, var(--surface) 96%, transparent);
+        box-shadow: var(--shadow);
+        backdrop-filter: blur(1rem);
+        -webkit-backdrop-filter: blur(1rem);
+      }
+
+      .nav.is-open {
+        display: grid;
+      }
+
+      .nav a {
+        width: 100%;
+        min-height: 3rem;
+        justify-content: flex-start;
+        padding-inline: 0.9rem;
       }
 
       .hero {
@@ -945,6 +1096,14 @@
       .section-heading {
         display: block;
       }
+
+      .project-group-heading {
+        display: block;
+      }
+
+      .secondary-projects {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
     }
 
     @media (max-width: 40rem) {
@@ -956,12 +1115,21 @@
         min-height: 4.2rem;
       }
 
+      .brand > span:last-child {
+        font-size: 0.94rem;
+      }
+
       h1 {
         font-size: clamp(2.75rem, 15vw, 4.1rem);
       }
 
       .projects-grid {
         grid-template-columns: 1fr;
+      }
+
+      .project-group + .project-group {
+        margin-top: 2.35rem;
+        padding-top: 2rem;
       }
 
       .project-card.featured {
@@ -1032,11 +1200,14 @@
         <span>Lea Rama Dev</span>
       </a>
 
-      <nav class="nav" aria-label="Navegación principal">
+      <nav class="nav" id="main-nav" aria-label="Navegación principal">
         <a href="#proyectos">Proyectos</a>
         <a href="#sobre-mi">Sobre mí</a>
         <a href="./ingreso-belgrano-monserrat/">Ingreso escolar</a>
         <a href="https://github.com/LRamaDev" target="_blank" rel="me noopener">GitHub</a>
+      </nav>
+
+      <div class="nav-actions">
         <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Activar tema oscuro" title="Cambiar tema">
           <svg class="sun" viewBox="0 0 24 24" fill="none" aria-hidden="true">
             <circle cx="12" cy="12" r="4"></circle>
@@ -1046,7 +1217,15 @@
             <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"></path>
           </svg>
         </button>
-      </nav>
+        <button class="menu-toggle" id="menu-toggle" type="button" aria-expanded="false" aria-controls="main-nav" aria-label="Abrir menú">
+          <svg class="menu-open" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M4 7h16M4 12h16M4 17h16"></path>
+          </svg>
+          <svg class="menu-close" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="m6 6 12 12M18 6 6 18"></path>
+          </svg>
+        </button>
+      </div>
     </div>
   </header>
 
@@ -1126,7 +1305,15 @@
         </div>
         <p id="project-count" class="sr-only" aria-live="polite"></p>
 
-        <div class="projects-grid">
+        <section class="project-group" id="proyectos-principales" aria-labelledby="main-projects-title">
+          <div class="project-group-heading">
+            <div>
+              <h3 id="main-projects-title">Proyectos principales</h3>
+              <p>Herramientas con desarrollo activo, uso real y una necesidad concreta como punto de partida.</p>
+            </div>
+          </div>
+
+          <div class="projects-grid">
           <a class="project-card featured" data-category="transporte" href="./app-transporte-beta/index.html" style="--project-color: var(--brand);">
             <div>
               <div class="project-topline">
@@ -1141,6 +1328,10 @@
               </div>
               <h3>ERSeP Viaja</h3>
               <p>Buscador conversacional de servicios interurbanos para consultar origen, destino, horarios y recorrido desde el celular o la computadora.</p>
+              <div class="project-meta" aria-label="Estado y público">
+                <span>Beta pública</span>
+                <span>Ciudadanía</span>
+              </div>
               <span class="project-action">
                 Probar la experiencia
                 <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -1181,6 +1372,10 @@
             </div>
             <h3>Horarios interurbanos</h3>
             <p>Herramienta institucional para atención a usuarios, controles de inspectores y consulta histórica de servicios publicados.</p>
+            <div class="project-meta" aria-label="Estado y público">
+              <span>Funcional</span>
+              <span>Gestión interna</span>
+            </div>
             <span class="project-action">
               Abrir herramienta
               <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -1202,6 +1397,10 @@
             </div>
             <h3>Ingreso Belgrano · Monserrat</h3>
             <p>Preparación interactiva con diagnóstico inicial, práctica adaptativa, simulacros diferenciados y seguimiento del progreso. También se puede usar como visitante sin registro.</p>
+            <div class="project-meta" aria-label="Estado y público">
+              <span>En desarrollo activo</span>
+              <span>Estudiantes y familias</span>
+            </div>
             <span class="project-action">
               Empezar a practicar
               <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -1210,6 +1409,18 @@
             </span>
           </a>
 
+          </div>
+        </section>
+
+        <section class="project-group" id="otros-proyectos" aria-labelledby="other-projects-title">
+          <div class="project-group-heading">
+            <div>
+              <h3 id="other-projects-title">Otros proyectos</h3>
+              <p>Experiencias educativas y herramientas cotidianas que completan el portfolio.</p>
+            </div>
+          </div>
+
+          <div class="projects-grid secondary-projects">
           <a class="project-card" data-category="educacion" href="./quiz-ortografia/index.html" style="--project-color: var(--education);">
             <div class="project-topline">
               <span class="project-icon" aria-hidden="true">
@@ -1221,6 +1432,10 @@
             </div>
             <h3>Desafío Ortográfico</h3>
             <p>Juego educativo para practicar reglas ortográficas, hiatos y tilde diacrítica con actividades interactivas.</p>
+            <div class="project-meta" aria-label="Estado y público">
+              <span>Funcional</span>
+              <span>Estudiantes</span>
+            </div>
             <span class="project-action">
               Iniciar desafío
               <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -1241,6 +1456,10 @@
             </div>
             <h3>Desafío Biológico</h3>
             <p>Evaluador interactivo sobre la célula y los niveles de organización biológica, pensado para aprender jugando.</p>
+            <div class="project-meta" aria-label="Estado y público">
+              <span>Funcional</span>
+              <span>Estudiantes</span>
+            </div>
             <span class="project-action">
               Iniciar desafío
               <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -1261,6 +1480,10 @@
             </div>
             <h3>Tercer Tiempo FMSC</h3>
             <p>Organizá los gastos del equipo, calculá quién le paga a quién y compartí la liquidación por WhatsApp o como imagen.</p>
+            <div class="project-meta" aria-label="Estado y público">
+              <span>Funcional</span>
+              <span>Grupos de fútbol</span>
+            </div>
             <span class="project-action">
               Abrir versión web
               <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -1268,7 +1491,8 @@
               </svg>
             </span>
           </a>
-        </div>
+          </div>
+        </section>
       </div>
     </section>
 
@@ -1376,9 +1600,12 @@
     (() => {
       const root = document.documentElement;
       const themeButton = document.getElementById('theme-toggle');
+      const menuButton = document.getElementById('menu-toggle');
+      const mainNav = document.getElementById('main-nav');
       const themeColor = document.querySelector('meta[name="theme-color"]');
       const filterButtons = [...document.querySelectorAll('.filter-button')];
       const projectCards = [...document.querySelectorAll('.project-card')];
+      const projectGroups = [...document.querySelectorAll('.project-group')];
       const projectCount = document.getElementById('project-count');
 
       const updateThemeButton = () => {
@@ -1393,6 +1620,35 @@
         updateThemeButton();
       });
 
+      const setMenuOpen = (isOpen) => {
+        mainNav.classList.toggle('is-open', isOpen);
+        menuButton.setAttribute('aria-expanded', String(isOpen));
+        menuButton.setAttribute('aria-label', isOpen ? 'Cerrar menú' : 'Abrir menú');
+      };
+
+      menuButton.addEventListener('click', () => {
+        setMenuOpen(menuButton.getAttribute('aria-expanded') !== 'true');
+      });
+
+      mainNav.addEventListener('click', (event) => {
+        if (event.target.closest('a')) setMenuOpen(false);
+      });
+
+      document.addEventListener('click', (event) => {
+        if (!event.target.closest('.topbar-inner')) setMenuOpen(false);
+      });
+
+      document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') {
+          setMenuOpen(false);
+          menuButton.focus();
+        }
+      });
+
+      window.addEventListener('resize', () => {
+        if (window.innerWidth > 832) setMenuOpen(false);
+      });
+
       filterButtons.forEach((button) => {
         button.addEventListener('click', () => {
           const selectedFilter = button.dataset.filter;
@@ -1405,6 +1661,10 @@
             const shouldShow = selectedFilter === 'all' || card.dataset.category === selectedFilter;
             card.hidden = !shouldShow;
             if (shouldShow) visibleProjects += 1;
+          });
+
+          projectGroups.forEach((group) => {
+            group.hidden = !group.querySelector('.project-card:not([hidden])');
           });
 
           projectCount.textContent = `${visibleProjects} proyectos visibles`;
