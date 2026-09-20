@@ -87,13 +87,17 @@ test('la bienvenida inicial queda limitada y usa estado privado por perfil', () 
   assert.match(ui, /sessionStorage/);
 });
 
-test('V6.8 sigue cargada y la actualización fuerza caché nuevo', () => {
-  assert.match(index, /meta name="app-version" content="6\.8"/);
+test('V6.9 conserva el motor V6.8 y carga el sistema de insignias', () => {
+  assert.match(index, /meta name="app-version" content="6\.9"/);
   assert.match(index, /\.\/adaptive-v6-8\.js/);
   assert.match(index, /\.\/choice-order-v6-8-2\.js/);
-  assert.match(sw, /ingreso-bm-v6-8-(?:2-opciones-aleatorias|3-modo-visitante)/);
+  assert.match(index, /\.\/badges-v6-9\.js/);
+  assert.match(index, /\.\/badges-v6-9\.css/);
+  assert.match(sw, /ingreso-bm-v6-9-1-insignias/);
   assert.match(sw, /adaptive-v6-8\.js/);
   assert.match(sw, /choice-order-v6-8-2\.js/);
+  assert.match(sw, /badges-v6-9\.js/);
+  assert.match(sw, /badges-v6-9\.css/);
   assert.match(adaptive, /practiceSelectionActive/);
   assert.match(adaptive, /MAT-FR-CON/);
   assert.match(adaptive, /Repaso espaciado/);

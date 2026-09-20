@@ -1,0 +1,140 @@
+.achievement-stat{
+  border-color:#efd59b;
+  background:linear-gradient(145deg,#fffdf8,#fff8e8);
+}
+.achievement-stat:after{background:rgba(243,179,76,.12)}
+.achievement-stat strong{color:#8b6116}
+
+.achievements-panel{
+  margin-top:18px;
+  border-color:#e4d6b7;
+  background:linear-gradient(145deg,rgba(255,255,255,.98),rgba(255,250,239,.96));
+}
+.achievements-heading{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:18px;
+  margin-bottom:16px;
+}
+.achievements-heading h3{margin:.1rem 0 .35rem}
+.achievements-heading p:not(.eyebrow){margin:0;color:var(--muted);max-width:720px}
+.achievements-total{
+  flex:0 0 auto;
+  padding:8px 12px;
+  border:1px solid #edd59f;
+  border-radius:999px;
+  background:#fff8e8;
+  color:#7f5a18;
+  font-weight:850;
+  font-size:.82rem;
+}
+.achievement-profile-group + .achievement-profile-group{margin-top:24px}
+.achievement-profile-title{
+  display:flex;
+  justify-content:space-between;
+  gap:14px;
+  align-items:center;
+  margin:0 0 10px;
+  padding:10px 12px;
+  border-radius:14px;
+  background:#f7f9fc;
+}
+.achievement-profile-title strong{color:var(--brand)}
+.achievement-profile-title span{font-size:.82rem;font-weight:850;color:var(--muted)}
+
+.achievements-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(190px,1fr));
+  gap:12px;
+}
+.achievement-card{
+  min-height:205px;
+  padding:16px;
+  border:1px solid #d9e2ec;
+  border-radius:18px;
+  background:#fbfcfe;
+  box-shadow:0 7px 18px rgba(18,42,68,.045);
+  transition:transform .16s ease,border-color .16s ease,box-shadow .16s ease,filter .16s ease;
+}
+.achievement-card:hover{transform:translateY(-2px)}
+.achievement-card.earned{
+  border-color:#e7c36d;
+  background:
+    radial-gradient(circle at 100% 0%,rgba(243,179,76,.22),transparent 34%),
+    linear-gradient(145deg,#fffef9,#fff8e7);
+  box-shadow:0 10px 24px rgba(129,91,21,.09);
+}
+.achievement-card.locked{filter:saturate(.72);opacity:.78}
+.achievement-top{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.achievement-icon{
+  width:48px;
+  height:48px;
+  display:grid;
+  place-items:center;
+  border-radius:15px;
+  background:#edf3f8;
+  font-size:1.65rem;
+  box-shadow:inset 0 0 0 1px rgba(23,63,107,.05);
+}
+.achievement-card.earned .achievement-icon{
+  background:#fff1c9;
+  box-shadow:0 6px 14px rgba(139,97,22,.12),inset 0 0 0 1px rgba(190,133,28,.13);
+  animation:achievement-pop .34s ease both;
+}
+.achievement-category{
+  padding:5px 8px;
+  border-radius:999px;
+  background:#f0f4f8;
+  color:#607387;
+  font-size:.7rem;
+  font-weight:850;
+  letter-spacing:.03em;
+  text-transform:uppercase;
+}
+.achievement-card.earned .achievement-category{background:#fff4d7;color:#8b6116}
+.achievement-card h4{margin:13px 0 6px;color:#173f6b;font-size:1rem}
+.achievement-card p{margin:0;color:var(--muted);font-size:.84rem;line-height:1.45}
+.achievement-state{
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  margin-top:14px;
+  font-size:.8rem;
+  font-weight:850;
+}
+.earned-state{color:#7a5719}
+.achievement-progress{margin-top:14px}
+.achievement-progress > span{display:block;margin-bottom:6px;color:#66798c;font-size:.75rem;font-weight:750}
+.achievement-track{
+  height:7px;
+  overflow:hidden;
+  border-radius:999px;
+  background:#e7edf3;
+}
+.achievement-track > span{
+  display:block;
+  height:100%;
+  min-width:0;
+  border-radius:inherit;
+  background:linear-gradient(90deg,#6fa7cc,#f3b34c);
+}
+@keyframes achievement-pop{
+  0%{transform:scale(.82) rotate(-5deg)}
+  70%{transform:scale(1.08) rotate(2deg)}
+  100%{transform:scale(1) rotate(0)}
+}
+
+@media(max-width:700px){
+  .achievements-heading{flex-direction:column;gap:9px}
+  .achievements-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+  .achievement-card{min-height:190px;padding:13px;border-radius:16px}
+  .achievement-icon{width:43px;height:43px;font-size:1.45rem}
+}
+@media(max-width:390px){
+  .achievements-grid{grid-template-columns:1fr}
+  .achievement-card{min-height:auto}
+}
+@media(prefers-reduced-motion:reduce){
+  .achievement-card.earned .achievement-icon{animation:none}
+}
