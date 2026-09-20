@@ -156,12 +156,12 @@
 
   function setVisibleVersion() {
     const meta = document.querySelector('meta[name="app-version"]');
-    if (meta) meta.setAttribute('content', PEDAGOGICAL_VERSION);
+    const releaseVersion = meta?.getAttribute('content') || PEDAGOGICAL_VERSION;
     const badge = document.querySelector('.build-version');
     if (badge) {
-      badge.textContent = `Versión ${PEDAGOGICAL_VERSION}`;
-      badge.setAttribute('aria-label', `Versión instalada ${PEDAGOGICAL_VERSION}`);
-      badge.title = `Versión ${PEDAGOGICAL_VERSION} · auditoría pedagógica y cobertura`;
+      badge.textContent = `Versión ${releaseVersion}`;
+      badge.setAttribute('aria-label', `Versión instalada ${releaseVersion}`);
+      badge.title = `Versión ${releaseVersion} · auditoría pedagógica y cobertura`;
     }
   }
 
