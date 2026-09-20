@@ -464,12 +464,12 @@
 
   function setIntroVersion() {
     const meta = document.querySelector('meta[name="app-version"]');
-    if (meta) meta.setAttribute('content', VERSION);
+    const releaseVersion = meta?.getAttribute('content') || VERSION;
     const badge = document.querySelector('.build-version');
     if (badge) {
-      badge.textContent = `Versión ${VERSION}`;
-      badge.setAttribute('aria-label', `Versión instalada ${VERSION}`);
-      badge.title = `Versión ${VERSION} · bienvenida motivacional inicial`;
+      badge.textContent = `Versión ${releaseVersion}`;
+      badge.setAttribute('aria-label', `Versión instalada ${releaseVersion}`);
+      badge.title = `Versión ${releaseVersion} · bienvenida motivacional inicial`;
     }
   }
 

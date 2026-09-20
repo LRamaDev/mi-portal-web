@@ -93,7 +93,7 @@ test('V6.9 conserva el motor V6.8 y carga el sistema de insignias', () => {
   assert.match(index, /\.\/choice-order-v6-8-2\.js/);
   assert.match(index, /\.\/badges-v6-9\.js/);
   assert.match(index, /\.\/badges-v6-9\.css/);
-  assert.match(sw, /ingreso-bm-v6-9-2-version-visible/);
+  assert.match(sw, /ingreso-bm-v6-9-3-version-definitiva/);
   assert.match(sw, /adaptive-v6-8\.js/);
   assert.match(sw, /choice-order-v6-8-2\.js/);
   assert.match(sw, /badges-v6-9\.js/);

@@ -1,4 +1,4 @@
-const CACHE='ingreso-bm-v6-9-2-version-visible';
+const CACHE='ingreso-bm-v6-9-3-version-definitiva';
 const ASSETS=['./','./index.html','./styles.css','./styles-v6.css','./badges-v6-9.css','./app.js','./seguridad.js','./simulacros.js','./testeo.js','./ui-v6.js','./ui-v6-4.js','./adaptive-v6-8.js','./choice-order-v6-8-2.js','./badges-v6-9.js','./banco-v4.js','./banco-v5.js','./banco-v6.js','./config.js','./manifest.webmanifest','./assets/icon.svg','./data/habilidades.json','./data/ejercicios.json'];
 self.addEventListener('install',event=>{event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(ASSETS)));self.skipWaiting();});
 self.addEventListener('activate',event=>{event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k)))));self.clients.claim();});
