@@ -45,7 +45,7 @@
     bindUI();
     refreshGateNames();
     setupSupabase();
-    if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js').catch(() => {});
+    if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js?v=6.9.4').catch(() => {});
   }
 
   function bindUI() {

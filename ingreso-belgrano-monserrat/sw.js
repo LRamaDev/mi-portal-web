@@ -1,5 +1,85 @@
-const CACHE='ingreso-bm-v6-9-3-version-definitiva';
-const ASSETS=['./','./index.html','./styles.css','./styles-v6.css','./badges-v6-9.css','./app.js','./seguridad.js','./simulacros.js','./testeo.js','./ui-v6.js','./ui-v6-4.js','./adaptive-v6-8.js','./choice-order-v6-8-2.js','./badges-v6-9.js','./banco-v4.js','./banco-v5.js','./banco-v6.js','./config.js','./manifest.webmanifest','./assets/icon.svg','./data/habilidades.json','./data/ejercicios.json'];
-self.addEventListener('install',event=>{event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(ASSETS)));self.skipWaiting();});
-self.addEventListener('activate',event=>{event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k)))));self.clients.claim();});
-self.addEventListener('fetch',event=>{if(event.request.method!=='GET'||new URL(event.request.url).origin!==location.origin)return;event.respondWith(caches.match(event.request).then(cached=>cached||fetch(event.request).then(response=>{const copy=response.clone();caches.open(CACHE).then(cache=>cache.put(event.request,copy));return response;}).catch(()=>caches.match('./index.html'))));});
+const CACHE='ingreso-bm-v6-9-4-recuperar-cache';
+
+const VERSION='6.9.4';
+const VERSIONED=[
+  './styles.css?v=6.9.4',
+  './styles-v6.css?v=6.9.4',
+  './badges-v6-9.css?v=6.9.4',
+  './config.js?v=6.9.4',
+  './seguridad.js?v=6.9.4',
+  './banco-v4.js?v=6.9.4',
+  './banco-v5.js?v=6.9.4',
+  './banco-v6.js?v=6.9.4',
+  './app.js?v=6.9.4',
+  './simulacros.js?v=6.9.4',
+  './testeo.js?v=6.9.4',
+  './ui-v6.js?v=6.9.4',
+  './ui-v6-4.js?v=6.9.4',
+  './adaptive-v6-8.js?v=6.9.4',
+  './choice-order-v6-8-2.js?v=6.9.4',
+  './badges-v6-9.js?v=6.9.4'
+];
+
+const STATIC=[
+  './',
+  './index.html',
+  './manifest.webmanifest',
+  './assets/icon.svg',
+  './data/habilidades.json',
+  './data/ejercicios.json'
+];
+
+self.addEventListener('install',event=>{
+  event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll([...STATIC,...VERSIONED])));
+  self.skipWaiting();
+});
+
+self.addEventListener('activate',event=>{
+  event.waitUntil(
+    caches.keys()
+      .then(keys=>Promise.all(keys.filter(key=>key!==CACHE).map(key=>caches.delete(key))))
+      .then(()=>self.clients.claim())
+  );
+});
+
+async function networkFirst(request){
+  const cache=await caches.open(CACHE);
+  try{
+    const response=await fetch(request,{cache:'no-store'});
+    if(response && response.ok) await cache.put(request,response.clone());
+    return response;
+  }catch(error){
+    const cached=await cache.match(request);
+    if(cached) return cached;
+    if(request.mode==='navigate'){
+      const fallback=await cache.match('./index.html');
+      if(fallback) return fallback;
+    }
+    throw error;
+  }
+}
+
+async function cacheFirst(request){
+  const cache=await caches.open(CACHE);
+  const cached=await cache.match(request);
+  if(cached) return cached;
+  const response=await fetch(request);
+  if(response && response.ok) await cache.put(request,response.clone());
+  return response;
+}
+
+self.addEventListener('fetch',event=>{
+  const request=event.request;
+  if(request.method!=='GET') return;
+  const url=new URL(request.url);
+  if(url.origin!==location.origin) return;
+
+  const freshType =
+    request.mode==='navigate' ||
+    request.destination==='document' ||
+    request.destination==='script' ||
+    request.destination==='style' ||
+    /\.(?:html|js|css)$/.test(url.pathname);
+
+  event.respondWith(freshType ? networkFirst(request) : cacheFirst(request));
+});
