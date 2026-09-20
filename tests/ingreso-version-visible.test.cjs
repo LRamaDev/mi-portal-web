@@ -21,15 +21,21 @@ test('la versión visible oficial sigue siendo 6.9', () => {
   assert.match(index, />Versión 6\.9<\/div>/);
 });
 
-test('los módulos heredados leen la versión oficial y ya no la pisan', () => {
+test('ningún módulo heredado puede sobrescribir la versión oficial', () => {
   for (const file of legacyFiles) {
     const source = fs.readFileSync(path.join(APP, file), 'utf8');
-    const start = source.indexOf('function setVisibleVersion()');
-    assert.ok(start >= 0, `${file}: falta setVisibleVersion`);
-    const next = source.indexOf('\n\n  function ', start + 10);
-    const block = source.slice(start, next >= 0 ? next : start + 900);
-    assert.match(block, /meta\?\.getAttribute\('content'\)/, `${file}: debe leer meta app-version`);
-    assert.doesNotMatch(block, /meta\.setAttribute\('content'/, `${file}: no debe modificar app-version`);
-    assert.match(block, /Versión \$\{releaseVersion\}/, `${file}: el cartel debe usar releaseVersion`);
+
+    const appVersionWriter = /const meta = document\.querySelector\('meta\[name="app-version"\]'\);(?:(?!\n\s*function ).)*meta\.setAttribute\('content'/s;
+    assert.doesNotMatch(source, appVersionWriter, `${file}: no debe modificar meta app-version`);
+
+    const hardcodedBadgeWriter = /badge\.textContent\s*=\s*`Versión \$\{(?:VERSION|DISPLAY_VERSION|PEDAGOGICAL_VERSION)\}`/;
+    assert.doesNotMatch(source, hardcodedBadgeWriter, `${file}: el cartel no debe usar una versión interna`);
+
+    const versionBlocks = source.match(/function (?:setVisibleVersion|setIntroVersion)\(\) \{[\s\S]*?\n  \}/g) || [];
+    assert.ok(versionBlocks.length >= 1, `${file}: falta el bloque de versión esperado`);
+    for (const block of versionBlocks) {
+      assert.match(block, /meta\?\.getAttribute\('content'\)/, `${file}: cada bloque debe leer la versión oficial`);
+      assert.match(block, /Versión \$\{releaseVersion\}/, `${file}: cada bloque debe mostrar releaseVersion`);
+    }
   }
 });
