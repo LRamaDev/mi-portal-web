@@ -234,12 +234,12 @@
 
   function setVisibleVersion() {
     const meta = document.querySelector('meta[name="app-version"]');
-    if (meta) meta.setAttribute('content', DISPLAY_VERSION);
+    const releaseVersion = meta?.getAttribute('content') || DISPLAY_VERSION;
     const badge = document.querySelector('.build-version');
     if (badge) {
-      badge.textContent = `Versión ${DISPLAY_VERSION}`;
-      badge.setAttribute('aria-label', `Versión instalada ${DISPLAY_VERSION}`);
-      badge.title = `Versión ${DISPLAY_VERSION} · identidad visual por perfil`;
+      badge.textContent = `Versión ${releaseVersion}`;
+      badge.setAttribute('aria-label', `Versión instalada ${releaseVersion}`);
+      badge.title = `Versión ${releaseVersion} · identidad visual por perfil`;
     }
   }
 

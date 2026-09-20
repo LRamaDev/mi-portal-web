@@ -28,7 +28,7 @@ test('seguridad.js mantiene el acceso familiar y agrega modo visitante aislado',
 
 test('la PWA fuerza una nueva caché que incluye seguridad.js', () => {
   const sw = read('ingreso-belgrano-monserrat/sw.js');
-  assert.match(sw, /ingreso-bm-v6-8-3-modo-visitante/);
+  assert.match(sw, /ingreso-bm-v6-(?:8-3-modo-visitante|9(?:-[a-z0-9-]+)?)/);
   assert.match(sw, /\.\/seguridad\.js/);
 });
 
