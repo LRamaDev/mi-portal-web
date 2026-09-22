@@ -3,6 +3,8 @@
 
   const STORAGE_KEY = 'ingreso-belgrano-monserrat-v1';
   const APP_VERSION = 3;
+  const REPEAT_COOLDOWN_DAYS = 7;
+  const DAY_MS = 86400000;
   const SCHOOL_LABEL = { belgrano: 'Manuel Belgrano', monserrat: 'Monserrat' };
   const AREA_LABEL = { matematica: 'Matemática', lengua: 'Lengua' };
   const $ = (s, root = document) => root.querySelector(s);
@@ -221,7 +223,7 @@
 
   function buildEntries(school, area, blueprint) {
     const valid = bank.exercises.filter(e => e.area === area && (e.colegios.includes('comun') || e.colegios.includes(school)));
-    const used = new Set();
+    const used = exercisesUsedRecently(loadState(), activeMode);
     const entries = [];
 
     blueprint.blocks.forEach(blockDef => {
@@ -442,7 +444,33 @@
       mastery: clamp(mastery, 0, 100),
       lastAt: Date.now()
     };
+    markExerciseUsedToday(state, activeMode, exercise.id);
     saveState(state);
+  }
+
+  function localDayKey(timestamp = Date.now()) {
+    const date = new Date(timestamp);
+    return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
+  }
+
+  function exercisesUsedRecently(state, profileId, now = Date.now()) {
+    const cutoff = now - REPEAT_COOLDOWN_DAYS * DAY_MS;
+    const used = new Set();
+    Object.entries(state.dailyExerciseLog || {}).forEach(([day, rows]) => {
+      const timestamp = new Date(`${day}T00:00:00`).getTime();
+      if (Number.isNaN(timestamp) || timestamp < cutoff) return;
+      (rows[profileId] || []).forEach(exerciseId => used.add(exerciseId));
+    });
+    return used;
+  }
+
+  function markExerciseUsedToday(state, profileId, exerciseId) {
+    if (!['p1', 'p2'].includes(profileId) || !exerciseId) return;
+    const day = localDayKey();
+    state.dailyExerciseLog ||= {};
+    state.dailyExerciseLog[day] ||= { p1: [], p2: [] };
+    const used = state.dailyExerciseLog[day][profileId] ||= [];
+    if (!used.includes(exerciseId)) used.push(exerciseId);
   }
 
   function loadState() {
@@ -450,6 +478,7 @@
     try { parsed = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); } catch { parsed = {}; }
     parsed.version = APP_VERSION;
     parsed.profiles ||= {};
+    parsed.dailyExerciseLog ||= {};
     for (const id of ['p1', 'p2']) {
       parsed.profiles[id] ||= { name: id === 'p1' ? 'Perfil 1' : 'Perfil 2', progress: {}, history: [], sessions: 0 };
       parsed.profiles[id].progress ||= {};

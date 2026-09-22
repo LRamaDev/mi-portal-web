@@ -4,9 +4,11 @@
   const APP_VERSION = 3;
   const STORAGE_KEY = 'ingreso-belgrano-monserrat-v1';
   const DAY_MS = 86400000;
+  const REPEAT_COOLDOWN_DAYS = 7;
   const DEFAULT_STATE = {
     version: APP_VERSION,
     updatedAt: 0,
+    dailyExerciseLog: {},
     profiles: {
       p1: { name: 'Perfil 1', progress: {}, history: [], sessions: 0 },
       p2: { name: 'Perfil 2', progress: {}, history: [], sessions: 0 }
@@ -22,6 +24,7 @@
   let supa = null;
   let authUser = null;
   let syncTimer = null;
+  let recommendedArea = null;
 
   const $ = (s, root = document) => root.querySelector(s);
   const $$ = (s, root = document) => [...root.querySelectorAll(s)];
@@ -45,7 +48,7 @@
     bindUI();
     refreshGateNames();
     setupSupabase();
-    if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js?v=6.9.4').catch(() => {});
+    if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js?v=6.10').catch(() => {});
   }
 
   function bindUI() {
@@ -82,6 +85,7 @@
       ...base,
       ...parsed,
       version: APP_VERSION,
+      dailyExerciseLog: normalizeDailyExerciseLog(parsed.dailyExerciseLog),
       profiles: {
         p1: { ...base.profiles.p1, ...(parsed.profiles?.p1 || {}), progress: { ...(parsed.profiles?.p1?.progress || {}) }, history: [...(parsed.profiles?.p1?.history || [])] },
         p2: { ...base.profiles.p2, ...(parsed.profiles?.p2 || {}), progress: { ...(parsed.profiles?.p2?.progress || {}) }, history: [...(parsed.profiles?.p2?.history || [])] }
@@ -96,6 +100,43 @@
     } catch {
       return cloneDefault();
     }
+  }
+
+  function normalizeDailyExerciseLog(raw) {
+    const log = raw && typeof raw === 'object' ? raw : {};
+    const cutoff = new Date(); cutoff.setDate(cutoff.getDate() - (REPEAT_COOLDOWN_DAYS + 1));
+    return Object.fromEntries(Object.entries(log)
+      .filter(([day, rows]) => /^\d{4}-\d{2}-\d{2}$/.test(day) && new Date(`${day}T00:00:00`).getTime() >= cutoff.getTime() && rows && typeof rows === 'object')
+      .map(([day, rows]) => [day, {
+        p1: Array.isArray(rows.p1) ? [...new Set(rows.p1.map(String))] : [],
+        p2: Array.isArray(rows.p2) ? [...new Set(rows.p2.map(String))] : []
+      }]));
+  }
+
+  function localDayKey(timestamp = Date.now()) {
+    const date = new Date(timestamp);
+    return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
+  }
+
+  function usedExerciseIdsRecently(ids, now = Date.now()) {
+    const cutoff = now - REPEAT_COOLDOWN_DAYS * DAY_MS;
+    const used = new Set();
+    Object.entries(state.dailyExerciseLog || {}).forEach(([day, rows]) => {
+      const timestamp = new Date(`${day}T00:00:00`).getTime();
+      if (Number.isNaN(timestamp) || timestamp < cutoff) return;
+      ids.forEach(id => (rows[id] || []).forEach(exerciseId => used.add(exerciseId)));
+    });
+    return used;
+  }
+
+  function markExerciseUsedToday(profileId, exerciseId) {
+    if (!['p1', 'p2'].includes(profileId) || !exerciseId) return;
+    const day = localDayKey();
+    state.dailyExerciseLog ||= {};
+    state.dailyExerciseLog[day] ||= { p1: [], p2: [] };
+    const used = state.dailyExerciseLog[day][profileId] ||= [];
+    if (!used.includes(exerciseId)) used.push(exerciseId);
+    state.dailyExerciseLog = normalizeDailyExerciseLog(state.dailyExerciseLog);
   }
 
   function saveState({ sync = true } = {}) {
@@ -185,6 +226,90 @@
     renderAreaStat('lang', aggregateArea(ids, 'lengua'));
     $('#stat-sessions').textContent = ids.reduce((sum, id) => sum + (state.profiles[id].sessions || 0), 0);
     renderPriorities(ids);
+    renderNextStep(ids, needsDiagnostic);
+    renderWeeklyMission(ids);
+    renderBalanceCoach(needsDiagnostic ? null : balanceRecommendation());
+  }
+
+  function renderNextStep(ids, needsDiagnostic) {
+    const button = $('#start-recommended');
+    const copy = $('#next-step-copy');
+    if (!button || !copy) return;
+    if (needsDiagnostic) {
+      recommendedArea = null;
+      button.textContent = 'Empezar diagnóstico';
+      copy.textContent = 'Siguiente paso: un diagnóstico breve para que las actividades se adapten a cada perfil.';
+      return;
+    }
+    const balance = balanceRecommendation();
+    if (balance) {
+      recommendedArea = balance.area;
+      button.textContent = `Practicar ${balance.area === 'lengua' ? 'Lengua' : 'Matemática'}`;
+      copy.textContent = balance.message;
+      return;
+    }
+    recommendedArea = null;
+    const weakest = weakestSkillFor(ids);
+    button.textContent = '¿Qué hago ahora?';
+    copy.textContent = weakest
+      ? `Siguiente paso: una práctica breve que va a priorizar ${weakest.nombre}.`
+      : 'Siguiente paso: una práctica breve para consolidar lo que ya aprendiste.';
+  }
+
+  function balanceRecommendation() {
+    const profile = state.profiles[activeMode === 'together' ? 'p1' : primaryProfileId()];
+    const sessions = (profile?.history || []).filter(item => item.type !== 'diagnostico' && ['matematica', 'lengua'].includes(item.area));
+    const recent = sessions.filter(item => item.at >= weekStart());
+    const lastTwo = sessions.slice(-2);
+    const targetFor = area => area === 'matematica' ? 'lengua' : 'matematica';
+    const label = area => area === 'lengua' ? 'Lengua' : 'Matemática';
+    if (lastTwo.length === 2 && lastTwo.every(item => item.area === lastTwo[0].area) && lastTwo.every(item => localDayKey(item.at) === localDayKey())) {
+      const area = targetFor(lastTwo[0].area);
+      return { area, source: lastTwo[0].area, reason: 'today', message: `Ya hicieron dos sesiones seguidas de ${label(lastTwo[0].area)}. Para equilibrar, la próxima recomendación es ${label(area)}.` };
+    }
+    const math = recent.filter(item => item.area === 'matematica').length;
+    const lang = recent.filter(item => item.area === 'lengua').length;
+    if (math - lang >= 2) return { area: 'lengua', source: 'matematica', reason: 'week', message: `Esta semana hubo ${math} sesión${math === 1 ? '' : 'es'} de Matemática y ${lang} de Lengua. Conviene alternar con Lengua.` };
+    if (lang - math >= 2) return { area: 'matematica', source: 'lengua', reason: 'week', message: `Esta semana hubo ${lang} sesión${lang === 1 ? '' : 'es'} de Lengua y ${math} de Matemática. Conviene alternar con Matemática.` };
+    return null;
+  }
+
+  function renderBalanceCoach(balance) {
+    const coach = $('#balance-coach');
+    if (!coach) return;
+    if (!balance || balance.reason !== 'today') {
+      coach.hidden = true;
+      coach.innerHTML = '';
+      return;
+    }
+    const source = balance.source === 'matematica' ? 'Matemática' : 'Lengua';
+    const target = balance.area === 'lengua' ? 'Lengua' : 'Matemática';
+    const icon = balance.area === 'lengua' ? '📚' : '➗';
+    coach.hidden = false;
+    coach.innerHTML = `<div class="balance-coach-icon" aria-hidden="true">${icon}</div><div><p class="eyebrow">Entrenamiento inteligente</p><h3>¡Cambio de materia!</h3><p>Ya practicaste bastante ${source} por hoy. En el ingreso vas a resolver Matemática y, enseguida, Lengua. Alternar ahora entrena a tu cabeza para cambiar de números y procedimientos a leer, comprender y escribir.</p><p class="balance-coach-prompt">¿Probamos una práctica breve de ${target}?</p><button class="secondary-button" type="button">Practicar ${target}</button></div>`;
+    coach.querySelector('button').addEventListener('click', () => startSession({ type: 'practica', area: balance.area }));
+  }
+
+  function weekStart(timestamp = Date.now()) {
+    const date = new Date(timestamp);
+    const day = date.getDay() || 7;
+    date.setHours(0, 0, 0, 0);
+    date.setDate(date.getDate() - day + 1);
+    return date.getTime();
+  }
+
+  function renderWeeklyMission(ids) {
+    const container = $('#weekly-mission');
+    if (!container || !ids.length) return;
+    const start = weekStart();
+    const completed = ids.reduce((total, id) => total + (state.profiles[id].history || []).filter(item => item.at >= start).length, 0);
+    const target = activeMode === 'together' ? 4 : 3;
+    const remaining = Math.max(0, target - completed);
+    const title = remaining ? `Misión de la semana · ${completed}/${target}` : 'Misión de la semana cumplida';
+    const message = remaining
+      ? `Completá ${remaining} sesión${remaining === 1 ? '' : 'es'} más. Cuenta practicar, repasar o hacer un simulacro.`
+      : '¡Muy bien! Podés seguir practicando, pero ya cumpliste tu objetivo de constancia.';
+    container.innerHTML = `<div class="weekly-mission-icon" aria-hidden="true">✦</div><div><p class="eyebrow">Constancia</p><h3>${title}</h3><p>${message}</p></div><span class="weekly-mission-count">${completed}/${target}</span>`;
   }
 
   function renderAreaStat(suffix, summary) {
@@ -268,6 +393,8 @@
 
   function renderFamily() {
     refreshGateNames();
+    renderFamilyActivity();
+    renderTutoringPlan();
     if (!supa) {
       $('#sync-status').textContent = 'Modo local';
       $('#sync-help').textContent = 'La app funciona en este dispositivo. Para sincronizar entre celulares y PC hay que completar config.js con un proyecto Supabase.';
@@ -291,6 +418,63 @@
     }
   }
 
+  function renderFamilyActivity() {
+    const panel = $('#family-activity-panel');
+    if (!panel) return;
+    const today = new Date(); today.setHours(0, 0, 0, 0);
+    const rows = ['p1', 'p2'].map(id => {
+      const profile = state.profiles[id];
+      const history = profile.history || [];
+      const todaySessions = history.filter(item => item.at >= today.getTime());
+      const recent = [...history].sort((a, b) => b.at - a.at)[0];
+      const weekly = history.filter(item => item.at >= weekStart() && item.type !== 'diagnostico');
+      const mathWeek = weekly.filter(item => item.area === 'matematica').length;
+      const langWeek = weekly.filter(item => item.area === 'lengua').length;
+      return { profile, todaySessions, recent, focus: weakestSkillFor([id]), mathWeek, langWeek };
+    });
+    panel.innerHTML = `<p class="eyebrow">Acompañamiento</p><h3>Actividad de hoy</h3><p class="family-activity-intro">Un resumen simple para conversar sobre el estudio, sin comparar perfiles.</p><div class="family-activity-list">${rows.map(row => {
+      const todayText = row.todaySessions.length ? `${row.todaySessions.length} sesión${row.todaySessions.length === 1 ? '' : 'es'} hoy` : 'Todavía no estudió hoy';
+      const recentText = row.recent ? `Última actividad: ${sessionLabel(row.recent)}.` : 'Todavía no hay sesiones completas.';
+      const focusText = row.focus ? `Próximo foco: ${escapeHtml(row.focus.nombre)}.` : 'Próximo foco: completar el diagnóstico inicial.';
+      return `<article><strong>${escapeHtml(row.profile.name)}</strong><span>${todayText}</span><em>Esta semana: Matemática ${row.mathWeek} · Lengua ${row.langWeek}</em><small>${recentText} ${focusText}</small></article>`;
+    }).join('')}</div>`;
+  }
+
+  function weakestSkillFor(ids) {
+    return skills.map(skill => ({ skill, summary: aggregateSkill(ids, skill.id) }))
+      .filter(row => row.summary.attempts > 0)
+      .sort((a, b) => a.summary.mastery - b.summary.mastery)[0]?.skill || null;
+  }
+
+  function sessionLabel(item) {
+    if (item.type === 'diagnostico') return 'diagnóstico';
+    if (item.type === 'simulacro') return `simulacro de ${item.school === 'monserrat' ? 'Monserrat' : 'Belgrano'}`;
+    return item.area === 'matematica' ? 'práctica de Matemática' : item.area === 'lengua' ? 'práctica de Lengua' : 'práctica adaptativa';
+  }
+
+  function renderTutoringPlan() {
+    const panel = $('#family-tutoring-panel');
+    if (!panel) return;
+    const day = new Date().getDay();
+    const isPreparationDay = day === 2 || day === 3;
+    const status = isPreparationDay
+      ? 'Lista lista para preparar la particular del jueves'
+      : 'La lista se actualiza con cada sesión de práctica';
+    panel.innerHTML = `<div class="tutoring-heading"><div><p class="eyebrow">Acompañamiento externo</p><h3>Para revisar con la particular</h3><p>Selecciona de uno a tres temas según las respuestas registradas. Es una guía de conversación, no una nota.</p></div><span class="tutoring-status ${isPreparationDay ? 'ready' : ''}">${status}</span></div><div class="tutoring-list">${['p1', 'p2'].map(id => tutoringProfileHtml(state.profiles[id], id)).join('')}</div>`;
+  }
+
+  function tutoringProfileHtml(profile, id) {
+    const topics = skills
+      .map(skill => ({ skill, progress: profile.progress?.[skill.id] }))
+      .filter(row => row.progress?.attempts > 0)
+      .sort((a, b) => (a.progress.mastery - b.progress.mastery) || (b.progress.attempts - a.progress.attempts))
+      .slice(0, 3);
+    const body = topics.length
+      ? `<ol>${topics.map(row => `<li><strong>${escapeHtml(row.skill.nombre)}</strong><small>${row.progress.mastery}% de dominio estimado · ${row.progress.attempts} intento${row.progress.attempts === 1 ? '' : 's'}</small></li>`).join('')}</ol>`
+      : '<p class="tutoring-empty">Todavía no hay evidencia suficiente. Después del diagnóstico aparecerán los temas a revisar.</p>';
+    return `<article class="tutoring-profile" data-profile="${id}"><h4>${escapeHtml(profile.name)}</h4>${body}</article>`;
+  }
+
   function saveProfileNames() {
     state.profiles.p1.name = $('#profile-name-p1').value.trim() || 'Perfil 1';
     state.profiles.p2.name = $('#profile-name-p2').value.trim() || 'Perfil 2';
@@ -308,7 +492,7 @@
   function startRecommended() {
     const ids = activeProfileIds();
     if (ids.some(id => !hasCompletedDiagnostic(id))) startSession({ type: 'diagnostico', area: 'all' });
-    else startSession({ type: 'practica', area: 'all' });
+    else startSession({ type: 'practica', area: recommendedArea || 'all' });
   }
 
   function startSession({ type, area, school = null }) {
@@ -318,11 +502,11 @@
       return;
     }
     const pool = buildSessionPool(type, area, school);
-    if (!pool.length) return toast('No hay ejercicios disponibles para esta selección.');
+    if (!pool.length) return toast('No quedan consignas nuevas para esta selección en los últimos 7 días. Probá otra materia o retomá más adelante.');
     session = {
       type, area, school, items: pool, index: 0, correct: 0, answers: [], hintUsed: false,
       checked: false, finished: false, jointTurn: 0, selfcheckOpen: false,
-      diagnosticExtensions: 0, diagnosticMaxExtensions: 6
+      diagnosticExtensions: 0, diagnosticMaxExtensions: 6, startedAt: Date.now()
     };
     $('#exercise-dialog').showModal();
     renderExercise();
@@ -331,6 +515,8 @@
   function buildSessionPool(type, area, school) {
     let pool = exercises.filter(e => area === 'all' || e.area === area);
     if (school) pool = pool.filter(e => e.colegios.includes('comun') || e.colegios.includes(school));
+    const usedRecently = usedExerciseIdsRecently(activeProfileIds());
+    pool = pool.filter(e => !usedRecently.has(e.id));
     if (type === 'diagnostico') return buildAdaptiveDiagnostic(pool);
     if (type === 'simulacro') return buildSimulationPool(pool, school, area);
     return buildAdaptivePractice(pool, 8);
@@ -499,9 +685,10 @@
   function maybeExtendDiagnostic(e, correct) {
     if (session?.type !== 'diagnostico' || session.diagnosticExtensions >= session.diagnosticMaxExtensions) return false;
     const used = new Set(session.items.map(item => item.id));
+    const usedRecently = usedExerciseIdsRecently(activeProfileIds());
     const direction = correct ? 1 : -1;
     const candidates = exercises
-      .filter(item => item.habilidad === e.habilidad && item.tipo !== 'selfcheck' && !used.has(item.id))
+      .filter(item => item.habilidad === e.habilidad && item.tipo !== 'selfcheck' && !used.has(item.id) && !usedRecently.has(item.id))
       .filter(item => direction > 0 ? item.dificultad > e.dificultad : item.dificultad < e.dificultad)
       .sort((a, b) => Math.abs(a.dificultad - (e.dificultad + direction)) - Math.abs(b.dificultad - (e.dificultad + direction)));
     const next = candidates[0];
@@ -647,6 +834,7 @@
       state.profiles[id].history = [...(state.profiles[id].history || []), {
         at: Date.now(), type: session.type, area: session.area, school: session.school,
         score: ownScore, total: ownTotal,
+        durationSeconds: Math.max(1, Math.round((Date.now() - session.startedAt) / 1000)),
         adaptiveExtensions: session.type === 'diagnostico' ? session.diagnosticExtensions : 0
       }].slice(-60);
     });
@@ -657,7 +845,7 @@
     $('#exercise-prompt').textContent = session.type === 'diagnostico' ? 'Diagnóstico adaptativo completado' : session.type === 'simulacro' ? 'Simulacro completado' : '¡Sesión completada!';
     $('#exercise-answer').hidden = false; $('#exercise-answer').innerHTML = sessionSummaryHtml();
     $('#exercise-feedback').hidden = true; $('#exercise-selfcheck').hidden = true; $('#hint-button').hidden = true; $('#check-answer').hidden = true;
-    $('#next-exercise').hidden = false; $('#next-exercise').textContent = 'Ver mi progreso';
+    $('#next-exercise').hidden = false; $('#next-exercise').textContent = 'Ver mi avance';
     renderAll();
   }
 
@@ -669,7 +857,25 @@
     if (session.type === 'diagnostico') extra = `<p>El diagnóstico agregó ${session.diagnosticExtensions} comprobación${session.diagnosticExtensions === 1 ? '' : 'es'} de dificultad para precisar el mapa.</p>`;
     if (session.type === 'simulacro' && session.school === 'monserrat' && session.area === 'lengua') extra += '<p>La producción escrita se incluye como revisión guiada; su ponderación todavía no equivale al puntaje oficial del examen.</p>';
     const review = session.type === 'practica' ? '' : sessionReviewHtml();
-    return `<div class="today-card"><strong>${correct} de ${total} respuestas logradas</strong><p>${summaryMessage(ratio)}</p>${extra}</div>${review}`;
+    const focus = sessionFocus();
+    return `<div class="today-card session-summary-card"><strong>${correct} de ${total} respuestas logradas</strong><p>${summaryMessage(ratio)}</p>${focus}${extra}</div>${review}`;
+  }
+
+  function sessionFocus() {
+    const grouped = {};
+    session.answers.forEach(answer => {
+      const exercise = exercises.find(e => e.id === answer.id);
+      if (!exercise) return;
+      (grouped[exercise.habilidad] ||= []).push({ answer, exercise });
+    });
+    const rows = Object.entries(grouped).map(([skillId, list]) => ({
+      skill: skillsById.get(skillId), total: list.length, correct: list.filter(row => row.answer.correct).length
+    })).filter(row => row.skill);
+    if (!rows.length) return '';
+    const best = [...rows].sort((a, b) => (b.correct / b.total) - (a.correct / a.total))[0];
+    const focus = [...rows].sort((a, b) => (a.correct / a.total) - (b.correct / b.total))[0];
+    const strength = best.correct / best.total >= .7 ? `Hoy avanzaste especialmente en <b>${escapeHtml(best.skill.nombre)}</b>. ` : '';
+    return `<p class="session-focus">${strength}Próximo paso: la app va a volver sobre <b>${escapeHtml(focus.skill.nombre)}</b> en una práctica breve.</p>`;
   }
 
   function sessionReviewHtml() {
@@ -703,6 +909,7 @@
     evidence = Math.round(evidence * weight);
     const mastery = prev.attempts === 0 ? evidence : Math.round(prev.mastery * .68 + evidence * .32);
     profile.progress[e.habilidad] = { attempts: prev.attempts + 1, correct: prev.correct + (correct ? 1 : 0), mastery: clamp(mastery, 0, 100), lastAt: Date.now() };
+    markExerciseUsedToday(pid, e.id);
     saveState();
   }
 
