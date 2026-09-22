@@ -208,7 +208,7 @@
     button.id = 'test-feedback-fab';
     button.type = 'button';
     button.className = 'test-feedback-fab';
-    button.textContent = '💬 ¿Cómo fue?';
+    button.textContent = '💬 Contar algo';
     button.addEventListener('click', openFeedbackDialog);
     document.body.appendChild(button);
   }
@@ -221,13 +221,13 @@
     section.className = 'panel';
     section.innerHTML = `
       <p class="eyebrow">Prueba familiar</p>
-      <h3>Testeo de mañana</h3>
-      <p>La idea es que cada perfil haga una prueba corta y deje una opinión al terminar.</p>
+      <h3>Comentarios opcionales</h3>
+      <p>Cuando surja algo para contar —una consigna confusa, una idea o algo que gustó— se puede dejar una opinión desde acá.</p>
       <ol class="test-checklist">
         <li>Entrar al perfil individual.</li>
         <li>Hacer el diagnóstico o una práctica adaptativa.</li>
         <li>Probar un simulacro del colegio que corresponda.</li>
-        <li>Tocar <strong>¿Cómo fue?</strong> y marcar si resultó fácil, bien, difícil o confuso.</li>
+        <li>Si aparece algo para mejorar, tocar <strong>Contar algo</strong> y dejar una opinión breve.</li>
       </ol>
       <p><small>No hace falta poner nombres ni datos personales en el comentario.</small></p>
       <button id="family-open-feedback" class="secondary-button" type="button">Enviar opinión de prueba</button>`;
@@ -247,7 +247,7 @@
           <button id="test-feedback-close" class="icon-button" type="button" aria-label="Cerrar">×</button>
         </header>
         <article class="exercise-content">
-          <p>¿Cómo te resultó lo que acabás de hacer?</p>
+          <p>¿Qué querés contar sobre la app? Es opcional y podés usarlo cuando surja algo.</p>
           <div class="test-rating-grid">
             <button type="button" data-rating="facil">😊 Fácil</button>
             <button type="button" data-rating="bien">👍 Bien</button>
