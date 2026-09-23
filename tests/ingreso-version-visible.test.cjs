@@ -16,9 +16,9 @@ const legacyFiles = [
   'choice-order-v6-8-2.js'
 ];
 
-test('la versión visible oficial sigue siendo 6.9', () => {
-  assert.match(index, /<meta name="app-version" content="6\.9">/);
-  assert.match(index, />Versión 6\.9<\/div>/);
+test('la versión visible oficial es 6.11', () => {
+  assert.match(index, /<meta name="app-version" content="6\.11">/);
+  assert.match(index, />Versión 6\.11<\/div>/);
 });
 
 test('ningún módulo heredado puede sobrescribir la versión oficial', () => {
@@ -46,10 +46,10 @@ test('los recursos críticos usan URL versionada y el service worker prioriza la
   const sw = fs.readFileSync(path.join(APP, 'sw.js'), 'utf8');
 
   for (const asset of ['app.js','testeo.js','ui-v6-4.js','adaptive-v6-8.js','choice-order-v6-8-2.js','badges-v6-9.js']) {
-    assert.ok(index.includes(`./${asset}?v=6.9.4`), `${asset}: debe usar URL versionada`);
+    assert.ok(index.includes(`./${asset}?v=6.11`), `${asset}: debe usar URL versionada`);
   }
-  assert.match(app, /serviceWorker\.register\('\.\/sw\.js\?v=6\.9\.4'\)/);
-  assert.match(sw, /ingreso-bm-v6-9-4-recuperar-cache/);
+  assert.match(app, /serviceWorker\.register\('\.\/sw\.js\?v=6\.11'\)/);
+  assert.match(sw, /ingreso-bm-v6-11-banco-y-videos/);
   assert.match(sw, /async function networkFirst/);
   assert.match(sw, /request\.destination==='script'/);
   assert.match(sw, /request\.destination==='style'/);

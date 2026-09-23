@@ -11,6 +11,7 @@ on:
       - 'tests/ingreso-visitante-portal.test.cjs'
       - 'tests/ingreso-version-visible.test.cjs'
       - 'tools/auditar-ingreso-v6-7.cjs'
+      - 'audit-bank.cjs'
       - '.github/workflows/ingreso-v6-8-repaso.yml'
   push:
     branches: [main]
@@ -23,6 +24,7 @@ on:
       - 'tests/ingreso-visitante-portal.test.cjs'
       - 'tests/ingreso-version-visible.test.cjs'
       - 'tools/auditar-ingreso-v6-7.cjs'
+      - 'audit-bank.cjs'
 
 permissions:
   contents: read
@@ -39,11 +41,13 @@ jobs:
           node-version: '24'
       - name: Auditoría pedagógica V6.7
         run: node --test tests/ingreso-v6-7-auditoria.test.cjs
+      - name: Banco efectivo V6.11
+        run: node audit-bank.cjs
       - name: Repaso espaciado V6.8
         run: node --test tests/ingreso-v6-8-repaso.test.cjs
       - name: Opciones múltiples V6.8.2
         run: node --test tests/ingreso-v6-8-2-opciones.test.cjs
       - name: Modo visitante y acceso desde portal
         run: node --test tests/ingreso-visitante-portal.test.cjs
-      - name: Versión visible V6.9
+      - name: Versión visible
         run: node --test tests/ingreso-version-visible.test.cjs
