@@ -111,7 +111,13 @@
     ['V5-L029','LEN-REC-MON','«¡Pum! La puerta se cerró de golpe». ¿Qué recurso aparece?',['Onomatopeya','Comparación','Metáfora','Hipérbole'],'Onomatopeya'],
     ['V5-L030','LEN-REC-MON','«El aroma dulce del pan recién hecho llenó la cocina». ¿Qué recurso predomina?',['Imagen olfativa','Imagen visual','Onomatopeya','Diálogo'],'Imagen olfativa']
   ];
-  narr.forEach((r,i)=>lChoice(r[0],r[1],r[1]==='LEN-REC-MON'?['monserrat']:['comun'],3,r[2],r[3],r[4],r[5],'Identificá la función del fragmento dentro del relato o el recurso usado.',`La respuesta correcta es «${r[5]}».`));
+  narr.forEach(r => {
+    const [id, habilidad] = r;
+    const colegios = habilidad === 'LEN-REC-MON' ? ['monserrat'] : ['comun'];
+    const [texto, consigna, opciones, respuesta] = r.length === 6 ? r.slice(2) : ['', ...r.slice(2)];
+    lChoice(id, habilidad, colegios, 3, texto, consigna, opciones, respuesta,
+      'Identificá la función del fragmento dentro del relato o el recurso usado.', `La respuesta correcta es «${respuesta}».`);
+  });
 
   const grammar = [
     ['V5-L031','LEN-SUST','¿Cuál palabra es un sustantivo abstracto?',['amistad','mesa','perro','ventana'],'amistad'],

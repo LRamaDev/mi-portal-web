@@ -48,7 +48,7 @@
     bindUI();
     refreshGateNames();
     setupSupabase();
-    if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js?v=6.10').catch(() => {});
+    if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js?v=6.11').catch(() => {});
   }
 
   function bindUI() {
@@ -460,7 +460,7 @@
     const status = isPreparationDay
       ? 'Lista lista para preparar la particular del jueves'
       : 'La lista se actualiza con cada sesión de práctica';
-    panel.innerHTML = `<div class="tutoring-heading"><div><p class="eyebrow">Acompañamiento externo</p><h3>Para revisar con la particular</h3><p>Selecciona de uno a tres temas según las respuestas registradas. Es una guía de conversación, no una nota.</p></div><span class="tutoring-status ${isPreparationDay ? 'ready' : ''}">${status}</span></div><div class="tutoring-list">${['p1', 'p2'].map(id => tutoringProfileHtml(state.profiles[id], id)).join('')}</div>`;
+    panel.innerHTML = `<div class="tutoring-heading"><div><p class="eyebrow">Acompañamiento externo</p><h3>Para revisar con la particular</h3><p>La app selecciona hasta tres temas según las respuestas. Los enlaces a videos son opcionales y se abren en YouTube; después conviene probar otro ejercicio. Es una guía de conversación, no una nota.</p></div><span class="tutoring-status ${isPreparationDay ? 'ready' : ''}">${status}</span></div><div class="tutoring-list">${['p1', 'p2'].map(id => tutoringProfileHtml(state.profiles[id], id)).join('')}</div>`;
   }
 
   function tutoringProfileHtml(profile, id) {
@@ -470,9 +470,28 @@
       .sort((a, b) => (a.progress.mastery - b.progress.mastery) || (b.progress.attempts - a.progress.attempts))
       .slice(0, 3);
     const body = topics.length
-      ? `<ol>${topics.map(row => `<li><strong>${escapeHtml(row.skill.nombre)}</strong><small>${row.progress.mastery}% de dominio estimado · ${row.progress.attempts} intento${row.progress.attempts === 1 ? '' : 's'}</small></li>`).join('')}</ol>`
+      ? `<ol>${topics.map(row => `<li><strong>${escapeHtml(row.skill.nombre)}</strong><small>${row.progress.mastery}% de dominio estimado · ${row.progress.attempts} intento${row.progress.attempts === 1 ? '' : 's'}</small>${tutoringVideoHtml(row)}</li>`).join('')}</ol>`
       : '<p class="tutoring-empty">Todavía no hay evidencia suficiente. Después del diagnóstico aparecerán los temas a revisar.</p>';
     return `<article class="tutoring-profile" data-profile="${id}"><h4>${escapeHtml(profile.name)}</h4>${body}</article>`;
+  }
+
+  function tutoringVideoHtml({skill, progress}) {
+    if (progress.mastery >= 65) return '';
+    // Solo enlaces verificados a videos puntuales. Para el resto, una búsqueda
+    // identificada como tal evita recomendar un video no revisado como si lo fuera.
+    const videos = {
+      'MAT-MED-LONG': ['Medidas de longitud: conversiones', 'https://www.youtube.com/watch?v=FvLXSPXaKFI'],
+      'MAT-CIRC': ['Longitud de la circunferencia', 'https://www.youtube.com/watch?v=k3SNU830pA4'],
+      'MAT-ANG-CS': ['Ángulos complementarios y suplementarios', 'https://www.youtube.com/watch?v=kPggnoUvM8w'],
+      'MAT-FR-OPS': ['Operaciones con fracciones', 'https://www.youtube.com/watch?v=JNBkPD96WbU'],
+      'LEN-UNI-BI': ['Oraciones unimembres y bimembres', 'https://www.youtube.com/watch?v=RNNva2qI7UM']
+    };
+    const video = videos[skill.id];
+    const query = `${skill.nombre} explicación ejercicios primaria`;
+    const url = video?.[1] || `https://www.youtube.com/results?search_query=${encodeURIComponent(query)}`;
+    const label = video ? `Ver video: ${video[0]}` : `Buscar videos sobre ${skill.nombre}`;
+    const note = progress.attempts < 3 ? 'Pocos intentos todavía: miralo si querés repasar.' : 'Puede ayudarte a repasar este tema.';
+    return `<a class="tutoring-video" href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer" aria-label="${escapeHtml(label)} (abre YouTube en otra pestaña)">${escapeHtml(label)} ↗</a><small class="tutoring-video-note">${note}</small>`;
   }
 
   function saveProfileNames() {

@@ -5,7 +5,14 @@
   const add = e => EXTRA.push(e);
   const mInput = (id, habilidad, colegios, dificultad, consigna, respuesta, pista, explicacion, papel = true, alternativas = []) => add({ id, area:'matematica', habilidad, colegios, dificultad, tipo:'input', consigna, respuesta:String(respuesta), alternativas, pista, explicacion, papel });
   const mChoice = (id, habilidad, colegios, dificultad, consigna, opciones, respuesta, pista, explicacion, papel = false) => add({ id, area:'matematica', habilidad, colegios, dificultad, tipo:'choice', consigna, opciones, respuesta, pista, explicacion, papel });
-  const lChoice = (id, habilidad, colegios, dificultad, texto, consigna, opciones, respuesta, pista, explicacion) => add({ id, area:'lengua', habilidad, colegios, dificultad, tipo:'choice', texto, consigna, opciones, respuesta, pista, explicacion });
+  const lChoice = (id, habilidad, colegios, dificultad, texto, consigna, opciones, respuesta, pista, explicacion) => {
+    // Algunas actividades no tienen texto previo; sus llamadas pasan nueve argumentos.
+    if (Array.isArray(consigna)) {
+      explicacion = pista; pista = respuesta; respuesta = opciones;
+      opciones = consigna; consigna = texto; texto = '';
+    }
+    add({ id, area:'lengua', habilidad, colegios, dificultad, tipo:'choice', texto, consigna, opciones, respuesta, pista, explicacion });
+  };
   const lSelf = (id, habilidad, consigna, criterios) => add({ id, area:'lengua', habilidad, colegios:['monserrat'], dificultad:4, tipo:'selfcheck', consigna, criterios, pista:'Revisá el texto en dos pasadas: primero sentido y organización; después ortografía y concordancia.', explicacion:'La actividad entrena revisión consciente de la producción escrita.', papel:true });
 
   // MATEMÁTICA — 40 actividades para ampliar habilidades menos representadas.
