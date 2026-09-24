@@ -29,6 +29,18 @@ Aplicación web de estudio para preparar, en una misma plataforma, los ingresos 
 
 ## Banco pedagógico
 
+### Videos vinculados a contenidos
+
+Los videos sugeridos forman parte de `data/habilidades.json`: cada habilidad puede incluir un arreglo `videos`. La app usa el ID de esa habilidad para mostrar el recurso, ordenarlo según el progreso y ofrecer una práctica breve del mismo tema. El catálogo de contenidos no se guarda en la cuenta familiar; allí solo se sincroniza el progreso.
+
+Para agregar otro video, sumá una entrada a `videos` dentro de la habilidad correspondiente. Por ejemplo:
+
+```json
+"videos": [{"id":"tvs0UpX93mw","titulo":"Oraciones unimembres y bimembres: concepto y ejemplos","perfiles":["p2"]}]
+```
+
+`id` es el identificador de 11 caracteres de YouTube (sin parámetros de seguimiento); `titulo` debe describir lo que enseña efectivamente el video; `perfiles` indica a quién se lo sugirió (`p1`, `p2` o ambos). Se pueden incluir varios videos en un mismo contenido. Antes de publicar una nueva incorporación, comprobá que el enlace explica esa habilidad y permite reproducción integrada. El catálogo se actualiza desde la red y conserva una copia local para cuando no haya conexión.
+
 La V1 contenía 46 actividades originales. La primera etapa de V3 agregó 36 nuevas actividades, llevando el banco a **82 ejercicios**. La ampliación refuerza especialmente problemas de varios pasos, fracciones, decimales, divisibilidad, perímetros, proporcionalidad, numeración romana, operaciones combinadas, circunferencia, comprensión, inferencias, conectores, tiempos verbales, ortografía, sintaxis y producción escrita.
 
 Las consignas son originales y están alineadas a los programas de ingreso 2026, modelos de examen y materiales de estudio aportados por la familia. No reproducen ni sustituyen exámenes oficiales.

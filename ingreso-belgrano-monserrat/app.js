@@ -5,24 +5,6 @@
   const STORAGE_KEY = 'ingreso-belgrano-monserrat-v1';
   const DAY_MS = 86400000;
   const REPEAT_COOLDOWN_DAYS = 7;
-  // Recursos elegidos por la familia. Cada ID se asocia solo al tema que explica.
-  const VIDEO_RESOURCES = {
-    p1: [
-      { skillId: 'MAT-MED-LONG', videoId: 'FvLXSPXaKFI', title: 'Conversiones de medidas de longitud' },
-      { skillId: 'MAT-ANG-CS', videoId: 'RhtBGxdYSJI', title: 'Ángulos complementarios y suplementarios' },
-      { skillId: 'LEN-REV', videoId: '7Rf1w8UT_rg', title: 'Concordancia: cómo revisar una oración' },
-      { skillId: 'MAT-DEC-OPS', videoId: 'y_F5eXD8Cb0', title: 'Sumas y restas con decimales' },
-      { skillId: 'MAT-PER', videoId: 'OTT8SKMdBD8', title: 'Perímetros' }
-    ],
-    p2: [
-      { skillId: 'MAT-FR-ORD', videoId: 'ZqnHbXCCSIc', title: 'Comparar fracciones' },
-      { skillId: 'LEN-UNI-BI', videoId: 'tvs0UpX93mw', title: 'Oraciones unimembres y bimembres: concepto y ejemplos' },
-      { skillId: 'MAT-FR-OPS', videoId: 'qJtoI1ipxs8', title: 'Sumar y restar fracciones' },
-      { skillId: 'MAT-CIRC', videoId: 'bG3f36JQkuA', title: 'Radio y diámetro a partir de la circunferencia' },
-      { skillId: 'MAT-MCM', videoId: 'txLlA_fyL5g', title: 'Mínimo común múltiplo' },
-      { skillId: 'MAT-SEX', videoId: 'u3RnEp5vMvs', title: 'Suma sexagesimal: ejemplo con horas y minutos' }
-    ]
-  };
   const DEFAULT_STATE = {
     version: APP_VERSION,
     updatedAt: 0,
@@ -52,7 +34,7 @@
   async function init() {
     try {
       const [skillsData, exerciseData] = await Promise.all([
-        fetch('./data/habilidades.json').then(r => { if (!r.ok) throw new Error('habilidades'); return r.json(); }),
+        fetch('./data/habilidades.json', { cache: 'no-store' }).then(r => { if (!r.ok) throw new Error('habilidades'); return r.json(); }),
         fetch('./data/ejercicios.json').then(r => { if (!r.ok) throw new Error('ejercicios'); return r.json(); })
       ]);
       skills = skillsData.habilidades || [];
@@ -66,7 +48,7 @@
     bindUI();
     refreshGateNames();
     setupSupabase();
-    if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js?v=6.13').catch(() => {});
+    if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js?v=6.14').catch(() => {});
   }
 
   function bindUI() {
@@ -92,6 +74,14 @@
     $('#sign-up').addEventListener('click', signUp);
     $('#sign-out').addEventListener('click', signOut);
     $('#video-library').addEventListener('click', handleVideoAction);
+    $('#skills-container').addEventListener('click', event => {
+      const button = event.target.closest('[data-skill-video]');
+      if (!button) return;
+      const skillId = button.dataset.skillVideo;
+      if (!activeProfileIds().some(id => videoForProfile(skillId, id))) return;
+      navigate('videos');
+      $$('.video-card').find(card => card.dataset.videoSkill === skillId)?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    });
     $('#family-tutoring-panel').addEventListener('click', event => {
       if (event.target.closest('[data-nav="videos"]')) navigate('videos');
     });
@@ -396,7 +386,9 @@
     const badges = skill.colegios.includes('comun')
       ? '<span class="school-badge">Común a ambos</span>'
       : skill.colegios.map(c => `<span class="school-badge ${c}">${capitalize(c)}</span>`).join('');
-    return `<article class="skill-card"><div class="skill-card-top"><strong>${escapeHtml(skill.nombre)}</strong><span class="level ${summary.attempts ? levelClass(summary.mastery) : 'unseen'}">${summary.attempts ? `${summary.mastery}%` : '—'}</span></div><div class="school-badges">${badges}</div></article>`;
+    const videoLink = ids.some(id => videoForProfile(skill.id, id))
+      ? `<button class="text-button skill-video-link" data-skill-video="${escapeHtml(skill.id)}" type="button">Ver video del tema →</button>` : '';
+    return `<article class="skill-card"><div class="skill-card-top"><strong>${escapeHtml(skill.nombre)}</strong><span class="level ${summary.attempts ? levelClass(summary.mastery) : 'unseen'}">${summary.attempts ? `${summary.mastery}%` : '—'}</span></div><div class="school-badges">${badges}</div>${videoLink}</article>`;
   }
 
   function renderProgress() {
@@ -421,10 +413,10 @@
   function renderVideos() {
     const container = $('#video-library');
     const sections = activeProfileIds().map(id => {
-      const rows = VIDEO_RESOURCES[id].map(resource => ({
-        ...resource, skill: skillsById.get(resource.skillId),
-        progress: state.profiles[id]?.progress?.[resource.skillId]
-      })).filter(row => row.skill);
+      const rows = skills.flatMap(skill => (skill.videos || [])
+        .filter(video => video.perfiles?.includes(id) && /^[\w-]{11}$/.test(video.id))
+        .map(video => ({ videoId: video.id, title: video.titulo, skill,
+          progress: state.profiles[id]?.progress?.[skill.id] })));
       rows.sort((a, b) => {
         const aSeen = a.progress?.attempts > 0;
         const bSeen = b.progress?.attempts > 0;
@@ -444,7 +436,7 @@
     const status = attempts
       ? attempts < 3 ? `Primeros intentos · ${progress.mastery}% estimado` : progress.mastery < 65 ? `Para reforzar · ${progress.mastery}% estimado` : `Para repasar · ${progress.mastery}% estimado`
       : 'Para explorar · sin respuestas todavía';
-    return `<article class="video-card" data-video-id="${videoId}" data-profile="${profileId}">
+    return `<article class="video-card" data-video-id="${videoId}" data-video-skill="${escapeHtml(skill.id)}" data-profile="${profileId}">
       <div class="video-card-top"><span class="level ${attempts ? levelClass(progress.mastery) : 'unseen'}">${escapeHtml(status)}</span><span class="video-subject">${skill.area === 'lengua' ? 'Lengua' : 'Matemática'}</span></div>
       <h4>${escapeHtml(skill.nombre)}</h4><p>${escapeHtml(title)}</p>
       <div class="video-stage"><button class="video-play" type="button" data-play-video="${videoId}" aria-label="Ver video de ${escapeHtml(skill.nombre)} acá">▷ <span>Ver video acá</span></button></div>
@@ -458,7 +450,7 @@
     if (play) {
       const card = play.closest('.video-card');
       const id = play.dataset.playVideo;
-      if (!VIDEO_RESOURCES[card.dataset.profile]?.some(row => row.videoId === id)) return;
+      if (!videoForProfile(card.dataset.videoSkill, card.dataset.profile, id)) return;
       // Un solo reproductor activo; iframe solo tras una acción explícita.
       $('#video-library').querySelectorAll('iframe').forEach(frame => frame.remove());
       $('#video-library').querySelectorAll('.video-play').forEach(button => { button.hidden = false; });
@@ -475,9 +467,14 @@
     if (practice) {
       const card = practice.closest('.video-card');
       const skillId = practice.dataset.videoPractice;
-      if (!VIDEO_RESOURCES[card.dataset.profile]?.some(row => row.skillId === skillId)) return;
+      if (!videoForProfile(skillId, card.dataset.profile)) return;
       startSession({ type: 'practica', area: skillsById.get(skillId).area, skillId });
     }
+  }
+
+  function videoForProfile(skillId, profileId, videoId) {
+    return skillsById.get(skillId)?.videos?.find(video =>
+      /^[\w-]{11}$/.test(video.id) && video.perfiles?.includes(profileId) && (!videoId || video.id === videoId));
   }
 
   function renderFamily() {
@@ -566,7 +563,7 @@
 
   function tutoringVideoHtml({skill, progress}, id) {
     if (progress.mastery >= 65) return '';
-    const video = VIDEO_RESOURCES[id].find(row => row.skillId === skill.id);
+    const video = videoForProfile(skill.id, id);
     if (!video) return '';
     const note = progress.attempts < 3 ? 'Pocos intentos todavía: miralo si querés repasar.' : 'Puede ayudarte a repasar este tema.';
     if (activeMode !== 'together' && activeMode !== id) return `<small class="tutoring-video-note">Elegí este perfil para ver su video en la pestaña Videos.</small>`;
