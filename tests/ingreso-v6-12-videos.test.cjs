@@ -24,6 +24,7 @@ test('cada recurso elegido queda asociado a la habilidad y al perfil correctos',
     },
     p2: {
       'MAT-FR-ORD': 'ZqnHbXCCSIc', 'MAT-FR-OPS': 'qJtoI1ipxs8',
+      'LEN-UNI-BI': 'tvs0UpX93mw',
       'MAT-CIRC': 'bG3f36JQkuA', 'MAT-MCM': 'txLlA_fyL5g',
       'MAT-SEX': 'u3RnEp5vMvs'
     }
@@ -37,6 +38,8 @@ test('cada recurso elegido queda asociado a la habilidad y al perfil correctos',
   }
   assert.equal(catalog.p1.filter(row => row.skillId === 'MAT-ANG-CS').length, 1, 'el enlace repetido de ángulos aparece una sola vez');
   assert.match(catalog.p1.find(row => row.skillId === 'LEN-REV').title, /Concordancia/, 'el video de Lengua explica concordancia, una parte de la revisión de textos');
+  assert.match(catalog.p2.find(row => row.skillId === 'LEN-UNI-BI').title, /Oraciones unimembres y bimembres/);
+  assert.match(app, /row\.progress\.attempts < 3 \? ' · dato inicial'/);
 });
 
 test('la navegación móvil y de escritorio lleva al reproductor integrado', () => {
