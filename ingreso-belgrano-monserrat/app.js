@@ -5,6 +5,23 @@
   const STORAGE_KEY = 'ingreso-belgrano-monserrat-v1';
   const DAY_MS = 86400000;
   const REPEAT_COOLDOWN_DAYS = 7;
+  // Recursos elegidos por la familia. Cada ID se asocia solo al tema que explica.
+  const VIDEO_RESOURCES = {
+    p1: [
+      { skillId: 'MAT-MED-LONG', videoId: 'FvLXSPXaKFI', title: 'Conversiones de medidas de longitud' },
+      { skillId: 'MAT-ANG-CS', videoId: 'RhtBGxdYSJI', title: 'Ángulos complementarios y suplementarios' },
+      { skillId: 'LEN-REV', videoId: '7Rf1w8UT_rg', title: 'Concordancia: cómo revisar una oración' },
+      { skillId: 'MAT-DEC-OPS', videoId: 'y_F5eXD8Cb0', title: 'Sumas y restas con decimales' },
+      { skillId: 'MAT-PER', videoId: 'OTT8SKMdBD8', title: 'Perímetros' }
+    ],
+    p2: [
+      { skillId: 'MAT-FR-ORD', videoId: 'ZqnHbXCCSIc', title: 'Comparar fracciones' },
+      { skillId: 'MAT-FR-OPS', videoId: 'qJtoI1ipxs8', title: 'Sumar y restar fracciones' },
+      { skillId: 'MAT-CIRC', videoId: 'bG3f36JQkuA', title: 'Radio y diámetro a partir de la circunferencia' },
+      { skillId: 'MAT-MCM', videoId: 'txLlA_fyL5g', title: 'Mínimo común múltiplo' },
+      { skillId: 'MAT-SEX', videoId: 'u3RnEp5vMvs', title: 'Suma sexagesimal: ejemplo con horas y minutos' }
+    ]
+  };
   const DEFAULT_STATE = {
     version: APP_VERSION,
     updatedAt: 0,
@@ -48,7 +65,7 @@
     bindUI();
     refreshGateNames();
     setupSupabase();
-    if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js?v=6.11').catch(() => {});
+    if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js?v=6.12').catch(() => {});
   }
 
   function bindUI() {
@@ -73,6 +90,10 @@
     $('#sign-in').addEventListener('click', signIn);
     $('#sign-up').addEventListener('click', signUp);
     $('#sign-out').addEventListener('click', signOut);
+    $('#video-library').addEventListener('click', handleVideoAction);
+    $('#family-tutoring-panel').addEventListener('click', event => {
+      if (event.target.closest('[data-nav="videos"]')) navigate('videos');
+    });
     $('#exercise-dialog').addEventListener('cancel', e => { e.preventDefault(); closeExercise(true); });
   }
 
@@ -169,6 +190,7 @@
 
   function leaveProfile() {
     if (session) closeExercise(false);
+    $('#video-library').querySelectorAll('iframe').forEach(frame => frame.remove());
     activeMode = null;
     $('#app-shell').hidden = true;
     $('#profile-gate').hidden = false;
@@ -196,10 +218,13 @@
 
   function navigate(view) {
     if (!view) return;
+    // Desmontar el reproductor detiene el audio al salir de la pestaña.
+    if (view !== 'videos') $('#video-library').querySelectorAll('iframe').forEach(frame => frame.remove());
     $$('.view').forEach(v => v.classList.toggle('active', v.dataset.view === view));
     $$('.nav-button, .mobile-nav button').forEach(b => b.classList.toggle('active', b.dataset.nav === view));
     if (view === 'contenidos') renderSkills($('.chip.active')?.dataset.skillFilter || 'all');
     if (view === 'progreso') renderProgress();
+    if (view === 'videos') renderVideos();
     if (view === 'familia') renderFamily();
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
@@ -208,6 +233,7 @@
     renderDashboard();
     renderSkills('all');
     renderProgress();
+    renderVideos();
     renderFamily();
   }
 
@@ -391,6 +417,68 @@
     }).join('');
   }
 
+  function renderVideos() {
+    const container = $('#video-library');
+    const sections = activeProfileIds().map(id => {
+      const rows = VIDEO_RESOURCES[id].map(resource => ({
+        ...resource, skill: skillsById.get(resource.skillId),
+        progress: state.profiles[id]?.progress?.[resource.skillId]
+      })).filter(row => row.skill);
+      rows.sort((a, b) => {
+        const aSeen = a.progress?.attempts > 0;
+        const bSeen = b.progress?.attempts > 0;
+        return (bSeen - aSeen) || (aSeen ? a.progress.mastery - b.progress.mastery : 0);
+      });
+      return `<section class="video-profile" data-profile="${id}">
+        ${activeMode === 'together' ? `<h3>${escapeHtml(state.profiles[id].name)}</h3>` : ''}
+        <p class="video-profile-intro">${rows.some(row => row.progress?.attempts) ? 'Primero aparecen los temas que más conviene repasar.' : 'Todavía no hay respuestas sobre estos temas. Podés explorar los videos y hacer el diagnóstico para ordenar las sugerencias.'}</p>
+        <div class="video-grid">${rows.map(row => videoCardHtml(row, id)).join('')}</div>
+      </section>`;
+    });
+    container.innerHTML = sections.join('');
+  }
+
+  function videoCardHtml({skill, videoId, title, progress}, profileId) {
+    const attempts = progress?.attempts || 0;
+    const status = attempts
+      ? progress.mastery < 65 ? `Para reforzar · ${progress.mastery}% estimado` : `Para repasar · ${progress.mastery}% estimado`
+      : 'Para explorar · sin respuestas todavía';
+    return `<article class="video-card" data-video-id="${videoId}" data-profile="${profileId}">
+      <div class="video-card-top"><span class="level ${attempts ? levelClass(progress.mastery) : 'unseen'}">${escapeHtml(status)}</span><span class="video-subject">${skill.area === 'lengua' ? 'Lengua' : 'Matemática'}</span></div>
+      <h4>${escapeHtml(skill.nombre)}</h4><p>${escapeHtml(title)}</p>
+      <div class="video-stage"><button class="video-play" type="button" data-play-video="${videoId}" aria-label="Ver video de ${escapeHtml(skill.nombre)} acá">▷ <span>Ver video acá</span></button></div>
+      <div class="video-actions"><button class="secondary-button" type="button" data-video-practice="${escapeHtml(skill.id)}">Practicar este tema</button></div>
+    </article>`;
+  }
+
+  function handleVideoAction(event) {
+    const play = event.target.closest('[data-play-video]');
+    const practice = event.target.closest('[data-video-practice]');
+    if (play) {
+      const card = play.closest('.video-card');
+      const id = play.dataset.playVideo;
+      if (!VIDEO_RESOURCES[card.dataset.profile]?.some(row => row.videoId === id)) return;
+      // Un solo reproductor activo; iframe solo tras una acción explícita.
+      $('#video-library').querySelectorAll('iframe').forEach(frame => frame.remove());
+      $('#video-library').querySelectorAll('.video-play').forEach(button => { button.hidden = false; });
+      play.hidden = true;
+      const frame = document.createElement('iframe');
+      frame.src = `https://www.youtube-nocookie.com/embed/${id}?rel=0`;
+      frame.title = `Video: ${card.querySelector('h4').textContent}`;
+      frame.loading = 'lazy';
+      frame.allow = 'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture; web-share';
+      frame.referrerPolicy = 'strict-origin-when-cross-origin';
+      frame.allowFullscreen = true;
+      card.querySelector('.video-stage').append(frame);
+    }
+    if (practice) {
+      const card = practice.closest('.video-card');
+      const skillId = practice.dataset.videoPractice;
+      if (!VIDEO_RESOURCES[card.dataset.profile]?.some(row => row.skillId === skillId)) return;
+      startSession({ type: 'practica', area: skillsById.get(skillId).area, skillId });
+    }
+  }
+
   function renderFamily() {
     refreshGateNames();
     renderFamilyActivity();
@@ -460,7 +548,7 @@
     const status = isPreparationDay
       ? 'Lista lista para preparar la particular del jueves'
       : 'La lista se actualiza con cada sesión de práctica';
-    panel.innerHTML = `<div class="tutoring-heading"><div><p class="eyebrow">Acompañamiento externo</p><h3>Para revisar con la particular</h3><p>La app selecciona hasta tres temas según las respuestas. Los enlaces a videos son opcionales y se abren en YouTube; después conviene probar otro ejercicio. Es una guía de conversación, no una nota.</p></div><span class="tutoring-status ${isPreparationDay ? 'ready' : ''}">${status}</span></div><div class="tutoring-list">${['p1', 'p2'].map(id => tutoringProfileHtml(state.profiles[id], id)).join('')}</div>`;
+    panel.innerHTML = `<div class="tutoring-heading"><div><p class="eyebrow">Acompañamiento externo</p><h3>Para revisar con la particular</h3><p>La app selecciona hasta tres temas según las respuestas. Los videos elegidos por la familia se ven en la pestaña Videos; después conviene probar otro ejercicio. Es una guía de conversación, no una nota.</p></div><span class="tutoring-status ${isPreparationDay ? 'ready' : ''}">${status}</span></div><div class="tutoring-list">${['p1', 'p2'].map(id => tutoringProfileHtml(state.profiles[id], id)).join('')}</div>`;
   }
 
   function tutoringProfileHtml(profile, id) {
@@ -470,28 +558,18 @@
       .sort((a, b) => (a.progress.mastery - b.progress.mastery) || (b.progress.attempts - a.progress.attempts))
       .slice(0, 3);
     const body = topics.length
-      ? `<ol>${topics.map(row => `<li><strong>${escapeHtml(row.skill.nombre)}</strong><small>${row.progress.mastery}% de dominio estimado · ${row.progress.attempts} intento${row.progress.attempts === 1 ? '' : 's'}</small>${tutoringVideoHtml(row)}</li>`).join('')}</ol>`
+      ? `<ol>${topics.map(row => `<li><strong>${escapeHtml(row.skill.nombre)}</strong><small>${row.progress.mastery}% de dominio estimado · ${row.progress.attempts} intento${row.progress.attempts === 1 ? '' : 's'}</small>${tutoringVideoHtml(row, id)}</li>`).join('')}</ol>`
       : '<p class="tutoring-empty">Todavía no hay evidencia suficiente. Después del diagnóstico aparecerán los temas a revisar.</p>';
     return `<article class="tutoring-profile" data-profile="${id}"><h4>${escapeHtml(profile.name)}</h4>${body}</article>`;
   }
 
-  function tutoringVideoHtml({skill, progress}) {
+  function tutoringVideoHtml({skill, progress}, id) {
     if (progress.mastery >= 65) return '';
-    // Solo enlaces verificados a videos puntuales. Para el resto, una búsqueda
-    // identificada como tal evita recomendar un video no revisado como si lo fuera.
-    const videos = {
-      'MAT-MED-LONG': ['Medidas de longitud: conversiones', 'https://www.youtube.com/watch?v=FvLXSPXaKFI'],
-      'MAT-CIRC': ['Longitud de la circunferencia', 'https://www.youtube.com/watch?v=k3SNU830pA4'],
-      'MAT-ANG-CS': ['Ángulos complementarios y suplementarios', 'https://www.youtube.com/watch?v=kPggnoUvM8w'],
-      'MAT-FR-OPS': ['Operaciones con fracciones', 'https://www.youtube.com/watch?v=JNBkPD96WbU'],
-      'LEN-UNI-BI': ['Oraciones unimembres y bimembres', 'https://www.youtube.com/watch?v=RNNva2qI7UM']
-    };
-    const video = videos[skill.id];
-    const query = `${skill.nombre} explicación ejercicios primaria`;
-    const url = video?.[1] || `https://www.youtube.com/results?search_query=${encodeURIComponent(query)}`;
-    const label = video ? `Ver video: ${video[0]}` : `Buscar videos sobre ${skill.nombre}`;
+    const video = VIDEO_RESOURCES[id].find(row => row.skillId === skill.id);
+    if (!video) return '';
     const note = progress.attempts < 3 ? 'Pocos intentos todavía: miralo si querés repasar.' : 'Puede ayudarte a repasar este tema.';
-    return `<a class="tutoring-video" href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer" aria-label="${escapeHtml(label)} (abre YouTube en otra pestaña)">${escapeHtml(label)} ↗</a><small class="tutoring-video-note">${note}</small>`;
+    if (activeMode !== 'together' && activeMode !== id) return `<small class="tutoring-video-note">Elegí este perfil para ver su video en la pestaña Videos.</small>`;
+    return `<button class="tutoring-video" type="button" data-nav="videos">Ver video en la app →</button><small class="tutoring-video-note">${note}</small>`;
   }
 
   function saveProfileNames() {
@@ -514,13 +592,13 @@
     else startSession({ type: 'practica', area: recommendedArea || 'all' });
   }
 
-  function startSession({ type, area, school = null }) {
+  function startSession({ type, area, school = null, skillId = null }) {
     if (!exercises.length) return toast('Todavía se están cargando los ejercicios.');
     if (type === 'diagnostico' && activeMode === 'together') {
       toast('El diagnóstico es individual. Hacelo desde cada perfil para que el mapa de fortalezas sea preciso.');
       return;
     }
-    const pool = buildSessionPool(type, area, school);
+    const pool = buildSessionPool(type, area, school, skillId);
     if (!pool.length) return toast('No quedan consignas nuevas para esta selección en los últimos 7 días. Probá otra materia o retomá más adelante.');
     session = {
       type, area, school, items: pool, index: 0, correct: 0, answers: [], hintUsed: false,
@@ -531,14 +609,15 @@
     renderExercise();
   }
 
-  function buildSessionPool(type, area, school) {
+  function buildSessionPool(type, area, school, skillId = null) {
     let pool = exercises.filter(e => area === 'all' || e.area === area);
+    if (skillId) pool = pool.filter(e => e.habilidad === skillId);
     if (school) pool = pool.filter(e => e.colegios.includes('comun') || e.colegios.includes(school));
     const usedRecently = usedExerciseIdsRecently(activeProfileIds());
     pool = pool.filter(e => !usedRecently.has(e.id));
     if (type === 'diagnostico') return buildAdaptiveDiagnostic(pool);
     if (type === 'simulacro') return buildSimulationPool(pool, school, area);
-    return buildAdaptivePractice(pool, 8);
+    return buildAdaptivePractice(pool, skillId ? 3 : 8);
   }
 
   function buildAdaptiveDiagnostic(pool) {

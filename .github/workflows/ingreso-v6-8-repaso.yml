@@ -10,6 +10,7 @@ on:
       - 'tests/ingreso-v6-8-2-opciones.test.cjs'
       - 'tests/ingreso-visitante-portal.test.cjs'
       - 'tests/ingreso-version-visible.test.cjs'
+      - 'tests/ingreso-v6-12-videos.test.cjs'
       - 'tools/auditar-ingreso-v6-7.cjs'
       - 'audit-bank.cjs'
       - '.github/workflows/ingreso-v6-8-repaso.yml'
@@ -51,3 +52,5 @@ jobs:
         run: node --test tests/ingreso-visitante-portal.test.cjs
       - name: Versión visible
         run: node --test tests/ingreso-version-visible.test.cjs
+      - name: Videos en la app
+        run: node --test tests/ingreso-v6-12-videos.test.cjs
