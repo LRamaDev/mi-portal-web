@@ -87,13 +87,13 @@ test('la bienvenida inicial queda limitada y usa estado privado por perfil', () 
   assert.match(ui, /sessionStorage/);
 });
 
-test('V6.12 conserva el motor V6.8 y carga el sistema de insignias', () => {
-  assert.match(index, /meta name="app-version" content="6\.12"/);
+test('V6.13 conserva el motor V6.8 y carga el sistema de insignias', () => {
+  assert.match(index, /meta name="app-version" content="6\.13"/);
   assert.match(index, /\.\/adaptive-v6-8\.js/);
   assert.match(index, /\.\/choice-order-v6-8-2\.js/);
   assert.match(index, /\.\/badges-v6-9\.js/);
   assert.match(index, /\.\/badges-v6-9\.css/);
-  assert.match(sw, /ingreso-bm-v6-12-videos-en-app/);
+  assert.match(sw, /ingreso-bm-v6-13-video-lengua/);
   assert.match(sw, /adaptive-v6-8\.js/);
   assert.match(sw, /choice-order-v6-8-2\.js/);
   assert.match(sw, /badges-v6-9\.js/);

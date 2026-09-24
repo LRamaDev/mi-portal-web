@@ -1,25 +1,25 @@
-const CACHE='ingreso-bm-v6-12-videos-en-app';
+const CACHE='ingreso-bm-v6-13-video-lengua';
 
-const VERSION='6.12';
+const VERSION='6.13';
 const VERSIONED=[
-  './styles.css?v=6.12',
-  './styles-v6.css?v=6.12',
-  './badges-v6-9.css?v=6.12',
-  './config.js?v=6.12',
-  './seguridad.js?v=6.12',
-  './banco-v4.js?v=6.12',
-  './banco-v5.js?v=6.12',
-  './banco-v6.js?v=6.12',
-  './banco-v6-10.js?v=6.12',
-  './banco-v6-11.js?v=6.12',
-  './app.js?v=6.12',
-  './simulacros.js?v=6.12',
-  './testeo.js?v=6.12',
-  './ui-v6.js?v=6.12',
-  './ui-v6-4.js?v=6.12',
-  './adaptive-v6-8.js?v=6.12',
-  './choice-order-v6-8-2.js?v=6.12',
-  './badges-v6-9.js?v=6.12'
+  './styles.css?v=6.13',
+  './styles-v6.css?v=6.13',
+  './badges-v6-9.css?v=6.13',
+  './config.js?v=6.13',
+  './seguridad.js?v=6.13',
+  './banco-v4.js?v=6.13',
+  './banco-v5.js?v=6.13',
+  './banco-v6.js?v=6.13',
+  './banco-v6-10.js?v=6.13',
+  './banco-v6-11.js?v=6.13',
+  './app.js?v=6.13',
+  './simulacros.js?v=6.13',
+  './testeo.js?v=6.13',
+  './ui-v6.js?v=6.13',
+  './ui-v6-4.js?v=6.13',
+  './adaptive-v6-8.js?v=6.13',
+  './choice-order-v6-8-2.js?v=6.13',
+  './badges-v6-9.js?v=6.13'
 ];
 
 const STATIC=[

@@ -16,6 +16,7 @@
     ],
     p2: [
       { skillId: 'MAT-FR-ORD', videoId: 'ZqnHbXCCSIc', title: 'Comparar fracciones' },
+      { skillId: 'LEN-UNI-BI', videoId: 'tvs0UpX93mw', title: 'Oraciones unimembres y bimembres: concepto y ejemplos' },
       { skillId: 'MAT-FR-OPS', videoId: 'qJtoI1ipxs8', title: 'Sumar y restar fracciones' },
       { skillId: 'MAT-CIRC', videoId: 'bG3f36JQkuA', title: 'Radio y diámetro a partir de la circunferencia' },
       { skillId: 'MAT-MCM', videoId: 'txLlA_fyL5g', title: 'Mínimo común múltiplo' },
@@ -65,7 +66,7 @@
     bindUI();
     refreshGateNames();
     setupSupabase();
-    if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js?v=6.12').catch(() => {});
+    if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js?v=6.13').catch(() => {});
   }
 
   function bindUI() {
@@ -441,7 +442,7 @@
   function videoCardHtml({skill, videoId, title, progress}, profileId) {
     const attempts = progress?.attempts || 0;
     const status = attempts
-      ? progress.mastery < 65 ? `Para reforzar · ${progress.mastery}% estimado` : `Para repasar · ${progress.mastery}% estimado`
+      ? attempts < 3 ? `Primeros intentos · ${progress.mastery}% estimado` : progress.mastery < 65 ? `Para reforzar · ${progress.mastery}% estimado` : `Para repasar · ${progress.mastery}% estimado`
       : 'Para explorar · sin respuestas todavía';
     return `<article class="video-card" data-video-id="${videoId}" data-profile="${profileId}">
       <div class="video-card-top"><span class="level ${attempts ? levelClass(progress.mastery) : 'unseen'}">${escapeHtml(status)}</span><span class="video-subject">${skill.area === 'lengua' ? 'Lengua' : 'Matemática'}</span></div>
@@ -558,7 +559,7 @@
       .sort((a, b) => (a.progress.mastery - b.progress.mastery) || (b.progress.attempts - a.progress.attempts))
       .slice(0, 3);
     const body = topics.length
-      ? `<ol>${topics.map(row => `<li><strong>${escapeHtml(row.skill.nombre)}</strong><small>${row.progress.mastery}% de dominio estimado · ${row.progress.attempts} intento${row.progress.attempts === 1 ? '' : 's'}</small>${tutoringVideoHtml(row, id)}</li>`).join('')}</ol>`
+      ? `<ol>${topics.map(row => `<li><strong>${escapeHtml(row.skill.nombre)}</strong><small>${row.progress.mastery}% de dominio estimado · ${row.progress.attempts} intento${row.progress.attempts === 1 ? '' : 's'}${row.progress.attempts < 3 ? ' · dato inicial' : ''}</small>${tutoringVideoHtml(row, id)}</li>`).join('')}</ol>`
       : '<p class="tutoring-empty">Todavía no hay evidencia suficiente. Después del diagnóstico aparecerán los temas a revisar.</p>';
     return `<article class="tutoring-profile" data-profile="${id}"><h4>${escapeHtml(profile.name)}</h4>${body}</article>`;
   }
