@@ -1,25 +1,25 @@
-const CACHE='ingreso-bm-v6-13-video-lengua';
+const CACHE='ingreso-bm-v6-14-banco-videos';
 
-const VERSION='6.13';
+const VERSION='6.14';
 const VERSIONED=[
-  './styles.css?v=6.13',
-  './styles-v6.css?v=6.13',
-  './badges-v6-9.css?v=6.13',
-  './config.js?v=6.13',
-  './seguridad.js?v=6.13',
-  './banco-v4.js?v=6.13',
-  './banco-v5.js?v=6.13',
-  './banco-v6.js?v=6.13',
-  './banco-v6-10.js?v=6.13',
-  './banco-v6-11.js?v=6.13',
-  './app.js?v=6.13',
-  './simulacros.js?v=6.13',
-  './testeo.js?v=6.13',
-  './ui-v6.js?v=6.13',
-  './ui-v6-4.js?v=6.13',
-  './adaptive-v6-8.js?v=6.13',
-  './choice-order-v6-8-2.js?v=6.13',
-  './badges-v6-9.js?v=6.13'
+  './styles.css?v=6.14',
+  './styles-v6.css?v=6.14',
+  './badges-v6-9.css?v=6.14',
+  './config.js?v=6.14',
+  './seguridad.js?v=6.14',
+  './banco-v4.js?v=6.14',
+  './banco-v5.js?v=6.14',
+  './banco-v6.js?v=6.14',
+  './banco-v6-10.js?v=6.14',
+  './banco-v6-11.js?v=6.14',
+  './app.js?v=6.14',
+  './simulacros.js?v=6.14',
+  './testeo.js?v=6.14',
+  './ui-v6.js?v=6.14',
+  './ui-v6-4.js?v=6.14',
+  './adaptive-v6-8.js?v=6.14',
+  './choice-order-v6-8-2.js?v=6.14',
+  './badges-v6-9.js?v=6.14'
 ];
 
 const STATIC=[
@@ -81,6 +81,7 @@ self.addEventListener('fetch',event=>{
     request.destination==='document' ||
     request.destination==='script' ||
     request.destination==='style' ||
+    url.pathname.endsWith('/data/habilidades.json') ||
     /\.(?:html|js|css)$/.test(url.pathname);
 
   event.respondWith(freshType ? networkFirst(request) : cacheFirst(request));
