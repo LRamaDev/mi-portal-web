@@ -10,6 +10,7 @@
     p1: [
       { skillId: 'MAT-MED-LONG', videoId: 'FvLXSPXaKFI', title: 'Conversiones de medidas de longitud' },
       { skillId: 'MAT-ANG-CS', videoId: 'RhtBGxdYSJI', title: 'Ángulos complementarios y suplementarios' },
+      { skillId: 'LEN-REV', videoId: '7Rf1w8UT_rg', title: 'Concordancia: cómo revisar una oración' },
       { skillId: 'MAT-DEC-OPS', videoId: 'y_F5eXD8Cb0', title: 'Sumas y restas con decimales' },
       { skillId: 'MAT-PER', videoId: 'OTT8SKMdBD8', title: 'Perímetros' }
     ],
@@ -428,12 +429,10 @@
         const bSeen = b.progress?.attempts > 0;
         return (bSeen - aSeen) || (aSeen ? a.progress.mastery - b.progress.mastery : 0);
       });
-      const needsVideo = id === 'p1' && !VIDEO_RESOURCES.p1.some(row => row.skillId === 'LEN-REV');
       return `<section class="video-profile" data-profile="${id}">
         ${activeMode === 'together' ? `<h3>${escapeHtml(state.profiles[id].name)}</h3>` : ''}
         <p class="video-profile-intro">${rows.some(row => row.progress?.attempts) ? 'Primero aparecen los temas que más conviene repasar.' : 'Todavía no hay respuestas sobre estos temas. Podés explorar los videos y hacer el diagnóstico para ordenar las sugerencias.'}</p>
         <div class="video-grid">${rows.map(row => videoCardHtml(row, id)).join('')}</div>
-        ${needsVideo && state.profiles[id]?.progress?.['LEN-REV']?.attempts ? '<p class="video-pending">Revisión de textos breves: todavía falta un video para este tema. Podés seguir practicándolo en Lengua.</p>' : ''}
       </section>`;
     });
     container.innerHTML = sections.join('');

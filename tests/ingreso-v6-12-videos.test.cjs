@@ -19,6 +19,7 @@ test('cada recurso elegido queda asociado a la habilidad y al perfil correctos',
   const expected = {
     p1: {
       'MAT-MED-LONG': 'FvLXSPXaKFI', 'MAT-ANG-CS': 'RhtBGxdYSJI',
+      'LEN-REV': '7Rf1w8UT_rg',
       'MAT-DEC-OPS': 'y_F5eXD8Cb0', 'MAT-PER': 'OTT8SKMdBD8'
     },
     p2: {
@@ -34,8 +35,8 @@ test('cada recurso elegido queda asociado a la habilidad y al perfil correctos',
       assert.match(row.videoId, /^[\w-]{11}$/);
     }
   }
-  assert.ok(!catalog.p1.some(row => row.skillId === 'LEN-REV'), 'el enlace duplicado de ángulos no explica revisión de textos');
-  assert.match(app, /Revisión de textos breves: todavía falta un video/);
+  assert.equal(catalog.p1.filter(row => row.skillId === 'MAT-ANG-CS').length, 1, 'el enlace repetido de ángulos aparece una sola vez');
+  assert.match(catalog.p1.find(row => row.skillId === 'LEN-REV').title, /Concordancia/, 'el video de Lengua explica concordancia, una parte de la revisión de textos');
 });
 
 test('la navegación móvil y de escritorio lleva al reproductor integrado', () => {
