@@ -132,6 +132,7 @@ body{
 .tutoring-profile button.tutoring-video{padding:0;border:0;background:none;cursor:pointer;text-align:left}
 
 .video-profile+.video-profile{margin-top:32px}.video-profile h3{margin:0 0 6px}.video-profile-intro{margin:0 0 16px;color:var(--muted)}
+.video-empty{padding:16px;border:1px solid var(--line);border-radius:14px;background:#fff;color:var(--muted)}
 .video-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
 .video-card{min-width:0;padding:19px;border:1px solid var(--line);border-radius:18px;background:var(--surface);box-shadow:var(--shadow2)}
 .video-card-top{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px}.video-subject{color:var(--muted);font-size:.82rem;font-weight:750}
