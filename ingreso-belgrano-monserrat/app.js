@@ -33,8 +33,11 @@
 
   async function init() {
     try {
+      // La URL cambia con la versión: evita que un service worker anterior entregue
+      // habilidades sin videos durante la primera visita tras una actualización.
+      const releaseVersion = document.querySelector('meta[name="app-version"]')?.content || '6.15';
       const [skillsData, exerciseData] = await Promise.all([
-        fetch('./data/habilidades.json', { cache: 'no-store' }).then(r => { if (!r.ok) throw new Error('habilidades'); return r.json(); }),
+        fetch(`./data/habilidades.json?v=${encodeURIComponent(releaseVersion)}`, { cache: 'no-store' }).then(r => { if (!r.ok) throw new Error('habilidades'); return r.json(); }),
         fetch('./data/ejercicios.json').then(r => { if (!r.ok) throw new Error('ejercicios'); return r.json(); })
       ]);
       skills = skillsData.habilidades || [];
@@ -48,7 +51,7 @@
     bindUI();
     refreshGateNames();
     setupSupabase();
-    if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js?v=6.14').catch(() => {});
+    if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js?v=6.15').catch(() => {});
   }
 
   function bindUI() {
@@ -424,8 +427,8 @@
       });
       return `<section class="video-profile" data-profile="${id}">
         ${activeMode === 'together' ? `<h3>${escapeHtml(state.profiles[id].name)}</h3>` : ''}
-        <p class="video-profile-intro">${rows.some(row => row.progress?.attempts) ? 'Primero aparecen los temas que más conviene repasar.' : 'Todavía no hay respuestas sobre estos temas. Podés explorar los videos y hacer el diagnóstico para ordenar las sugerencias.'}</p>
-        <div class="video-grid">${rows.map(row => videoCardHtml(row, id)).join('')}</div>
+        ${rows.length ? `<p class="video-profile-intro">${rows.some(row => row.progress?.attempts) ? 'Primero aparecen los temas que más conviene repasar.' : 'Todavía no hay respuestas sobre estos temas. Podés explorar los videos y hacer el diagnóstico para ordenar las sugerencias.'}</p>
+        <div class="video-grid">${rows.map(row => videoCardHtml(row, id)).join('')}</div>` : '<p class="video-empty">No se cargaron los videos de este perfil. Actualizá la página para intentarlo de nuevo.</p>'}
       </section>`;
     });
     container.innerHTML = sections.join('');

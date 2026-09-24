@@ -78,6 +78,33 @@ test('la navegación móvil y de escritorio lleva al reproductor integrado', () 
   assert.match(app, /skills\.flatMap\(skill => \(skill\.videos \|\| \[\]\)/);
   assert.doesNotMatch(app, /const VIDEO_RESOURCES =/);
   assert.match(app, /data-skill-video="\$\{escapeHtml\(skill\.id\)\}"/);
-  assert.match(app, /fetch\('\.\/data\/habilidades\.json', \{ cache: 'no-store' \}\)/);
+  assert.match(app, /fetch\(`\.\/data\/habilidades\.json\?v=\$\{encodeURIComponent\(releaseVersion\)\}`/);
+  assert.match(app, /document\.querySelector\('meta\[name="app-version"\]'\)\?\.content/);
   assert.match(sw, /url\.pathname\.endsWith\('\/data\/habilidades\.json'\)/);
+});
+
+test('la nueva versión evita el banco anterior del caché y presenta ambos perfiles', () => {
+  const version = html.match(/meta name="app-version" content="([^"]+)"/)[1];
+  assert.ok(sw.includes(`'./data/habilidades.json?v=${version}'`), 'el banco vigente se guarda para uso sin conexión');
+  assert.notEqual(`./data/habilidades.json?v=${version}`, './data/habilidades.json', 'la URL nueva no coincide con la almacenada por el service worker anterior');
+
+  const source = app.match(/function renderVideos\(\) \{[\s\S]*?\n  \}(?=\n\n  function videoCardHtml)/)?.[0];
+  assert.ok(source, 'renderVideos debe estar disponible');
+  const container = {innerHTML:''};
+  const context = vm.createContext({
+    skills, state:{profiles:{p1:{progress:{}},p2:{progress:{}}}}, activeMode:'p1',
+    activeProfileIds: () => [context.activeMode],
+    $: () => container,
+    escapeHtml: value => value,
+    videoCardHtml: row => `<article data-video="${row.videoId}"></article>`
+  });
+  const render = vm.runInContext(`${source}; renderVideos`, context);
+  render();
+  assert.equal((container.innerHTML.match(/<article /g) || []).length, 5);
+  context.activeMode = 'p2';
+  render();
+  assert.equal((container.innerHTML.match(/<article /g) || []).length, 6);
+  context.skills = skills.map(skill => ({...skill, videos:[]}));
+  render();
+  assert.match(container.innerHTML, /No se cargaron los videos/);
 });

@@ -1,25 +1,26 @@
-const CACHE='ingreso-bm-v6-14-banco-videos';
+const CACHE='ingreso-bm-v6-15-cache-videos';
 
-const VERSION='6.14';
+const VERSION='6.15';
 const VERSIONED=[
-  './styles.css?v=6.14',
-  './styles-v6.css?v=6.14',
-  './badges-v6-9.css?v=6.14',
-  './config.js?v=6.14',
-  './seguridad.js?v=6.14',
-  './banco-v4.js?v=6.14',
-  './banco-v5.js?v=6.14',
-  './banco-v6.js?v=6.14',
-  './banco-v6-10.js?v=6.14',
-  './banco-v6-11.js?v=6.14',
-  './app.js?v=6.14',
-  './simulacros.js?v=6.14',
-  './testeo.js?v=6.14',
-  './ui-v6.js?v=6.14',
-  './ui-v6-4.js?v=6.14',
-  './adaptive-v6-8.js?v=6.14',
-  './choice-order-v6-8-2.js?v=6.14',
-  './badges-v6-9.js?v=6.14'
+  './styles.css?v=6.15',
+  './styles-v6.css?v=6.15',
+  './badges-v6-9.css?v=6.15',
+  './config.js?v=6.15',
+  './seguridad.js?v=6.15',
+  './banco-v4.js?v=6.15',
+  './banco-v5.js?v=6.15',
+  './banco-v6.js?v=6.15',
+  './banco-v6-10.js?v=6.15',
+  './banco-v6-11.js?v=6.15',
+  './app.js?v=6.15',
+  './simulacros.js?v=6.15',
+  './testeo.js?v=6.15',
+  './ui-v6.js?v=6.15',
+  './ui-v6-4.js?v=6.15',
+  './adaptive-v6-8.js?v=6.15',
+  './choice-order-v6-8-2.js?v=6.15',
+  './badges-v6-9.js?v=6.15',
+  './data/habilidades.json?v=6.15'
 ];
 
 const STATIC=[
@@ -27,7 +28,6 @@ const STATIC=[
   './index.html',
   './manifest.webmanifest',
   './assets/icon.svg',
-  './data/habilidades.json',
   './data/ejercicios.json'
 ];
 
