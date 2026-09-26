@@ -14,6 +14,7 @@ on:
       - 'tests/ingreso-v6-16-estabilidad.test.cjs'
       - 'tests/ingreso-v6-17-guia-belgrano.test.cjs'
       - 'tests/ingreso-v6-18-evidencia.test.cjs'
+      - 'tests/ingreso-v6-18-1-interacciones.test.cjs'
       - 'tools/auditar-ingreso-v6-7.cjs'
       - 'audit-bank.cjs'
       - '.github/workflows/ingreso-v6-8-repaso.yml'
@@ -63,3 +64,5 @@ jobs:
         run: node --test tests/ingreso-v6-17-guia-belgrano.test.cjs
       - name: Evidencia pedagógica V6.18
         run: node --test tests/ingreso-v6-18-evidencia.test.cjs
+      - name: Interacciones y clicks V6.18.1
+        run: node --test tests/ingreso-v6-18-1-interacciones.test.cjs
