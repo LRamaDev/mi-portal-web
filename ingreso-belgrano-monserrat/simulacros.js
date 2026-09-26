@@ -392,7 +392,7 @@
       at: Date.now(), type: 'simulacro', area: sim.area, school: sim.school,
       score: earned, total: 100, fullExam: true,
       durationMinutes: Math.max(1, Math.round((Date.now() - sim.startedAt) / 60000))
-    }].slice(-60);
+    }];
     saveState(state);
     await syncRemoteNow(state);
 
