@@ -152,6 +152,7 @@
     if (retentionVerified && detailed.length >= 3 && distinct >= 3) return 'alta';
     if (detailed.length >= 6 && distinct >= 4 && spanDays(detailed) >= 2) return 'alta';
     if (totalUnits >= 3 && (distinct >= 2 || legacy.attempts >= 4)) return 'media';
+    if (legacy.attempts >= 4) return 'media';
     return 'baja';
   }
 
