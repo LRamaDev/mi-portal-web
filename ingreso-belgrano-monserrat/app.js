@@ -334,7 +334,8 @@
 
     renderAreaStat('math', aggregateArea(ids, 'matematica'));
     renderAreaStat('lang', aggregateArea(ids, 'lengua'));
-    $('#stat-sessions').textContent = ids.reduce((sum, id) => sum + (state.profiles[id].sessions || 0), 0);
+    const ownSessions = activeMode === 'together' ? 0 : (state.profiles[primaryProfileId()].sessions || 0);
+    $('#stat-sessions').textContent = activeMode === 'together' ? 'Juntas' : ownSessions ? 'En marcha' : 'Empezando';
     renderPriorities(ids);
     renderNextStep(ids, needsDiagnostic);
     renderWeeklyMission(ids);
@@ -367,7 +368,8 @@
   }
 
   function balanceRecommendation() {
-    const profile = state.profiles[activeMode === 'together' ? 'p1' : primaryProfileId()];
+    if (activeMode === 'together') return null;
+    const profile = state.profiles[primaryProfileId()];
     const sessions = (profile?.history || []).filter(item => item.type !== 'diagnostico' && ['matematica', 'lengua'].includes(item.area));
     const recent = sessions.filter(item => item.at >= weekStart());
     const lastTwo = sessions.slice(-2);
@@ -379,8 +381,8 @@
     }
     const math = recent.filter(item => item.area === 'matematica').length;
     const lang = recent.filter(item => item.area === 'lengua').length;
-    if (math - lang >= 2) return { area: 'lengua', source: 'matematica', reason: 'week', message: `Esta semana hubo ${math} sesión${math === 1 ? '' : 'es'} de Matemática y ${lang} de Lengua. Conviene alternar con Lengua.` };
-    if (lang - math >= 2) return { area: 'matematica', source: 'lengua', reason: 'week', message: `Esta semana hubo ${lang} sesión${lang === 1 ? '' : 'es'} de Lengua y ${math} de Matemática. Conviene alternar con Matemática.` };
+    if (math - lang >= 2) return { area: 'lengua', source: 'matematica', reason: 'week', message: 'Esta semana practicaste bastante más Matemática. Conviene alternar con Lengua.' };
+    if (lang - math >= 2) return { area: 'matematica', source: 'lengua', reason: 'week', message: 'Esta semana practicaste bastante más Lengua. Conviene alternar con Matemática.' };
     return null;
   }
 
@@ -411,15 +413,19 @@
   function renderWeeklyMission(ids) {
     const container = $('#weekly-mission');
     if (!container || !ids.length) return;
+    if (activeMode === 'together') {
+      container.innerHTML = '<div class="weekly-mission-icon" aria-hidden="true">✦</div><div><p class="eyebrow">Constancia</p><h3>Sesión compartida</h3><p>Alternen los turnos y dejen que cada respuesta quede en su propio recorrido.</p></div>';
+      return;
+    }
     const start = weekStart();
-    const completed = ids.reduce((total, id) => total + (state.profiles[id].history || []).filter(item => item.at >= start).length, 0);
-    const target = activeMode === 'together' ? 4 : 3;
-    const remaining = Math.max(0, target - completed);
-    const title = remaining ? `Misión de la semana · ${completed}/${target}` : 'Misión de la semana cumplida';
-    const message = remaining
-      ? `Completá ${remaining} sesión${remaining === 1 ? '' : 'es'} más. Cuenta practicar, repasar o hacer un simulacro.`
-      : '¡Muy bien! Podés seguir practicando, pero ya cumpliste tu objetivo de constancia.';
-    container.innerHTML = `<div class="weekly-mission-icon" aria-hidden="true">✦</div><div><p class="eyebrow">Constancia</p><h3>${title}</h3><p>${message}</p></div><span class="weekly-mission-count">${completed}/${target}</span>`;
+    const completed = (state.profiles[primaryProfileId()].history || []).filter(item => item.at >= start).length;
+    const target = 3;
+    const done = completed >= target;
+    const title = done ? 'Misión de la semana cumplida' : completed ? 'Misión en marcha' : 'Empezá tu misión semanal';
+    const message = done
+      ? '¡Muy bien! Ya sostuviste una buena continuidad esta semana.'
+      : 'Seguí alternando prácticas, repasos y simulacros. La constancia vale más que hacer todo de una vez.';
+    container.innerHTML = `<div class="weekly-mission-icon" aria-hidden="true">✦</div><div><p class="eyebrow">Constancia</p><h3>${title}</h3><p>${message}</p></div>`;
   }
 
   function renderAreaStat(suffix, summary) {
@@ -681,29 +687,30 @@
   function renderFamilyActivity() {
     const panel = $('#family-activity-panel');
     if (!panel) return;
-    const today = new Date(); today.setHours(0, 0, 0, 0);
-    const rows = ['p1', 'p2'].map(id => {
-      const profile = state.profiles[id];
-      const history = profile.history || [];
-      const todaySessions = history.filter(item => item.at >= today.getTime());
-      const recent = [...history].sort((a, b) => b.at - a.at)[0];
-      const weekly = history.filter(item => item.at >= weekStart() && item.type !== 'diagnostico');
-      const mathWeek = weekly.filter(item => item.area === 'matematica').length;
-      const langWeek = weekly.filter(item => item.area === 'lengua').length;
-      return { profile, todaySessions, recent, focus: weakestSkillFor([id]), mathWeek, langWeek };
-    });
-    panel.innerHTML = `<p class="eyebrow">Acompañamiento</p><h3>Actividad de hoy</h3><p class="family-activity-intro">Un resumen simple para conversar sobre el estudio, sin comparar perfiles.</p><div class="family-activity-list">${rows.map(row => {
-      const todayText = row.todaySessions.length ? `${row.todaySessions.length} sesión${row.todaySessions.length === 1 ? '' : 'es'} hoy` : 'Todavía no estudió hoy';
-      const recentText = row.recent ? `Última actividad: ${sessionLabel(row.recent)}.` : 'Todavía no hay sesiones completas.';
-      const focusText = row.focus ? `Próximo foco: ${escapeHtml(row.focus.nombre)}.` : 'Próximo foco: completar el diagnóstico inicial.';
-      return `<article><strong>${escapeHtml(row.profile.name)}</strong><span>${todayText}</span><em>Esta semana: Matemática ${row.mathWeek} · Lengua ${row.langWeek}</em><small>${recentText} ${focusText}</small></article>`;
-    }).join('')}</div>`;
+    if (activeMode === 'together') {
+      panel.innerHTML = '<p class="eyebrow">Privacidad pedagógica</p><h3>Cada recorrido es personal</h3><p class="family-activity-intro">En modo juntas no mostramos avances individuales ni comparaciones entre perfiles.</p>';
+      return;
+    }
+    const id = primaryProfileId();
+    const profile = state.profiles[id];
+    const focus = weakestSkillFor([id]);
+    const recent = [...(profile.history || [])].sort((a, b) => b.at - a.at)[0];
+    panel.innerHTML = `<p class="eyebrow">Tu recorrido</p><h3>${escapeHtml(profile.name)}</h3><p class="family-activity-intro">${recent ? 'Tu actividad quedó guardada. ' : ''}${focus ? `La app va a volver a <strong>${escapeHtml(focus.nombre)}</strong> porque es un buen próximo paso.` : 'Después del diagnóstico aparecerán sugerencias formativas.'}</p>`;
+  }
+
+  function pedagogyPriority(analysis) {
+    if (!analysis) return 0;
+    const base = { sin_evidencia: 0, explorando: 1, en_desarrollo: 2, consistente: 4, consolidado: 5 }[analysis.state] ?? 3;
+    const trend = analysis.trend === 'revisar' ? -0.7 : analysis.trend === 'mejorando' ? -0.35 : 0;
+    const verification = analysis.needsVerification ? -0.8 : 0;
+    const due = analysis.nextReviewAt && Date.now() >= analysis.nextReviewAt ? -0.6 : 0;
+    return base + trend + verification + due;
   }
 
   function weakestSkillFor(ids) {
     return skills.map(skill => ({ skill, summary: aggregateSkill(ids, skill.id) }))
       .filter(row => row.summary.attempts > 0)
-      .sort((a, b) => a.summary.mastery - b.summary.mastery)[0]?.skill || null;
+      .sort((a, b) => pedagogyPriority(a.summary.pedagogy) - pedagogyPriority(b.summary.pedagogy))[0]?.skill || null;
   }
 
   function sessionLabel(item) {
@@ -715,31 +722,32 @@
   function renderTutoringPlan() {
     const panel = $('#family-tutoring-panel');
     if (!panel) return;
-    const day = new Date().getDay();
-    const isPreparationDay = day === 2 || day === 3;
-    const status = isPreparationDay
-      ? 'Lista lista para preparar la particular del jueves'
-      : 'La lista se actualiza con cada sesión de práctica';
-    panel.innerHTML = `<div class="tutoring-heading"><div><p class="eyebrow">Acompañamiento externo</p><h3>Para revisar con la particular</h3><p>La app selecciona hasta tres temas según las respuestas. Los videos elegidos por la familia se ven en la pestaña Videos; después conviene probar otro ejercicio. Es una guía de conversación, no una nota.</p></div><span class="tutoring-status ${isPreparationDay ? 'ready' : ''}">${status}</span></div><div class="tutoring-list">${['p1', 'p2'].map(id => tutoringProfileHtml(state.profiles[id], id)).join('')}</div>`;
+    if (activeMode === 'together') {
+      panel.innerHTML = '<div class="tutoring-heading"><div><p class="eyebrow">Acompañamiento</p><h3>Sin comparaciones</h3><p>Las recomendaciones detalladas se conservan por perfil y no se muestran durante el estudio compartido.</p></div></div>';
+      return;
+    }
+    const id = primaryProfileId();
+    const profile = state.profiles[id];
+    panel.innerHTML = `<div class="tutoring-heading"><div><p class="eyebrow">Acompañamiento</p><h3>Temas para seguir trabajando</h3><p>Estas sugerencias son formativas. No son una nota ni un ranking.</p></div></div><div class="tutoring-list">${tutoringProfileHtml(profile, id)}</div>`;
   }
 
   function tutoringProfileHtml(profile, id) {
     const topics = skills
-      .map(skill => ({ skill, progress: profile.progress?.[skill.id] }))
+      .map(skill => ({ skill, progress: profile.progress?.[skill.id], analysis: skillAnalysis(id, skill.id) }))
       .filter(row => row.progress?.attempts > 0)
-      .sort((a, b) => (a.progress.mastery - b.progress.mastery) || (b.progress.attempts - a.progress.attempts))
+      .sort((a, b) => pedagogyPriority(a.analysis) - pedagogyPriority(b.analysis))
       .slice(0, 3);
     const body = topics.length
-      ? `<ol>${topics.map(row => `<li><strong>${escapeHtml(row.skill.nombre)}</strong><small>${row.progress.mastery}% de dominio estimado · ${row.progress.attempts} intento${row.progress.attempts === 1 ? '' : 's'}${row.progress.attempts < 3 ? ' · dato inicial' : ''}</small>${tutoringVideoHtml(row, id)}</li>`).join('')}</ol>`
+      ? `<ol>${topics.map(row => `<li><strong>${escapeHtml(row.skill.nombre)}</strong><small>${escapeHtml(analysisFeedback(row.analysis))}</small>${tutoringVideoHtml(row, id)}</li>`).join('')}</ol>`
       : '<p class="tutoring-empty">Todavía no hay evidencia suficiente. Después del diagnóstico aparecerán los temas a revisar.</p>';
     return `<article class="tutoring-profile" data-profile="${id}"><h4>${escapeHtml(profile.name)}</h4>${body}</article>`;
   }
 
-  function tutoringVideoHtml({skill, progress}, id) {
-    if (progress.mastery >= 65) return '';
+  function tutoringVideoHtml({skill, analysis}, id) {
+    if (analysis?.state === 'consistente' || analysis?.state === 'consolidado') return '';
     const video = videoForProfile(skill.id, id);
     if (!video) return '';
-    const note = progress.attempts < 3 ? 'Pocos intentos todavía: miralo si querés repasar.' : 'Puede ayudarte a repasar este tema.';
+    const note = analysis?.state === 'explorando' ? 'Puede ayudarte a conocer otra forma de resolverlo.' : 'Puede ayudarte a reforzar este tema.';
     return `<button class="tutoring-video" type="button" data-nav="videos">Ver video en la app →</button><small class="tutoring-video-note">${note}</small>`;
   }
 
