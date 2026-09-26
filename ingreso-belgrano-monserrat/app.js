@@ -865,10 +865,12 @@
   function maybeExtendDiagnostic(e, correct) {
     if (session?.type !== 'diagnostico' || session.diagnosticExtensions >= session.diagnosticMaxExtensions) return false;
     const used = new Set(session.items.map(item => item.id));
+    const usedFingerprints = new Set(session.items.map(exerciseFingerprint));
     const usedRecently = usedExerciseIdsRecently(activeProfileIds());
+    const fingerprintsRecently = usedExerciseFingerprintsRecently(activeProfileIds());
     const direction = correct ? 1 : -1;
     const candidates = exercises
-      .filter(item => item.habilidad === e.habilidad && item.tipo !== 'selfcheck' && !used.has(item.id) && !usedRecently.has(item.id))
+      .filter(item => item.habilidad === e.habilidad && item.tipo !== 'selfcheck' && !used.has(item.id) && !usedFingerprints.has(exerciseFingerprint(item)) && !usedRecently.has(item.id) && !fingerprintsRecently.has(exerciseFingerprint(item)))
       .filter(item => direction > 0 ? item.dificultad > e.dificultad : item.dificultad < e.dificultad)
       .sort((a, b) => Math.abs(a.dificultad - (e.dificultad + direction)) - Math.abs(b.dificultad - (e.dificultad + direction)));
     const next = candidates[0];
