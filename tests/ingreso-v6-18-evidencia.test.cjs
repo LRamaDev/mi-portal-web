@@ -203,6 +203,27 @@ test('caso V: autoevaluaciones de producción escrita no permiten declarar Consi
   assert.notEqual(analysis.state, 'consistente');
 });
 
+test('los contadores compatibles se reconstruyen desde baseline + evidencia aunque un payload haya quedado atrasado', () => {
+  const legacy = {
+    version:1, attempts:18, correct:9, mastery:75, lastAt:1000,
+    recent:[true,true,true], maxDifficultyCorrect:3, lowestMastery:59
+  };
+  const ex1 = exercise('SYNC-1',3);
+  const ex2 = exercise('SYNC-2',3);
+  const profile = {
+    progress:{'SKILL-X':{attempts:19,correct:10,mastery:75,lastAt:2000,legacy}},
+    evidence:[
+      event('p1',ex1,true,2000),
+      event('p1',ex2,true,3000)
+    ],
+    pendingEvidence:[],history:[],sessions:0
+  };
+  engine.ensureAnalysis(profile,'SKILL-X',{maxDifficulty:4,now:4000});
+  assert.equal(profile.progress['SKILL-X'].attempts,20);
+  assert.equal(profile.progress['SKILL-X'].correct,11);
+  assert.equal(profile.progress['SKILL-X'].lastAt,3000);
+});
+
 test('cada evidencia registra los campos requeridos y conserva autonomía/ayudas/tiempo/contexto', () => {
   const ex = { ...exercise('FIELDS', 3), colegios:['belgrano'] };
   const ev = engine.createEvidence({
@@ -261,10 +282,21 @@ test('el historial queda protegido y ya no existe el reinicio destructivo desde 
   assert.doesNotMatch(config, /current\.profiles\[id\]\.history = \[\]/);
 });
 
-test('la sincronización une evidencias por eventId en vez de reemplazarlas', () => {
+test('la sincronización une evidencias, sesiones y progreso en vez de reemplazarlos', () => {
   const sync = fs.readFileSync(path.join(APP, 'ui-v6-4.js'), 'utf8');
   assert.match(sync, /function mergeEvidenceRows/);
+  assert.match(sync, /function mergeHistoryRows/);
+  assert.match(sync, /function mergeProgressMaps/);
   assert.match(sync, /function mergeProfilePayload/);
+  assert.match(sync, /merged\.progress = mergeProgressMaps/);
+  assert.match(sync, /merged\.history = mergeHistoryRows/);
   assert.match(sync, /merged\.evidence = mergeEvidenceRows/);
   assert.match(sync, /merged\.pendingEvidence = mergeEvidenceRows/);
+});
+
+test('las sesiones futuras dejan de recortarse a las últimas 60', () => {
+  const app = fs.readFileSync(path.join(APP, 'app.js'), 'utf8');
+  const sim = fs.readFileSync(path.join(APP, 'simulacros.js'), 'utf8');
+  assert.doesNotMatch(app, /history\s*=.*slice\(-60\)/);
+  assert.doesNotMatch(sim, /history\s*=.*slice\(-60\)/);
 });
