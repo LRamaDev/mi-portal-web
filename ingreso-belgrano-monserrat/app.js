@@ -1164,11 +1164,11 @@
     const correct = session.answers.filter(a => a.correct).length;
     const ratio = total ? correct / total : 0;
     let extra = '';
-    if (session.type === 'diagnostico') extra = `<p>El diagnóstico agregó ${session.diagnosticExtensions} comprobación${session.diagnosticExtensions === 1 ? '' : 'es'} de dificultad para precisar el mapa.</p>`;
+    if (session.type === 'diagnostico') extra = '<p>Con estas primeras evidencias la app ya puede elegir mejor qué conviene practicar después.</p>';
     if (session.type === 'simulacro' && session.school === 'monserrat' && session.area === 'lengua') extra += '<p>La producción escrita se incluye como revisión guiada; su ponderación todavía no equivale al puntaje oficial del examen.</p>';
     const review = session.type === 'practica' ? '' : sessionReviewHtml();
     const focus = sessionFocus();
-    return `<div class="today-card session-summary-card"><strong>${correct} de ${total} respuestas logradas</strong><p>${summaryMessage(ratio)}</p>${focus}${extra}</div>${review}`;
+    return `<div class="today-card session-summary-card"><strong>Sesión terminada</strong><p>${summaryMessage(ratio)}</p>${focus}${extra}</div>${review}`;
   }
 
   function sessionFocus() {
@@ -1318,13 +1318,58 @@
     if (!data?.payload) { await syncRemoteState(); return; }
     const remote = hydrateState(data.payload);
     if ((remote.updatedAt || 0) > (state.updatedAt || 0)) {
-      state = remote; localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); refreshGateNames(); if (activeMode) renderAll();
+      state = remote; rebuildPedagogySnapshots(); localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); refreshGateNames(); if (activeMode) renderAll();
       toast('Progreso actualizado desde la nube.');
     } else await syncRemoteState();
   }
 
+  function evidenceDbRow(event) {
+    return {
+      event_id: event.eventId,
+      user_id: authUser.id,
+      profile_id: event.profileId,
+      occurred_at: new Date(event.at).toISOString(),
+      exercise_id: event.exerciseId,
+      skill_id: event.skillId,
+      area: event.area,
+      school: event.school,
+      difficulty: event.difficulty,
+      correct: event.correct,
+      hint_used: event.hintUsed,
+      autonomous: event.autonomous,
+      context: event.context,
+      origin: event.origin,
+      purpose: event.purpose,
+      duration_ms: event.durationMs,
+      evaluation_mode: event.evaluationMode,
+      evaluation_weight: event.evaluationWeight
+    };
+  }
+
+  async function syncPendingEvidence() {
+    if (!supa || !authUser) return false;
+    const pending = ['p1', 'p2'].flatMap(id => state.profiles[id]?.pendingEvidence || []);
+    if (!pending.length) return true;
+    const unique = [...new Map(pending.map(event => [event.eventId, event])).values()];
+    const { error } = await supa.from('study_attempt_evidence').upsert(unique.map(evidenceDbRow), {
+      onConflict: 'event_id',
+      ignoreDuplicates: true
+    });
+    if (error) {
+      console.warn('[Ingreso v6.18] Evidencias detalladas pendientes de sincronizar', error);
+      return false;
+    }
+    const savedIds = new Set(unique.map(event => event.eventId));
+    ['p1', 'p2'].forEach(id => {
+      state.profiles[id].pendingEvidence = (state.profiles[id].pendingEvidence || []).filter(event => !savedIds.has(event.eventId));
+    });
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    return true;
+  }
+
   async function syncRemoteState() {
     if (!supa || !authUser) return;
+    await syncPendingEvidence();
     const { error } = await supa.from('study_state').upsert({ user_id: authUser.id, payload: state, updated_at: new Date().toISOString() }, { onConflict: 'user_id' });
     if (error) console.error('Error de sincronización', error);
   }
