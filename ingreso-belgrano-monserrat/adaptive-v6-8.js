@@ -220,6 +220,11 @@
       }, true);
     });
 
+    window.addEventListener('ingreso:profile-changed', event => {
+      runtime.activeMode = event.detail?.mode || null;
+      scheduleRender(0);
+    });
+
     document.querySelectorAll('[data-practice]').forEach(button => {
       button.addEventListener('click', markPracticeSelection, true);
     });
