@@ -35,13 +35,54 @@
       return [...byId.values()].sort((a, b) => Number(a.at || 0) - Number(b.at || 0));
     }
 
+    function mergeHistoryRows(...lists) {
+      const byKey = new Map();
+      lists.flat().filter(Boolean).forEach(row => {
+        const key = [
+          Number(row?.at || 0), row?.type || '', row?.area || '', row?.school || '',
+          row?.score ?? '', row?.total ?? '', row?.durationSeconds ?? '', row?.fullExam ?? ''
+        ].join('|');
+        if (!byKey.has(key)) byKey.set(key, clone(row));
+      });
+      return [...byKey.values()].sort((a, b) => Number(a.at || 0) - Number(b.at || 0));
+    }
+
+    function mergeProgressMaps(localProgress = {}, remoteProgress = {}, preferRemote = false) {
+      const result = {};
+      const skillIds = new Set([...Object.keys(localProgress || {}), ...Object.keys(remoteProgress || {})]);
+      skillIds.forEach(skillId => {
+        const local = localProgress?.[skillId];
+        const remote = remoteProgress?.[skillId];
+        if (!local) { result[skillId] = clone(remote); return; }
+        if (!remote) { result[skillId] = clone(local); return; }
+        const localAt = Number(local.lastAt || 0);
+        const remoteAt = Number(remote.lastAt || 0);
+        const remoteWins = remoteAt > localAt || (remoteAt === localAt && preferRemote);
+        const primary = remoteWins ? remote : local;
+        const secondary = remoteWins ? local : remote;
+        result[skillId] = { ...clone(secondary), ...clone(primary) };
+        if (!result[skillId].legacy && secondary?.legacy) result[skillId].legacy = clone(secondary.legacy);
+      });
+      return result;
+    }
+
+    function mergeVideoLearning(localVideo = {}, remoteVideo = {}) {
+      return {
+        viewed: [...new Set([...(localVideo.viewed || []), ...(remoteVideo.viewed || [])])],
+        practiced: [...new Set([...(localVideo.practiced || []), ...(remoteVideo.practiced || [])])]
+      };
+    }
+
     function mergeProfilePayload(localProfile, remoteProfile, preferRemote = false) {
       if (!localProfile && !remoteProfile) return null;
       const primary = preferRemote ? remoteProfile : localProfile;
       const secondary = preferRemote ? localProfile : remoteProfile;
       const merged = clone(primary || secondary || {});
+      merged.progress = mergeProgressMaps(localProfile?.progress || {}, remoteProfile?.progress || {}, preferRemote);
+      merged.history = mergeHistoryRows(localProfile?.history || [], remoteProfile?.history || []);
       merged.evidence = mergeEvidenceRows(localProfile?.evidence || [], remoteProfile?.evidence || []);
       merged.pendingEvidence = mergeEvidenceRows(localProfile?.pendingEvidence || [], remoteProfile?.pendingEvidence || []);
+      merged.videoLearning = mergeVideoLearning(localProfile?.videoLearning || {}, remoteProfile?.videoLearning || {});
       return merged;
     }
 
