@@ -64,12 +64,23 @@ test('un único acierto difícil sigue siendo Explorando y confianza baja', () =
   assert.notEqual(analysis.state, 'consolidado');
 });
 
+test('un mastery histórico alto con un solo intento migra a Explorando y confianza baja', () => {
+  const legacy = {
+    version:1, attempts:1, correct:1, mastery:92, lastAt:1000,
+    recent:[true], maxDifficultyCorrect:4, lowestMastery:92
+  };
+  const analysis = engine.analyzeSkill({ legacy, evidence: [], maxDifficulty:4, now:2000 });
+  assert.equal(analysis.state, 'explorando');
+  assert.equal(analysis.confidence, 'baja');
+  assert.equal(analysis.needsVerification, false);
+});
+
 test('caso A: 18 intentos, 9 aciertos y tres recientes correctos pide comprobación en vez de quedar anclado al 50%', () => {
   const legacy = {
     version: 1,
     attempts: 18,
     correct: 9,
-    mastery: 50,
+    mastery: 75,
     lastAt: 1000000,
     recent: [false, true, true, true],
     maxDifficultyCorrect: 3,
@@ -85,7 +96,7 @@ test('caso A: 18 intentos, 9 aciertos y tres recientes correctos pide comprobaci
 
   const profile = emptyProfile({
     'SKILL-X': {
-      attempts: 18, correct: 9, mastery: 50, lastAt: 1000000,
+      attempts: 18, correct: 9, mastery: 75, lastAt: 1000000,
       recent: [false,true,true,true], maxDifficultyCorrect: 3,
       lowestMastery: 28, legacy, pedagogy: initial
     }
@@ -166,12 +177,12 @@ test('la retención exige separación temporal; no alcanza una racha del mismo d
 
 test('caso V: autoevaluaciones de producción escrita no permiten declarar Consistente por sí solas', () => {
   const legacy = {
-    version:1, attempts:11, correct:6, mastery:58, lastAt:1000,
+    version:1, attempts:11, correct:6, mastery:27, lastAt:1000,
     recent:[false,true,false,true], maxDifficultyCorrect:4, lowestMastery:30
   };
   const profile = emptyProfile({
     'SKILL-X': {
-      attempts:11, correct:6, mastery:58, lastAt:1000,
+      attempts:11, correct:6, mastery:27, lastAt:1000,
       recent:[false,true,false,true], maxDifficultyCorrect:4,
       lowestMastery:30, legacy
     }
