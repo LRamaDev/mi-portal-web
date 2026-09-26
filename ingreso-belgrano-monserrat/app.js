@@ -239,7 +239,11 @@
       const profile = state.profiles[profileId];
       profile.evidence ||= [];
       profile.pendingEvidence ||= [];
-      Object.keys(profile.progress || {}).forEach(skillId => {
+      const skillIds = new Set([
+        ...Object.keys(profile.progress || {}),
+        ...profile.evidence.map(event => event?.skillId).filter(Boolean)
+      ]);
+      skillIds.forEach(skillId => {
         const before = JSON.stringify(profile.progress[skillId]?.pedagogy || null);
         engine.ensureAnalysis(profile, skillId, { maxDifficulty: skillMaxDifficulty(skillId) });
         if (JSON.stringify(profile.progress[skillId]?.pedagogy || null) !== before) changed = true;
