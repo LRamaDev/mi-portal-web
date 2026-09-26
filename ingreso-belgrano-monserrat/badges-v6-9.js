@@ -21,16 +21,16 @@
     { id: 'lengua-activa', icon: '📚', title: 'Exploradora de palabras', category: 'Práctica', description: 'Registraste 25 intentos de Lengua.', target: 25, unit: 'intentos', metric: s => s.langAttempts },
     { id: 'equilibrio', icon: '⚖️', title: 'Entrenamiento equilibrado', category: 'Práctica', description: 'Acumulaste al menos 15 intentos en cada materia.', target: 15, unit: 'por materia', metric: s => Math.min(s.mathAttempts, s.langAttempts) },
     { id: 'persistente', icon: '🧗', title: 'Persistente', category: 'Esfuerzo', description: 'Volviste sobre un mismo tema hasta acumular 8 intentos.', target: 8, unit: 'intentos en un tema', metric: s => s.maxSkillAttempts },
-    { id: 'temas-firmes', icon: '💪', title: 'Tres temas firmes', category: 'Aprendizaje', description: 'Alcanzaste 80% o más de dominio en 3 habilidades con práctica sostenida.', target: 3, unit: 'habilidades', metric: s => s.strongSkills },
+    { id: 'temas-firmes', icon: '💪', title: 'Tres temas firmes', category: 'Aprendizaje', description: 'Lograste sostener un buen desempeño en 3 habilidades con evidencias variadas.', target: 3, unit: 'habilidades', metric: s => s.strongSkills },
     { id: 'primer-simulacro', icon: '🎯', title: 'Me animé al simulacro', category: 'Simulacros', description: 'Completaste tu primer simulacro de ingreso.', target: 1, unit: 'simulacro', metric: s => s.fullSimulations },
     { id: 'doble-desafio', icon: '🏫', title: 'Doble desafío', category: 'Simulacros', description: 'Completaste simulacros del Belgrano y del Monserrat.', target: 2, unit: 'colegios', metric: s => s.simulationSchools },
     { id: 'ochenta-puntos', icon: '🏅', title: '80 puntos o más', category: 'Simulacros', description: 'Alcanzaste al menos 80/100 en un simulacro completo.', target: 80, unit: 'puntos', metric: s => s.bestSimulationScore },
     { id: 'ritmo-20', icon: '🗓️', title: 'Ritmo sostenido', category: 'Constancia', description: 'Completaste 20 sesiones de estudio.', target: 20, unit: 'sesiones', metric: s => s.sessions },
     { id: 'racha-5', icon: '🔥', title: 'Cinco días en carrera', category: 'Constancia', description: 'Estudiaste al menos 5 días seguidos.', target: 5, unit: 'días seguidos', metric: s => s.maxStreak },
     { id: 'cien-intentos', icon: '💯', title: '100 intentos', category: 'Práctica', description: 'Acumulaste 100 respuestas registradas entre las dos materias.', target: 100, unit: 'intentos', metric: s => s.totalAttempts },
-    { id: 'cinco-firmes', icon: '🌟', title: 'Cinco temas firmes', category: 'Aprendizaje', description: 'Alcanzaste 80% o más de dominio en 5 habilidades con práctica sostenida.', target: 5, unit: 'habilidades', metric: s => s.strongSkills },
+    { id: 'cinco-firmes', icon: '🌟', title: 'Cinco temas firmes', category: 'Aprendizaje', description: 'Lograste sostener un buen desempeño en 5 habilidades con evidencias variadas.', target: 5, unit: 'habilidades', metric: s => s.strongSkills },
     { id: 'nivel-ingreso', icon: '🧠', title: 'Subí la dificultad', category: 'Aprendizaje', description: 'Resolviste correctamente ejercicios de nivel Modo ingreso en 2 habilidades.', target: 2, unit: 'habilidades', metric: s => s.advancedSkills },
-    { id: 'remontada', icon: '📈', title: '¡Qué remontada!', category: 'Superación', description: 'Mejoraste al menos 20 puntos de dominio en un tema que venías trabajando.', target: 1, unit: 'tema recuperado', metric: s => s.recoveredSkills, secret: true },
+    { id: 'remontada', icon: '📈', title: '¡Qué remontada!', category: 'Superación', description: 'Un tema que costaba empezó a sostenerse con buen desempeño reciente.', target: 1, unit: 'tema recuperado', metric: s => s.recoveredSkills, secret: true },
     { id: 'video-aprendo', icon: '🎬', title: 'Miré para entender', category: 'Recursos', description: 'Exploraste videos de apoyo de 3 temas diferentes.', target: 3, unit: 'temas con video', metric: s => s.videoTopics },
     { id: 'video-practico', icon: '▶️', title: 'Del video a la práctica', category: 'Recursos', description: 'Después del video elegiste practicar 3 temas diferentes.', target: 3, unit: 'temas practicados', metric: s => s.videoPracticeTopics },
     { id: 'simulacros-4', icon: '📝', title: 'Cuatro simulacros', category: 'Simulacros', description: 'Completaste 4 simulacros de ingreso.', target: 4, unit: 'simulacros', metric: s => s.fullSimulations },
@@ -112,9 +112,15 @@
       if (area === 'matematica') mathAttempts += attempts;
       if (area === 'lengua') langAttempts += attempts;
       maxSkillAttempts = Math.max(maxSkillAttempts, attempts);
-      if (attempts >= 3 && safeNumber(row.mastery) >= 80) strongSkills += 1;
+      const pedagogy = row.pedagogy || {};
+      if (pedagogy.state === 'consistente' || pedagogy.state === 'consolidado') strongSkills += 1;
       if (safeNumber(row.maxDifficultyCorrect) >= 4) advancedSkills += 1;
-      if (attempts >= 5 && row.lowestMastery != null && safeNumber(row.mastery) >= 65 && safeNumber(row.mastery) - safeNumber(row.lowestMastery) >= 20) recoveredSkills += 1;
+      if (
+        (pedagogy.state === 'consistente' || pedagogy.state === 'consolidado') &&
+        safeNumber(pedagogy.legacyAttempts) >= 5 &&
+        pedagogy.historicalAccuracy != null &&
+        safeNumber(pedagogy.historicalAccuracy) < 75
+      ) recoveredSkills += 1;
     });
 
     const simulations = history.filter(function (item) {
@@ -176,7 +182,6 @@
   }
 
   function badgeCardHtml(badge) {
-    const pct = Math.max(0, Math.min(100, Math.round((badge.current / badge.target) * 100)));
     const hiddenSecret = badge.secret && !badge.earned;
     const title = hiddenSecret ? 'Insignia sorpresa' : badge.title;
     const description = hiddenSecret ? 'Seguí practicando: se desbloquea cuando superás un desafío de aprendizaje.' : badge.description;
@@ -187,7 +192,7 @@
       '<p>' + escapeHtml(description) + '</p>' +
       (badge.earned
         ? '<span class="achievement-state earned-state">✓ Conseguida</span>'
-        : '<div class="achievement-progress" aria-label="' + escapeHtml(badge.progressText) + '"><span>' + escapeHtml(badge.progressText) + '</span><div class="achievement-track"><span style="width:' + pct + '%"></span></div></div>') +
+        : '<span class="achievement-state">En camino</span>') +
       '</article>';
   }
 
@@ -226,38 +231,27 @@
     const homeValue = doc.getElementById('stat-badges');
     const homeNote = doc.getElementById('stat-badges-note');
     if (homeValue && homeNote) {
-      if (activeMode === 'together') {
-        const p1 = earnedCount(state.profiles.p1, skillsById);
-        const p2 = earnedCount(state.profiles.p2, skillsById);
-        homeValue.textContent = p1 + ' + ' + p2;
-        homeNote.textContent = 'insignias de cada perfil';
-      } else if (ids.length) {
-        const count = earnedCount(state.profiles[ids[0]], skillsById);
-        homeValue.textContent = count + '/' + BADGES.length;
-        homeNote.textContent = count === BADGES.length ? '¡colección completa!' : 'logros conseguidos';
-      }
+      homeValue.textContent = activeMode === 'together' ? 'Cada una' : 'Tus logros';
+      homeNote.textContent = activeMode === 'together'
+        ? 'conserva sus propias insignias'
+        : 'se consiguen practicando y aprendiendo';
     }
 
     const content = doc.getElementById('achievements-content');
     const total = doc.getElementById('achievements-total');
     if (!content || !total || !ids.length) return;
 
-    const groups = ids.map(function (id) {
-      const profile = state.profiles[id];
-      const evaluated = evaluateProfile(profile, skillsById);
-      const count = evaluated.filter(function (badge) { return badge.earned; }).length;
-      return '<section class="achievement-profile-group">' +
-        (ids.length > 1 ? '<div class="achievement-profile-title"><strong>' + escapeHtml(profile.name) + '</strong><span>' + count + '/' + BADGES.length + '</span></div>' : '') +
-        '<div class="achievements-grid">' + evaluated.map(badgeCardHtml).join('') + '</div></section>';
-    }).join('');
-
-    content.innerHTML = groups;
-    if (ids.length === 1) {
-      const count = earnedCount(state.profiles[ids[0]], skillsById);
-      total.textContent = count + ' de ' + BADGES.length;
-    } else {
-      total.textContent = 'Cada perfil conserva sus propios logros';
+    if (activeMode === 'together') {
+      total.textContent = 'Recorridos separados';
+      content.innerHTML = '<section class="achievement-profile-group"><p>Las insignias son personales. Para verlas, entren al perfil individual correspondiente.</p></section>';
+      return;
     }
+
+    const id = ids[0];
+    const profile = state.profiles[id];
+    const evaluated = evaluateProfile(profile, skillsById);
+    content.innerHTML = '<section class="achievement-profile-group"><div class="achievements-grid">' + evaluated.map(badgeCardHtml).join('') + '</div></section>';
+    total.textContent = 'Tu colección personal';
   }
 
   function readSeen(storage) {
