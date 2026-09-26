@@ -107,7 +107,7 @@
         if (error) return { data: null, error };
         if (!data?.length) return { data: null, error: null };
 
-        const local = getLocalState() || { version: 3, profiles: {} };
+        const local = getLocalState() || { version: 4, profiles: {} };
         const remoteByProfile = new Map(data.map(row => [row.profile_id, row]));
         const mergedProfiles = {};
         let newest = 0;
@@ -135,7 +135,7 @@
         return {
           data: {
             payload: {
-              version: Number(local.version || 3),
+              version: Number(local.version || 4),
               profiles: mergedProfiles,
               updatedAt: topLevelUpdatedAt
             },
