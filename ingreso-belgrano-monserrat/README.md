@@ -16,22 +16,22 @@ Aplicación web de estudio para preparar, en una misma plataforma, los ingresos 
 - Modo `Estudiar juntas` con turnos alternados en un único dispositivo.
 - Diagnóstico individual y adaptativo de Matemática y Lengua.
 - Mapa de habilidades con contenidos comunes y específicos de cada colegio.
-- Práctica adaptativa con una mezcla objetivo aproximada de **60% refuerzo, 25% contenidos en desarrollo y 15% mantenimiento**.
-- Ajuste de dificultad según el dominio estimado de cada habilidad.
+- Práctica adaptativa basada en estados de evidencia: **Sin evidencia → Explorando → En desarrollo → Consistente → Consolidado**.
+- Ajuste de dificultad según desempeño reciente, autonomía, variedad, comprobación y retención.
 - Pistas y explicaciones durante la práctica, pero no durante diagnóstico y simulacros.
 - Simulacros completos individuales con puntaje sobre 100, corrección final y desglose por bloque.
 - Producción escrita de Monserrat Lengua con rúbrica guiada de entrenamiento.
 - Actividades que indican cuándo conviene resolver en cuaderno.
-- Seguimiento de progreso por habilidad.
+- Seguimiento cualitativo por habilidad para alumnas; análisis detallado reservado a los datos adultos de Supabase.
 - PWA instalable.
 - Persistencia local inmediata y sincronización en Supabase.
-- Reinicio seguro del progreso de ambos perfiles desde el Panel familiar.
+- Historial pedagógico protegido: los intentos anteriores se conservan y no se borran desde la app.
 
 ## Banco pedagógico
 
 ### Videos vinculados a contenidos
 
-Los videos sugeridos forman parte de `data/habilidades.json`: cada habilidad puede incluir un arreglo `videos`. La app usa el ID de esa habilidad para mostrar el recurso, ordenarlo según el progreso y ofrecer una práctica breve del mismo tema. El catálogo de contenidos no se guarda en la cuenta familiar; allí solo se sincroniza el progreso.
+Los videos sugeridos forman parte de `data/habilidades.json`: cada habilidad puede incluir un arreglo `videos`. La app usa el ID de esa habilidad para mostrar el recurso, ordenarlo según el estado pedagógico actual y ofrecer una práctica breve del mismo tema. Los videos son recursos del contenido y están disponibles para ambos perfiles.
 
 Para agregar otro video, sumá una entrada a `videos` dentro de la habilidad correspondiente. Por ejemplo:
 
@@ -59,11 +59,13 @@ El diagnóstico se realiza de manera individual. Parte de un conjunto de habilid
 
 Las sesiones de entrenamiento tienen ocho actividades y buscan aproximadamente esta distribución:
 
-- **5 actividades (≈60%)** de habilidades con menor dominio;
-- **2 actividades (25%)** de habilidades en desarrollo o todavía no evaluadas;
-- **1 actividad (≈15%)** de habilidades consolidadas para mantenimiento.
+La selección adaptativa prioriza:
+- habilidades con **comprobación pendiente** después de una mejora reciente;
+- habilidades **Explorando** o **En desarrollo**;
+- contenidos **Consistentes** cuando llega el momento de verificar retención;
+- contenidos **Consolidados** cuando corresponde mantenimiento.
 
-Si una categoría no tiene suficientes ejercicios disponibles, el motor completa la sesión con las mejores alternativas del banco. La dificultad elegida también cambia según el dominio estimado y, para contenidos consolidados, se favorece el repaso que lleva más tiempo sin aparecer.
+Si una categoría no tiene suficientes ejercicios disponibles, el motor completa la sesión con las mejores alternativas del banco. La dificultad se ajusta con la evidencia reciente y un error en un desafío superior no borra automáticamente lo ya establecido en un nivel anterior.
 
 ## Simulacros completos · 100 puntos
 
@@ -100,9 +102,12 @@ La aplicación reutiliza el proyecto Supabase configurado para el portal. `confi
 
 La tabla `public.study_state` tiene Row Level Security habilitado. Cada usuario autenticado puede leer, crear y modificar exclusivamente su propia fila.
 
-## Reiniciar progreso
+## Historial protegido
 
-En `Familia` aparece la opción **Reiniciar progreso de ambos perfiles**. La operación pide confirmación, conserva los nombres, borra progreso, historial y sesiones, actualiza el almacenamiento local y sincroniza el estado limpio en Supabase si la cuenta familiar está iniciada.
+Desde la V6.18 la app no ofrece un borrado del recorrido pedagógico. Los intentos,
+aciertos, errores y sesiones anteriores se conservan como historia de aprendizaje.
+El estado actual se calcula principalmente con evidencia reciente, por lo que los
+errores antiguos no funcionan como una deuda permanente.
 
 ## Caché PWA
 
@@ -111,7 +116,7 @@ La etapa 3 usa el caché `ingreso-bm-v3-simulacros` e incluye `simulacros.js`, p
 ## Próximas mejoras
 
 - Aumentar la cantidad de variantes por una misma habilidad para que el diagnóstico adaptativo tenga más profundidad.
-- Incorporar evolución temporal y repaso espaciado por fecha.
+- Seguir ampliando el análisis adulto de evolución temporal con la evidencia detallada V6.18.
 - Preparar sesiones familiares de 20, 30 y 45 minutos.
 - Mejorar el historial para mostrar la evolución de puntajes de simulacros a lo largo del tiempo.
 - Agregar una tarjeta de acceso desde la portada de `mi-portal-web` cuando la V3 quede validada.
