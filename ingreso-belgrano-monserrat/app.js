@@ -80,14 +80,7 @@
     $('#sign-up').addEventListener('click', signUp);
     $('#sign-out').addEventListener('click', signOut);
     $('#video-library').addEventListener('click', handleVideoAction);
-    $('#skills-container').addEventListener('click', event => {
-      const button = event.target.closest('[data-skill-video]');
-      if (!button) return;
-      const skillId = button.dataset.skillVideo;
-      if (!activeProfileIds().some(id => videoForProfile(skillId, id))) return;
-      navigate('videos');
-      $$('.video-card').find(card => card.dataset.videoSkill === skillId)?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    });
+    $('#skills-container').addEventListener('click', handleSkillResourceAction);
     $('#family-tutoring-panel').addEventListener('click', event => {
       if (event.target.closest('[data-nav="videos"]')) navigate('videos');
     });
@@ -253,8 +246,9 @@
   function navigate(view) {
     if (!view) return;
     if (activeMode) writeSessionValue(ACTIVE_VIEW_KEY, view);
-    // Desmontar el reproductor detiene el audio al salir de la pestaña.
+    // Desmontar los reproductores detiene el audio al salir de la pestaña correspondiente.
     if (view !== 'videos') $('#video-library').querySelectorAll('iframe').forEach(frame => frame.remove());
+    if (view !== 'contenidos') $('#skills-container').querySelectorAll('iframe').forEach(frame => frame.remove());
     $$('.view').forEach(v => v.classList.toggle('active', v.dataset.view === view));
     $$('.nav-button, .mobile-nav button').forEach(b => b.classList.toggle('active', b.dataset.nav === view));
     if (view === 'contenidos') renderSkills($('.chip.active')?.dataset.skillFilter || 'all');
@@ -424,17 +418,56 @@
     return skill.colegios.includes(filter);
   }
 
+  function validSkillVideos(skill) {
+    return (skill?.videos || []).filter(video => /^[\w-]{11}$/.test(video.id));
+  }
+
   function skillCardHtml(skill) {
     const ids = activeProfileIds();
     const summary = ids.length ? aggregateSkill(ids, skill.id) : { attempts: 0, mastery: 0 };
     const badges = skill.colegios.includes('comun')
       ? '<span class="school-badge">Común a ambos</span>'
       : skill.colegios.map(c => `<span class="school-badge ${c}">${capitalize(c)}</span>`).join('');
-    const videoLink = ids.some(id => videoForProfile(skill.id, id))
-      ? `<button class="text-button skill-video-link" data-skill-video="${escapeHtml(skill.id)}" type="button">Ver video del tema →</button>` : '';
-    return `<article class="skill-card"><div class="skill-card-top"><strong>${escapeHtml(skill.nombre)}</strong><span class="level ${summary.attempts ? levelClass(summary.mastery) : 'unseen'}">${summary.attempts ? `${summary.mastery}%` : '—'}</span></div><div class="school-badges">${badges}</div>${videoLink}</article>`;
+    const videos = validSkillVideos(skill);
+    const videoButton = videos.length
+      ? `<button class="text-button skill-video-link" data-skill-video="${escapeHtml(skill.id)}" data-video-id="${videos[0].id}" type="button">▷ Ver video acá</button>`
+      : '';
+    const practiceButton = `<button class="text-button skill-practice-link" data-skill-practice="${escapeHtml(skill.id)}" type="button">Practicar este tema →</button>`;
+    const stage = videos.length ? '<div class="skill-video-stage" data-skill-video-stage hidden></div>' : '';
+    return `<article class="skill-card" data-skill-card="${escapeHtml(skill.id)}"><div class="skill-card-top"><strong>${escapeHtml(skill.nombre)}</strong><span class="level ${summary.attempts ? levelClass(summary.mastery) : 'unseen'}">${summary.attempts ? `${summary.mastery}%` : '—'}</span></div><div class="school-badges">${badges}</div><div class="skill-resource-actions">${videoButton}${practiceButton}</div>${stage}</article>`;
   }
 
+  function handleSkillResourceAction(event) {
+    const videoButton = event.target.closest('[data-skill-video]');
+    const practiceButton = event.target.closest('[data-skill-practice]');
+    if (videoButton) {
+      const skillId = videoButton.dataset.skillVideo;
+      const videoId = videoButton.dataset.videoId;
+      const video = videoForProfile(skillId, null, videoId);
+      if (!video) return;
+      const card = videoButton.closest('[data-skill-card]');
+      const stage = card?.querySelector('[data-skill-video-stage]');
+      if (!stage) return;
+      $('#skills-container').querySelectorAll('iframe').forEach(frame => frame.remove());
+      $('#skills-container').querySelectorAll('[data-skill-video-stage]').forEach(node => { node.hidden = true; node.innerHTML = ''; });
+      const frame = document.createElement('iframe');
+      frame.src = `https://www.youtube-nocookie.com/embed/${video.id}?rel=0`;
+      frame.title = `Video: ${skillsById.get(skillId)?.nombre || 'tema'}`;
+      frame.loading = 'lazy';
+      frame.allow = 'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture; web-share';
+      frame.referrerPolicy = 'strict-origin-when-cross-origin';
+      frame.allowFullscreen = true;
+      stage.append(frame);
+      stage.hidden = false;
+      activeProfileIds().forEach(id => recordVideoEvent(id, skillId, video.id, 'view'));
+    }
+    if (practiceButton) {
+      const skillId = practiceButton.dataset.skillPractice;
+      const skill = skillsById.get(skillId);
+      if (!skill) return;
+      startSession({ type: 'practica', area: skill.area, skillId });
+    }
+  }
   function renderProgress() {
     const ids = activeProfileIds();
     if (!ids.length) return;
@@ -457,24 +490,23 @@
   function renderVideos() {
     const container = $('#video-library');
     const sections = activeProfileIds().map(id => {
-      const rows = skills.flatMap(skill => (skill.videos || [])
-        .filter(video => video.perfiles?.includes(id) && /^[\w-]{11}$/.test(video.id))
+      const rows = skills.flatMap(skill => validSkillVideos(skill)
         .map(video => ({ videoId: video.id, title: video.titulo, skill,
+          recommendedForProfile: video.perfiles?.includes(id) || false,
           progress: state.profiles[id]?.progress?.[skill.id] })));
       rows.sort((a, b) => {
         const aSeen = a.progress?.attempts > 0;
         const bSeen = b.progress?.attempts > 0;
-        return (bSeen - aSeen) || (aSeen ? a.progress.mastery - b.progress.mastery : 0);
+        return (bSeen - aSeen) || (aSeen ? a.progress.mastery - b.progress.mastery : 0) || (Number(b.recommendedForProfile) - Number(a.recommendedForProfile));
       });
       return `<section class="video-profile" data-profile="${id}">
         ${activeMode === 'together' ? `<h3>${escapeHtml(state.profiles[id].name)}</h3>` : ''}
-        ${rows.length ? `<p class="video-profile-intro">${rows.some(row => row.progress?.attempts) ? 'Primero aparecen los temas que más conviene repasar.' : 'Todavía no hay respuestas sobre estos temas. Podés explorar los videos y hacer el diagnóstico para ordenar las sugerencias.'}</p>
-        <div class="video-grid">${rows.map(row => videoCardHtml(row, id)).join('')}</div>` : '<p class="video-empty">No se cargaron los videos de este perfil. Actualizá la página para intentarlo de nuevo.</p>'}
+        ${rows.length ? `<p class="video-profile-intro">${rows.some(row => row.progress?.attempts) ? 'Primero aparecen los temas que más conviene repasar. Todos los videos del banco están disponibles para ambos perfiles.' : 'Podés explorar todos los videos del banco. Cuando haya respuestas, la app ordenará primero los temas que más conviene reforzar.'}</p>
+        <div class="video-grid">${rows.map(row => videoCardHtml(row, id)).join('')}</div>` : '<p class="video-empty">Todavía no hay videos vinculados a los contenidos.</p>'}
       </section>`;
     });
     container.innerHTML = sections.join('');
   }
-
   function videoCardHtml({skill, videoId, title, progress}, profileId) {
     const attempts = progress?.attempts || 0;
     const status = attempts
@@ -533,8 +565,10 @@
   }
 
   function videoForProfile(skillId, profileId, videoId) {
-    return skillsById.get(skillId)?.videos?.find(video =>
-      /^[\w-]{11}$/.test(video.id) && video.perfiles?.includes(profileId) && (!videoId || video.id === videoId));
+    // Los videos pertenecen al contenido, no al perfil. "perfiles" queda como
+    // metadato de recomendación/origen y nunca restringe el acceso.
+    void profileId;
+    return validSkillVideos(skillsById.get(skillId)).find(video => !videoId || video.id === videoId);
   }
 
   function renderFamily() {
@@ -626,7 +660,6 @@
     const video = videoForProfile(skill.id, id);
     if (!video) return '';
     const note = progress.attempts < 3 ? 'Pocos intentos todavía: miralo si querés repasar.' : 'Puede ayudarte a repasar este tema.';
-    if (activeMode !== 'together' && activeMode !== id) return `<small class="tutoring-video-note">Elegí este perfil para ver su video en la pestaña Videos.</small>`;
     return `<button class="tutoring-video" type="button" data-nav="videos">Ver video en la app →</button><small class="tutoring-video-note">${note}</small>`;
   }
 
