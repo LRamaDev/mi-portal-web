@@ -227,7 +227,7 @@
     if (previousMode) {
       activeMode = previousMode;
       updateActiveProfilePill();
-      renderAll();
+      renderAll({ preserveVideoPlayer: true });
     }
   }
 
@@ -264,11 +264,11 @@
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
-  function renderAll() {
+  function renderAll({ preserveVideoPlayer = false } = {}) {
     renderDashboard();
     renderSkills('all');
     renderProgress();
-    renderVideos();
+    if (!preserveVideoPlayer || !$('#video-library iframe')) renderVideos();
     renderFamily();
   }
 
