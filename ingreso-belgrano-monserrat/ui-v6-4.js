@@ -216,7 +216,7 @@
           Number(next.updatedAt || 0)
         );
         nativeSetItem.call(localStorage, STORAGE_KEY, JSON.stringify(next));
-        window.setTimeout(() => window.location.reload(), 80);
+        window.dispatchEvent(new CustomEvent('ingreso:remote-state-updated', { detail: { source: 'cloud' } }));
       } catch (error) {
         console.warn('[Ingreso 6.6] No se pudo refrescar el progreso por perfil', error);
       }
