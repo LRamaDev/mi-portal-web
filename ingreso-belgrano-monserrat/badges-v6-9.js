@@ -24,7 +24,17 @@
     { id: 'temas-firmes', icon: '💪', title: 'Tres temas firmes', category: 'Aprendizaje', description: 'Alcanzaste 80% o más de dominio en 3 habilidades con práctica sostenida.', target: 3, unit: 'habilidades', metric: s => s.strongSkills },
     { id: 'primer-simulacro', icon: '🎯', title: 'Me animé al simulacro', category: 'Simulacros', description: 'Completaste tu primer simulacro de ingreso.', target: 1, unit: 'simulacro', metric: s => s.fullSimulations },
     { id: 'doble-desafio', icon: '🏫', title: 'Doble desafío', category: 'Simulacros', description: 'Completaste simulacros del Belgrano y del Monserrat.', target: 2, unit: 'colegios', metric: s => s.simulationSchools },
-    { id: 'ochenta-puntos', icon: '🏅', title: '80 puntos o más', category: 'Simulacros', description: 'Alcanzaste al menos 80/100 en un simulacro completo.', target: 80, unit: 'puntos', metric: s => s.bestSimulationScore }
+    { id: 'ochenta-puntos', icon: '🏅', title: '80 puntos o más', category: 'Simulacros', description: 'Alcanzaste al menos 80/100 en un simulacro completo.', target: 80, unit: 'puntos', metric: s => s.bestSimulationScore },
+    { id: 'ritmo-20', icon: '🗓️', title: 'Ritmo sostenido', category: 'Constancia', description: 'Completaste 20 sesiones de estudio.', target: 20, unit: 'sesiones', metric: s => s.sessions },
+    { id: 'racha-5', icon: '🔥', title: 'Cinco días en carrera', category: 'Constancia', description: 'Estudiaste al menos 5 días seguidos.', target: 5, unit: 'días seguidos', metric: s => s.maxStreak },
+    { id: 'cien-intentos', icon: '💯', title: '100 intentos', category: 'Práctica', description: 'Acumulaste 100 respuestas registradas entre las dos materias.', target: 100, unit: 'intentos', metric: s => s.totalAttempts },
+    { id: 'cinco-firmes', icon: '🌟', title: 'Cinco temas firmes', category: 'Aprendizaje', description: 'Alcanzaste 80% o más de dominio en 5 habilidades con práctica sostenida.', target: 5, unit: 'habilidades', metric: s => s.strongSkills },
+    { id: 'nivel-ingreso', icon: '🧠', title: 'Subí la dificultad', category: 'Aprendizaje', description: 'Resolviste correctamente ejercicios de nivel Modo ingreso en 2 habilidades.', target: 2, unit: 'habilidades', metric: s => s.advancedSkills },
+    { id: 'remontada', icon: '📈', title: '¡Qué remontada!', category: 'Superación', description: 'Mejoraste al menos 20 puntos de dominio en un tema que venías trabajando.', target: 1, unit: 'tema recuperado', metric: s => s.recoveredSkills, secret: true },
+    { id: 'video-aprendo', icon: '🎬', title: 'Miré para entender', category: 'Recursos', description: 'Exploraste videos de apoyo de 3 temas diferentes.', target: 3, unit: 'temas con video', metric: s => s.videoTopics },
+    { id: 'video-practico', icon: '▶️', title: 'Del video a la práctica', category: 'Recursos', description: 'Después del video elegiste practicar 3 temas diferentes.', target: 3, unit: 'temas practicados', metric: s => s.videoPracticeTopics },
+    { id: 'simulacros-4', icon: '📝', title: 'Cuatro simulacros', category: 'Simulacros', description: 'Completaste 4 simulacros de ingreso.', target: 4, unit: 'simulacros', metric: s => s.fullSimulations },
+    { id: 'noventa-puntos', icon: '🏆', title: '90 puntos o más', category: 'Simulacros', description: 'Alcanzaste al menos 90/100 en un simulacro completo.', target: 90, unit: 'puntos', metric: s => s.bestSimulationScore }
   ];
 
   let activeMode = null;
@@ -92,6 +102,8 @@
     let langAttempts = 0;
     let maxSkillAttempts = 0;
     let strongSkills = 0;
+    let advancedSkills = 0;
+    let recoveredSkills = 0;
 
     Object.keys(progress).forEach(function (skillId) {
       const row = progress[skillId] || {};
@@ -101,6 +113,8 @@
       if (area === 'lengua') langAttempts += attempts;
       maxSkillAttempts = Math.max(maxSkillAttempts, attempts);
       if (attempts >= 3 && safeNumber(row.mastery) >= 80) strongSkills += 1;
+      if (safeNumber(row.maxDifficultyCorrect) >= 4) advancedSkills += 1;
+      if (attempts >= 5 && safeNumber(row.mastery) >= 65 && safeNumber(row.mastery) - safeNumber(row.lowestMastery) >= 20) recoveredSkills += 1;
     });
 
     const simulations = history.filter(function (item) {
@@ -108,6 +122,9 @@
     });
     const schoolSet = new Set(simulations.map(function (item) { return item.school; }).filter(Boolean));
     const scores = simulations.map(function (item) { return safeNumber(item.score); });
+    const videoLearning = profile && profile.videoLearning ? profile.videoLearning : {};
+    const videoTopics = new Set((videoLearning.viewed || []).map(function (row) { return String(row).split(':')[0]; }).filter(Boolean)).size;
+    const videoPracticeTopics = new Set(Array.isArray(videoLearning.practiced) ? videoLearning.practiced : []).size;
 
     return {
       diagnostics: history.some(function (item) { return item && item.type === 'diagnostico'; }) ? 1 : 0,
@@ -115,8 +132,13 @@
       maxStreak: maxConsecutiveDays(history),
       mathAttempts: mathAttempts,
       langAttempts: langAttempts,
+      totalAttempts: mathAttempts + langAttempts,
       maxSkillAttempts: maxSkillAttempts,
       strongSkills: strongSkills,
+      advancedSkills: advancedSkills,
+      recoveredSkills: recoveredSkills,
+      videoTopics: videoTopics,
+      videoPracticeTopics: videoPracticeTopics,
       fullSimulations: simulations.length,
       simulationSchools: schoolSet.size,
       bestSimulationScore: scores.length ? Math.max.apply(null, scores) : 0
@@ -140,6 +162,7 @@
         title: badge.title,
         category: badge.category,
         description: badge.description,
+        secret: Boolean(badge.secret),
         target: badge.target,
         current: current,
         earned: current >= badge.target,
@@ -154,11 +177,14 @@
 
   function badgeCardHtml(badge) {
     const pct = Math.max(0, Math.min(100, Math.round((badge.current / badge.target) * 100)));
+    const hiddenSecret = badge.secret && !badge.earned;
+    const title = hiddenSecret ? 'Insignia sorpresa' : badge.title;
+    const description = hiddenSecret ? 'Seguí practicando: se desbloquea cuando superás un desafío de aprendizaje.' : badge.description;
     return '<article class="achievement-card ' + (badge.earned ? 'earned' : 'locked') + '">' +
-      '<div class="achievement-top"><span class="achievement-icon" aria-hidden="true">' + badge.icon + '</span>' +
+      '<div class="achievement-top"><span class="achievement-icon" aria-hidden="true">' + (hiddenSecret ? '❔' : badge.icon) + '</span>' +
       '<span class="achievement-category">' + escapeHtml(badge.category) + '</span></div>' +
-      '<h4>' + escapeHtml(badge.title) + '</h4>' +
-      '<p>' + escapeHtml(badge.description) + '</p>' +
+      '<h4>' + escapeHtml(title) + '</h4>' +
+      '<p>' + escapeHtml(description) + '</p>' +
       (badge.earned
         ? '<span class="achievement-state earned-state">✓ Conseguida</span>'
         : '<div class="achievement-progress" aria-label="' + escapeHtml(badge.progressText) + '"><span>' + escapeHtml(badge.progressText) + '</span><div class="achievement-track"><span style="width:' + pct + '%"></span></div></div>') +
@@ -324,6 +350,11 @@
       if (event.target.closest && event.target.closest('#check-answer, #next-exercise, #fs-primary')) {
         root.setTimeout(function () { checkNewBadges(root, true); }, 220);
       }
+    });
+
+    root.addEventListener('ingreso:profile-changed', function (event) {
+      activeMode = event.detail && event.detail.mode ? event.detail.mode : null;
+      root.setTimeout(function () { checkNewBadges(root, false); }, 0);
     });
 
     root.addEventListener('storage', function (event) {
