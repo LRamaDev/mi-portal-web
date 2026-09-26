@@ -253,6 +253,14 @@ test('la interfaz de alumnas no vuelve a mostrar porcentajes de mastery ni compa
   assert.match(index, />Mi recorrido<\/button>/);
 });
 
+test('el historial queda protegido y ya no existe el reinicio destructivo desde la app', () => {
+  const config = fs.readFileSync(path.join(APP, 'config.js'), 'utf8');
+  assert.match(config, /history-protection-note/);
+  assert.match(config, /Historial protegido/);
+  assert.doesNotMatch(config, /reset-all-progress/);
+  assert.doesNotMatch(config, /current\.profiles\[id\]\.history = \[\]/);
+});
+
 test('la sincronización une evidencias por eventId en vez de reemplazarlas', () => {
   const sync = fs.readFileSync(path.join(APP, 'ui-v6-4.js'), 'utf8');
   assert.match(sync, /function mergeEvidenceRows/);
