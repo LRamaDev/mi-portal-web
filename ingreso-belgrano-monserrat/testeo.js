@@ -175,10 +175,19 @@
   }
 
   function trackContext() {
+    try {
+      const savedProfile = sessionStorage.getItem('ingreso-active-profile-v1');
+      if (['p1', 'p2', 'together'].includes(savedProfile)) activeProfile = savedProfile;
+    } catch {}
+
     document.querySelectorAll('.profile-card').forEach(button => {
       button.addEventListener('click', () => {
         activeProfile = button.dataset.profile || null;
       });
+    });
+
+    window.addEventListener('ingreso:profile-changed', event => {
+      activeProfile = event.detail?.mode || null;
     });
 
     document.querySelector('#start-diagnostic')?.addEventListener('click', () => {

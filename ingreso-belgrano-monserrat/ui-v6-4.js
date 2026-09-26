@@ -216,7 +216,7 @@
           Number(next.updatedAt || 0)
         );
         nativeSetItem.call(localStorage, STORAGE_KEY, JSON.stringify(next));
-        window.setTimeout(() => window.location.reload(), 80);
+        window.dispatchEvent(new CustomEvent('ingreso:remote-state-updated', { detail: { source: 'cloud' } }));
       } catch (error) {
         console.warn('[Ingreso 6.6] No se pudo refrescar el progreso por perfil', error);
       }
@@ -274,6 +274,11 @@
           if (!document.querySelector('#profile-gate')?.hidden) applyProfileTheme(null);
         }, 0);
       });
+    });
+
+    window.addEventListener('ingreso:profile-changed', event => {
+      lastSelectedProfile = event.detail?.mode || null;
+      applyProfileTheme(lastSelectedProfile);
     });
 
     const shell = document.querySelector('#app-shell');

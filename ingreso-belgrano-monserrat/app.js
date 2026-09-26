@@ -3,6 +3,8 @@
 
   const APP_VERSION = 3;
   const STORAGE_KEY = 'ingreso-belgrano-monserrat-v1';
+  const ACTIVE_MODE_KEY = 'ingreso-active-profile-v1';
+  const ACTIVE_VIEW_KEY = 'ingreso-active-view-v1';
   const DAY_MS = 86400000;
   const REPEAT_COOLDOWN_DAYS = 7;
   const DEFAULT_STATE = {
@@ -35,7 +37,7 @@
     try {
       // La URL cambia con la versión: evita que un service worker anterior entregue
       // habilidades sin videos durante la primera visita tras una actualización.
-      const releaseVersion = document.querySelector('meta[name="app-version"]')?.content || '6.15';
+      const releaseVersion = document.querySelector('meta[name="app-version"]')?.content || '6.16';
       const [skillsData, exerciseData] = await Promise.all([
         fetch(`./data/habilidades.json?v=${encodeURIComponent(releaseVersion)}`, { cache: 'no-store' }).then(r => { if (!r.ok) throw new Error('habilidades'); return r.json(); }),
         fetch('./data/ejercicios.json').then(r => { if (!r.ok) throw new Error('ejercicios'); return r.json(); })
@@ -50,8 +52,9 @@
 
     bindUI();
     refreshGateNames();
+    restoreActiveContext();
     setupSupabase();
-    if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js?v=6.15').catch(() => {});
+    if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js?v=6.16').catch(() => {});
   }
 
   function bindUI() {
@@ -89,6 +92,8 @@
       if (event.target.closest('[data-nav="videos"]')) navigate('videos');
     });
     $('#exercise-dialog').addEventListener('cancel', e => { e.preventDefault(); closeExercise(true); });
+    window.addEventListener('ingreso:remote-state-updated', refreshStateFromStorage);
+    window.addEventListener('storage', event => { if (event.key === STORAGE_KEY) refreshStateFromStorage(); });
   }
 
   function cloneDefault() { return JSON.parse(JSON.stringify(DEFAULT_STATE)); }
@@ -173,22 +178,57 @@
     $('#profile-name-p2').value = state.profiles.p2.name;
   }
 
-  function enterProfile(mode) {
+  function readSessionValue(key) {
+    try { return sessionStorage.getItem(key); } catch { return null; }
+  }
+
+  function writeSessionValue(key, value) {
+    try {
+      if (value === null || value === undefined || value === '') sessionStorage.removeItem(key);
+      else sessionStorage.setItem(key, String(value));
+    } catch {}
+  }
+
+  function restoreActiveContext() {
+    const savedMode = readSessionValue(ACTIVE_MODE_KEY);
+    if (!['p1', 'p2', 'together'].includes(savedMode)) return;
+    enterProfile(savedMode, { restore: true });
+  }
+
+  function enterProfile(mode, { restore = false } = {}) {
+    if (!['p1', 'p2', 'together'].includes(mode)) return;
     activeMode = mode;
+    writeSessionValue(ACTIVE_MODE_KEY, mode);
     $('#profile-gate').hidden = true;
     $('#app-shell').hidden = false;
     updateActiveProfilePill();
-    navigate('inicio');
+    const savedView = restore ? readSessionValue(ACTIVE_VIEW_KEY) : null;
+    navigate(savedView && document.querySelector(`.view[data-view="${savedView}"]`) ? savedView : 'inicio');
     renderAll();
+    window.dispatchEvent(new CustomEvent('ingreso:profile-changed', { detail: { mode: activeMode, restored: restore } }));
   }
 
   function leaveProfile() {
     if (session) closeExercise(false);
     $('#video-library').querySelectorAll('iframe').forEach(frame => frame.remove());
     activeMode = null;
+    writeSessionValue(ACTIVE_MODE_KEY, null);
+    writeSessionValue(ACTIVE_VIEW_KEY, null);
     $('#app-shell').hidden = true;
     $('#profile-gate').hidden = false;
     refreshGateNames();
+    window.dispatchEvent(new CustomEvent('ingreso:profile-changed', { detail: { mode: null } }));
+  }
+
+  function refreshStateFromStorage() {
+    const previousMode = activeMode;
+    state = loadLocalState();
+    refreshGateNames();
+    if (previousMode) {
+      activeMode = previousMode;
+      updateActiveProfilePill();
+      renderAll({ preserveVideoPlayer: true });
+    }
   }
 
   function activeProfileIds() {
@@ -212,6 +252,7 @@
 
   function navigate(view) {
     if (!view) return;
+    if (activeMode) writeSessionValue(ACTIVE_VIEW_KEY, view);
     // Desmontar el reproductor detiene el audio al salir de la pestaña.
     if (view !== 'videos') $('#video-library').querySelectorAll('iframe').forEach(frame => frame.remove());
     $$('.view').forEach(v => v.classList.toggle('active', v.dataset.view === view));
@@ -223,11 +264,11 @@
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
-  function renderAll() {
+  function renderAll({ preserveVideoPlayer = false } = {}) {
     renderDashboard();
     renderSkills('all');
     renderProgress();
-    renderVideos();
+    if (!preserveVideoPlayer || !$('#video-library iframe')) renderVideos();
     renderFamily();
   }
 
@@ -466,13 +507,29 @@
       frame.referrerPolicy = 'strict-origin-when-cross-origin';
       frame.allowFullscreen = true;
       card.querySelector('.video-stage').append(frame);
+      recordVideoEvent(card.dataset.profile, card.dataset.videoSkill, id, 'view');
     }
     if (practice) {
       const card = practice.closest('.video-card');
       const skillId = practice.dataset.videoPractice;
       if (!videoForProfile(skillId, card.dataset.profile)) return;
+      recordVideoEvent(card.dataset.profile, skillId, null, 'practice');
       startSession({ type: 'practica', area: skillsById.get(skillId).area, skillId });
     }
+  }
+
+  function recordVideoEvent(profileId, skillId, videoId, type) {
+    if (!['p1', 'p2'].includes(profileId) || !skillId) return;
+    const profile = state.profiles[profileId];
+    profile.videoLearning ||= { viewed: [], practiced: [] };
+    if (type === 'view') {
+      const key = `${skillId}:${videoId || ''}`;
+      if (!profile.videoLearning.viewed.includes(key)) profile.videoLearning.viewed.push(key);
+    }
+    if (type === 'practice' && !profile.videoLearning.practiced.includes(skillId)) profile.videoLearning.practiced.push(skillId);
+    profile.videoLearning.viewed = profile.videoLearning.viewed.slice(-60);
+    profile.videoLearning.practiced = profile.videoLearning.practiced.slice(-60);
+    saveState();
   }
 
   function videoForProfile(skillId, profileId, videoId) {
@@ -610,12 +667,35 @@
     renderExercise();
   }
 
+  function exerciseFingerprint(e) {
+    const normalize = value => String(value ?? '').toLocaleLowerCase('es').normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\s+/g, ' ').replace(/[^a-z0-9 ]/g, '').trim();
+    const options = Array.isArray(e?.opciones) ? [...e.opciones].map(normalize).sort().join('|') : '';
+    return [e?.area, e?.habilidad, normalize(e?.consigna), options, normalize(e?.respuesta)].join('::');
+  }
+
+  function dedupeExercises(list) {
+    const seen = new Set();
+    return list.filter(e => {
+      const fingerprint = exerciseFingerprint(e);
+      if (!fingerprint || seen.has(fingerprint)) return false;
+      seen.add(fingerprint);
+      return true;
+    });
+  }
+
+  function usedExerciseFingerprintsRecently(ids) {
+    const usedIds = usedExerciseIdsRecently(ids);
+    return new Set(exercises.filter(e => usedIds.has(e.id)).map(exerciseFingerprint));
+  }
+
   function buildSessionPool(type, area, school, skillId = null) {
     let pool = exercises.filter(e => area === 'all' || e.area === area);
     if (skillId) pool = pool.filter(e => e.habilidad === skillId);
     if (school) pool = pool.filter(e => e.colegios.includes('comun') || e.colegios.includes(school));
+    pool = dedupeExercises(pool);
     const usedRecently = usedExerciseIdsRecently(activeProfileIds());
-    pool = pool.filter(e => !usedRecently.has(e.id));
+    const fingerprintsRecently = usedExerciseFingerprintsRecently(activeProfileIds());
+    pool = pool.filter(e => !usedRecently.has(e.id) && !fingerprintsRecently.has(exerciseFingerprint(e)));
     if (type === 'diagnostico') return buildAdaptiveDiagnostic(pool);
     if (type === 'simulacro') return buildSimulationPool(pool, school, area);
     return buildAdaptivePractice(pool, skillId ? 3 : 8);
@@ -701,10 +781,11 @@
 
   function preferredDifficulty(agg) {
     if (!agg.attempts) return 2;
-    if (agg.mastery < 35) return 1.5;
-    if (agg.mastery < 55) return 2.2;
-    if (agg.mastery < 80) return 3;
-    return 3.6;
+    let target = agg.mastery < 35 ? 1.5 : agg.mastery < 55 ? 2.2 : agg.mastery < 80 ? 3 : 3.6;
+    const recent = Array.isArray(agg.recent) ? agg.recent.slice(-4) : [];
+    if (recent.length >= 3 && recent.slice(-3).every(Boolean)) target += .6;
+    if (recent.length >= 2 && recent.slice(-2).every(value => value === false)) target -= .7;
+    return clamp(target, 1, 4);
   }
 
   function takePracticeRows(rows, count, selected, preferUniqueSkill = true) {
@@ -784,10 +865,12 @@
   function maybeExtendDiagnostic(e, correct) {
     if (session?.type !== 'diagnostico' || session.diagnosticExtensions >= session.diagnosticMaxExtensions) return false;
     const used = new Set(session.items.map(item => item.id));
+    const usedFingerprints = new Set(session.items.map(exerciseFingerprint));
     const usedRecently = usedExerciseIdsRecently(activeProfileIds());
+    const fingerprintsRecently = usedExerciseFingerprintsRecently(activeProfileIds());
     const direction = correct ? 1 : -1;
     const candidates = exercises
-      .filter(item => item.habilidad === e.habilidad && item.tipo !== 'selfcheck' && !used.has(item.id) && !usedRecently.has(item.id))
+      .filter(item => item.habilidad === e.habilidad && item.tipo !== 'selfcheck' && !used.has(item.id) && !usedFingerprints.has(exerciseFingerprint(item)) && !usedRecently.has(item.id) && !fingerprintsRecently.has(exerciseFingerprint(item)))
       .filter(item => direction > 0 ? item.dificultad > e.dificultad : item.dificultad < e.dificultad)
       .sort((a, b) => Math.abs(a.dificultad - (e.dificultad + direction)) - Math.abs(b.dificultad - (e.dificultad + direction)));
     const next = candidates[0];
@@ -1007,7 +1090,18 @@
     if (session?.hintUsed && correct) evidence -= 10;
     evidence = Math.round(evidence * weight);
     const mastery = prev.attempts === 0 ? evidence : Math.round(prev.mastery * .68 + evidence * .32);
-    profile.progress[e.habilidad] = { attempts: prev.attempts + 1, correct: prev.correct + (correct ? 1 : 0), mastery: clamp(mastery, 0, 100), lastAt: Date.now() };
+    const nextMastery = clamp(mastery, 0, 100);
+    const recent = [...(Array.isArray(prev.recent) ? prev.recent : []), Boolean(correct)].slice(-4);
+    const previousLow = Number.isFinite(Number(prev.lowestMastery)) ? Number(prev.lowestMastery) : Number(prev.mastery || nextMastery);
+    profile.progress[e.habilidad] = {
+      attempts: prev.attempts + 1,
+      correct: prev.correct + (correct ? 1 : 0),
+      mastery: nextMastery,
+      lastAt: Date.now(),
+      recent,
+      lowestMastery: Math.min(previousLow, nextMastery),
+      maxDifficultyCorrect: Math.max(Number(prev.maxDifficultyCorrect || 0), correct ? Number(e.dificultad || 1) : 0)
+    };
     markExerciseUsedToday(pid, e.id);
     saveState();
   }
@@ -1019,7 +1113,8 @@
       attempts: rows.reduce((s,r) => s + (r.attempts || 0), 0),
       correct: rows.reduce((s,r) => s + (r.correct || 0), 0),
       mastery: Math.round(rows.reduce((s,r) => s + (r.mastery || 0), 0) / rows.length),
-      lastAt: Math.max(...rows.map(r => r.lastAt || 0))
+      lastAt: Math.max(...rows.map(r => r.lastAt || 0)),
+      recent: rows.flatMap(r => Array.isArray(r.recent) ? r.recent : []).slice(-4)
     };
   }
 

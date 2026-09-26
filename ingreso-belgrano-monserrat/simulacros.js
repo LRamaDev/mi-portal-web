@@ -21,10 +21,19 @@
     decorateExamPanel();
     createDialog();
 
+    try {
+      const savedMode = sessionStorage.getItem('ingreso-active-profile-v1');
+      if (['p1', 'p2', 'together'].includes(savedMode)) activeMode = savedMode;
+    } catch {}
+
     document.addEventListener('click', e => {
       const profile = e.target.closest?.('.profile-card[data-profile]');
       if (profile) activeMode = profile.dataset.profile;
       if (e.target.closest?.('#profile-switch, #active-profile')) activeMode = null;
+    });
+
+    window.addEventListener('ingreso:profile-changed', event => {
+      activeMode = event.detail?.mode || null;
     });
 
     document.addEventListener('click', interceptExamClick, true);
@@ -221,16 +230,24 @@
   function block(label, points, slots) { return { label, points, slots }; }
   function slot(points, groups = null, skills = null, selfcheck = false, label = null) { return { points, groups, skills, selfcheck, label }; }
 
+  function exerciseFingerprint(e) {
+    const normalize = value => String(value ?? '').toLocaleLowerCase('es').normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\s+/g, ' ').replace(/[^a-z0-9 ]/g, '').trim();
+    const options = Array.isArray(e?.opciones) ? [...e.opciones].map(normalize).sort().join('|') : '';
+    return [e?.area, e?.habilidad, normalize(e?.consigna), options, normalize(e?.respuesta)].join('::');
+  }
+
   function buildEntries(school, area, blueprint) {
     const valid = bank.exercises.filter(e => e.area === area && (e.colegios.includes('comun') || e.colegios.includes(school)));
     const used = exercisesUsedRecently(loadState(), activeMode);
+    const usedFingerprints = new Set(bank.exercises.filter(e => used.has(e.id)).map(exerciseFingerprint));
     const entries = [];
 
     blueprint.blocks.forEach(blockDef => {
       blockDef.slots.forEach((slotDef, slotIndex) => {
-        const exercise = chooseForSlot(valid, slotDef, used);
+        const exercise = chooseForSlot(valid, slotDef, used, usedFingerprints);
         if (!exercise) return;
         used.add(exercise.id);
+        usedFingerprints.add(exerciseFingerprint(exercise));
         entries.push({
           exercise,
           points: slotDef.points,
@@ -246,8 +263,8 @@
     return entries;
   }
 
-  function chooseForSlot(valid, slotDef, used) {
-    const unused = valid.filter(e => !used.has(e.id));
+  function chooseForSlot(valid, slotDef, used, usedFingerprints = new Set()) {
+    const unused = valid.filter(e => !used.has(e.id) && !usedFingerprints.has(exerciseFingerprint(e)));
     const isTypeOk = e => slotDef.selfcheck ? e.tipo === 'selfcheck' : e.tipo !== 'selfcheck';
     const matchesSkill = e => !slotDef.skills || slotDef.skills.includes(e.habilidad);
     const matchesGroup = e => !slotDef.groups || slotDef.groups.includes(bank.skillsById.get(e.habilidad)?.grupo);
@@ -438,11 +455,17 @@
     let evidence = correct ? 52 + (exercise.dificultad || 2) * 10 : Math.max(8, 38 - (exercise.dificultad || 2) * 4);
     evidence = Math.round(evidence * weight);
     const mastery = prev.attempts === 0 ? evidence : Math.round(prev.mastery * .68 + evidence * .32);
+    const nextMastery = clamp(mastery, 0, 100);
+    const recent = [...(Array.isArray(prev.recent) ? prev.recent : []), Boolean(correct)].slice(-4);
+    const previousLow = Number.isFinite(Number(prev.lowestMastery)) ? Number(prev.lowestMastery) : Number(prev.mastery || nextMastery);
     profile.progress[exercise.habilidad] = {
       attempts: prev.attempts + 1,
       correct: prev.correct + (correct ? 1 : 0),
-      mastery: clamp(mastery, 0, 100),
-      lastAt: Date.now()
+      mastery: nextMastery,
+      lastAt: Date.now(),
+      recent,
+      lowestMastery: Math.min(previousLow, nextMastery),
+      maxDifficultyCorrect: Math.max(Number(prev.maxDifficultyCorrect || 0), correct ? Number(exercise.dificultad || 1) : 0)
     };
     markExerciseUsedToday(state, activeMode, exercise.id);
     saveState(state);
