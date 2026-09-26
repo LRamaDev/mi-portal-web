@@ -1,7 +1,7 @@
 (() => {
   'use strict';
 
-  const APP_VERSION = 3;
+  const APP_VERSION = 4;
   const STORAGE_KEY = 'ingreso-belgrano-monserrat-v1';
   const ACTIVE_MODE_KEY = 'ingreso-active-profile-v1';
   const ACTIVE_VIEW_KEY = 'ingreso-active-view-v1';
@@ -12,8 +12,8 @@
     updatedAt: 0,
     dailyExerciseLog: {},
     profiles: {
-      p1: { name: 'Perfil 1', progress: {}, history: [], sessions: 0 },
-      p2: { name: 'Perfil 2', progress: {}, history: [], sessions: 0 }
+      p1: { name: 'Perfil 1', progress: {}, history: [], evidence: [], pendingEvidence: [], sessions: 0 },
+      p2: { name: 'Perfil 2', progress: {}, history: [], evidence: [], pendingEvidence: [], sessions: 0 }
     }
   };
 
@@ -37,7 +37,7 @@
     try {
       // La URL cambia con la versión: evita que un service worker anterior entregue
       // habilidades sin videos durante la primera visita tras una actualización.
-      const releaseVersion = document.querySelector('meta[name="app-version"]')?.content || '6.17';
+      const releaseVersion = document.querySelector('meta[name="app-version"]')?.content || '6.18';
       const [skillsData, exerciseData] = await Promise.all([
         fetch(`./data/habilidades.json?v=${encodeURIComponent(releaseVersion)}`, { cache: 'no-store' }).then(r => { if (!r.ok) throw new Error('habilidades'); return r.json(); }),
         fetch('./data/ejercicios.json').then(r => { if (!r.ok) throw new Error('ejercicios'); return r.json(); })
@@ -45,6 +45,7 @@
       skills = skillsData.habilidades || [];
       exercises = exerciseData.ejercicios || [];
       skillsById = new Map(skills.map(s => [s.id, s]));
+      rebuildPedagogySnapshots();
     } catch (error) {
       console.error(error);
       toast('No se pudieron cargar los contenidos. Recargá la página.');
@@ -54,7 +55,7 @@
     refreshGateNames();
     restoreActiveContext();
     setupSupabase();
-    if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js?v=6.17').catch(() => {});
+    if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js?v=6.18').catch(() => {});
   }
 
   function bindUI() {
@@ -63,9 +64,9 @@
     $('#active-profile').addEventListener('click', leaveProfile);
     $$('[data-nav]').forEach(btn => btn.addEventListener('click', e => { e.preventDefault(); navigate(btn.dataset.nav); }));
     $('#start-recommended').addEventListener('click', startRecommended);
-    $('#start-diagnostic').addEventListener('click', () => startSession({ type: 'diagnostico', area: 'all' }));
-    $$('[data-practice]').forEach(btn => btn.addEventListener('click', () => startSession({ type: 'practica', area: btn.dataset.practice })));
-    $$('[data-sim-school]').forEach(btn => btn.addEventListener('click', () => startSession({ type: 'simulacro', area: btn.dataset.simArea, school: btn.dataset.simSchool })));
+    $('#start-diagnostic').addEventListener('click', () => startSession({ type: 'diagnostico', area: 'all', origin: 'manual' }));
+    $('[data-practice]').forEach(btn => btn.addEventListener('click', () => startSession({ type: 'practica', area: btn.dataset.practice, origin: 'manual' })));
+    $('[data-sim-school]').forEach(btn => btn.addEventListener('click', () => startSession({ type: 'simulacro', area: btn.dataset.simArea, school: btn.dataset.simSchool, origin: 'simulacro' })));
     $$('[data-skill-filter]').forEach(btn => btn.addEventListener('click', () => {
       $$('[data-skill-filter]').forEach(x => x.classList.remove('active'));
       btn.classList.add('active');
@@ -100,8 +101,8 @@
       version: APP_VERSION,
       dailyExerciseLog: normalizeDailyExerciseLog(parsed.dailyExerciseLog),
       profiles: {
-        p1: { ...base.profiles.p1, ...(parsed.profiles?.p1 || {}), progress: { ...(parsed.profiles?.p1?.progress || {}) }, history: [...(parsed.profiles?.p1?.history || [])] },
-        p2: { ...base.profiles.p2, ...(parsed.profiles?.p2 || {}), progress: { ...(parsed.profiles?.p2?.progress || {}) }, history: [...(parsed.profiles?.p2?.history || [])] }
+        p1: { ...base.profiles.p1, ...(parsed.profiles?.p1 || {}), progress: { ...(parsed.profiles?.p1?.progress || {}) }, history: [...(parsed.profiles?.p1?.history || [])], evidence: [...(parsed.profiles?.p1?.evidence || [])], pendingEvidence: [...(parsed.profiles?.p1?.pendingEvidence || [])] },
+        p2: { ...base.profiles.p2, ...(parsed.profiles?.p2 || {}), progress: { ...(parsed.profiles?.p2?.progress || {}) }, history: [...(parsed.profiles?.p2?.history || [])], evidence: [...(parsed.profiles?.p2?.evidence || [])], pendingEvidence: [...(parsed.profiles?.p2?.pendingEvidence || [])] }
       }
     };
   }
@@ -216,12 +217,54 @@
   function refreshStateFromStorage() {
     const previousMode = activeMode;
     state = loadLocalState();
+    rebuildPedagogySnapshots();
     refreshGateNames();
     if (previousMode) {
       activeMode = previousMode;
       updateActiveProfilePill();
       renderAll({ preserveVideoPlayer: true });
     }
+  }
+
+  function skillMaxDifficulty(skillId) {
+    const values = exercises.filter(exercise => exercise.habilidad === skillId).map(exercise => Number(exercise.dificultad || 1));
+    return values.length ? Math.max(...values) : 4;
+  }
+
+  function rebuildPedagogySnapshots() {
+    const engine = window.IngresoPedagogy;
+    if (!engine) return false;
+    let changed = false;
+    ['p1', 'p2'].forEach(profileId => {
+      const profile = state.profiles[profileId];
+      profile.evidence ||= [];
+      profile.pendingEvidence ||= [];
+      Object.keys(profile.progress || {}).forEach(skillId => {
+        const before = JSON.stringify(profile.progress[skillId]?.pedagogy || null);
+        engine.ensureAnalysis(profile, skillId, { maxDifficulty: skillMaxDifficulty(skillId) });
+        if (JSON.stringify(profile.progress[skillId]?.pedagogy || null) !== before) changed = true;
+      });
+    });
+    if (changed) localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    return changed;
+  }
+
+  function skillAnalysis(profileId, skillId) {
+    const engine = window.IngresoPedagogy;
+    const profile = state.profiles[profileId];
+    if (!engine || !profile) return null;
+    return engine.ensureAnalysis(profile, skillId, { maxDifficulty: skillMaxDifficulty(skillId) });
+  }
+
+  function analysisFeedback(analysis) {
+    return analysis?.qualitative || 'Todavía no trabajamos suficiente este tema.';
+  }
+
+  function analysisLevelClass(analysis) {
+    const stateName = analysis?.state;
+    if (stateName === 'consolidado' || stateName === 'consistente') return 'high';
+    if (stateName === 'en_desarrollo') return 'mid';
+    return stateName === 'sin_evidencia' ? 'unseen' : 'low';
   }
 
   function activeProfileIds() {
