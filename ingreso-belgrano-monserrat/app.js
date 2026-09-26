@@ -260,6 +260,18 @@
     return analysis?.qualitative || 'Todavía no trabajamos suficiente este tema.';
   }
 
+  function learnerStatusShort(analysis) {
+    if (!analysis || analysis.state === 'sin_evidencia') return 'Por descubrir';
+    if (analysis.state === 'explorando') return analysis.trend === 'mejorando' ? 'Buen comienzo' : 'Empezando';
+    if (analysis.state === 'en_desarrollo') {
+      if (analysis.trend === 'mejorando') return 'Viene mejorando';
+      if (analysis.trend === 'revisar') return 'Para practicar';
+      return 'Avanzando';
+    }
+    if (analysis.state === 'consistente') return 'Muy bien';
+    return 'Firme';
+  }
+
   function analysisLevelClass(analysis) {
     const stateName = analysis?.state;
     if (stateName === 'consolidado' || stateName === 'consistente') return 'high';
@@ -413,32 +425,41 @@
   function renderAreaStat(suffix, summary) {
     const main = $(`#stat-${suffix}`);
     const note = $(`#stat-${suffix}-note`);
-    if (!summary.seen) {
-      main.textContent = 'Sin evaluar';
-      note.textContent = 'Hacé el diagnóstico inicial';
+    if (activeMode === 'together') {
+      main.textContent = 'Práctica compartida';
+      note.textContent = 'Cada perfil conserva su recorrido por separado';
       return;
     }
-    main.textContent = masteryLabel(summary.mastery);
-    note.textContent = `${summary.mastery}% de dominio estimado`;
+    if (!summary.seen) {
+      main.textContent = 'Por descubrir';
+      note.textContent = 'El diagnóstico va a dar las primeras pistas';
+      return;
+    }
+    main.textContent = summary.label;
+    note.textContent = summary.message;
   }
 
   function renderPriorities(ids) {
     const container = $('#priority-list');
+    if (activeMode === 'together') {
+      container.innerHTML = '<div class="priority-item"><div><strong>Práctica compartida</strong><small>La app alterna contenidos sin mostrar ni comparar el recorrido individual de cada perfil.</small></div><span class="level unseen">Juntas</span></div>';
+      return;
+    }
     const ranked = skills
       .map(skill => ({ skill, summary: aggregateSkill(ids, skill.id) }))
-      .filter(x => x.summary.attempts > 0)
-      .sort((a, b) => a.summary.mastery - b.summary.mastery)
+      .filter(row => row.summary.attempts > 0)
+      .sort((a, b) => pedagogyPriority(a.summary.pedagogy) - pedagogyPriority(b.summary.pedagogy))
       .slice(0, 6);
 
     if (!ranked.length) {
-      container.innerHTML = '<div class="priority-item"><div><strong>Todavía no hay diagnóstico</strong><small>Empezá con una sesión inicial para construir el mapa de fortalezas.</small></div><span class="level unseen">Sin evaluar</span></div>';
+      container.innerHTML = '<div class="priority-item"><div><strong>Todavía no hay diagnóstico</strong><small>Empezá con una sesión inicial para construir el mapa de fortalezas.</small></div><span class="level unseen">Por descubrir</span></div>';
       return;
     }
 
     container.innerHTML = ranked.map(({ skill, summary }) => `
       <div class="priority-item">
-        <div><strong>${escapeHtml(skill.nombre)}</strong><small>${skill.area === 'matematica' ? 'Matemática' : 'Lengua'} · ${escapeHtml(skill.grupo)}</small></div>
-        <span class="level ${levelClass(summary.mastery)}">${masteryLabel(summary.mastery)}</span>
+        <div><strong>${escapeHtml(skill.nombre)}</strong><small>${escapeHtml(analysisFeedback(summary.pedagogy))}</small></div>
+        <span class="level ${analysisLevelClass(summary.pedagogy)}">${escapeHtml(learnerStatusShort(summary.pedagogy))}</span>
       </div>`).join('');
   }
 
@@ -467,7 +488,7 @@
 
   function skillCardHtml(skill) {
     const ids = activeProfileIds();
-    const summary = ids.length ? aggregateSkill(ids, skill.id) : { attempts: 0, mastery: 0 };
+    const summary = ids.length ? aggregateSkill(ids, skill.id) : { attempts: 0, pedagogy: null };
     const badges = skill.colegios.includes('comun')
       ? '<span class="school-badge">Común a ambos</span>'
       : skill.colegios.map(c => `<span class="school-badge ${c}">${capitalize(c)}</span>`).join('');
@@ -477,7 +498,10 @@
       : '';
     const practiceButton = `<button class="text-button skill-practice-link" data-skill-practice="${escapeHtml(skill.id)}" type="button">Practicar este tema →</button>`;
     const stage = videos.length ? '<div class="skill-video-stage" data-skill-video-stage hidden></div>' : '';
-    return `<article class="skill-card" data-skill-card="${escapeHtml(skill.id)}"><div class="skill-card-top"><strong>${escapeHtml(skill.nombre)}</strong><span class="level ${summary.attempts ? levelClass(summary.mastery) : 'unseen'}">${summary.attempts ? `${summary.mastery}%` : '—'}</span></div><div class="school-badges">${badges}</div><div class="skill-resource-actions">${videoButton}${practiceButton}</div>${stage}</article>`;
+    const status = activeMode === 'together'
+      ? '<span class="level unseen">Disponible</span>'
+      : `<span class="level ${analysisLevelClass(summary.pedagogy)}">${escapeHtml(learnerStatusShort(summary.pedagogy))}</span>`;
+    return `<article class="skill-card" data-skill-card="${escapeHtml(skill.id)}"><div class="skill-card-top"><strong>${escapeHtml(skill.nombre)}</strong>${status}</div><div class="school-badges">${badges}</div><div class="skill-resource-actions">${videoButton}${practiceButton}</div>${stage}</article>`;
   }
 
   function handleSkillResourceAction(event) {
@@ -508,55 +532,67 @@
       const skillId = practiceButton.dataset.skillPractice;
       const skill = skillsById.get(skillId);
       if (!skill) return;
-      startSession({ type: 'practica', area: skill.area, skillId });
+      startSession({ type: 'practica', area: skill.area, skillId, origin: 'contenidos' });
     }
   }
   function renderProgress() {
     const ids = activeProfileIds();
     if (!ids.length) return;
+
+    if (activeMode === 'together') {
+      $('#progress-summary').innerHTML = '<article class="stat-card"><small>Recorrido individual</small><strong>Se mantiene privado</strong><span>En modo juntas no mostramos avances de un perfil al otro.</span></article>';
+      $('#progress-detail').innerHTML = '<section class="progress-group"><h3>Estudiar juntas</h3><p>La práctica compartida alterna turnos, pero cada respuesta sigue alimentando solamente el recorrido de quien respondió.</p></section>';
+      return;
+    }
+
     const math = aggregateArea(ids, 'matematica');
     const lang = aggregateArea(ids, 'lengua');
-    const attempts = ids.reduce((sum, id) => sum + totalProfileAttempts(id), 0);
     $('#progress-summary').innerHTML = `
-      <article class="stat-card"><small>Matemática</small><strong>${math.seen ? math.mastery + '%' : '—'}</strong><span>${math.seen ? masteryLabel(math.mastery) : 'Sin evaluar'}</span></article>
-      <article class="stat-card"><small>Lengua</small><strong>${lang.seen ? lang.mastery + '%' : '—'}</strong><span>${lang.seen ? masteryLabel(lang.mastery) : 'Sin evaluar'}</span></article>
-      <article class="stat-card"><small>Respuestas registradas</small><strong>${attempts}</strong><span>evidencias de aprendizaje</span></article>`;
+      <article class="stat-card"><small>Matemática</small><strong>${escapeHtml(math.label)}</strong><span>${escapeHtml(math.message)}</span></article>
+      <article class="stat-card"><small>Lengua</small><strong>${escapeHtml(lang.label)}</strong><span>${escapeHtml(lang.message)}</span></article>
+      <article class="stat-card"><small>Tu recorrido</small><strong>Seguimos aprendiendo</strong><span>La app mira sobre todo cómo venís resolviendo ahora.</span></article>`;
 
     $('#progress-detail').innerHTML = ['matematica', 'lengua'].map(area => {
-      const items = skills.filter(s => s.area === area).map(skill => ({ skill, s: aggregateSkill(ids, skill.id) })).filter(x => x.s.attempts > 0).sort((a,b) => a.s.mastery - b.s.mastery);
-      const rows = items.length ? items.map(({skill, s}) => `
-        <div class="progress-row"><strong>${escapeHtml(skill.nombre)}</strong><div class="progress-bar"><span style="width:${s.mastery}%"></span></div><small>${s.mastery}% · ${s.attempts} int.</small></div>`).join('') : '<p>Sin datos todavía. El diagnóstico inicial va a completar este mapa.</p>';
+      const items = skills
+        .filter(skill => skill.area === area)
+        .map(skill => ({ skill, summary: aggregateSkill(ids, skill.id) }))
+        .filter(row => row.summary.attempts > 0)
+        .sort((a, b) => pedagogyPriority(a.summary.pedagogy) - pedagogyPriority(b.summary.pedagogy));
+      const rows = items.length ? items.map(({skill, summary}) => `
+        <div class="progress-row qualitative-progress-row"><strong>${escapeHtml(skill.nombre)}</strong><small>${escapeHtml(analysisFeedback(summary.pedagogy))}</small><span class="level ${analysisLevelClass(summary.pedagogy)}">${escapeHtml(learnerStatusShort(summary.pedagogy))}</span></div>`).join('') : '<p>Todavía no trabajamos suficiente estos contenidos. El diagnóstico va a abrir el recorrido.</p>';
       return `<section class="progress-group"><h3>${area === 'matematica' ? 'Matemática' : 'Lengua'}</h3>${rows}</section>`;
     }).join('');
   }
 
   function renderVideos() {
     const container = $('#video-library');
-    const sections = activeProfileIds().map(id => {
-      const rows = skills.flatMap(skill => validSkillVideos(skill)
-        .map(video => ({ videoId: video.id, title: video.titulo, skill,
-          recommendedForProfile: video.perfiles?.includes(id) || false,
-          progress: state.profiles[id]?.progress?.[skill.id] })));
-      rows.sort((a, b) => {
-        const aSeen = a.progress?.attempts > 0;
-        const bSeen = b.progress?.attempts > 0;
-        return (bSeen - aSeen) || (aSeen ? a.progress.mastery - b.progress.mastery : 0) || (Number(b.recommendedForProfile) - Number(a.recommendedForProfile));
-      });
-      return `<section class="video-profile" data-profile="${id}">
-        ${activeMode === 'together' ? `<h3>${escapeHtml(state.profiles[id].name)}</h3>` : ''}
-        ${rows.length ? `<p class="video-profile-intro">${rows.some(row => row.progress?.attempts) ? 'Primero aparecen los temas que más conviene repasar. Todos los videos del banco están disponibles para ambos perfiles.' : 'Podés explorar todos los videos del banco. Cuando haya respuestas, la app ordenará primero los temas que más conviene reforzar.'}</p>
-        <div class="video-grid">${rows.map(row => videoCardHtml(row, id)).join('')}</div>` : '<p class="video-empty">Todavía no hay videos vinculados a los contenidos.</p>'}
-      </section>`;
+    if (activeMode === 'together') {
+      const rows = skills.flatMap(skill => validSkillVideos(skill).map(video => ({ videoId: video.id, title: video.titulo, skill, progress: null })));
+      container.innerHTML = `<section class="video-profile"><p class="video-profile-intro">En modo juntas mostramos la biblioteca compartida sin datos individuales de progreso.</p><div class="video-grid">${rows.map(row => videoCardHtml(row, 'together')).join('')}</div></section>`;
+      return;
+    }
+
+    const id = primaryProfileId();
+    const rows = skills.flatMap(skill => validSkillVideos(skill)
+      .map(video => ({ videoId: video.id, title: video.titulo, skill,
+        recommendedForProfile: video.perfiles?.includes(id) || false,
+        progress: state.profiles[id]?.progress?.[skill.id] })));
+    rows.sort((a, b) => {
+      const aa = skillAnalysis(id, a.skill.id);
+      const bb = skillAnalysis(id, b.skill.id);
+      return pedagogyPriority(aa) - pedagogyPriority(bb) || (Number(b.recommendedForProfile) - Number(a.recommendedForProfile));
     });
-    container.innerHTML = sections.join('');
+    container.innerHTML = `<section class="video-profile" data-profile="${id}">
+      <p class="video-profile-intro">Primero aparecen los temas que más conviene trabajar ahora. Todos los videos del banco están disponibles.</p>
+      <div class="video-grid">${rows.map(row => videoCardHtml(row, id)).join('')}</div>
+    </section>`;
   }
+
   function videoCardHtml({skill, videoId, title, progress}, profileId) {
-    const attempts = progress?.attempts || 0;
-    const status = attempts
-      ? attempts < 3 ? `Primeros intentos · ${progress.mastery}% estimado` : progress.mastery < 65 ? `Para reforzar · ${progress.mastery}% estimado` : `Para repasar · ${progress.mastery}% estimado`
-      : 'Para explorar · sin respuestas todavía';
+    const analysis = profileId === 'together' ? null : skillAnalysis(profileId, skill.id);
+    const status = profileId === 'together' ? 'Recurso compartido' : learnerStatusShort(analysis);
     return `<article class="video-card" data-video-id="${videoId}" data-video-skill="${escapeHtml(skill.id)}" data-profile="${profileId}">
-      <div class="video-card-top"><span class="level ${attempts ? levelClass(progress.mastery) : 'unseen'}">${escapeHtml(status)}</span><span class="video-subject">${skill.area === 'lengua' ? 'Lengua' : 'Matemática'}</span></div>
+      <div class="video-card-top"><span class="level ${profileId === 'together' ? 'unseen' : analysisLevelClass(analysis)}">${escapeHtml(status)}</span><span class="video-subject">${skill.area === 'lengua' ? 'Lengua' : 'Matemática'}</span></div>
       <h4>${escapeHtml(skill.nombre)}</h4><p>${escapeHtml(title)}</p>
       <div class="video-stage"><button class="video-play" type="button" data-play-video="${videoId}" aria-label="Ver video de ${escapeHtml(skill.nombre)} acá">▷ <span>Ver video acá</span></button></div>
       <div class="video-actions"><button class="secondary-button" type="button" data-video-practice="${escapeHtml(skill.id)}">Practicar este tema</button></div>
@@ -582,14 +618,15 @@
       frame.referrerPolicy = 'strict-origin-when-cross-origin';
       frame.allowFullscreen = true;
       card.querySelector('.video-stage').append(frame);
-      recordVideoEvent(card.dataset.profile, card.dataset.videoSkill, id, 'view');
+      if (card.dataset.profile === 'together') activeProfileIds().forEach(profileId => recordVideoEvent(profileId, card.dataset.videoSkill, id, 'view'));
+      else recordVideoEvent(card.dataset.profile, card.dataset.videoSkill, id, 'view');
     }
     if (practice) {
       const card = practice.closest('.video-card');
       const skillId = practice.dataset.videoPractice;
       if (!videoForProfile(skillId, card.dataset.profile)) return;
-      recordVideoEvent(card.dataset.profile, skillId, null, 'practice');
-      startSession({ type: 'practica', area: skillsById.get(skillId).area, skillId });
+      if (card.dataset.profile !== 'together') recordVideoEvent(card.dataset.profile, skillId, null, 'practice');
+      startSession({ type: 'practica', area: skillsById.get(skillId).area, skillId, origin: 'video' });
     }
   }
 
