@@ -32,7 +32,7 @@
         const previous = byId.get(id);
         if (!previous || Number(event.at || 0) >= Number(previous.at || 0)) byId.set(id, clone(event));
       });
-      return [...byId.values()].sort((a, b) => Number(a.at || 0) - Number(b.at || 0)).slice(-240);
+      return [...byId.values()].sort((a, b) => Number(a.at || 0) - Number(b.at || 0));
     }
 
     function mergeProfilePayload(localProfile, remoteProfile, preferRemote = false) {
