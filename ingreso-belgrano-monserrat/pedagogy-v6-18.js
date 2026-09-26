@@ -463,7 +463,24 @@
       previousAnalysis: row?.pedagogy || null,
       now
     });
-    profile.progress[skillId] = { ...(row || {}), legacy, pedagogy: analysis };
+    const detailedCorrect = skillEvidence.filter(event => event.correct).length;
+    const detailedLastAt = skillEvidence.length ? Math.max(...skillEvidence.map(event => num(event.at))) : 0;
+    const detailedMaxDifficulty = skillEvidence
+      .filter(event => event.correct)
+      .reduce((max, event) => Math.max(max, num(event.difficulty, 1)), 0);
+    const recent = skillEvidence.length
+      ? skillEvidence.slice(-4).map(event => Boolean(event.correct))
+      : bools(legacy.recent).slice(-4);
+    profile.progress[skillId] = {
+      ...(row || {}),
+      attempts: num(legacy.attempts) + skillEvidence.length,
+      correct: num(legacy.correct) + detailedCorrect,
+      lastAt: Math.max(num(legacy.lastAt), detailedLastAt),
+      recent,
+      maxDifficultyCorrect: Math.max(num(legacy.maxDifficultyCorrect), detailedMaxDifficulty),
+      legacy,
+      pedagogy: analysis
+    };
     return analysis;
   }
 
