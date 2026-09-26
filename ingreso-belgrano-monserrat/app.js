@@ -1146,7 +1146,7 @@
         score: ownScore, total: ownTotal,
         durationSeconds: Math.max(1, Math.round((Date.now() - session.startedAt) / 1000)),
         adaptiveExtensions: session.type === 'diagnostico' ? session.diagnosticExtensions : 0
-      }].slice(-60);
+      }];
     });
     saveState();
     session.finished = true;
