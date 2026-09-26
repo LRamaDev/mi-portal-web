@@ -114,7 +114,7 @@
       maxSkillAttempts = Math.max(maxSkillAttempts, attempts);
       if (attempts >= 3 && safeNumber(row.mastery) >= 80) strongSkills += 1;
       if (safeNumber(row.maxDifficultyCorrect) >= 4) advancedSkills += 1;
-      if (attempts >= 5 && safeNumber(row.mastery) >= 65 && safeNumber(row.mastery) - safeNumber(row.lowestMastery) >= 20) recoveredSkills += 1;
+      if (attempts >= 5 && row.lowestMastery != null && safeNumber(row.mastery) >= 65 && safeNumber(row.mastery) - safeNumber(row.lowestMastery) >= 20) recoveredSkills += 1;
     });
 
     const simulations = history.filter(function (item) {
