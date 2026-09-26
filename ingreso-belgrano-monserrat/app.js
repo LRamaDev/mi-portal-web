@@ -767,11 +767,11 @@
 
   function startRecommended() {
     const ids = activeProfileIds();
-    if (ids.some(id => !hasCompletedDiagnostic(id))) startSession({ type: 'diagnostico', area: 'all' });
-    else startSession({ type: 'practica', area: recommendedArea || 'all' });
+    if (ids.some(id => !hasCompletedDiagnostic(id))) startSession({ type: 'diagnostico', area: 'all', origin: 'recomendacion' });
+    else startSession({ type: 'practica', area: recommendedArea || 'all', origin: 'recomendacion' });
   }
 
-  function startSession({ type, area, school = null, skillId = null }) {
+  function startSession({ type, area, school = null, skillId = null, origin = 'manual' }) {
     if (!exercises.length) return toast('Todavía se están cargando los ejercicios.');
     if (type === 'diagnostico' && activeMode === 'together') {
       toast('El diagnóstico es individual. Hacelo desde cada perfil para que el mapa de fortalezas sea preciso.');
@@ -780,9 +780,9 @@
     const pool = buildSessionPool(type, area, school, skillId);
     if (!pool.length) return toast('No quedan consignas nuevas para esta selección en los últimos 7 días. Probá otra materia o retomá más adelante.');
     session = {
-      type, area, school, items: pool, index: 0, correct: 0, answers: [], hintUsed: false,
+      type, area, school, skillId, origin, items: pool, index: 0, correct: 0, answers: [], hintUsed: false,
       checked: false, finished: false, jointTurn: 0, selfcheckOpen: false,
-      diagnosticExtensions: 0, diagnosticMaxExtensions: 6, startedAt: Date.now()
+      diagnosticExtensions: 0, diagnosticMaxExtensions: 6, startedAt: Date.now(), currentStartedAt: Date.now()
     };
     $('#exercise-dialog').showModal();
     renderExercise();
@@ -877,36 +877,43 @@
     const candidatePool = pool.filter(e => e.tipo !== 'selfcheck' || e.area === 'lengua');
     const rows = candidatePool.map(e => {
       const agg = aggregateSkill(ids, e.habilidad);
-      const category = agg.attempts === 0 ? 'developing' : agg.mastery < 55 ? 'weak' : agg.mastery < 80 ? 'developing' : 'mastered';
-      return { e, agg, category, score: practiceScore(e, agg, category) };
+      const analysis = agg.pedagogy;
+      const category = analysis?.state || 'sin_evidencia';
+      return { e, agg, analysis, category, score: practiceScore(e, agg, analysis) };
     });
+
     const selected = [];
-    takePracticeRows(rows.filter(r => r.category === 'weak'), 5, selected);
-    takePracticeRows(rows.filter(r => r.category === 'developing'), 2, selected);
-    takePracticeRows(rows.filter(r => r.category === 'mastered'), 1, selected);
+    // Primero comprobaciones pendientes: permiten reconocer aprendizaje reciente
+    // sin dejar el contenido anclado a errores históricos.
+    takePracticeRows(rows.filter(row => row.analysis?.needsVerification), Math.min(2, count), selected);
+    takePracticeRows(rows.filter(row => ['explorando', 'en_desarrollo'].includes(row.category)), Math.max(0, count - selected.length - 2), selected);
+    takePracticeRows(rows.filter(row => row.category === 'consistente' && row.analysis?.nextReviewAt && Date.now() >= row.analysis.nextReviewAt), 1, selected);
+    takePracticeRows(rows.filter(row => row.category === 'consolidado' && row.analysis?.nextReviewAt && Date.now() >= row.analysis.nextReviewAt), 1, selected);
     if (selected.length < count) takePracticeRows(rows, count - selected.length, selected, false);
     return shuffle(selected.slice(0, count));
   }
 
-  function practiceScore(e, agg, category) {
+  function practiceScore(e, agg, analysis) {
     const skill = skillsById.get(e.habilidad);
     const target = preferredDifficulty(agg);
     const priority = skill?.prioridad || 3;
-    const distancePenalty = Math.abs((e.dificultad || 2) - target) * 6;
-    const weaknessBonus = category === 'weak' ? (100 - agg.mastery) / 7 : 0;
-    const noveltyBonus = agg.attempts === 0 ? 5 : Math.max(0, 4 - agg.attempts);
-    const ageDays = agg.lastAt ? (Date.now() - agg.lastAt) / DAY_MS : 30;
-    const reviewBonus = category === 'mastered' ? Math.min(10, ageDays / 3) : 0;
-    return priority * 3 + weaknessBonus + noveltyBonus + reviewBonus - distancePenalty + Math.random() * 3;
+    const distancePenalty = Math.abs((e.dificultad || 2) - target) * 7;
+    const stateBonus = {
+      sin_evidencia: 5,
+      explorando: 8,
+      en_desarrollo: 11,
+      consistente: 3,
+      consolidado: 1
+    }[analysis?.state || 'sin_evidencia'];
+    const trendBonus = analysis?.trend === 'revisar' ? 4 : analysis?.trend === 'mejorando' ? 5 : 0;
+    const verificationBonus = analysis?.needsVerification ? 12 : 0;
+    const dueBonus = analysis?.nextReviewAt && Date.now() >= analysis.nextReviewAt ? 9 : 0;
+    const noveltyBonus = agg.attempts === 0 ? 5 : 0;
+    return priority * 3 + stateBonus + trendBonus + verificationBonus + dueBonus + noveltyBonus - distancePenalty + Math.random() * 3;
   }
 
   function preferredDifficulty(agg) {
-    if (!agg.attempts) return 2;
-    let target = agg.mastery < 35 ? 1.5 : agg.mastery < 55 ? 2.2 : agg.mastery < 80 ? 3 : 3.6;
-    const recent = Array.isArray(agg.recent) ? agg.recent.slice(-4) : [];
-    if (recent.length >= 3 && recent.slice(-3).every(Boolean)) target += .6;
-    if (recent.length >= 2 && recent.slice(-2).every(value => value === false)) target -= .7;
-    return clamp(target, 1, 4);
+    return clamp(Number(agg?.pedagogy?.preferredDifficulty || 2), 1, 4);
   }
 
   function takePracticeRows(rows, count, selected, preferUniqueSkill = true) {
@@ -1006,7 +1013,7 @@
   function renderExercise() {
     const e = currentExercise();
     if (!e) return finishSession();
-    session.hintUsed = false; session.checked = false; session.selfcheckOpen = false;
+    session.hintUsed = false; session.checked = false; session.selfcheckOpen = false; session.currentStartedAt = Date.now();
     $('#exercise-mode').textContent = session.type === 'diagnostico' ? 'Diagnóstico adaptativo' : session.type === 'simulacro' ? 'Simulacro' : 'Práctica adaptativa';
     $('#exercise-progress').textContent = `${session.index + 1} de ${session.items.length}`;
     $('#exercise-progress-bar').style.width = `${(session.index / session.items.length) * 100}%`;
@@ -1204,50 +1211,72 @@
   }
 
   function recordAttempt(e, correct, weight = 1, profileId = null) {
+    const engine = window.IngresoPedagogy;
     const pid = profileId || currentResponderId();
     const profile = state.profiles[pid];
-    const prev = profile.progress[e.habilidad] || { attempts: 0, correct: 0, mastery: 0, lastAt: 0 };
-    let evidence = correct ? 52 + e.dificultad * 10 : Math.max(8, 38 - e.dificultad * 4);
-    if (session?.hintUsed && correct) evidence -= 10;
-    evidence = Math.round(evidence * weight);
-    const mastery = prev.attempts === 0 ? evidence : Math.round(prev.mastery * .68 + evidence * .32);
-    const nextMastery = clamp(mastery, 0, 100);
-    const recent = [...(Array.isArray(prev.recent) ? prev.recent : []), Boolean(correct)].slice(-4);
-    const previousLow = Number.isFinite(Number(prev.lowestMastery)) ? Number(prev.lowestMastery) : Number(prev.mastery || nextMastery);
-    profile.progress[e.habilidad] = {
-      attempts: prev.attempts + 1,
-      correct: prev.correct + (correct ? 1 : 0),
-      mastery: nextMastery,
-      lastAt: Date.now(),
-      recent,
-      lowestMastery: Math.min(previousLow, nextMastery),
-      maxDifficultyCorrect: Math.max(Number(prev.maxDifficultyCorrect || 0), correct ? Number(e.dificultad || 1) : 0)
-    };
+    if (!engine || !profile) return;
+
+    const before = skillAnalysis(pid, e.habilidad);
+    const now = Date.now();
+    const purpose = engine.derivePurpose(before, {
+      sessionType: session?.type || 'practica',
+      difficulty: e.dificultad || 2,
+      now
+    });
+    const event = engine.createEvidence({
+      profileId: pid,
+      exercise: e,
+      correct,
+      hintUsed: Boolean(session?.hintUsed),
+      sessionType: session?.type || 'practica',
+      origin: session?.origin || 'manual',
+      purpose,
+      durationMs: session?.currentStartedAt ? now - session.currentStartedAt : null,
+      evaluationWeight: weight,
+      school: session?.school || null,
+      at: now
+    });
+    engine.applyAttempt(profile, e, event, { maxDifficulty: skillMaxDifficulty(e.habilidad) });
     markExerciseUsedToday(pid, e.id);
     saveState();
   }
 
   function aggregateSkill(ids, skillId) {
-    const rows = ids.map(id => state.profiles[id]?.progress?.[skillId]).filter(Boolean);
-    if (!rows.length) return { attempts: 0, correct: 0, mastery: 0, lastAt: 0 };
+    const rows = ids.map(id => {
+      const progress = state.profiles[id]?.progress?.[skillId];
+      const pedagogy = skillAnalysis(id, skillId);
+      return progress || pedagogy?.state !== 'sin_evidencia' ? { progress: progress || {}, pedagogy } : null;
+    }).filter(Boolean);
+
+    if (!rows.length) return { attempts: 0, correct: 0, mastery: 0, lastAt: 0, pedagogy: null };
+    const pedagogies = rows.map(row => row.pedagogy).filter(Boolean);
+    const selectedPedagogy = [...pedagogies].sort((a, b) => pedagogyPriority(a) - pedagogyPriority(b))[0] || null;
     return {
-      attempts: rows.reduce((s,r) => s + (r.attempts || 0), 0),
-      correct: rows.reduce((s,r) => s + (r.correct || 0), 0),
-      mastery: Math.round(rows.reduce((s,r) => s + (r.mastery || 0), 0) / rows.length),
-      lastAt: Math.max(...rows.map(r => r.lastAt || 0)),
-      recent: rows.flatMap(r => Array.isArray(r.recent) ? r.recent : []).slice(-4)
+      attempts: rows.reduce((sum, row) => sum + Number(row.progress.attempts || 0), 0),
+      correct: rows.reduce((sum, row) => sum + Number(row.progress.correct || 0), 0),
+      mastery: rows.length ? Math.round(rows.reduce((sum, row) => sum + Number(row.progress.mastery || 0), 0) / rows.length) : 0,
+      lastAt: Math.max(...rows.map(row => Number(row.progress.lastAt || 0)), 0),
+      pedagogy: selectedPedagogy
     };
   }
 
   function aggregateArea(ids, area) {
-    const rows = skills.filter(s => s.area === area).map(s => aggregateSkill(ids, s.id)).filter(x => x.attempts > 0);
-    if (!rows.length) return { seen: false, mastery: 0 };
-    return { seen: true, mastery: Math.round(rows.reduce((sum,r) => sum + r.mastery, 0) / rows.length) };
+    const rows = skills
+      .filter(skill => skill.area === area)
+      .map(skill => aggregateSkill(ids, skill.id))
+      .filter(row => row.attempts > 0 && row.pedagogy);
+    if (!rows.length) return { seen: false, label: 'Por descubrir', message: 'El diagnóstico va a dar las primeras pistas.' };
+
+    const analyses = rows.map(row => row.pedagogy);
+    const needsReview = analyses.some(analysis => analysis.trend === 'revisar' || analysis.state === 'explorando');
+    const improving = analyses.some(analysis => analysis.trend === 'mejorando');
+    const firm = analyses.filter(analysis => ['consistente', 'consolidado'].includes(analysis.state)).length;
+    if (needsReview) return { seen: true, label: improving ? 'Viene mejorando' : 'Para seguir practicando', message: improving ? 'Hay avances recientes y algunos temas para comprobar.' : 'Hay temas que necesitan un poco más de práctica.' };
+    if (firm >= Math.ceil(analyses.length * 0.6)) return { seen: true, label: 'Va muy bien', message: 'Varios temas se sostienen bien; la app los va a repasar más adelante.' };
+    return { seen: true, label: improving ? 'Viene mejorando' : 'En camino', message: improving ? 'Los últimos ejercicios muestran una mejora.' : 'Seguimos construyendo seguridad con ejercicios variados.' };
   }
 
   function totalProfileAttempts(id) { return Object.values(state.profiles[id]?.progress || {}).reduce((sum, p) => sum + (p.attempts || 0), 0); }
-  function masteryLabel(value) { if (value < 40) return 'Estoy aprendiendo'; if (value < 65) return 'Voy avanzando'; if (value < 85) return 'Lo tengo bastante claro'; return 'Lo domino'; }
-  function levelClass(value) { if (value < 40) return 'low'; if (value < 70) return 'mid'; return 'high'; }
 
   function setupSupabase() {
     const cfg = window.INGRESO_CONFIG || {};
