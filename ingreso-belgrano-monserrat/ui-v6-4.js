@@ -276,6 +276,11 @@
       });
     });
 
+    window.addEventListener('ingreso:profile-changed', event => {
+      lastSelectedProfile = event.detail?.mode || null;
+      applyProfileTheme(lastSelectedProfile);
+    });
+
     const shell = document.querySelector('#app-shell');
     if (shell) {
       new MutationObserver(() => {
