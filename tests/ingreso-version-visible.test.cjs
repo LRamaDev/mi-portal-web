@@ -16,7 +16,7 @@ const legacyFiles = [
   'choice-order-v6-8-2.js'
 ];
 
-test('la versión visible oficial es 6.15', () => {
+test('la versión visible oficial es 6.16', () => {
   assert.match(index, /<meta name="app-version" content="6\.15">/);
   assert.match(index, />Versión 6\.15<\/div>/);
 });
@@ -45,11 +45,11 @@ test('los recursos críticos usan URL versionada y el service worker prioriza la
   const app = fs.readFileSync(path.join(APP, 'app.js'), 'utf8');
   const sw = fs.readFileSync(path.join(APP, 'sw.js'), 'utf8');
 
-  for (const asset of ['app.js','testeo.js','ui-v6-4.js','adaptive-v6-8.js','choice-order-v6-8-2.js','badges-v6-9.js']) {
-    assert.ok(index.includes(`./${asset}?v=6.15`), `${asset}: debe usar URL versionada`);
+  for (const asset of ['app.js','testeo.js','ui-v6-4.js','adaptive-v6-8.js','choice-order-v6-8-2.js','badges-v6-9.js','banco-v6-16.js']) {
+    assert.ok(index.includes(`./${asset}?v=6.16`), `${asset}: debe usar URL versionada`);
   }
   assert.match(app, /serviceWorker\.register\('\.\/sw\.js\?v=6\.15'\)/);
-  assert.match(sw, /ingreso-bm-v6-15-cache-videos/);
+  assert.match(sw, /ingreso-bm-v6-16-estabilidad-y-progresion/);
   assert.match(sw, /async function networkFirst/);
   assert.match(sw, /request\.destination==='script'/);
   assert.match(sw, /request\.destination==='style'/);
