@@ -60,8 +60,10 @@ test('Contenidos permite ver el video ahí mismo y practicar la habilidad', () =
 });
 
 test('la pestaña Videos muestra todo el banco y usa el progreso sólo para ordenar', () => {
-  const source = app.match(/function renderVideos\(\) \{[\s\S]*?\n  \}(?=\n\n  function videoCardHtml)/)?.[0];
-  assert.ok(source, 'renderVideos debe estar disponible');
+  const start = app.indexOf('  function renderVideos() {');
+  const end = app.indexOf('  function videoCardHtml', start);
+  assert.ok(start >= 0 && end > start, 'renderVideos debe estar disponible');
+  const source = app.slice(start, end);
   assert.match(source, /validSkillVideos\(skill\)/);
   assert.doesNotMatch(source, /\.filter\(video => video\.perfiles/);
   assert.match(source, /Todos los videos del banco están disponibles para ambos perfiles/);
