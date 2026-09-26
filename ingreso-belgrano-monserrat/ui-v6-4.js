@@ -24,6 +24,27 @@
     };
     const clone = value => JSON.parse(JSON.stringify(value));
 
+    function mergeEvidenceRows(...lists) {
+      const byId = new Map();
+      lists.flat().filter(Boolean).forEach(event => {
+        const id = String(event?.eventId || '');
+        if (!id) return;
+        const previous = byId.get(id);
+        if (!previous || Number(event.at || 0) >= Number(previous.at || 0)) byId.set(id, clone(event));
+      });
+      return [...byId.values()].sort((a, b) => Number(a.at || 0) - Number(b.at || 0)).slice(-240);
+    }
+
+    function mergeProfilePayload(localProfile, remoteProfile, preferRemote = false) {
+      if (!localProfile && !remoteProfile) return null;
+      const primary = preferRemote ? remoteProfile : localProfile;
+      const secondary = preferRemote ? localProfile : remoteProfile;
+      const merged = clone(primary || secondary || {});
+      merged.evidence = mergeEvidenceRows(localProfile?.evidence || [], remoteProfile?.evidence || []);
+      merged.pendingEvidence = mergeEvidenceRows(localProfile?.pendingEvidence || [], remoteProfile?.pendingEvidence || []);
+      return merged;
+    }
+
     function comparableProfile(profile) {
       if (!profile || typeof profile !== 'object') return {};
       const copy = clone(profile);
@@ -99,9 +120,9 @@
           const localStamp = Number(localProfile?.updatedAt || local.updatedAt || 0);
           const remoteStamp = Number(remoteProfile?.updatedAt || 0);
 
-          if (remoteProfile && (!localProfile || remoteStamp > localStamp)) mergedProfiles[profileId] = clone(remoteProfile);
-          else if (localProfile) mergedProfiles[profileId] = clone(localProfile);
-          else if (remoteProfile) mergedProfiles[profileId] = clone(remoteProfile);
+          if (remoteProfile && localProfile) mergedProfiles[profileId] = mergeProfilePayload(localProfile, remoteProfile, remoteStamp > localStamp);
+          else if (localProfile) mergedProfiles[profileId] = mergeProfilePayload(localProfile, null, false);
+          else if (remoteProfile) mergedProfiles[profileId] = mergeProfilePayload(null, remoteProfile, true);
 
           newest = Math.max(newest, Number(mergedProfiles[profileId]?.updatedAt || 0));
           if (row?.updated_at && (!newestDbTime || row.updated_at > newestDbTime)) newestDbTime = row.updated_at;
@@ -205,7 +226,7 @@
           const localStamp = Number(next.profiles?.[profileId]?.updatedAt || next.updatedAt || 0);
           const remoteStamp = Number(row.payload.updatedAt || 0);
           if (remoteStamp > localStamp) {
-            next.profiles[profileId] = clone(row.payload);
+            next.profiles[profileId] = mergeProfilePayload(next.profiles?.[profileId] || null, row.payload, true);
             changed = true;
           }
         });
