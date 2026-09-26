@@ -54,7 +54,7 @@ test('Contenidos permite ver el video ahí mismo y practicar la habilidad', () =
   assert.match(app, /data-skill-video-stage/);
   assert.match(app, /function handleSkillResourceAction\(event\)/);
   assert.match(app, /youtube-nocookie\.com\/embed\/\$\{video\.id\}/);
-  assert.match(app, /startSession\(\{ type: 'practica', area: skill\.area, skillId \}\)/);
+  assert.match(app, /startSession\(\{ type: 'practica', area: skill\.area, skillId, origin: 'contenidos' \}\)/);
   assert.match(css, /\.skill-video-stage/);
   assert.match(css, /\.skill-practice-link/);
 });
@@ -66,7 +66,7 @@ test('la pestaña Videos muestra todo el banco y usa el progreso sólo para orde
   const source = app.slice(start, end);
   assert.match(source, /validSkillVideos\(skill\)/);
   assert.doesNotMatch(source, /\.filter\(video => video\.perfiles/);
-  assert.match(source, /Todos los videos del banco están disponibles para ambos perfiles/);
+  assert.match(source, /Todos los videos del banco están disponibles/);
   assert.match(source, /recommendedForProfile/);
 });
 
