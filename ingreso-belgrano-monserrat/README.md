@@ -41,7 +41,7 @@ Para agregar otro video, sumá una entrada a `videos` dentro de la habilidad cor
 
 `id` es el identificador de 11 caracteres de YouTube (sin parámetros de seguimiento); `titulo` debe describir lo que enseña efectivamente el video; `perfiles` indica a quién se lo sugirió (`p1`, `p2` o ambos). Se pueden incluir varios videos en un mismo contenido. Antes de publicar una nueva incorporación, comprobá que el enlace explica esa habilidad y permite reproducción integrada. El catálogo se actualiza desde la red y conserva una copia local para cuando no haya conexión.
 
-La V1 contenía 46 actividades originales. La primera etapa de V3 agregó 36 nuevas actividades, llevando el banco a **82 ejercicios**. La ampliación refuerza especialmente problemas de varios pasos, fracciones, decimales, divisibilidad, perímetros, proporcionalidad, numeración romana, operaciones combinadas, circunferencia, comprensión, inferencias, conectores, tiempos verbales, ortografía, sintaxis y producción escrita.
+La V1 contenía 46 actividades originales. El banco fue ampliándose por capas y en la V6.17 alcanzó **588 actividades efectivas**. Las ampliaciones refuerzan problemas de varios pasos, fracciones, decimales, divisibilidad, perímetros, proporcionalidad, geometría, comprensión, inferencias, conectores, tiempos verbales, ortografía, sintaxis y producción escrita.
 
 Las consignas son originales y están alineadas a los programas de ingreso 2026, modelos de examen y materiales de estudio aportados por la familia. No reproducen ni sustituyen exámenes oficiales.
 
@@ -55,9 +55,9 @@ El diagnóstico se realiza de manera individual. Parte de un conjunto de habilid
 - Se limita la cantidad de extensiones para evitar diagnósticos excesivamente largos.
 - El modo `Estudiar juntas` queda reservado a práctica; el diagnóstico y los simulacros completos son individuales para no mezclar evidencias ni puntajes.
 
-## Práctica 60 / 25 / 15
+## Práctica adaptativa V6.18
 
-Las sesiones de entrenamiento tienen ocho actividades y buscan aproximadamente esta distribución:
+Las sesiones de entrenamiento usan la evidencia pedagógica actual para decidir qué conviene presentar:
 
 La selección adaptativa prioriza:
 - habilidades con **comprobación pendiente** después de una mejora reciente;
@@ -111,7 +111,7 @@ errores antiguos no funcionan como una deuda permanente.
 
 ## Caché PWA
 
-La etapa 3 usa el caché `ingreso-bm-v3-simulacros` e incluye `simulacros.js`, para que PC y celulares reciban el nuevo motor después de recargar la aplicación.
+La V6.18 usa un caché versionado propio e incluye `pedagogy-v6-18.js`, `simulacros.js` y los módulos pedagógicos vigentes, para que PC y celulares reciban el mismo motor después de recargar la aplicación.
 
 ## Próximas mejoras
 
