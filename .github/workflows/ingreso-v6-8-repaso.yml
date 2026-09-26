@@ -11,6 +11,7 @@ on:
       - 'tests/ingreso-visitante-portal.test.cjs'
       - 'tests/ingreso-version-visible.test.cjs'
       - 'tests/ingreso-v6-12-videos.test.cjs'
+      - 'tests/ingreso-v6-16-estabilidad.test.cjs'
       - 'tools/auditar-ingreso-v6-7.cjs'
       - 'audit-bank.cjs'
       - '.github/workflows/ingreso-v6-8-repaso.yml'
@@ -42,7 +43,7 @@ jobs:
           node-version: '24'
       - name: Auditoría pedagógica V6.7
         run: node --test tests/ingreso-v6-7-auditoria.test.cjs
-      - name: Banco efectivo V6.11
+      - name: Banco efectivo V6.16
         run: node audit-bank.cjs
       - name: Repaso espaciado V6.8
         run: node --test tests/ingreso-v6-8-repaso.test.cjs
@@ -54,3 +55,5 @@ jobs:
         run: node --test tests/ingreso-version-visible.test.cjs
       - name: Videos en la app
         run: node --test tests/ingreso-v6-12-videos.test.cjs
+      - name: Estabilidad y progresión V6.16
+        run: node --test tests/ingreso-v6-16-estabilidad.test.cjs
