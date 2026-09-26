@@ -87,13 +87,13 @@ test('la bienvenida inicial queda limitada y usa estado privado por perfil', () 
   assert.match(ui, /sessionStorage/);
 });
 
-test('V6.17 conserva el motor V6.8 y carga el sistema de insignias', () => {
-  assert.match(index, /meta name="app-version" content="6\.17"/);
+test('V6.18 conserva el motor V6.8 y carga el sistema de insignias', () => {
+  assert.match(index, /meta name="app-version" content="6\.18"/);
   assert.match(index, /\.\/adaptive-v6-8\.js/);
   assert.match(index, /\.\/choice-order-v6-8-2\.js/);
   assert.match(index, /\.\/badges-v6-9\.js/);
   assert.match(index, /\.\/badges-v6-9\.css/);
-  assert.match(sw, /ingreso-bm-v6-17-guia-belgrano-2026/);
+  assert.match(sw, /ingreso-bm-v6-18-evidencia-pedagogica/);
   assert.match(sw, /adaptive-v6-8\.js/);
   assert.match(sw, /choice-order-v6-8-2\.js/);
   assert.match(sw, /badges-v6-9\.js/);
