@@ -4,7 +4,7 @@ const base=JSON.parse(fs.readFileSync(path.join(root,'data/ejercicios.json')));
 const skills=JSON.parse(fs.readFileSync(path.join(root,'data/habilidades.json'))).habilidades;
 const context={window:{fetch:async()=>new Response(JSON.stringify(base))},document:{addEventListener:()=>{}},Response,console};
 vm.createContext(context);
-for(const f of ['config.js','banco-v4.js','banco-v5.js','banco-v6.js','banco-v6-10.js','banco-v6-11.js','banco-v6-16.js','testeo.js']) if(fs.existsSync(path.join(root,f))) vm.runInContext(fs.readFileSync(path.join(root,f),'utf8'),context,{filename:f});
+for(const f of ['config.js','banco-v4.js','banco-v5.js','banco-v6.js','banco-v6-10.js','banco-v6-11.js','banco-v6-16.js','banco-v6-17-belgrano.js','testeo.js']) if(fs.existsSync(path.join(root,f))) vm.runInContext(fs.readFileSync(path.join(root,f),'utf8'),context,{filename:f});
 context.window.fetch('./data/ejercicios.json').then(r=>r.json()).then(data=>{
 const es=data.ejercicios, counts=new Map(skills.map(s=>[s.id,0]));
 for(const e of es) counts.set(e.habilidad,(counts.get(e.habilidad)||0)+1);
@@ -23,5 +23,5 @@ const longWriting=es.filter(e=>e.tipo==='selfcheck' && /\d+\s*(?:a|-|y)\s*\d+\s*
 console.log('Ejercicios activos:',es.length,'por tipo:',Object.fromEntries(['choice','input','selfcheck'].map(t=>[t,es.filter(e=>e.tipo===t).length])));
 console.log('Cobertura mínima:', [...counts].sort((a,b)=>a[1]-b[1]).slice(0,10));
 console.log('Duplicados:',duplicated,'incompletos:',invalid,'escritura larga:',longWriting);
-if(duplicated.length||invalid.length||longWriting.length||es.length!==524) process.exitCode=1;
+if(duplicated.length||invalid.length||longWriting.length||es.length!==588) process.exitCode=1;
 });

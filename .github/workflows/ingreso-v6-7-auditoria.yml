@@ -31,5 +31,5 @@ jobs:
           node-version: '24'
       - name: Auditoría V6.7
         run: node --test tests/ingreso-v6-7-auditoria.test.cjs
-      - name: Banco efectivo V6.16
+      - name: Banco efectivo V6.17
         run: node audit-bank.cjs
