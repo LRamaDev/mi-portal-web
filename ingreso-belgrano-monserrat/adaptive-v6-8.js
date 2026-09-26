@@ -7,47 +7,95 @@
     return Math.min(max, Math.max(min, value));
   }
 
-  function intervalDays(mastery, attempts = 1) {
+  function intervalDays(value, attempts = 1) {
     if (!attempts) return 0;
-    const value = Number(mastery || 0);
-    if (value < 40) return 1;
-    if (value < 65) return 2;
-    if (value < 85) return 4;
+    // Compatibilidad histórica para consumidores anteriores del helper.
+    // El repaso V6.18 usa pedagogy.nextReviewAt cuando está disponible.
+    const numeric = Number(value || 0);
+    if (numeric < 40) return 1;
+    if (numeric < 65) return 2;
+    if (numeric < 85) return 4;
     return 7;
+  }
+
+  function pedagogicalIntervalDays(pedagogy) {
+    if (!pedagogy) return 1;
+    if (pedagogy.state === 'consolidado') return 7;
+    if (pedagogy.state === 'consistente') return 3;
+    if (pedagogy.state === 'en_desarrollo') return 1;
+    if (pedagogy.state === 'explorando') return 1;
+    return 0;
   }
 
   function profileReviewStatus(progress, now = Date.now()) {
     const attempts = Number(progress?.attempts || 0);
-    const mastery = Number(progress?.mastery || 0);
-    if (!attempts) {
+    const pedagogy = progress?.pedagogy || null;
+    if (!attempts && !pedagogy) {
       return {
         attempts: 0,
-        mastery: 0,
         unseen: true,
         due: false,
+        needsVerification: false,
+        state: 'sin_evidencia',
+        trend: 'estable',
+        confidence: 'baja',
         intervalDays: 0,
         ageDays: 0,
         ratio: 0,
         overdueDays: 0,
-        daysUntilDue: 0
+        daysUntilDue: 0,
+        nextReviewAt: null
       };
     }
 
-    const interval = intervalDays(mastery, attempts);
+    if (pedagogy) {
+      const lastAt = Number(pedagogy.lastEvidenceAt || progress?.lastAt || 0);
+      const ageDays = lastAt > 0 ? Math.max(0, (now - lastAt) / DAY_MS) : 999;
+      const nextReviewAt = Number(pedagogy.nextReviewAt || 0) || null;
+      const dueByTime = Boolean(nextReviewAt && now >= nextReviewAt);
+      const needsVerification = Boolean(pedagogy.needsVerification);
+      const due = needsVerification || dueByTime;
+      const interval = pedagogicalIntervalDays(pedagogy);
+      const daysUntilDue = nextReviewAt ? Math.max(0, (nextReviewAt - now) / DAY_MS) : 0;
+      const overdueDays = nextReviewAt && dueByTime ? Math.max(0, (now - nextReviewAt) / DAY_MS) : 0;
+      return {
+        attempts,
+        unseen: pedagogy.state === 'sin_evidencia',
+        due,
+        needsVerification,
+        state: pedagogy.state || 'en_desarrollo',
+        trend: pedagogy.trend || 'estable',
+        confidence: pedagogy.confidence || 'baja',
+        intervalDays: interval,
+        ageDays,
+        ratio: interval ? ageDays / interval : 0,
+        overdueDays,
+        daysUntilDue,
+        nextReviewAt,
+        retentionVerified: Boolean(pedagogy.retentionVerified)
+      };
+    }
+
+    // Fallback de transición para perfiles que todavía no fueron hidratados por
+    // pedagogy-v6-18.js. No se usa para declarar dominio nuevo.
+    const legacyInterval = intervalDays(progress?.mastery, attempts);
     const lastAt = Number(progress?.lastAt || 0);
     const ageDays = lastAt > 0 ? Math.max(0, (now - lastAt) / DAY_MS) : 999;
-    const ratio = interval ? ageDays / interval : 0;
-    const due = ageDays >= interval;
+    const due = ageDays >= legacyInterval;
     return {
       attempts,
-      mastery,
       unseen: false,
       due,
-      intervalDays: interval,
+      needsVerification: false,
+      state: attempts <= 2 ? 'explorando' : 'en_desarrollo',
+      trend: 'estable',
+      confidence: attempts >= 4 ? 'media' : 'baja',
+      intervalDays: legacyInterval,
       ageDays,
-      ratio,
-      overdueDays: due ? Math.max(0, ageDays - interval) : 0,
-      daysUntilDue: due ? 0 : Math.max(0, interval - ageDays)
+      ratio: legacyInterval ? ageDays / legacyInterval : 0,
+      overdueDays: due ? Math.max(0, ageDays - legacyInterval) : 0,
+      daysUntilDue: due ? 0 : Math.max(0, legacyInterval - ageDays),
+      nextReviewAt: lastAt ? lastAt + legacyInterval * DAY_MS : null
     };
   }
 
@@ -62,8 +110,11 @@
         needsExposure: unseenProfiles > 0,
         unseenProfiles,
         due: false,
+        needsVerification: false,
         dueProfiles: 0,
-        mastery: 0,
+        state: 'sin_evidencia',
+        trend: 'estable',
+        confidence: 'baja',
         maxRatio: 0,
         maxOverdueDays: 0,
         nextDueDays: 0
@@ -71,32 +122,53 @@
     }
 
     const dueRows = attempted.filter(status => status.due);
+    const stateRank = { sin_evidencia:0, explorando:1, en_desarrollo:2, consistente:3, consolidado:4 };
+    const confidenceRank = { baja:0, media:1, alta:2 };
+    const weakest = [...attempted].sort((a,b) => (stateRank[a.state] ?? 0) - (stateRank[b.state] ?? 0))[0];
+    const confidence = [...attempted].sort((a,b) => (confidenceRank[a.confidence] ?? 0) - (confidenceRank[b.confidence] ?? 0))[0]?.confidence || 'baja';
+    const trend = attempted.some(status => status.trend === 'revisar')
+      ? 'revisar'
+      : attempted.some(status => status.trend === 'mejorando') ? 'mejorando' : 'estable';
+
     return {
       unseen: false,
       needsExposure: unseenProfiles > 0,
       unseenProfiles,
       due: dueRows.length > 0,
+      needsVerification: attempted.some(status => status.needsVerification),
       dueProfiles: dueRows.length,
-      mastery: Math.round(attempted.reduce((sum, status) => sum + status.mastery, 0) / attempted.length),
-      maxRatio: Math.max(...attempted.map(status => status.ratio)),
-      maxOverdueDays: dueRows.length ? Math.max(...dueRows.map(status => status.overdueDays)) : 0,
-      nextDueDays: dueRows.length ? 0 : Math.min(...attempted.map(status => status.daysUntilDue))
+      state: weakest?.state || 'en_desarrollo',
+      trend,
+      confidence,
+      maxRatio: Math.max(...attempted.map(status => status.ratio || 0)),
+      maxOverdueDays: dueRows.length ? Math.max(...dueRows.map(status => status.overdueDays || 0)) : 0,
+      nextDueDays: dueRows.length ? 0 : Math.min(...attempted.map(status => status.daysUntilDue || 0))
     };
   }
 
   function priorityAdjustment(status, coverageBonus = 0) {
     const coverage = Number(coverageBonus || 0);
     if (!status) return coverage;
-    if (status.unseen) return coverage + 1.25;
+    if (status.unseen) return coverage + 1.5;
 
-    let adjustment = coverage;
-    if (status.needsExposure) adjustment += 1.5;
-    if (status.due) adjustment += clamp(1 + Math.max(0, status.maxRatio - 1) * 1.75, 1, 5);
-    else adjustment -= clamp((1 - status.maxRatio) * 1.5, 0, 1.5);
+    const stateBonus = {
+      sin_evidencia: 1.5,
+      explorando: 2.5,
+      en_desarrollo: 3.5,
+      consistente: 0.5,
+      consolidado: -0.5
+    }[status.state] ?? 1;
+
+    let adjustment = coverage + stateBonus;
+    if (status.needsExposure) adjustment += 1;
+    if (status.needsVerification) adjustment += 3;
+    else if (status.due) adjustment += 2;
+    if (status.trend === 'mejorando') adjustment += 1.25;
+    if (status.trend === 'revisar') adjustment += 2;
     return adjustment;
   }
 
-  const core = { DAY_MS, intervalDays, profileReviewStatus, aggregateReviewStatus, priorityAdjustment };
+  const core = { DAY_MS, intervalDays, pedagogicalIntervalDays, profileReviewStatus, aggregateReviewStatus, priorityAdjustment };
 
   if (typeof module !== 'undefined' && module.exports) {
     module.exports = core;
@@ -254,9 +326,12 @@
   }
 
   function reviewLabel(row) {
-    if (row.status.needsExposure && runtime.activeMode === 'together') return 'Falta verlo en un perfil';
-    if (row.status.maxOverdueDays >= 1) return `${Math.floor(row.status.maxOverdueDays)} d de atraso`;
-    return 'Repasar hoy';
+    if (row.status.needsExposure && runtime.activeMode === 'together') return 'Queda por explorar';
+    if (row.status.needsVerification) return 'Conviene comprobarlo';
+    if (row.status.state === 'consistente') return 'Hora de volver a probarlo';
+    if (row.status.state === 'consolidado') return 'Repaso de mantenimiento';
+    if (row.status.trend === 'mejorando') return 'Viene mejorando';
+    return 'Conviene practicarlo';
   }
 
   function ensureReviewSummary() {
@@ -287,38 +362,42 @@
     const rows = reviewRows();
     const due = rows
       .filter(row => !row.status.unseen && row.status.due)
-      .sort((a, b) => (b.status.maxRatio - a.status.maxRatio) || ((b.skill.__v68BasePriority || 3) - (a.skill.__v68BasePriority || 3)));
-    const exposure = runtime.activeMode === 'together'
-      ? rows.filter(row => row.status.needsExposure && !row.status.unseen && !row.status.due)
-      : [];
-    const suggestions = [...due, ...exposure].slice(0, 4);
+      .sort((a, b) => priorityAdjustment(b.status) - priorityAdjustment(a.status));
+    const verification = rows
+      .filter(row => row.status.needsVerification && !row.status.unseen)
+      .sort((a, b) => priorityAdjustment(b.status) - priorityAdjustment(a.status));
+    const suggestions = [...verification, ...due.filter(row => !verification.includes(row))].slice(0, 4);
 
     const recommended = document.querySelector('#start-recommended');
     if (recommended && runtime.activeMode !== 'together') {
       recommended.textContent = diagnosticsReady
-        ? (due.length ? `Repaso de hoy · ${due.length}` : 'Empezar entrenamiento')
+        ? (suggestions.length ? 'Continuar mi entrenamiento' : 'Empezar entrenamiento')
         : 'Empezar diagnóstico';
     }
 
-    if (!diagnosticsReady && runtime.activeMode !== 'together') {
+    if (runtime.activeMode === 'together') {
       summary.innerHTML = `
-        <div class="v68-review-head"><div><span class="v68-review-icon">↻</span><strong>Repaso espaciado</strong></div><span class="v68-review-count">Después del diagnóstico</span></div>
-        <p>Primero completá el diagnóstico. Con esas primeras evidencias la app va a decidir cuándo conviene volver sobre cada habilidad.</p>`;
+        <div class="v68-review-head"><div><span class="v68-review-icon">↻</span><strong>Repaso espaciado</strong></div><span class="v68-review-count">Práctica compartida</span></div>
+        <p>La app alterna contenidos sin mostrar el estado individual de un perfil al otro. Cada respuesta se guarda en su propio recorrido.</p>`;
       return;
     }
 
-    const lead = due.length
-      ? `${due.length} habilidad${due.length === 1 ? '' : 'es'} ${due.length === 1 ? 'está' : 'están'} lista${due.length === 1 ? '' : 's'} para repasar hoy.`
-      : 'No hay repasos vencidos. Podés seguir practicando sin concentrar todo en lo mismo.';
-    const togetherNote = runtime.activeMode === 'together'
-      ? ' En modo juntas se prioriza una habilidad si cualquiera de los dos perfiles la tiene pendiente o todavía no la trabajó.'
-      : '';
+    if (!diagnosticsReady) {
+      summary.innerHTML = `
+        <div class="v68-review-head"><div><span class="v68-review-icon">↻</span><strong>Repaso espaciado</strong></div><span class="v68-review-count">Después del diagnóstico</span></div>
+        <p>Primero completá el diagnóstico. Después la app va a volver a cada tema cuando haya una buena razón pedagógica para hacerlo.</p>`;
+      return;
+    }
+
+    const lead = suggestions.length
+      ? 'Hay temas que conviene retomar o comprobar ahora.'
+      : 'Por ahora podés seguir practicando sin concentrarte siempre en lo mismo.';
 
     summary.innerHTML = `
-      <div class="v68-review-head"><div><span class="v68-review-icon">↻</span><strong>Repaso espaciado</strong></div><span class="v68-review-count">${due.length ? `${due.length} para hoy` : 'Al día'}</span></div>
-      <p>${lead}${togetherNote}</p>
+      <div class="v68-review-head"><div><span class="v68-review-icon">↻</span><strong>Repaso espaciado</strong></div><span class="v68-review-count">${suggestions.length ? 'Buen momento para repasar' : 'En camino'}</span></div>
+      <p>${lead}</p>
       ${suggestions.length ? `<div class="v68-review-chips">${suggestions.map(row => `<span><b>${escapeHtml(row.skill.nombre)}</b><small>${reviewLabel(row)}</small></span>`).join('')}</div>` : ''}
-      <small class="v68-review-help">La app vuelve antes a lo que cuesta (aprox. 1–2 días) y separa más los repasos de lo que ya está firme (4–7 días). Estos intervalos son una decisión pedagógica interna de la app.</small>`;
+      <small class="v68-review-help">Cuando un tema empieza a salir bien, la app lo comprueba con otra consigna y luego lo deja descansar antes de verificar si se mantiene.</small>`;
   }
 
   function scheduleRender(delay = 0) {

@@ -18,7 +18,7 @@ test('el parche de opciones tiene sintaxis válida y está cargado', () => {
   assert.equal(result.status, 0, result.stderr || result.stdout);
   assert.match(index, /\.\/choice-order-v6-8-2\.js/);
   assert.match(sw, /choice-order-v6-8-2\.js/);
-  assert.match(sw, /ingreso-bm-v6-17-guia-belgrano-2026/);
+  assert.match(sw, /ingreso-bm-v6-18-evidencia-pedagogica/);
 });
 
 test('shuffleArray no modifica el banco original ni pierde opciones', () => {

@@ -179,3 +179,8 @@ button:focus-visible,input:focus-visible,summary:focus-visible,a:focus-visible{o
 }
 
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
+
+/* V6.18 · seguimiento cualitativo: sin barras ni porcentajes para alumnas */
+.qualitative-progress-row{grid-template-columns:minmax(150px,.7fr) minmax(0,1.5fr) auto}
+.qualitative-progress-row small{text-align:left;line-height:1.45}
+@media(max-width:620px){.qualitative-progress-row{grid-template-columns:1fr}.qualitative-progress-row .level{justify-self:start}}

@@ -33,12 +33,12 @@ test('el perfil activo se conserva localmente y la sincronización no recarga la
   assert.match(syncUi, /ingreso:remote-state-updated/);
 });
 
-test('la práctica evita repeticiones semánticas y ajusta dificultad por respuestas recientes', () => {
+test('la práctica evita repeticiones semánticas y usa la evidencia pedagógica para la dificultad', () => {
   assert.match(app, /function exerciseFingerprint\(e\)/);
   assert.match(app, /function dedupeExercises\(list\)/);
   assert.match(app, /usedExerciseFingerprintsRecently/);
-  assert.match(app, /recent\.slice\(-3\)\.every\(Boolean\)/);
-  assert.match(app, /recent\.slice\(-2\)\.every\(value => value === false\)/);
+  assert.match(app, /analysis\?\.needsVerification/);
+  assert.match(app, /agg\?\.pedagogy\?\.preferredDifficulty/);
   assert.match(sim, /usedFingerprints/);
   assert.match(sim, /exerciseFingerprint\(e\)/);
 });
@@ -76,8 +76,8 @@ test('las insignias incorporan progreso, videos, dificultad y superación', () =
     sessions: 20,
     videoLearning: { viewed:['MAT-X:a','LEN-X:b','MAT-Y:c'], practiced:['MAT-X','LEN-X','MAT-Y'] },
     progress: {
-      'MAT-X': {attempts:8,correct:7,mastery:86,lowestMastery:55,maxDifficultyCorrect:4},
-      'LEN-X': {attempts:8,correct:7,mastery:84,lowestMastery:60,maxDifficultyCorrect:4}
+      'MAT-X': {attempts:8,correct:7,mastery:86,lowestMastery:55,maxDifficultyCorrect:4,pedagogy:{state:'consistente',legacyAttempts:8,historicalAccuracy:50}},
+      'LEN-X': {attempts:8,correct:7,mastery:84,lowestMastery:60,maxDifficultyCorrect:4,pedagogy:{state:'consistente',legacyAttempts:8,historicalAccuracy:50}}
     },
     history: [{at:Date.now(),type:'simulacro',school:'belgrano',score:92,total:100,fullExam:true}]
   };

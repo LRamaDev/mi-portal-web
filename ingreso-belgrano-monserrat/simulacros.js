@@ -2,7 +2,7 @@
   'use strict';
 
   const STORAGE_KEY = 'ingreso-belgrano-monserrat-v1';
-  const APP_VERSION = 3;
+  const APP_VERSION = 4;
   const REPEAT_COOLDOWN_DAYS = 7;
   const DAY_MS = 86400000;
   const SCHOOL_LABEL = { belgrano: 'Manuel Belgrano', monserrat: 'Monserrat' };
@@ -125,7 +125,7 @@
     sim = {
       stage: 'intro', school, area, blueprint,
       entries: [], index: 0, answers: [], finished: false,
-      startedAt: 0
+      startedAt: 0, currentStartedAt: 0
     };
     const dialog = $('#full-sim-dialog');
     $('#fs-mode').textContent = `${SCHOOL_LABEL[school]} · ${AREA_LABEL[area]}`;
@@ -285,6 +285,7 @@
     if (!entry) return finishSimulation();
     const e = entry.exercise;
     sim.stage = 'question';
+    sim.currentStartedAt = Date.now();
     $('#fs-progress').textContent = `${sim.index + 1} de ${sim.entries.length} · ${entry.points} pts`;
     $('#fs-progress-bar').style.width = `${(sim.index / sim.entries.length) * 100}%`;
     $('#fs-tags').innerHTML = `<span class="exercise-tag">${escapeHtml(entry.block)}</span><span class="exercise-tag">${entry.points} puntos</span><span class="exercise-tag">${difficultyLabel(e.dificultad)}</span>`;
@@ -391,7 +392,7 @@
       at: Date.now(), type: 'simulacro', area: sim.area, school: sim.school,
       score: earned, total: 100, fullExam: true,
       durationMinutes: Math.max(1, Math.round((Date.now() - sim.startedAt) / 60000))
-    }].slice(-60);
+    }];
     saveState(state);
     await syncRemoteNow(state);
 
@@ -448,25 +449,40 @@
     sim = null;
   }
 
+  function skillMaxDifficulty(skillId) {
+    const values = (bank?.exercises || []).filter(exercise => exercise.habilidad === skillId).map(exercise => Number(exercise.dificultad || 1));
+    return values.length ? Math.max(...values) : 4;
+  }
+
   function updateProgress(exercise, correct, weight = 1) {
     const state = loadState();
     const profile = state.profiles[activeMode];
-    const prev = profile.progress[exercise.habilidad] || { attempts: 0, correct: 0, mastery: 0, lastAt: 0 };
-    let evidence = correct ? 52 + (exercise.dificultad || 2) * 10 : Math.max(8, 38 - (exercise.dificultad || 2) * 4);
-    evidence = Math.round(evidence * weight);
-    const mastery = prev.attempts === 0 ? evidence : Math.round(prev.mastery * .68 + evidence * .32);
-    const nextMastery = clamp(mastery, 0, 100);
-    const recent = [...(Array.isArray(prev.recent) ? prev.recent : []), Boolean(correct)].slice(-4);
-    const previousLow = Number.isFinite(Number(prev.lowestMastery)) ? Number(prev.lowestMastery) : Number(prev.mastery || nextMastery);
-    profile.progress[exercise.habilidad] = {
-      attempts: prev.attempts + 1,
-      correct: prev.correct + (correct ? 1 : 0),
-      mastery: nextMastery,
-      lastAt: Date.now(),
-      recent,
-      lowestMastery: Math.min(previousLow, nextMastery),
-      maxDifficultyCorrect: Math.max(Number(prev.maxDifficultyCorrect || 0), correct ? Number(exercise.dificultad || 1) : 0)
-    };
+    const engine = window.IngresoPedagogy;
+    if (!engine || !profile) return;
+
+    profile.evidence ||= [];
+    profile.pendingEvidence ||= [];
+    const analysisBefore = engine.ensureAnalysis(profile, exercise.habilidad, { maxDifficulty: skillMaxDifficulty(exercise.habilidad) });
+    const now = Date.now();
+    const purpose = engine.derivePurpose(analysisBefore, {
+      sessionType: 'simulacro',
+      difficulty: exercise.dificultad || 2,
+      now
+    });
+    const event = engine.createEvidence({
+      profileId: activeMode,
+      exercise,
+      correct,
+      hintUsed: false,
+      sessionType: 'simulacro',
+      origin: 'simulacro',
+      purpose,
+      durationMs: sim?.currentStartedAt ? now - sim.currentStartedAt : null,
+      evaluationWeight: weight,
+      school: sim?.school || null,
+      at: now
+    });
+    engine.applyAttempt(profile, exercise, event, { maxDifficulty: skillMaxDifficulty(exercise.habilidad) });
     markExerciseUsedToday(state, activeMode, exercise.id);
     saveState(state);
   }
@@ -503,9 +519,11 @@
     parsed.profiles ||= {};
     parsed.dailyExerciseLog ||= {};
     for (const id of ['p1', 'p2']) {
-      parsed.profiles[id] ||= { name: id === 'p1' ? 'Perfil 1' : 'Perfil 2', progress: {}, history: [], sessions: 0 };
+      parsed.profiles[id] ||= { name: id === 'p1' ? 'Perfil 1' : 'Perfil 2', progress: {}, history: [], evidence: [], pendingEvidence: [], sessions: 0 };
       parsed.profiles[id].progress ||= {};
       parsed.profiles[id].history ||= [];
+      parsed.profiles[id].evidence ||= [];
+      parsed.profiles[id].pendingEvidence ||= [];
       parsed.profiles[id].sessions ||= 0;
     }
     return parsed;
@@ -525,6 +543,29 @@
     return state;
   }
 
+  function evidenceDbRow(userId, event) {
+    return {
+      event_id: event.eventId,
+      user_id: userId,
+      profile_id: event.profileId,
+      occurred_at: new Date(event.at).toISOString(),
+      exercise_id: event.exerciseId,
+      skill_id: event.skillId,
+      area: event.area,
+      school: event.school,
+      difficulty: event.difficulty,
+      correct: event.correct,
+      hint_used: event.hintUsed,
+      autonomous: event.autonomous,
+      context: event.context,
+      origin: event.origin,
+      purpose: event.purpose,
+      duration_ms: event.durationMs,
+      evaluation_mode: event.evaluationMode,
+      evaluation_weight: event.evaluationWeight
+    };
+  }
+
   async function syncRemoteNow(state) {
     try {
       if (!window.supabase || !window.INGRESO_CONFIG?.supabaseUrl || !window.INGRESO_CONFIG?.supabaseAnonKey) return;
@@ -532,6 +573,25 @@
       const { data } = await client.auth.getSession();
       const user = data.session?.user;
       if (!user) return;
+
+      const pending = ['p1','p2'].flatMap(id => state.profiles[id]?.pendingEvidence || []);
+      if (pending.length) {
+        const unique = [...new Map(pending.map(event => [event.eventId, event])).values()];
+        const { error: evidenceError } = await client.from('study_attempt_evidence').upsert(
+          unique.map(event => evidenceDbRow(user.id, event)),
+          { onConflict: 'event_id', ignoreDuplicates: true }
+        );
+        if (!evidenceError) {
+          const ids = new Set(unique.map(event => event.eventId));
+          ['p1','p2'].forEach(id => {
+            state.profiles[id].pendingEvidence = (state.profiles[id].pendingEvidence || []).filter(event => !ids.has(event.eventId));
+          });
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+        } else {
+          console.warn('[Simulacros v6.18] Evidencias pendientes de sincronizar', evidenceError);
+        }
+      }
+
       await client.from('study_state').upsert({ user_id: user.id, payload: state, updated_at: new Date().toISOString() }, { onConflict: 'user_id' });
     } catch (error) {
       console.error('[Simulacros] Error de sincronización', error);

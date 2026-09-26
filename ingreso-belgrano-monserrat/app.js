@@ -1,7 +1,7 @@
 (() => {
   'use strict';
 
-  const APP_VERSION = 3;
+  const APP_VERSION = 4;
   const STORAGE_KEY = 'ingreso-belgrano-monserrat-v1';
   const ACTIVE_MODE_KEY = 'ingreso-active-profile-v1';
   const ACTIVE_VIEW_KEY = 'ingreso-active-view-v1';
@@ -12,8 +12,8 @@
     updatedAt: 0,
     dailyExerciseLog: {},
     profiles: {
-      p1: { name: 'Perfil 1', progress: {}, history: [], sessions: 0 },
-      p2: { name: 'Perfil 2', progress: {}, history: [], sessions: 0 }
+      p1: { name: 'Perfil 1', progress: {}, history: [], evidence: [], pendingEvidence: [], sessions: 0 },
+      p2: { name: 'Perfil 2', progress: {}, history: [], evidence: [], pendingEvidence: [], sessions: 0 }
     }
   };
 
@@ -37,7 +37,7 @@
     try {
       // La URL cambia con la versión: evita que un service worker anterior entregue
       // habilidades sin videos durante la primera visita tras una actualización.
-      const releaseVersion = document.querySelector('meta[name="app-version"]')?.content || '6.17';
+      const releaseVersion = document.querySelector('meta[name="app-version"]')?.content || '6.18';
       const [skillsData, exerciseData] = await Promise.all([
         fetch(`./data/habilidades.json?v=${encodeURIComponent(releaseVersion)}`, { cache: 'no-store' }).then(r => { if (!r.ok) throw new Error('habilidades'); return r.json(); }),
         fetch('./data/ejercicios.json').then(r => { if (!r.ok) throw new Error('ejercicios'); return r.json(); })
@@ -45,6 +45,7 @@
       skills = skillsData.habilidades || [];
       exercises = exerciseData.ejercicios || [];
       skillsById = new Map(skills.map(s => [s.id, s]));
+      rebuildPedagogySnapshots();
     } catch (error) {
       console.error(error);
       toast('No se pudieron cargar los contenidos. Recargá la página.');
@@ -54,7 +55,7 @@
     refreshGateNames();
     restoreActiveContext();
     setupSupabase();
-    if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js?v=6.17').catch(() => {});
+    if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js?v=6.18').catch(() => {});
   }
 
   function bindUI() {
@@ -63,9 +64,9 @@
     $('#active-profile').addEventListener('click', leaveProfile);
     $$('[data-nav]').forEach(btn => btn.addEventListener('click', e => { e.preventDefault(); navigate(btn.dataset.nav); }));
     $('#start-recommended').addEventListener('click', startRecommended);
-    $('#start-diagnostic').addEventListener('click', () => startSession({ type: 'diagnostico', area: 'all' }));
-    $$('[data-practice]').forEach(btn => btn.addEventListener('click', () => startSession({ type: 'practica', area: btn.dataset.practice })));
-    $$('[data-sim-school]').forEach(btn => btn.addEventListener('click', () => startSession({ type: 'simulacro', area: btn.dataset.simArea, school: btn.dataset.simSchool })));
+    $('#start-diagnostic').addEventListener('click', () => startSession({ type: 'diagnostico', area: 'all', origin: 'manual' }));
+    $('[data-practice]').forEach(btn => btn.addEventListener('click', () => startSession({ type: 'practica', area: btn.dataset.practice, origin: 'manual' })));
+    $('[data-sim-school]').forEach(btn => btn.addEventListener('click', () => startSession({ type: 'simulacro', area: btn.dataset.simArea, school: btn.dataset.simSchool, origin: 'simulacro' })));
     $$('[data-skill-filter]').forEach(btn => btn.addEventListener('click', () => {
       $$('[data-skill-filter]').forEach(x => x.classList.remove('active'));
       btn.classList.add('active');
@@ -100,8 +101,8 @@
       version: APP_VERSION,
       dailyExerciseLog: normalizeDailyExerciseLog(parsed.dailyExerciseLog),
       profiles: {
-        p1: { ...base.profiles.p1, ...(parsed.profiles?.p1 || {}), progress: { ...(parsed.profiles?.p1?.progress || {}) }, history: [...(parsed.profiles?.p1?.history || [])] },
-        p2: { ...base.profiles.p2, ...(parsed.profiles?.p2 || {}), progress: { ...(parsed.profiles?.p2?.progress || {}) }, history: [...(parsed.profiles?.p2?.history || [])] }
+        p1: { ...base.profiles.p1, ...(parsed.profiles?.p1 || {}), progress: { ...(parsed.profiles?.p1?.progress || {}) }, history: [...(parsed.profiles?.p1?.history || [])], evidence: [...(parsed.profiles?.p1?.evidence || [])], pendingEvidence: [...(parsed.profiles?.p1?.pendingEvidence || [])] },
+        p2: { ...base.profiles.p2, ...(parsed.profiles?.p2 || {}), progress: { ...(parsed.profiles?.p2?.progress || {}) }, history: [...(parsed.profiles?.p2?.history || [])], evidence: [...(parsed.profiles?.p2?.evidence || [])], pendingEvidence: [...(parsed.profiles?.p2?.pendingEvidence || [])] }
       }
     };
   }
@@ -216,12 +217,70 @@
   function refreshStateFromStorage() {
     const previousMode = activeMode;
     state = loadLocalState();
+    rebuildPedagogySnapshots();
     refreshGateNames();
     if (previousMode) {
       activeMode = previousMode;
       updateActiveProfilePill();
       renderAll({ preserveVideoPlayer: true });
     }
+  }
+
+  function skillMaxDifficulty(skillId) {
+    const values = exercises.filter(exercise => exercise.habilidad === skillId).map(exercise => Number(exercise.dificultad || 1));
+    return values.length ? Math.max(...values) : 4;
+  }
+
+  function rebuildPedagogySnapshots() {
+    const engine = window.IngresoPedagogy;
+    if (!engine) return false;
+    let changed = false;
+    ['p1', 'p2'].forEach(profileId => {
+      const profile = state.profiles[profileId];
+      profile.evidence ||= [];
+      profile.pendingEvidence ||= [];
+      const skillIds = new Set([
+        ...Object.keys(profile.progress || {}),
+        ...profile.evidence.map(event => event?.skillId).filter(Boolean)
+      ]);
+      skillIds.forEach(skillId => {
+        const before = JSON.stringify(profile.progress[skillId]?.pedagogy || null);
+        engine.ensureAnalysis(profile, skillId, { maxDifficulty: skillMaxDifficulty(skillId) });
+        if (JSON.stringify(profile.progress[skillId]?.pedagogy || null) !== before) changed = true;
+      });
+    });
+    if (changed) localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    return changed;
+  }
+
+  function skillAnalysis(profileId, skillId) {
+    const engine = window.IngresoPedagogy;
+    const profile = state.profiles[profileId];
+    if (!engine || !profile) return null;
+    return engine.ensureAnalysis(profile, skillId, { maxDifficulty: skillMaxDifficulty(skillId) });
+  }
+
+  function analysisFeedback(analysis) {
+    return analysis?.qualitative || 'Todavía no trabajamos suficiente este tema.';
+  }
+
+  function learnerStatusShort(analysis) {
+    if (!analysis || analysis.state === 'sin_evidencia') return 'Por descubrir';
+    if (analysis.state === 'explorando') return analysis.trend === 'mejorando' ? 'Buen comienzo' : 'Empezando';
+    if (analysis.state === 'en_desarrollo') {
+      if (analysis.trend === 'mejorando') return 'Viene mejorando';
+      if (analysis.trend === 'revisar') return 'Para practicar';
+      return 'Avanzando';
+    }
+    if (analysis.state === 'consistente') return 'Muy bien';
+    return 'Firme';
+  }
+
+  function analysisLevelClass(analysis) {
+    const stateName = analysis?.state;
+    if (stateName === 'consolidado' || stateName === 'consistente') return 'high';
+    if (stateName === 'en_desarrollo') return 'mid';
+    return stateName === 'sin_evidencia' ? 'unseen' : 'low';
   }
 
   function activeProfileIds() {
@@ -279,7 +338,8 @@
 
     renderAreaStat('math', aggregateArea(ids, 'matematica'));
     renderAreaStat('lang', aggregateArea(ids, 'lengua'));
-    $('#stat-sessions').textContent = ids.reduce((sum, id) => sum + (state.profiles[id].sessions || 0), 0);
+    const ownSessions = activeMode === 'together' ? 0 : (state.profiles[primaryProfileId()].sessions || 0);
+    $('#stat-sessions').textContent = activeMode === 'together' ? 'Juntas' : ownSessions ? 'En marcha' : 'Empezando';
     renderPriorities(ids);
     renderNextStep(ids, needsDiagnostic);
     renderWeeklyMission(ids);
@@ -312,7 +372,8 @@
   }
 
   function balanceRecommendation() {
-    const profile = state.profiles[activeMode === 'together' ? 'p1' : primaryProfileId()];
+    if (activeMode === 'together') return null;
+    const profile = state.profiles[primaryProfileId()];
     const sessions = (profile?.history || []).filter(item => item.type !== 'diagnostico' && ['matematica', 'lengua'].includes(item.area));
     const recent = sessions.filter(item => item.at >= weekStart());
     const lastTwo = sessions.slice(-2);
@@ -324,8 +385,8 @@
     }
     const math = recent.filter(item => item.area === 'matematica').length;
     const lang = recent.filter(item => item.area === 'lengua').length;
-    if (math - lang >= 2) return { area: 'lengua', source: 'matematica', reason: 'week', message: `Esta semana hubo ${math} sesión${math === 1 ? '' : 'es'} de Matemática y ${lang} de Lengua. Conviene alternar con Lengua.` };
-    if (lang - math >= 2) return { area: 'matematica', source: 'lengua', reason: 'week', message: `Esta semana hubo ${lang} sesión${lang === 1 ? '' : 'es'} de Lengua y ${math} de Matemática. Conviene alternar con Matemática.` };
+    if (math - lang >= 2) return { area: 'lengua', source: 'matematica', reason: 'week', message: 'Esta semana practicaste bastante más Matemática. Conviene alternar con Lengua.' };
+    if (lang - math >= 2) return { area: 'matematica', source: 'lengua', reason: 'week', message: 'Esta semana practicaste bastante más Lengua. Conviene alternar con Matemática.' };
     return null;
   }
 
@@ -356,46 +417,59 @@
   function renderWeeklyMission(ids) {
     const container = $('#weekly-mission');
     if (!container || !ids.length) return;
+    if (activeMode === 'together') {
+      container.innerHTML = '<div class="weekly-mission-icon" aria-hidden="true">✦</div><div><p class="eyebrow">Constancia</p><h3>Sesión compartida</h3><p>Alternen los turnos y dejen que cada respuesta quede en su propio recorrido.</p></div>';
+      return;
+    }
     const start = weekStart();
-    const completed = ids.reduce((total, id) => total + (state.profiles[id].history || []).filter(item => item.at >= start).length, 0);
-    const target = activeMode === 'together' ? 4 : 3;
-    const remaining = Math.max(0, target - completed);
-    const title = remaining ? `Misión de la semana · ${completed}/${target}` : 'Misión de la semana cumplida';
-    const message = remaining
-      ? `Completá ${remaining} sesión${remaining === 1 ? '' : 'es'} más. Cuenta practicar, repasar o hacer un simulacro.`
-      : '¡Muy bien! Podés seguir practicando, pero ya cumpliste tu objetivo de constancia.';
-    container.innerHTML = `<div class="weekly-mission-icon" aria-hidden="true">✦</div><div><p class="eyebrow">Constancia</p><h3>${title}</h3><p>${message}</p></div><span class="weekly-mission-count">${completed}/${target}</span>`;
+    const completed = (state.profiles[primaryProfileId()].history || []).filter(item => item.at >= start).length;
+    const target = 3;
+    const done = completed >= target;
+    const title = done ? 'Misión de la semana cumplida' : completed ? 'Misión en marcha' : 'Empezá tu misión semanal';
+    const message = done
+      ? '¡Muy bien! Ya sostuviste una buena continuidad esta semana.'
+      : 'Seguí alternando prácticas, repasos y simulacros. La constancia vale más que hacer todo de una vez.';
+    container.innerHTML = `<div class="weekly-mission-icon" aria-hidden="true">✦</div><div><p class="eyebrow">Constancia</p><h3>${title}</h3><p>${message}</p></div>`;
   }
 
   function renderAreaStat(suffix, summary) {
     const main = $(`#stat-${suffix}`);
     const note = $(`#stat-${suffix}-note`);
-    if (!summary.seen) {
-      main.textContent = 'Sin evaluar';
-      note.textContent = 'Hacé el diagnóstico inicial';
+    if (activeMode === 'together') {
+      main.textContent = 'Práctica compartida';
+      note.textContent = 'Cada perfil conserva su recorrido por separado';
       return;
     }
-    main.textContent = masteryLabel(summary.mastery);
-    note.textContent = `${summary.mastery}% de dominio estimado`;
+    if (!summary.seen) {
+      main.textContent = 'Por descubrir';
+      note.textContent = 'El diagnóstico va a dar las primeras pistas';
+      return;
+    }
+    main.textContent = summary.label;
+    note.textContent = summary.message;
   }
 
   function renderPriorities(ids) {
     const container = $('#priority-list');
+    if (activeMode === 'together') {
+      container.innerHTML = '<div class="priority-item"><div><strong>Práctica compartida</strong><small>La app alterna contenidos sin mostrar ni comparar el recorrido individual de cada perfil.</small></div><span class="level unseen">Juntas</span></div>';
+      return;
+    }
     const ranked = skills
       .map(skill => ({ skill, summary: aggregateSkill(ids, skill.id) }))
-      .filter(x => x.summary.attempts > 0)
-      .sort((a, b) => a.summary.mastery - b.summary.mastery)
+      .filter(row => row.summary.attempts > 0)
+      .sort((a, b) => pedagogyPriority(a.summary.pedagogy) - pedagogyPriority(b.summary.pedagogy))
       .slice(0, 6);
 
     if (!ranked.length) {
-      container.innerHTML = '<div class="priority-item"><div><strong>Todavía no hay diagnóstico</strong><small>Empezá con una sesión inicial para construir el mapa de fortalezas.</small></div><span class="level unseen">Sin evaluar</span></div>';
+      container.innerHTML = '<div class="priority-item"><div><strong>Todavía no hay diagnóstico</strong><small>Empezá con una sesión inicial para construir el mapa de fortalezas.</small></div><span class="level unseen">Por descubrir</span></div>';
       return;
     }
 
     container.innerHTML = ranked.map(({ skill, summary }) => `
       <div class="priority-item">
-        <div><strong>${escapeHtml(skill.nombre)}</strong><small>${skill.area === 'matematica' ? 'Matemática' : 'Lengua'} · ${escapeHtml(skill.grupo)}</small></div>
-        <span class="level ${levelClass(summary.mastery)}">${masteryLabel(summary.mastery)}</span>
+        <div><strong>${escapeHtml(skill.nombre)}</strong><small>${escapeHtml(analysisFeedback(summary.pedagogy))}</small></div>
+        <span class="level ${analysisLevelClass(summary.pedagogy)}">${escapeHtml(learnerStatusShort(summary.pedagogy))}</span>
       </div>`).join('');
   }
 
@@ -424,7 +498,7 @@
 
   function skillCardHtml(skill) {
     const ids = activeProfileIds();
-    const summary = ids.length ? aggregateSkill(ids, skill.id) : { attempts: 0, mastery: 0 };
+    const summary = ids.length ? aggregateSkill(ids, skill.id) : { attempts: 0, pedagogy: null };
     const badges = skill.colegios.includes('comun')
       ? '<span class="school-badge">Común a ambos</span>'
       : skill.colegios.map(c => `<span class="school-badge ${c}">${capitalize(c)}</span>`).join('');
@@ -434,7 +508,10 @@
       : '';
     const practiceButton = `<button class="text-button skill-practice-link" data-skill-practice="${escapeHtml(skill.id)}" type="button">Practicar este tema →</button>`;
     const stage = videos.length ? '<div class="skill-video-stage" data-skill-video-stage hidden></div>' : '';
-    return `<article class="skill-card" data-skill-card="${escapeHtml(skill.id)}"><div class="skill-card-top"><strong>${escapeHtml(skill.nombre)}</strong><span class="level ${summary.attempts ? levelClass(summary.mastery) : 'unseen'}">${summary.attempts ? `${summary.mastery}%` : '—'}</span></div><div class="school-badges">${badges}</div><div class="skill-resource-actions">${videoButton}${practiceButton}</div>${stage}</article>`;
+    const status = activeMode === 'together'
+      ? '<span class="level unseen">Disponible</span>'
+      : `<span class="level ${analysisLevelClass(summary.pedagogy)}">${escapeHtml(learnerStatusShort(summary.pedagogy))}</span>`;
+    return `<article class="skill-card" data-skill-card="${escapeHtml(skill.id)}"><div class="skill-card-top"><strong>${escapeHtml(skill.nombre)}</strong>${status}</div><div class="school-badges">${badges}</div><div class="skill-resource-actions">${videoButton}${practiceButton}</div>${stage}</article>`;
   }
 
   function handleSkillResourceAction(event) {
@@ -465,55 +542,67 @@
       const skillId = practiceButton.dataset.skillPractice;
       const skill = skillsById.get(skillId);
       if (!skill) return;
-      startSession({ type: 'practica', area: skill.area, skillId });
+      startSession({ type: 'practica', area: skill.area, skillId, origin: 'contenidos' });
     }
   }
   function renderProgress() {
     const ids = activeProfileIds();
     if (!ids.length) return;
+
+    if (activeMode === 'together') {
+      $('#progress-summary').innerHTML = '<article class="stat-card"><small>Recorrido individual</small><strong>Se mantiene privado</strong><span>En modo juntas no mostramos avances de un perfil al otro.</span></article>';
+      $('#progress-detail').innerHTML = '<section class="progress-group"><h3>Estudiar juntas</h3><p>La práctica compartida alterna turnos, pero cada respuesta sigue alimentando solamente el recorrido de quien respondió.</p></section>';
+      return;
+    }
+
     const math = aggregateArea(ids, 'matematica');
     const lang = aggregateArea(ids, 'lengua');
-    const attempts = ids.reduce((sum, id) => sum + totalProfileAttempts(id), 0);
     $('#progress-summary').innerHTML = `
-      <article class="stat-card"><small>Matemática</small><strong>${math.seen ? math.mastery + '%' : '—'}</strong><span>${math.seen ? masteryLabel(math.mastery) : 'Sin evaluar'}</span></article>
-      <article class="stat-card"><small>Lengua</small><strong>${lang.seen ? lang.mastery + '%' : '—'}</strong><span>${lang.seen ? masteryLabel(lang.mastery) : 'Sin evaluar'}</span></article>
-      <article class="stat-card"><small>Respuestas registradas</small><strong>${attempts}</strong><span>evidencias de aprendizaje</span></article>`;
+      <article class="stat-card"><small>Matemática</small><strong>${escapeHtml(math.label)}</strong><span>${escapeHtml(math.message)}</span></article>
+      <article class="stat-card"><small>Lengua</small><strong>${escapeHtml(lang.label)}</strong><span>${escapeHtml(lang.message)}</span></article>
+      <article class="stat-card"><small>Tu recorrido</small><strong>Seguimos aprendiendo</strong><span>La app mira sobre todo cómo venís resolviendo ahora.</span></article>`;
 
     $('#progress-detail').innerHTML = ['matematica', 'lengua'].map(area => {
-      const items = skills.filter(s => s.area === area).map(skill => ({ skill, s: aggregateSkill(ids, skill.id) })).filter(x => x.s.attempts > 0).sort((a,b) => a.s.mastery - b.s.mastery);
-      const rows = items.length ? items.map(({skill, s}) => `
-        <div class="progress-row"><strong>${escapeHtml(skill.nombre)}</strong><div class="progress-bar"><span style="width:${s.mastery}%"></span></div><small>${s.mastery}% · ${s.attempts} int.</small></div>`).join('') : '<p>Sin datos todavía. El diagnóstico inicial va a completar este mapa.</p>';
+      const items = skills
+        .filter(skill => skill.area === area)
+        .map(skill => ({ skill, summary: aggregateSkill(ids, skill.id) }))
+        .filter(row => row.summary.attempts > 0)
+        .sort((a, b) => pedagogyPriority(a.summary.pedagogy) - pedagogyPriority(b.summary.pedagogy));
+      const rows = items.length ? items.map(({skill, summary}) => `
+        <div class="progress-row qualitative-progress-row"><strong>${escapeHtml(skill.nombre)}</strong><small>${escapeHtml(analysisFeedback(summary.pedagogy))}</small><span class="level ${analysisLevelClass(summary.pedagogy)}">${escapeHtml(learnerStatusShort(summary.pedagogy))}</span></div>`).join('') : '<p>Todavía no trabajamos suficiente estos contenidos. El diagnóstico va a abrir el recorrido.</p>';
       return `<section class="progress-group"><h3>${area === 'matematica' ? 'Matemática' : 'Lengua'}</h3>${rows}</section>`;
     }).join('');
   }
 
   function renderVideos() {
     const container = $('#video-library');
-    const sections = activeProfileIds().map(id => {
-      const rows = skills.flatMap(skill => validSkillVideos(skill)
-        .map(video => ({ videoId: video.id, title: video.titulo, skill,
-          recommendedForProfile: video.perfiles?.includes(id) || false,
-          progress: state.profiles[id]?.progress?.[skill.id] })));
-      rows.sort((a, b) => {
-        const aSeen = a.progress?.attempts > 0;
-        const bSeen = b.progress?.attempts > 0;
-        return (bSeen - aSeen) || (aSeen ? a.progress.mastery - b.progress.mastery : 0) || (Number(b.recommendedForProfile) - Number(a.recommendedForProfile));
-      });
-      return `<section class="video-profile" data-profile="${id}">
-        ${activeMode === 'together' ? `<h3>${escapeHtml(state.profiles[id].name)}</h3>` : ''}
-        ${rows.length ? `<p class="video-profile-intro">${rows.some(row => row.progress?.attempts) ? 'Primero aparecen los temas que más conviene repasar. Todos los videos del banco están disponibles para ambos perfiles.' : 'Podés explorar todos los videos del banco. Cuando haya respuestas, la app ordenará primero los temas que más conviene reforzar.'}</p>
-        <div class="video-grid">${rows.map(row => videoCardHtml(row, id)).join('')}</div>` : '<p class="video-empty">Todavía no hay videos vinculados a los contenidos.</p>'}
-      </section>`;
+    if (activeMode === 'together') {
+      const rows = skills.flatMap(skill => validSkillVideos(skill).map(video => ({ videoId: video.id, title: video.titulo, skill, progress: null })));
+      container.innerHTML = `<section class="video-profile"><p class="video-profile-intro">En modo juntas mostramos la biblioteca compartida sin datos individuales de progreso.</p><div class="video-grid">${rows.map(row => videoCardHtml(row, 'together')).join('')}</div></section>`;
+      return;
+    }
+
+    const id = primaryProfileId();
+    const rows = skills.flatMap(skill => validSkillVideos(skill)
+      .map(video => ({ videoId: video.id, title: video.titulo, skill,
+        recommendedForProfile: video.perfiles?.includes(id) || false,
+        progress: state.profiles[id]?.progress?.[skill.id] })));
+    rows.sort((a, b) => {
+      const aa = skillAnalysis(id, a.skill.id);
+      const bb = skillAnalysis(id, b.skill.id);
+      return pedagogyPriority(aa) - pedagogyPriority(bb) || (Number(b.recommendedForProfile) - Number(a.recommendedForProfile));
     });
-    container.innerHTML = sections.join('');
+    container.innerHTML = `<section class="video-profile" data-profile="${id}">
+      <p class="video-profile-intro">Primero aparecen los temas que más conviene trabajar ahora. Todos los videos del banco están disponibles.</p>
+      <div class="video-grid">${rows.map(row => videoCardHtml(row, id)).join('')}</div>
+    </section>`;
   }
+
   function videoCardHtml({skill, videoId, title, progress}, profileId) {
-    const attempts = progress?.attempts || 0;
-    const status = attempts
-      ? attempts < 3 ? `Primeros intentos · ${progress.mastery}% estimado` : progress.mastery < 65 ? `Para reforzar · ${progress.mastery}% estimado` : `Para repasar · ${progress.mastery}% estimado`
-      : 'Para explorar · sin respuestas todavía';
+    const analysis = profileId === 'together' ? null : skillAnalysis(profileId, skill.id);
+    const status = profileId === 'together' ? 'Recurso compartido' : learnerStatusShort(analysis);
     return `<article class="video-card" data-video-id="${videoId}" data-video-skill="${escapeHtml(skill.id)}" data-profile="${profileId}">
-      <div class="video-card-top"><span class="level ${attempts ? levelClass(progress.mastery) : 'unseen'}">${escapeHtml(status)}</span><span class="video-subject">${skill.area === 'lengua' ? 'Lengua' : 'Matemática'}</span></div>
+      <div class="video-card-top"><span class="level ${profileId === 'together' ? 'unseen' : analysisLevelClass(analysis)}">${escapeHtml(status)}</span><span class="video-subject">${skill.area === 'lengua' ? 'Lengua' : 'Matemática'}</span></div>
       <h4>${escapeHtml(skill.nombre)}</h4><p>${escapeHtml(title)}</p>
       <div class="video-stage"><button class="video-play" type="button" data-play-video="${videoId}" aria-label="Ver video de ${escapeHtml(skill.nombre)} acá">▷ <span>Ver video acá</span></button></div>
       <div class="video-actions"><button class="secondary-button" type="button" data-video-practice="${escapeHtml(skill.id)}">Practicar este tema</button></div>
@@ -539,14 +628,15 @@
       frame.referrerPolicy = 'strict-origin-when-cross-origin';
       frame.allowFullscreen = true;
       card.querySelector('.video-stage').append(frame);
-      recordVideoEvent(card.dataset.profile, card.dataset.videoSkill, id, 'view');
+      if (card.dataset.profile === 'together') activeProfileIds().forEach(profileId => recordVideoEvent(profileId, card.dataset.videoSkill, id, 'view'));
+      else recordVideoEvent(card.dataset.profile, card.dataset.videoSkill, id, 'view');
     }
     if (practice) {
       const card = practice.closest('.video-card');
       const skillId = practice.dataset.videoPractice;
       if (!videoForProfile(skillId, card.dataset.profile)) return;
-      recordVideoEvent(card.dataset.profile, skillId, null, 'practice');
-      startSession({ type: 'practica', area: skillsById.get(skillId).area, skillId });
+      if (card.dataset.profile !== 'together') recordVideoEvent(card.dataset.profile, skillId, null, 'practice');
+      startSession({ type: 'practica', area: skillsById.get(skillId).area, skillId, origin: 'video' });
     }
   }
 
@@ -601,29 +691,30 @@
   function renderFamilyActivity() {
     const panel = $('#family-activity-panel');
     if (!panel) return;
-    const today = new Date(); today.setHours(0, 0, 0, 0);
-    const rows = ['p1', 'p2'].map(id => {
-      const profile = state.profiles[id];
-      const history = profile.history || [];
-      const todaySessions = history.filter(item => item.at >= today.getTime());
-      const recent = [...history].sort((a, b) => b.at - a.at)[0];
-      const weekly = history.filter(item => item.at >= weekStart() && item.type !== 'diagnostico');
-      const mathWeek = weekly.filter(item => item.area === 'matematica').length;
-      const langWeek = weekly.filter(item => item.area === 'lengua').length;
-      return { profile, todaySessions, recent, focus: weakestSkillFor([id]), mathWeek, langWeek };
-    });
-    panel.innerHTML = `<p class="eyebrow">Acompañamiento</p><h3>Actividad de hoy</h3><p class="family-activity-intro">Un resumen simple para conversar sobre el estudio, sin comparar perfiles.</p><div class="family-activity-list">${rows.map(row => {
-      const todayText = row.todaySessions.length ? `${row.todaySessions.length} sesión${row.todaySessions.length === 1 ? '' : 'es'} hoy` : 'Todavía no estudió hoy';
-      const recentText = row.recent ? `Última actividad: ${sessionLabel(row.recent)}.` : 'Todavía no hay sesiones completas.';
-      const focusText = row.focus ? `Próximo foco: ${escapeHtml(row.focus.nombre)}.` : 'Próximo foco: completar el diagnóstico inicial.';
-      return `<article><strong>${escapeHtml(row.profile.name)}</strong><span>${todayText}</span><em>Esta semana: Matemática ${row.mathWeek} · Lengua ${row.langWeek}</em><small>${recentText} ${focusText}</small></article>`;
-    }).join('')}</div>`;
+    if (activeMode === 'together') {
+      panel.innerHTML = '<p class="eyebrow">Privacidad pedagógica</p><h3>Cada recorrido es personal</h3><p class="family-activity-intro">En modo juntas no mostramos avances individuales ni comparaciones entre perfiles.</p>';
+      return;
+    }
+    const id = primaryProfileId();
+    const profile = state.profiles[id];
+    const focus = weakestSkillFor([id]);
+    const recent = [...(profile.history || [])].sort((a, b) => b.at - a.at)[0];
+    panel.innerHTML = `<p class="eyebrow">Tu recorrido</p><h3>${escapeHtml(profile.name)}</h3><p class="family-activity-intro">${recent ? 'Tu actividad quedó guardada. ' : ''}${focus ? `La app va a volver a <strong>${escapeHtml(focus.nombre)}</strong> porque es un buen próximo paso.` : 'Después del diagnóstico aparecerán sugerencias formativas.'}</p>`;
+  }
+
+  function pedagogyPriority(analysis) {
+    if (!analysis) return 0;
+    const base = { sin_evidencia: 0, explorando: 1, en_desarrollo: 2, consistente: 4, consolidado: 5 }[analysis.state] ?? 3;
+    const trend = analysis.trend === 'revisar' ? -0.7 : analysis.trend === 'mejorando' ? -0.35 : 0;
+    const verification = analysis.needsVerification ? -0.8 : 0;
+    const due = analysis.nextReviewAt && Date.now() >= analysis.nextReviewAt ? -0.6 : 0;
+    return base + trend + verification + due;
   }
 
   function weakestSkillFor(ids) {
     return skills.map(skill => ({ skill, summary: aggregateSkill(ids, skill.id) }))
       .filter(row => row.summary.attempts > 0)
-      .sort((a, b) => a.summary.mastery - b.summary.mastery)[0]?.skill || null;
+      .sort((a, b) => pedagogyPriority(a.summary.pedagogy) - pedagogyPriority(b.summary.pedagogy))[0]?.skill || null;
   }
 
   function sessionLabel(item) {
@@ -635,31 +726,32 @@
   function renderTutoringPlan() {
     const panel = $('#family-tutoring-panel');
     if (!panel) return;
-    const day = new Date().getDay();
-    const isPreparationDay = day === 2 || day === 3;
-    const status = isPreparationDay
-      ? 'Lista lista para preparar la particular del jueves'
-      : 'La lista se actualiza con cada sesión de práctica';
-    panel.innerHTML = `<div class="tutoring-heading"><div><p class="eyebrow">Acompañamiento externo</p><h3>Para revisar con la particular</h3><p>La app selecciona hasta tres temas según las respuestas. Los videos elegidos por la familia se ven en la pestaña Videos; después conviene probar otro ejercicio. Es una guía de conversación, no una nota.</p></div><span class="tutoring-status ${isPreparationDay ? 'ready' : ''}">${status}</span></div><div class="tutoring-list">${['p1', 'p2'].map(id => tutoringProfileHtml(state.profiles[id], id)).join('')}</div>`;
+    if (activeMode === 'together') {
+      panel.innerHTML = '<div class="tutoring-heading"><div><p class="eyebrow">Acompañamiento</p><h3>Sin comparaciones</h3><p>Las recomendaciones detalladas se conservan por perfil y no se muestran durante el estudio compartido.</p></div></div>';
+      return;
+    }
+    const id = primaryProfileId();
+    const profile = state.profiles[id];
+    panel.innerHTML = `<div class="tutoring-heading"><div><p class="eyebrow">Acompañamiento</p><h3>Temas para seguir trabajando</h3><p>Estas sugerencias son formativas. No son una nota ni un ranking.</p></div></div><div class="tutoring-list">${tutoringProfileHtml(profile, id)}</div>`;
   }
 
   function tutoringProfileHtml(profile, id) {
     const topics = skills
-      .map(skill => ({ skill, progress: profile.progress?.[skill.id] }))
+      .map(skill => ({ skill, progress: profile.progress?.[skill.id], analysis: skillAnalysis(id, skill.id) }))
       .filter(row => row.progress?.attempts > 0)
-      .sort((a, b) => (a.progress.mastery - b.progress.mastery) || (b.progress.attempts - a.progress.attempts))
+      .sort((a, b) => pedagogyPriority(a.analysis) - pedagogyPriority(b.analysis))
       .slice(0, 3);
     const body = topics.length
-      ? `<ol>${topics.map(row => `<li><strong>${escapeHtml(row.skill.nombre)}</strong><small>${row.progress.mastery}% de dominio estimado · ${row.progress.attempts} intento${row.progress.attempts === 1 ? '' : 's'}${row.progress.attempts < 3 ? ' · dato inicial' : ''}</small>${tutoringVideoHtml(row, id)}</li>`).join('')}</ol>`
+      ? `<ol>${topics.map(row => `<li><strong>${escapeHtml(row.skill.nombre)}</strong><small>${escapeHtml(analysisFeedback(row.analysis))}</small>${tutoringVideoHtml(row, id)}</li>`).join('')}</ol>`
       : '<p class="tutoring-empty">Todavía no hay evidencia suficiente. Después del diagnóstico aparecerán los temas a revisar.</p>';
     return `<article class="tutoring-profile" data-profile="${id}"><h4>${escapeHtml(profile.name)}</h4>${body}</article>`;
   }
 
-  function tutoringVideoHtml({skill, progress}, id) {
-    if (progress.mastery >= 65) return '';
+  function tutoringVideoHtml({skill, analysis}, id) {
+    if (analysis?.state === 'consistente' || analysis?.state === 'consolidado') return '';
     const video = videoForProfile(skill.id, id);
     if (!video) return '';
-    const note = progress.attempts < 3 ? 'Pocos intentos todavía: miralo si querés repasar.' : 'Puede ayudarte a repasar este tema.';
+    const note = analysis?.state === 'explorando' ? 'Puede ayudarte a conocer otra forma de resolverlo.' : 'Puede ayudarte a reforzar este tema.';
     return `<button class="tutoring-video" type="button" data-nav="videos">Ver video en la app →</button><small class="tutoring-video-note">${note}</small>`;
   }
 
@@ -679,11 +771,11 @@
 
   function startRecommended() {
     const ids = activeProfileIds();
-    if (ids.some(id => !hasCompletedDiagnostic(id))) startSession({ type: 'diagnostico', area: 'all' });
-    else startSession({ type: 'practica', area: recommendedArea || 'all' });
+    if (ids.some(id => !hasCompletedDiagnostic(id))) startSession({ type: 'diagnostico', area: 'all', origin: 'recomendacion' });
+    else startSession({ type: 'practica', area: recommendedArea || 'all', origin: 'recomendacion' });
   }
 
-  function startSession({ type, area, school = null, skillId = null }) {
+  function startSession({ type, area, school = null, skillId = null, origin = 'manual' }) {
     if (!exercises.length) return toast('Todavía se están cargando los ejercicios.');
     if (type === 'diagnostico' && activeMode === 'together') {
       toast('El diagnóstico es individual. Hacelo desde cada perfil para que el mapa de fortalezas sea preciso.');
@@ -692,9 +784,9 @@
     const pool = buildSessionPool(type, area, school, skillId);
     if (!pool.length) return toast('No quedan consignas nuevas para esta selección en los últimos 7 días. Probá otra materia o retomá más adelante.');
     session = {
-      type, area, school, items: pool, index: 0, correct: 0, answers: [], hintUsed: false,
+      type, area, school, skillId, origin, items: pool, index: 0, correct: 0, answers: [], hintUsed: false,
       checked: false, finished: false, jointTurn: 0, selfcheckOpen: false,
-      diagnosticExtensions: 0, diagnosticMaxExtensions: 6, startedAt: Date.now()
+      diagnosticExtensions: 0, diagnosticMaxExtensions: 6, startedAt: Date.now(), currentStartedAt: Date.now()
     };
     $('#exercise-dialog').showModal();
     renderExercise();
@@ -789,36 +881,43 @@
     const candidatePool = pool.filter(e => e.tipo !== 'selfcheck' || e.area === 'lengua');
     const rows = candidatePool.map(e => {
       const agg = aggregateSkill(ids, e.habilidad);
-      const category = agg.attempts === 0 ? 'developing' : agg.mastery < 55 ? 'weak' : agg.mastery < 80 ? 'developing' : 'mastered';
-      return { e, agg, category, score: practiceScore(e, agg, category) };
+      const analysis = agg.pedagogy;
+      const category = analysis?.state || 'sin_evidencia';
+      return { e, agg, analysis, category, score: practiceScore(e, agg, analysis) };
     });
+
     const selected = [];
-    takePracticeRows(rows.filter(r => r.category === 'weak'), 5, selected);
-    takePracticeRows(rows.filter(r => r.category === 'developing'), 2, selected);
-    takePracticeRows(rows.filter(r => r.category === 'mastered'), 1, selected);
+    // Primero comprobaciones pendientes: permiten reconocer aprendizaje reciente
+    // sin dejar el contenido anclado a errores históricos.
+    takePracticeRows(rows.filter(row => row.analysis?.needsVerification), Math.min(2, count), selected);
+    takePracticeRows(rows.filter(row => ['explorando', 'en_desarrollo'].includes(row.category)), Math.max(0, count - selected.length - 2), selected);
+    takePracticeRows(rows.filter(row => row.category === 'consistente' && row.analysis?.nextReviewAt && Date.now() >= row.analysis.nextReviewAt), 1, selected);
+    takePracticeRows(rows.filter(row => row.category === 'consolidado' && row.analysis?.nextReviewAt && Date.now() >= row.analysis.nextReviewAt), 1, selected);
     if (selected.length < count) takePracticeRows(rows, count - selected.length, selected, false);
     return shuffle(selected.slice(0, count));
   }
 
-  function practiceScore(e, agg, category) {
+  function practiceScore(e, agg, analysis) {
     const skill = skillsById.get(e.habilidad);
     const target = preferredDifficulty(agg);
     const priority = skill?.prioridad || 3;
-    const distancePenalty = Math.abs((e.dificultad || 2) - target) * 6;
-    const weaknessBonus = category === 'weak' ? (100 - agg.mastery) / 7 : 0;
-    const noveltyBonus = agg.attempts === 0 ? 5 : Math.max(0, 4 - agg.attempts);
-    const ageDays = agg.lastAt ? (Date.now() - agg.lastAt) / DAY_MS : 30;
-    const reviewBonus = category === 'mastered' ? Math.min(10, ageDays / 3) : 0;
-    return priority * 3 + weaknessBonus + noveltyBonus + reviewBonus - distancePenalty + Math.random() * 3;
+    const distancePenalty = Math.abs((e.dificultad || 2) - target) * 7;
+    const stateBonus = {
+      sin_evidencia: 5,
+      explorando: 8,
+      en_desarrollo: 11,
+      consistente: 3,
+      consolidado: 1
+    }[analysis?.state || 'sin_evidencia'];
+    const trendBonus = analysis?.trend === 'revisar' ? 4 : analysis?.trend === 'mejorando' ? 5 : 0;
+    const verificationBonus = analysis?.needsVerification ? 12 : 0;
+    const dueBonus = analysis?.nextReviewAt && Date.now() >= analysis.nextReviewAt ? 9 : 0;
+    const noveltyBonus = agg.attempts === 0 ? 5 : 0;
+    return priority * 3 + stateBonus + trendBonus + verificationBonus + dueBonus + noveltyBonus - distancePenalty + Math.random() * 3;
   }
 
   function preferredDifficulty(agg) {
-    if (!agg.attempts) return 2;
-    let target = agg.mastery < 35 ? 1.5 : agg.mastery < 55 ? 2.2 : agg.mastery < 80 ? 3 : 3.6;
-    const recent = Array.isArray(agg.recent) ? agg.recent.slice(-4) : [];
-    if (recent.length >= 3 && recent.slice(-3).every(Boolean)) target += .6;
-    if (recent.length >= 2 && recent.slice(-2).every(value => value === false)) target -= .7;
-    return clamp(target, 1, 4);
+    return clamp(Number(agg?.pedagogy?.preferredDifficulty || 2), 1, 4);
   }
 
   function takePracticeRows(rows, count, selected, preferUniqueSkill = true) {
@@ -918,7 +1017,7 @@
   function renderExercise() {
     const e = currentExercise();
     if (!e) return finishSession();
-    session.hintUsed = false; session.checked = false; session.selfcheckOpen = false;
+    session.hintUsed = false; session.checked = false; session.selfcheckOpen = false; session.currentStartedAt = Date.now();
     $('#exercise-mode').textContent = session.type === 'diagnostico' ? 'Diagnóstico adaptativo' : session.type === 'simulacro' ? 'Simulacro' : 'Práctica adaptativa';
     $('#exercise-progress').textContent = `${session.index + 1} de ${session.items.length}`;
     $('#exercise-progress-bar').style.width = `${(session.index / session.items.length) * 100}%`;
@@ -1051,7 +1150,7 @@
         score: ownScore, total: ownTotal,
         durationSeconds: Math.max(1, Math.round((Date.now() - session.startedAt) / 1000)),
         adaptiveExtensions: session.type === 'diagnostico' ? session.diagnosticExtensions : 0
-      }].slice(-60);
+      }];
     });
     saveState();
     session.finished = true;
@@ -1069,11 +1168,11 @@
     const correct = session.answers.filter(a => a.correct).length;
     const ratio = total ? correct / total : 0;
     let extra = '';
-    if (session.type === 'diagnostico') extra = `<p>El diagnóstico agregó ${session.diagnosticExtensions} comprobación${session.diagnosticExtensions === 1 ? '' : 'es'} de dificultad para precisar el mapa.</p>`;
+    if (session.type === 'diagnostico') extra = '<p>Con estas primeras evidencias la app ya puede elegir mejor qué conviene practicar después.</p>';
     if (session.type === 'simulacro' && session.school === 'monserrat' && session.area === 'lengua') extra += '<p>La producción escrita se incluye como revisión guiada; su ponderación todavía no equivale al puntaje oficial del examen.</p>';
     const review = session.type === 'practica' ? '' : sessionReviewHtml();
     const focus = sessionFocus();
-    return `<div class="today-card session-summary-card"><strong>${correct} de ${total} respuestas logradas</strong><p>${summaryMessage(ratio)}</p>${focus}${extra}</div>${review}`;
+    return `<div class="today-card session-summary-card"><strong>Sesión terminada</strong><p>${summaryMessage(ratio)}</p>${focus}${extra}</div>${review}`;
   }
 
   function sessionFocus() {
@@ -1116,50 +1215,72 @@
   }
 
   function recordAttempt(e, correct, weight = 1, profileId = null) {
+    const engine = window.IngresoPedagogy;
     const pid = profileId || currentResponderId();
     const profile = state.profiles[pid];
-    const prev = profile.progress[e.habilidad] || { attempts: 0, correct: 0, mastery: 0, lastAt: 0 };
-    let evidence = correct ? 52 + e.dificultad * 10 : Math.max(8, 38 - e.dificultad * 4);
-    if (session?.hintUsed && correct) evidence -= 10;
-    evidence = Math.round(evidence * weight);
-    const mastery = prev.attempts === 0 ? evidence : Math.round(prev.mastery * .68 + evidence * .32);
-    const nextMastery = clamp(mastery, 0, 100);
-    const recent = [...(Array.isArray(prev.recent) ? prev.recent : []), Boolean(correct)].slice(-4);
-    const previousLow = Number.isFinite(Number(prev.lowestMastery)) ? Number(prev.lowestMastery) : Number(prev.mastery || nextMastery);
-    profile.progress[e.habilidad] = {
-      attempts: prev.attempts + 1,
-      correct: prev.correct + (correct ? 1 : 0),
-      mastery: nextMastery,
-      lastAt: Date.now(),
-      recent,
-      lowestMastery: Math.min(previousLow, nextMastery),
-      maxDifficultyCorrect: Math.max(Number(prev.maxDifficultyCorrect || 0), correct ? Number(e.dificultad || 1) : 0)
-    };
+    if (!engine || !profile) return;
+
+    const before = skillAnalysis(pid, e.habilidad);
+    const now = Date.now();
+    const purpose = engine.derivePurpose(before, {
+      sessionType: session?.type || 'practica',
+      difficulty: e.dificultad || 2,
+      now
+    });
+    const event = engine.createEvidence({
+      profileId: pid,
+      exercise: e,
+      correct,
+      hintUsed: Boolean(session?.hintUsed),
+      sessionType: session?.type || 'practica',
+      origin: session?.origin || 'manual',
+      purpose,
+      durationMs: session?.currentStartedAt ? now - session.currentStartedAt : null,
+      evaluationWeight: weight,
+      school: session?.school || null,
+      at: now
+    });
+    engine.applyAttempt(profile, e, event, { maxDifficulty: skillMaxDifficulty(e.habilidad) });
     markExerciseUsedToday(pid, e.id);
     saveState();
   }
 
   function aggregateSkill(ids, skillId) {
-    const rows = ids.map(id => state.profiles[id]?.progress?.[skillId]).filter(Boolean);
-    if (!rows.length) return { attempts: 0, correct: 0, mastery: 0, lastAt: 0 };
+    const rows = ids.map(id => {
+      const progress = state.profiles[id]?.progress?.[skillId];
+      const pedagogy = skillAnalysis(id, skillId);
+      return progress || pedagogy?.state !== 'sin_evidencia' ? { progress: progress || {}, pedagogy } : null;
+    }).filter(Boolean);
+
+    if (!rows.length) return { attempts: 0, correct: 0, mastery: 0, lastAt: 0, pedagogy: null };
+    const pedagogies = rows.map(row => row.pedagogy).filter(Boolean);
+    const selectedPedagogy = [...pedagogies].sort((a, b) => pedagogyPriority(a) - pedagogyPriority(b))[0] || null;
     return {
-      attempts: rows.reduce((s,r) => s + (r.attempts || 0), 0),
-      correct: rows.reduce((s,r) => s + (r.correct || 0), 0),
-      mastery: Math.round(rows.reduce((s,r) => s + (r.mastery || 0), 0) / rows.length),
-      lastAt: Math.max(...rows.map(r => r.lastAt || 0)),
-      recent: rows.flatMap(r => Array.isArray(r.recent) ? r.recent : []).slice(-4)
+      attempts: rows.reduce((sum, row) => sum + Number(row.progress.attempts || 0), 0),
+      correct: rows.reduce((sum, row) => sum + Number(row.progress.correct || 0), 0),
+      mastery: rows.length ? Math.round(rows.reduce((sum, row) => sum + Number(row.progress.mastery || 0), 0) / rows.length) : 0,
+      lastAt: Math.max(...rows.map(row => Number(row.progress.lastAt || 0)), 0),
+      pedagogy: selectedPedagogy
     };
   }
 
   function aggregateArea(ids, area) {
-    const rows = skills.filter(s => s.area === area).map(s => aggregateSkill(ids, s.id)).filter(x => x.attempts > 0);
-    if (!rows.length) return { seen: false, mastery: 0 };
-    return { seen: true, mastery: Math.round(rows.reduce((sum,r) => sum + r.mastery, 0) / rows.length) };
+    const rows = skills
+      .filter(skill => skill.area === area)
+      .map(skill => aggregateSkill(ids, skill.id))
+      .filter(row => row.attempts > 0 && row.pedagogy);
+    if (!rows.length) return { seen: false, label: 'Por descubrir', message: 'El diagnóstico va a dar las primeras pistas.' };
+
+    const analyses = rows.map(row => row.pedagogy);
+    const needsReview = analyses.some(analysis => analysis.trend === 'revisar' || analysis.state === 'explorando');
+    const improving = analyses.some(analysis => analysis.trend === 'mejorando');
+    const firm = analyses.filter(analysis => ['consistente', 'consolidado'].includes(analysis.state)).length;
+    if (needsReview) return { seen: true, label: improving ? 'Viene mejorando' : 'Para seguir practicando', message: improving ? 'Hay avances recientes y algunos temas para comprobar.' : 'Hay temas que necesitan un poco más de práctica.' };
+    if (firm >= Math.ceil(analyses.length * 0.6)) return { seen: true, label: 'Va muy bien', message: 'Varios temas se sostienen bien; la app los va a repasar más adelante.' };
+    return { seen: true, label: improving ? 'Viene mejorando' : 'En camino', message: improving ? 'Los últimos ejercicios muestran una mejora.' : 'Seguimos construyendo seguridad con ejercicios variados.' };
   }
 
   function totalProfileAttempts(id) { return Object.values(state.profiles[id]?.progress || {}).reduce((sum, p) => sum + (p.attempts || 0), 0); }
-  function masteryLabel(value) { if (value < 40) return 'Estoy aprendiendo'; if (value < 65) return 'Voy avanzando'; if (value < 85) return 'Lo tengo bastante claro'; return 'Lo domino'; }
-  function levelClass(value) { if (value < 40) return 'low'; if (value < 70) return 'mid'; return 'high'; }
 
   function setupSupabase() {
     const cfg = window.INGRESO_CONFIG || {};
@@ -1201,13 +1322,58 @@
     if (!data?.payload) { await syncRemoteState(); return; }
     const remote = hydrateState(data.payload);
     if ((remote.updatedAt || 0) > (state.updatedAt || 0)) {
-      state = remote; localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); refreshGateNames(); if (activeMode) renderAll();
+      state = remote; rebuildPedagogySnapshots(); localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); refreshGateNames(); if (activeMode) renderAll();
       toast('Progreso actualizado desde la nube.');
     } else await syncRemoteState();
   }
 
+  function evidenceDbRow(event) {
+    return {
+      event_id: event.eventId,
+      user_id: authUser.id,
+      profile_id: event.profileId,
+      occurred_at: new Date(event.at).toISOString(),
+      exercise_id: event.exerciseId,
+      skill_id: event.skillId,
+      area: event.area,
+      school: event.school,
+      difficulty: event.difficulty,
+      correct: event.correct,
+      hint_used: event.hintUsed,
+      autonomous: event.autonomous,
+      context: event.context,
+      origin: event.origin,
+      purpose: event.purpose,
+      duration_ms: event.durationMs,
+      evaluation_mode: event.evaluationMode,
+      evaluation_weight: event.evaluationWeight
+    };
+  }
+
+  async function syncPendingEvidence() {
+    if (!supa || !authUser) return false;
+    const pending = ['p1', 'p2'].flatMap(id => state.profiles[id]?.pendingEvidence || []);
+    if (!pending.length) return true;
+    const unique = [...new Map(pending.map(event => [event.eventId, event])).values()];
+    const { error } = await supa.from('study_attempt_evidence').upsert(unique.map(evidenceDbRow), {
+      onConflict: 'event_id',
+      ignoreDuplicates: true
+    });
+    if (error) {
+      console.warn('[Ingreso v6.18] Evidencias detalladas pendientes de sincronizar', error);
+      return false;
+    }
+    const savedIds = new Set(unique.map(event => event.eventId));
+    ['p1', 'p2'].forEach(id => {
+      state.profiles[id].pendingEvidence = (state.profiles[id].pendingEvidence || []).filter(event => !savedIds.has(event.eventId));
+    });
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    return true;
+  }
+
   async function syncRemoteState() {
     if (!supa || !authUser) return;
+    await syncPendingEvidence();
     const { error } = await supa.from('study_state').upsert({ user_id: authUser.id, payload: state, updated_at: new Date().toISOString() }, { onConflict: 'user_id' });
     if (error) console.error('Error de sincronización', error);
   }

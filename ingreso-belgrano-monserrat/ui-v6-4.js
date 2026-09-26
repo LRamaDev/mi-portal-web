@@ -24,6 +24,68 @@
     };
     const clone = value => JSON.parse(JSON.stringify(value));
 
+    function mergeEvidenceRows(...lists) {
+      const byId = new Map();
+      lists.flat().filter(Boolean).forEach(event => {
+        const id = String(event?.eventId || '');
+        if (!id) return;
+        const previous = byId.get(id);
+        if (!previous || Number(event.at || 0) >= Number(previous.at || 0)) byId.set(id, clone(event));
+      });
+      return [...byId.values()].sort((a, b) => Number(a.at || 0) - Number(b.at || 0));
+    }
+
+    function mergeHistoryRows(...lists) {
+      const byKey = new Map();
+      lists.flat().filter(Boolean).forEach(row => {
+        const key = [
+          Number(row?.at || 0), row?.type || '', row?.area || '', row?.school || '',
+          row?.score ?? '', row?.total ?? '', row?.durationSeconds ?? '', row?.fullExam ?? ''
+        ].join('|');
+        if (!byKey.has(key)) byKey.set(key, clone(row));
+      });
+      return [...byKey.values()].sort((a, b) => Number(a.at || 0) - Number(b.at || 0));
+    }
+
+    function mergeProgressMaps(localProgress = {}, remoteProgress = {}, preferRemote = false) {
+      const result = {};
+      const skillIds = new Set([...Object.keys(localProgress || {}), ...Object.keys(remoteProgress || {})]);
+      skillIds.forEach(skillId => {
+        const local = localProgress?.[skillId];
+        const remote = remoteProgress?.[skillId];
+        if (!local) { result[skillId] = clone(remote); return; }
+        if (!remote) { result[skillId] = clone(local); return; }
+        const localAt = Number(local.lastAt || 0);
+        const remoteAt = Number(remote.lastAt || 0);
+        const remoteWins = remoteAt > localAt || (remoteAt === localAt && preferRemote);
+        const primary = remoteWins ? remote : local;
+        const secondary = remoteWins ? local : remote;
+        result[skillId] = { ...clone(secondary), ...clone(primary) };
+        if (!result[skillId].legacy && secondary?.legacy) result[skillId].legacy = clone(secondary.legacy);
+      });
+      return result;
+    }
+
+    function mergeVideoLearning(localVideo = {}, remoteVideo = {}) {
+      return {
+        viewed: [...new Set([...(localVideo.viewed || []), ...(remoteVideo.viewed || [])])],
+        practiced: [...new Set([...(localVideo.practiced || []), ...(remoteVideo.practiced || [])])]
+      };
+    }
+
+    function mergeProfilePayload(localProfile, remoteProfile, preferRemote = false) {
+      if (!localProfile && !remoteProfile) return null;
+      const primary = preferRemote ? remoteProfile : localProfile;
+      const secondary = preferRemote ? localProfile : remoteProfile;
+      const merged = clone(primary || secondary || {});
+      merged.progress = mergeProgressMaps(localProfile?.progress || {}, remoteProfile?.progress || {}, preferRemote);
+      merged.history = mergeHistoryRows(localProfile?.history || [], remoteProfile?.history || []);
+      merged.evidence = mergeEvidenceRows(localProfile?.evidence || [], remoteProfile?.evidence || []);
+      merged.pendingEvidence = mergeEvidenceRows(localProfile?.pendingEvidence || [], remoteProfile?.pendingEvidence || []);
+      merged.videoLearning = mergeVideoLearning(localProfile?.videoLearning || {}, remoteProfile?.videoLearning || {});
+      return merged;
+    }
+
     function comparableProfile(profile) {
       if (!profile || typeof profile !== 'object') return {};
       const copy = clone(profile);
@@ -86,7 +148,7 @@
         if (error) return { data: null, error };
         if (!data?.length) return { data: null, error: null };
 
-        const local = getLocalState() || { version: 3, profiles: {} };
+        const local = getLocalState() || { version: 4, profiles: {} };
         const remoteByProfile = new Map(data.map(row => [row.profile_id, row]));
         const mergedProfiles = {};
         let newest = 0;
@@ -99,9 +161,9 @@
           const localStamp = Number(localProfile?.updatedAt || local.updatedAt || 0);
           const remoteStamp = Number(remoteProfile?.updatedAt || 0);
 
-          if (remoteProfile && (!localProfile || remoteStamp > localStamp)) mergedProfiles[profileId] = clone(remoteProfile);
-          else if (localProfile) mergedProfiles[profileId] = clone(localProfile);
-          else if (remoteProfile) mergedProfiles[profileId] = clone(remoteProfile);
+          if (remoteProfile && localProfile) mergedProfiles[profileId] = mergeProfilePayload(localProfile, remoteProfile, remoteStamp > localStamp);
+          else if (localProfile) mergedProfiles[profileId] = mergeProfilePayload(localProfile, null, false);
+          else if (remoteProfile) mergedProfiles[profileId] = mergeProfilePayload(null, remoteProfile, true);
 
           newest = Math.max(newest, Number(mergedProfiles[profileId]?.updatedAt || 0));
           if (row?.updated_at && (!newestDbTime || row.updated_at > newestDbTime)) newestDbTime = row.updated_at;
@@ -114,7 +176,7 @@
         return {
           data: {
             payload: {
-              version: Number(local.version || 3),
+              version: Number(local.version || 4),
               profiles: mergedProfiles,
               updatedAt: topLevelUpdatedAt
             },
@@ -205,7 +267,7 @@
           const localStamp = Number(next.profiles?.[profileId]?.updatedAt || next.updatedAt || 0);
           const remoteStamp = Number(row.payload.updatedAt || 0);
           if (remoteStamp > localStamp) {
-            next.profiles[profileId] = clone(row.payload);
+            next.profiles[profileId] = mergeProfilePayload(next.profiles?.[profileId] || null, row.payload, true);
             changed = true;
           }
         });

@@ -67,42 +67,11 @@ window.INGRESO_CONFIG = {
 
   document.addEventListener('DOMContentLoaded', () => {
     const grid = document.querySelector('.family-grid');
-    if (!grid || document.querySelector('#reset-all-progress')) return;
+    if (!grid || document.querySelector('#history-protection-note')) return;
     const section = document.createElement('section');
+    section.id = 'history-protection-note';
     section.className = 'panel';
-    section.innerHTML = '<p class="eyebrow">Herramientas de familia</p><h3>Reiniciar avance</h3><p>Borra los diagnósticos, prácticas e historial de ambos perfiles, pero conserva sus nombres.</p><button id="reset-all-progress" class="secondary-button" type="button">Reiniciar progreso de ambos perfiles</button>';
+    section.innerHTML = '<p class="eyebrow">Herramientas de familia</p><h3>Historial protegido</h3><p>Desde la V6.18 el recorrido de aprendizaje no se borra desde la app. Los intentos anteriores se conservan para comprender la evolución, pero no funcionan como una deuda permanente sobre el estado actual.</p>';
     grid.appendChild(section);
-
-    section.querySelector('#reset-all-progress').addEventListener('click', async () => {
-      if (!confirm('¿Reiniciar todo el avance de ambos perfiles? Los nombres se conservan. Esta acción no se puede deshacer.')) return;
-      const key = 'ingreso-belgrano-monserrat-v1';
-      let current;
-      try { current = JSON.parse(localStorage.getItem(key) || '{}'); } catch { current = {}; }
-      current.profiles ||= {};
-      for (const id of ['p1','p2']) {
-        current.profiles[id] ||= { name: id === 'p1' ? 'Perfil 1' : 'Perfil 2' };
-        current.profiles[id].progress = {};
-        current.profiles[id].history = [];
-        current.profiles[id].sessions = 0;
-      }
-      current.version = current.version || 1;
-      current.updatedAt = Date.now();
-      localStorage.setItem(key, JSON.stringify(current));
-
-      const button = section.querySelector('#reset-all-progress');
-      button.disabled = true;
-      button.textContent = 'Sincronizando…';
-      try {
-        if (window.supabase && window.INGRESO_CONFIG?.supabaseUrl && window.INGRESO_CONFIG?.supabaseAnonKey) {
-          const client = window.supabase.createClient(window.INGRESO_CONFIG.supabaseUrl, window.INGRESO_CONFIG.supabaseAnonKey);
-          const { data } = await client.auth.getSession();
-          const user = data.session?.user;
-          if (user) await client.from('study_state').upsert({ user_id: user.id, payload: current, updated_at: new Date().toISOString() }, { onConflict: 'user_id' });
-        }
-      } catch (error) {
-        console.error('[Ingreso V3] Reinicio remoto', error);
-      }
-      location.reload();
-    });
   }, { once: true });
 })();

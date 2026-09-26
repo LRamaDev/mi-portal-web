@@ -13,6 +13,7 @@ on:
       - 'tests/ingreso-v6-12-videos.test.cjs'
       - 'tests/ingreso-v6-16-estabilidad.test.cjs'
       - 'tests/ingreso-v6-17-guia-belgrano.test.cjs'
+      - 'tests/ingreso-v6-18-evidencia.test.cjs'
       - 'tools/auditar-ingreso-v6-7.cjs'
       - 'audit-bank.cjs'
       - '.github/workflows/ingreso-v6-8-repaso.yml'
@@ -44,7 +45,7 @@ jobs:
           node-version: '24'
       - name: Auditoría pedagógica V6.7
         run: node --test tests/ingreso-v6-7-auditoria.test.cjs
-      - name: Banco efectivo V6.17
+      - name: Banco efectivo V6.18
         run: node audit-bank.cjs
       - name: Repaso espaciado V6.8
         run: node --test tests/ingreso-v6-8-repaso.test.cjs
@@ -60,3 +61,5 @@ jobs:
         run: node --test tests/ingreso-v6-16-estabilidad.test.cjs
       - name: Guía Belgrano 2026 V6.17
         run: node --test tests/ingreso-v6-17-guia-belgrano.test.cjs
+      - name: Evidencia pedagógica V6.18
+        run: node --test tests/ingreso-v6-18-evidencia.test.cjs

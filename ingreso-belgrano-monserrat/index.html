@@ -5,12 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#173f6b">
   <meta name="description" content="Entrenamiento interactivo para los ingresos al Manuel Belgrano y al Colegio Nacional de Monserrat.">
-  <meta name="app-version" content="6.17">
+  <meta name="app-version" content="6.18">
   <title>Ingreso Belgrano · Monserrat</title>
   <link rel="manifest" href="./manifest.webmanifest">
-  <link rel="stylesheet" href="./styles.css?v=6.17">
-  <link rel="stylesheet" href="./styles-v6.css?v=6.17">
-  <link rel="stylesheet" href="./badges-v6-9.css?v=6.17">
+  <link rel="stylesheet" href="./styles.css?v=6.18">
+  <link rel="stylesheet" href="./styles-v6.css?v=6.18">
+  <link rel="stylesheet" href="./badges-v6-9.css?v=6.18">
   <style>
     .build-version{position:fixed;right:14px;bottom:14px;z-index:100000;padding:6px 9px;border:1px solid rgba(23,63,107,.16);border-radius:999px;background:rgba(255,255,255,.94);box-shadow:0 5px 16px rgba(23,63,107,.12);color:#526679;font:700 11px/1 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;letter-spacing:.02em;user-select:none}
     @media(max-width:700px){.build-version{right:10px;bottom:76px}}
@@ -18,7 +18,7 @@
 </head>
 <body class="security-pending">
   <a class="skip" href="#app-main">Saltar al contenido</a>
-  <div class="build-version" title="Versión instalada de la aplicación" aria-label="Versión instalada 6.17">Versión 6.17</div>
+  <div class="build-version" title="Versión instalada de la aplicación" aria-label="Versión instalada 6.18">Versión 6.18</div>
 
   <section id="profile-gate" class="gate" aria-labelledby="gate-title">
     <div class="gate-card">
@@ -34,12 +34,12 @@
         <button class="profile-card" type="button" data-profile="p1">
           <span class="avatar">1</span>
           <strong id="gate-name-p1">Perfil 1</strong>
-          <small>Progreso individual</small>
+          <small>Recorrido individual</small>
         </button>
         <button class="profile-card" type="button" data-profile="p2">
           <span class="avatar">2</span>
           <strong id="gate-name-p2">Perfil 2</strong>
-          <small>Progreso individual</small>
+          <small>Recorrido individual</small>
         </button>
         <button class="profile-card together" type="button" data-profile="together">
           <span class="avatar">👭</span>
@@ -69,7 +69,7 @@
         <button class="nav-button" data-nav="entrenar" type="button"><span>◎</span>Entrenar</button>
         <button class="nav-button" data-nav="contenidos" type="button"><span>▦</span>Contenidos</button>
         <button class="nav-button" data-nav="videos" type="button"><span>▷</span>Videos</button>
-        <button class="nav-button" data-nav="progreso" type="button"><span>↗</span>Progreso</button>
+        <button class="nav-button" data-nav="progreso" type="button"><span>↗</span>Mi recorrido</button>
         <button class="nav-button" data-nav="familia" type="button"><span>⚙</span>Familia</button>
       </nav>
 
@@ -96,7 +96,7 @@
           <div class="stats-grid">
             <article class="stat-card"><small>Matemática</small><strong id="stat-math">Sin evaluar</strong><span id="stat-math-note">Hacé el diagnóstico inicial</span></article>
             <article class="stat-card"><small>Lengua</small><strong id="stat-lang">Sin evaluar</strong><span id="stat-lang-note">Hacé el diagnóstico inicial</span></article>
-            <article class="stat-card"><small>Prácticas</small><strong id="stat-sessions">0</strong><span>sesiones completadas</span></article>
+            <article class="stat-card"><small>Tu entrenamiento</small><strong id="stat-sessions">Empezando</strong><span>constancia y práctica</span></article>
           </div>
 
           <section id="weekly-mission" class="weekly-mission" aria-live="polite"></section>
@@ -105,7 +105,7 @@
           <section class="panel">
             <div class="panel-heading">
               <div><p class="eyebrow">Qué conviene trabajar</p><h3>Prioridades actuales</h3></div>
-              <button class="text-button" data-nav="progreso" type="button">Ver todo el progreso</button>
+              <button class="text-button" data-nav="progreso" type="button">Ver mi recorrido</button>
             </div>
             <div id="priority-list" class="priority-list"></div>
           </section>
@@ -150,9 +150,9 @@
 
         <section class="view" data-view="progreso">
           <div class="page-heading">
-            <p class="eyebrow">Seguimiento</p>
-            <h2>Fortalezas y temas para reforzar</h2>
-            <p>El dominio se calcula a partir de respuestas, dificultad y cantidad de intentos. No se toma un solo error como diagnóstico definitivo.</p>
+            <p class="eyebrow">Tu recorrido</p>
+            <h2>Cómo viene tu aprendizaje</h2>
+            <p>La app mira especialmente cómo venís resolviendo ahora, qué ayudas necesitás y cuándo conviene volver a cada tema. No muestra notas ni porcentajes de dominio.</p>
           </div>
           <div id="progress-summary" class="stats-grid"></div>
           <div id="progress-detail" class="progress-detail"></div>
@@ -171,7 +171,7 @@
           <div class="page-heading">
             <p class="eyebrow">Panel familiar</p>
             <h2>Perfiles y sincronización</h2>
-            <p>Podés cambiar los nombres de los perfiles y usar la cuenta familiar habilitada para ver el mismo progreso desde cualquier dispositivo.</p>
+            <p>Podés cambiar los nombres de los perfiles y usar la cuenta familiar habilitada para mantener cada recorrido actualizado desde cualquier dispositivo.</p>
           </div>
 
           <div class="family-grid">
@@ -186,7 +186,7 @@
 
             <section class="panel sync-panel">
               <div class="sync-title"><div><h3>Sincronización</h3><p id="sync-status">Modo local</p></div><span id="sync-dot" class="status-dot"></span></div>
-              <p id="sync-help">El acceso familiar y el progreso se verifican con Supabase.</p>
+              <p id="sync-help">El acceso familiar y cada recorrido se sincronizan con Supabase.</p>
               <div id="auth-box" class="auth-box">
                 <label class="field">Correo familiar<input id="auth-email" type="email" autocomplete="email"></label>
                 <label class="field">Contraseña<input id="auth-password" type="password" minlength="6" autocomplete="current-password"></label>
@@ -204,7 +204,7 @@
       <button data-nav="entrenar" type="button"><span>◎</span>Entrenar</button>
       <button data-nav="contenidos" type="button"><span>▦</span>Temas</button>
       <button data-nav="videos" type="button"><span>▷</span>Videos</button>
-      <button data-nav="progreso" type="button"><span>↗</span>Progreso</button>
+      <button data-nav="progreso" type="button"><span>↗</span>Mi recorrido</button>
     </nav>
   </div>
 
@@ -236,22 +236,23 @@
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="./config.js?v=6.17"></script>
-  <script src="./seguridad.js?v=6.17"></script>
-  <script src="./banco-v4.js?v=6.17"></script>
-  <script src="./banco-v5.js?v=6.17"></script>
-  <script src="./banco-v6.js?v=6.17"></script>
-  <script src="./banco-v6-10.js?v=6.17"></script>
-  <script src="./banco-v6-11.js?v=6.17"></script>
-  <script src="./banco-v6-16.js?v=6.17"></script>
-  <script src="./banco-v6-17-belgrano.js?v=6.17"></script>
-  <script src="./app.js?v=6.17"></script>
-  <script src="./simulacros.js?v=6.17"></script>
-  <script src="./testeo.js?v=6.17"></script>
-  <script src="./ui-v6.js?v=6.17"></script>
-  <script src="./ui-v6-4.js?v=6.17"></script>
-  <script src="./adaptive-v6-8.js?v=6.17"></script>
-  <script src="./choice-order-v6-8-2.js?v=6.17"></script>
-  <script src="./badges-v6-9.js?v=6.17"></script>
+  <script src="./config.js?v=6.18"></script>
+  <script src="./seguridad.js?v=6.18"></script>
+  <script src="./banco-v4.js?v=6.18"></script>
+  <script src="./banco-v5.js?v=6.18"></script>
+  <script src="./banco-v6.js?v=6.18"></script>
+  <script src="./banco-v6-10.js?v=6.18"></script>
+  <script src="./banco-v6-11.js?v=6.18"></script>
+  <script src="./banco-v6-16.js?v=6.18"></script>
+  <script src="./banco-v6-17-belgrano.js?v=6.18"></script>
+  <script src="./pedagogy-v6-18.js?v=6.18"></script>
+  <script src="./app.js?v=6.18"></script>
+  <script src="./simulacros.js?v=6.18"></script>
+  <script src="./testeo.js?v=6.18"></script>
+  <script src="./ui-v6.js?v=6.18"></script>
+  <script src="./ui-v6-4.js?v=6.18"></script>
+  <script src="./adaptive-v6-8.js?v=6.18"></script>
+  <script src="./choice-order-v6-8-2.js?v=6.18"></script>
+  <script src="./badges-v6-9.js?v=6.18"></script>
 </body>
 </html>
