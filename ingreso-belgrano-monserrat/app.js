@@ -37,7 +37,7 @@
     try {
       // La URL cambia con la versión: evita que un service worker anterior entregue
       // habilidades sin videos durante la primera visita tras una actualización.
-      const releaseVersion = document.querySelector('meta[name="app-version"]')?.content || '6.18';
+      const releaseVersion = document.querySelector('meta[name="app-version"]')?.content || '6.18.1';
       const [skillsData, exerciseData] = await Promise.all([
         fetch(`./data/habilidades.json?v=${encodeURIComponent(releaseVersion)}`, { cache: 'no-store' }).then(r => { if (!r.ok) throw new Error('habilidades'); return r.json(); }),
         fetch('./data/ejercicios.json').then(r => { if (!r.ok) throw new Error('ejercicios'); return r.json(); })
@@ -55,7 +55,7 @@
     refreshGateNames();
     restoreActiveContext();
     setupSupabase();
-    if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js?v=6.18').catch(() => {});
+    if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js?v=6.18.1').catch(() => {});
   }
 
   function bindUI() {
@@ -65,8 +65,8 @@
     $$('[data-nav]').forEach(btn => btn.addEventListener('click', e => { e.preventDefault(); navigate(btn.dataset.nav); }));
     $('#start-recommended').addEventListener('click', startRecommended);
     $('#start-diagnostic').addEventListener('click', () => startSession({ type: 'diagnostico', area: 'all', origin: 'manual' }));
-    $('[data-practice]').forEach(btn => btn.addEventListener('click', () => startSession({ type: 'practica', area: btn.dataset.practice, origin: 'manual' })));
-    $('[data-sim-school]').forEach(btn => btn.addEventListener('click', () => startSession({ type: 'simulacro', area: btn.dataset.simArea, school: btn.dataset.simSchool, origin: 'simulacro' })));
+    $$('[data-practice]').forEach(btn => btn.addEventListener('click', () => startSession({ type: 'practica', area: btn.dataset.practice, origin: 'manual' })));
+    $$('[data-sim-school]').forEach(btn => btn.addEventListener('click', () => startSession({ type: 'simulacro', area: btn.dataset.simArea, school: btn.dataset.simSchool, origin: 'simulacro' })));
     $$('[data-skill-filter]').forEach(btn => btn.addEventListener('click', () => {
       $$('[data-skill-filter]').forEach(x => x.classList.remove('active'));
       btn.classList.add('active');
