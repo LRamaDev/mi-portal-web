@@ -1,0 +1,2179 @@
+{
+  "schema_version": 1,
+  "previous_publication_date": "2026-09-18",
+  "publication_date": "2026-10-09",
+  "summary": {
+    "previous_services": 5510,
+    "current_services": 5514,
+    "unchanged": 5479,
+    "modified": 26,
+    "added": 9,
+    "removed": 5
+  },
+  "corridors": [
+    {
+      "corridor": "ESTE-SUDESTE",
+      "previous": 535,
+      "current": 535,
+      "difference": 0
+    },
+    {
+      "corridor": "NORESTE",
+      "previous": 407,
+      "current": 407,
+      "difference": 0
+    },
+    {
+      "corridor": "NORTE",
+      "previous": 717,
+      "current": 717,
+      "difference": 0
+    },
+    {
+      "corridor": "PUNILLA",
+      "previous": 1431,
+      "current": 1435,
+      "difference": 4
+    },
+    {
+      "corridor": "RUTA 5",
+      "previous": 555,
+      "current": 555,
+      "difference": 0
+    },
+    {
+      "corridor": "SIERRAS CHICAS",
+      "previous": 1167,
+      "current": 1167,
+      "difference": 0
+    },
+    {
+      "corridor": "SUR",
+      "previous": 480,
+      "current": 480,
+      "difference": 0
+    },
+    {
+      "corridor": "TRASLASIERRA",
+      "previous": 218,
+      "current": 218,
+      "difference": 0
+    }
+  ],
+  "new_lines": [],
+  "removed_lines": [],
+  "geography": {
+    "located": 176,
+    "unresolved": 7,
+    "newly_unresolved": []
+  },
+  "modified": [
+    {
+      "id": "chg-5cf10a3d0d8900d9",
+      "fields": {
+        "time": {
+          "before": "14:00",
+          "after": "14:10"
+        }
+      },
+      "before": {
+        "corridor": "PUNILLA",
+        "line": "COSQUÍN - LA FALDA",
+        "line_id": "punilla-cosquin-la-falda",
+        "nodes": [
+          "COSQUÍN",
+          "LA FALDA"
+        ],
+        "direction": "I",
+        "time": "14:00",
+        "minutes": 840,
+        "company": "COTA LA CALERA LTDA.",
+        "cuit": "30-54633555-7",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RN 38",
+        "source_file": "04-punilla.pdf",
+        "source_page": 56
+      },
+      "after": {
+        "corridor": "PUNILLA",
+        "line": "COSQUÍN - LA FALDA",
+        "line_id": "punilla-cosquin-la-falda",
+        "nodes": [
+          "COSQUÍN",
+          "LA FALDA"
+        ],
+        "direction": "I",
+        "time": "14:10",
+        "minutes": 850,
+        "company": "COTA LA CALERA LTDA.",
+        "cuit": "30-54633555-7",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RN 38",
+        "source_file": "04-punilla.pdf",
+        "source_page": 56
+      }
+    },
+    {
+      "id": "chg-1db887a207db5808",
+      "fields": {
+        "time": {
+          "before": "12:20",
+          "after": "12:15"
+        }
+      },
+      "before": {
+        "corridor": "PUNILLA",
+        "line": "CÓRDOBA - COSQUÍN",
+        "line_id": "punilla-cordoba-cosquin",
+        "nodes": [
+          "CÓRDOBA",
+          "COSQUÍN"
+        ],
+        "direction": "I",
+        "time": "12:20",
+        "minutes": 740,
+        "company": "COTA LA CALERA LTDA.",
+        "cuit": "30-54633555-7",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "POR DIQUECITO- RUTA E 55",
+        "source_file": "04-punilla.pdf",
+        "source_page": 15
+      },
+      "after": {
+        "corridor": "PUNILLA",
+        "line": "CÓRDOBA - COSQUÍN",
+        "line_id": "punilla-cordoba-cosquin",
+        "nodes": [
+          "CÓRDOBA",
+          "COSQUÍN"
+        ],
+        "direction": "I",
+        "time": "12:15",
+        "minutes": 735,
+        "company": "COTA LA CALERA LTDA.",
+        "cuit": "30-54633555-7",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "POR DIQUECITO- RUTA E 55",
+        "source_file": "04-punilla.pdf",
+        "source_page": 15
+      }
+    },
+    {
+      "id": "chg-ef1bbd2801ebf18c",
+      "fields": {
+        "service_days": {
+          "before": [
+            6,
+            7
+          ],
+          "after": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ]
+        },
+        "service_days_text": {
+          "before": "FINES DE SEMANA",
+          "after": "DIARIO"
+        }
+      },
+      "before": {
+        "corridor": "PUNILLA",
+        "line": "CÓRDOBA - COSQUÍN",
+        "line_id": "punilla-cordoba-cosquin",
+        "nodes": [
+          "CÓRDOBA",
+          "COSQUÍN"
+        ],
+        "direction": "I",
+        "time": "12:30",
+        "minutes": 750,
+        "company": "COTA LA CALERA LTDA.",
+        "cuit": "30-54633555-7",
+        "service_days_text": "FINES DE SEMANA",
+        "service_days": [
+          6,
+          7
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "POR DIQUECITO- RUTA E 55",
+        "source_file": "04-punilla.pdf",
+        "source_page": 15
+      },
+      "after": {
+        "corridor": "PUNILLA",
+        "line": "CÓRDOBA - COSQUÍN",
+        "line_id": "punilla-cordoba-cosquin",
+        "nodes": [
+          "CÓRDOBA",
+          "COSQUÍN"
+        ],
+        "direction": "I",
+        "time": "12:30",
+        "minutes": 750,
+        "company": "COTA LA CALERA LTDA.",
+        "cuit": "30-54633555-7",
+        "service_days_text": "DIARIO",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "POR DIQUECITO- RUTA E 55",
+        "source_file": "04-punilla.pdf",
+        "source_page": 15
+      }
+    },
+    {
+      "id": "chg-281b3fb289450342",
+      "fields": {
+        "time": {
+          "before": "12:40",
+          "after": "12:45"
+        }
+      },
+      "before": {
+        "corridor": "PUNILLA",
+        "line": "CÓRDOBA - COSQUÍN",
+        "line_id": "punilla-cordoba-cosquin",
+        "nodes": [
+          "CÓRDOBA",
+          "COSQUÍN"
+        ],
+        "direction": "I",
+        "time": "12:40",
+        "minutes": 760,
+        "company": "COTA LA CALERA LTDA.",
+        "cuit": "30-54633555-7",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "POR DIQUECITO- RUTA E 55",
+        "source_file": "04-punilla.pdf",
+        "source_page": 15
+      },
+      "after": {
+        "corridor": "PUNILLA",
+        "line": "CÓRDOBA - COSQUÍN",
+        "line_id": "punilla-cordoba-cosquin",
+        "nodes": [
+          "CÓRDOBA",
+          "COSQUÍN"
+        ],
+        "direction": "I",
+        "time": "12:45",
+        "minutes": 765,
+        "company": "COTA LA CALERA LTDA.",
+        "cuit": "30-54633555-7",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "POR DIQUECITO- RUTA E 55",
+        "source_file": "04-punilla.pdf",
+        "source_page": 15
+      }
+    },
+    {
+      "id": "chg-df4a17bff3a09f63",
+      "fields": {
+        "time": {
+          "before": "13:20",
+          "after": "13:15"
+        }
+      },
+      "before": {
+        "corridor": "PUNILLA",
+        "line": "CÓRDOBA - COSQUÍN",
+        "line_id": "punilla-cordoba-cosquin",
+        "nodes": [
+          "CÓRDOBA",
+          "COSQUÍN"
+        ],
+        "direction": "I",
+        "time": "13:20",
+        "minutes": 800,
+        "company": "COTA LA CALERA LTDA.",
+        "cuit": "30-54633555-7",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "POR DIQUECITO- RUTA E 55",
+        "source_file": "04-punilla.pdf",
+        "source_page": 15
+      },
+      "after": {
+        "corridor": "PUNILLA",
+        "line": "CÓRDOBA - COSQUÍN",
+        "line_id": "punilla-cordoba-cosquin",
+        "nodes": [
+          "CÓRDOBA",
+          "COSQUÍN"
+        ],
+        "direction": "I",
+        "time": "13:15",
+        "minutes": 795,
+        "company": "COTA LA CALERA LTDA.",
+        "cuit": "30-54633555-7",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "POR DIQUECITO- RUTA E 55",
+        "source_file": "04-punilla.pdf",
+        "source_page": 15
+      }
+    },
+    {
+      "id": "chg-8e19de5c84489f1b",
+      "fields": {
+        "service_days": {
+          "before": [
+            6,
+            7
+          ],
+          "after": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ]
+        },
+        "service_days_text": {
+          "before": "FINES DE SEMANA",
+          "after": "DIARIO"
+        }
+      },
+      "before": {
+        "corridor": "PUNILLA",
+        "line": "CÓRDOBA - COSQUÍN",
+        "line_id": "punilla-cordoba-cosquin",
+        "nodes": [
+          "CÓRDOBA",
+          "COSQUÍN"
+        ],
+        "direction": "I",
+        "time": "13:30",
+        "minutes": 810,
+        "company": "COTA LA CALERA LTDA.",
+        "cuit": "30-54633555-7",
+        "service_days_text": "FINES DE SEMANA",
+        "service_days": [
+          6,
+          7
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "POR DIQUECITO- RUTA E 55",
+        "source_file": "04-punilla.pdf",
+        "source_page": 15
+      },
+      "after": {
+        "corridor": "PUNILLA",
+        "line": "CÓRDOBA - COSQUÍN",
+        "line_id": "punilla-cordoba-cosquin",
+        "nodes": [
+          "CÓRDOBA",
+          "COSQUÍN"
+        ],
+        "direction": "I",
+        "time": "13:30",
+        "minutes": 810,
+        "company": "COTA LA CALERA LTDA.",
+        "cuit": "30-54633555-7",
+        "service_days_text": "DIARIO",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "POR DIQUECITO- RUTA E 55",
+        "source_file": "04-punilla.pdf",
+        "source_page": 15
+      }
+    },
+    {
+      "id": "chg-24a9a0d034d18e40",
+      "fields": {
+        "time": {
+          "before": "13:45",
+          "after": "13:50"
+        }
+      },
+      "before": {
+        "corridor": "PUNILLA",
+        "line": "CÓRDOBA - COSQUÍN",
+        "line_id": "punilla-cordoba-cosquin",
+        "nodes": [
+          "CÓRDOBA",
+          "COSQUÍN"
+        ],
+        "direction": "I",
+        "time": "13:45",
+        "minutes": 825,
+        "company": "COTA LA CALERA LTDA.",
+        "cuit": "30-54633555-7",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "POR DIQUECITO- RUTA E 55",
+        "source_file": "04-punilla.pdf",
+        "source_page": 15
+      },
+      "after": {
+        "corridor": "PUNILLA",
+        "line": "CÓRDOBA - COSQUÍN",
+        "line_id": "punilla-cordoba-cosquin",
+        "nodes": [
+          "CÓRDOBA",
+          "COSQUÍN"
+        ],
+        "direction": "I",
+        "time": "13:50",
+        "minutes": 830,
+        "company": "COTA LA CALERA LTDA.",
+        "cuit": "30-54633555-7",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "POR DIQUECITO- RUTA E 55",
+        "source_file": "04-punilla.pdf",
+        "source_page": 15
+      }
+    },
+    {
+      "id": "chg-145b13eb9c4191c6",
+      "fields": {
+        "time": {
+          "before": "14:05",
+          "after": "14:10"
+        }
+      },
+      "before": {
+        "corridor": "PUNILLA",
+        "line": "CÓRDOBA - COSQUÍN",
+        "line_id": "punilla-cordoba-cosquin",
+        "nodes": [
+          "CÓRDOBA",
+          "COSQUÍN"
+        ],
+        "direction": "I",
+        "time": "14:05",
+        "minutes": 845,
+        "company": "COTA LA CALERA LTDA.",
+        "cuit": "30-54633555-7",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "POR DIQUECITO- RUTA E 55",
+        "source_file": "04-punilla.pdf",
+        "source_page": 16
+      },
+      "after": {
+        "corridor": "PUNILLA",
+        "line": "CÓRDOBA - COSQUÍN",
+        "line_id": "punilla-cordoba-cosquin",
+        "nodes": [
+          "CÓRDOBA",
+          "COSQUÍN"
+        ],
+        "direction": "I",
+        "time": "14:10",
+        "minutes": 850,
+        "company": "COTA LA CALERA LTDA.",
+        "cuit": "30-54633555-7",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "POR DIQUECITO- RUTA E 55",
+        "source_file": "04-punilla.pdf",
+        "source_page": 16
+      }
+    },
+    {
+      "id": "chg-6d6c8e6f2f2395d8",
+      "fields": {
+        "service_days": {
+          "before": [
+            6,
+            7
+          ],
+          "after": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ]
+        },
+        "service_days_text": {
+          "before": "FINES DE SEMANA",
+          "after": "DIARIO"
+        }
+      },
+      "before": {
+        "corridor": "PUNILLA",
+        "line": "CÓRDOBA - COSQUÍN",
+        "line_id": "punilla-cordoba-cosquin",
+        "nodes": [
+          "CÓRDOBA",
+          "COSQUÍN"
+        ],
+        "direction": "I",
+        "time": "22:00",
+        "minutes": 1320,
+        "company": "COTA LA CALERA LTDA.",
+        "cuit": "30-54633555-7",
+        "service_days_text": "FINES DE SEMANA",
+        "service_days": [
+          6,
+          7
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "POR DIQUECITO- RUTA E 55",
+        "source_file": "04-punilla.pdf",
+        "source_page": 17
+      },
+      "after": {
+        "corridor": "PUNILLA",
+        "line": "CÓRDOBA - COSQUÍN",
+        "line_id": "punilla-cordoba-cosquin",
+        "nodes": [
+          "CÓRDOBA",
+          "COSQUÍN"
+        ],
+        "direction": "I",
+        "time": "22:00",
+        "minutes": 1320,
+        "company": "COTA LA CALERA LTDA.",
+        "cuit": "30-54633555-7",
+        "service_days_text": "DIARIO",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "POR DIQUECITO- RUTA E 55",
+        "source_file": "04-punilla.pdf",
+        "source_page": 17
+      }
+    },
+    {
+      "id": "chg-73b4eb7187471c01",
+      "fields": {
+        "service_days": {
+          "before": [
+            6
+          ],
+          "after": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ]
+        },
+        "service_days_text": {
+          "before": "SÁBADO",
+          "after": "LUNES A SÁBADOS"
+        }
+      },
+      "before": {
+        "corridor": "PUNILLA",
+        "line": "CÓRDOBA - COSQUÍN",
+        "line_id": "punilla-cordoba-cosquin",
+        "nodes": [
+          "CÓRDOBA",
+          "COSQUÍN"
+        ],
+        "direction": "V",
+        "time": "06:00",
+        "minutes": 360,
+        "company": "COTA LA CALERA LTDA.",
+        "cuit": "30-54633555-7",
+        "service_days_text": "SÁBADO",
+        "service_days": [
+          6
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "POR DIQUECITO- RUTA E 55",
+        "source_file": "04-punilla.pdf",
+        "source_page": 18
+      },
+      "after": {
+        "corridor": "PUNILLA",
+        "line": "CÓRDOBA - COSQUÍN",
+        "line_id": "punilla-cordoba-cosquin",
+        "nodes": [
+          "CÓRDOBA",
+          "COSQUÍN"
+        ],
+        "direction": "V",
+        "time": "06:00",
+        "minutes": 360,
+        "company": "COTA LA CALERA LTDA.",
+        "cuit": "30-54633555-7",
+        "service_days_text": "LUNES A SÁBADOS",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "POR DIQUECITO- RUTA E 55",
+        "source_file": "04-punilla.pdf",
+        "source_page": 18
+      }
+    },
+    {
+      "id": "chg-a0b78f895259fcf5",
+      "fields": {
+        "time": {
+          "before": "06:30",
+          "after": "06:25"
+        },
+        "service_days": {
+          "before": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "after": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        },
+        "service_days_text": {
+          "before": "LUNES A SÁBADOS",
+          "after": "LUNES A VIERNES"
+        }
+      },
+      "before": {
+        "corridor": "PUNILLA",
+        "line": "CÓRDOBA - COSQUÍN",
+        "line_id": "punilla-cordoba-cosquin",
+        "nodes": [
+          "CÓRDOBA",
+          "COSQUÍN"
+        ],
+        "direction": "V",
+        "time": "06:30",
+        "minutes": 390,
+        "company": "COTA LA CALERA LTDA.",
+        "cuit": "30-54633555-7",
+        "service_days_text": "LUNES A SÁBADOS",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "POR DIQUECITO- RUTA E 55",
+        "source_file": "04-punilla.pdf",
+        "source_page": 18
+      },
+      "after": {
+        "corridor": "PUNILLA",
+        "line": "CÓRDOBA - COSQUÍN",
+        "line_id": "punilla-cordoba-cosquin",
+        "nodes": [
+          "CÓRDOBA",
+          "COSQUÍN"
+        ],
+        "direction": "V",
+        "time": "06:25",
+        "minutes": 385,
+        "company": "COTA LA CALERA LTDA.",
+        "cuit": "30-54633555-7",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "POR DIQUECITO- RUTA E 55",
+        "source_file": "04-punilla.pdf",
+        "source_page": 18
+      }
+    },
+    {
+      "id": "chg-a12a9c1d740a99fa",
+      "fields": {
+        "time": {
+          "before": "06:45",
+          "after": "06:40"
+        },
+        "service_days": {
+          "before": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "after": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        },
+        "service_days_text": {
+          "before": "DIARIO",
+          "after": "LUNES A VIERNES"
+        }
+      },
+      "before": {
+        "corridor": "PUNILLA",
+        "line": "CÓRDOBA - COSQUÍN",
+        "line_id": "punilla-cordoba-cosquin",
+        "nodes": [
+          "CÓRDOBA",
+          "COSQUÍN"
+        ],
+        "direction": "V",
+        "time": "06:45",
+        "minutes": 405,
+        "company": "COTA LA CALERA LTDA.",
+        "cuit": "30-54633555-7",
+        "service_days_text": "DIARIO",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "POR DIQUECITO- RUTA E 55",
+        "source_file": "04-punilla.pdf",
+        "source_page": 18
+      },
+      "after": {
+        "corridor": "PUNILLA",
+        "line": "CÓRDOBA - COSQUÍN",
+        "line_id": "punilla-cordoba-cosquin",
+        "nodes": [
+          "CÓRDOBA",
+          "COSQUÍN"
+        ],
+        "direction": "V",
+        "time": "06:40",
+        "minutes": 400,
+        "company": "COTA LA CALERA LTDA.",
+        "cuit": "30-54633555-7",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "POR DIQUECITO- RUTA E 55",
+        "source_file": "04-punilla.pdf",
+        "source_page": 18
+      }
+    },
+    {
+      "id": "chg-bb8f3ab70bb849b0",
+      "fields": {
+        "time": {
+          "before": "22:30",
+          "after": "06:45"
+        }
+      },
+      "before": {
+        "corridor": "PUNILLA",
+        "line": "CÓRDOBA - COSQUÍN",
+        "line_id": "punilla-cordoba-cosquin",
+        "nodes": [
+          "CÓRDOBA",
+          "COSQUÍN"
+        ],
+        "direction": "V",
+        "time": "22:30",
+        "minutes": 1350,
+        "company": "COTA LA CALERA LTDA.",
+        "cuit": "30-54633555-7",
+        "service_days_text": "FINES DE SEMANA",
+        "service_days": [
+          6,
+          7
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "POR DIQUECITO- RUTA E 55",
+        "source_file": "04-punilla.pdf",
+        "source_page": 22
+      },
+      "after": {
+        "corridor": "PUNILLA",
+        "line": "CÓRDOBA - COSQUÍN",
+        "line_id": "punilla-cordoba-cosquin",
+        "nodes": [
+          "CÓRDOBA",
+          "COSQUÍN"
+        ],
+        "direction": "V",
+        "time": "06:45",
+        "minutes": 405,
+        "company": "COTA LA CALERA LTDA.",
+        "cuit": "30-54633555-7",
+        "service_days_text": "FINES DE SEMANA",
+        "service_days": [
+          6,
+          7
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "POR DIQUECITO- RUTA E 55",
+        "source_file": "04-punilla.pdf",
+        "source_page": 18
+      }
+    },
+    {
+      "id": "chg-65865553254aa3d1",
+      "fields": {
+        "time": {
+          "before": "12:10",
+          "after": "12:05"
+        },
+        "service_days": {
+          "before": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "after": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        },
+        "service_days_text": {
+          "before": "LUNES A SÁBADOS",
+          "after": "LUNES A VIERNES"
+        }
+      },
+      "before": {
+        "corridor": "SIERRAS CHICAS",
+        "line": "CÓRDOBA - LA CALERA (ALBERDI)",
+        "line_id": "sierras-chicas-cordoba-la-calera-alberdi",
+        "nodes": [
+          "CÓRDOBA",
+          "LA CALERA"
+        ],
+        "direction": "I",
+        "time": "12:10",
+        "minutes": 730,
+        "company": "COTA LA CALERA LTDA.",
+        "cuit": "30-54633555-7",
+        "service_days_text": "LUNES A SÁBADOS",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP E55 (AV. EJÉRCITO ARGENTINO)",
+        "source_file": "06-sierras-chicas.pdf",
+        "source_page": 17
+      },
+      "after": {
+        "corridor": "SIERRAS CHICAS",
+        "line": "CÓRDOBA - LA CALERA (ALBERDI)",
+        "line_id": "sierras-chicas-cordoba-la-calera-alberdi",
+        "nodes": [
+          "CÓRDOBA",
+          "LA CALERA"
+        ],
+        "direction": "I",
+        "time": "12:05",
+        "minutes": 725,
+        "company": "COTA LA CALERA LTDA.",
+        "cuit": "30-54633555-7",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "RP E55 (AV. EJÉRCITO ARGENTINO)",
+        "source_file": "06-sierras-chicas.pdf",
+        "source_page": 17
+      }
+    },
+    {
+      "id": "chg-47bb05204afb1c45",
+      "fields": {
+        "time": {
+          "before": "05:20",
+          "after": "05:40"
+        }
+      },
+      "before": {
+        "corridor": "SIERRAS CHICAS",
+        "line": "CÓRDOBA - LA CALERA (ARGUELLO)",
+        "line_id": "sierras-chicas-cordoba-la-calera-arguello",
+        "nodes": [
+          "CÓRDOBA",
+          "LA CALERA"
+        ],
+        "direction": "I",
+        "time": "05:20",
+        "minutes": 320,
+        "company": "COTA LA CALERA LTDA.",
+        "cuit": "30-54633555-7",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "AVDA. R. NUÑEZ, R. ROJAS Y BODEREAU",
+        "source_file": "06-sierras-chicas.pdf",
+        "source_page": 26
+      },
+      "after": {
+        "corridor": "SIERRAS CHICAS",
+        "line": "CÓRDOBA - LA CALERA (ARGUELLO)",
+        "line_id": "sierras-chicas-cordoba-la-calera-arguello",
+        "nodes": [
+          "CÓRDOBA",
+          "LA CALERA"
+        ],
+        "direction": "I",
+        "time": "05:40",
+        "minutes": 340,
+        "company": "COTA LA CALERA LTDA.",
+        "cuit": "30-54633555-7",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "AVDA. R. NUÑEZ, R. ROJAS Y BODEREAU",
+        "source_file": "06-sierras-chicas.pdf",
+        "source_page": 26
+      }
+    },
+    {
+      "id": "chg-8e5fb1cf67f1ccf9",
+      "fields": {
+        "service_days": {
+          "before": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "after": [
+            6,
+            7
+          ]
+        },
+        "service_days_text": {
+          "before": "DIARIO",
+          "after": "FINES DE SEMANA"
+        }
+      },
+      "before": {
+        "corridor": "SIERRAS CHICAS",
+        "line": "CÓRDOBA - LA CALERA (ARGUELLO)",
+        "line_id": "sierras-chicas-cordoba-la-calera-arguello",
+        "nodes": [
+          "CÓRDOBA",
+          "LA CALERA"
+        ],
+        "direction": "I",
+        "time": "05:50",
+        "minutes": 350,
+        "company": "COTA LA CALERA LTDA.",
+        "cuit": "30-54633555-7",
+        "service_days_text": "DIARIO",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "AVDA. R. NUÑEZ, R. ROJAS Y BODEREAU",
+        "source_file": "06-sierras-chicas.pdf",
+        "source_page": 26
+      },
+      "after": {
+        "corridor": "SIERRAS CHICAS",
+        "line": "CÓRDOBA - LA CALERA (ARGUELLO)",
+        "line_id": "sierras-chicas-cordoba-la-calera-arguello",
+        "nodes": [
+          "CÓRDOBA",
+          "LA CALERA"
+        ],
+        "direction": "I",
+        "time": "05:50",
+        "minutes": 350,
+        "company": "COTA LA CALERA LTDA.",
+        "cuit": "30-54633555-7",
+        "service_days_text": "FINES DE SEMANA",
+        "service_days": [
+          6,
+          7
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "AVDA. R. NUÑEZ, R. ROJAS Y BODEREAU",
+        "source_file": "06-sierras-chicas.pdf",
+        "source_page": 26
+      }
+    },
+    {
+      "id": "chg-722aef84d41db55e",
+      "fields": {
+        "time": {
+          "before": "06:15",
+          "after": "06:10"
+        }
+      },
+      "before": {
+        "corridor": "SIERRAS CHICAS",
+        "line": "CÓRDOBA - LA CALERA (ARGUELLO)",
+        "line_id": "sierras-chicas-cordoba-la-calera-arguello",
+        "nodes": [
+          "CÓRDOBA",
+          "LA CALERA"
+        ],
+        "direction": "I",
+        "time": "06:15",
+        "minutes": 375,
+        "company": "COTA LA CALERA LTDA.",
+        "cuit": "30-54633555-7",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "AVDA. R. NUÑEZ, R. ROJAS Y BODEREAU",
+        "source_file": "06-sierras-chicas.pdf",
+        "source_page": 26
+      },
+      "after": {
+        "corridor": "SIERRAS CHICAS",
+        "line": "CÓRDOBA - LA CALERA (ARGUELLO)",
+        "line_id": "sierras-chicas-cordoba-la-calera-arguello",
+        "nodes": [
+          "CÓRDOBA",
+          "LA CALERA"
+        ],
+        "direction": "I",
+        "time": "06:10",
+        "minutes": 370,
+        "company": "COTA LA CALERA LTDA.",
+        "cuit": "30-54633555-7",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "AVDA. R. NUÑEZ, R. ROJAS Y BODEREAU",
+        "source_file": "06-sierras-chicas.pdf",
+        "source_page": 26
+      }
+    },
+    {
+      "id": "chg-f147c06411340afc",
+      "fields": {
+        "time": {
+          "before": "19:25",
+          "after": "19:45"
+        }
+      },
+      "before": {
+        "corridor": "SIERRAS CHICAS",
+        "line": "CÓRDOBA - LA CALERA (ARGUELLO)",
+        "line_id": "sierras-chicas-cordoba-la-calera-arguello",
+        "nodes": [
+          "CÓRDOBA",
+          "LA CALERA"
+        ],
+        "direction": "I",
+        "time": "19:25",
+        "minutes": 1165,
+        "company": "COTA LA CALERA LTDA.",
+        "cuit": "30-54633555-7",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "AVDA. R. NUÑEZ, R. ROJAS Y BODEREAU",
+        "source_file": "06-sierras-chicas.pdf",
+        "source_page": 27
+      },
+      "after": {
+        "corridor": "SIERRAS CHICAS",
+        "line": "CÓRDOBA - LA CALERA (ARGUELLO)",
+        "line_id": "sierras-chicas-cordoba-la-calera-arguello",
+        "nodes": [
+          "CÓRDOBA",
+          "LA CALERA"
+        ],
+        "direction": "I",
+        "time": "19:45",
+        "minutes": 1185,
+        "company": "COTA LA CALERA LTDA.",
+        "cuit": "30-54633555-7",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "AVDA. R. NUÑEZ, R. ROJAS Y BODEREAU",
+        "source_file": "06-sierras-chicas.pdf",
+        "source_page": 27
+      }
+    },
+    {
+      "id": "chg-b0458a4ac84b6c4e",
+      "fields": {
+        "time": {
+          "before": "20:25",
+          "after": "20:30"
+        }
+      },
+      "before": {
+        "corridor": "SIERRAS CHICAS",
+        "line": "CÓRDOBA - LA CALERA (ARGUELLO)",
+        "line_id": "sierras-chicas-cordoba-la-calera-arguello",
+        "nodes": [
+          "CÓRDOBA",
+          "LA CALERA"
+        ],
+        "direction": "I",
+        "time": "20:25",
+        "minutes": 1225,
+        "company": "COTA LA CALERA LTDA.",
+        "cuit": "30-54633555-7",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "AVDA. R. NUÑEZ, R. ROJAS Y BODEREAU",
+        "source_file": "06-sierras-chicas.pdf",
+        "source_page": 27
+      },
+      "after": {
+        "corridor": "SIERRAS CHICAS",
+        "line": "CÓRDOBA - LA CALERA (ARGUELLO)",
+        "line_id": "sierras-chicas-cordoba-la-calera-arguello",
+        "nodes": [
+          "CÓRDOBA",
+          "LA CALERA"
+        ],
+        "direction": "I",
+        "time": "20:30",
+        "minutes": 1230,
+        "company": "COTA LA CALERA LTDA.",
+        "cuit": "30-54633555-7",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "AVDA. R. NUÑEZ, R. ROJAS Y BODEREAU",
+        "source_file": "06-sierras-chicas.pdf",
+        "source_page": 27
+      }
+    },
+    {
+      "id": "chg-b80af98efef069c1",
+      "fields": {
+        "time": {
+          "before": "21:25",
+          "after": "21:30"
+        }
+      },
+      "before": {
+        "corridor": "SIERRAS CHICAS",
+        "line": "CÓRDOBA - LA CALERA (ARGUELLO)",
+        "line_id": "sierras-chicas-cordoba-la-calera-arguello",
+        "nodes": [
+          "CÓRDOBA",
+          "LA CALERA"
+        ],
+        "direction": "I",
+        "time": "21:25",
+        "minutes": 1285,
+        "company": "COTA LA CALERA LTDA.",
+        "cuit": "30-54633555-7",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "AVDA. R. NUÑEZ, R. ROJAS Y BODEREAU",
+        "source_file": "06-sierras-chicas.pdf",
+        "source_page": 27
+      },
+      "after": {
+        "corridor": "SIERRAS CHICAS",
+        "line": "CÓRDOBA - LA CALERA (ARGUELLO)",
+        "line_id": "sierras-chicas-cordoba-la-calera-arguello",
+        "nodes": [
+          "CÓRDOBA",
+          "LA CALERA"
+        ],
+        "direction": "I",
+        "time": "21:30",
+        "minutes": 1290,
+        "company": "COTA LA CALERA LTDA.",
+        "cuit": "30-54633555-7",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "AVDA. R. NUÑEZ, R. ROJAS Y BODEREAU",
+        "source_file": "06-sierras-chicas.pdf",
+        "source_page": 27
+      }
+    },
+    {
+      "id": "chg-d2e0a36a9cdbeebe",
+      "fields": {
+        "time": {
+          "before": "04:00",
+          "after": "04:20"
+        }
+      },
+      "before": {
+        "corridor": "SIERRAS CHICAS",
+        "line": "CÓRDOBA - LA CALERA (ARGUELLO)",
+        "line_id": "sierras-chicas-cordoba-la-calera-arguello",
+        "nodes": [
+          "CÓRDOBA",
+          "LA CALERA"
+        ],
+        "direction": "V",
+        "time": "04:00",
+        "minutes": 240,
+        "company": "COTA LA CALERA LTDA.",
+        "cuit": "30-54633555-7",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "AVDA. R. NUÑEZ, R. ROJAS Y BODEREAU",
+        "source_file": "06-sierras-chicas.pdf",
+        "source_page": 28
+      },
+      "after": {
+        "corridor": "SIERRAS CHICAS",
+        "line": "CÓRDOBA - LA CALERA (ARGUELLO)",
+        "line_id": "sierras-chicas-cordoba-la-calera-arguello",
+        "nodes": [
+          "CÓRDOBA",
+          "LA CALERA"
+        ],
+        "direction": "V",
+        "time": "04:20",
+        "minutes": 260,
+        "company": "COTA LA CALERA LTDA.",
+        "cuit": "30-54633555-7",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "AVDA. R. NUÑEZ, R. ROJAS Y BODEREAU",
+        "source_file": "06-sierras-chicas.pdf",
+        "source_page": 28
+      }
+    },
+    {
+      "id": "chg-a188f6467a2befe3",
+      "fields": {
+        "service_days": {
+          "before": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "after": [
+            6,
+            7
+          ]
+        },
+        "service_days_text": {
+          "before": "DIARIO",
+          "after": "FINES DE SEMANA"
+        }
+      },
+      "before": {
+        "corridor": "SIERRAS CHICAS",
+        "line": "CÓRDOBA - LA CALERA (ARGUELLO)",
+        "line_id": "sierras-chicas-cordoba-la-calera-arguello",
+        "nodes": [
+          "CÓRDOBA",
+          "LA CALERA"
+        ],
+        "direction": "V",
+        "time": "04:30",
+        "minutes": 270,
+        "company": "COTA LA CALERA LTDA.",
+        "cuit": "30-54633555-7",
+        "service_days_text": "DIARIO",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "AVDA. R. NUÑEZ, R. ROJAS Y BODEREAU",
+        "source_file": "06-sierras-chicas.pdf",
+        "source_page": 28
+      },
+      "after": {
+        "corridor": "SIERRAS CHICAS",
+        "line": "CÓRDOBA - LA CALERA (ARGUELLO)",
+        "line_id": "sierras-chicas-cordoba-la-calera-arguello",
+        "nodes": [
+          "CÓRDOBA",
+          "LA CALERA"
+        ],
+        "direction": "V",
+        "time": "04:30",
+        "minutes": 270,
+        "company": "COTA LA CALERA LTDA.",
+        "cuit": "30-54633555-7",
+        "service_days_text": "FINES DE SEMANA",
+        "service_days": [
+          6,
+          7
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "AVDA. R. NUÑEZ, R. ROJAS Y BODEREAU",
+        "source_file": "06-sierras-chicas.pdf",
+        "source_page": 28
+      }
+    },
+    {
+      "id": "chg-e7a111473bb63d47",
+      "fields": {
+        "time": {
+          "before": "05:00",
+          "after": "04:50"
+        }
+      },
+      "before": {
+        "corridor": "SIERRAS CHICAS",
+        "line": "CÓRDOBA - LA CALERA (ARGUELLO)",
+        "line_id": "sierras-chicas-cordoba-la-calera-arguello",
+        "nodes": [
+          "CÓRDOBA",
+          "LA CALERA"
+        ],
+        "direction": "V",
+        "time": "05:00",
+        "minutes": 300,
+        "company": "COTA LA CALERA LTDA.",
+        "cuit": "30-54633555-7",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "AVDA. R. NUÑEZ, R. ROJAS Y BODEREAU",
+        "source_file": "06-sierras-chicas.pdf",
+        "source_page": 28
+      },
+      "after": {
+        "corridor": "SIERRAS CHICAS",
+        "line": "CÓRDOBA - LA CALERA (ARGUELLO)",
+        "line_id": "sierras-chicas-cordoba-la-calera-arguello",
+        "nodes": [
+          "CÓRDOBA",
+          "LA CALERA"
+        ],
+        "direction": "V",
+        "time": "04:50",
+        "minutes": 290,
+        "company": "COTA LA CALERA LTDA.",
+        "cuit": "30-54633555-7",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "AVDA. R. NUÑEZ, R. ROJAS Y BODEREAU",
+        "source_file": "06-sierras-chicas.pdf",
+        "source_page": 28
+      }
+    },
+    {
+      "id": "chg-14261a29e295d1c7",
+      "fields": {
+        "time": {
+          "before": "07:50",
+          "after": "07:55"
+        }
+      },
+      "before": {
+        "corridor": "SIERRAS CHICAS",
+        "line": "CÓRDOBA - LA CALERA (ARGUELLO)",
+        "line_id": "sierras-chicas-cordoba-la-calera-arguello",
+        "nodes": [
+          "CÓRDOBA",
+          "LA CALERA"
+        ],
+        "direction": "V",
+        "time": "07:50",
+        "minutes": 470,
+        "company": "COTA LA CALERA LTDA.",
+        "cuit": "30-54633555-7",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "AVDA. R. NUÑEZ, R. ROJAS Y BODEREAU",
+        "source_file": "06-sierras-chicas.pdf",
+        "source_page": 28
+      },
+      "after": {
+        "corridor": "SIERRAS CHICAS",
+        "line": "CÓRDOBA - LA CALERA (ARGUELLO)",
+        "line_id": "sierras-chicas-cordoba-la-calera-arguello",
+        "nodes": [
+          "CÓRDOBA",
+          "LA CALERA"
+        ],
+        "direction": "V",
+        "time": "07:55",
+        "minutes": 475,
+        "company": "COTA LA CALERA LTDA.",
+        "cuit": "30-54633555-7",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "AVDA. R. NUÑEZ, R. ROJAS Y BODEREAU",
+        "source_file": "06-sierras-chicas.pdf",
+        "source_page": 28
+      }
+    },
+    {
+      "id": "chg-27df5c4d9a8e35e0",
+      "fields": {
+        "time": {
+          "before": "08:25",
+          "after": "08:30"
+        }
+      },
+      "before": {
+        "corridor": "SIERRAS CHICAS",
+        "line": "CÓRDOBA - LA CALERA (ARGUELLO)",
+        "line_id": "sierras-chicas-cordoba-la-calera-arguello",
+        "nodes": [
+          "CÓRDOBA",
+          "LA CALERA"
+        ],
+        "direction": "V",
+        "time": "08:25",
+        "minutes": 505,
+        "company": "COTA LA CALERA LTDA.",
+        "cuit": "30-54633555-7",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "AVDA. R. NUÑEZ, R. ROJAS Y BODEREAU",
+        "source_file": "06-sierras-chicas.pdf",
+        "source_page": 28
+      },
+      "after": {
+        "corridor": "SIERRAS CHICAS",
+        "line": "CÓRDOBA - LA CALERA (ARGUELLO)",
+        "line_id": "sierras-chicas-cordoba-la-calera-arguello",
+        "nodes": [
+          "CÓRDOBA",
+          "LA CALERA"
+        ],
+        "direction": "V",
+        "time": "08:30",
+        "minutes": 510,
+        "company": "COTA LA CALERA LTDA.",
+        "cuit": "30-54633555-7",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "AVDA. R. NUÑEZ, R. ROJAS Y BODEREAU",
+        "source_file": "06-sierras-chicas.pdf",
+        "source_page": 28
+      }
+    },
+    {
+      "id": "chg-c7396ac34426ba48",
+      "fields": {
+        "time": {
+          "before": "08:55",
+          "after": "09:00"
+        },
+        "service_days": {
+          "before": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "after": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ]
+        },
+        "service_days_text": {
+          "before": "LUNES A VIERNES",
+          "after": "DIARIO"
+        }
+      },
+      "before": {
+        "corridor": "SIERRAS CHICAS",
+        "line": "CÓRDOBA - LA CALERA (ARGUELLO)",
+        "line_id": "sierras-chicas-cordoba-la-calera-arguello",
+        "nodes": [
+          "CÓRDOBA",
+          "LA CALERA"
+        ],
+        "direction": "V",
+        "time": "08:55",
+        "minutes": 535,
+        "company": "COTA LA CALERA LTDA.",
+        "cuit": "30-54633555-7",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "AVDA. R. NUÑEZ, R. ROJAS Y BODEREAU",
+        "source_file": "06-sierras-chicas.pdf",
+        "source_page": 28
+      },
+      "after": {
+        "corridor": "SIERRAS CHICAS",
+        "line": "CÓRDOBA - LA CALERA (ARGUELLO)",
+        "line_id": "sierras-chicas-cordoba-la-calera-arguello",
+        "nodes": [
+          "CÓRDOBA",
+          "LA CALERA"
+        ],
+        "direction": "V",
+        "time": "09:00",
+        "minutes": 540,
+        "company": "COTA LA CALERA LTDA.",
+        "cuit": "30-54633555-7",
+        "service_days_text": "DIARIO",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "modality": "REGULAR COMÚN",
+        "route": "AVDA. R. NUÑEZ, R. ROJAS Y BODEREAU",
+        "source_file": "06-sierras-chicas.pdf",
+        "source_page": 28
+      }
+    }
+  ],
+  "added": [
+    {
+      "corridor": "PUNILLA",
+      "line": "CÓRDOBA - COSQUÍN",
+      "line_id": "punilla-cordoba-cosquin",
+      "nodes": [
+        "CÓRDOBA",
+        "COSQUÍN"
+      ],
+      "direction": "I",
+      "time": "00:00",
+      "minutes": 0,
+      "company": "COTA LA CALERA LTDA.",
+      "cuit": "30-54633555-7",
+      "service_days_text": "FINES DE SEMANA",
+      "service_days": [
+        6,
+        7
+      ],
+      "modality": "REGULAR COMÚN",
+      "route": "POR DIQUECITO- RUTA E 55",
+      "source_file": "04-punilla.pdf",
+      "source_page": 14
+    },
+    {
+      "corridor": "PUNILLA",
+      "line": "CÓRDOBA - COSQUÍN",
+      "line_id": "punilla-cordoba-cosquin",
+      "nodes": [
+        "CÓRDOBA",
+        "COSQUÍN"
+      ],
+      "direction": "V",
+      "time": "06:30",
+      "minutes": 390,
+      "company": "COTA LA CALERA LTDA.",
+      "cuit": "30-54633555-7",
+      "service_days_text": "SÁBADO",
+      "service_days": [
+        6
+      ],
+      "modality": "REGULAR COMÚN",
+      "route": "POR DIQUECITO- RUTA E 55",
+      "source_file": "04-punilla.pdf",
+      "source_page": 18
+    },
+    {
+      "corridor": "PUNILLA",
+      "line": "CÓRDOBA - COSQUÍN",
+      "line_id": "punilla-cordoba-cosquin",
+      "nodes": [
+        "CÓRDOBA",
+        "COSQUÍN"
+      ],
+      "direction": "V",
+      "time": "06:50",
+      "minutes": 410,
+      "company": "COTA LA CALERA LTDA.",
+      "cuit": "30-54633555-7",
+      "service_days_text": "LUNES A VIERNES",
+      "service_days": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "modality": "REGULAR COMÚN",
+      "route": "POR DIQUECITO- RUTA E 55",
+      "source_file": "04-punilla.pdf",
+      "source_page": 18
+    },
+    {
+      "corridor": "PUNILLA",
+      "line": "CÓRDOBA - COSQUÍN",
+      "line_id": "punilla-cordoba-cosquin",
+      "nodes": [
+        "CÓRDOBA",
+        "COSQUÍN"
+      ],
+      "direction": "V",
+      "time": "20:00",
+      "minutes": 1200,
+      "company": "COTA LA CALERA LTDA.",
+      "cuit": "30-54633555-7",
+      "service_days_text": "LUNES A VIERNES",
+      "service_days": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "modality": "REGULAR COMÚN",
+      "route": "POR DIQUECITO- RUTA E 55",
+      "source_file": "04-punilla.pdf",
+      "source_page": 22
+    },
+    {
+      "corridor": "SIERRAS CHICAS",
+      "line": "CÓRDOBA - AGUA DE ORO",
+      "line_id": "sierras-chicas-cordoba-agua-de-oro",
+      "nodes": [
+        "CÓRDOBA",
+        "AGUA DE ORO"
+      ],
+      "direction": "V",
+      "time": "06:00",
+      "minutes": 360,
+      "company": "EMPRENDIMIENTOS S.R.L.",
+      "cuit": "30-67871434-4",
+      "service_days_text": "LUNES A VIERNES",
+      "service_days": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "modality": "REGULAR COMÚN DIRECTO",
+      "route": "RUTA E53",
+      "source_file": "06-sierras-chicas.pdf",
+      "source_page": 8
+    },
+    {
+      "corridor": "SIERRAS CHICAS",
+      "line": "CÓRDOBA - AGUA DE ORO",
+      "line_id": "sierras-chicas-cordoba-agua-de-oro",
+      "nodes": [
+        "CÓRDOBA",
+        "AGUA DE ORO"
+      ],
+      "direction": "V",
+      "time": "06:10",
+      "minutes": 370,
+      "company": "EMPRENDIMIENTOS S.R.L.",
+      "cuit": "30-67871434-4",
+      "service_days_text": "LUNES A VIERNES",
+      "service_days": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "modality": "REGULAR COMÚN DIRECTO",
+      "route": "RUTA E53",
+      "source_file": "06-sierras-chicas.pdf",
+      "source_page": 8
+    },
+    {
+      "corridor": "SIERRAS CHICAS",
+      "line": "CÓRDOBA - AGUA DE ORO",
+      "line_id": "sierras-chicas-cordoba-agua-de-oro",
+      "nodes": [
+        "CÓRDOBA",
+        "AGUA DE ORO"
+      ],
+      "direction": "V",
+      "time": "07:15",
+      "minutes": 435,
+      "company": "EMPRENDIMIENTOS S.R.L.",
+      "cuit": "30-67871434-4",
+      "service_days_text": "LUNES A VIERNES",
+      "service_days": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "modality": "REGULAR COMÚN DIRECTO",
+      "route": "RUTA E53",
+      "source_file": "06-sierras-chicas.pdf",
+      "source_page": 8
+    },
+    {
+      "corridor": "SIERRAS CHICAS",
+      "line": "CÓRDOBA - AGUA DE ORO",
+      "line_id": "sierras-chicas-cordoba-agua-de-oro",
+      "nodes": [
+        "CÓRDOBA",
+        "AGUA DE ORO"
+      ],
+      "direction": "V",
+      "time": "07:55",
+      "minutes": 475,
+      "company": "EMPRENDIMIENTOS S.R.L.",
+      "cuit": "30-67871434-4",
+      "service_days_text": "LUNES A VIERNES",
+      "service_days": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "modality": "REGULAR COMÚN DIRECTO",
+      "route": "RUTA E53",
+      "source_file": "06-sierras-chicas.pdf",
+      "source_page": 8
+    },
+    {
+      "corridor": "SIERRAS CHICAS",
+      "line": "CÓRDOBA - LA CALERA (ALBERDI)",
+      "line_id": "sierras-chicas-cordoba-la-calera-alberdi",
+      "nodes": [
+        "CÓRDOBA",
+        "LA CALERA"
+      ],
+      "direction": "I",
+      "time": "12:10",
+      "minutes": 730,
+      "company": "COTA LA CALERA LTDA.",
+      "cuit": "30-54633555-7",
+      "service_days_text": "SÁBADO",
+      "service_days": [
+        6
+      ],
+      "modality": "REGULAR COMÚN",
+      "route": "RP E55 (AV. EJÉRCITO ARGENTINO)",
+      "source_file": "06-sierras-chicas.pdf",
+      "source_page": 17
+    }
+  ],
+  "removed": [
+    {
+      "corridor": "SIERRAS CHICAS",
+      "line": "CÓRDOBA - AGUA DE ORO",
+      "line_id": "sierras-chicas-cordoba-agua-de-oro",
+      "nodes": [
+        "CÓRDOBA",
+        "AGUA DE ORO"
+      ],
+      "direction": "V",
+      "time": "06:00",
+      "minutes": 360,
+      "company": "EMPRENDIMIENTOS S.R.L.",
+      "cuit": "30-67871434-4",
+      "service_days_text": "LUNES A VIERNES",
+      "service_days": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "modality": "REGULAR COMÚN DIRECTO",
+      "route": "RUTA E53 - DIRECTO",
+      "source_file": "06-sierras-chicas.pdf",
+      "source_page": 8
+    },
+    {
+      "corridor": "SIERRAS CHICAS",
+      "line": "CÓRDOBA - AGUA DE ORO",
+      "line_id": "sierras-chicas-cordoba-agua-de-oro",
+      "nodes": [
+        "CÓRDOBA",
+        "AGUA DE ORO"
+      ],
+      "direction": "V",
+      "time": "06:10",
+      "minutes": 370,
+      "company": "EMPRENDIMIENTOS S.R.L.",
+      "cuit": "30-67871434-4",
+      "service_days_text": "LUNES A VIERNES",
+      "service_days": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "modality": "REGULAR COMÚN DIRECTO",
+      "route": "RUTA E53 - DIRECTO",
+      "source_file": "06-sierras-chicas.pdf",
+      "source_page": 8
+    },
+    {
+      "corridor": "SIERRAS CHICAS",
+      "line": "CÓRDOBA - AGUA DE ORO",
+      "line_id": "sierras-chicas-cordoba-agua-de-oro",
+      "nodes": [
+        "CÓRDOBA",
+        "AGUA DE ORO"
+      ],
+      "direction": "V",
+      "time": "07:15",
+      "minutes": 435,
+      "company": "EMPRENDIMIENTOS S.R.L.",
+      "cuit": "30-67871434-4",
+      "service_days_text": "LUNES A VIERNES",
+      "service_days": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "modality": "REGULAR COMÚN DIRECTO",
+      "route": "RUTA E53 - DIRECTO",
+      "source_file": "06-sierras-chicas.pdf",
+      "source_page": 8
+    },
+    {
+      "corridor": "SIERRAS CHICAS",
+      "line": "CÓRDOBA - AGUA DE ORO",
+      "line_id": "sierras-chicas-cordoba-agua-de-oro",
+      "nodes": [
+        "CÓRDOBA",
+        "AGUA DE ORO"
+      ],
+      "direction": "V",
+      "time": "07:55",
+      "minutes": 475,
+      "company": "EMPRENDIMIENTOS S.R.L.",
+      "cuit": "30-67871434-4",
+      "service_days_text": "LUNES A VIERNES",
+      "service_days": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "modality": "REGULAR COMÚN DIRECTO",
+      "route": "RUTA E53 - DIRECTO",
+      "source_file": "06-sierras-chicas.pdf",
+      "source_page": 8
+    },
+    {
+      "corridor": "SIERRAS CHICAS",
+      "line": "CÓRDOBA - LA CALERA (ARGUELLO)",
+      "line_id": "sierras-chicas-cordoba-la-calera-arguello",
+      "nodes": [
+        "CÓRDOBA",
+        "LA CALERA"
+      ],
+      "direction": "V",
+      "time": "09:00",
+      "minutes": 540,
+      "company": "COTA LA CALERA LTDA.",
+      "cuit": "30-54633555-7",
+      "service_days_text": "FINES DE SEMANA",
+      "service_days": [
+        6,
+        7
+      ],
+      "modality": "REGULAR COMÚN",
+      "route": "AVDA. R. NUÑEZ, R. ROJAS Y BODEREAU",
+      "source_file": "06-sierras-chicas.pdf",
+      "source_page": 28
+    }
+  ],
+  "warnings": []
+}

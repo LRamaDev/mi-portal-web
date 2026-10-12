@@ -1,11 +1,11 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-09-18T00:00:00Z",
+  "generated_at": "2026-10-09T00:00:00Z",
   "timezone": "America/Argentina/Cordoba",
   "sources": [
     {
       "filename": "01-este-sudeste.pdf",
-      "sha256": "6a16332c54c26f81e4b9a9b8640efa3d8e3ae1357c6e01c159f2d935bbf3f40f",
+      "sha256": "d2beace0125499f54398ca8ebaf118b3f6cbfe198961c784a6dd00a02d275eb3",
       "publication_date": "2026-08-28",
       "unchanged_since": null,
       "pages": 29,
@@ -14,7 +14,7 @@
     },
     {
       "filename": "02-noreste.pdf",
-      "sha256": "41cd4fd1e8c2fb3b7aea1bde97cf40b6010b0a036c76ec292082ea1d9aeb6f56",
+      "sha256": "5fd7693717624d2bedca4478d11d40c4382b12c94171a5b5fc330a23aa3d04e6",
       "publication_date": "2026-08-21",
       "unchanged_since": null,
       "pages": 20,
@@ -23,7 +23,7 @@
     },
     {
       "filename": "03-norte.pdf",
-      "sha256": "8647a447e0ecd470bbfb3f07f14e3a972985df7138faabf5205050147c043a30",
+      "sha256": "8dae72b0797194459a634c1ea36d5063a1413b79f8b1fac9bcfd1b8f588e3ce0",
       "publication_date": "2026-09-18",
       "unchanged_since": null,
       "pages": 35,
@@ -32,16 +32,16 @@
     },
     {
       "filename": "04-punilla.pdf",
-      "sha256": "699cf014e624022b2aaf8aff6c618a8d7c37779dd63957594a303d0581401c74",
-      "publication_date": "2026-08-21",
+      "sha256": "9bb919c89ed2d3cd0c849ad1fba5a45b6e96fb9c86d3fac9355786db2f555f9d",
+      "publication_date": "2026-10-09",
       "unchanged_since": null,
       "pages": 69,
-      "source_rows": 1431,
+      "source_rows": 1435,
       "corridor": "PUNILLA"
     },
     {
       "filename": "05-ruta-5.pdf",
-      "sha256": "ae077abbfa95b57f009baeb1e3a4cf9d78c81d8a3555444e713f4d1289c05b2a",
+      "sha256": "cc575210dd2d2140b6818775cee8bb7a99fbbcf97e96b1f9d8de1bb515851ae8",
       "publication_date": "2026-08-21",
       "unchanged_since": null,
       "pages": 27,
@@ -50,8 +50,8 @@
     },
     {
       "filename": "06-sierras-chicas.pdf",
-      "sha256": "b1b524f877c06647a16611e22be7ffa71c6c6ff1bd390de182d6dac24feb2f10",
-      "publication_date": "2026-08-21",
+      "sha256": "ffcefe1b1820fa759234d2206f5829590884e966148b3b2050410c968d36923a",
+      "publication_date": "2026-10-09",
       "unchanged_since": null,
       "pages": 54,
       "source_rows": 1167,
@@ -59,7 +59,7 @@
     },
     {
       "filename": "07-sur.pdf",
-      "sha256": "dbe008569b055b0982cf18a09f3a74b97cf99cb9e8d38520635dbe0a82308183",
+      "sha256": "2ca65c6a58d726e347e9df28d9211752933501cabd460bd4884398760dae4ed3",
       "publication_date": "2026-08-21",
       "unchanged_since": null,
       "pages": 21,
@@ -68,7 +68,7 @@
     },
     {
       "filename": "08-traslasierra.pdf",
-      "sha256": "35f7ac1a46d23fcb4ce4ad8e6be3535d5057e9c4c47bb68d6ab61373c7d76afb",
+      "sha256": "ed3b201b4c35b66ea37009d189fbbeafaed8fa1b741737368b9d5e7017d8bd59",
       "publication_date": "2026-08-21",
       "unchanged_since": null,
       "pages": 11,
@@ -78,8 +78,8 @@
   ],
   "ignored_older_sources": [],
   "stats": {
-    "source_rows": 5510,
-    "services": 5510,
+    "source_rows": 5514,
+    "services": 5514,
     "corridors": 8,
     "lines": 261,
     "companies": 39,
@@ -55528,6 +55528,32 @@
       "duplicate_ordinal": 1
     },
     {
+      "id": "svc-ea420f5e3570-1",
+      "corridor": "PUNILLA",
+      "line": "CÓRDOBA - COSQUÍN",
+      "line_id": "punilla-cordoba-cosquin",
+      "nodes": [
+        "CÓRDOBA",
+        "COSQUÍN"
+      ],
+      "direction": "I",
+      "time": "00:00",
+      "minutes": 0,
+      "company": "COTA LA CALERA LTDA.",
+      "cuit": "30-54633555-7",
+      "service_days_text": "FINES DE SEMANA",
+      "service_days": [
+        6,
+        7
+      ],
+      "modality": "REGULAR COMÚN",
+      "route": "POR DIQUECITO- RUTA E 55",
+      "source_file": "04-punilla.pdf",
+      "source_page": 14,
+      "possible_duplicate": false,
+      "duplicate_ordinal": 1
+    },
+    {
       "id": "svc-5c1c93cae250-1",
       "corridor": "PUNILLA",
       "line": "CÓRDOBA - COSQUÍN",
@@ -55978,7 +56004,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR DIQUECITO- RUTA E 55",
       "source_file": "04-punilla.pdf",
-      "source_page": 14,
+      "source_page": 15,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -56353,7 +56379,7 @@
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-b76898362184-1",
+      "id": "svc-10b41542d18a-1",
       "corridor": "PUNILLA",
       "line": "CÓRDOBA - COSQUÍN",
       "line_id": "punilla-cordoba-cosquin",
@@ -56362,8 +56388,8 @@
         "COSQUÍN"
       ],
       "direction": "I",
-      "time": "12:20",
-      "minutes": 740,
+      "time": "12:15",
+      "minutes": 735,
       "company": "COTA LA CALERA LTDA.",
       "cuit": "30-54633555-7",
       "service_days_text": "LUNES A VIERNES",
@@ -56382,7 +56408,7 @@
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-ce3e1b8816e3-1",
+      "id": "svc-a13bfb289229-1",
       "corridor": "PUNILLA",
       "line": "CÓRDOBA - COSQUÍN",
       "line_id": "punilla-cordoba-cosquin",
@@ -56395,8 +56421,13 @@
       "minutes": 750,
       "company": "COTA LA CALERA LTDA.",
       "cuit": "30-54633555-7",
-      "service_days_text": "FINES DE SEMANA",
+      "service_days_text": "DIARIO",
       "service_days": [
+        1,
+        2,
+        3,
+        4,
+        5,
         6,
         7
       ],
@@ -56408,7 +56439,7 @@
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-eb4366830493-1",
+      "id": "svc-8a41535ad801-1",
       "corridor": "PUNILLA",
       "line": "CÓRDOBA - COSQUÍN",
       "line_id": "punilla-cordoba-cosquin",
@@ -56417,8 +56448,8 @@
         "COSQUÍN"
       ],
       "direction": "I",
-      "time": "12:40",
-      "minutes": 760,
+      "time": "12:45",
+      "minutes": 765,
       "company": "COTA LA CALERA LTDA.",
       "cuit": "30-54633555-7",
       "service_days_text": "LUNES A VIERNES",
@@ -56468,7 +56499,7 @@
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-ee018ad27a46-1",
+      "id": "svc-bd4002744fca-1",
       "corridor": "PUNILLA",
       "line": "CÓRDOBA - COSQUÍN",
       "line_id": "punilla-cordoba-cosquin",
@@ -56477,8 +56508,8 @@
         "COSQUÍN"
       ],
       "direction": "I",
-      "time": "13:20",
-      "minutes": 800,
+      "time": "13:15",
+      "minutes": 795,
       "company": "COTA LA CALERA LTDA.",
       "cuit": "30-54633555-7",
       "service_days_text": "LUNES A VIERNES",
@@ -56497,7 +56528,7 @@
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-7f6edb06123d-1",
+      "id": "svc-d87469ec60f4-1",
       "corridor": "PUNILLA",
       "line": "CÓRDOBA - COSQUÍN",
       "line_id": "punilla-cordoba-cosquin",
@@ -56510,8 +56541,13 @@
       "minutes": 810,
       "company": "COTA LA CALERA LTDA.",
       "cuit": "30-54633555-7",
-      "service_days_text": "FINES DE SEMANA",
+      "service_days_text": "DIARIO",
       "service_days": [
+        1,
+        2,
+        3,
+        4,
+        5,
         6,
         7
       ],
@@ -56523,7 +56559,7 @@
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-614db04457ef-1",
+      "id": "svc-7ecc3a6a2ee8-1",
       "corridor": "PUNILLA",
       "line": "CÓRDOBA - COSQUÍN",
       "line_id": "punilla-cordoba-cosquin",
@@ -56532,8 +56568,8 @@
         "COSQUÍN"
       ],
       "direction": "I",
-      "time": "13:45",
-      "minutes": 825,
+      "time": "13:50",
+      "minutes": 830,
       "company": "COTA LA CALERA LTDA.",
       "cuit": "30-54633555-7",
       "service_days_text": "LUNES A VIERNES",
@@ -56573,12 +56609,12 @@
       "modality": "REGULAR COMÚN",
       "route": "POR DIQUECITO- RUTA E 55",
       "source_file": "04-punilla.pdf",
-      "source_page": 15,
+      "source_page": 16,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-7c089cc9254e-1",
+      "id": "svc-baa23228278d-1",
       "corridor": "PUNILLA",
       "line": "CÓRDOBA - COSQUÍN",
       "line_id": "punilla-cordoba-cosquin",
@@ -56587,8 +56623,8 @@
         "COSQUÍN"
       ],
       "direction": "I",
-      "time": "14:05",
-      "minutes": 845,
+      "time": "14:10",
+      "minutes": 850,
       "company": "COTA LA CALERA LTDA.",
       "cuit": "30-54633555-7",
       "service_days_text": "LUNES A VIERNES",
@@ -57162,7 +57198,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR DIQUECITO- RUTA E 55",
       "source_file": "04-punilla.pdf",
-      "source_page": 16,
+      "source_page": 17,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -57693,7 +57729,7 @@
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-cb44d050e5ad-1",
+      "id": "svc-c0257e13a954-1",
       "corridor": "PUNILLA",
       "line": "CÓRDOBA - COSQUÍN",
       "line_id": "punilla-cordoba-cosquin",
@@ -57706,8 +57742,13 @@
       "minutes": 1320,
       "company": "COTA LA CALERA LTDA.",
       "cuit": "30-54633555-7",
-      "service_days_text": "FINES DE SEMANA",
+      "service_days_text": "DIARIO",
       "service_days": [
+        1,
+        2,
+        3,
+        4,
+        5,
         6,
         7
       ],
@@ -57745,7 +57786,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR DIQUECITO- RUTA E 55",
       "source_file": "04-punilla.pdf",
-      "source_page": 17,
+      "source_page": 18,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -58090,7 +58131,7 @@
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-07123f2d7b05-1",
+      "id": "svc-b8ec10e498b7-1",
       "corridor": "PUNILLA",
       "line": "CÓRDOBA - COSQUÍN",
       "line_id": "punilla-cordoba-cosquin",
@@ -58103,8 +58144,13 @@
       "minutes": 360,
       "company": "COTA LA CALERA LTDA.",
       "cuit": "30-54633555-7",
-      "service_days_text": "SÁBADO",
+      "service_days_text": "LUNES A SÁBADOS",
       "service_days": [
+        1,
+        2,
+        3,
+        4,
+        5,
         6
       ],
       "modality": "REGULAR COMÚN",
@@ -58175,7 +58221,36 @@
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-928622385e5a-1",
+      "id": "svc-a498eb71f8c9-1",
+      "corridor": "PUNILLA",
+      "line": "CÓRDOBA - COSQUÍN",
+      "line_id": "punilla-cordoba-cosquin",
+      "nodes": [
+        "CÓRDOBA",
+        "COSQUÍN"
+      ],
+      "direction": "V",
+      "time": "06:25",
+      "minutes": 385,
+      "company": "COTA LA CALERA LTDA.",
+      "cuit": "30-54633555-7",
+      "service_days_text": "LUNES A VIERNES",
+      "service_days": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "modality": "REGULAR COMÚN",
+      "route": "POR DIQUECITO- RUTA E 55",
+      "source_file": "04-punilla.pdf",
+      "source_page": 18,
+      "possible_duplicate": false,
+      "duplicate_ordinal": 1
+    },
+    {
+      "id": "svc-922e890b6815-1",
       "corridor": "PUNILLA",
       "line": "CÓRDOBA - COSQUÍN",
       "line_id": "punilla-cordoba-cosquin",
@@ -58188,13 +58263,8 @@
       "minutes": 390,
       "company": "COTA LA CALERA LTDA.",
       "cuit": "30-54633555-7",
-      "service_days_text": "LUNES A SÁBADOS",
+      "service_days_text": "SÁBADO",
       "service_days": [
-        1,
-        2,
-        3,
-        4,
-        5,
         6
       ],
       "modality": "REGULAR COMÚN",
@@ -58205,7 +58275,36 @@
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-f646ef1ee8f9-1",
+      "id": "svc-463448188ae6-1",
+      "corridor": "PUNILLA",
+      "line": "CÓRDOBA - COSQUÍN",
+      "line_id": "punilla-cordoba-cosquin",
+      "nodes": [
+        "CÓRDOBA",
+        "COSQUÍN"
+      ],
+      "direction": "V",
+      "time": "06:40",
+      "minutes": 400,
+      "company": "COTA LA CALERA LTDA.",
+      "cuit": "30-54633555-7",
+      "service_days_text": "LUNES A VIERNES",
+      "service_days": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "modality": "REGULAR COMÚN",
+      "route": "POR DIQUECITO- RUTA E 55",
+      "source_file": "04-punilla.pdf",
+      "source_page": 18,
+      "possible_duplicate": false,
+      "duplicate_ordinal": 1
+    },
+    {
+      "id": "svc-f806660b01f2-1",
       "corridor": "PUNILLA",
       "line": "CÓRDOBA - COSQUÍN",
       "line_id": "punilla-cordoba-cosquin",
@@ -58218,15 +58317,39 @@
       "minutes": 405,
       "company": "COTA LA CALERA LTDA.",
       "cuit": "30-54633555-7",
-      "service_days_text": "DIARIO",
+      "service_days_text": "FINES DE SEMANA",
+      "service_days": [
+        6,
+        7
+      ],
+      "modality": "REGULAR COMÚN",
+      "route": "POR DIQUECITO- RUTA E 55",
+      "source_file": "04-punilla.pdf",
+      "source_page": 18,
+      "possible_duplicate": false,
+      "duplicate_ordinal": 1
+    },
+    {
+      "id": "svc-60c35c31705c-1",
+      "corridor": "PUNILLA",
+      "line": "CÓRDOBA - COSQUÍN",
+      "line_id": "punilla-cordoba-cosquin",
+      "nodes": [
+        "CÓRDOBA",
+        "COSQUÍN"
+      ],
+      "direction": "V",
+      "time": "06:50",
+      "minutes": 410,
+      "company": "COTA LA CALERA LTDA.",
+      "cuit": "30-54633555-7",
+      "service_days_text": "LUNES A VIERNES",
       "service_days": [
         1,
         2,
         3,
         4,
-        5,
-        6,
-        7
+        5
       ],
       "modality": "REGULAR COMÚN",
       "route": "POR DIQUECITO- RUTA E 55",
@@ -58261,7 +58384,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR DIQUECITO- RUTA E 55",
       "source_file": "04-punilla.pdf",
-      "source_page": 18,
+      "source_page": 19,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -58286,7 +58409,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR DIQUECITO- RUTA E 55",
       "source_file": "04-punilla.pdf",
-      "source_page": 18,
+      "source_page": 19,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -58315,7 +58438,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR DIQUECITO- RUTA E 55",
       "source_file": "04-punilla.pdf",
-      "source_page": 18,
+      "source_page": 19,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -58346,7 +58469,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR DIQUECITO- RUTA E 55",
       "source_file": "04-punilla.pdf",
-      "source_page": 18,
+      "source_page": 19,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -58848,7 +58971,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR DIQUECITO- RUTA E 55",
       "source_file": "04-punilla.pdf",
-      "source_page": 19,
+      "source_page": 20,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -58879,7 +59002,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR DIQUECITO- RUTA E 55",
       "source_file": "04-punilla.pdf",
-      "source_page": 19,
+      "source_page": 20,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -58904,7 +59027,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR DIQUECITO- RUTA E 55",
       "source_file": "04-punilla.pdf",
-      "source_page": 19,
+      "source_page": 20,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -58933,7 +59056,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR DIQUECITO- RUTA E 55",
       "source_file": "04-punilla.pdf",
-      "source_page": 19,
+      "source_page": 20,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -59435,7 +59558,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR DIQUECITO- RUTA E 55",
       "source_file": "04-punilla.pdf",
-      "source_page": 20,
+      "source_page": 21,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -59460,7 +59583,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR DIQUECITO- RUTA E 55",
       "source_file": "04-punilla.pdf",
-      "source_page": 20,
+      "source_page": 21,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -59489,7 +59612,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR DIQUECITO- RUTA E 55",
       "source_file": "04-punilla.pdf",
-      "source_page": 20,
+      "source_page": 21,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -59519,7 +59642,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR DIQUECITO- RUTA E 55",
       "source_file": "04-punilla.pdf",
-      "source_page": 20,
+      "source_page": 21,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -60003,7 +60126,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR DIQUECITO- RUTA E 55",
       "source_file": "04-punilla.pdf",
-      "source_page": 21,
+      "source_page": 22,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -60028,7 +60151,36 @@
       "modality": "REGULAR COMÚN",
       "route": "POR DIQUECITO- RUTA E 55",
       "source_file": "04-punilla.pdf",
-      "source_page": 21,
+      "source_page": 22,
+      "possible_duplicate": false,
+      "duplicate_ordinal": 1
+    },
+    {
+      "id": "svc-e8b1d4c1aeae-1",
+      "corridor": "PUNILLA",
+      "line": "CÓRDOBA - COSQUÍN",
+      "line_id": "punilla-cordoba-cosquin",
+      "nodes": [
+        "CÓRDOBA",
+        "COSQUÍN"
+      ],
+      "direction": "V",
+      "time": "20:00",
+      "minutes": 1200,
+      "company": "COTA LA CALERA LTDA.",
+      "cuit": "30-54633555-7",
+      "service_days_text": "LUNES A VIERNES",
+      "service_days": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "modality": "REGULAR COMÚN",
+      "route": "POR DIQUECITO- RUTA E 55",
+      "source_file": "04-punilla.pdf",
+      "source_page": 22,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -60053,7 +60205,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR DIQUECITO- RUTA E 55",
       "source_file": "04-punilla.pdf",
-      "source_page": 21,
+      "source_page": 22,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -60082,7 +60234,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR DIQUECITO- RUTA E 55",
       "source_file": "04-punilla.pdf",
-      "source_page": 21,
+      "source_page": 22,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -60214,32 +60366,6 @@
         3,
         4,
         5,
-        6,
-        7
-      ],
-      "modality": "REGULAR COMÚN",
-      "route": "POR DIQUECITO- RUTA E 55",
-      "source_file": "04-punilla.pdf",
-      "source_page": 22,
-      "possible_duplicate": false,
-      "duplicate_ordinal": 1
-    },
-    {
-      "id": "svc-8a25d080f7c3-1",
-      "corridor": "PUNILLA",
-      "line": "CÓRDOBA - COSQUÍN",
-      "line_id": "punilla-cordoba-cosquin",
-      "nodes": [
-        "CÓRDOBA",
-        "COSQUÍN"
-      ],
-      "direction": "V",
-      "time": "22:30",
-      "minutes": 1350,
-      "company": "COTA LA CALERA LTDA.",
-      "cuit": "30-54633555-7",
-      "service_days_text": "FINES DE SEMANA",
-      "service_days": [
         6,
         7
       ],
@@ -60614,7 +60740,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR CARLOS PAZ",
       "source_file": "04-punilla.pdf",
-      "source_page": 22,
+      "source_page": 23,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -60645,7 +60771,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR CARLOS PAZ",
       "source_file": "04-punilla.pdf",
-      "source_page": 22,
+      "source_page": 23,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -60674,7 +60800,7 @@
       "modality": "REGULAR DIFERENCIAL",
       "route": "VARIANTE COSTA AZUL",
       "source_file": "04-punilla.pdf",
-      "source_page": 22,
+      "source_page": 23,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -60705,7 +60831,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR CARLOS PAZ",
       "source_file": "04-punilla.pdf",
-      "source_page": 22,
+      "source_page": 23,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -61238,7 +61364,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR CARLOS PAZ",
       "source_file": "04-punilla.pdf",
-      "source_page": 23,
+      "source_page": 24,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -61267,7 +61393,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "04-punilla.pdf",
-      "source_page": 23,
+      "source_page": 24,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -61298,7 +61424,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR RN 20",
       "source_file": "04-punilla.pdf",
-      "source_page": 23,
+      "source_page": 24,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -61324,7 +61450,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "04-punilla.pdf",
-      "source_page": 23,
+      "source_page": 24,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -61850,7 +61976,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "04-punilla.pdf",
-      "source_page": 24,
+      "source_page": 25,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -61881,7 +62007,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR RN 20",
       "source_file": "04-punilla.pdf",
-      "source_page": 24,
+      "source_page": 25,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -61910,7 +62036,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "04-punilla.pdf",
-      "source_page": 24,
+      "source_page": 25,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -61941,7 +62067,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR RN 20",
       "source_file": "04-punilla.pdf",
-      "source_page": 24,
+      "source_page": 25,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -62472,7 +62598,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "04-punilla.pdf",
-      "source_page": 25,
+      "source_page": 26,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -62501,7 +62627,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "04-punilla.pdf",
-      "source_page": 25,
+      "source_page": 26,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -62532,7 +62658,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR RN 20",
       "source_file": "04-punilla.pdf",
-      "source_page": 25,
+      "source_page": 26,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -62563,7 +62689,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR RN 20",
       "source_file": "04-punilla.pdf",
-      "source_page": 25,
+      "source_page": 26,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -63089,7 +63215,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR RN 20",
       "source_file": "04-punilla.pdf",
-      "source_page": 26,
+      "source_page": 27,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -63115,7 +63241,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "04-punilla.pdf",
-      "source_page": 26,
+      "source_page": 27,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -63144,7 +63270,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "04-punilla.pdf",
-      "source_page": 26,
+      "source_page": 27,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -63175,7 +63301,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR RN 20",
       "source_file": "04-punilla.pdf",
-      "source_page": 26,
+      "source_page": 27,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -63684,7 +63810,7 @@
       "modality": "REGULAR DIFERENCIAL",
       "route": "",
       "source_file": "04-punilla.pdf",
-      "source_page": 27,
+      "source_page": 28,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -63713,7 +63839,7 @@
       "modality": "REGULAR DIFERENCIAL",
       "route": "",
       "source_file": "04-punilla.pdf",
-      "source_page": 27,
+      "source_page": 28,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -63742,7 +63868,7 @@
       "modality": "REGULAR DIFERENCIAL",
       "route": "",
       "source_file": "04-punilla.pdf",
-      "source_page": 27,
+      "source_page": 28,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -63767,7 +63893,7 @@
       "modality": "REGULAR DIFERENCIAL",
       "route": "",
       "source_file": "04-punilla.pdf",
-      "source_page": 27,
+      "source_page": 28,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -64255,7 +64381,7 @@
       "modality": "REGULAR DIFERENCIAL",
       "route": "",
       "source_file": "04-punilla.pdf",
-      "source_page": 28,
+      "source_page": 29,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -64280,7 +64406,7 @@
       "modality": "REGULAR DIFERENCIAL",
       "route": "",
       "source_file": "04-punilla.pdf",
-      "source_page": 28,
+      "source_page": 29,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -64305,7 +64431,7 @@
       "modality": "REGULAR DIFERENCIAL",
       "route": "",
       "source_file": "04-punilla.pdf",
-      "source_page": 28,
+      "source_page": 29,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -64330,7 +64456,7 @@
       "modality": "REGULAR DIFERENCIAL",
       "route": "",
       "source_file": "04-punilla.pdf",
-      "source_page": 28,
+      "source_page": 29,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -64886,7 +65012,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR CARLOS PAZ",
       "source_file": "04-punilla.pdf",
-      "source_page": 29,
+      "source_page": 30,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -64917,7 +65043,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR CARLOS PAZ",
       "source_file": "04-punilla.pdf",
-      "source_page": 29,
+      "source_page": 30,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -64948,7 +65074,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR CARLOS PAZ",
       "source_file": "04-punilla.pdf",
-      "source_page": 29,
+      "source_page": 30,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -64979,7 +65105,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR CARLOS PAZ",
       "source_file": "04-punilla.pdf",
-      "source_page": 29,
+      "source_page": 30,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -65507,7 +65633,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "04-punilla.pdf",
-      "source_page": 30,
+      "source_page": 31,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -65536,7 +65662,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "04-punilla.pdf",
-      "source_page": 30,
+      "source_page": 31,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -65565,7 +65691,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "04-punilla.pdf",
-      "source_page": 30,
+      "source_page": 31,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -65594,7 +65720,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "04-punilla.pdf",
-      "source_page": 30,
+      "source_page": 31,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -66113,7 +66239,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "04-punilla.pdf",
-      "source_page": 31,
+      "source_page": 32,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -66142,7 +66268,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "04-punilla.pdf",
-      "source_page": 31,
+      "source_page": 32,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -66171,7 +66297,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "04-punilla.pdf",
-      "source_page": 31,
+      "source_page": 32,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -66200,7 +66326,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "04-punilla.pdf",
-      "source_page": 31,
+      "source_page": 32,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -66712,7 +66838,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "04-punilla.pdf",
-      "source_page": 32,
+      "source_page": 33,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -66739,7 +66865,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "04-punilla.pdf",
-      "source_page": 32,
+      "source_page": 33,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -66769,7 +66895,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "04-punilla.pdf",
-      "source_page": 32,
+      "source_page": 33,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -66796,7 +66922,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "04-punilla.pdf",
-      "source_page": 32,
+      "source_page": 33,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -67309,7 +67435,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "04-punilla.pdf",
-      "source_page": 33,
+      "source_page": 34,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -67339,7 +67465,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "04-punilla.pdf",
-      "source_page": 33,
+      "source_page": 34,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -67366,7 +67492,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "04-punilla.pdf",
-      "source_page": 33,
+      "source_page": 34,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -67396,7 +67522,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "04-punilla.pdf",
-      "source_page": 33,
+      "source_page": 34,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -67912,7 +68038,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "04-punilla.pdf",
-      "source_page": 34,
+      "source_page": 35,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -67942,7 +68068,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "04-punilla.pdf",
-      "source_page": 34,
+      "source_page": 35,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -67969,7 +68095,7 @@
       "modality": "REGULAR COMÚN",
       "route": "NO INGRESA A SAN NICOLÁS",
       "source_file": "04-punilla.pdf",
-      "source_page": 34,
+      "source_page": 35,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -67995,7 +68121,7 @@
       "modality": "REGULAR COMÚN",
       "route": "NO INGRESA A SAN NICOLÁS",
       "source_file": "04-punilla.pdf",
-      "source_page": 34,
+      "source_page": 35,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -68502,7 +68628,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "04-punilla.pdf",
-      "source_page": 35,
+      "source_page": 36,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -68532,7 +68658,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "04-punilla.pdf",
-      "source_page": 35,
+      "source_page": 36,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -68559,7 +68685,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "04-punilla.pdf",
-      "source_page": 35,
+      "source_page": 36,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -68589,7 +68715,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "04-punilla.pdf",
-      "source_page": 35,
+      "source_page": 36,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -69105,7 +69231,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "04-punilla.pdf",
-      "source_page": 36,
+      "source_page": 37,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -69132,7 +69258,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "04-punilla.pdf",
-      "source_page": 36,
+      "source_page": 37,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -69162,7 +69288,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "04-punilla.pdf",
-      "source_page": 36,
+      "source_page": 37,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -69189,7 +69315,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "04-punilla.pdf",
-      "source_page": 36,
+      "source_page": 37,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -69708,7 +69834,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR RN 20",
       "source_file": "04-punilla.pdf",
-      "source_page": 37,
+      "source_page": 38,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -69737,7 +69863,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR RN 20",
       "source_file": "04-punilla.pdf",
-      "source_page": 37,
+      "source_page": 38,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -69766,7 +69892,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR RN 20",
       "source_file": "04-punilla.pdf",
-      "source_page": 37,
+      "source_page": 38,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -69795,7 +69921,7 @@
       "modality": "REGULAR DIFERENCIAL",
       "route": "",
       "source_file": "04-punilla.pdf",
-      "source_page": 37,
+      "source_page": 38,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -70317,7 +70443,7 @@
       "modality": "REGULAR DIFERENCIAL",
       "route": "",
       "source_file": "04-punilla.pdf",
-      "source_page": 38,
+      "source_page": 39,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -70346,7 +70472,7 @@
       "modality": "REGULAR DIFERENCIAL",
       "route": "",
       "source_file": "04-punilla.pdf",
-      "source_page": 38,
+      "source_page": 39,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -70375,7 +70501,7 @@
       "modality": "REGULAR DIFERENCIAL",
       "route": "",
       "source_file": "04-punilla.pdf",
-      "source_page": 38,
+      "source_page": 39,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -70404,7 +70530,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "04-punilla.pdf",
-      "source_page": 38,
+      "source_page": 39,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -70924,7 +71050,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR TUCLAME Y PASO VIEJO",
       "source_file": "04-punilla.pdf",
-      "source_page": 39,
+      "source_page": 40,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -70953,7 +71079,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "04-punilla.pdf",
-      "source_page": 39,
+      "source_page": 40,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -70984,7 +71110,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR RN 20",
       "source_file": "04-punilla.pdf",
-      "source_page": 39,
+      "source_page": 40,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -71013,7 +71139,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "04-punilla.pdf",
-      "source_page": 39,
+      "source_page": 40,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -71536,7 +71662,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "04-punilla.pdf",
-      "source_page": 40,
+      "source_page": 41,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -71565,7 +71691,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "04-punilla.pdf",
-      "source_page": 40,
+      "source_page": 41,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -71596,7 +71722,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR RN 20",
       "source_file": "04-punilla.pdf",
-      "source_page": 40,
+      "source_page": 41,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -71625,7 +71751,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "04-punilla.pdf",
-      "source_page": 40,
+      "source_page": 41,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -72151,7 +72277,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR RN 20",
       "source_file": "04-punilla.pdf",
-      "source_page": 41,
+      "source_page": 42,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -72180,7 +72306,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "04-punilla.pdf",
-      "source_page": 41,
+      "source_page": 42,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -72211,7 +72337,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR RN 20",
       "source_file": "04-punilla.pdf",
-      "source_page": 41,
+      "source_page": 42,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -72237,7 +72363,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "04-punilla.pdf",
-      "source_page": 41,
+      "source_page": 42,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -72763,7 +72889,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "04-punilla.pdf",
-      "source_page": 42,
+      "source_page": 43,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -72792,7 +72918,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "04-punilla.pdf",
-      "source_page": 42,
+      "source_page": 43,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -72823,7 +72949,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR RN 20",
       "source_file": "04-punilla.pdf",
-      "source_page": 42,
+      "source_page": 43,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -72849,7 +72975,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "04-punilla.pdf",
-      "source_page": 42,
+      "source_page": 43,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -73376,7 +73502,7 @@
       "modality": "REGULAR DIFERENCIAL",
       "route": "VARIANTE COSTA AZUL",
       "source_file": "04-punilla.pdf",
-      "source_page": 43,
+      "source_page": 44,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -73407,7 +73533,7 @@
       "modality": "REGULAR DIFERENCIAL",
       "route": "VARIANTE COSTA AZUL",
       "source_file": "04-punilla.pdf",
-      "source_page": 43,
+      "source_page": 44,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -73438,7 +73564,7 @@
       "modality": "REGULAR DIFERENCIAL",
       "route": "VARIANTE COSTA AZUL",
       "source_file": "04-punilla.pdf",
-      "source_page": 43,
+      "source_page": 44,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -73469,7 +73595,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR CARLOS PAZ",
       "source_file": "04-punilla.pdf",
-      "source_page": 43,
+      "source_page": 44,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -74023,7 +74149,7 @@
       "modality": "REGULAR DIFERENCIAL",
       "route": "VARIANTE COSTA AZUL",
       "source_file": "04-punilla.pdf",
-      "source_page": 44,
+      "source_page": 45,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -74054,7 +74180,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR CARLOS PAZ",
       "source_file": "04-punilla.pdf",
-      "source_page": 44,
+      "source_page": 45,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -74085,7 +74211,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR CARLOS PAZ",
       "source_file": "04-punilla.pdf",
-      "source_page": 44,
+      "source_page": 45,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -74116,7 +74242,7 @@
       "modality": "REGULAR DIFERENCIAL",
       "route": "VARIANTE COSTA AZUL",
       "source_file": "04-punilla.pdf",
-      "source_page": 44,
+      "source_page": 45,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -74647,7 +74773,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "04-punilla.pdf",
-      "source_page": 45,
+      "source_page": 46,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -74676,7 +74802,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "04-punilla.pdf",
-      "source_page": 45,
+      "source_page": 46,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -74705,7 +74831,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "04-punilla.pdf",
-      "source_page": 45,
+      "source_page": 46,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -74731,7 +74857,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "04-punilla.pdf",
-      "source_page": 45,
+      "source_page": 46,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -75247,7 +75373,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "04-punilla.pdf",
-      "source_page": 46,
+      "source_page": 47,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -75276,7 +75402,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "04-punilla.pdf",
-      "source_page": 46,
+      "source_page": 47,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -75305,7 +75431,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "04-punilla.pdf",
-      "source_page": 46,
+      "source_page": 47,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -75334,7 +75460,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "04-punilla.pdf",
-      "source_page": 46,
+      "source_page": 47,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -75856,7 +75982,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "04-punilla.pdf",
-      "source_page": 47,
+      "source_page": 48,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -75885,7 +76011,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "04-punilla.pdf",
-      "source_page": 47,
+      "source_page": 48,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -75914,7 +76040,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "04-punilla.pdf",
-      "source_page": 47,
+      "source_page": 48,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -75943,7 +76069,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "04-punilla.pdf",
-      "source_page": 47,
+      "source_page": 48,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -76465,7 +76591,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "04-punilla.pdf",
-      "source_page": 48,
+      "source_page": 49,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -76494,7 +76620,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "04-punilla.pdf",
-      "source_page": 48,
+      "source_page": 49,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -76523,7 +76649,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "04-punilla.pdf",
-      "source_page": 48,
+      "source_page": 49,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -76552,7 +76678,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "04-punilla.pdf",
-      "source_page": 48,
+      "source_page": 49,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -77074,7 +77200,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "04-punilla.pdf",
-      "source_page": 49,
+      "source_page": 50,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -77103,7 +77229,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "04-punilla.pdf",
-      "source_page": 49,
+      "source_page": 50,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -77132,7 +77258,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "04-punilla.pdf",
-      "source_page": 49,
+      "source_page": 50,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -77161,7 +77287,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "04-punilla.pdf",
-      "source_page": 49,
+      "source_page": 50,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -77683,7 +77809,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "04-punilla.pdf",
-      "source_page": 50,
+      "source_page": 51,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -77712,7 +77838,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "04-punilla.pdf",
-      "source_page": 50,
+      "source_page": 51,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -77741,7 +77867,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "04-punilla.pdf",
-      "source_page": 50,
+      "source_page": 51,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -77770,7 +77896,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "04-punilla.pdf",
-      "source_page": 50,
+      "source_page": 51,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -78288,7 +78414,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "04-punilla.pdf",
-      "source_page": 51,
+      "source_page": 52,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -78317,7 +78443,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "04-punilla.pdf",
-      "source_page": 51,
+      "source_page": 52,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -78343,7 +78469,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "04-punilla.pdf",
-      "source_page": 51,
+      "source_page": 52,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -78372,7 +78498,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "04-punilla.pdf",
-      "source_page": 51,
+      "source_page": 52,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -78873,7 +78999,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "04-punilla.pdf",
-      "source_page": 52,
+      "source_page": 53,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -78902,7 +79028,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "04-punilla.pdf",
-      "source_page": 52,
+      "source_page": 53,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -78928,7 +79054,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "04-punilla.pdf",
-      "source_page": 52,
+      "source_page": 53,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -78954,7 +79080,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "04-punilla.pdf",
-      "source_page": 52,
+      "source_page": 53,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -79461,7 +79587,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "04-punilla.pdf",
-      "source_page": 53,
+      "source_page": 54,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -79490,7 +79616,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "04-punilla.pdf",
-      "source_page": 53,
+      "source_page": 54,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -79516,7 +79642,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "04-punilla.pdf",
-      "source_page": 53,
+      "source_page": 54,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -79545,7 +79671,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "04-punilla.pdf",
-      "source_page": 53,
+      "source_page": 54,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -80046,7 +80172,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "04-punilla.pdf",
-      "source_page": 54,
+      "source_page": 55,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -80072,7 +80198,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "04-punilla.pdf",
-      "source_page": 54,
+      "source_page": 55,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -80103,7 +80229,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "04-punilla.pdf",
-      "source_page": 54,
+      "source_page": 55,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -80134,7 +80260,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "04-punilla.pdf",
-      "source_page": 54,
+      "source_page": 55,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -80632,7 +80758,7 @@
       "modality": "REGULAR COMÚN",
       "route": "RN 38",
       "source_file": "04-punilla.pdf",
-      "source_page": 55,
+      "source_page": 56,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -80661,7 +80787,7 @@
       "modality": "REGULAR COMÚN",
       "route": "RN 38",
       "source_file": "04-punilla.pdf",
-      "source_page": 55,
+      "source_page": 56,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -80686,7 +80812,7 @@
       "modality": "REGULAR COMÚN",
       "route": "RN 38",
       "source_file": "04-punilla.pdf",
-      "source_page": 55,
+      "source_page": 56,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -80711,7 +80837,7 @@
       "modality": "REGULAR COMÚN",
       "route": "RN 38",
       "source_file": "04-punilla.pdf",
-      "source_page": 55,
+      "source_page": 56,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -81036,7 +81162,7 @@
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-35851b4a2036-1",
+      "id": "svc-9f5dbb5cd1e6-1",
       "corridor": "PUNILLA",
       "line": "COSQUÍN - LA FALDA",
       "line_id": "punilla-cosquin-la-falda",
@@ -81045,8 +81171,8 @@
         "LA FALDA"
       ],
       "direction": "I",
-      "time": "14:00",
-      "minutes": 840,
+      "time": "14:10",
+      "minutes": 850,
       "company": "COTA LA CALERA LTDA.",
       "cuit": "30-54633555-7",
       "service_days_text": "LUNES A VIERNES",
@@ -81195,7 +81321,7 @@
       "modality": "REGULAR COMÚN",
       "route": "RN 38",
       "source_file": "04-punilla.pdf",
-      "source_page": 56,
+      "source_page": 57,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -81224,7 +81350,7 @@
       "modality": "REGULAR COMÚN",
       "route": "RN 38",
       "source_file": "04-punilla.pdf",
-      "source_page": 56,
+      "source_page": 57,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -81250,7 +81376,7 @@
       "modality": "REGULAR COMÚN",
       "route": "RN 38",
       "source_file": "04-punilla.pdf",
-      "source_page": 56,
+      "source_page": 57,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -81279,7 +81405,7 @@
       "modality": "REGULAR COMÚN",
       "route": "RN 38",
       "source_file": "04-punilla.pdf",
-      "source_page": 56,
+      "source_page": 57,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -81775,7 +81901,7 @@
       "modality": "REGULAR COMÚN",
       "route": "RN 38",
       "source_file": "04-punilla.pdf",
-      "source_page": 57,
+      "source_page": 58,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -81805,7 +81931,7 @@
       "modality": "REGULAR COMÚN",
       "route": "RN 38",
       "source_file": "04-punilla.pdf",
-      "source_page": 57,
+      "source_page": 58,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -81830,7 +81956,7 @@
       "modality": "REGULAR COMÚN",
       "route": "RN 38",
       "source_file": "04-punilla.pdf",
-      "source_page": 57,
+      "source_page": 58,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -81859,7 +81985,7 @@
       "modality": "REGULAR COMÚN",
       "route": "RN 38",
       "source_file": "04-punilla.pdf",
-      "source_page": 57,
+      "source_page": 58,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -82350,7 +82476,7 @@
       "modality": "REGULAR COMÚN",
       "route": "RN 38",
       "source_file": "04-punilla.pdf",
-      "source_page": 58,
+      "source_page": 59,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -82375,7 +82501,7 @@
       "modality": "REGULAR COMÚN",
       "route": "RN 38",
       "source_file": "04-punilla.pdf",
-      "source_page": 58,
+      "source_page": 59,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -82404,7 +82530,7 @@
       "modality": "REGULAR COMÚN",
       "route": "RN 38",
       "source_file": "04-punilla.pdf",
-      "source_page": 58,
+      "source_page": 59,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -82429,7 +82555,7 @@
       "modality": "REGULAR COMÚN",
       "route": "RN 38",
       "source_file": "04-punilla.pdf",
-      "source_page": 58,
+      "source_page": 59,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -82908,7 +83034,7 @@
       "modality": "REGULAR COMÚN",
       "route": "RN 38",
       "source_file": "04-punilla.pdf",
-      "source_page": 59,
+      "source_page": 60,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -82937,7 +83063,7 @@
       "modality": "REGULAR COMÚN",
       "route": "RN 38",
       "source_file": "04-punilla.pdf",
-      "source_page": 59,
+      "source_page": 60,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -82967,7 +83093,7 @@
       "modality": "REGULAR COMÚN",
       "route": "RN 38",
       "source_file": "04-punilla.pdf",
-      "source_page": 59,
+      "source_page": 60,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -82992,7 +83118,7 @@
       "modality": "REGULAR COMÚN",
       "route": "RN 38",
       "source_file": "04-punilla.pdf",
-      "source_page": 59,
+      "source_page": 60,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -83490,7 +83616,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "04-punilla.pdf",
-      "source_page": 60,
+      "source_page": 61,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -83519,7 +83645,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "04-punilla.pdf",
-      "source_page": 60,
+      "source_page": 61,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -83548,7 +83674,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "04-punilla.pdf",
-      "source_page": 60,
+      "source_page": 61,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -83577,7 +83703,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "04-punilla.pdf",
-      "source_page": 60,
+      "source_page": 61,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -84070,7 +84196,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "04-punilla.pdf",
-      "source_page": 61,
+      "source_page": 62,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -84099,7 +84225,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "04-punilla.pdf",
-      "source_page": 61,
+      "source_page": 62,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -84125,7 +84251,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "04-punilla.pdf",
-      "source_page": 61,
+      "source_page": 62,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -84154,7 +84280,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "04-punilla.pdf",
-      "source_page": 61,
+      "source_page": 62,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -84675,7 +84801,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "04-punilla.pdf",
-      "source_page": 62,
+      "source_page": 63,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -84706,7 +84832,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "04-punilla.pdf",
-      "source_page": 62,
+      "source_page": 63,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -84735,7 +84861,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "04-punilla.pdf",
-      "source_page": 62,
+      "source_page": 63,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -84764,7 +84890,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "04-punilla.pdf",
-      "source_page": 62,
+      "source_page": 63,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -85292,7 +85418,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "04-punilla.pdf",
-      "source_page": 63,
+      "source_page": 64,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -85321,7 +85447,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "04-punilla.pdf",
-      "source_page": 63,
+      "source_page": 64,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -85350,7 +85476,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "04-punilla.pdf",
-      "source_page": 63,
+      "source_page": 64,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -85379,7 +85505,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "04-punilla.pdf",
-      "source_page": 63,
+      "source_page": 64,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -85907,7 +86033,7 @@
       "modality": "REGULAR DIFERENCIAL",
       "route": "",
       "source_file": "04-punilla.pdf",
-      "source_page": 64,
+      "source_page": 65,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -85937,7 +86063,7 @@
       "modality": "REGULAR DIFERENCIAL",
       "route": "",
       "source_file": "04-punilla.pdf",
-      "source_page": 64,
+      "source_page": 65,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -85962,7 +86088,7 @@
       "modality": "REGULAR DIFERENCIAL",
       "route": "",
       "source_file": "04-punilla.pdf",
-      "source_page": 64,
+      "source_page": 65,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -85991,7 +86117,7 @@
       "modality": "REGULAR DIFERENCIAL",
       "route": "",
       "source_file": "04-punilla.pdf",
-      "source_page": 64,
+      "source_page": 65,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -86510,7 +86636,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR CARCANO R- 14",
       "source_file": "04-punilla.pdf",
-      "source_page": 65,
+      "source_page": 66,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -86539,7 +86665,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR CARCANO R- 14",
       "source_file": "04-punilla.pdf",
-      "source_page": 65,
+      "source_page": 66,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -86568,7 +86694,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR CARCANO R- 14",
       "source_file": "04-punilla.pdf",
-      "source_page": 65,
+      "source_page": 66,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -86597,7 +86723,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR CARCANO R- 14",
       "source_file": "04-punilla.pdf",
-      "source_page": 65,
+      "source_page": 66,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -87119,7 +87245,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR CARCANO R- 14",
       "source_file": "04-punilla.pdf",
-      "source_page": 66,
+      "source_page": 67,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -87148,7 +87274,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR CARCANO R- 14",
       "source_file": "04-punilla.pdf",
-      "source_page": 66,
+      "source_page": 67,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -87177,7 +87303,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR CARCANO R- 14",
       "source_file": "04-punilla.pdf",
-      "source_page": 66,
+      "source_page": 67,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -87206,7 +87332,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR CARCANO R- 14",
       "source_file": "04-punilla.pdf",
-      "source_page": 66,
+      "source_page": 67,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -87728,7 +87854,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR CARCANO R- 14",
       "source_file": "04-punilla.pdf",
-      "source_page": 67,
+      "source_page": 68,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -87757,7 +87883,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR CARCANO R- 14",
       "source_file": "04-punilla.pdf",
-      "source_page": 67,
+      "source_page": 68,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -87786,7 +87912,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR CARCANO R- 14",
       "source_file": "04-punilla.pdf",
-      "source_page": 67,
+      "source_page": 68,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -87815,7 +87941,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR CARCANO R- 14",
       "source_file": "04-punilla.pdf",
-      "source_page": 67,
+      "source_page": 68,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -88321,7 +88447,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "04-punilla.pdf",
-      "source_page": 68,
+      "source_page": 69,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -88346,7 +88472,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR CIÉNAGA DEL CORO",
       "source_file": "04-punilla.pdf",
-      "source_page": 68,
+      "source_page": 69,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -88371,7 +88497,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR CIÉNAGA DEL CORO",
       "source_file": "04-punilla.pdf",
-      "source_page": 68,
+      "source_page": 69,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -88396,7 +88522,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR PIEDRAS ANCHAS",
       "source_file": "04-punilla.pdf",
-      "source_page": 68,
+      "source_page": 69,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -108803,7 +108929,7 @@
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-2246f0c7b122-1",
+      "id": "svc-264daceb7b00-1",
       "corridor": "SIERRAS CHICAS",
       "line": "CÓRDOBA - AGUA DE ORO",
       "line_id": "sierras-chicas-cordoba-agua-de-oro",
@@ -108825,14 +108951,14 @@
         5
       ],
       "modality": "REGULAR COMÚN DIRECTO",
-      "route": "RUTA E53 - DIRECTO",
+      "route": "RUTA E53",
       "source_file": "06-sierras-chicas.pdf",
       "source_page": 8,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-b08463a59246-1",
+      "id": "svc-3ecb1c7a2f56-1",
       "corridor": "SIERRAS CHICAS",
       "line": "CÓRDOBA - AGUA DE ORO",
       "line_id": "sierras-chicas-cordoba-agua-de-oro",
@@ -108854,7 +108980,7 @@
         5
       ],
       "modality": "REGULAR COMÚN DIRECTO",
-      "route": "RUTA E53 - DIRECTO",
+      "route": "RUTA E53",
       "source_file": "06-sierras-chicas.pdf",
       "source_page": 8,
       "possible_duplicate": false,
@@ -109010,7 +109136,7 @@
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-4745caf1b7ec-1",
+      "id": "svc-336496275712-1",
       "corridor": "SIERRAS CHICAS",
       "line": "CÓRDOBA - AGUA DE ORO",
       "line_id": "sierras-chicas-cordoba-agua-de-oro",
@@ -109032,7 +109158,7 @@
         5
       ],
       "modality": "REGULAR COMÚN DIRECTO",
-      "route": "RUTA E53 - DIRECTO",
+      "route": "RUTA E53",
       "source_file": "06-sierras-chicas.pdf",
       "source_page": 8,
       "possible_duplicate": false,
@@ -109207,7 +109333,7 @@
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-0676b52e6f8e-1",
+      "id": "svc-5ed90ffdc2ff-1",
       "corridor": "SIERRAS CHICAS",
       "line": "CÓRDOBA - AGUA DE ORO",
       "line_id": "sierras-chicas-cordoba-agua-de-oro",
@@ -109229,7 +109355,7 @@
         5
       ],
       "modality": "REGULAR COMÚN DIRECTO",
-      "route": "RUTA E53 - DIRECTO",
+      "route": "RUTA E53",
       "source_file": "06-sierras-chicas.pdf",
       "source_page": 8,
       "possible_duplicate": false,
@@ -114681,7 +114807,36 @@
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-eef8eaa9c580-1",
+      "id": "svc-0726be9a49c6-1",
+      "corridor": "SIERRAS CHICAS",
+      "line": "CÓRDOBA - LA CALERA (ALBERDI)",
+      "line_id": "sierras-chicas-cordoba-la-calera-alberdi",
+      "nodes": [
+        "CÓRDOBA",
+        "LA CALERA"
+      ],
+      "direction": "I",
+      "time": "12:05",
+      "minutes": 725,
+      "company": "COTA LA CALERA LTDA.",
+      "cuit": "30-54633555-7",
+      "service_days_text": "LUNES A VIERNES",
+      "service_days": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "modality": "REGULAR COMÚN",
+      "route": "RP E55 (AV. EJÉRCITO ARGENTINO)",
+      "source_file": "06-sierras-chicas.pdf",
+      "source_page": 17,
+      "possible_duplicate": false,
+      "duplicate_ordinal": 1
+    },
+    {
+      "id": "svc-68aa738afa4d-1",
       "corridor": "SIERRAS CHICAS",
       "line": "CÓRDOBA - LA CALERA (ALBERDI)",
       "line_id": "sierras-chicas-cordoba-la-calera-alberdi",
@@ -114694,13 +114849,8 @@
       "minutes": 730,
       "company": "COTA LA CALERA LTDA.",
       "cuit": "30-54633555-7",
-      "service_days_text": "LUNES A SÁBADOS",
+      "service_days_text": "SÁBADO",
       "service_days": [
-        1,
-        2,
-        3,
-        4,
-        5,
         6
       ],
       "modality": "REGULAR COMÚN",
@@ -115067,7 +115217,7 @@
       "modality": "REGULAR COMÚN",
       "route": "RP E55 (AV. EJÉRCITO ARGENTINO)",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 17,
+      "source_page": 18,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -115689,7 +115839,7 @@
       "modality": "REGULAR COMÚN",
       "route": "RP E55 (AV. EJÉRCITO ARGENTINO)",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 18,
+      "source_page": 19,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -116302,7 +116452,7 @@
       "modality": "REGULAR COMÚN",
       "route": "RP E55 (AV. EJÉRCITO ARGENTINO)",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 19,
+      "source_page": 20,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -116909,7 +117059,7 @@
       "modality": "REGULAR COMÚN",
       "route": "RP E55 (AV. EJÉRCITO ARGENTINO)",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 20,
+      "source_page": 21,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -117551,7 +117701,7 @@
       "modality": "REGULAR COMÚN",
       "route": "RP E55 (AV. EJÉRCITO ARGENTINO)",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 21,
+      "source_page": 22,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -117614,31 +117764,6 @@
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-c0e941ac5ce3-1",
-      "corridor": "SIERRAS CHICAS",
-      "line": "CÓRDOBA - LA CALERA (ALBERDI)",
-      "line_id": "sierras-chicas-cordoba-la-calera-alberdi",
-      "nodes": [
-        "CÓRDOBA",
-        "LA CALERA"
-      ],
-      "direction": "V",
-      "time": "07:30",
-      "minutes": 450,
-      "company": "COTA LA CALERA LTDA.",
-      "cuit": "30-54633555-7",
-      "service_days_text": "SÁBADO",
-      "service_days": [
-        6
-      ],
-      "modality": "REGULAR COMÚN",
-      "route": "RP E55 (AV. EJÉRCITO ARGENTINO)",
-      "source_file": "06-sierras-chicas.pdf",
-      "source_page": 22,
-      "possible_duplicate": false,
-      "duplicate_ordinal": 1
-    },
-    {
       "id": "svc-d88d3cce656b-1",
       "corridor": "SIERRAS CHICAS",
       "line": "CÓRDOBA - LA CALERA (ALBERDI)",
@@ -117661,6 +117786,31 @@
         5,
         6,
         7
+      ],
+      "modality": "REGULAR COMÚN",
+      "route": "RP E55 (AV. EJÉRCITO ARGENTINO)",
+      "source_file": "06-sierras-chicas.pdf",
+      "source_page": 22,
+      "possible_duplicate": false,
+      "duplicate_ordinal": 1
+    },
+    {
+      "id": "svc-c0e941ac5ce3-1",
+      "corridor": "SIERRAS CHICAS",
+      "line": "CÓRDOBA - LA CALERA (ALBERDI)",
+      "line_id": "sierras-chicas-cordoba-la-calera-alberdi",
+      "nodes": [
+        "CÓRDOBA",
+        "LA CALERA"
+      ],
+      "direction": "V",
+      "time": "07:30",
+      "minutes": 450,
+      "company": "COTA LA CALERA LTDA.",
+      "cuit": "30-54633555-7",
+      "service_days_text": "SÁBADO",
+      "service_days": [
+        6
       ],
       "modality": "REGULAR COMÚN",
       "route": "RP E55 (AV. EJÉRCITO ARGENTINO)",
@@ -118173,7 +118323,7 @@
       "modality": "REGULAR COMÚN",
       "route": "RP E55 (AV. EJÉRCITO ARGENTINO)",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 22,
+      "source_page": 23,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -118789,7 +118939,7 @@
       "modality": "REGULAR COMÚN",
       "route": "RP E55 (AV. EJÉRCITO ARGENTINO)",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 23,
+      "source_page": 24,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -119413,7 +119563,7 @@
       "modality": "REGULAR COMÚN",
       "route": "RP E55 (AV. EJÉRCITO ARGENTINO)",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 24,
+      "source_page": 25,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -120038,7 +120188,7 @@
       "modality": "REGULAR COMÚN",
       "route": "RP E55 (AV. EJÉRCITO ARGENTINO)",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 25,
+      "source_page": 26,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -120100,7 +120250,7 @@
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-80ae4fe65281-1",
+      "id": "svc-484b03b7e054-1",
       "corridor": "SIERRAS CHICAS",
       "line": "CÓRDOBA - LA CALERA (ARGUELLO)",
       "line_id": "sierras-chicas-cordoba-la-calera-arguello",
@@ -120109,8 +120259,8 @@
         "LA CALERA"
       ],
       "direction": "I",
-      "time": "05:20",
-      "minutes": 320,
+      "time": "05:40",
+      "minutes": 340,
       "company": "COTA LA CALERA LTDA.",
       "cuit": "30-54633555-7",
       "service_days_text": "LUNES A VIERNES",
@@ -120129,7 +120279,7 @@
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-16f7d96c40a6-1",
+      "id": "svc-efa9e973ecde-1",
       "corridor": "SIERRAS CHICAS",
       "line": "CÓRDOBA - LA CALERA (ARGUELLO)",
       "line_id": "sierras-chicas-cordoba-la-calera-arguello",
@@ -120142,13 +120292,8 @@
       "minutes": 350,
       "company": "COTA LA CALERA LTDA.",
       "cuit": "30-54633555-7",
-      "service_days_text": "DIARIO",
+      "service_days_text": "FINES DE SEMANA",
       "service_days": [
-        1,
-        2,
-        3,
-        4,
-        5,
         6,
         7
       ],
@@ -120160,7 +120305,7 @@
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-eb5c3abbb464-1",
+      "id": "svc-cde22f02f1cc-1",
       "corridor": "SIERRAS CHICAS",
       "line": "CÓRDOBA - LA CALERA (ARGUELLO)",
       "line_id": "sierras-chicas-cordoba-la-calera-arguello",
@@ -120169,8 +120314,8 @@
         "LA CALERA"
       ],
       "direction": "I",
-      "time": "06:15",
-      "minutes": 375,
+      "time": "06:10",
+      "minutes": 370,
       "company": "COTA LA CALERA LTDA.",
       "cuit": "30-54633555-7",
       "service_days_text": "LUNES A VIERNES",
@@ -120663,7 +120808,7 @@
       "modality": "REGULAR COMÚN",
       "route": "AVDA. R. NUÑEZ, R. ROJAS Y BODEREAU",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 26,
+      "source_page": 27,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -121085,7 +121230,7 @@
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-80f2baf451e4-1",
+      "id": "svc-43a6e501157e-1",
       "corridor": "SIERRAS CHICAS",
       "line": "CÓRDOBA - LA CALERA (ARGUELLO)",
       "line_id": "sierras-chicas-cordoba-la-calera-arguello",
@@ -121094,8 +121239,8 @@
         "LA CALERA"
       ],
       "direction": "I",
-      "time": "19:25",
-      "minutes": 1165,
+      "time": "19:45",
+      "minutes": 1185,
       "company": "COTA LA CALERA LTDA.",
       "cuit": "30-54633555-7",
       "service_days_text": "LUNES A VIERNES",
@@ -121140,7 +121285,7 @@
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-e1813d7c9570-1",
+      "id": "svc-a50d83ed96e0-1",
       "corridor": "SIERRAS CHICAS",
       "line": "CÓRDOBA - LA CALERA (ARGUELLO)",
       "line_id": "sierras-chicas-cordoba-la-calera-arguello",
@@ -121149,8 +121294,8 @@
         "LA CALERA"
       ],
       "direction": "I",
-      "time": "20:25",
-      "minutes": 1225,
+      "time": "20:30",
+      "minutes": 1230,
       "company": "COTA LA CALERA LTDA.",
       "cuit": "30-54633555-7",
       "service_days_text": "LUNES A VIERNES",
@@ -121195,7 +121340,7 @@
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-dab0c2e6baa5-1",
+      "id": "svc-6258ede15e82-1",
       "corridor": "SIERRAS CHICAS",
       "line": "CÓRDOBA - LA CALERA (ARGUELLO)",
       "line_id": "sierras-chicas-cordoba-la-calera-arguello",
@@ -121204,8 +121349,8 @@
         "LA CALERA"
       ],
       "direction": "I",
-      "time": "21:25",
-      "minutes": 1285,
+      "time": "21:30",
+      "minutes": 1290,
       "company": "COTA LA CALERA LTDA.",
       "cuit": "30-54633555-7",
       "service_days_text": "LUNES A VIERNES",
@@ -121281,7 +121426,7 @@
       "modality": "REGULAR COMÚN",
       "route": "AVDA. R. NUÑEZ, R. ROJAS Y BODEREAU",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 27,
+      "source_page": 28,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -121312,7 +121457,7 @@
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-4f23d956590a-1",
+      "id": "svc-8a476b2d6b2c-1",
       "corridor": "SIERRAS CHICAS",
       "line": "CÓRDOBA - LA CALERA (ARGUELLO)",
       "line_id": "sierras-chicas-cordoba-la-calera-arguello",
@@ -121321,8 +121466,8 @@
         "LA CALERA"
       ],
       "direction": "V",
-      "time": "04:00",
-      "minutes": 240,
+      "time": "04:20",
+      "minutes": 260,
       "company": "COTA LA CALERA LTDA.",
       "cuit": "30-54633555-7",
       "service_days_text": "LUNES A VIERNES",
@@ -121341,7 +121486,7 @@
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-f4dc8771d7ce-1",
+      "id": "svc-cc12821b0c68-1",
       "corridor": "SIERRAS CHICAS",
       "line": "CÓRDOBA - LA CALERA (ARGUELLO)",
       "line_id": "sierras-chicas-cordoba-la-calera-arguello",
@@ -121354,13 +121499,8 @@
       "minutes": 270,
       "company": "COTA LA CALERA LTDA.",
       "cuit": "30-54633555-7",
-      "service_days_text": "DIARIO",
+      "service_days_text": "FINES DE SEMANA",
       "service_days": [
-        1,
-        2,
-        3,
-        4,
-        5,
         6,
         7
       ],
@@ -121372,7 +121512,7 @@
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-aa6ecb2ebcd2-1",
+      "id": "svc-7514cc118a4e-1",
       "corridor": "SIERRAS CHICAS",
       "line": "CÓRDOBA - LA CALERA (ARGUELLO)",
       "line_id": "sierras-chicas-cordoba-la-calera-arguello",
@@ -121381,8 +121521,8 @@
         "LA CALERA"
       ],
       "direction": "V",
-      "time": "05:00",
-      "minutes": 300,
+      "time": "04:50",
+      "minutes": 290,
       "company": "COTA LA CALERA LTDA.",
       "cuit": "30-54633555-7",
       "service_days_text": "LUNES A VIERNES",
@@ -121629,7 +121769,7 @@
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-9f8ef196e0ad-1",
+      "id": "svc-1c6f09feeb73-1",
       "corridor": "SIERRAS CHICAS",
       "line": "CÓRDOBA - LA CALERA (ARGUELLO)",
       "line_id": "sierras-chicas-cordoba-la-calera-arguello",
@@ -121638,8 +121778,8 @@
         "LA CALERA"
       ],
       "direction": "V",
-      "time": "07:50",
-      "minutes": 470,
+      "time": "07:55",
+      "minutes": 475,
       "company": "COTA LA CALERA LTDA.",
       "cuit": "30-54633555-7",
       "service_days_text": "LUNES A VIERNES",
@@ -121684,7 +121824,7 @@
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-f27c17784409-1",
+      "id": "svc-7c9602eefea1-1",
       "corridor": "SIERRAS CHICAS",
       "line": "CÓRDOBA - LA CALERA (ARGUELLO)",
       "line_id": "sierras-chicas-cordoba-la-calera-arguello",
@@ -121693,8 +121833,8 @@
         "LA CALERA"
       ],
       "direction": "V",
-      "time": "08:25",
-      "minutes": 505,
+      "time": "08:30",
+      "minutes": 510,
       "company": "COTA LA CALERA LTDA.",
       "cuit": "30-54633555-7",
       "service_days_text": "LUNES A VIERNES",
@@ -121713,36 +121853,7 @@
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-4d3ca45ebaaf-1",
-      "corridor": "SIERRAS CHICAS",
-      "line": "CÓRDOBA - LA CALERA (ARGUELLO)",
-      "line_id": "sierras-chicas-cordoba-la-calera-arguello",
-      "nodes": [
-        "CÓRDOBA",
-        "LA CALERA"
-      ],
-      "direction": "V",
-      "time": "08:55",
-      "minutes": 535,
-      "company": "COTA LA CALERA LTDA.",
-      "cuit": "30-54633555-7",
-      "service_days_text": "LUNES A VIERNES",
-      "service_days": [
-        1,
-        2,
-        3,
-        4,
-        5
-      ],
-      "modality": "REGULAR COMÚN",
-      "route": "AVDA. R. NUÑEZ, R. ROJAS Y BODEREAU",
-      "source_file": "06-sierras-chicas.pdf",
-      "source_page": 28,
-      "possible_duplicate": false,
-      "duplicate_ordinal": 1
-    },
-    {
-      "id": "svc-54fb8dd249a9-1",
+      "id": "svc-8fe73da86551-1",
       "corridor": "SIERRAS CHICAS",
       "line": "CÓRDOBA - LA CALERA (ARGUELLO)",
       "line_id": "sierras-chicas-cordoba-la-calera-arguello",
@@ -121755,8 +121866,13 @@
       "minutes": 540,
       "company": "COTA LA CALERA LTDA.",
       "cuit": "30-54633555-7",
-      "service_days_text": "FINES DE SEMANA",
+      "service_days_text": "DIARIO",
       "service_days": [
+        1,
+        2,
+        3,
+        4,
+        5,
         6,
         7
       ],
