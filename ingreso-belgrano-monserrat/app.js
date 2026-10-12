@@ -27,6 +27,7 @@
   let authUser = null;
   let syncTimer = null;
   let recommendedArea = null;
+  let saveReminderPending = false;
 
   const $ = (s, root = document) => root.querySelector(s);
   const $$ = (s, root = document) => [...root.querySelectorAll(s)];
@@ -37,7 +38,7 @@
     try {
       // La URL cambia con la versión: evita que un service worker anterior entregue
       // habilidades sin videos durante la primera visita tras una actualización.
-      const releaseVersion = document.querySelector('meta[name="app-version"]')?.content || '6.18.1';
+      const releaseVersion = document.querySelector('meta[name="app-version"]')?.content || '6.18.2';
       const [skillsData, exerciseData] = await Promise.all([
         fetch(`./data/habilidades.json?v=${encodeURIComponent(releaseVersion)}`, { cache: 'no-store' }).then(r => { if (!r.ok) throw new Error('habilidades'); return r.json(); }),
         fetch('./data/ejercicios.json').then(r => { if (!r.ok) throw new Error('ejercicios'); return r.json(); })
@@ -55,7 +56,7 @@
     refreshGateNames();
     restoreActiveContext();
     setupSupabase();
-    if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js?v=6.18.1').catch(() => {});
+    if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js?v=6.18.2').catch(() => {});
   }
 
   function bindUI() {
@@ -80,6 +81,8 @@
     $('#sign-in').addEventListener('click', signIn);
     $('#sign-up').addEventListener('click', signUp);
     $('#sign-out').addEventListener('click', signOut);
+    $('#save-progress-now').addEventListener('click', saveProgressNow);
+    $('#save-reminder-later').addEventListener('click', closeSaveReminder);
     $('#video-library').addEventListener('click', handleVideoAction);
     $('#skills-container').addEventListener('click', handleSkillResourceAction);
     $('#family-tutoring-panel').addEventListener('click', event => {
@@ -88,6 +91,8 @@
     $('#exercise-dialog').addEventListener('cancel', e => { e.preventDefault(); closeExercise(true); });
     window.addEventListener('ingreso:remote-state-updated', refreshStateFromStorage);
     window.addEventListener('storage', event => { if (event.key === STORAGE_KEY) refreshStateFromStorage(); });
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    window.addEventListener('pagehide', () => saveState());
   }
 
   function cloneDefault() { return JSON.parse(JSON.stringify(DEFAULT_STATE)); }
@@ -1161,6 +1166,79 @@
     $('#exercise-feedback').hidden = true; $('#exercise-selfcheck').hidden = true; $('#hint-button').hidden = true; $('#check-answer').hidden = true;
     $('#next-exercise').hidden = false; $('#next-exercise').textContent = 'Ver mi avance';
     renderAll();
+    window.setTimeout(() => openSaveReminder('session'), 350);
+  }
+
+  function saveReminderCopy(reason) {
+    if (reason === 'return') return {
+      title: '¿Seguimos desde donde quedaste?',
+      text: 'Mientras estabas fuera, tu avance quedó guardado en este dispositivo. Tocá Guardar avance para enviarlo también a la cuenta familiar.'
+    };
+    return {
+      title: 'Antes de seguir con otra cosa…',
+      text: 'Terminaste este conjunto de ejercicios. Tu avance ya quedó guardado en este dispositivo. Tocá Guardar avance para enviarlo también a la cuenta familiar.'
+    };
+  }
+
+  function openSaveReminder(reason = 'session') {
+    const dialog = $('#save-reminder-dialog');
+    if (!dialog || dialog.open) return;
+    const copy = saveReminderCopy(reason);
+    $('#save-reminder-title').textContent = copy.title;
+    $('#save-reminder-copy').textContent = copy.text;
+    $('#save-reminder-status').textContent = authUser && supa && navigator.onLine
+      ? 'Listo para sincronizar con la cuenta familiar.'
+      : 'El avance queda seguro en este dispositivo.';
+    $('#save-progress-now').hidden = false;
+    $('#save-reminder-later').textContent = 'Seguir después';
+    dialog.showModal();
+  }
+
+  function closeSaveReminder() {
+    const dialog = $('#save-reminder-dialog');
+    if (dialog?.open) dialog.close();
+  }
+
+  async function saveProgressNow() {
+    saveState({ sync: false });
+    const status = $('#save-reminder-status');
+    const button = $('#save-progress-now');
+    if (!authUser || !supa) {
+      status.textContent = 'Listo: el avance quedó guardado en este dispositivo.';
+      button.hidden = true;
+      $('#save-reminder-later').textContent = 'Entendido';
+      return;
+    }
+    if (!navigator.onLine) {
+      status.textContent = 'Quedó guardado en este dispositivo. Se enviará a la cuenta familiar cuando vuelva la conexión.';
+      button.hidden = true;
+      $('#save-reminder-later').textContent = 'Entendido';
+      return;
+    }
+    button.disabled = true;
+    button.textContent = 'Guardando…';
+    const synced = await syncRemoteState();
+    button.disabled = false;
+    if (synced) {
+      status.textContent = '¡Listo! El avance también quedó guardado en la cuenta familiar.';
+      button.hidden = true;
+      $('#save-reminder-later').textContent = 'Seguir';
+    } else {
+      status.textContent = 'El avance quedó guardado en este dispositivo. Intentaremos sincronizarlo nuevamente más tarde.';
+      button.textContent = 'Reintentar guardado';
+    }
+  }
+
+  function handleVisibilityChange() {
+    if (document.visibilityState === 'hidden') {
+      saveState();
+      if (session?.answers?.length || session?.finished) saveReminderPending = true;
+      return;
+    }
+    if (saveReminderPending && !$('#exercise-dialog')?.open) {
+      saveReminderPending = false;
+      window.setTimeout(() => openSaveReminder('return'), 250);
+    }
   }
 
   function sessionSummaryHtml() {
@@ -1372,10 +1450,14 @@
   }
 
   async function syncRemoteState() {
-    if (!supa || !authUser) return;
-    await syncPendingEvidence();
+    if (!supa || !authUser) return false;
+    const evidenceSynced = await syncPendingEvidence();
     const { error } = await supa.from('study_state').upsert({ user_id: authUser.id, payload: state, updated_at: new Date().toISOString() }, { onConflict: 'user_id' });
-    if (error) console.error('Error de sincronización', error);
+    if (error) {
+      console.error('Error de sincronización', error);
+      return false;
+    }
+    return evidenceSynced;
   }
 
   function toast(message) {

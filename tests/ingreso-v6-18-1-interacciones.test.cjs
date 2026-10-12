@@ -87,11 +87,22 @@ test('los interceptores globales de clicks están limitados a acciones intencion
   assert.doesNotMatch(app, /document\.addEventListener\('click',[\s\S]{0,220}stopImmediatePropagation/);
 });
 
-test('la reparación fuerza una caché nueva y assets V6.18.1', () => {
+test('la reparación fuerza una caché nueva y assets V6.18.2', () => {
   const sw = read('sw.js');
-  assert.match(index, /meta name="app-version" content="6\.18\.1"/);
-  assert.match(index, /app\.js\?v=6\.18\.1/);
-  assert.match(app, /serviceWorker\.register\('\.\/sw\.js\?v=6\.18\.1'\)/);
-  assert.match(sw, /ingreso-bm-v6-18-1-interacciones/);
-  assert.match(sw, /const VERSION='6\.18\.1'/);
+  assert.match(index, /meta name="app-version" content="6\.18\.2"/);
+  assert.match(index, /app\.js\?v=6\.18\.2/);
+  assert.match(app, /serviceWorker\.register\('\.\/sw\.js\?v=6\.18\.2'\)/);
+  assert.match(sw, /ingreso-bm-v6-18-2-recordatorio-guardado/);
+  assert.match(sw, /const VERSION='6\.18\.2'/);
+});
+
+test('cada sesión pide guardar el avance y distingue respaldo local de sincronización familiar', () => {
+  assert.match(index, /id="save-reminder-dialog"/);
+  assert.match(index, /id="save-progress-now"/);
+  assert.match(app, /function openSaveReminder/);
+  assert.match(app, /function saveProgressNow/);
+  assert.match(app, /function handleVisibilityChange/);
+  assert.match(app, /openSaveReminder\('session'\)/);
+  assert.match(app, /openSaveReminder\('return'\)/);
+  assert.match(app, /cuenta familiar/);
 });
