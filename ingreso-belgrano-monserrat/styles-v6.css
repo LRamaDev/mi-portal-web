@@ -154,6 +154,7 @@ body{
 .choice-option:hover{transform:translateX(2px);background:#f8fbfe}.choice-option:has(input:checked){border-color:#6b9dc4;background:#edf6fc;box-shadow:0 0 0 2px rgba(36,95,150,.08)}
 .answer-input{font-size:1.05rem;min-height:48px}
 .exercise-footer{background:#fbfdff;position:sticky;bottom:0}
+.save-reminder-dialog{width:min(430px,calc(100% - 28px));padding:0;border:0;border-radius:24px;background:transparent;box-shadow:0 24px 64px rgba(16,42,68,.28)}.save-reminder-dialog::backdrop{background:rgba(15,39,62,.46);backdrop-filter:blur(2px)}.save-reminder-card{padding:26px;border:1px solid #cbdfee;border-radius:24px;background:linear-gradient(145deg,#fff,#f3f9fd);text-align:center}.save-reminder-icon{display:grid;place-items:center;width:52px;height:52px;margin:0 auto 13px;border-radius:17px;background:#e1f2fb;color:#1d6e9a;font-size:1.55rem}.save-reminder-card .eyebrow{margin:0 0 4px;color:#37718e}.save-reminder-card h2{margin:0;color:#173f6b;font-size:1.32rem}.save-reminder-card>p:not(.eyebrow){margin:11px 0 0;color:#526679;line-height:1.5}.save-reminder-status{min-height:1.5em;margin-top:13px!important;color:#1b6d58!important;font-weight:800}.save-reminder-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:19px}.save-reminder-actions button{min-height:46px}.save-reminder-actions .secondary-button{background:#fff}
 
 button:focus-visible,input:focus-visible,summary:focus-visible,a:focus-visible{outline:3px solid rgba(36,95,150,.28);outline-offset:2px}
 
@@ -174,6 +175,7 @@ button:focus-visible,input:focus-visible,summary:focus-visible,a:focus-visible{o
   .hero-panel{border-radius:20px}.today-card{padding:17px}.stats-grid{gap:9px}.stat-card{padding:15px}.stat-card strong{font-size:1.12rem}
   .panel{padding:17px;border-radius:17px}.panel-heading{align-items:flex-start;flex-direction:column;gap:6px}.training-grid,.family-grid{grid-template-columns:1fr}.training-card{padding:22px}.exam-grid{grid-template-columns:1fr}.exam-button{min-height:76px}
   .exercise-dialog{width:100%;max-height:100svh;height:100svh;border-radius:0}.exercise-frame{min-height:100svh}.exercise-content{padding:22px 18px}.exercise-footer{padding:13px 14px;padding-bottom:max(13px,env(safe-area-inset-bottom))}.exercise-footer .primary-button,.exercise-footer .secondary-button{min-height:46px}
+  .save-reminder-card{padding:23px 18px}.save-reminder-actions{grid-template-columns:1fr}
   .study-roadmap{padding:16px;border-radius:18px}.study-roadmap-head{align-items:flex-start;flex-direction:column;gap:2px}
   .weekly-mission{grid-template-columns:auto 1fr;padding:14px}.weekly-mission-count{grid-column:2;justify-self:start}.balance-coach{padding:15px}.family-activity-list,.tutoring-list{grid-template-columns:1fr}.tutoring-heading{flex-direction:column}.tutoring-status{max-width:none;text-align:left}
 }

@@ -38,8 +38,8 @@ test('la app refresca progreso al volver, recuperar conexión o foco', () => {
   assert.match(ui, /window\.addEventListener\('focus', refreshFromCloud\)/);
 });
 
-test('la versión visible pasa a 6.5 y cambia el caché', () => {
-  assert.match(ui, /const DISPLAY_VERSION = '6\.5'/);
-  assert.match(ui, /Versión \$\{DISPLAY_VERSION\}/);
-  assert.match(sw, /ingreso-bm-v6-5-sync-perfiles/);
+test('el módulo de sincronización conserva su versión visible y caché propios', () => {
+  assert.match(ui, /const DISPLAY_VERSION = '6\.6'/);
+  assert.match(ui, /Versión \$\{releaseVersion\}/);
+  assert.match(sw, /ingreso-bm-v6-18-2-recordatorio-guardado/);
 });
