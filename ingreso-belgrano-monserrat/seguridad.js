@@ -118,6 +118,7 @@
           <label class="field">Correo familiar<input id="family-access-email" type="email" autocomplete="email"></label>
           <label class="field">Contraseña<input id="family-access-password" type="password" minlength="6" autocomplete="current-password"></label>
           <button id="family-access-login" class="primary-button" type="button">Ingresar con cuenta familiar</button>
+          <button id="family-access-recover" class="secondary-button" type="button">Olvidé mi contraseña</button>
         </div>
         <div class="access-divider" aria-hidden="true"><span>o</span></div>
         <button id="family-access-visitor" class="visitor-button" type="button">🎓 Continuar como visitante</button>
@@ -144,6 +145,7 @@
     document.head.appendChild(style);
 
     gate.querySelector('#family-access-login').addEventListener('click', login);
+    gate.querySelector('#family-access-recover').addEventListener('click', requestRecovery);
     gate.querySelector('#family-access-visitor').addEventListener('click', enterVisitor);
     gate.querySelector('#family-access-logout').addEventListener('click', logout);
     gate.querySelector('#family-access-password').addEventListener('keydown', e => { if (e.key === 'Enter') login(); });
@@ -220,6 +222,32 @@
       return;
     }
     await checkAccess(data.session);
+  }
+
+  async function requestRecovery() {
+    if (!client || !gate) return;
+    const email = gate.querySelector('#family-access-email').value.trim();
+    if (!email) {
+      setView({ message: 'Escribí primero el correo familiar para recibir el enlace de recuperación.', form: true });
+      gate.querySelector('#family-access-email').focus();
+      return;
+    }
+
+    const btn = gate.querySelector('#family-access-recover');
+    btn.disabled = true;
+    btn.textContent = 'Enviando enlace…';
+    try {
+      // Supabase usa Site URL; debe ser la dirección pública de esta app, nunca localhost.
+      const { error } = await client.auth.resetPasswordForEmail(email);
+      if (error) throw error;
+      setView({ message: 'Si el correo corresponde a una cuenta, recibirás un enlace para elegir una contraseña nueva. Revisá también spam.', form: true });
+    } catch (error) {
+      console.error('[Ingreso] No se pudo solicitar la recuperación', error);
+      setView({ message: 'No se pudo enviar el enlace. Reintentá dentro de unos minutos.', form: true });
+    } finally {
+      btn.disabled = false;
+      btn.textContent = 'Olvidé mi contraseña';
+    }
   }
 
   async function enterVisitor() {
@@ -310,6 +338,16 @@
 
   async function init() {
     document.body.classList.add('security-pending');
+
+    // El enlace de Supabase contiene un token efímero en el fragmento.
+    // Transferirlo antes de inicializar el cliente evita que la pantalla de estudio
+    // consuma la recuperación o habilite una sesión sin cambiar la clave.
+    const recoveryLink = new URLSearchParams(window.location.hash.slice(1));
+    if (recoveryLink.get('type') === 'recovery') {
+      writeAccessMode('family');
+      window.location.replace('./recuperar-clave.html' + window.location.hash);
+      return;
+    }
 
     if (accessMode === 'visitor') {
       authorizeVisitor();
