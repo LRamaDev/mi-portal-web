@@ -46,7 +46,7 @@ jobs:
           node-version: '24'
       - name: Auditoría pedagógica V6.7
         run: node --test tests/ingreso-v6-7-auditoria.test.cjs
-      - name: Banco efectivo V6.18
+      - name: Banco efectivo V6.19
         run: node audit-bank.cjs
       - name: Repaso espaciado V6.8
         run: node --test tests/ingreso-v6-8-repaso.test.cjs

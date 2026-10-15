@@ -38,7 +38,7 @@
     try {
       // La URL cambia con la versión: evita que un service worker anterior entregue
       // habilidades sin videos durante la primera visita tras una actualización.
-      const releaseVersion = document.querySelector('meta[name="app-version"]')?.content || '6.18.2';
+      const releaseVersion = document.querySelector('meta[name="app-version"]')?.content || '6.19';
       const [skillsData, exerciseData] = await Promise.all([
         fetch(`./data/habilidades.json?v=${encodeURIComponent(releaseVersion)}`, { cache: 'no-store' }).then(r => { if (!r.ok) throw new Error('habilidades'); return r.json(); }),
         fetch('./data/ejercicios.json').then(r => { if (!r.ok) throw new Error('ejercicios'); return r.json(); })
@@ -56,7 +56,7 @@
     refreshGateNames();
     restoreActiveContext();
     setupSupabase();
-    if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js?v=6.18.2').catch(() => {});
+    if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js?v=6.19').catch(() => {});
   }
 
   function bindUI() {
@@ -1127,6 +1127,19 @@
   }
 
   function isCorrect(e, answer) {
+    if (e.respuestaRacionalEntre) {
+      const match = String(answer ?? '').trim().match(/^([0-9]+)\s*\/\s*([0-9]+)$/);
+      if (!match) return false;
+      const numerator = Number(match[1]);
+      const denominator = Number(match[2]);
+      if (!Number.isSafeInteger(numerator) || !Number.isSafeInteger(denominator) ||
+        numerator > 1e9 || denominator === 0 || denominator > 1e9) return false;
+      const { mayorQue, menorQue, irreducible } = e.respuestaRacionalEntre;
+      const gcd = (a, b) => b === 0 ? a : gcd(b, a % b);
+      return numerator * mayorQue[1] > mayorQue[0] * denominator &&
+        numerator * menorQue[1] < menorQue[0] * denominator &&
+        (!irreducible || gcd(numerator, denominator) === 1);
+    }
     const accepted = [e.respuesta, ...(e.alternativas || [])].map(normalizeAnswer);
     return accepted.includes(normalizeAnswer(answer));
   }
