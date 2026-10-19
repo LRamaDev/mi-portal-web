@@ -1,0 +1,2233 @@
+{
+  "schema_version": 1,
+  "previous_publication_date": "2026-10-09",
+  "publication_date": "2026-10-16",
+  "summary": {
+    "previous_services": 5514,
+    "current_services": 5501,
+    "unchanged": 5473,
+    "modified": 28,
+    "added": 0,
+    "removed": 13
+  },
+  "corridors": [
+    {
+      "corridor": "ESTE-SUDESTE",
+      "previous": 535,
+      "current": 535,
+      "difference": 0
+    },
+    {
+      "corridor": "NORESTE",
+      "previous": 407,
+      "current": 407,
+      "difference": 0
+    },
+    {
+      "corridor": "NORTE",
+      "previous": 717,
+      "current": 717,
+      "difference": 0
+    },
+    {
+      "corridor": "PUNILLA",
+      "previous": 1435,
+      "current": 1435,
+      "difference": 0
+    },
+    {
+      "corridor": "RUTA 5",
+      "previous": 555,
+      "current": 555,
+      "difference": 0
+    },
+    {
+      "corridor": "SIERRAS CHICAS",
+      "previous": 1167,
+      "current": 1154,
+      "difference": -13
+    },
+    {
+      "corridor": "SUR",
+      "previous": 480,
+      "current": 480,
+      "difference": 0
+    },
+    {
+      "corridor": "TRASLASIERRA",
+      "previous": 218,
+      "current": 218,
+      "difference": 0
+    }
+  ],
+  "new_lines": [],
+  "removed_lines": [],
+  "geography": {
+    "located": 176,
+    "unresolved": 7,
+    "newly_unresolved": []
+  },
+  "modified": [
+    {
+      "id": "chg-f6f3d50ae99129d9",
+      "fields": {
+        "time": {
+          "before": "07:20",
+          "after": "07:25"
+        }
+      },
+      "before": {
+        "corridor": "SIERRAS CHICAS",
+        "line": "CÓRDOBA - MENDIOLAZA",
+        "line_id": "sierras-chicas-cordoba-mendiolaza",
+        "nodes": [
+          "CÓRDOBA",
+          "MENDIOLAZA"
+        ],
+        "direction": "I",
+        "time": "07:20",
+        "minutes": 440,
+        "company": "EMPRENDIMIENTOS S.R.L.",
+        "cuit": "30-67871434-4",
+        "service_days_text": "LUNES A SÁBADOS",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "modality": "REGULAR DIFERENCIAL",
+        "route": "RP E53",
+        "source_file": "06-sierras-chicas.pdf",
+        "source_page": 40
+      },
+      "after": {
+        "corridor": "SIERRAS CHICAS",
+        "line": "CÓRDOBA - MENDIOLAZA",
+        "line_id": "sierras-chicas-cordoba-mendiolaza",
+        "nodes": [
+          "CÓRDOBA",
+          "MENDIOLAZA"
+        ],
+        "direction": "I",
+        "time": "07:25",
+        "minutes": 445,
+        "company": "EMPRENDIMIENTOS S.R.L.",
+        "cuit": "30-67871434-4",
+        "service_days_text": "LUNES A SÁBADOS",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "modality": "REGULAR DIFERENCIAL",
+        "route": "RP E53",
+        "source_file": "06-sierras-chicas.pdf",
+        "source_page": 40
+      }
+    },
+    {
+      "id": "chg-6e863e16159cd24a",
+      "fields": {
+        "time": {
+          "before": "10:00",
+          "after": "10:10"
+        }
+      },
+      "before": {
+        "corridor": "SIERRAS CHICAS",
+        "line": "CÓRDOBA - MENDIOLAZA",
+        "line_id": "sierras-chicas-cordoba-mendiolaza",
+        "nodes": [
+          "CÓRDOBA",
+          "MENDIOLAZA"
+        ],
+        "direction": "I",
+        "time": "10:00",
+        "minutes": 600,
+        "company": "EMPRENDIMIENTOS S.R.L.",
+        "cuit": "30-67871434-4",
+        "service_days_text": "LUNES A SÁBADOS",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "modality": "REGULAR DIFERENCIAL",
+        "route": "RP E53",
+        "source_file": "06-sierras-chicas.pdf",
+        "source_page": 40
+      },
+      "after": {
+        "corridor": "SIERRAS CHICAS",
+        "line": "CÓRDOBA - MENDIOLAZA",
+        "line_id": "sierras-chicas-cordoba-mendiolaza",
+        "nodes": [
+          "CÓRDOBA",
+          "MENDIOLAZA"
+        ],
+        "direction": "I",
+        "time": "10:10",
+        "minutes": 610,
+        "company": "EMPRENDIMIENTOS S.R.L.",
+        "cuit": "30-67871434-4",
+        "service_days_text": "LUNES A SÁBADOS",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "modality": "REGULAR DIFERENCIAL",
+        "route": "RP E53",
+        "source_file": "06-sierras-chicas.pdf",
+        "source_page": 40
+      }
+    },
+    {
+      "id": "chg-5dc32c11a28a8517",
+      "fields": {
+        "time": {
+          "before": "12:40",
+          "after": "12:50"
+        }
+      },
+      "before": {
+        "corridor": "SIERRAS CHICAS",
+        "line": "CÓRDOBA - MENDIOLAZA",
+        "line_id": "sierras-chicas-cordoba-mendiolaza",
+        "nodes": [
+          "CÓRDOBA",
+          "MENDIOLAZA"
+        ],
+        "direction": "I",
+        "time": "12:40",
+        "minutes": 760,
+        "company": "EMPRENDIMIENTOS S.R.L.",
+        "cuit": "30-67871434-4",
+        "service_days_text": "LUNES A SÁBADOS",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "modality": "REGULAR DIFERENCIAL",
+        "route": "RP E53",
+        "source_file": "06-sierras-chicas.pdf",
+        "source_page": 40
+      },
+      "after": {
+        "corridor": "SIERRAS CHICAS",
+        "line": "CÓRDOBA - MENDIOLAZA",
+        "line_id": "sierras-chicas-cordoba-mendiolaza",
+        "nodes": [
+          "CÓRDOBA",
+          "MENDIOLAZA"
+        ],
+        "direction": "I",
+        "time": "12:50",
+        "minutes": 770,
+        "company": "EMPRENDIMIENTOS S.R.L.",
+        "cuit": "30-67871434-4",
+        "service_days_text": "LUNES A SÁBADOS",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "modality": "REGULAR DIFERENCIAL",
+        "route": "RP E53",
+        "source_file": "06-sierras-chicas.pdf",
+        "source_page": 40
+      }
+    },
+    {
+      "id": "chg-1e71da876c76211f",
+      "fields": {
+        "time": {
+          "before": "15:40",
+          "after": "15:50"
+        }
+      },
+      "before": {
+        "corridor": "SIERRAS CHICAS",
+        "line": "CÓRDOBA - MENDIOLAZA",
+        "line_id": "sierras-chicas-cordoba-mendiolaza",
+        "nodes": [
+          "CÓRDOBA",
+          "MENDIOLAZA"
+        ],
+        "direction": "I",
+        "time": "15:40",
+        "minutes": 940,
+        "company": "EMPRENDIMIENTOS S.R.L.",
+        "cuit": "30-67871434-4",
+        "service_days_text": "LUNES A SÁBADOS",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "modality": "REGULAR DIFERENCIAL",
+        "route": "RP E53",
+        "source_file": "06-sierras-chicas.pdf",
+        "source_page": 40
+      },
+      "after": {
+        "corridor": "SIERRAS CHICAS",
+        "line": "CÓRDOBA - MENDIOLAZA",
+        "line_id": "sierras-chicas-cordoba-mendiolaza",
+        "nodes": [
+          "CÓRDOBA",
+          "MENDIOLAZA"
+        ],
+        "direction": "I",
+        "time": "15:50",
+        "minutes": 950,
+        "company": "EMPRENDIMIENTOS S.R.L.",
+        "cuit": "30-67871434-4",
+        "service_days_text": "LUNES A SÁBADOS",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "modality": "REGULAR DIFERENCIAL",
+        "route": "RP E53",
+        "source_file": "06-sierras-chicas.pdf",
+        "source_page": 40
+      }
+    },
+    {
+      "id": "chg-c909c724ec5e6fd0",
+      "fields": {
+        "time": {
+          "before": "18:40",
+          "after": "18:50"
+        }
+      },
+      "before": {
+        "corridor": "SIERRAS CHICAS",
+        "line": "CÓRDOBA - MENDIOLAZA",
+        "line_id": "sierras-chicas-cordoba-mendiolaza",
+        "nodes": [
+          "CÓRDOBA",
+          "MENDIOLAZA"
+        ],
+        "direction": "I",
+        "time": "18:40",
+        "minutes": 1120,
+        "company": "EMPRENDIMIENTOS S.R.L.",
+        "cuit": "30-67871434-4",
+        "service_days_text": "LUNES A SÁBADOS",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "modality": "REGULAR DIFERENCIAL",
+        "route": "RP E53",
+        "source_file": "06-sierras-chicas.pdf",
+        "source_page": 40
+      },
+      "after": {
+        "corridor": "SIERRAS CHICAS",
+        "line": "CÓRDOBA - MENDIOLAZA",
+        "line_id": "sierras-chicas-cordoba-mendiolaza",
+        "nodes": [
+          "CÓRDOBA",
+          "MENDIOLAZA"
+        ],
+        "direction": "I",
+        "time": "18:50",
+        "minutes": 1130,
+        "company": "EMPRENDIMIENTOS S.R.L.",
+        "cuit": "30-67871434-4",
+        "service_days_text": "LUNES A SÁBADOS",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "modality": "REGULAR DIFERENCIAL",
+        "route": "RP E53",
+        "source_file": "06-sierras-chicas.pdf",
+        "source_page": 40
+      }
+    },
+    {
+      "id": "chg-689826ad5981fecd",
+      "fields": {
+        "time": {
+          "before": "08:40",
+          "after": "08:45"
+        }
+      },
+      "before": {
+        "corridor": "SIERRAS CHICAS",
+        "line": "CÓRDOBA - MENDIOLAZA",
+        "line_id": "sierras-chicas-cordoba-mendiolaza",
+        "nodes": [
+          "CÓRDOBA",
+          "MENDIOLAZA"
+        ],
+        "direction": "V",
+        "time": "08:40",
+        "minutes": 520,
+        "company": "EMPRENDIMIENTOS S.R.L.",
+        "cuit": "30-67871434-4",
+        "service_days_text": "LUNES A SÁBADOS",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "modality": "REGULAR DIFERENCIAL",
+        "route": "RP E53",
+        "source_file": "06-sierras-chicas.pdf",
+        "source_page": 40
+      },
+      "after": {
+        "corridor": "SIERRAS CHICAS",
+        "line": "CÓRDOBA - MENDIOLAZA",
+        "line_id": "sierras-chicas-cordoba-mendiolaza",
+        "nodes": [
+          "CÓRDOBA",
+          "MENDIOLAZA"
+        ],
+        "direction": "V",
+        "time": "08:45",
+        "minutes": 525,
+        "company": "EMPRENDIMIENTOS S.R.L.",
+        "cuit": "30-67871434-4",
+        "service_days_text": "LUNES A SÁBADOS",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "modality": "REGULAR DIFERENCIAL",
+        "route": "RP E53",
+        "source_file": "06-sierras-chicas.pdf",
+        "source_page": 40
+      }
+    },
+    {
+      "id": "chg-2770dcd4f63ebf79",
+      "fields": {
+        "time": {
+          "before": "14:15",
+          "after": "14:25"
+        }
+      },
+      "before": {
+        "corridor": "SIERRAS CHICAS",
+        "line": "CÓRDOBA - MENDIOLAZA",
+        "line_id": "sierras-chicas-cordoba-mendiolaza",
+        "nodes": [
+          "CÓRDOBA",
+          "MENDIOLAZA"
+        ],
+        "direction": "V",
+        "time": "14:15",
+        "minutes": 855,
+        "company": "EMPRENDIMIENTOS S.R.L.",
+        "cuit": "30-67871434-4",
+        "service_days_text": "LUNES A SÁBADOS",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "modality": "REGULAR DIFERENCIAL",
+        "route": "RP E53",
+        "source_file": "06-sierras-chicas.pdf",
+        "source_page": 40
+      },
+      "after": {
+        "corridor": "SIERRAS CHICAS",
+        "line": "CÓRDOBA - MENDIOLAZA",
+        "line_id": "sierras-chicas-cordoba-mendiolaza",
+        "nodes": [
+          "CÓRDOBA",
+          "MENDIOLAZA"
+        ],
+        "direction": "V",
+        "time": "14:25",
+        "minutes": 865,
+        "company": "EMPRENDIMIENTOS S.R.L.",
+        "cuit": "30-67871434-4",
+        "service_days_text": "LUNES A SÁBADOS",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "modality": "REGULAR DIFERENCIAL",
+        "route": "RP E53",
+        "source_file": "06-sierras-chicas.pdf",
+        "source_page": 40
+      }
+    },
+    {
+      "id": "chg-c959615c17f115d2",
+      "fields": {
+        "time": {
+          "before": "17:20",
+          "after": "17:30"
+        }
+      },
+      "before": {
+        "corridor": "SIERRAS CHICAS",
+        "line": "CÓRDOBA - MENDIOLAZA",
+        "line_id": "sierras-chicas-cordoba-mendiolaza",
+        "nodes": [
+          "CÓRDOBA",
+          "MENDIOLAZA"
+        ],
+        "direction": "V",
+        "time": "17:20",
+        "minutes": 1040,
+        "company": "EMPRENDIMIENTOS S.R.L.",
+        "cuit": "30-67871434-4",
+        "service_days_text": "LUNES A SÁBADOS",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "modality": "REGULAR DIFERENCIAL",
+        "route": "RP E53",
+        "source_file": "06-sierras-chicas.pdf",
+        "source_page": 40
+      },
+      "after": {
+        "corridor": "SIERRAS CHICAS",
+        "line": "CÓRDOBA - MENDIOLAZA",
+        "line_id": "sierras-chicas-cordoba-mendiolaza",
+        "nodes": [
+          "CÓRDOBA",
+          "MENDIOLAZA"
+        ],
+        "direction": "V",
+        "time": "17:30",
+        "minutes": 1050,
+        "company": "EMPRENDIMIENTOS S.R.L.",
+        "cuit": "30-67871434-4",
+        "service_days_text": "LUNES A SÁBADOS",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "modality": "REGULAR DIFERENCIAL",
+        "route": "RP E53",
+        "source_file": "06-sierras-chicas.pdf",
+        "source_page": 40
+      }
+    },
+    {
+      "id": "chg-3fff7fb656af6ba2",
+      "fields": {
+        "time": {
+          "before": "19:55",
+          "after": "20:00"
+        }
+      },
+      "before": {
+        "corridor": "SIERRAS CHICAS",
+        "line": "CÓRDOBA - MENDIOLAZA",
+        "line_id": "sierras-chicas-cordoba-mendiolaza",
+        "nodes": [
+          "CÓRDOBA",
+          "MENDIOLAZA"
+        ],
+        "direction": "V",
+        "time": "19:55",
+        "minutes": 1195,
+        "company": "EMPRENDIMIENTOS S.R.L.",
+        "cuit": "30-67871434-4",
+        "service_days_text": "LUNES A SÁBADOS",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "modality": "REGULAR DIFERENCIAL",
+        "route": "RP E53",
+        "source_file": "06-sierras-chicas.pdf",
+        "source_page": 40
+      },
+      "after": {
+        "corridor": "SIERRAS CHICAS",
+        "line": "CÓRDOBA - MENDIOLAZA",
+        "line_id": "sierras-chicas-cordoba-mendiolaza",
+        "nodes": [
+          "CÓRDOBA",
+          "MENDIOLAZA"
+        ],
+        "direction": "V",
+        "time": "20:00",
+        "minutes": 1200,
+        "company": "EMPRENDIMIENTOS S.R.L.",
+        "cuit": "30-67871434-4",
+        "service_days_text": "LUNES A SÁBADOS",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "modality": "REGULAR DIFERENCIAL",
+        "route": "RP E53",
+        "source_file": "06-sierras-chicas.pdf",
+        "source_page": 40
+      }
+    },
+    {
+      "id": "chg-de92de90778d24c1",
+      "fields": {
+        "time": {
+          "before": "11:00",
+          "after": "10:45"
+        }
+      },
+      "before": {
+        "corridor": "SIERRAS CHICAS",
+        "line": "CÓRDOBA - SALDÁN",
+        "line_id": "sierras-chicas-cordoba-saldan",
+        "nodes": [
+          "CÓRDOBA",
+          "SALDÁN"
+        ],
+        "direction": "I",
+        "time": "11:00",
+        "minutes": 660,
+        "company": "EMPRENDIMIENTOS S.R.L.",
+        "cuit": "30-67871434-4",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR DIFERENCIAL DIRECTO",
+        "route": "",
+        "source_file": "06-sierras-chicas.pdf",
+        "source_page": 42
+      },
+      "after": {
+        "corridor": "SIERRAS CHICAS",
+        "line": "CÓRDOBA - SALDÁN",
+        "line_id": "sierras-chicas-cordoba-saldan",
+        "nodes": [
+          "CÓRDOBA",
+          "SALDÁN"
+        ],
+        "direction": "I",
+        "time": "10:45",
+        "minutes": 645,
+        "company": "EMPRENDIMIENTOS S.R.L.",
+        "cuit": "30-67871434-4",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR DIFERENCIAL DIRECTO",
+        "route": "",
+        "source_file": "06-sierras-chicas.pdf",
+        "source_page": 41
+      }
+    },
+    {
+      "id": "chg-ed1eb40d5bb803c7",
+      "fields": {
+        "service_days": {
+          "before": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "after": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            7
+          ]
+        },
+        "service_days_text": {
+          "before": "DIARIO",
+          "after": "LUNES A VIERNES Y DOMINGOS"
+        }
+      },
+      "before": {
+        "corridor": "SIERRAS CHICAS",
+        "line": "CÓRDOBA - SALDÁN",
+        "line_id": "sierras-chicas-cordoba-saldan",
+        "nodes": [
+          "CÓRDOBA",
+          "SALDÁN"
+        ],
+        "direction": "I",
+        "time": "12:00",
+        "minutes": 720,
+        "company": "EMPRENDIMIENTOS S.R.L.",
+        "cuit": "30-67871434-4",
+        "service_days_text": "DIARIO",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "modality": "REGULAR DIFERENCIAL DIRECTO",
+        "route": "",
+        "source_file": "06-sierras-chicas.pdf",
+        "source_page": 42
+      },
+      "after": {
+        "corridor": "SIERRAS CHICAS",
+        "line": "CÓRDOBA - SALDÁN",
+        "line_id": "sierras-chicas-cordoba-saldan",
+        "nodes": [
+          "CÓRDOBA",
+          "SALDÁN"
+        ],
+        "direction": "I",
+        "time": "12:00",
+        "minutes": 720,
+        "company": "EMPRENDIMIENTOS S.R.L.",
+        "cuit": "30-67871434-4",
+        "service_days_text": "LUNES A VIERNES Y DOMINGOS",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          7
+        ],
+        "modality": "REGULAR DIFERENCIAL DIRECTO",
+        "route": "",
+        "source_file": "06-sierras-chicas.pdf",
+        "source_page": 42
+      }
+    },
+    {
+      "id": "chg-a20498a9be66f9fb",
+      "fields": {
+        "time": {
+          "before": "14:00",
+          "after": "13:50"
+        }
+      },
+      "before": {
+        "corridor": "SIERRAS CHICAS",
+        "line": "CÓRDOBA - SALDÁN",
+        "line_id": "sierras-chicas-cordoba-saldan",
+        "nodes": [
+          "CÓRDOBA",
+          "SALDÁN"
+        ],
+        "direction": "I",
+        "time": "14:00",
+        "minutes": 840,
+        "company": "EMPRENDIMIENTOS S.R.L.",
+        "cuit": "30-67871434-4",
+        "service_days_text": "DIARIO",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "modality": "REGULAR DIFERENCIAL DIRECTO",
+        "route": "",
+        "source_file": "06-sierras-chicas.pdf",
+        "source_page": 42
+      },
+      "after": {
+        "corridor": "SIERRAS CHICAS",
+        "line": "CÓRDOBA - SALDÁN",
+        "line_id": "sierras-chicas-cordoba-saldan",
+        "nodes": [
+          "CÓRDOBA",
+          "SALDÁN"
+        ],
+        "direction": "I",
+        "time": "13:50",
+        "minutes": 830,
+        "company": "EMPRENDIMIENTOS S.R.L.",
+        "cuit": "30-67871434-4",
+        "service_days_text": "DIARIO",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "modality": "REGULAR DIFERENCIAL DIRECTO",
+        "route": "",
+        "source_file": "06-sierras-chicas.pdf",
+        "source_page": 42
+      }
+    },
+    {
+      "id": "chg-62b4761699d9550f",
+      "fields": {
+        "time": {
+          "before": "13:30",
+          "after": "14:15"
+        },
+        "service_days": {
+          "before": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "after": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        },
+        "service_days_text": {
+          "before": "LUNES A SÁBADOS",
+          "after": "LUNES A VIERNES"
+        }
+      },
+      "before": {
+        "corridor": "SIERRAS CHICAS",
+        "line": "CÓRDOBA - SALDÁN",
+        "line_id": "sierras-chicas-cordoba-saldan",
+        "nodes": [
+          "CÓRDOBA",
+          "SALDÁN"
+        ],
+        "direction": "I",
+        "time": "13:30",
+        "minutes": 810,
+        "company": "EMPRENDIMIENTOS S.R.L.",
+        "cuit": "30-67871434-4",
+        "service_days_text": "LUNES A SÁBADOS",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "modality": "REGULAR DIFERENCIAL",
+        "route": "GOLF",
+        "source_file": "06-sierras-chicas.pdf",
+        "source_page": 42
+      },
+      "after": {
+        "corridor": "SIERRAS CHICAS",
+        "line": "CÓRDOBA - SALDÁN",
+        "line_id": "sierras-chicas-cordoba-saldan",
+        "nodes": [
+          "CÓRDOBA",
+          "SALDÁN"
+        ],
+        "direction": "I",
+        "time": "14:15",
+        "minutes": 855,
+        "company": "EMPRENDIMIENTOS S.R.L.",
+        "cuit": "30-67871434-4",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR DIFERENCIAL",
+        "route": "GOLF",
+        "source_file": "06-sierras-chicas.pdf",
+        "source_page": 42
+      }
+    },
+    {
+      "id": "chg-518999f210f68ff5",
+      "fields": {
+        "time": {
+          "before": "15:30",
+          "after": "15:00"
+        }
+      },
+      "before": {
+        "corridor": "SIERRAS CHICAS",
+        "line": "CÓRDOBA - SALDÁN",
+        "line_id": "sierras-chicas-cordoba-saldan",
+        "nodes": [
+          "CÓRDOBA",
+          "SALDÁN"
+        ],
+        "direction": "I",
+        "time": "15:30",
+        "minutes": 930,
+        "company": "EMPRENDIMIENTOS S.R.L.",
+        "cuit": "30-67871434-4",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR DIFERENCIAL",
+        "route": "GOLF",
+        "source_file": "06-sierras-chicas.pdf",
+        "source_page": 42
+      },
+      "after": {
+        "corridor": "SIERRAS CHICAS",
+        "line": "CÓRDOBA - SALDÁN",
+        "line_id": "sierras-chicas-cordoba-saldan",
+        "nodes": [
+          "CÓRDOBA",
+          "SALDÁN"
+        ],
+        "direction": "I",
+        "time": "15:00",
+        "minutes": 900,
+        "company": "EMPRENDIMIENTOS S.R.L.",
+        "cuit": "30-67871434-4",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR DIFERENCIAL",
+        "route": "GOLF",
+        "source_file": "06-sierras-chicas.pdf",
+        "source_page": 42
+      }
+    },
+    {
+      "id": "chg-a2e2b1b12988b0c0",
+      "fields": {
+        "time": {
+          "before": "14:45",
+          "after": "18:00"
+        },
+        "service_days": {
+          "before": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "after": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ]
+        },
+        "service_days_text": {
+          "before": "LUNES A SÁBADOS",
+          "after": "DIARIO"
+        }
+      },
+      "before": {
+        "corridor": "SIERRAS CHICAS",
+        "line": "CÓRDOBA - SALDÁN",
+        "line_id": "sierras-chicas-cordoba-saldan",
+        "nodes": [
+          "CÓRDOBA",
+          "SALDÁN"
+        ],
+        "direction": "I",
+        "time": "14:45",
+        "minutes": 885,
+        "company": "EMPRENDIMIENTOS S.R.L.",
+        "cuit": "30-67871434-4",
+        "service_days_text": "LUNES A SÁBADOS",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "modality": "REGULAR DIFERENCIAL DIRECTO",
+        "route": "",
+        "source_file": "06-sierras-chicas.pdf",
+        "source_page": 42
+      },
+      "after": {
+        "corridor": "SIERRAS CHICAS",
+        "line": "CÓRDOBA - SALDÁN",
+        "line_id": "sierras-chicas-cordoba-saldan",
+        "nodes": [
+          "CÓRDOBA",
+          "SALDÁN"
+        ],
+        "direction": "I",
+        "time": "18:00",
+        "minutes": 1080,
+        "company": "EMPRENDIMIENTOS S.R.L.",
+        "cuit": "30-67871434-4",
+        "service_days_text": "DIARIO",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "modality": "REGULAR DIFERENCIAL DIRECTO",
+        "route": "",
+        "source_file": "06-sierras-chicas.pdf",
+        "source_page": 42
+      }
+    },
+    {
+      "id": "chg-6d65e9aa2055981c",
+      "fields": {
+        "time": {
+          "before": "18:15",
+          "after": "19:00"
+        }
+      },
+      "before": {
+        "corridor": "SIERRAS CHICAS",
+        "line": "CÓRDOBA - SALDÁN",
+        "line_id": "sierras-chicas-cordoba-saldan",
+        "nodes": [
+          "CÓRDOBA",
+          "SALDÁN"
+        ],
+        "direction": "I",
+        "time": "18:15",
+        "minutes": 1095,
+        "company": "EMPRENDIMIENTOS S.R.L.",
+        "cuit": "30-67871434-4",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR DIFERENCIAL DIRECTO",
+        "route": "",
+        "source_file": "06-sierras-chicas.pdf",
+        "source_page": 42
+      },
+      "after": {
+        "corridor": "SIERRAS CHICAS",
+        "line": "CÓRDOBA - SALDÁN",
+        "line_id": "sierras-chicas-cordoba-saldan",
+        "nodes": [
+          "CÓRDOBA",
+          "SALDÁN"
+        ],
+        "direction": "I",
+        "time": "19:00",
+        "minutes": 1140,
+        "company": "EMPRENDIMIENTOS S.R.L.",
+        "cuit": "30-67871434-4",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR DIFERENCIAL DIRECTO",
+        "route": "",
+        "source_file": "06-sierras-chicas.pdf",
+        "source_page": 42
+      }
+    },
+    {
+      "id": "chg-0f92d1208403bf7f",
+      "fields": {
+        "time": {
+          "before": "09:15",
+          "after": "09:05"
+        }
+      },
+      "before": {
+        "corridor": "SIERRAS CHICAS",
+        "line": "CÓRDOBA - SALDÁN",
+        "line_id": "sierras-chicas-cordoba-saldan",
+        "nodes": [
+          "CÓRDOBA",
+          "SALDÁN"
+        ],
+        "direction": "V",
+        "time": "09:15",
+        "minutes": 555,
+        "company": "EMPRENDIMIENTOS S.R.L.",
+        "cuit": "30-67871434-4",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR DIFERENCIAL DIRECTO",
+        "route": "",
+        "source_file": "06-sierras-chicas.pdf",
+        "source_page": 43
+      },
+      "after": {
+        "corridor": "SIERRAS CHICAS",
+        "line": "CÓRDOBA - SALDÁN",
+        "line_id": "sierras-chicas-cordoba-saldan",
+        "nodes": [
+          "CÓRDOBA",
+          "SALDÁN"
+        ],
+        "direction": "V",
+        "time": "09:05",
+        "minutes": 545,
+        "company": "EMPRENDIMIENTOS S.R.L.",
+        "cuit": "30-67871434-4",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR DIFERENCIAL DIRECTO",
+        "route": "",
+        "source_file": "06-sierras-chicas.pdf",
+        "source_page": 43
+      }
+    },
+    {
+      "id": "chg-901ea44c8973c6b6",
+      "fields": {
+        "time": {
+          "before": "10:50",
+          "after": "09:45"
+        },
+        "service_days": {
+          "before": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "after": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ]
+        },
+        "service_days_text": {
+          "before": "LUNES A VIERNES",
+          "after": "DIARIO"
+        }
+      },
+      "before": {
+        "corridor": "SIERRAS CHICAS",
+        "line": "CÓRDOBA - SALDÁN",
+        "line_id": "sierras-chicas-cordoba-saldan",
+        "nodes": [
+          "CÓRDOBA",
+          "SALDÁN"
+        ],
+        "direction": "V",
+        "time": "10:50",
+        "minutes": 650,
+        "company": "EMPRENDIMIENTOS S.R.L.",
+        "cuit": "30-67871434-4",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR DIFERENCIAL DIRECTO",
+        "route": "",
+        "source_file": "06-sierras-chicas.pdf",
+        "source_page": 43
+      },
+      "after": {
+        "corridor": "SIERRAS CHICAS",
+        "line": "CÓRDOBA - SALDÁN",
+        "line_id": "sierras-chicas-cordoba-saldan",
+        "nodes": [
+          "CÓRDOBA",
+          "SALDÁN"
+        ],
+        "direction": "V",
+        "time": "09:45",
+        "minutes": 585,
+        "company": "EMPRENDIMIENTOS S.R.L.",
+        "cuit": "30-67871434-4",
+        "service_days_text": "DIARIO",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "modality": "REGULAR DIFERENCIAL DIRECTO",
+        "route": "",
+        "source_file": "06-sierras-chicas.pdf",
+        "source_page": 43
+      }
+    },
+    {
+      "id": "chg-102bda07f5cfaf9a",
+      "fields": {
+        "time": {
+          "before": "09:30",
+          "after": "10:30"
+        }
+      },
+      "before": {
+        "corridor": "SIERRAS CHICAS",
+        "line": "CÓRDOBA - SALDÁN",
+        "line_id": "sierras-chicas-cordoba-saldan",
+        "nodes": [
+          "CÓRDOBA",
+          "SALDÁN"
+        ],
+        "direction": "V",
+        "time": "09:30",
+        "minutes": 570,
+        "company": "EMPRENDIMIENTOS S.R.L.",
+        "cuit": "30-67871434-4",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR DIFERENCIAL",
+        "route": "GOLF",
+        "source_file": "06-sierras-chicas.pdf",
+        "source_page": 43
+      },
+      "after": {
+        "corridor": "SIERRAS CHICAS",
+        "line": "CÓRDOBA - SALDÁN",
+        "line_id": "sierras-chicas-cordoba-saldan",
+        "nodes": [
+          "CÓRDOBA",
+          "SALDÁN"
+        ],
+        "direction": "V",
+        "time": "10:30",
+        "minutes": 630,
+        "company": "EMPRENDIMIENTOS S.R.L.",
+        "cuit": "30-67871434-4",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR DIFERENCIAL",
+        "route": "GOLF",
+        "source_file": "06-sierras-chicas.pdf",
+        "source_page": 43
+      }
+    },
+    {
+      "id": "chg-52c93d7b2bf8e0a4",
+      "fields": {
+        "time": {
+          "before": "12:15",
+          "after": "11:00"
+        }
+      },
+      "before": {
+        "corridor": "SIERRAS CHICAS",
+        "line": "CÓRDOBA - SALDÁN",
+        "line_id": "sierras-chicas-cordoba-saldan",
+        "nodes": [
+          "CÓRDOBA",
+          "SALDÁN"
+        ],
+        "direction": "V",
+        "time": "12:15",
+        "minutes": 735,
+        "company": "EMPRENDIMIENTOS S.R.L.",
+        "cuit": "30-67871434-4",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR DIFERENCIAL DIRECTO",
+        "route": "",
+        "source_file": "06-sierras-chicas.pdf",
+        "source_page": 43
+      },
+      "after": {
+        "corridor": "SIERRAS CHICAS",
+        "line": "CÓRDOBA - SALDÁN",
+        "line_id": "sierras-chicas-cordoba-saldan",
+        "nodes": [
+          "CÓRDOBA",
+          "SALDÁN"
+        ],
+        "direction": "V",
+        "time": "11:00",
+        "minutes": 660,
+        "company": "EMPRENDIMIENTOS S.R.L.",
+        "cuit": "30-67871434-4",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR DIFERENCIAL DIRECTO",
+        "route": "",
+        "source_file": "06-sierras-chicas.pdf",
+        "source_page": 43
+      }
+    },
+    {
+      "id": "chg-995f573d9f1cca50",
+      "fields": {
+        "time": {
+          "before": "15:15",
+          "after": "11:50"
+        }
+      },
+      "before": {
+        "corridor": "SIERRAS CHICAS",
+        "line": "CÓRDOBA - SALDÁN",
+        "line_id": "sierras-chicas-cordoba-saldan",
+        "nodes": [
+          "CÓRDOBA",
+          "SALDÁN"
+        ],
+        "direction": "V",
+        "time": "15:15",
+        "minutes": 915,
+        "company": "EMPRENDIMIENTOS S.R.L.",
+        "cuit": "30-67871434-4",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR DIFERENCIAL DIRECTO",
+        "route": "",
+        "source_file": "06-sierras-chicas.pdf",
+        "source_page": 44
+      },
+      "after": {
+        "corridor": "SIERRAS CHICAS",
+        "line": "CÓRDOBA - SALDÁN",
+        "line_id": "sierras-chicas-cordoba-saldan",
+        "nodes": [
+          "CÓRDOBA",
+          "SALDÁN"
+        ],
+        "direction": "V",
+        "time": "11:50",
+        "minutes": 710,
+        "company": "EMPRENDIMIENTOS S.R.L.",
+        "cuit": "30-67871434-4",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR DIFERENCIAL DIRECTO",
+        "route": "",
+        "source_file": "06-sierras-chicas.pdf",
+        "source_page": 43
+      }
+    },
+    {
+      "id": "chg-004be870463a9513",
+      "fields": {
+        "time": {
+          "before": "13:10",
+          "after": "12:30"
+        }
+      },
+      "before": {
+        "corridor": "SIERRAS CHICAS",
+        "line": "CÓRDOBA - SALDÁN",
+        "line_id": "sierras-chicas-cordoba-saldan",
+        "nodes": [
+          "CÓRDOBA",
+          "SALDÁN"
+        ],
+        "direction": "V",
+        "time": "13:10",
+        "minutes": 790,
+        "company": "EMPRENDIMIENTOS S.R.L.",
+        "cuit": "30-67871434-4",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR DIFERENCIAL",
+        "route": "GOLF",
+        "source_file": "06-sierras-chicas.pdf",
+        "source_page": 43
+      },
+      "after": {
+        "corridor": "SIERRAS CHICAS",
+        "line": "CÓRDOBA - SALDÁN",
+        "line_id": "sierras-chicas-cordoba-saldan",
+        "nodes": [
+          "CÓRDOBA",
+          "SALDÁN"
+        ],
+        "direction": "V",
+        "time": "12:30",
+        "minutes": 750,
+        "company": "EMPRENDIMIENTOS S.R.L.",
+        "cuit": "30-67871434-4",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR DIFERENCIAL",
+        "route": "GOLF",
+        "source_file": "06-sierras-chicas.pdf",
+        "source_page": 43
+      }
+    },
+    {
+      "id": "chg-ed72c03dbb2a58d2",
+      "fields": {
+        "time": {
+          "before": "16:00",
+          "after": "15:50"
+        }
+      },
+      "before": {
+        "corridor": "SIERRAS CHICAS",
+        "line": "CÓRDOBA - SALDÁN",
+        "line_id": "sierras-chicas-cordoba-saldan",
+        "nodes": [
+          "CÓRDOBA",
+          "SALDÁN"
+        ],
+        "direction": "V",
+        "time": "16:00",
+        "minutes": 960,
+        "company": "EMPRENDIMIENTOS S.R.L.",
+        "cuit": "30-67871434-4",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR DIFERENCIAL DIRECTO",
+        "route": "",
+        "source_file": "06-sierras-chicas.pdf",
+        "source_page": 44
+      },
+      "after": {
+        "corridor": "SIERRAS CHICAS",
+        "line": "CÓRDOBA - SALDÁN",
+        "line_id": "sierras-chicas-cordoba-saldan",
+        "nodes": [
+          "CÓRDOBA",
+          "SALDÁN"
+        ],
+        "direction": "V",
+        "time": "15:50",
+        "minutes": 950,
+        "company": "EMPRENDIMIENTOS S.R.L.",
+        "cuit": "30-67871434-4",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR DIFERENCIAL DIRECTO",
+        "route": "",
+        "source_file": "06-sierras-chicas.pdf",
+        "source_page": 43
+      }
+    },
+    {
+      "id": "chg-ab7a98b6cf05c489",
+      "fields": {
+        "time": {
+          "before": "16:30",
+          "after": "16:20"
+        }
+      },
+      "before": {
+        "corridor": "SIERRAS CHICAS",
+        "line": "CÓRDOBA - SALDÁN",
+        "line_id": "sierras-chicas-cordoba-saldan",
+        "nodes": [
+          "CÓRDOBA",
+          "SALDÁN"
+        ],
+        "direction": "V",
+        "time": "16:30",
+        "minutes": 990,
+        "company": "EMPRENDIMIENTOS S.R.L.",
+        "cuit": "30-67871434-4",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR DIFERENCIAL",
+        "route": "GOLF",
+        "source_file": "06-sierras-chicas.pdf",
+        "source_page": 44
+      },
+      "after": {
+        "corridor": "SIERRAS CHICAS",
+        "line": "CÓRDOBA - SALDÁN",
+        "line_id": "sierras-chicas-cordoba-saldan",
+        "nodes": [
+          "CÓRDOBA",
+          "SALDÁN"
+        ],
+        "direction": "V",
+        "time": "16:20",
+        "minutes": 980,
+        "company": "EMPRENDIMIENTOS S.R.L.",
+        "cuit": "30-67871434-4",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR DIFERENCIAL",
+        "route": "GOLF",
+        "source_file": "06-sierras-chicas.pdf",
+        "source_page": 43
+      }
+    },
+    {
+      "id": "chg-5c0aa5d500f762f5",
+      "fields": {
+        "service_days": {
+          "before": [
+            6,
+            7
+          ],
+          "after": [
+            6
+          ]
+        },
+        "service_days_text": {
+          "before": "FINES DE SEMANA",
+          "after": "SÁBADO"
+        }
+      },
+      "before": {
+        "corridor": "SIERRAS CHICAS",
+        "line": "CÓRDOBA - SALDÁN",
+        "line_id": "sierras-chicas-cordoba-saldan",
+        "nodes": [
+          "CÓRDOBA",
+          "SALDÁN"
+        ],
+        "direction": "V",
+        "time": "17:45",
+        "minutes": 1065,
+        "company": "EMPRENDIMIENTOS S.R.L.",
+        "cuit": "30-67871434-4",
+        "service_days_text": "FINES DE SEMANA",
+        "service_days": [
+          6,
+          7
+        ],
+        "modality": "REGULAR DIFERENCIAL DIRECTO",
+        "route": "",
+        "source_file": "06-sierras-chicas.pdf",
+        "source_page": 44
+      },
+      "after": {
+        "corridor": "SIERRAS CHICAS",
+        "line": "CÓRDOBA - SALDÁN",
+        "line_id": "sierras-chicas-cordoba-saldan",
+        "nodes": [
+          "CÓRDOBA",
+          "SALDÁN"
+        ],
+        "direction": "V",
+        "time": "17:45",
+        "minutes": 1065,
+        "company": "EMPRENDIMIENTOS S.R.L.",
+        "cuit": "30-67871434-4",
+        "service_days_text": "SÁBADO",
+        "service_days": [
+          6
+        ],
+        "modality": "REGULAR DIFERENCIAL DIRECTO",
+        "route": "",
+        "source_file": "06-sierras-chicas.pdf",
+        "source_page": 43
+      }
+    },
+    {
+      "id": "chg-e9956161122de683",
+      "fields": {
+        "time": {
+          "before": "18:30",
+          "after": "18:25"
+        }
+      },
+      "before": {
+        "corridor": "SIERRAS CHICAS",
+        "line": "CÓRDOBA - SALDÁN",
+        "line_id": "sierras-chicas-cordoba-saldan",
+        "nodes": [
+          "CÓRDOBA",
+          "SALDÁN"
+        ],
+        "direction": "V",
+        "time": "18:30",
+        "minutes": 1110,
+        "company": "EMPRENDIMIENTOS S.R.L.",
+        "cuit": "30-67871434-4",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR DIFERENCIAL",
+        "route": "GOLF",
+        "source_file": "06-sierras-chicas.pdf",
+        "source_page": 44
+      },
+      "after": {
+        "corridor": "SIERRAS CHICAS",
+        "line": "CÓRDOBA - SALDÁN",
+        "line_id": "sierras-chicas-cordoba-saldan",
+        "nodes": [
+          "CÓRDOBA",
+          "SALDÁN"
+        ],
+        "direction": "V",
+        "time": "18:25",
+        "minutes": 1105,
+        "company": "EMPRENDIMIENTOS S.R.L.",
+        "cuit": "30-67871434-4",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR DIFERENCIAL",
+        "route": "GOLF",
+        "source_file": "06-sierras-chicas.pdf",
+        "source_page": 43
+      }
+    },
+    {
+      "id": "chg-7b68636bd34f7b0b",
+      "fields": {
+        "service_days": {
+          "before": [
+            6,
+            7
+          ],
+          "after": [
+            7
+          ]
+        },
+        "service_days_text": {
+          "before": "FINES DE SEMANA",
+          "after": "DOMINGO"
+        }
+      },
+      "before": {
+        "corridor": "SIERRAS CHICAS",
+        "line": "CÓRDOBA - SALDÁN",
+        "line_id": "sierras-chicas-cordoba-saldan",
+        "nodes": [
+          "CÓRDOBA",
+          "SALDÁN"
+        ],
+        "direction": "V",
+        "time": "19:30",
+        "minutes": 1170,
+        "company": "EMPRENDIMIENTOS S.R.L.",
+        "cuit": "30-67871434-4",
+        "service_days_text": "FINES DE SEMANA",
+        "service_days": [
+          6,
+          7
+        ],
+        "modality": "REGULAR DIFERENCIAL DIRECTO",
+        "route": "",
+        "source_file": "06-sierras-chicas.pdf",
+        "source_page": 44
+      },
+      "after": {
+        "corridor": "SIERRAS CHICAS",
+        "line": "CÓRDOBA - SALDÁN",
+        "line_id": "sierras-chicas-cordoba-saldan",
+        "nodes": [
+          "CÓRDOBA",
+          "SALDÁN"
+        ],
+        "direction": "V",
+        "time": "19:30",
+        "minutes": 1170,
+        "company": "EMPRENDIMIENTOS S.R.L.",
+        "cuit": "30-67871434-4",
+        "service_days_text": "DOMINGO",
+        "service_days": [
+          7
+        ],
+        "modality": "REGULAR DIFERENCIAL DIRECTO",
+        "route": "",
+        "source_file": "06-sierras-chicas.pdf",
+        "source_page": 43
+      }
+    },
+    {
+      "id": "chg-a4fd8980e1b6ee44",
+      "fields": {
+        "time": {
+          "before": "20:00",
+          "after": "19:50"
+        }
+      },
+      "before": {
+        "corridor": "SIERRAS CHICAS",
+        "line": "CÓRDOBA - SALDÁN",
+        "line_id": "sierras-chicas-cordoba-saldan",
+        "nodes": [
+          "CÓRDOBA",
+          "SALDÁN"
+        ],
+        "direction": "V",
+        "time": "20:00",
+        "minutes": 1200,
+        "company": "EMPRENDIMIENTOS S.R.L.",
+        "cuit": "30-67871434-4",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR DIFERENCIAL DIRECTO",
+        "route": "",
+        "source_file": "06-sierras-chicas.pdf",
+        "source_page": 44
+      },
+      "after": {
+        "corridor": "SIERRAS CHICAS",
+        "line": "CÓRDOBA - SALDÁN",
+        "line_id": "sierras-chicas-cordoba-saldan",
+        "nodes": [
+          "CÓRDOBA",
+          "SALDÁN"
+        ],
+        "direction": "V",
+        "time": "19:50",
+        "minutes": 1190,
+        "company": "EMPRENDIMIENTOS S.R.L.",
+        "cuit": "30-67871434-4",
+        "service_days_text": "LUNES A VIERNES",
+        "service_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modality": "REGULAR DIFERENCIAL DIRECTO",
+        "route": "",
+        "source_file": "06-sierras-chicas.pdf",
+        "source_page": 43
+      }
+    }
+  ],
+  "added": [],
+  "removed": [
+    {
+      "corridor": "SIERRAS CHICAS",
+      "line": "CÓRDOBA - SALDÁN",
+      "line_id": "sierras-chicas-cordoba-saldan",
+      "nodes": [
+        "CÓRDOBA",
+        "SALDÁN"
+      ],
+      "direction": "I",
+      "time": "07:00",
+      "minutes": 420,
+      "company": "EMPRENDIMIENTOS S.R.L.",
+      "cuit": "30-67871434-4",
+      "service_days_text": "LUNES A VIERNES",
+      "service_days": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "modality": "REGULAR DIFERENCIAL DIRECTO",
+      "route": "",
+      "source_file": "06-sierras-chicas.pdf",
+      "source_page": 41
+    },
+    {
+      "corridor": "SIERRAS CHICAS",
+      "line": "CÓRDOBA - SALDÁN",
+      "line_id": "sierras-chicas-cordoba-saldan",
+      "nodes": [
+        "CÓRDOBA",
+        "SALDÁN"
+      ],
+      "direction": "I",
+      "time": "10:30",
+      "minutes": 630,
+      "company": "EMPRENDIMIENTOS S.R.L.",
+      "cuit": "30-67871434-4",
+      "service_days_text": "LUNES A SÁBADOS",
+      "service_days": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "modality": "REGULAR DIFERENCIAL",
+      "route": "GOLF",
+      "source_file": "06-sierras-chicas.pdf",
+      "source_page": 41
+    },
+    {
+      "corridor": "SIERRAS CHICAS",
+      "line": "CÓRDOBA - SALDÁN",
+      "line_id": "sierras-chicas-cordoba-saldan",
+      "nodes": [
+        "CÓRDOBA",
+        "SALDÁN"
+      ],
+      "direction": "I",
+      "time": "17:30",
+      "minutes": 1050,
+      "company": "EMPRENDIMIENTOS S.R.L.",
+      "cuit": "30-67871434-4",
+      "service_days_text": "SÁBADO",
+      "service_days": [
+        6
+      ],
+      "modality": "REGULAR DIFERENCIAL",
+      "route": "GOLF",
+      "source_file": "06-sierras-chicas.pdf",
+      "source_page": 42
+    },
+    {
+      "corridor": "SIERRAS CHICAS",
+      "line": "CÓRDOBA - SALDÁN",
+      "line_id": "sierras-chicas-cordoba-saldan",
+      "nodes": [
+        "CÓRDOBA",
+        "SALDÁN"
+      ],
+      "direction": "I",
+      "time": "18:00",
+      "minutes": 1080,
+      "company": "EMPRENDIMIENTOS S.R.L.",
+      "cuit": "30-67871434-4",
+      "service_days_text": "FINES DE SEMANA",
+      "service_days": [
+        6,
+        7
+      ],
+      "modality": "REGULAR DIFERENCIAL DIRECTO",
+      "route": "",
+      "source_file": "06-sierras-chicas.pdf",
+      "source_page": 42
+    },
+    {
+      "corridor": "SIERRAS CHICAS",
+      "line": "CÓRDOBA - SALDÁN",
+      "line_id": "sierras-chicas-cordoba-saldan",
+      "nodes": [
+        "CÓRDOBA",
+        "SALDÁN"
+      ],
+      "direction": "I",
+      "time": "19:00",
+      "minutes": 1140,
+      "company": "EMPRENDIMIENTOS S.R.L.",
+      "cuit": "30-67871434-4",
+      "service_days_text": "SÁBADO",
+      "service_days": [
+        6
+      ],
+      "modality": "REGULAR DIFERENCIAL DIRECTO",
+      "route": "",
+      "source_file": "06-sierras-chicas.pdf",
+      "source_page": 42
+    },
+    {
+      "corridor": "SIERRAS CHICAS",
+      "line": "CÓRDOBA - SALDÁN",
+      "line_id": "sierras-chicas-cordoba-saldan",
+      "nodes": [
+        "CÓRDOBA",
+        "SALDÁN"
+      ],
+      "direction": "I",
+      "time": "20:30",
+      "minutes": 1230,
+      "company": "EMPRENDIMIENTOS S.R.L.",
+      "cuit": "30-67871434-4",
+      "service_days_text": "LUNES A VIERNES",
+      "service_days": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "modality": "REGULAR DIFERENCIAL",
+      "route": "GOLF",
+      "source_file": "06-sierras-chicas.pdf",
+      "source_page": 42
+    },
+    {
+      "corridor": "SIERRAS CHICAS",
+      "line": "CÓRDOBA - SALDÁN",
+      "line_id": "sierras-chicas-cordoba-saldan",
+      "nodes": [
+        "CÓRDOBA",
+        "SALDÁN"
+      ],
+      "direction": "V",
+      "time": "08:30",
+      "minutes": 510,
+      "company": "EMPRENDIMIENTOS S.R.L.",
+      "cuit": "30-67871434-4",
+      "service_days_text": "LUNES A SÁBADOS",
+      "service_days": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "modality": "REGULAR DIFERENCIAL",
+      "route": "GOLF",
+      "source_file": "06-sierras-chicas.pdf",
+      "source_page": 43
+    },
+    {
+      "corridor": "SIERRAS CHICAS",
+      "line": "CÓRDOBA - SALDÁN",
+      "line_id": "sierras-chicas-cordoba-saldan",
+      "nodes": [
+        "CÓRDOBA",
+        "SALDÁN"
+      ],
+      "direction": "V",
+      "time": "09:45",
+      "minutes": 585,
+      "company": "EMPRENDIMIENTOS S.R.L.",
+      "cuit": "30-67871434-4",
+      "service_days_text": "FINES DE SEMANA",
+      "service_days": [
+        6,
+        7
+      ],
+      "modality": "REGULAR DIFERENCIAL DIRECTO",
+      "route": "",
+      "source_file": "06-sierras-chicas.pdf",
+      "source_page": 43
+    },
+    {
+      "corridor": "SIERRAS CHICAS",
+      "line": "CÓRDOBA - SALDÁN",
+      "line_id": "sierras-chicas-cordoba-saldan",
+      "nodes": [
+        "CÓRDOBA",
+        "SALDÁN"
+      ],
+      "direction": "V",
+      "time": "10:30",
+      "minutes": 630,
+      "company": "EMPRENDIMIENTOS S.R.L.",
+      "cuit": "30-67871434-4",
+      "service_days_text": "DIARIO",
+      "service_days": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "modality": "REGULAR DIFERENCIAL",
+      "route": "GOLF",
+      "source_file": "06-sierras-chicas.pdf",
+      "source_page": 43
+    },
+    {
+      "corridor": "SIERRAS CHICAS",
+      "line": "CÓRDOBA - SALDÁN",
+      "line_id": "sierras-chicas-cordoba-saldan",
+      "nodes": [
+        "CÓRDOBA",
+        "SALDÁN"
+      ],
+      "direction": "V",
+      "time": "11:30",
+      "minutes": 690,
+      "company": "EMPRENDIMIENTOS S.R.L.",
+      "cuit": "30-67871434-4",
+      "service_days_text": "DIARIO",
+      "service_days": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "modality": "REGULAR DIFERENCIAL",
+      "route": "GOLF",
+      "source_file": "06-sierras-chicas.pdf",
+      "source_page": 43
+    },
+    {
+      "corridor": "SIERRAS CHICAS",
+      "line": "CÓRDOBA - SALDÁN",
+      "line_id": "sierras-chicas-cordoba-saldan",
+      "nodes": [
+        "CÓRDOBA",
+        "SALDÁN"
+      ],
+      "direction": "V",
+      "time": "13:45",
+      "minutes": 825,
+      "company": "EMPRENDIMIENTOS S.R.L.",
+      "cuit": "30-67871434-4",
+      "service_days_text": "FINES DE SEMANA",
+      "service_days": [
+        6,
+        7
+      ],
+      "modality": "REGULAR DIFERENCIAL DIRECTO",
+      "route": "",
+      "source_file": "06-sierras-chicas.pdf",
+      "source_page": 43
+    },
+    {
+      "corridor": "SIERRAS CHICAS",
+      "line": "CÓRDOBA - SALDÁN",
+      "line_id": "sierras-chicas-cordoba-saldan",
+      "nodes": [
+        "CÓRDOBA",
+        "SALDÁN"
+      ],
+      "direction": "V",
+      "time": "17:15",
+      "minutes": 1035,
+      "company": "EMPRENDIMIENTOS S.R.L.",
+      "cuit": "30-67871434-4",
+      "service_days_text": "LUNES A VIERNES",
+      "service_days": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "modality": "REGULAR DIFERENCIAL DIRECTO",
+      "route": "",
+      "source_file": "06-sierras-chicas.pdf",
+      "source_page": 44
+    },
+    {
+      "corridor": "SIERRAS CHICAS",
+      "line": "CÓRDOBA - SALDÁN",
+      "line_id": "sierras-chicas-cordoba-saldan",
+      "nodes": [
+        "CÓRDOBA",
+        "SALDÁN"
+      ],
+      "direction": "V",
+      "time": "19:45",
+      "minutes": 1185,
+      "company": "EMPRENDIMIENTOS S.R.L.",
+      "cuit": "30-67871434-4",
+      "service_days_text": "DIARIO",
+      "service_days": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "modality": "REGULAR DIFERENCIAL DIRECTO",
+      "route": "",
+      "source_file": "06-sierras-chicas.pdf",
+      "source_page": 44
+    }
+  ],
+  "warnings": []
+}
