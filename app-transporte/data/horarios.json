@@ -1,11 +1,11 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-10-09T00:00:00Z",
+  "generated_at": "2026-10-16T00:00:00Z",
   "timezone": "America/Argentina/Cordoba",
   "sources": [
     {
       "filename": "01-este-sudeste.pdf",
-      "sha256": "d2beace0125499f54398ca8ebaf118b3f6cbfe198961c784a6dd00a02d275eb3",
+      "sha256": "a88bca45af7ff094848ab3e5fcd000eb63eaa6d1c85b2d368f696224e5650c5a",
       "publication_date": "2026-08-28",
       "unchanged_since": null,
       "pages": 29,
@@ -14,7 +14,7 @@
     },
     {
       "filename": "02-noreste.pdf",
-      "sha256": "5fd7693717624d2bedca4478d11d40c4382b12c94171a5b5fc330a23aa3d04e6",
+      "sha256": "b75ae7e668dc9e81c334e281271e86e133c0fff11ba88b2e4afb37f7069e7fae",
       "publication_date": "2026-08-21",
       "unchanged_since": null,
       "pages": 20,
@@ -23,7 +23,7 @@
     },
     {
       "filename": "03-norte.pdf",
-      "sha256": "8dae72b0797194459a634c1ea36d5063a1413b79f8b1fac9bcfd1b8f588e3ce0",
+      "sha256": "7b2f2f52c1c3f0b6d82a001975901328c764d108f580b3f1b6a2bd6764a6b505",
       "publication_date": "2026-09-18",
       "unchanged_since": null,
       "pages": 35,
@@ -32,7 +32,7 @@
     },
     {
       "filename": "04-punilla.pdf",
-      "sha256": "9bb919c89ed2d3cd0c849ad1fba5a45b6e96fb9c86d3fac9355786db2f555f9d",
+      "sha256": "9f22993a0ed495d65ae2288b6899a36efc7608d615351e5d43578d013ac66eec",
       "publication_date": "2026-10-09",
       "unchanged_since": null,
       "pages": 69,
@@ -41,7 +41,7 @@
     },
     {
       "filename": "05-ruta-5.pdf",
-      "sha256": "cc575210dd2d2140b6818775cee8bb7a99fbbcf97e96b1f9d8de1bb515851ae8",
+      "sha256": "1ff1e527349b993cf70f74d2aa56b59affabfab078f943b87150e0ba5dca9d2f",
       "publication_date": "2026-08-21",
       "unchanged_since": null,
       "pages": 27,
@@ -50,16 +50,16 @@
     },
     {
       "filename": "06-sierras-chicas.pdf",
-      "sha256": "ffcefe1b1820fa759234d2206f5829590884e966148b3b2050410c968d36923a",
-      "publication_date": "2026-10-09",
+      "sha256": "aaecf87fecaba7467b303afec6ddf1aa8499f35db5384caacdbc2d2d198476d2",
+      "publication_date": "2026-10-16",
       "unchanged_since": null,
-      "pages": 54,
-      "source_rows": 1167,
+      "pages": 53,
+      "source_rows": 1154,
       "corridor": "SIERRAS CHICAS"
     },
     {
       "filename": "07-sur.pdf",
-      "sha256": "2ca65c6a58d726e347e9df28d9211752933501cabd460bd4884398760dae4ed3",
+      "sha256": "ed2c2738fbb10ba9bd973a27bb2ad65cbc4d89899a10a6636ef03f7a77a37be3",
       "publication_date": "2026-08-21",
       "unchanged_since": null,
       "pages": 21,
@@ -68,7 +68,7 @@
     },
     {
       "filename": "08-traslasierra.pdf",
-      "sha256": "ed3b201b4c35b66ea37009d189fbbeafaed8fa1b741737368b9d5e7017d8bd59",
+      "sha256": "ba76d86bd7da7d0c29925cc7cc0abeeea952aac32ae1656b3403189349073a71",
       "publication_date": "2026-08-21",
       "unchanged_since": null,
       "pages": 11,
@@ -78,13 +78,13 @@
   ],
   "ignored_older_sources": [],
   "stats": {
-    "source_rows": 5514,
-    "services": 5514,
+    "source_rows": 5501,
+    "services": 5501,
     "corridors": 8,
     "lines": 261,
     "companies": 39,
     "possible_duplicate_excess": 16,
-    "without_route_description": 2045,
+    "without_route_description": 2038,
     "cuit_not_available": 16
   },
   "corridors": [
@@ -129154,7 +129154,7 @@
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-0e63e1aded85-1",
+      "id": "svc-b3013887f506-1",
       "corridor": "SIERRAS CHICAS",
       "line": "CÓRDOBA - MENDIOLAZA",
       "line_id": "sierras-chicas-cordoba-mendiolaza",
@@ -129163,8 +129163,8 @@
         "MENDIOLAZA"
       ],
       "direction": "I",
-      "time": "07:20",
-      "minutes": 440,
+      "time": "07:25",
+      "minutes": 445,
       "company": "EMPRENDIMIENTOS S.R.L.",
       "cuit": "30-67871434-4",
       "service_days_text": "LUNES A SÁBADOS",
@@ -129184,7 +129184,7 @@
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-4e75322c1675-1",
+      "id": "svc-03edf2b3ae48-1",
       "corridor": "SIERRAS CHICAS",
       "line": "CÓRDOBA - MENDIOLAZA",
       "line_id": "sierras-chicas-cordoba-mendiolaza",
@@ -129193,8 +129193,8 @@
         "MENDIOLAZA"
       ],
       "direction": "I",
-      "time": "10:00",
-      "minutes": 600,
+      "time": "10:10",
+      "minutes": 610,
       "company": "EMPRENDIMIENTOS S.R.L.",
       "cuit": "30-67871434-4",
       "service_days_text": "LUNES A SÁBADOS",
@@ -129214,7 +129214,7 @@
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-535cbbdb472c-1",
+      "id": "svc-b574882fbfda-1",
       "corridor": "SIERRAS CHICAS",
       "line": "CÓRDOBA - MENDIOLAZA",
       "line_id": "sierras-chicas-cordoba-mendiolaza",
@@ -129223,8 +129223,8 @@
         "MENDIOLAZA"
       ],
       "direction": "I",
-      "time": "12:40",
-      "minutes": 760,
+      "time": "12:50",
+      "minutes": 770,
       "company": "EMPRENDIMIENTOS S.R.L.",
       "cuit": "30-67871434-4",
       "service_days_text": "LUNES A SÁBADOS",
@@ -129244,7 +129244,7 @@
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-48232b1e26d2-1",
+      "id": "svc-961485d9fcdb-1",
       "corridor": "SIERRAS CHICAS",
       "line": "CÓRDOBA - MENDIOLAZA",
       "line_id": "sierras-chicas-cordoba-mendiolaza",
@@ -129253,8 +129253,8 @@
         "MENDIOLAZA"
       ],
       "direction": "I",
-      "time": "15:40",
-      "minutes": 940,
+      "time": "15:50",
+      "minutes": 950,
       "company": "EMPRENDIMIENTOS S.R.L.",
       "cuit": "30-67871434-4",
       "service_days_text": "LUNES A SÁBADOS",
@@ -129274,7 +129274,7 @@
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-476ba48400fc-1",
+      "id": "svc-3b17fa975620-1",
       "corridor": "SIERRAS CHICAS",
       "line": "CÓRDOBA - MENDIOLAZA",
       "line_id": "sierras-chicas-cordoba-mendiolaza",
@@ -129283,8 +129283,8 @@
         "MENDIOLAZA"
       ],
       "direction": "I",
-      "time": "18:40",
-      "minutes": 1120,
+      "time": "18:50",
+      "minutes": 1130,
       "company": "EMPRENDIMIENTOS S.R.L.",
       "cuit": "30-67871434-4",
       "service_days_text": "LUNES A SÁBADOS",
@@ -129364,7 +129364,7 @@
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-084b80a4e827-1",
+      "id": "svc-7dbeaebbf9a0-1",
       "corridor": "SIERRAS CHICAS",
       "line": "CÓRDOBA - MENDIOLAZA",
       "line_id": "sierras-chicas-cordoba-mendiolaza",
@@ -129373,8 +129373,8 @@
         "MENDIOLAZA"
       ],
       "direction": "V",
-      "time": "08:40",
-      "minutes": 520,
+      "time": "08:45",
+      "minutes": 525,
       "company": "EMPRENDIMIENTOS S.R.L.",
       "cuit": "30-67871434-4",
       "service_days_text": "LUNES A SÁBADOS",
@@ -129424,7 +129424,7 @@
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-740e613557d2-1",
+      "id": "svc-329dcb30d391-1",
       "corridor": "SIERRAS CHICAS",
       "line": "CÓRDOBA - MENDIOLAZA",
       "line_id": "sierras-chicas-cordoba-mendiolaza",
@@ -129433,8 +129433,8 @@
         "MENDIOLAZA"
       ],
       "direction": "V",
-      "time": "14:15",
-      "minutes": 855,
+      "time": "14:25",
+      "minutes": 865,
       "company": "EMPRENDIMIENTOS S.R.L.",
       "cuit": "30-67871434-4",
       "service_days_text": "LUNES A SÁBADOS",
@@ -129454,7 +129454,7 @@
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-63923a42e752-1",
+      "id": "svc-2de5ec81da01-1",
       "corridor": "SIERRAS CHICAS",
       "line": "CÓRDOBA - MENDIOLAZA",
       "line_id": "sierras-chicas-cordoba-mendiolaza",
@@ -129463,8 +129463,8 @@
         "MENDIOLAZA"
       ],
       "direction": "V",
-      "time": "17:20",
-      "minutes": 1040,
+      "time": "17:30",
+      "minutes": 1050,
       "company": "EMPRENDIMIENTOS S.R.L.",
       "cuit": "30-67871434-4",
       "service_days_text": "LUNES A SÁBADOS",
@@ -129484,7 +129484,7 @@
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-c90380ec07ea-1",
+      "id": "svc-eb5303f3243e-1",
       "corridor": "SIERRAS CHICAS",
       "line": "CÓRDOBA - MENDIOLAZA",
       "line_id": "sierras-chicas-cordoba-mendiolaza",
@@ -129493,8 +129493,8 @@
         "MENDIOLAZA"
       ],
       "direction": "V",
-      "time": "19:55",
-      "minutes": 1195,
+      "time": "20:00",
+      "minutes": 1200,
       "company": "EMPRENDIMIENTOS S.R.L.",
       "cuit": "30-67871434-4",
       "service_days_text": "LUNES A SÁBADOS",
@@ -129856,35 +129856,6 @@
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-b023a6afb4c7-1",
-      "corridor": "SIERRAS CHICAS",
-      "line": "CÓRDOBA - SALDÁN",
-      "line_id": "sierras-chicas-cordoba-saldan",
-      "nodes": [
-        "CÓRDOBA",
-        "SALDÁN"
-      ],
-      "direction": "I",
-      "time": "07:00",
-      "minutes": 420,
-      "company": "EMPRENDIMIENTOS S.R.L.",
-      "cuit": "30-67871434-4",
-      "service_days_text": "LUNES A VIERNES",
-      "service_days": [
-        1,
-        2,
-        3,
-        4,
-        5
-      ],
-      "modality": "REGULAR DIFERENCIAL DIRECTO",
-      "route": "",
-      "source_file": "06-sierras-chicas.pdf",
-      "source_page": 41,
-      "possible_duplicate": false,
-      "duplicate_ordinal": 1
-    },
-    {
       "id": "svc-879479353ddf-1",
       "corridor": "SIERRAS CHICAS",
       "line": "CÓRDOBA - SALDÁN",
@@ -130093,7 +130064,7 @@
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-adfbe31c1600-1",
+      "id": "svc-cabc21c9b1f0-1",
       "corridor": "SIERRAS CHICAS",
       "line": "CÓRDOBA - SALDÁN",
       "line_id": "sierras-chicas-cordoba-saldan",
@@ -130102,21 +130073,20 @@
         "SALDÁN"
       ],
       "direction": "I",
-      "time": "10:30",
-      "minutes": 630,
+      "time": "10:45",
+      "minutes": 645,
       "company": "EMPRENDIMIENTOS S.R.L.",
       "cuit": "30-67871434-4",
-      "service_days_text": "LUNES A SÁBADOS",
+      "service_days_text": "LUNES A VIERNES",
       "service_days": [
         1,
         2,
         3,
         4,
-        5,
-        6
+        5
       ],
-      "modality": "REGULAR DIFERENCIAL",
-      "route": "GOLF",
+      "modality": "REGULAR DIFERENCIAL DIRECTO",
+      "route": "",
       "source_file": "06-sierras-chicas.pdf",
       "source_page": 41,
       "possible_duplicate": false,
@@ -130152,35 +130122,6 @@
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-6188b461e2c4-1",
-      "corridor": "SIERRAS CHICAS",
-      "line": "CÓRDOBA - SALDÁN",
-      "line_id": "sierras-chicas-cordoba-saldan",
-      "nodes": [
-        "CÓRDOBA",
-        "SALDÁN"
-      ],
-      "direction": "I",
-      "time": "11:00",
-      "minutes": 660,
-      "company": "EMPRENDIMIENTOS S.R.L.",
-      "cuit": "30-67871434-4",
-      "service_days_text": "LUNES A VIERNES",
-      "service_days": [
-        1,
-        2,
-        3,
-        4,
-        5
-      ],
-      "modality": "REGULAR DIFERENCIAL DIRECTO",
-      "route": "",
-      "source_file": "06-sierras-chicas.pdf",
-      "source_page": 42,
-      "possible_duplicate": false,
-      "duplicate_ordinal": 1
-    },
-    {
       "id": "svc-6297209e6187-1",
       "corridor": "SIERRAS CHICAS",
       "line": "CÓRDOBA - SALDÁN",
@@ -130206,12 +130147,12 @@
       "modality": "REGULAR DIFERENCIAL",
       "route": "GOLF",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 42,
+      "source_page": 41,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-3fe9f5a80122-1",
+      "id": "svc-b02abdbb4b0d-1",
       "corridor": "SIERRAS CHICAS",
       "line": "CÓRDOBA - SALDÁN",
       "line_id": "sierras-chicas-cordoba-saldan",
@@ -130224,14 +130165,13 @@
       "minutes": 720,
       "company": "EMPRENDIMIENTOS S.R.L.",
       "cuit": "30-67871434-4",
-      "service_days_text": "DIARIO",
+      "service_days_text": "LUNES A VIERNES Y DOMINGOS",
       "service_days": [
         1,
         2,
         3,
         4,
         5,
-        6,
         7
       ],
       "modality": "REGULAR DIFERENCIAL DIRECTO",
@@ -130301,7 +130241,7 @@
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-7de3cad9badf-1",
+      "id": "svc-a089385ed4da-1",
       "corridor": "SIERRAS CHICAS",
       "line": "CÓRDOBA - SALDÁN",
       "line_id": "sierras-chicas-cordoba-saldan",
@@ -130310,38 +130250,8 @@
         "SALDÁN"
       ],
       "direction": "I",
-      "time": "13:30",
-      "minutes": 810,
-      "company": "EMPRENDIMIENTOS S.R.L.",
-      "cuit": "30-67871434-4",
-      "service_days_text": "LUNES A SÁBADOS",
-      "service_days": [
-        1,
-        2,
-        3,
-        4,
-        5,
-        6
-      ],
-      "modality": "REGULAR DIFERENCIAL",
-      "route": "GOLF",
-      "source_file": "06-sierras-chicas.pdf",
-      "source_page": 42,
-      "possible_duplicate": false,
-      "duplicate_ordinal": 1
-    },
-    {
-      "id": "svc-0ea119719756-1",
-      "corridor": "SIERRAS CHICAS",
-      "line": "CÓRDOBA - SALDÁN",
-      "line_id": "sierras-chicas-cordoba-saldan",
-      "nodes": [
-        "CÓRDOBA",
-        "SALDÁN"
-      ],
-      "direction": "I",
-      "time": "14:00",
-      "minutes": 840,
+      "time": "13:50",
+      "minutes": 830,
       "company": "EMPRENDIMIENTOS S.R.L.",
       "cuit": "30-67871434-4",
       "service_days_text": "DIARIO",
@@ -130362,7 +130272,7 @@
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-5a1e4becbfda-1",
+      "id": "svc-4b60708aeea5-1",
       "corridor": "SIERRAS CHICAS",
       "line": "CÓRDOBA - SALDÁN",
       "line_id": "sierras-chicas-cordoba-saldan",
@@ -130371,28 +130281,27 @@
         "SALDÁN"
       ],
       "direction": "I",
-      "time": "14:45",
-      "minutes": 885,
+      "time": "14:15",
+      "minutes": 855,
       "company": "EMPRENDIMIENTOS S.R.L.",
       "cuit": "30-67871434-4",
-      "service_days_text": "LUNES A SÁBADOS",
+      "service_days_text": "LUNES A VIERNES",
       "service_days": [
         1,
         2,
         3,
         4,
-        5,
-        6
+        5
       ],
-      "modality": "REGULAR DIFERENCIAL DIRECTO",
-      "route": "",
+      "modality": "REGULAR DIFERENCIAL",
+      "route": "GOLF",
       "source_file": "06-sierras-chicas.pdf",
       "source_page": 42,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-df2234317c98-1",
+      "id": "svc-9a363d6a2531-1",
       "corridor": "SIERRAS CHICAS",
       "line": "CÓRDOBA - SALDÁN",
       "line_id": "sierras-chicas-cordoba-saldan",
@@ -130401,8 +130310,8 @@
         "SALDÁN"
       ],
       "direction": "I",
-      "time": "15:30",
-      "minutes": 930,
+      "time": "15:00",
+      "minutes": 900,
       "company": "EMPRENDIMIENTOS S.R.L.",
       "cuit": "30-67871434-4",
       "service_days_text": "LUNES A VIERNES",
@@ -130511,32 +130420,7 @@
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-d94fce945ce0-1",
-      "corridor": "SIERRAS CHICAS",
-      "line": "CÓRDOBA - SALDÁN",
-      "line_id": "sierras-chicas-cordoba-saldan",
-      "nodes": [
-        "CÓRDOBA",
-        "SALDÁN"
-      ],
-      "direction": "I",
-      "time": "17:30",
-      "minutes": 1050,
-      "company": "EMPRENDIMIENTOS S.R.L.",
-      "cuit": "30-67871434-4",
-      "service_days_text": "SÁBADO",
-      "service_days": [
-        6
-      ],
-      "modality": "REGULAR DIFERENCIAL",
-      "route": "GOLF",
-      "source_file": "06-sierras-chicas.pdf",
-      "source_page": 42,
-      "possible_duplicate": false,
-      "duplicate_ordinal": 1
-    },
-    {
-      "id": "svc-1f52cfb54b4b-1",
+      "id": "svc-aea51ea80f39-1",
       "corridor": "SIERRAS CHICAS",
       "line": "CÓRDOBA - SALDÁN",
       "line_id": "sierras-chicas-cordoba-saldan",
@@ -130549,39 +130433,15 @@
       "minutes": 1080,
       "company": "EMPRENDIMIENTOS S.R.L.",
       "cuit": "30-67871434-4",
-      "service_days_text": "FINES DE SEMANA",
-      "service_days": [
-        6,
-        7
-      ],
-      "modality": "REGULAR DIFERENCIAL DIRECTO",
-      "route": "",
-      "source_file": "06-sierras-chicas.pdf",
-      "source_page": 42,
-      "possible_duplicate": false,
-      "duplicate_ordinal": 1
-    },
-    {
-      "id": "svc-60b6bb806ad4-1",
-      "corridor": "SIERRAS CHICAS",
-      "line": "CÓRDOBA - SALDÁN",
-      "line_id": "sierras-chicas-cordoba-saldan",
-      "nodes": [
-        "CÓRDOBA",
-        "SALDÁN"
-      ],
-      "direction": "I",
-      "time": "18:15",
-      "minutes": 1095,
-      "company": "EMPRENDIMIENTOS S.R.L.",
-      "cuit": "30-67871434-4",
-      "service_days_text": "LUNES A VIERNES",
+      "service_days_text": "DIARIO",
       "service_days": [
         1,
         2,
         3,
         4,
-        5
+        5,
+        6,
+        7
       ],
       "modality": "REGULAR DIFERENCIAL DIRECTO",
       "route": "",
@@ -130620,7 +130480,7 @@
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-43e4065cc971-1",
+      "id": "svc-428dab280672-1",
       "corridor": "SIERRAS CHICAS",
       "line": "CÓRDOBA - SALDÁN",
       "line_id": "sierras-chicas-cordoba-saldan",
@@ -130633,9 +130493,13 @@
       "minutes": 1140,
       "company": "EMPRENDIMIENTOS S.R.L.",
       "cuit": "30-67871434-4",
-      "service_days_text": "SÁBADO",
+      "service_days_text": "LUNES A VIERNES",
       "service_days": [
-        6
+        1,
+        2,
+        3,
+        4,
+        5
       ],
       "modality": "REGULAR DIFERENCIAL DIRECTO",
       "route": "",
@@ -130699,35 +130563,6 @@
       ],
       "modality": "REGULAR DIFERENCIAL DIRECTO",
       "route": "",
-      "source_file": "06-sierras-chicas.pdf",
-      "source_page": 42,
-      "possible_duplicate": false,
-      "duplicate_ordinal": 1
-    },
-    {
-      "id": "svc-c5973a591f7b-1",
-      "corridor": "SIERRAS CHICAS",
-      "line": "CÓRDOBA - SALDÁN",
-      "line_id": "sierras-chicas-cordoba-saldan",
-      "nodes": [
-        "CÓRDOBA",
-        "SALDÁN"
-      ],
-      "direction": "I",
-      "time": "20:30",
-      "minutes": 1230,
-      "company": "EMPRENDIMIENTOS S.R.L.",
-      "cuit": "30-67871434-4",
-      "service_days_text": "LUNES A VIERNES",
-      "service_days": [
-        1,
-        2,
-        3,
-        4,
-        5
-      ],
-      "modality": "REGULAR DIFERENCIAL",
-      "route": "GOLF",
       "source_file": "06-sierras-chicas.pdf",
       "source_page": 42,
       "possible_duplicate": false,
@@ -130820,7 +130655,7 @@
       "modality": "REGULAR DIFERENCIAL DIRECTO",
       "route": "",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 43,
+      "source_page": 42,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -130850,7 +130685,7 @@
       "modality": "REGULAR DIFERENCIAL DIRECTO",
       "route": "",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 43,
+      "source_page": 42,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -130881,7 +130716,7 @@
       "modality": "REGULAR DIFERENCIAL",
       "route": "GOLF",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 43,
+      "source_page": 42,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -130910,7 +130745,7 @@
       "modality": "REGULAR DIFERENCIAL DIRECTO",
       "route": "",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 43,
+      "source_page": 42,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -130939,7 +130774,7 @@
       "modality": "REGULAR DIFERENCIAL",
       "route": "GOLF",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 43,
+      "source_page": 42,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -130970,37 +130805,7 @@
       "modality": "REGULAR DIFERENCIAL DIRECTO",
       "route": "",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 43,
-      "possible_duplicate": false,
-      "duplicate_ordinal": 1
-    },
-    {
-      "id": "svc-ac61247235b1-1",
-      "corridor": "SIERRAS CHICAS",
-      "line": "CÓRDOBA - SALDÁN",
-      "line_id": "sierras-chicas-cordoba-saldan",
-      "nodes": [
-        "CÓRDOBA",
-        "SALDÁN"
-      ],
-      "direction": "V",
-      "time": "08:30",
-      "minutes": 510,
-      "company": "EMPRENDIMIENTOS S.R.L.",
-      "cuit": "30-67871434-4",
-      "service_days_text": "LUNES A SÁBADOS",
-      "service_days": [
-        1,
-        2,
-        3,
-        4,
-        5,
-        6
-      ],
-      "modality": "REGULAR DIFERENCIAL",
-      "route": "GOLF",
-      "source_file": "06-sierras-chicas.pdf",
-      "source_page": 43,
+      "source_page": 42,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -131034,7 +130839,7 @@
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-64973e916d19-1",
+      "id": "svc-ae48bc07062e-1",
       "corridor": "SIERRAS CHICAS",
       "line": "CÓRDOBA - SALDÁN",
       "line_id": "sierras-chicas-cordoba-saldan",
@@ -131043,8 +130848,8 @@
         "SALDÁN"
       ],
       "direction": "V",
-      "time": "09:15",
-      "minutes": 555,
+      "time": "09:05",
+      "minutes": 545,
       "company": "EMPRENDIMIENTOS S.R.L.",
       "cuit": "30-67871434-4",
       "service_days_text": "LUNES A VIERNES",
@@ -131063,36 +130868,7 @@
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-ce0183b49e86-1",
-      "corridor": "SIERRAS CHICAS",
-      "line": "CÓRDOBA - SALDÁN",
-      "line_id": "sierras-chicas-cordoba-saldan",
-      "nodes": [
-        "CÓRDOBA",
-        "SALDÁN"
-      ],
-      "direction": "V",
-      "time": "09:30",
-      "minutes": 570,
-      "company": "EMPRENDIMIENTOS S.R.L.",
-      "cuit": "30-67871434-4",
-      "service_days_text": "LUNES A VIERNES",
-      "service_days": [
-        1,
-        2,
-        3,
-        4,
-        5
-      ],
-      "modality": "REGULAR DIFERENCIAL",
-      "route": "GOLF",
-      "source_file": "06-sierras-chicas.pdf",
-      "source_page": 43,
-      "possible_duplicate": false,
-      "duplicate_ordinal": 1
-    },
-    {
-      "id": "svc-60b8e221b651-1",
+      "id": "svc-4f0ee37e8c50-1",
       "corridor": "SIERRAS CHICAS",
       "line": "CÓRDOBA - SALDÁN",
       "line_id": "sierras-chicas-cordoba-saldan",
@@ -131105,8 +130881,13 @@
       "minutes": 585,
       "company": "EMPRENDIMIENTOS S.R.L.",
       "cuit": "30-67871434-4",
-      "service_days_text": "FINES DE SEMANA",
+      "service_days_text": "DIARIO",
       "service_days": [
+        1,
+        2,
+        3,
+        4,
+        5,
         6,
         7
       ],
@@ -131147,7 +130928,7 @@
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-6377086d6b85-1",
+      "id": "svc-eab2d1d5cf13-1",
       "corridor": "SIERRAS CHICAS",
       "line": "CÓRDOBA - SALDÁN",
       "line_id": "sierras-chicas-cordoba-saldan",
@@ -131160,15 +130941,13 @@
       "minutes": 630,
       "company": "EMPRENDIMIENTOS S.R.L.",
       "cuit": "30-67871434-4",
-      "service_days_text": "DIARIO",
+      "service_days_text": "LUNES A VIERNES",
       "service_days": [
         1,
         2,
         3,
         4,
-        5,
-        6,
-        7
+        5
       ],
       "modality": "REGULAR DIFERENCIAL",
       "route": "GOLF",
@@ -131178,7 +130957,7 @@
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-9ce744242ffe-1",
+      "id": "svc-6ee8b9b8ec9e-1",
       "corridor": "SIERRAS CHICAS",
       "line": "CÓRDOBA - SALDÁN",
       "line_id": "sierras-chicas-cordoba-saldan",
@@ -131187,8 +130966,8 @@
         "SALDÁN"
       ],
       "direction": "V",
-      "time": "10:50",
-      "minutes": 650,
+      "time": "11:00",
+      "minutes": 660,
       "company": "EMPRENDIMIENTOS S.R.L.",
       "cuit": "30-67871434-4",
       "service_days_text": "LUNES A VIERNES",
@@ -131207,7 +130986,7 @@
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-9a21094e2b25-1",
+      "id": "svc-6e93eb14e91d-1",
       "corridor": "SIERRAS CHICAS",
       "line": "CÓRDOBA - SALDÁN",
       "line_id": "sierras-chicas-cordoba-saldan",
@@ -131216,22 +130995,20 @@
         "SALDÁN"
       ],
       "direction": "V",
-      "time": "11:30",
-      "minutes": 690,
+      "time": "11:50",
+      "minutes": 710,
       "company": "EMPRENDIMIENTOS S.R.L.",
       "cuit": "30-67871434-4",
-      "service_days_text": "DIARIO",
+      "service_days_text": "LUNES A VIERNES",
       "service_days": [
         1,
         2,
         3,
         4,
-        5,
-        6,
-        7
+        5
       ],
-      "modality": "REGULAR DIFERENCIAL",
-      "route": "GOLF",
+      "modality": "REGULAR DIFERENCIAL DIRECTO",
+      "route": "",
       "source_file": "06-sierras-chicas.pdf",
       "source_page": 43,
       "possible_duplicate": false,
@@ -131267,7 +131044,7 @@
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-48d5ee1f6060-1",
+      "id": "svc-7b2d47fb1225-1",
       "corridor": "SIERRAS CHICAS",
       "line": "CÓRDOBA - SALDÁN",
       "line_id": "sierras-chicas-cordoba-saldan",
@@ -131276,37 +131053,8 @@
         "SALDÁN"
       ],
       "direction": "V",
-      "time": "12:15",
-      "minutes": 735,
-      "company": "EMPRENDIMIENTOS S.R.L.",
-      "cuit": "30-67871434-4",
-      "service_days_text": "LUNES A VIERNES",
-      "service_days": [
-        1,
-        2,
-        3,
-        4,
-        5
-      ],
-      "modality": "REGULAR DIFERENCIAL DIRECTO",
-      "route": "",
-      "source_file": "06-sierras-chicas.pdf",
-      "source_page": 43,
-      "possible_duplicate": false,
-      "duplicate_ordinal": 1
-    },
-    {
-      "id": "svc-79949657963b-1",
-      "corridor": "SIERRAS CHICAS",
-      "line": "CÓRDOBA - SALDÁN",
-      "line_id": "sierras-chicas-cordoba-saldan",
-      "nodes": [
-        "CÓRDOBA",
-        "SALDÁN"
-      ],
-      "direction": "V",
-      "time": "13:10",
-      "minutes": 790,
+      "time": "12:30",
+      "minutes": 750,
       "company": "EMPRENDIMIENTOS S.R.L.",
       "cuit": "30-67871434-4",
       "service_days_text": "LUNES A VIERNES",
@@ -131349,32 +131097,6 @@
       ],
       "modality": "REGULAR DIFERENCIAL",
       "route": "GOLF",
-      "source_file": "06-sierras-chicas.pdf",
-      "source_page": 43,
-      "possible_duplicate": false,
-      "duplicate_ordinal": 1
-    },
-    {
-      "id": "svc-50a6376bb7ce-1",
-      "corridor": "SIERRAS CHICAS",
-      "line": "CÓRDOBA - SALDÁN",
-      "line_id": "sierras-chicas-cordoba-saldan",
-      "nodes": [
-        "CÓRDOBA",
-        "SALDÁN"
-      ],
-      "direction": "V",
-      "time": "13:45",
-      "minutes": 825,
-      "company": "EMPRENDIMIENTOS S.R.L.",
-      "cuit": "30-67871434-4",
-      "service_days_text": "FINES DE SEMANA",
-      "service_days": [
-        6,
-        7
-      ],
-      "modality": "REGULAR DIFERENCIAL DIRECTO",
-      "route": "",
       "source_file": "06-sierras-chicas.pdf",
       "source_page": 43,
       "possible_duplicate": false,
@@ -131439,35 +131161,6 @@
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-16d82376685d-1",
-      "corridor": "SIERRAS CHICAS",
-      "line": "CÓRDOBA - SALDÁN",
-      "line_id": "sierras-chicas-cordoba-saldan",
-      "nodes": [
-        "CÓRDOBA",
-        "SALDÁN"
-      ],
-      "direction": "V",
-      "time": "15:15",
-      "minutes": 915,
-      "company": "EMPRENDIMIENTOS S.R.L.",
-      "cuit": "30-67871434-4",
-      "service_days_text": "LUNES A VIERNES",
-      "service_days": [
-        1,
-        2,
-        3,
-        4,
-        5
-      ],
-      "modality": "REGULAR DIFERENCIAL DIRECTO",
-      "route": "",
-      "source_file": "06-sierras-chicas.pdf",
-      "source_page": 44,
-      "possible_duplicate": false,
-      "duplicate_ordinal": 1
-    },
-    {
       "id": "svc-204985074057-1",
       "corridor": "SIERRAS CHICAS",
       "line": "CÓRDOBA - SALDÁN",
@@ -131494,12 +131187,12 @@
       "modality": "REGULAR DIFERENCIAL",
       "route": "GOLF",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 44,
+      "source_page": 43,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-25133f8bfaf2-1",
+      "id": "svc-1a430d20568b-1",
       "corridor": "SIERRAS CHICAS",
       "line": "CÓRDOBA - SALDÁN",
       "line_id": "sierras-chicas-cordoba-saldan",
@@ -131508,8 +131201,8 @@
         "SALDÁN"
       ],
       "direction": "V",
-      "time": "16:00",
-      "minutes": 960,
+      "time": "15:50",
+      "minutes": 950,
       "company": "EMPRENDIMIENTOS S.R.L.",
       "cuit": "30-67871434-4",
       "service_days_text": "LUNES A VIERNES",
@@ -131523,12 +131216,12 @@
       "modality": "REGULAR DIFERENCIAL DIRECTO",
       "route": "",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 44,
+      "source_page": 43,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-2701191efefd-1",
+      "id": "svc-14b9e56f5039-1",
       "corridor": "SIERRAS CHICAS",
       "line": "CÓRDOBA - SALDÁN",
       "line_id": "sierras-chicas-cordoba-saldan",
@@ -131537,8 +131230,8 @@
         "SALDÁN"
       ],
       "direction": "V",
-      "time": "16:30",
-      "minutes": 990,
+      "time": "16:20",
+      "minutes": 980,
       "company": "EMPRENDIMIENTOS S.R.L.",
       "cuit": "30-67871434-4",
       "service_days_text": "LUNES A VIERNES",
@@ -131552,36 +131245,7 @@
       "modality": "REGULAR DIFERENCIAL",
       "route": "GOLF",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 44,
-      "possible_duplicate": false,
-      "duplicate_ordinal": 1
-    },
-    {
-      "id": "svc-34f66e1531fa-1",
-      "corridor": "SIERRAS CHICAS",
-      "line": "CÓRDOBA - SALDÁN",
-      "line_id": "sierras-chicas-cordoba-saldan",
-      "nodes": [
-        "CÓRDOBA",
-        "SALDÁN"
-      ],
-      "direction": "V",
-      "time": "17:15",
-      "minutes": 1035,
-      "company": "EMPRENDIMIENTOS S.R.L.",
-      "cuit": "30-67871434-4",
-      "service_days_text": "LUNES A VIERNES",
-      "service_days": [
-        1,
-        2,
-        3,
-        4,
-        5
-      ],
-      "modality": "REGULAR DIFERENCIAL DIRECTO",
-      "route": "",
-      "source_file": "06-sierras-chicas.pdf",
-      "source_page": 44,
+      "source_page": 43,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -131612,12 +131276,12 @@
       "modality": "REGULAR DIFERENCIAL",
       "route": "GOLF",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 44,
+      "source_page": 43,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-c988091d1152-1",
+      "id": "svc-213f67746336-1",
       "corridor": "SIERRAS CHICAS",
       "line": "CÓRDOBA - SALDÁN",
       "line_id": "sierras-chicas-cordoba-saldan",
@@ -131630,15 +131294,14 @@
       "minutes": 1065,
       "company": "EMPRENDIMIENTOS S.R.L.",
       "cuit": "30-67871434-4",
-      "service_days_text": "FINES DE SEMANA",
+      "service_days_text": "SÁBADO",
       "service_days": [
-        6,
-        7
+        6
       ],
       "modality": "REGULAR DIFERENCIAL DIRECTO",
       "route": "",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 44,
+      "source_page": 43,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -131667,12 +131330,12 @@
       "modality": "REGULAR DIFERENCIAL DIRECTO",
       "route": "",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 44,
+      "source_page": 43,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-636206b79b50-1",
+      "id": "svc-3992f850000e-1",
       "corridor": "SIERRAS CHICAS",
       "line": "CÓRDOBA - SALDÁN",
       "line_id": "sierras-chicas-cordoba-saldan",
@@ -131681,8 +131344,8 @@
         "SALDÁN"
       ],
       "direction": "V",
-      "time": "18:30",
-      "minutes": 1110,
+      "time": "18:25",
+      "minutes": 1105,
       "company": "EMPRENDIMIENTOS S.R.L.",
       "cuit": "30-67871434-4",
       "service_days_text": "LUNES A VIERNES",
@@ -131696,12 +131359,12 @@
       "modality": "REGULAR DIFERENCIAL",
       "route": "GOLF",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 44,
+      "source_page": 43,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-e3b3ced0abc7-1",
+      "id": "svc-20e19411a6f1-1",
       "corridor": "SIERRAS CHICAS",
       "line": "CÓRDOBA - SALDÁN",
       "line_id": "sierras-chicas-cordoba-saldan",
@@ -131714,20 +131377,19 @@
       "minutes": 1170,
       "company": "EMPRENDIMIENTOS S.R.L.",
       "cuit": "30-67871434-4",
-      "service_days_text": "FINES DE SEMANA",
+      "service_days_text": "DOMINGO",
       "service_days": [
-        6,
         7
       ],
       "modality": "REGULAR DIFERENCIAL DIRECTO",
       "route": "",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 44,
+      "source_page": 43,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
     {
-      "id": "svc-b9383b672ad3-1",
+      "id": "svc-65f6eff2bb13-1",
       "corridor": "SIERRAS CHICAS",
       "line": "CÓRDOBA - SALDÁN",
       "line_id": "sierras-chicas-cordoba-saldan",
@@ -131736,39 +131398,8 @@
         "SALDÁN"
       ],
       "direction": "V",
-      "time": "19:45",
-      "minutes": 1185,
-      "company": "EMPRENDIMIENTOS S.R.L.",
-      "cuit": "30-67871434-4",
-      "service_days_text": "DIARIO",
-      "service_days": [
-        1,
-        2,
-        3,
-        4,
-        5,
-        6,
-        7
-      ],
-      "modality": "REGULAR DIFERENCIAL DIRECTO",
-      "route": "",
-      "source_file": "06-sierras-chicas.pdf",
-      "source_page": 44,
-      "possible_duplicate": false,
-      "duplicate_ordinal": 1
-    },
-    {
-      "id": "svc-2d45f822f2b2-1",
-      "corridor": "SIERRAS CHICAS",
-      "line": "CÓRDOBA - SALDÁN",
-      "line_id": "sierras-chicas-cordoba-saldan",
-      "nodes": [
-        "CÓRDOBA",
-        "SALDÁN"
-      ],
-      "direction": "V",
-      "time": "20:00",
-      "minutes": 1200,
+      "time": "19:50",
+      "minutes": 1190,
       "company": "EMPRENDIMIENTOS S.R.L.",
       "cuit": "30-67871434-4",
       "service_days_text": "LUNES A VIERNES",
@@ -131782,7 +131413,7 @@
       "modality": "REGULAR DIFERENCIAL DIRECTO",
       "route": "",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 44,
+      "source_page": 43,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -131811,7 +131442,7 @@
       "modality": "REGULAR DIFERENCIAL DIRECTO",
       "route": "",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 44,
+      "source_page": 43,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -132098,7 +131729,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR TALAR",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 45,
+      "source_page": 44,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -132127,7 +131758,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR PADRE LUCHESSE - AEROPUERTO",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 45,
+      "source_page": 44,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -132156,7 +131787,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR DONATO ALVAREZ",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 45,
+      "source_page": 44,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -132185,7 +131816,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR TALAR - E53",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 45,
+      "source_page": 44,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -132214,7 +131845,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR DONATO ALVAREZ",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 45,
+      "source_page": 44,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -132243,7 +131874,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR DONATO ÁLVAREZ",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 45,
+      "source_page": 44,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -132269,7 +131900,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR VILLA ALLENDE",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 45,
+      "source_page": 44,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -132298,7 +131929,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR DONATO ALVAREZ",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 45,
+      "source_page": 44,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -132327,7 +131958,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR PADRE LUCHESSE - AEROPUERTO",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 45,
+      "source_page": 44,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -132353,7 +131984,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR VILLA ALLENDE",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 45,
+      "source_page": 44,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -132382,7 +132013,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR DONATO ALVAREZ",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 45,
+      "source_page": 44,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -132411,7 +132042,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR TALAR",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 45,
+      "source_page": 44,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -132437,7 +132068,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR VILLA ALLENDE",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 45,
+      "source_page": 44,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -132725,7 +132356,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR TALAR",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 46,
+      "source_page": 45,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -132754,7 +132385,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR TALAR - E53",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 46,
+      "source_page": 45,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -132783,7 +132414,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR DONATO ALVAREZ",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 46,
+      "source_page": 45,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -132812,7 +132443,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR DONATO ALVAREZ",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 46,
+      "source_page": 45,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -132838,7 +132469,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR VILLA ALLENDE",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 46,
+      "source_page": 45,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -132867,7 +132498,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR PADRE LUCHESSE - AEROPUERTO",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 46,
+      "source_page": 45,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -132896,7 +132527,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR DONATO ALVAREZ",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 46,
+      "source_page": 45,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -132925,7 +132556,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR DONATO ALVAREZ",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 46,
+      "source_page": 45,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -132954,7 +132585,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR TALAR",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 46,
+      "source_page": 45,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -132983,7 +132614,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR DONATO ALVAREZ",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 46,
+      "source_page": 45,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -133012,7 +132643,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR TALAR - E53",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 46,
+      "source_page": 45,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -133042,7 +132673,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR PADRE LUCHESSE - AEROPUERTO",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 46,
+      "source_page": 45,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -133068,7 +132699,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR VILLA ALLENDE",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 46,
+      "source_page": 45,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -133349,7 +132980,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR PADRE LUCHESSE - AEROPUERTO",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 47,
+      "source_page": 46,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -133378,7 +133009,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR DONATO ALVAREZ",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 47,
+      "source_page": 46,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -133407,7 +133038,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR PADRE LUCHESSE - AEROPUERTO",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 47,
+      "source_page": 46,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -133433,7 +133064,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR PADRE LUCHESSE - AEROPUERTO",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 47,
+      "source_page": 46,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -133459,7 +133090,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR VILLA ALLENDE",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 47,
+      "source_page": 46,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -133490,7 +133121,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR PADRE LUCHESSE - AEROPUERTO",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 47,
+      "source_page": 46,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -133519,7 +133150,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR DONATO ALVAREZ",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 47,
+      "source_page": 46,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -133545,7 +133176,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR PADRE LUCHESSE - AEROPUERTO",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 47,
+      "source_page": 46,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -133574,7 +133205,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR PADRE LUCHESSE - AEROPUERTO",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 47,
+      "source_page": 46,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -133603,7 +133234,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR DONATO ALVAREZ",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 47,
+      "source_page": 46,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -133629,7 +133260,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR VILLA ALLENDE",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 47,
+      "source_page": 46,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -133658,7 +133289,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR TALAR - E53",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 47,
+      "source_page": 46,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -133687,7 +133318,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR TALAR - E53",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 47,
+      "source_page": 46,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -133968,7 +133599,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR VILLA ALLENDE",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 48,
+      "source_page": 47,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -133997,7 +133628,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR DONATO ALVAREZ",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 48,
+      "source_page": 47,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -134026,7 +133657,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR TALAR",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 48,
+      "source_page": 47,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -134054,7 +133685,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR PADRE LUCHESSE - AEROPUERTO",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 48,
+      "source_page": 47,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -134083,7 +133714,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR DONATO ÁLVAREZ",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 48,
+      "source_page": 47,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -134112,7 +133743,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR DONATO ALVAREZ",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 48,
+      "source_page": 47,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -134141,7 +133772,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR TALAR - E53",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 48,
+      "source_page": 47,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -134170,7 +133801,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR DONATO ÁLVAREZ",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 48,
+      "source_page": 47,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -134199,7 +133830,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR DONATO ALVAREZ",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 48,
+      "source_page": 47,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -134225,7 +133856,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR VILLA ALLENDE",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 48,
+      "source_page": 47,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -134254,7 +133885,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR DONATO ALVAREZ",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 48,
+      "source_page": 47,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -134283,7 +133914,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR PADRE LUCHESSE - AEROPUERTO",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 48,
+      "source_page": 47,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -134309,7 +133940,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR VILLA ALLENDE",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 48,
+      "source_page": 47,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -134596,7 +134227,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR PADRE LUCHESSE - AEROPUERTO",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 49,
+      "source_page": 48,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -134625,7 +134256,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR TALAR",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 49,
+      "source_page": 48,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -134654,7 +134285,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR TALAR - E53",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 49,
+      "source_page": 48,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -134680,7 +134311,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR VILLA ALLENDE",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 49,
+      "source_page": 48,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -134709,7 +134340,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR DONATO ALVAREZ",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 49,
+      "source_page": 48,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -134735,7 +134366,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR PADRE LUCHESSE - AEROPUERTO",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 49,
+      "source_page": 48,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -134764,7 +134395,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR DONATO ALVAREZ",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 49,
+      "source_page": 48,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -134790,7 +134421,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR VILLA ALLENDE",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 49,
+      "source_page": 48,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -134819,7 +134450,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR DONATO ALVAREZ",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 49,
+      "source_page": 48,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -134848,7 +134479,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR DONATO ÁLVAREZ",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 49,
+      "source_page": 48,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -134877,7 +134508,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR DONATO ALVAREZ",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 49,
+      "source_page": 48,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -134905,7 +134536,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR DONATO ÁLVAREZ",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 49,
+      "source_page": 48,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -134934,7 +134565,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR DONATO ALVAREZ",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 49,
+      "source_page": 48,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -135220,7 +134851,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR AEROPUERTO Y PADRE LUCHESE",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 50,
+      "source_page": 49,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -135249,7 +134880,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR AEROPUERTO Y PADRE LUCHESE",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 50,
+      "source_page": 49,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -135278,7 +134909,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR AEROPUERTO Y PADRE LUCHESE",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 50,
+      "source_page": 49,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -135307,7 +134938,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR AEROPUERTO Y PADRE LUCHESE",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 50,
+      "source_page": 49,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -135336,7 +134967,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR AEROPUERTO Y PADRE LUCHESE",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 50,
+      "source_page": 49,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -135365,7 +134996,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR E-53",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 50,
+      "source_page": 49,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -135394,7 +135025,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR E-53",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 50,
+      "source_page": 49,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -135420,7 +135051,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR E-53",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 50,
+      "source_page": 49,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -135449,7 +135080,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR E-53",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 50,
+      "source_page": 49,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -135478,7 +135109,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR E-53",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 50,
+      "source_page": 49,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -135507,7 +135138,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR E-53",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 50,
+      "source_page": 49,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -135536,7 +135167,7 @@
       "modality": "REGULAR COMÚN",
       "route": "POR E-53",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 50,
+      "source_page": 49,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -135565,7 +135196,7 @@
       "modality": "REGULAR COMÚN",
       "route": "RUTA E53 - ENTRA A RÍO CEBALLOS",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 50,
+      "source_page": 49,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -135849,7 +135480,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 51,
+      "source_page": 50,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -135878,7 +135509,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 51,
+      "source_page": 50,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -135907,7 +135538,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 51,
+      "source_page": 50,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -135932,7 +135563,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 51,
+      "source_page": 50,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -135961,7 +135592,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 51,
+      "source_page": 50,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -135990,7 +135621,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 51,
+      "source_page": 50,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -136015,7 +135646,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 51,
+      "source_page": 50,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -136044,7 +135675,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 51,
+      "source_page": 50,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -136073,7 +135704,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 51,
+      "source_page": 50,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -136098,7 +135729,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 51,
+      "source_page": 50,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -136127,7 +135758,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 51,
+      "source_page": 50,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -136156,7 +135787,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 51,
+      "source_page": 50,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -136181,7 +135812,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 51,
+      "source_page": 50,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -136463,7 +136094,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 52,
+      "source_page": 51,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -136492,7 +136123,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 52,
+      "source_page": 51,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -136521,7 +136152,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 52,
+      "source_page": 51,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -136550,7 +136181,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 52,
+      "source_page": 51,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -136575,7 +136206,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 52,
+      "source_page": 51,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -136604,7 +136235,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 52,
+      "source_page": 51,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -136633,7 +136264,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 52,
+      "source_page": 51,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -136662,7 +136293,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 52,
+      "source_page": 51,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -136687,7 +136318,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 52,
+      "source_page": 51,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -136716,7 +136347,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 52,
+      "source_page": 51,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -136745,7 +136376,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 52,
+      "source_page": 51,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -136770,7 +136401,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 52,
+      "source_page": 51,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -136800,7 +136431,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 52,
+      "source_page": 51,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -137083,7 +136714,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 53,
+      "source_page": 52,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -137108,7 +136739,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 53,
+      "source_page": 52,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -137137,7 +136768,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 53,
+      "source_page": 52,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -137166,7 +136797,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 53,
+      "source_page": 52,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -137191,7 +136822,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 53,
+      "source_page": 52,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -137220,7 +136851,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 53,
+      "source_page": 52,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -137249,7 +136880,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 53,
+      "source_page": 52,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -137274,7 +136905,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 53,
+      "source_page": 52,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -137303,7 +136934,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 53,
+      "source_page": 52,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -137332,7 +136963,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 53,
+      "source_page": 52,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -137362,7 +136993,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 53,
+      "source_page": 52,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -137391,7 +137022,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 53,
+      "source_page": 52,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -137420,7 +137051,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 53,
+      "source_page": 52,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
@@ -137713,7 +137344,7 @@
       "modality": "REGULAR COMÚN",
       "route": "",
       "source_file": "06-sierras-chicas.pdf",
-      "source_page": 54,
+      "source_page": 53,
       "possible_duplicate": false,
       "duplicate_ordinal": 1
     },
