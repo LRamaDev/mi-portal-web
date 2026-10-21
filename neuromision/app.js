@@ -370,6 +370,15 @@ game.addEventListener("click",function(event){
     if(index===missionIndex){renderMap();return;}
     startMission(index);return;
   }
+  if(action==="next"){
+    if(mode==="play" && answered){
+      taskIndex++;
+      tries=0;
+      resetTaskState();
+      renderTask();
+    }
+    return;
+  }
   if(mode!=="play" || answered)return;
   const t=MISSIONS[missionIndex].tasks[taskIndex];
   if(action==="point"){markAnswer(button.dataset.answer===t.target,button);return;}
@@ -380,20 +389,5 @@ game.addEventListener("click",function(event){
     markAnswer(sequence.every(function(id,pos){return id===pos;}));
     return;
   }
-  if(action==="next"){
-    taskIndex++;
-    tries=0;
-    resetTaskState();
-    renderTask();
-  }
-});
-/* La navegación a la siguiente actividad es posible aun con la respuesta ya registrada. */
-game.addEventListener("click",function(event){
-  const b=event.target.closest('button[data-action="next"]');
-  if(!b || !answered || mode!=="play")return;
-  taskIndex++;
-  tries=0;
-  resetTaskState();
-  renderTask();
 });
 renderWelcome();
