@@ -170,7 +170,11 @@
     trackContext();
     addFeedbackButton();
     addFamilyTestPanel();
+    addFamilyFeedbackInbox();
     addFeedbackDialog();
+    document.querySelectorAll('[data-nav="familia"]').forEach(button => {
+      button.addEventListener('click', () => window.setTimeout(renderFeedbackInbox, 0));
+    });
     window.setTimeout(setVisibleVersion, 0);
   }
 
@@ -242,6 +246,71 @@
       <button id="family-open-feedback" class="secondary-button" type="button">Enviar opinión de prueba</button>`;
     grid.appendChild(section);
     section.querySelector('#family-open-feedback').addEventListener('click', openFeedbackDialog);
+  }
+
+  function addFamilyFeedbackInbox() {
+    const section = document.querySelector('#family-feedback-inbox');
+    if (!section) return;
+    renderFeedbackInbox();
+  }
+
+  async function renderFeedbackInbox() {
+    const section = document.querySelector('#family-feedback-inbox');
+    if (!section) return;
+    const client = getSupabaseClient();
+    if (!client) { section.hidden = true; return; }
+
+    const { data: sessionData } = await client.auth.getSession();
+    if (!sessionData.session?.user) { section.hidden = true; return; }
+
+    section.hidden = false;
+    section.innerHTML = '<p class="eyebrow">Escuchamos lo que pasa</p><h3>Comentarios recibidos</h3><p class="family-activity-intro">Cargando las opiniones guardadas…</p>';
+    const { data, error } = await client
+      .from('study_feedback')
+      .select('profile_id,session_type,area,school,rating,note,created_at')
+      .order('created_at', { ascending: false })
+      .limit(40);
+
+    if (error) {
+      section.innerHTML = '<p class="eyebrow">Escuchamos lo que pasa</p><h3>Comentarios recibidos</h3><p class="family-activity-intro">Todavía no se pudieron cargar los comentarios.</p>';
+      return;
+    }
+
+    const rows = data || [];
+    const notes = rows.filter(row => row.note && row.note.trim());
+    const ratingLabels = { facil: '😊 Fácil', bien: '👍 Bien', dificil: '🧠 Difícil', confuso: '🤔 Confuso' };
+    const content = rows.length
+      ? `<div class="feedback-inbox-list">${rows.map(row => {
+          const context = [profileLabel(row.profile_id), sessionLabel(row.session_type), row.area, row.school].filter(Boolean).join(' · ');
+          const date = new Date(row.created_at).toLocaleString('es-AR', { dateStyle: 'medium', timeStyle: 'short' });
+          const note = row.note?.trim() ? `<p class="feedback-inbox-note">“${escapeHtml(row.note.trim())}”</p>` : '<p class="feedback-inbox-empty">Sin comentario escrito.</p>';
+          return `<article class="feedback-inbox-item"><div><strong>${escapeHtml(ratingLabels[row.rating] || 'Opinión')}</strong><small>${escapeHtml(context)} · ${escapeHtml(date)}</small></div>${note}</article>`;
+        }).join('')}</div>`
+      : '<p class="family-activity-intro">Todavía no llegaron opiniones. Cuando alguien use “Contar algo”, aparecerán acá.</p>';
+    section.innerHTML = `<p class="eyebrow">Escuchamos lo que pasa</p><h3>Comentarios recibidos</h3><p class="family-activity-intro">${notes.length ? `${notes.length} comentario${notes.length === 1 ? '' : 's'} escrito${notes.length === 1 ? '' : 's'} · ` : ''}${rows.length} opinión${rows.length === 1 ? '' : 'es'} en total.</p>${content}`;
+  }
+
+  function getSupabaseClient() {
+    try {
+      if (!window.supabase || !window.INGRESO_CONFIG?.supabaseUrl || !window.INGRESO_CONFIG?.supabaseAnonKey) return null;
+      return window.supabase.createClient(window.INGRESO_CONFIG.supabaseUrl, window.INGRESO_CONFIG.supabaseAnonKey);
+    } catch { return null; }
+  }
+
+  function profileLabel(profileId) {
+    try {
+      const state = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+      if (profileId === 'together') return 'Juntas';
+      return state.profiles?.[profileId]?.name || (profileId === 'p2' ? 'Perfil 2' : 'Perfil 1');
+    } catch { return profileId === 'p2' ? 'Perfil 2' : profileId === 'together' ? 'Juntas' : 'Perfil 1'; }
+  }
+
+  function sessionLabel(type) {
+    return { diagnostico: 'Diagnóstico', practica: 'Práctica', simulacro: 'Simulacro', otro: 'Uso general' }[type] || 'Uso general';
+  }
+
+  function escapeHtml(value) {
+    return String(value ?? '').replace(/[&<>'"]/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' })[char]);
   }
 
   function addFeedbackDialog() {
@@ -389,6 +458,7 @@
       .test-rating-grid button.selected{outline:3px solid rgba(23,63,107,.22);border-color:#173f6b}
       .test-feedback-frame textarea{width:100%;resize:vertical;box-sizing:border-box;border:1px solid #c8d4df;border-radius:12px;padding:10px;font:inherit}
       .test-checklist{padding-left:20px;line-height:1.55}
+      .feedback-inbox-list{display:grid;gap:10px}.feedback-inbox-item{padding:13px 14px;border:1px solid #d8e2ee;border-radius:13px;background:#fbfdff}.feedback-inbox-item>div{display:flex;justify-content:space-between;gap:12px;align-items:baseline}.feedback-inbox-item small{color:#607086;font-size:.8rem}.feedback-inbox-note{margin:9px 0 0;white-space:pre-wrap}.feedback-inbox-empty{margin:8px 0 0;color:#607086;font-size:.88rem}
       @media(max-width:700px){.test-feedback-fab{right:12px;bottom:76px;padding:9px 12px;font-size:.9rem}.test-rating-grid{grid-template-columns:1fr 1fr}}
     `;
     document.head.appendChild(style);
