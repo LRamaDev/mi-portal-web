@@ -41,5 +41,5 @@ test('la app refresca progreso al volver, recuperar conexión o foco', () => {
 test('el módulo de sincronización conserva su versión visible y caché propios', () => {
   assert.match(ui, /const DISPLAY_VERSION = '6\.6'/);
   assert.match(ui, /Versión \$\{releaseVersion\}/);
-  assert.match(sw, /ingreso-bm-v6-19-metricas-y-guardado/);
+  assert.match(sw, /ingreso-bm-v6-20-comentarios-familia/);
 });
