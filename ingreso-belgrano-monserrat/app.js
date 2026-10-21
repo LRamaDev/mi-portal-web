@@ -28,6 +28,7 @@
   let syncTimer = null;
   let recommendedArea = null;
   let saveReminderPending = false;
+  let visitMetricsRequest = 0;
 
   const $ = (s, root = document) => root.querySelector(s);
   const $$ = (s, root = document) => [...root.querySelectorAll(s)];
@@ -38,7 +39,7 @@
     try {
       // La URL cambia con la versión: evita que un service worker anterior entregue
       // habilidades sin videos durante la primera visita tras una actualización.
-      const releaseVersion = document.querySelector('meta[name="app-version"]')?.content || '6.18.2';
+      const releaseVersion = document.querySelector('meta[name="app-version"]')?.content || '6.19.0';
       const [skillsData, exerciseData] = await Promise.all([
         fetch(`./data/habilidades.json?v=${encodeURIComponent(releaseVersion)}`, { cache: 'no-store' }).then(r => { if (!r.ok) throw new Error('habilidades'); return r.json(); }),
         fetch('./data/ejercicios.json').then(r => { if (!r.ok) throw new Error('ejercicios'); return r.json(); })
@@ -56,7 +57,7 @@
     refreshGateNames();
     restoreActiveContext();
     setupSupabase();
-    if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js?v=6.18.2').catch(() => {});
+    if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js?v=6.19.0').catch(() => {});
   }
 
   function bindUI() {
@@ -670,6 +671,7 @@
     refreshGateNames();
     renderFamilyActivity();
     renderTutoringPlan();
+    renderVisitMetrics();
     if (!supa) {
       $('#sync-status').textContent = 'Modo local';
       $('#sync-help').textContent = 'La app funciona en este dispositivo. Para sincronizar entre celulares y PC hay que completar config.js con un proyecto Supabase.';
@@ -691,6 +693,30 @@
       $('#auth-box').hidden = false;
       $('#sign-out').hidden = true;
     }
+  }
+
+  async function renderVisitMetrics() {
+    const panel = $('#family-visit-metrics');
+    if (!panel) return;
+    if (!supa || !authUser) { panel.hidden = true; return; }
+    panel.hidden = false;
+    const request = ++visitMetricsRequest;
+    panel.innerHTML = '<p class="eyebrow">Uso de la app</p><h3>Visitas anónimas</h3><p class="family-activity-intro">Cargando el resumen de los últimos 30 días…</p>';
+    const since = new Date(Date.now() - 30 * DAY_MS).toISOString();
+    const { data, error } = await supa.from('study_visit_events').select('visitor_id,event_type,occurred_at').gte('occurred_at', since);
+    if (request !== visitMetricsRequest) return;
+    if (error) {
+      panel.innerHTML = '<p class="eyebrow">Uso de la app</p><h3>Visitas anónimas</h3><p class="family-activity-intro">Todavía no se pudo cargar este resumen.</p>';
+      return;
+    }
+    const rows = data || [];
+    const pageViews = rows.filter(row => row.event_type === 'page_view');
+    const visitorEntries = rows.filter(row => row.event_type === 'visitor_entry');
+    const uniqueDevices = new Set(pageViews.map(row => row.visitor_id)).size;
+    const uniqueGuests = new Set(visitorEntries.map(row => row.visitor_id)).size;
+    const latest = [...rows].sort((a, b) => new Date(b.occurred_at) - new Date(a.occurred_at))[0];
+    const latestText = latest ? new Date(latest.occurred_at).toLocaleDateString('es-AR', { day: 'numeric', month: 'short' }) : 'sin registros todavía';
+    panel.innerHTML = `<p class="eyebrow">Uso de la app</p><h3>Visitas anónimas</h3><p class="family-activity-intro">Últimos 30 días. No identifica personas ni guarda su progreso.</p><div class="visit-metrics"><article><strong>${pageViews.length}</strong><span>aperturas</span></article><article><strong>${uniqueDevices}</strong><span>dispositivos aprox.</span></article><article><strong>${visitorEntries.length}</strong><span>ingresos invitados</span></article><article><strong>${uniqueGuests}</strong><span>invitados aprox.</span></article></div><small class="visit-metrics-note">Última actividad: ${escapeHtml(latestText)}.</small>`;
   }
 
   function renderFamilyActivity() {
@@ -1451,13 +1477,13 @@
 
   async function syncRemoteState() {
     if (!supa || !authUser) return false;
-    const evidenceSynced = await syncPendingEvidence();
+    await syncPendingEvidence();
     const { error } = await supa.from('study_state').upsert({ user_id: authUser.id, payload: state, updated_at: new Date().toISOString() }, { onConflict: 'user_id' });
     if (error) {
       console.error('Error de sincronización', error);
       return false;
     }
-    return evidenceSynced;
+    return true;
   }
 
   function toast(message) {

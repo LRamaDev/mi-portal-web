@@ -9,6 +9,8 @@
   const VISITOR_STATE_KEY = 'ingreso-belgrano-monserrat-visitor-v1';
   const FAMILY_FEEDBACK_KEY = 'ingreso-belgrano-monserrat-feedback-v1';
   const VISITOR_FEEDBACK_KEY = 'ingreso-belgrano-monserrat-visitor-feedback-v1';
+  const VISIT_ID_KEY = 'ingreso-anonymous-visit-id-v1';
+  const VISIT_SESSION_KEY = 'ingreso-anonymous-page-view-v1';
 
   const nativeStorage = window.Storage?.prototype ? {
     getItem: window.Storage.prototype.getItem,
@@ -44,6 +46,42 @@
     } catch (error) {
       console.warn('[Ingreso] No se pudo guardar el modo de acceso', error);
     }
+  }
+
+  function anonymousVisitId() {
+    try {
+      const saved = nativeStorage ? nativeStorage.getItem.call(localStorage, VISIT_ID_KEY) : localStorage.getItem(VISIT_ID_KEY);
+      if (saved) return saved;
+      const id = crypto.randomUUID();
+      if (nativeStorage) nativeStorage.setItem.call(localStorage, VISIT_ID_KEY, id);
+      else localStorage.setItem(VISIT_ID_KEY, id);
+      return id;
+    } catch { return null; }
+  }
+
+  async function trackAnonymousVisit(eventType, mode) {
+    if (!hasSupabase || !window.supabase?.createClient) return;
+    const visitorId = anonymousVisitId();
+    if (!visitorId) return;
+    try {
+      const metricsClient = window.supabase.createClient(cfg.supabaseUrl, cfg.supabaseAnonKey);
+      const { error } = await metricsClient.from('study_visit_events').insert({
+        visitor_id: visitorId,
+        event_type: eventType,
+        access_mode: mode
+      });
+      if (error) console.warn('[Ingreso] No se pudo registrar una visita anónima', error);
+    } catch (error) {
+      console.warn('[Ingreso] No se pudo preparar el registro de visita anónima', error);
+    }
+  }
+
+  function trackPageView() {
+    try {
+      if (sessionStorage.getItem(VISIT_SESSION_KEY)) return;
+      sessionStorage.setItem(VISIT_SESSION_KEY, '1');
+    } catch {}
+    trackAnonymousVisit('page_view', accessMode === 'visitor' ? 'visitor' : 'unknown');
   }
 
   function redirectedKey(key) {
@@ -229,6 +267,7 @@
       button.textContent = 'Preparando modo visitante…';
     }
 
+    await trackAnonymousVisit('visitor_entry', 'visitor');
     try {
       if (client) await client.auth.signOut({ scope: 'local' });
     } catch (error) {
@@ -310,6 +349,7 @@
 
   async function init() {
     document.body.classList.add('security-pending');
+    trackPageView();
 
     if (accessMode === 'visitor') {
       authorizeVisitor();
