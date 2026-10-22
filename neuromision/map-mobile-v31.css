@@ -1,0 +1,58 @@
+/* NeuroMisión v3.1 — mapa vertical auténtico (no recorte del horizontal). */
+.map31-mobile{display:none}
+@media(max-width:800px){
+  /* En móviles se oculta por completo la panorámica horizontal. */
+  .map25-viewport{display:none!important}
+  .map31-mobile{display:block;width:100%;margin-top:5px}
+  .map31-intro{margin:0 0 9px;padding:8px 11px;color:#24647b;background:#eefaff;
+    border:1px solid #c7e9f0;border-radius:12px;font-size:.76rem;font-weight:750;line-height:1.35}
+  .map31-picture{position:relative;width:100%;aspect-ratio:2/3;overflow:hidden;
+    isolation:isolate;border-radius:20px;border:2px solid #9acddf;
+    box-shadow:0 12px 26px #327ea53a;background:#8bcfeb}
+  .map31-art{display:block;position:absolute;inset:0;width:100%;height:100%;
+    object-fit:fill;pointer-events:none;-webkit-user-select:none;user-select:none}
+  /* Los letreros son botones HTML reales, no texto pintado en la imagen. */
+  .map31-destination{--base:#1c6caa;position:absolute;z-index:2;left:var(--place-x);top:var(--place-y);
+    transform:translate(-50%,-50%);display:flex;align-items:center;gap:8px;
+    width:min(68%,290px);min-height:48px;padding:6px 9px;
+    border:2px solid #fffd;border-radius:15px;
+    background:linear-gradient(120deg,var(--base),color-mix(in srgb,var(--base),#101d49 22%));
+    color:white;box-shadow:0 5px 14px #102d5199;cursor:pointer;text-align:left;
+    font:inherit;touch-action:manipulation;text-shadow:0 1px 2px #123a5550;
+    -webkit-tap-highlight-color:rgba(255,255,255,.25)}
+  .map31-destination.city{--base:#166faf}
+  .map31-destination.neuron{--base:#7754bb}
+  .map31-destination.forest{--base:#24854d}
+  .map31-destination.reflex{--base:#c76a29}
+  .map31-destination.tower{--base:#ad448d}
+  .map31-destination.done{border-color:#dcffdc;box-shadow:0 0 0 3px #50c78888,0 5px 13px #0e34558c}
+  .map31-destination.active{border-color:#fff3a6;box-shadow:0 0 0 3px #ffdb6a88,0 6px 16px #233b6699}
+  .map31-destination.locked{--base:#536676;border-color:#f2f5f5d9;opacity:.87;cursor:not-allowed}
+  .map31-destination:hover:not(:disabled){filter:brightness(1.1)}
+  .map31-destination:focus-visible{outline:4px solid #ffe677;outline-offset:3px}
+  .map31-symbol{display:grid;place-items:center;flex-shrink:0;width:29px;height:29px;
+    background:#ffffff35;border-radius:9px;font-size:1.2rem;line-height:1}
+  .map31-copy{min-width:0;display:flex;flex-direction:column;gap:1px;flex:1}
+  .map31-copy strong{font-size:clamp(.73rem,3.5vw,.91rem);font-weight:950;
+    line-height:1.18;letter-spacing:-.015em;white-space:normal}
+  .map31-copy small{font-size:.67rem;font-weight:850;line-height:1.18;color:#fffde4}
+  .map31-chevron{font-size:1.35rem;font-weight:900;line-height:1}
+  .map31-end{margin:10px 2px 3px;color:#568299;font-size:.75rem;font-weight:750;line-height:1.45;text-align:center}
+  .map31-image-error{position:absolute;z-index:5;top:0;left:0;right:0;margin:0;padding:10px;
+    background:#fff8ddf2;border-bottom:2px solid #eec27b;color:#845018;font-size:.74rem;font-weight:800}
+  /* La ilustración vertical toma prioridad sobre las cabeceras y chips. */
+  body.neuro-map-mode .map25-header{margin-bottom:7px}
+  body.neuro-map-mode .map25-progress{margin-bottom:7px}
+  body.neuro-map-mode .map25-footer{margin-top:12px}
+  body.neuro-map-mode .map25-footer-actions{gap:8px}
+}
+@media(max-width:370px){
+  .map31-destination{width:72%;min-height:45px;padding:5px 7px;gap:6px}
+  .map31-symbol{width:26px;height:26px;font-size:1rem}
+  .map31-copy strong{font-size:.72rem}
+  .map31-copy small{font-size:.61rem}
+  .map31-intro{font-size:.71rem}
+}
+@media(prefers-reduced-motion:reduce){
+  .map31-destination{transition:none!important}
+}
