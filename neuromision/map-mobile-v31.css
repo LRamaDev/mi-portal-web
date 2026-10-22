@@ -56,3 +56,34 @@
 @media(prefers-reduced-motion:reduce){
   .map31-destination{transition:none!important}
 }
+
+
+/* v3.2: bienvenida en móvil con la ilustración vertical completa.
+   Antes se mostraba el mapa horizontal recortado (pantalla de bienvenida).
+   La imagen correcta solo aparece en móviles; PC mantiene el panorama. */
+.home-art .welcome-responsive-picture{position:absolute;inset:0;width:100%;height:100%;display:block}
+@media(max-width:800px){
+  /* El acceso al juego debe encontrarse antes del mapa decorativo. */
+  .home-grid{grid-template-columns:minmax(0,1fr);gap:16px}
+  .home-grid>div:first-child{order:0;min-width:0}
+  .home-grid>.home-art{order:1;max-height:none;min-height:0;aspect-ratio:2/3;width:100%;height:auto;overflow:hidden}
+  .home-art .welcome-responsive-picture{display:block;position:absolute;inset:0;width:100%;height:100%}
+  .home-art .welcome-responsive-picture .welcome-v3-image{
+    display:block;position:absolute;inset:0;width:100%;height:100%;
+    object-fit:contain;object-position:center;
+  }
+  /* La cartela no debe tapar el dibujo vertical. */
+  .home-art .callout{display:none}
+  /* Introducción resumida: título y nombre antes de la ilustración. */
+  body:has(#game .home-grid) .intro-block{display:none}
+  .home-grid .mission-head h2{font-size:clamp(1.55rem,5vw,2rem);line-height:1.13}
+  .home-grid .mission-head p{font-size:.98rem;line-height:1.5}
+  .home-grid .home-highlights{margin:12px 0;gap:6px}
+  .home-grid .home-highlights span{font-size:.72rem}
+  .home-grid .field-note{line-height:1.35}
+  body:has(#game .home-grid) .game{padding:16px 14px}
+}
+@media(max-width:380px){
+  .home-grid .mission-head h2{font-size:1.5rem}
+  .home-grid .home-highlights{flex-wrap:wrap}
+}
