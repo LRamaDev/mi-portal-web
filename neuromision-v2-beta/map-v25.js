@@ -14,6 +14,14 @@ const MAP25_STOPS=[
 ];
 // sx/sy centro de la insignia de estado, x/y centro del destino, w/h zona.
 let map25ScrollLeft=null;
+// Cambiar únicamente el ancho del contenedor cuando el mapa está a la vista.
+const map25OriginalSetScreen=setScreen;
+setScreen=function(html){
+  if(document.body&&document.body.classList){
+    document.body.classList.toggle("neuro-map-mode",html.includes('class="map25-screen"'));
+  }
+  map25OriginalSetScreen(html);
+};
 function map25Status(i){
  const finished=!!record.completed[i];
  const active=!!(record.active&&record.active.mission===i);
