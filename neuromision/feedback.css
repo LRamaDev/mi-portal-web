@@ -1,0 +1,51 @@
+/* NeuroMisión v3.3 — buzón privado de aportes, en página propia */
+.nm-feedback-link{
+ display:inline-flex;align-items:center;justify-content:center;gap:7px;
+ flex-shrink:0;min-height:40px;padding:8px 13px;
+ border:1px solid #acd8e4;border-radius:999px;
+ background:linear-gradient(140deg,#f2fcff,#fff);
+ box-shadow:0 4px 12px #4e9fb81e;
+ color:#1e6880;font-size:.81rem;font-weight:900;
+ text-decoration:none;white-space:nowrap;
+}
+.nm-feedback-link:hover{background:#dff7ff;border-color:#4ea8c6;color:#165c77}
+.nm-feedback-link:focus-visible{outline:3px solid #286aaf;outline-offset:3px}
+.nm-feedback-link[aria-current="page"]{background:#d7f4ff;color:#135b7d;border-color:#5aa8c5}
+.nm-feedback-main{margin:clamp(20px,4vw,46px) auto 40px;max-width:1030px}
+.nm-feedback-intro{display:grid;grid-template-columns:minmax(0,1fr) 170px;align-items:center;gap:20px;
+ background:linear-gradient(145deg,#f0fbff,#fffdf5);border:2px solid #c5e4e8;border-radius:25px;
+ padding:clamp(19px,3vw,32px);box-shadow:0 12px 27px #4285a51c}
+.nm-feedback-eyebrow{font-size:.72rem;font-weight:950;letter-spacing:.13em;color:#167b96;margin:0 0 12px}
+.nm-feedback-intro h1{font-size:clamp(1.9rem,4vw,3rem);letter-spacing:-.04em;line-height:1.1;margin:0 0 12px;color:#14405d}
+.nm-feedback-intro p{font-size:1rem;line-height:1.6;color:#52788d;margin:0 0 10px}
+.nm-feedback-art{display:grid;place-items:center;width:150px;height:150px;margin:auto;border-radius:33px;
+ background:radial-gradient(circle at 34% 29%,#faffff,#d3f2f5 61%,#bae6ed);
+ border:2px solid #b7e3e9;box-shadow:0 12px 30px #3d93ad30;font-size:5.3rem}
+.nm-feedback-private{display:flex;align-items:flex-start;gap:10px;margin:17px 0 15px;
+ background:#f5fbff;border-left:5px solid #38a0b1;border-radius:13px;padding:13px 15px}
+.nm-feedback-private strong{color:#175b76}
+.nm-feedback-private p{font-size:.84rem;line-height:1.52;margin:4px 0 0;color:#517688}
+.nm-feedback-form-shell{border:2px solid #c6e5ea;background:white;border-radius:24px;
+ padding:clamp(13px,3vw,24px);box-shadow:0 17px 36px #4d8aa51a}
+.nm-feedback-form-heading{margin:0 0 15px;color:#1d516d;font-weight:900;font-size:1.12rem}
+.nm-feedback-iframe{display:block;width:100%;height:750px;border:0;border-radius:12px;background:white}
+.nm-feedback-fallback{margin:12px 0 2px;font-size:.8rem;line-height:1.6;color:#4f7387}
+.nm-feedback-fallback a{color:#166b9b;text-decoration:underline;font-weight:850}
+.nm-feedback-back{display:inline-flex;align-items:center;gap:7px;min-height:42px;
+ text-decoration:none;border-radius:12px;background:#fff;color:#1c7190;font-weight:900;
+ border:1px solid #aad5df;padding:10px 16px;margin:16px 0 0}
+.nm-feedback-back:hover{background:#e5f8fb}
+@media(max-width:760px){
+ .nm-feedback-link{margin-left:auto;min-height:37px;padding:7px 11px;font-size:.77rem}
+ .nm-feedback-main{margin-top:16px}
+ .nm-feedback-intro{grid-template-columns:1fr;gap:0;padding:18px}
+ .nm-feedback-art{display:none}
+ .nm-feedback-intro h1{font-size:1.95rem}
+ .nm-feedback-intro p{font-size:.94rem}
+ .nm-feedback-iframe{height:870px}
+ .nm-feedback-form-shell{padding:8px;border-radius:16px}
+ .nm-feedback-form-heading{padding:10px 8px 0;font-size:1rem}
+ .nm-feedback-private{margin:12px 0;padding:12px}
+ .nm-feedback-back{margin-top:12px}
+}
+@media(max-width:380px){.nm-feedback-link{font-size:.72rem;padding:7px 8px}}
