@@ -5,6 +5,7 @@ on:
     paths:
       - 'ingreso-belgrano-monserrat/**'
       - 'index.html'
+      - 'tests/ingreso-v6-21-banco.test.cjs'
       - 'tests/ingreso-v6-7-auditoria.test.cjs'
       - 'tests/ingreso-v6-8-repaso.test.cjs'
       - 'tests/ingreso-v6-8-2-opciones.test.cjs'
@@ -23,6 +24,7 @@ on:
     paths:
       - 'ingreso-belgrano-monserrat/**'
       - 'index.html'
+      - 'tests/ingreso-v6-21-banco.test.cjs'
       - 'tests/ingreso-v6-7-auditoria.test.cjs'
       - 'tests/ingreso-v6-8-repaso.test.cjs'
       - 'tests/ingreso-v6-8-2-opciones.test.cjs'
@@ -46,7 +48,7 @@ jobs:
           node-version: '24'
       - name: Auditoría pedagógica V6.7
         run: node --test tests/ingreso-v6-7-auditoria.test.cjs
-      - name: Banco efectivo V6.18
+      - name: Banco efectivo V6.21
         run: node audit-bank.cjs
       - name: Repaso espaciado V6.8
         run: node --test tests/ingreso-v6-8-repaso.test.cjs
@@ -66,3 +68,5 @@ jobs:
         run: node --test tests/ingreso-v6-18-evidencia.test.cjs
       - name: Interacciones y clicks V6.18.1
         run: node --test tests/ingreso-v6-18-1-interacciones.test.cjs
+      - name: Banco de prioridades y corrección V6.21
+        run: node --test tests/ingreso-v6-21-banco.test.cjs

@@ -39,7 +39,7 @@
     try {
       // La URL cambia con la versión: evita que un service worker anterior entregue
       // habilidades sin videos durante la primera visita tras una actualización.
-      const releaseVersion = document.querySelector('meta[name="app-version"]')?.content || '6.20.0';
+      const releaseVersion = document.querySelector('meta[name="app-version"]')?.content || '6.21.0';
       const [skillsData, exerciseData] = await Promise.all([
         fetch(`./data/habilidades.json?v=${encodeURIComponent(releaseVersion)}`, { cache: 'no-store' }).then(r => { if (!r.ok) throw new Error('habilidades'); return r.json(); }),
         fetch('./data/ejercicios.json').then(r => { if (!r.ok) throw new Error('ejercicios'); return r.json(); })
@@ -57,7 +57,7 @@
     refreshGateNames();
     restoreActiveContext();
     setupSupabase();
-    if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js?v=6.20.0').catch(() => {});
+    if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js?v=6.21.0').catch(() => {});
   }
 
   function bindUI() {
@@ -1142,7 +1142,7 @@
     recordAttempt(e, correct, .65, profileId);
     session.answers.push({ id: e.id, correct, selfChecked: checked, profileId });
     $('#exercise-feedback').hidden = false; $('#exercise-feedback').className = 'feedback hint';
-    $('#exercise-feedback').innerHTML = `<strong>Revisión guardada.</strong>Marcaste ${checked} de ${e.criterios.length} criterios. Conservá la producción para revisarla nuevamente más adelante.`;
+    $('#exercise-feedback').innerHTML = `<strong>Revisión guardada.</strong>Marcaste ${checked} de ${e.criterios.length} criterios. Conservá la producción para revisarla nuevamente más adelante.${e.respuestaEjemplo ? `<details class="production-example"><summary>Ver un ejemplo posible</summary><p>${escapeHtml(e.respuestaEjemplo)}</p><p>${escapeHtml(e.explicacion || '')}</p></details>` : ''}`;
     $('#check-answer').hidden = true; $('#hint-button').hidden = true; $('#next-exercise').hidden = false;
   }
 
@@ -1153,6 +1153,8 @@
   }
 
   function isCorrect(e, answer) {
+    const checked = window.IngresoAnswers?.check(e, answer);
+    if (typeof checked === 'boolean') return checked;
     const accepted = [e.respuesta, ...(e.alternativas || [])].map(normalizeAnswer);
     return accepted.includes(normalizeAnswer(answer));
   }
