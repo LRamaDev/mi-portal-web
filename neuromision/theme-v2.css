@@ -1,0 +1,132 @@
+/* NeuroMisión v2 | Identidad visual de aventura clara, adaptable a celular y escritorio */
+:root{color-scheme:light;--bg:#f0f8fc;--ink:#193752;--muted:#516a7d;--line:rgba(44,91,118,.17);--panel:#fff;--panel2:#eaf5fa;--aqua:#128d9a;--lime:#e4f6a5;--violet:#6853ad;--coral:#ce6a55;--shadow:0 20px 55px rgba(28,74,111,.12)}
+body{background:linear-gradient(180deg,#dff5fb 0,#f2f9fc 310px,#fdfbf5 90%);color:var(--ink)}
+body::before{content:"";position:fixed;inset:0;z-index:-2;pointer-events:none;background-image:radial-gradient(#79b3ce35 1px,transparent 1px);background-size:22px 22px;opacity:.42}
+.ambient{filter:blur(65px);opacity:.24}.ambient-one{background:#ffd8a9}.ambient-two{background:#8fe5dc}
+.topbar{border-bottom:1px solid var(--line)}.backlink{color:#3d6782}.backlink:hover{color:#057d86}
+.brand{color:#17435d}.brand-symbol{background:#fff;color:#3c87aa;border-color:#54bfd1}.brand-accent{color:#008a96}
+.edition{color:#47748b}
+.intro-block{padding:42px 0 25px}.eyebrow{color:#21859a}.signal-dot{background:#ffbf72;box-shadow:0 0 0 4px #ffbf722a}
+h1 em{color:#157d8c}.subtitle{color:#536c80}.hero-highlights span{background:#ffffffba;border-color:#a9d2db;color:#3e6879;box-shadow:0 3px 9px #75b0c91b}
+.workspace{background:#fff;box-shadow:var(--shadow);border:1px solid #afdbe8;border-radius:27px;min-height:520px}
+.workspace-bar{background:#f7fcff;border-bottom:1px solid #d2e6ee}.status-label{color:#437992}.status-orb{background:#25a8aa;box-shadow:0 0 0 4px #a7e5dc}.session-status{color:#547485}
+.game{padding:clamp(14px,3.3vw,42px)}.kicker{color:#137e94}.screen-head p,.mission-head p,.map-top p{color:var(--muted)}
+.primary-btn{background:#147e94;color:#fff;box-shadow:0 5px 0 #0a5169}.primary-btn:hover:not(:disabled){background:#0b6681}
+.secondary-btn{background:#e3f6f7;border:1px solid #79bbc8;color:#1b6377}.secondary-btn:hover:not(:disabled){background:#d1f1f3}
+.soft-btn{background:#f6fafc;border:1px solid #c2dce5;color:#365d76}.soft-btn:hover{background:#eaf5fa}
+.nick-field{color:var(--ink);border:2px solid #b2d7e4;background:#fff}.form-label{color:#305469}.field-note{color:#607c8e}
+.profile-pill{background:#edf6fb;border-color:#add5e1;color:#31576a}
+.info-tile{background:#fff;border-color:#d4e6ee;box-shadow:0 10px 28px #6da1b018}.tile-icon{color:#168fa0}.info-tile p,.footer{color:#637b8a}
+.footer{border-color:#cbdfe7}.footer-version{color:#1b8392}
+.home-grid{grid-template-columns:minmax(310px,1fr) minmax(250px,1.13fr);align-items:center;gap:30px}
+.home-grid .mission-head h2{font-size:clamp(2rem,3.6vw,3.4rem);line-height:1.08;color:#19405e}
+.home-art{min-height:370px;border:1px solid #a3dce5;border-radius:25px;background:#d9f3f8;box-shadow:0 18px 36px #5ba2b427}
+.home-art .neuro-world-art{height:100%;width:100%;object-fit:cover;transform:scale(1.22)}
+.home-art::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,#ffffff22,transparent 50%);pointer-events:none}
+.home-art .callout{background:#ffffffee;border:1px solid #b9d7e2;color:#1b7188;box-shadow:0 7px 18px #287d9f2d;font-size:.86rem}
+.home-eye{background:#ffecd2;display:inline-grid;place-items:center;border-radius:50%;font-size:2rem;width:53px;height:53px;margin-bottom:10px}
+.home-highlights{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 22px}
+.home-highlights span{font-size:.74rem;font-weight:800;border:1px solid #c4dfeb;border-radius:99px;background:#f2fbfc;padding:5px 10px;color:#37768a}
+.map-top{margin-bottom:15px}.map-top h2{color:#18445e}.score-stack small{color:#55798a}.total-points{color:#157e93}
+.overall-progress{height:10px;background:#e6f0f3}.overall-progress>span{background:linear-gradient(90deg,#24aca9,#ffd28d)}
+.map-sky{position:relative;border:1px solid #bde4e6;border-radius:24px;overflow:hidden;background:#d8f2f5;box-shadow:0 15px 36px #5eacba23}
+.map-scroll{overflow-x:auto;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch;scrollbar-color:#8cbdce #e5f4f5}
+.adventure-world{min-width:760px;position:relative;aspect-ratio:1100/650;isolation:isolate}
+.adventure-world .neuro-world-art{width:100%;height:100%;display:block}
+.land-node{--accent:#198e9e;position:absolute;width:21%;min-width:136px;transform:translate(-50%,-50%);border:2px solid #fff;box-shadow:0 12px 27px #174a6341;background:#fffffff2;color:#204861;border-radius:19px;padding:10px 9px;text-align:center;transition:transform .2s,box-shadow .2s,border-color .2s}
+.land-node:hover:not(:disabled),.land-node:focus-visible{transform:translate(-50%,-54%) scale(1.04);border-color:var(--accent);box-shadow:0 17px 33px #23587559;z-index:8}
+.land-node:disabled{background:#f8fafbe6;opacity:.76;filter:grayscale(.35);cursor:not-allowed}
+.land-node .land-icon{font-size:2.1rem;display:block;line-height:1;margin-bottom:4px}
+.land-node .land-title{display:block;font-size:clamp(.79rem,1.3vw,1.01rem);line-height:1.16;font-weight:950;letter-spacing:-.025em}
+.land-node .land-tag{font-size:.7rem;display:block;margin-top:3px;color:#52798b;font-weight:750}
+.land-node .land-status{display:inline-block;color:var(--accent);font-weight:900;font-size:.64rem;border-top:1px solid #c5e2e6;padding-top:5px;margin-top:6px}
+.land-node.current{outline:4px solid #fffcc9;border-color:var(--accent)}
+.land-node.done{background:#f4fff0}
+.land-node.node-0{top:32%;left:15%;--accent:#247eb1}
+.land-node.node-1{top:24%;left:45%;--accent:#7e64c6}
+.land-node.node-2{top:35%;left:78%;--accent:#329a70}
+.land-node.node-3{top:74%;left:29%;--accent:#dd8555}
+.land-node.node-4{top:73%;left:76%;--accent:#b878a1}
+.map-caption{padding:12px 17px;background:#f1faff;color:#3c7483;font-size:.78rem;font-weight:750;text-align:center;border-top:1px solid #daeaed}
+.map-passport{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;margin-top:17px}
+.passport-item{display:flex;align-items:center;gap:8px;border:1px solid #d8e9ed;border-radius:13px;padding:9px;background:#f8fcfd;color:#335f75;font-size:.74rem;font-weight:850}
+.passport-item .passport-icon{font-size:1.35rem;flex:none}.passport-item strong{font-size:.72rem;line-height:1.25}
+.passport-item.complete{border-color:#95cbac;background:#f0fbed}.passport-item.unlocked{border-color:#76c0d4;background:#effbff}
+.map-actions{margin-top:14px}.map-tip{color:#52798b}
+.mission-meta{margin-bottom:12px}.step-tag{color:#357b90}.tracker{margin-bottom:19px}
+.tracker span{background:#e1edf2}.tracker .passed{background:#59b8b5}.tracker .current{background:#f3bb61}
+.mission-head{margin:0 auto 20px}
+.mission-head .kicker{display:inline-block;background:#e7f6fc;padding:8px 14px;border-radius:100px;margin-bottom:10px}
+.mission-head h2{color:#163b56;font-size:clamp(1.65rem,3.8vw,2.55rem);letter-spacing:-.035em;line-height:1.18;margin-bottom:0}
+.quest-heading{background:#ffffff;border:2px solid #b8dde6;border-left:7px solid var(--quest-accent,#198e9e);border-radius:18px;padding:clamp(16px,3vw,25px);box-shadow:0 9px 23px #528ea612;margin-bottom:20px}
+.quest-heading h2{font-size:clamp(1.4rem,3.6vw,2.4rem);font-weight:900;line-height:1.19;letter-spacing:-.025em;color:#183c55;margin:0}
+.quest-heading .quest-label{font-weight:900;font-size:.7rem;text-transform:uppercase;letter-spacing:.12em;color:#33768c;margin-bottom:8px}
+.quest-scene{position:relative;overflow:hidden;min-height:106px;border-radius:17px 17px 0 0;background:linear-gradient(110deg,var(--scene-a,#dbf4f8),#fff 60%,var(--scene-b,#ddf2d4));display:flex;align-items:center;justify-content:space-between;padding:15px 20px;margin-bottom:0}
+.quest-scene .scene-name{font-size:.72rem;font-weight:900;letter-spacing:.14em;color:#38798d}
+.quest-scene .scene-icon{font-size:3.4rem;filter:drop-shadow(0 4px 3px #568b9f44)}
+.quest-scene .scene-cloud{position:absolute;right:25%;top:5%;border:5px solid #fff9;width:85px;height:42px;border-radius:50%;transform:rotate(-18deg)}
+.quest-scene .scene-cloud.two{right:53%;top:50%;width:50px;height:25px}
+.play-panel{background:#faffff;border:1px solid #cbe3ed;border-radius:20px;max-width:950px;padding:clamp(15px,3vw,25px);box-shadow:0 8px 20px #7fb7c011}
+.instruction{color:#416e84}.diagram-scroller{background:linear-gradient(140deg,#e8f8fc,#fff);border:1px solid #d4e9f0}
+.diagram-frame{background:radial-gradient(circle at 50% 30%,#dff7ff,#c8e7ec)}
+.diagram-frame.human{width:min(100%,470px);max-width:470px}
+.diagram-frame.neuron{max-width:920px}
+.hotspot{background:#fff;border:2px solid #267a90;color:#1a6a83;box-shadow:0 0 0 4px #ffffffb8;font-size:.85rem}
+.hotspot:hover{background:#ffecd4}.hotspot.correct{background:#a8e7c2;color:#134d3a;border-color:#4c9f7a}.hotspot.wrong{background:#ffd4c7;color:#813d35;border-color:#e8988f}
+.diagram-legend{color:#52778b}.diagram-scroll-hint{color:#517e8d}
+.choice{border:1px solid #b9d9e4;background:#fff;color:#23475f;box-shadow:0 4px 0 #e4f1f4;transition:transform .15s,border-color .15s,background .15s}
+.choice>span{background:#e2f2f8;color:#337f97}
+.choice:hover:not(:disabled){background:#e6f7f9;transform:translateY(-2px);border-color:#6fa8c2}
+.choice.correct{background:#e9faec;border-color:#6bba82}.choice.wrong{background:#fff1e9;border-color:#d79c82}
+.pair-col h3{color:#457488}.pair-tile{background:#fff;border:1px solid #bfdce8;color:#31526a;box-shadow:0 4px 0 #e6f1f4}
+.pair-tile.picked{background:#e7f2ff;border-color:#7f9ed3}.pair-tile.done{background:#e9f9ed;border-color:#7fbe92;color:#256748}
+.match-progress{color:#2d7f70}
+.order-row{background:#fff;border-color:#c7e2e8;box-shadow:0 4px 0 #e8f2f4}
+.order-select{color:#24475d}.order-select:hover{background:#f0fafd}
+.order-num{background:#e2f2f7;color:#246b83}
+.order-grip{background:#eaf6f8;color:#2d8492;border-color:#b2d7df}
+.order-row.selected{background:#e6f6f5;border-color:#329da0}
+.order-row.drag-over{background:#d9f4ed;border-color:#339c80}
+.order-select[aria-pressed="true"] .order-num{background:#a6e3d5;color:#225548}
+.feedback{background:#eaf9f1;border-color:#9fdbb8;box-shadow:0 6px 18px #8aba9420}.feedback h3{color:#246747}.feedback p{color:#335b51}
+.feedback.error{background:#fff4ed;border-color:#efbfaa}.feedback.error h3{color:#af6042}.feedback.error p{color:#694f43}
+.result-score{color:#1e879b}.result-detail{color:#54748a}.completion-summary{background:#f4fcff;border-color:#cce6ec}.completion-summary p{color:#567187}
+.earned-badge{background:#eef9ea;border-color:#83c78c;color:#35744e}
+.classify-board{max-width:720px;margin:auto}
+.classify-current{text-align:center;background:linear-gradient(110deg,#e4f9fc,#fff9ed);border:2px solid #9bcbdf;border-radius:20px;padding:20px 18px;margin-bottom:17px}
+.classify-current small{font-size:.72rem;letter-spacing:.13em;color:#4d7a8f;text-transform:uppercase;font-weight:900}
+.classify-current strong{display:block;color:#194d67;font-size:clamp(1.2rem,3vw,1.65rem);line-height:1.2;margin-top:7px}
+.classify-targets{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.classify-target{border:2px dashed #89b5cb;border-radius:18px;padding:17px 10px;min-height:115px;background:#effaff;color:#2a657a;font-weight:900;text-align:center}
+.classify-target:nth-child(2){background:#fff5ef;border-color:#e3b298;color:#9b634c}
+.classify-target:hover:not(:disabled){transform:translateY(-2px);filter:saturate(1.1)}
+.classify-target span{font-size:1.9rem;display:block;margin-bottom:8px}
+.classify-progress{text-align:center;margin-top:16px;color:#4d7887;font-size:.8rem;font-weight:800}
+.mission-scene-card{max-width:770px;margin:auto;padding:24px;border:1px solid #c6e1e8;border-radius:22px;background:#f9fdff;box-shadow:0 15px 35px #68acc522;text-align:center}
+.mission-scene-art{border-radius:21px;min-height:250px;display:grid;place-items:center;background:linear-gradient(145deg,var(--scene-a,#d6f1fb),var(--scene-b,#d2edeb));position:relative;overflow:hidden}
+.mission-scene-art::before,.mission-scene-art::after{content:"";position:absolute;border:18px solid #fff5;border-radius:50%;width:260px;height:260px}
+.mission-scene-art::before{left:-100px;bottom:-120px}.mission-scene-art::after{right:-90px;top:-140px}
+.mission-scene-art .big-icon{font-size:6.8rem;filter:drop-shadow(0 14px 5px #5f8a9b40);z-index:1}
+.mission-scene-card h2{font-size:clamp(1.8rem,4vw,2.6rem);margin:20px 0 8px;letter-spacing:-.045em}
+.mission-scene-card p{max-width:540px;margin:0 auto 18px;color:#537487}
+.mission-scene-card .mission-traits{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin:18px 0}
+.mission-traits span{background:#ebf7fb;color:#39728a;border-radius:80px;padding:7px 11px;font-size:.78rem;font-weight:800}
+.mission-scene-card .result-actions{margin-top:17px}
+@media(max-width:880px){.map-passport{grid-template-columns:repeat(3,minmax(0,1fr))}.land-node{min-width:130px}}
+@media(max-width:760px){
+ .intro-block{padding:31px 0 17px}.intro-block h1{font-size:clamp(2.05rem,8vw,3.2rem)}
+ .workspace{min-height:370px}.game{padding:18px 13px}
+ .home-grid{grid-template-columns:1fr;gap:22px}.home-art{min-height:260px;max-height:320px;order:-1}.home-art .neuro-world-art{transform:scale(1.06)}
+ .home-grid .mission-head h2{font-size:2rem}
+ .map-passport{grid-template-columns:repeat(2,minmax(0,1fr))}.map-sky{border-radius:17px}
+ .adventure-world{min-width:760px}.land-node{min-width:138px;padding:8px}.land-node .land-icon{font-size:1.65rem}
+ .map-caption{font-size:.72rem}.map-top{align-items:center}.map-top h2{font-size:1.85rem}
+ .quest-scene{min-height:76px}.quest-scene .scene-icon{font-size:2.7rem}
+ .quest-heading{padding:17px;margin-bottom:14px}.quest-heading h2{font-size:1.45rem}
+ .mission-head{margin-bottom:10px}
+ .classify-target{font-size:.83rem;min-height:110px}
+ .mission-scene-art{min-height:190px}.mission-scene-art .big-icon{font-size:5.5rem}
+ .mission-scene-card{padding:16px}
+}
+@media(max-width:400px){.map-passport{grid-template-columns:1fr 1fr}.passport-item{padding:7px;gap:5px}.passport-item strong{font-size:.66rem}.classify-targets{gap:8px}.classify-target{padding:12px 5px}.home-art{min-height:205px}.land-node{box-shadow:0 7px 15px #174a6341}}
+@media(prefers-reduced-motion:reduce){.land-node,.choice{transition:none!important}}
