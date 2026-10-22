@@ -1,0 +1,30 @@
+/* NeuroMisión beta v2.4 — exploración libre y prueba de precisión táctil */
+.beta-banner strong{color:#3a6e7d}
+.touch-test-launch{border-width:2px;font-weight:900;box-shadow:0 4px 0 #bbe5e8}
+.touch-test-launch:hover{background:#d1f4f5}
+.touch-lab{max-width:1020px;margin:0 auto}
+.touch-lab-top{display:flex;justify-content:space-between;align-items:flex-start;gap:18px;margin-bottom:16px}
+.touch-lab-top h2{font-size:clamp(1.5rem,3.2vw,2.2rem);line-height:1.13;color:#193f59;margin:10px 0 9px;letter-spacing:-.03em}
+.touch-lab-top p{max-width:650px;color:#50788b;line-height:1.5;margin:0}
+.touch-lab-top button{flex-shrink:0}
+.touch-lab-picture{width:100%;max-width:none;background:#f9fdff;border:2px solid #bedce5}
+.touch-lab-picture .picture-board{max-width:min(96%,720px)}
+.touch-lab-picture .picture-board.neuron,.touch-lab-picture .picture-board.reflex,.touch-lab-picture .picture-board.final{max-width:min(100%,820px)}
+.touch-lab-picture .picture-scroll{background:#f3fbff}
+.touch-detection{margin:17px 0 8px;padding:15px 18px;border:2px solid #b4dae5;border-radius:17px;background:#eef9fc;display:flex;gap:14px;align-items:center;color:#1b5a70}
+.touch-detection-icon{width:42px;height:42px;flex-shrink:0;display:grid;place-items:center;background:#d0f3ef;color:#18766d;border-radius:14px;font-size:1.4rem;font-weight:900}
+.touch-detection strong{font-size:1.06rem;line-height:1.25}
+.touch-detection p{margin:6px 0 0;color:#4f768a;font-size:.86rem;line-height:1.45}
+.touch-disclaimer{font-size:.81rem;color:#5b7a88;margin:10px 0}
+.touch-lab-actions{display:flex;flex-wrap:wrap;gap:11px;margin-top:17px}
+@media(max-width:700px){
+ .touch-lab-top{display:block}
+ .touch-lab-top button{margin-top:13px}
+ .touch-lab-picture{padding:10px}
+ .touch-lab-picture .picture-board{min-width:430px}
+ .touch-lab-picture .picture-board.neuron,.touch-lab-picture .picture-board.reflex,.touch-lab-picture .picture-board.final{min-width:610px}
+ .touch-detection{padding:12px;align-items:flex-start}
+ .touch-detection strong{font-size:.94rem}
+ .touch-lab-actions button{flex:1}
+}
+@media(prefers-reduced-motion:reduce){.touch-test-launch{transition:none}}
