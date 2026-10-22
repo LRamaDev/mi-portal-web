@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#e7f7fb">
+  <meta name="description" content="NeuroMisión: cinco aventuras interactivas para aprender el sistema nervioso en sexto grado.">
+  <title>NeuroMisión v2.1 · Prueba de escenarios</title>
+  <link rel="stylesheet" href="../neuromision/styles.css?v=2.0">
+  <link rel="stylesheet" href="../neuromision/theme-v2.css?v=2.0">
+  <link rel="stylesheet" href="./beta.css?v=2.1">
+  <script src="../neuromision/bank-v2.js?v=2.0" defer></script>
+  <script src="../neuromision/world-v2.js?v=2.0" defer></script>
+  <script src="../neuromision/anatomy-v2.js?v=2.0" defer></script>
+  <script src="../neuromision/app.js?v=2.0" defer></script>
+  <script src="../neuromision/app-v2.js?v=2.0" defer></script>
+  <script src="./beta.js?v=2.1" defer></script>
+</head>
+<body>
+  <div class="ambient ambient-one" aria-hidden="true"></div>
+  <div class="ambient ambient-two" aria-hidden="true"></div>
+  <div class="site-wrap">
+    <header class="topbar">
+      <a class="backlink" href="../" aria-label="Volver a Mi Portal Web"><span aria-hidden="true">←</span><span>Mi Portal Web</span></a>
+      <a class="brand" href="./" aria-label="NeuroMisión - inicio"><span class="brand-symbol" aria-hidden="true">✳</span><span>NEURO<span class="brand-accent">MISIÓN</span></span></a>
+      <span class="edition">CIENCIAS NATURALES · 6.º</span>
+    </header>
+
+    <main id="main"><div class="beta-banner" role="status"><strong>VERSIÓN DE PRUEBA V2.1</strong><span>Esta prueba no modifica tus avances del juego publicado.</span><a href="../neuromision/">Volver al juego oficial ↗</a></div>
+      <section class="intro-block" aria-labelledby="page-title">
+        <p class="eyebrow"><span class="signal-dot" aria-hidden="true"></span> LABORATORIO DE APRENDIZAJE · VOL. 01</p>
+        <h1 id="page-title">Un universo de <em>conexiones.</em></h1>
+        <p class="subtitle">Viajá por cinco tierras increíbles y descubrí cómo funciona tu sistema nervioso. Aprendé, jugá y volvé a intentarlo.</p>
+        <div class="hero-highlights" aria-label="Características del juego">
+          <span>🗺️ Cinco tierras</span><span>🎲 76 actividades posibles</span><span>✨ Partidas cortas</span>
+        </div>
+      </section>
+
+      <section class="workspace" aria-label="Juego interactivo">
+        <div class="workspace-bar">
+          <div class="status-label"><span class="status-orb" aria-hidden="true"></span><span>UNIVERSO DE NEUROMISIÓN</span></div>
+          <div id="session-status" class="session-status" aria-live="polite">¡Bienvenidos!</div>
+        </div>
+        <div id="game" class="game" aria-live="off">
+          <div class="loading">Preparando el laboratorio…</div>
+        </div>
+      </section>
+
+      <div class="below-grid">
+        <section class="info-tile">
+          <span class="tile-icon" aria-hidden="true">🧭</span>
+          <h2>Aprender es probar</h2>
+          <p>Las pistas te ayudan a descubrir las respuestas. Equivocarse no termina la misión: ¡podés intentarlo otra vez!</p>
+        </section>
+        <section class="info-tile">
+          <span class="tile-icon" aria-hidden="true">💾</span>
+          <h2>Tu avance, a salvo</h2>
+          <p>Ingresá tu nombre al comenzar. El progreso se guarda en este navegador y se recupera al volver a escribir el mismo nombre.</p>
+        </section>
+      </div>
+    </main>
+
+    <footer class="footer"><span>NEUROMISIÓN <span class="footer-version">v2.1 BETA</span></span><span>Creado para explorar, equivocarse y aprender · 6.º grado</span></footer>
+  </div>
+  <div id="announcer" class="sr-only" role="status" aria-live="polite"></div>
+</body>
+</html>
