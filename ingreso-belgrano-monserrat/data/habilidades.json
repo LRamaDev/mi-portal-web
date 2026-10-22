@@ -756,9 +756,9 @@
       "id": "LEN-PROD",
       "area": "lengua",
       "grupo": "Producción escrita",
-      "nombre": "Producción narrativa: coherencia, complicación y resolución",
+      "nombre": "Producción escrita breve: adecuación, coherencia y recursos expresivos",
       "colegios": [
-        "monserrat"
+        "comun"
       ],
       "prioridad": 5
     },
@@ -768,7 +768,7 @@
       "grupo": "Producción escrita",
       "nombre": "Revisión ortográfica, morfosintáctica y de repeticiones",
       "colegios": [
-        "monserrat"
+        "comun"
       ],
       "prioridad": 5,
       "videos": [

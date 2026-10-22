@@ -41,7 +41,7 @@ Para agregar otro video, sumá una entrada a `videos` dentro de la habilidad cor
 
 `id` es el identificador de 11 caracteres de YouTube (sin parámetros de seguimiento); `titulo` debe describir lo que enseña efectivamente el video; `perfiles` indica a quién se lo sugirió (`p1`, `p2` o ambos). Se pueden incluir varios videos en un mismo contenido. Antes de publicar una nueva incorporación, comprobá que el enlace explica esa habilidad y permite reproducción integrada. El catálogo se actualiza desde la red y conserva una copia local para cuando no haya conexión.
 
-La V1 contenía 46 actividades originales. El banco fue ampliándose por capas y en la V6.17 alcanzó **588 actividades efectivas**. Las ampliaciones refuerzan problemas de varios pasos, fracciones, decimales, divisibilidad, perímetros, proporcionalidad, geometría, comprensión, inferencias, conectores, tiempos verbales, ortografía, sintaxis y producción escrita.
+La V1 contenía 46 actividades originales. El banco fue ampliándose por capas y en la V6.21 alcanzó **690 actividades efectivas**. Las ampliaciones refuerzan problemas de varios pasos, fracciones, decimales, divisibilidad, perímetros, proporcionalidad, geometría, comprensión, inferencias, conectores, tiempos verbales, ortografía, sintaxis y producción escrita.
 
 Las consignas son originales y están alineadas a los programas de ingreso 2026, modelos de examen y materiales de estudio aportados por la familia. No reproducen ni sustituyen exámenes oficiales.
 

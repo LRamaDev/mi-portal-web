@@ -331,13 +331,13 @@
   }
 
   function openProductionRubric(entry) {
-    const rubric = productionRubric(entry.points);
+    const rubric = productionRubric(entry.points, entry.exercise);
     $('#fs-body').innerHTML = `<div id="fs-rubric" class="selfcheck"><p><strong>Revisión guiada de la producción</strong></p>${rubric.map((r, i) => `<label><input type="checkbox" value="${i}"><span>${escapeHtml(r.label)} <small>(${r.points} pts)</small></span></label>`).join('')}<p><small>Esta distribución interna es una herramienta de entrenamiento basada en los criterios de corrección aportados; no pretende reproducir exactamente la grilla oficial.</small></p></div>`;
     $('#fs-primary').textContent = 'Guardar revisión';
   }
 
   async function saveProductionRubric(entry) {
-    const rubric = productionRubric(entry.points);
+    const rubric = productionRubric(entry.points, entry.exercise);
     const checked = new Set($$('#fs-rubric input:checked').map(i => Number(i.value)));
     if (!checked.size) return toast('Marcá los criterios que cumpliste después de revisar el texto.');
     const earned = rubric.reduce((sum, r, i) => sum + (checked.has(i) ? r.points : 0), 0);
@@ -350,7 +350,11 @@
     markChecked('Revisión registrada. El puntaje de la producción se mostrará al final.');
   }
 
-  function productionRubric(total) {
+  function productionRubric(total, exercise) {
+    if (exercise?.maxOraciones && exercise?.criterios?.length) {
+      const points = total / exercise.criterios.length;
+      return exercise.criterios.map(label => ({ label, points }));
+    }
     if (total !== 35) {
       return [{ label: 'Cumplimiento global de los criterios de la actividad', points: total }];
     }
@@ -599,6 +603,8 @@
   }
 
   function isCorrect(exercise, answer) {
+    const checked = window.IngresoAnswers?.check(exercise, answer);
+    if (typeof checked === 'boolean') return checked;
     const accepted = [exercise.respuesta, ...(exercise.alternativas || [])].map(normalizeAnswer);
     return accepted.includes(normalizeAnswer(answer));
   }

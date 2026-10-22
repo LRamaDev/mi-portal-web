@@ -186,4 +186,7 @@ button:focus-visible,input:focus-visible,summary:focus-visible,a:focus-visible{o
 /* V6.18 · seguimiento cualitativo: sin barras ni porcentajes para alumnas */
 .qualitative-progress-row{grid-template-columns:minmax(150px,.7fr) minmax(0,1.5fr) auto}
 .qualitative-progress-row small{text-align:left;line-height:1.45}
+#exercise-prompt,#fs-title,.production-example p{white-space:pre-line}
+.production-example{margin-top:14px}
+.production-example summary{cursor:pointer;font-weight:700}
 @media(max-width:620px){.qualitative-progress-row{grid-template-columns:1fr}.qualitative-progress-row .level{justify-self:start}}
