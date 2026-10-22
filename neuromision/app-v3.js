@@ -402,7 +402,10 @@ renderWelcome=function(){
  v3Welcome();
  const art=game.querySelector(".home-art");
  if(art)art.innerHTML=
-   '<img class="welcome-v3-image" src="./assets/neuro-world-map-v25.webp" alt="" loading="eager" decoding="async">'+
+   '<picture class="welcome-responsive-picture">'+
+   '<source media="(max-width: 800px)" type="image/webp" srcset="./assets/neuro-world-mobile-v31.webp?v=3.2">'+
+   '<img class="welcome-v3-image" src="./assets/neuro-world-map-v25.webp?v=3.2" alt="Cinco tierras de NeuroMisión conectadas por caminos, desde Ciudad Central hasta Torre Final." loading="eager" decoding="async">'+
+   '</picture>'+
    '<div class="callout">🌎 UN UNIVERSO POR DESCUBRIR</div>';
 };
 renderWelcome();
