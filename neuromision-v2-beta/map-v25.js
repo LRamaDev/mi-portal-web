@@ -25,10 +25,10 @@ setScreen=function(html){
 function map25Status(i){
  const finished=!!record.completed[i];
  const active=!!(record.active&&record.active.mission===i);
- const current=active||(!finished && MISSIONS.slice(0,i).every(function(_,n){return !!record.completed[n]}) && !MISSIONS.slice(0,i+1).some(function(_,n){return !record.completed[n]}));
+ const suggested=MISSIONS.findIndex(function(_,n){return !record.completed[n]});
  if(finished)return {label:"Completada",symbol:"✓",css:"done"};
  if(active)return {label:"En curso",symbol:"▶",css:"active"};
- if(current)return {label:"Explorar",symbol:"✦",css:"ready"};
+ if(i===suggested)return {label:"Siguiente",symbol:"✦",css:"active"};
  return {label:"Disponible",symbol:"✦",css:"ready"};
 }
 renderMap=function(){
