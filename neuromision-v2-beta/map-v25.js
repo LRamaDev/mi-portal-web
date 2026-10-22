@@ -14,6 +14,29 @@ const MAP25_STOPS=[
 ];
 // sx/sy centro de la insignia de estado, x/y centro del destino, w/h zona.
 let map25ScrollLeft=null;
+let map25ScrollOwner="";
+function map25UpdateTravel(){
+ const viewport=game.querySelector(".map-scroll-v25");
+ if(!viewport)return;
+ const max=Math.max(0,viewport.scrollWidth-viewport.clientWidth);
+ const arrows=game.querySelectorAll(".map25-arrow");
+ if(arrows && arrows.length>=2){
+  arrows[0].disabled=max<3||viewport.scrollLeft<=3;
+  arrows[1].disabled=max<3||viewport.scrollLeft>=max-3;
+ }
+ const thumb=game.querySelector(".map25-overview-thumb");
+ if(thumb && viewport.scrollWidth>0){
+  const width=Math.min(100,100*viewport.clientWidth/viewport.scrollWidth);
+  thumb.style.width=width+"%";
+  thumb.style.left=Math.min(100-width,100*viewport.scrollLeft/viewport.scrollWidth)+"%";
+ }
+ const hint=game.querySelector(".map25-pan-hint");
+ if(hint){
+  hint.textContent=max<3?"Elegí una tierra del mapa":viewport.scrollLeft<max*.15?
+   "Deslizá para descubrir más tierras →":viewport.scrollLeft>max*.86?
+   "← Volvé para recorrer otras tierras":"← Seguí explorando el mapa →";
+ }
+}
 // Cambiar únicamente el ancho del contenedor cuando el mapa está a la vista.
 const map25OriginalSetScreen=setScreen;
 setScreen=function(html){
@@ -33,6 +56,9 @@ function map25Status(i){
 }
 renderMap=function(){
  mode="map";
+ // Cada jugador empieza con su propia posición del mapa, no la del perfil anterior.
+ const owner=(player||"").trim().toLocaleLowerCase("es");
+ if(owner!==map25ScrollOwner){map25ScrollOwner=owner;map25ScrollLeft=null;}
  const completed=MISSIONS.filter(function(_,i){return !!record.completed[i];}).length;
  const points=totalScore();
  const percent=Math.round(completed/MISSIONS.length*100);
@@ -72,6 +98,7 @@ renderMap=function(){
   '<div class="map25-navrail"><button class="map25-arrow" type="button" data-action="map25-pan" data-direction="-1" aria-label="Mover mapa hacia la izquierda">‹</button>'+
   '<span class="map25-pan-hint">↔ Deslizá el mapa para explorar las cinco tierras</span>'+
   '<button class="map25-arrow" type="button" data-action="map25-pan" data-direction="1" aria-label="Mover mapa hacia la derecha">›</button></div>'+
+  '<div class="map25-overview" aria-hidden="true"><span class="map25-overview-thumb"></span></div>'+ 
   '</section>'+
   '<div class="map25-footer"><div class="map25-menu" aria-label="Acceso directo a cada tierra">'+nav+'</div>'+
   '<div class="map25-footer-actions"><span>🧪 Beta: las cinco tierras están abiertas para probarlas.</span>'+
@@ -82,14 +109,21 @@ renderMap=function(){
  const world=game.querySelector(".map25-panorama");
  if(viewport&&world){
   if(map25ScrollLeft===null){
-   viewport.scrollLeft=Math.max(0,(world.clientWidth*MAP25_STOPS[0].x/100)-(viewport.clientWidth/2));
+   // Centrar el desafío en curso o el próximo sin completar al comenzar.
+   const active=record.active && Number.isInteger(record.active.mission)?record.active.mission:-1;
+   const next=MISSIONS.findIndex(function(_,i){return !record.completed[i];});
+   const focus=active>=0?active:(next>=0?next:0);
+   viewport.scrollLeft=Math.max(0,Math.min(viewport.scrollWidth-viewport.clientWidth,
+      world.clientWidth*MAP25_STOPS[focus].x/100-viewport.clientWidth/2));
   }else viewport.scrollLeft=map25ScrollLeft;
+  map25UpdateTravel();
  }
 };
 game.addEventListener("scroll",function(event){
  const el=event.target;
  if(el&&el.classList&&el.classList.contains("map-scroll-v25")){
   map25ScrollLeft=el.scrollLeft;
+  map25UpdateTravel();
  }
 },true);
 game.addEventListener("click",function(event){
@@ -103,6 +137,18 @@ game.addEventListener("click",function(event){
  if(typeof viewport.scrollTo==="function")viewport.scrollTo({left:next,behavior:"smooth"});
  else viewport.scrollLeft=next;
  map25ScrollLeft=next;
+ map25UpdateTravel();
 });
+if(typeof window!=="undefined"){
+ window.addEventListener("resize",function(){if(mode==="map")map25UpdateTravel();});
+}
+game.addEventListener("error",function(event){
+ const img=event.target;
+ if(!img || !img.classList || !img.classList.contains("map25-landscape"))return;
+ const map=game.querySelector(".map25-panorama");
+ if(!map || map.querySelector(".map25-load-error"))return;
+ map.insertAdjacentHTML("beforeend",
+   '<p class="map25-load-error" role="alert">No se pudo cargar el paisaje, pero podés abrir cada misión desde los accesos de abajo.</p>');
+},true);
 // La beta mantiene misión 1-5 desbloqueadas y laboratorio táctil de la v2.4.
 renderWelcome();
