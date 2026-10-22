@@ -142,6 +142,11 @@ resetTaskState=function(){
 };
 const taskContentV1=taskContent;
 taskContent=function(t){
+  if(t.type==="point"){
+    const older=taskContentV1(t);
+    return older.replace(t.diagram==="human"?humanSvg:neuronSvg,
+      t.diagram==="human"?NEURO_HUMAN_V2:NEURO_NEURON_V2);
+  }
   if(t.type!=="classify")return taskContentV1(t);
   const current=t.items[classifyOrder[classified.length]];
   return '<p class="instruction">CLASIFICÁ CADA ELEMENTO EN SU LUGAR</p>'+
