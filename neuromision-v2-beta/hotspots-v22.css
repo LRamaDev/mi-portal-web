@@ -1,0 +1,39 @@
+/* NeuroMisión beta 2.2 — ilustraciones WebP reales con polígonos invisibles */
+.picture-scroll{max-width:100%;width:100%;overflow-x:auto;overscroll-behavior-x:contain;scrollbar-color:#8ebac9 #e8f7fa;background:#f1faff;border:1px solid #cae4eb;border-radius:20px;-webkit-overflow-scrolling:touch;padding:10px}
+.picture-board{position:relative;max-width:580px;min-width:430px;margin:0 auto;border-radius:15px;isolation:isolate;overflow:hidden;box-shadow:0 13px 30px #6596a42b;background:#e4f6fa;user-select:none;-webkit-user-select:none}
+.picture-board.neuron{max-width:730px;min-width:610px}
+.picture-board>img{position:absolute;inset:0;width:100%;height:100%;display:block;object-fit:fill;pointer-events:none;border-radius:15px}
+.hotspot.image-hit{
+  position:absolute!important;display:block!important;
+  left:var(--x)!important;top:var(--y)!important;
+  width:var(--w)!important;height:var(--h)!important;min-width:0!important;
+  padding:0!important;margin:0!important;
+  transform:none!important;border:0!important;outline:0!important;
+  border-radius:0!important;background:transparent!important;
+  box-shadow:none!important;color:transparent!important;
+  clip-path:var(--shape);-webkit-clip-path:var(--shape);
+  cursor:pointer;touch-action:manipulation;
+  transition:background .16s ease,filter .16s ease!important;
+}
+.hotspot.image-hit::before{content:none!important;display:none!important}
+.hotspot.image-hit:hover:not(:disabled),
+.hotspot.image-hit:focus-visible{
+  background:rgba(248,229,109,.38)!important;
+  filter:drop-shadow(0 0 5px #ffe684)!important;
+}
+.hotspot.image-hit:focus-visible{background:rgba(248,229,109,.52)!important;outline:0!important}
+.hotspot.image-hit.correct,.hotspot.image-hit.correct:hover{
+  background:rgba(56,206,133,.55)!important;filter:drop-shadow(0 0 6px #19ad66)!important
+}
+.hotspot.image-hit.wrong{
+  background:rgba(250,116,100,.45)!important;filter:drop-shadow(0 0 5px #e66862)!important
+}
+.picture-help{margin:13px auto 0;text-align:center;color:#416f84;font-size:.85rem;max-width:570px;line-height:1.5}
+.image-load-error{margin-top:14px;background:#fff0e6;border:1px solid #e5b495;border-radius:9px;color:#8f4e32;padding:10px;font-weight:700}
+@media(max-width:740px){
+  .picture-scroll{padding:6px}
+  .picture-board{min-width:420px}
+  .picture-board.neuron{min-width:600px}
+  .picture-help{font-size:.79rem}
+}
+@media(prefers-reduced-motion:reduce){.hotspot.image-hit{transition:none!important}}
