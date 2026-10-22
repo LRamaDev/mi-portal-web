@@ -1,0 +1,22 @@
+/* NeuroMisión beta 2.3 — nuevas ilustraciones interactivas de las tierras 3 a 5 */
+.picture-board.sensory{max-width:650px;min-width:440px}
+.picture-board.reflex,.picture-board.final{max-width:840px;min-width:620px}
+.picture-scroll:focus-visible{outline:3px solid #168ea8;outline-offset:3px}
+.picture-board .image-hit{min-height:0!important;min-width:0!important}
+.picture-board .image-hit:active:not(:disabled){background:rgba(247,214,110,.38)!important}
+.splash-art .raster-scene,.focus-land .raster-scene{
+ display:block;width:100%;height:100%;object-fit:cover;object-position:center;
+ position:absolute;inset:0;border:0;user-select:none;pointer-events:none;
+}
+.splash-art .raster-scene{filter:saturate(1.06)}
+.focus-land .raster-scene{object-position:center}
+@media(max-width:760px){
+ .picture-board.sensory{min-width:450px}
+ .picture-board.reflex,.picture-board.final{min-width:620px}
+ .picture-scroll{scrollbar-width:thin}
+ .picture-help{max-width:590px}
+}
+@media(max-width:420px){
+ .picture-board.sensory{min-width:445px}
+ .picture-board.reflex,.picture-board.final{min-width:610px}
+}
