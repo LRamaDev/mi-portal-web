@@ -297,7 +297,7 @@ function showFeedback(ok,text){
     (ok?'<div class="feedback-actions"><button type="button" class="primary-btn" data-action="next">'+
        (taskIndex===MISSIONS[missionIndex].tasks.length-1?"Completar misión":"Siguiente desafío →")+'</button></div>':"")+'</div>';
   if(ok){
-    game.querySelectorAll(".hotspot,.choice,.pair-tile,.move-buttons button,[data-action='check-order']").forEach(function(el){el.disabled=true;});
+    game.querySelectorAll(".hotspot,.choice,.pair-tile,.order-select,.order-grip,[data-action='check-order']").forEach(function(el){el.disabled=true;});
   }
   say((ok?"Correcto. ":"Intentá otra vez. ")+text);
   zone.scrollIntoView({behavior:"smooth",block:"nearest"});
@@ -349,15 +349,78 @@ function renderTaskPreservingState(){
   const zone=document.getElementById("task-feedback");
   if(zone)zone.innerHTML="";
 }
-function moveRow(pos,delta){
-  if(answered)return;
-  const next=pos+delta;
-  if(next<0 || next>=sequence.length)return;
-  const value=sequence[pos];sequence[pos]=sequence[next];sequence[next]=value;
+function reorderStep(from,to){
+  if(answered || mode!=="play" || MISSIONS[missionIndex].tasks[taskIndex].type!=="order")return;
+  if(!Number.isInteger(from) || !Number.isInteger(to) || from<0 || to<0 || from>=sequence.length || to>=sequence.length || from===to)return;
+  const moved=sequence.splice(from,1)[0];
+  sequence.splice(to,0,moved);
+  selectedOrderPos=-1;
   renderTaskPreservingState();
-  const button=game.querySelector('[data-action="move"][data-index="'+next+'"][data-delta="'+delta+'"]');
-  if(button)button.focus();
+  const focus=game.querySelector('.order-select[data-index="'+to+'"]');
+  if(focus)focus.focus({preventScroll:true});
+  say("Paso movido a la posición "+(to+1)+".");
 }
+function selectOrderAt(pos){
+  if(answered || mode!=="play" || !Number.isInteger(pos) || pos<0 || pos>=sequence.length)return;
+  if(selectedOrderPos===pos){
+    selectedOrderPos=-1;
+    renderTaskPreservingState();
+    say("Selección cancelada.");
+  }else if(selectedOrderPos<0){
+    selectedOrderPos=pos;
+    renderTaskPreservingState();
+    const focus=game.querySelector('.order-select[data-index="'+pos+'"]');
+    if(focus)focus.focus({preventScroll:true});
+    say("Paso seleccionado. Tocá el lugar en el que querés colocarlo.");
+  }else{
+    reorderStep(selectedOrderPos,pos);
+  }
+}
+function pointedOrderRow(event){
+  const element=document.elementFromPoint(event.clientX,event.clientY);
+  const row=element && element.closest(".order-row[data-order-pos]");
+  return row ? Number(row.dataset.orderPos) : -1;
+}
+// Arrastre táctil/mouse desde la manija; el resto de la tarjeta permite desplazarse por la página.
+game.addEventListener("pointerdown",function(event){
+  const handle=event.target.closest(".order-grip[data-drag-index]");
+  if(!handle || mode!=="play" || answered)return;
+  dragState={pointerId:event.pointerId,from:Number(handle.dataset.dragIndex),startX:event.clientX,startY:event.clientY,dragged:false};
+  if(handle.setPointerCapture)handle.setPointerCapture(event.pointerId);
+});
+game.addEventListener("pointermove",function(event){
+  if(!dragState || event.pointerId!==dragState.pointerId)return;
+  if(Math.hypot(event.clientX-dragState.startX,event.clientY-dragState.startY)>7)dragState.dragged=true;
+  if(!dragState.dragged)return;
+  const target=pointedOrderRow(event);
+  game.querySelectorAll(".order-row").forEach(function(row){
+    row.classList.toggle("drag-over",Number(row.dataset.orderPos)===target);
+    row.classList.toggle("drag-origin",Number(row.dataset.orderPos)===dragState.from);
+  });
+});
+game.addEventListener("pointerup",function(event){
+  if(!dragState || event.pointerId!==dragState.pointerId)return;
+  const gesture=dragState;
+  const target=pointedOrderRow(event);
+  dragState=null;
+  if(gesture.dragged){
+    if(target>=0 && target!==gesture.from)reorderStep(gesture.from,target);
+    else renderTaskPreservingState();
+  }else selectOrderAt(gesture.from);
+});
+game.addEventListener("pointercancel",function(event){
+  if(dragState && event.pointerId===dragState.pointerId){
+    dragState=null;
+    renderTaskPreservingState();
+  }
+});
+game.addEventListener("keydown",function(event){
+  const grip=event.target.closest(".order-grip[data-drag-index]");
+  if(grip && (event.key==="Enter" || event.key===" ")){
+    event.preventDefault();
+    selectOrderAt(Number(grip.dataset.dragIndex));
+  }
+});
 function completeMission(){
   const m=MISSIONS[missionIndex];
   record.completed[missionIndex]=true;
@@ -410,7 +473,7 @@ game.addEventListener("click",function(event){
   if(action==="point"){markAnswer(button.dataset.answer===t.target,button);return;}
   if(action==="choice"){markAnswer(Number(button.dataset.index)===t.answer,button);return;}
   if(action==="pair"){choosePair(button.dataset.side,Number(button.dataset.index));return;}
-  if(action==="move"){moveRow(Number(button.dataset.index),Number(button.dataset.delta));return;}
+  if(action==="select-order"){selectOrderAt(Number(button.dataset.index));return;}
   if(action==="check-order"){
     markAnswer(sequence.every(function(id,pos){return id===pos;}));
     return;
