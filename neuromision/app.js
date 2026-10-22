@@ -81,6 +81,10 @@ let score = 0;
 let tries = 0;
 let answered = false;
 let sequence = [];
+let choiceOrder = [];
+let previousCorrectPosition = -1;
+let selectedOrderPos = -1;
+let dragState = null;
 let pairLeft = -1;
 let paired = [];
 let feedbackMessage = "";
@@ -195,8 +199,25 @@ function resetTaskState(){
   feedbackMessage="";
   const t=MISSIONS[missionIndex].tasks[taskIndex];
   sequence=t && t.type==="order" ? t.start.slice() : [];
+  selectedOrderPos=-1;
+  dragState=null;
+  choiceOrder=t && t.type==="choice" ? shuffledChoices(t) : [];
 }
-const humanSvg='<svg viewBox="0 0 540 345" role="img" aria-label="Esquema ilustrado del sistema nervioso humano sin etiquetas">'+
+function shuffledChoices(t){
+  const indexes=t.options.map(function(option,i){return i;});
+  for(let i=indexes.length-1;i>0;i--){
+    const j=Math.floor(Math.random()*(i+1));
+    const temp=indexes[i];indexes[i]=indexes[j];indexes[j]=temp;
+  }
+  const correctPos=indexes.indexOf(t.answer);
+  if(indexes.length>1 && correctPos===previousCorrectPosition){
+    const different=(correctPos+1+Math.floor(Math.random()*(indexes.length-1)))%indexes.length;
+    const temp=indexes[different];indexes[different]=indexes[correctPos];indexes[correctPos]=temp;
+  }
+  previousCorrectPosition=indexes.indexOf(t.answer);
+  return indexes;
+}
+const humanSvg='<svg viewBox="120 10 300 332" role="img" aria-label="Esquema ilustrado del sistema nervioso humano sin etiquetas">'+
   '<defs><linearGradient id="sil" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#356e87"/><stop offset="1" stop-color="#1c4962"/></linearGradient></defs>'+
   '<g fill="none" stroke="#7db6c9" stroke-opacity=".19"><circle cx="270" cy="170" r="144"/><circle cx="270" cy="170" r="112"/><path d="M40 170H500M270 12V333"/></g>'+
   '<path d="M270 23c-29 0-49 23-49 53 0 22 11 38 22 46l-15 20-49 18c-15 5-25 16-30 30l-27 72 25 9 37-65 19-6 8 94 18 44h26l15-91 14 91h26l19-44 8-94 19 6 36 65 26-9-27-72c-5-14-15-25-30-30l-49-18-15-20c12-8 23-24 23-46 0-30-20-53-49-53Z" fill="url(#sil)" stroke="#8ccbdd" stroke-width="2"/>'+
@@ -217,28 +238,33 @@ const neuronSvg='<svg viewBox="0 0 660 300" role="img" aria-label="Esquema ilust
   '<g fill="none" stroke="#f8b9ae" stroke-width="8" stroke-linecap="round"><path d="M558 149L594 112 624 98M558 149L605 152 631 178M558 149L590 196 610 220"/></g>'+
   '<g fill="#ffddb7"><circle cx="625" cy="98" r="7"/><circle cx="632" cy="178" r="7"/><circle cx="611" cy="220" r="7"/></g></svg>';
 const markers={
-  human:[{id:"cerebro",name:"Cerebro",x:48,y:18},{id:"cerebelo",name:"Cerebelo",x:57,y:30},{id:"medula",name:"Médula espinal",x:50,y:57},{id:"nervios",name:"Nervios periféricos",x:68,y:69}],
+  human:[{id:"cerebro",name:"Cerebro",x:46.5,y:16},{id:"cerebelo",name:"Cerebelo",x:62.5,y:28},{id:"medula",name:"Médula espinal",x:50,y:56},{id:"nervios",name:"Nervios periféricos",x:82,y:69}],
   neuron:[{id:"dendritas",name:"Dendritas",x:18,y:32},{id:"soma",name:"Cuerpo celular",x:36,y:57},{id:"axon",name:"Axón",x:76,y:62},{id:"mielina",name:"Mielina",x:64,y:37},{id:"terminales",name:"Terminales del axón",x:92,y:36}]
 };
 function taskContent(t){
   if(t.type==="point"){
+    const isNeuron=t.diagram==="neuron";
     return '<p class="instruction">TOCÁ EL PUNTO QUE CORRESPONDA A LA CONSIGNA</p>'+
-      '<div class="diagram-frame '+(t.diagram==="neuron"?"neuron":"")+'">'+(t.diagram==="human"?humanSvg:neuronSvg)+
+      (isNeuron?'<p class="diagram-scroll-hint">↔ Deslizá la imagen hacia los costados para verla completa.</p>':'')+
+      '<div class="diagram-scroller '+(isNeuron?"neuron-scroll":"")+'"><div class="diagram-frame '+(isNeuron?"neuron":"human")+'">'+
+      (isNeuron?neuronSvg:humanSvg)+
       markers[t.diagram].map(function(m,i){return '<button type="button" class="hotspot" style="--x:'+m.x+'%;--y:'+m.y+'%" data-action="point" data-answer="'+m.id+'" aria-label="Seleccionar punto '+(i+1)+' del esquema" title="Punto '+(i+1)+'">'+(i+1)+'</button>';}).join("")+
-      '</div><div class="diagram-legend"><span>✳ Elegí uno de los puntos numerados.</span><span>Podés volver a intentar si te equivocás.</span></div>';
+      '</div></div><div class="diagram-legend"><span>✳ Elegí uno de los puntos numerados.</span><span>Podés volver a intentar si te equivocás.</span></div>';
   }
   if(t.type==="choice"){
     return '<p class="instruction">ELEGÍ LA RESPUESTA MÁS COMPLETA</p><div class="answers">'+
-      t.options.map(function(option,i){return '<button type="button" class="choice" data-action="choice" data-index="'+i+'"><span aria-hidden="true">'+String.fromCharCode(65+i)+'</span>'+escapeHtml(option)+'</button>';}).join("")+'</div>';
+      choiceOrder.map(function(originalIndex,position){return '<button type="button" class="choice" data-action="choice" data-index="'+originalIndex+'"><span aria-hidden="true">'+String.fromCharCode(65+position)+'</span>'+escapeHtml(t.options[originalIndex])+'</button>';}).join("")+'</div>';
   }
   if(t.type==="order"){
-    return '<p class="instruction">CAMBIÁ EL ORDEN CON LAS FLECHAS Y DESPUÉS COMPROBÁ</p>'+
-      '<ol class="order-list">'+sequence.map(function(id,pos){return '<li class="order-row"><span class="order-num">'+(pos+1)+'</span>'+
-      '<span class="order-text">'+escapeHtml(t.steps[id])+'</span>'+
-      '<span class="move-buttons">'+
-      '<button type="button" aria-label="Subir '+escapeHtml(t.steps[id])+'" data-action="move" data-index="'+pos+'" data-delta="-1" '+(pos===0?"disabled":"")+'>↑</button>'+
-      '<button type="button" aria-label="Bajar '+escapeHtml(t.steps[id])+'" data-action="move" data-index="'+pos+'" data-delta="1" '+(pos===sequence.length-1?"disabled":"")+'>↓</button>'+
-      '</span></li>';}).join("")+'</ol><div class="check-row"><button class="primary-btn" type="button" data-action="check-order">Comprobar el recorrido ✓</button></div>';
+    return '<p class="instruction">Arrastrá desde el símbolo ⠿, o tocá un paso y después el lugar donde querés ponerlo.</p>'+
+      '<ol class="order-list" aria-label="Ordenar los pasos">'+sequence.map(function(id,pos){
+        const selected=selectedOrderPos===pos;
+        return '<li class="order-row '+(selected?"selected":"")+'" data-order-pos="'+pos+'">'+
+          '<button class="order-select" type="button" data-action="select-order" data-index="'+pos+'" aria-pressed="'+selected+'" aria-label="'+(selected?"Seleccionado: ":"Seleccionar: ")+escapeHtml(t.steps[id])+'">'+
+          '<span class="order-num">'+(pos+1)+'</span><span class="order-text">'+escapeHtml(t.steps[id])+'</span></button>'+
+          '<button class="order-grip" type="button" data-drag-index="'+pos+'" aria-label="Arrastrar paso '+(pos+1)+' a otra posición" title="Arrastrar o mantener pulsado">⠿</button></li>';
+      }).join("")+'</ol>'+
+      '<div class="check-row"><button class="primary-btn" type="button" data-action="check-order">Comprobar el recorrido ✓</button></div>';
   }
   if(t.type==="pair"){
     const ready=t.left.map(function(label,i){return '<button class="pair-tile '+(paired.includes(i)?"done":pairLeft===i?"picked":"")+'" type="button" data-action="pair" data-side="left" data-index="'+i+'" '+(paired.includes(i)?"disabled":"")+'>'+escapeHtml(label)+'</button>';}).join("");
@@ -271,7 +297,7 @@ function showFeedback(ok,text){
     (ok?'<div class="feedback-actions"><button type="button" class="primary-btn" data-action="next">'+
        (taskIndex===MISSIONS[missionIndex].tasks.length-1?"Completar misión":"Siguiente desafío →")+'</button></div>':"")+'</div>';
   if(ok){
-    game.querySelectorAll(".hotspot,.choice,.pair-tile,.move-buttons button,[data-action='check-order']").forEach(function(el){el.disabled=true;});
+    game.querySelectorAll(".hotspot,.choice,.pair-tile,.order-select,.order-grip,[data-action='check-order']").forEach(function(el){el.disabled=true;});
   }
   say((ok?"Correcto. ":"Intentá otra vez. ")+text);
   zone.scrollIntoView({behavior:"smooth",block:"nearest"});
@@ -323,15 +349,78 @@ function renderTaskPreservingState(){
   const zone=document.getElementById("task-feedback");
   if(zone)zone.innerHTML="";
 }
-function moveRow(pos,delta){
-  if(answered)return;
-  const next=pos+delta;
-  if(next<0 || next>=sequence.length)return;
-  const value=sequence[pos];sequence[pos]=sequence[next];sequence[next]=value;
+function reorderStep(from,to){
+  if(answered || mode!=="play" || MISSIONS[missionIndex].tasks[taskIndex].type!=="order")return;
+  if(!Number.isInteger(from) || !Number.isInteger(to) || from<0 || to<0 || from>=sequence.length || to>=sequence.length || from===to)return;
+  const moved=sequence.splice(from,1)[0];
+  sequence.splice(to,0,moved);
+  selectedOrderPos=-1;
   renderTaskPreservingState();
-  const button=game.querySelector('[data-action="move"][data-index="'+next+'"][data-delta="'+delta+'"]');
-  if(button)button.focus();
+  const focus=game.querySelector('.order-select[data-index="'+to+'"]');
+  if(focus)focus.focus({preventScroll:true});
+  say("Paso movido a la posición "+(to+1)+".");
 }
+function selectOrderAt(pos){
+  if(answered || mode!=="play" || !Number.isInteger(pos) || pos<0 || pos>=sequence.length)return;
+  if(selectedOrderPos===pos){
+    selectedOrderPos=-1;
+    renderTaskPreservingState();
+    say("Selección cancelada.");
+  }else if(selectedOrderPos<0){
+    selectedOrderPos=pos;
+    renderTaskPreservingState();
+    const focus=game.querySelector('.order-select[data-index="'+pos+'"]');
+    if(focus)focus.focus({preventScroll:true});
+    say("Paso seleccionado. Tocá el lugar en el que querés colocarlo.");
+  }else{
+    reorderStep(selectedOrderPos,pos);
+  }
+}
+function pointedOrderRow(event){
+  const element=document.elementFromPoint(event.clientX,event.clientY);
+  const row=element && element.closest(".order-row[data-order-pos]");
+  return row ? Number(row.dataset.orderPos) : -1;
+}
+// Arrastre táctil/mouse desde la manija; el resto de la tarjeta permite desplazarse por la página.
+game.addEventListener("pointerdown",function(event){
+  const handle=event.target.closest(".order-grip[data-drag-index]");
+  if(!handle || mode!=="play" || answered)return;
+  dragState={pointerId:event.pointerId,from:Number(handle.dataset.dragIndex),startX:event.clientX,startY:event.clientY,dragged:false};
+  if(handle.setPointerCapture)handle.setPointerCapture(event.pointerId);
+});
+game.addEventListener("pointermove",function(event){
+  if(!dragState || event.pointerId!==dragState.pointerId)return;
+  if(Math.hypot(event.clientX-dragState.startX,event.clientY-dragState.startY)>7)dragState.dragged=true;
+  if(!dragState.dragged)return;
+  const target=pointedOrderRow(event);
+  game.querySelectorAll(".order-row").forEach(function(row){
+    row.classList.toggle("drag-over",Number(row.dataset.orderPos)===target);
+    row.classList.toggle("drag-origin",Number(row.dataset.orderPos)===dragState.from);
+  });
+});
+game.addEventListener("pointerup",function(event){
+  if(!dragState || event.pointerId!==dragState.pointerId)return;
+  const gesture=dragState;
+  const target=pointedOrderRow(event);
+  dragState=null;
+  if(gesture.dragged){
+    if(target>=0 && target!==gesture.from)reorderStep(gesture.from,target);
+    else renderTaskPreservingState();
+  }else selectOrderAt(gesture.from);
+});
+game.addEventListener("pointercancel",function(event){
+  if(dragState && event.pointerId===dragState.pointerId){
+    dragState=null;
+    renderTaskPreservingState();
+  }
+});
+game.addEventListener("keydown",function(event){
+  const grip=event.target.closest(".order-grip[data-drag-index]");
+  if(grip && (event.key==="Enter" || event.key===" ")){
+    event.preventDefault();
+    selectOrderAt(Number(grip.dataset.dragIndex));
+  }
+});
 function completeMission(){
   const m=MISSIONS[missionIndex];
   record.completed[missionIndex]=true;
@@ -384,7 +473,7 @@ game.addEventListener("click",function(event){
   if(action==="point"){markAnswer(button.dataset.answer===t.target,button);return;}
   if(action==="choice"){markAnswer(Number(button.dataset.index)===t.answer,button);return;}
   if(action==="pair"){choosePair(button.dataset.side,Number(button.dataset.index));return;}
-  if(action==="move"){moveRow(Number(button.dataset.index),Number(button.dataset.delta));return;}
+  if(action==="select-order"){selectOrderAt(Number(button.dataset.index));return;}
   if(action==="check-order"){
     markAnswer(sequence.every(function(id,pos){return id===pos;}));
     return;
