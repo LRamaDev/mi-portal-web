@@ -1,6 +1,6 @@
 "use strict";
 /* Ilustración vectorial original de las cinco tierras — sin recursos externos. */
-const NEURO_WORLD_MAP_SVG = String.raw\`<svg class="neuro-world-art" viewBox="0 0 1100 650" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Un mapa ilustrado con cinco territorios conectados por caminos: Ciudad Central, Valle de la Neurona, Bosque Sensorial, Ruta de los Reflejos y Torre Final">
+const NEURO_WORLD_MAP_SVG = String.raw`<svg class="neuro-world-art" viewBox="0 0 1100 650" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Un mapa ilustrado con cinco territorios conectados por caminos: Ciudad Central, Valle de la Neurona, Bosque Sensorial, Ruta de los Reflejos y Torre Final">
 <defs>
 <linearGradient id="skyland" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#c5edfb"/><stop offset="1" stop-color="#f2fbf1"/></linearGradient>
 <linearGradient id="sea" x1="0" y1="0" x2=".8" y2="1"><stop stop-color="#94d8e9"/><stop offset="1" stop-color="#d8f5ee"/></linearGradient>
@@ -54,4 +54,4 @@ const NEURO_WORLD_MAP_SVG = String.raw\`<svg class="neuro-world-art" viewBox="0 
 <!-- Sparks and map details -->
 <g fill="#f8fff2" stroke="#71afbd" stroke-width="2"><path d="M76 335l9 17-9 17-9-17Z"/><path d="M582 309l8 15-8 15-8-15Z"/><path d="M1008 392l10 19-10 19-10-19Z"/></g>
 <g font-size="30" opacity=".9"><text x="70" y="565">✦</text><text x="560" y="70">✧</text><text x="1020" y="268">✦</text></g>
-</svg>\`;
+</svg>`;
