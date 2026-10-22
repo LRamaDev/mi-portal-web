@@ -1,0 +1,77 @@
+/* NeuroMisión v2.1 beta — escenas ilustradas integradas, no tarjetas planas */
+:root{--beta-navy:#153b58;--beta-blue:#267eaf;--beta-turquoise:#118e9f;--beta-outline:#acd9e5}
+.beta-banner{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:9px;padding:11px 16px;background:#fff8e6;border:1px solid #ecd9a4;border-radius:16px;color:#6a5d3d;font-size:.8rem;margin-top:17px}
+.beta-banner strong{letter-spacing:.05em;font-size:.72rem}.beta-banner a{color:#1f668e;text-decoration:underline;font-weight:800}
+.intro-block{padding-top:30px}.intro-block h1{font-weight:950;text-shadow:0 1px 0 #fff}
+.workspace{border:2px solid #b6dfea;background:#fff;border-radius:26px}
+.home-art{box-shadow:0 20px 33px #4f94a329,inset 0 0 0 1px #fff;min-height:410px}
+.home-art svg{transform:scale(1.13)}.home-art .callout{max-width:290px;margin:auto;font-size:.92rem;letter-spacing:.02em}
+.home-grid .kicker{font-size:.8rem}.home-grid .field-note{line-height:1.5}
+.map-sky.beta-map{border:2px solid #a8dadd;background:#ccedf6;box-shadow:0 16px 34px #3b839f20}
+.beta-map .adventure-world{width:100%;min-width:820px;position:relative;aspect-ratio:1100/650}
+.beta-map .neuro-world-art{width:100%;height:100%}
+/* Los marcadores son señales de destino sobre el paisaje, no tarjetas que lo tapan. */
+.land-marker{--marker:#277cae;position:absolute;z-index:3;width:16%;max-width:166px;min-width:119px;display:flex;align-items:center;flex-direction:column;gap:3px;background:transparent;border:none;padding:0;color:#17405f;transform:translate(-50%,-50%);cursor:pointer;text-align:center;filter:drop-shadow(0 3px 3px #103a4a22);transition:transform .18s ease}
+.land-marker .marker-orb{display:grid;place-items:center;width:55px;height:55px;border-radius:50%;font-weight:1000;font-size:1.26rem;color:#fff;border:4px solid #fff;background:var(--marker);box-shadow:0 0 0 4px #ffffff8f,0 10px 20px #2e657a56;transition:transform .18s}
+.land-marker .marker-name{border:2px solid #fff;background:#ffffffed;color:#19465e;border-radius:13px;padding:6px 10px;font-size:.87rem;font-weight:950;line-height:1.1;letter-spacing:-.01em;box-shadow:0 5px 9px #426d813d}
+.land-marker .marker-state{border-radius:99px;font-size:.64rem;font-weight:900;background:#123b58e8;color:#fff;padding:3px 8px}
+.land-marker:hover:not(:disabled) .marker-orb,.land-marker:focus-visible .marker-orb{transform:scale(1.12)}
+.land-marker:hover:not(:disabled){transform:translate(-50%,-55%)}.land-marker:focus-visible{outline:3px solid #154867;outline-offset:6px;border-radius:14px}
+.land-marker:disabled{filter:grayscale(.75);cursor:not-allowed;opacity:.8}
+.land-marker.completed .marker-orb{background:#238d69}.land-marker.completed .marker-state{background:#238d69}
+.land-marker.active .marker-orb{box-shadow:0 0 0 6px #fff3b3,0 9px 18px #275b6a5b}
+.land-marker.node-0{top:28%;left:15%;--marker:#2e7cb0}
+.land-marker.node-1{top:25%;left:45%;--marker:#7760b9}
+.land-marker.node-2{top:31%;left:78%;--marker:#2c906d}
+.land-marker.node-3{top:68%;left:29%;--marker:#d37a48}
+.land-marker.node-4{top:67%;left:76%;--marker:#a9689c}
+.world-quick-nav{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin:17px 0 2px}
+.world-chip{display:flex;align-items:center;justify-content:center;gap:9px;padding:12px 8px;border-radius:15px;background:#fff;border:1px solid #bcdbe6;box-shadow:0 5px 0 #e0edf1;color:#1b4a66;font-weight:800;line-height:1.22;min-height:69px;text-align:left;cursor:pointer}
+.world-chip>span:first-child{font-size:1.5rem}.world-chip small{display:block;font-size:.69rem;color:#588093;font-weight:750;margin-top:3px}
+.world-chip:hover:not(:disabled){background:#edfaff;border-color:#62bbcb}
+.world-chip:disabled{opacity:.55;cursor:not-allowed}.world-chip.chip-done{border-color:#95cdb1;background:#f4fff3}
+/* El arte del territorio aparece en gran formato en la portada de cada misión. */
+.mission-splash{--land-color:#227ea1;display:grid;grid-template-columns:1.18fr 1fr;min-height:450px;border:2px solid #e1ebef;border-radius:25px;overflow:hidden;background:linear-gradient(120deg,#fff,#f8fcfc);box-shadow:0 15px 35px #6195a71a}
+.splash-art{position:relative;overflow:hidden;background:linear-gradient(140deg,var(--scene-a),var(--scene-b));min-height:400px;display:flex;align-items:center;justify-content:center}
+.splash-art .neuro-world-art{width:100%;height:100%;display:block;position:absolute;inset:0;object-fit:cover}
+.splash-art::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent 77%,#ffffff65 100%);pointer-events:none}
+.splash-number{position:absolute;z-index:1;top:19px;left:19px;background:#fffffff0;border:1px solid #e4edf0;box-shadow:0 4px 14px #6496ab38;border-radius:30px;color:var(--land-color);font-size:.76rem;font-weight:950;padding:8px 13px;letter-spacing:.07em}
+.splash-info{padding:clamp(25px,4vw,55px) clamp(20px,4vw,48px);display:flex;flex-direction:column;align-items:flex-start;justify-content:center}
+.splash-info .kicker{color:var(--land-color);font-size:.76rem}.splash-info h2{margin:10px 0 13px;color:#143b56;font-size:clamp(2rem,4vw,3rem);line-height:1.05;letter-spacing:-.05em}
+.splash-info p{font-size:1rem;color:#54778b;margin:0;line-height:1.6}
+.splash-info .mission-traits{display:flex;flex-wrap:wrap;gap:8px;margin:21px 0}
+.splash-info .mission-traits span{font-size:.76rem;border:1px solid #cce2e8;color:#477c90;background:#f1fbff;border-radius:30px;font-weight:750;padding:6px 10px}
+.splash-actions{display:flex;gap:11px;flex-wrap:wrap;margin-top:9px}
+/* El objetivo pedagógico se lee ANTES de las imágenes de decoración. */
+.focus-layout{--land-color:#228ca1;display:grid;grid-template-columns:1.52fr .6fr;gap:12px;align-items:stretch;margin-bottom:14px}
+.focus-question{display:flex;flex-direction:column;justify-content:center;border:2px solid #c8e2e9;border-left:8px solid var(--land-color);border-radius:19px;padding:21px 25px;background:#fff;box-shadow:0 7px 20px #6ea5af13}
+.focus-question .quest-label{font-size:.7rem;font-weight:950;color:var(--land-color);letter-spacing:.13em;margin-bottom:10px}
+.focus-question h2{font-weight:950;font-size:clamp(1.35rem,2.7vw,2.05rem);letter-spacing:-.025em;line-height:1.19;margin:0;color:#183d58}
+.focus-land{position:relative;border-radius:18px;overflow:hidden;min-height:140px;border:1px solid #b9dbe5;background:#ddf4f7}
+.focus-land .neuro-world-art{position:absolute;inset:0;display:block;width:100%;height:100%}
+.focus-land::after{content:"";position:absolute;inset:0;box-shadow:inset 0 0 24px #fff9;pointer-events:none}
+.play-panel{margin-top:0;box-shadow:0 8px 22px #3c9fa115}
+.play-panel .instruction{font-weight:900;color:#2c7586}
+.choice,.pair-tile,.classify-target{transition:background .16s,transform .16s,border-color .16s}
+@media(max-width:1020px){.world-quick-nav{grid-template-columns:repeat(3,minmax(0,1fr))}.mission-splash{grid-template-columns:1fr 1fr}.splash-art{min-height:350px}}
+@media(max-width:760px){
+ .beta-banner{align-items:flex-start;flex-direction:column;margin-top:12px}
+ .home-art{min-height:260px}
+ .world-quick-nav{display:flex;overflow-x:auto;gap:9px;scroll-snap-type:x proximity;margin-top:14px;padding-bottom:8px}
+ .world-chip{flex:0 0 150px;scroll-snap-align:start;min-height:66px}
+ .beta-map .adventure-world{min-width:820px}.land-marker{max-width:130px}
+ .land-marker .marker-orb{width:48px;height:48px;border-width:3px;font-size:1.05rem}
+ .land-marker .marker-name{font-size:.75rem;padding:6px 7px}
+ .land-marker .marker-state{font-size:.61rem}
+ .mission-splash{grid-template-columns:1fr;min-height:0}
+ .splash-art{min-height:250px;height:250px}.splash-info{padding:24px 19px}
+ .splash-info h2{font-size:2rem}.splash-info .mission-traits{margin:16px 0}
+ .focus-layout{grid-template-columns:1fr;gap:8px}
+ .focus-question{padding:15px 16px;border-left-width:6px}
+ .focus-question h2{font-size:clamp(1.3rem,5.6vw,1.8rem)}
+ .focus-land{height:95px;min-height:95px;max-height:95px}
+ .mission-meta{margin-bottom:10px}.tracker{margin-bottom:11px}
+ .play-panel{padding:14px}
+}
+@media(max-width:380px){.land-marker .marker-name{font-size:.69rem}.focus-question{padding:12px 14px}.focus-land{height:76px;min-height:76px}}
+@media(prefers-reduced-motion:reduce){.land-marker,.land-marker .marker-orb,.choice,.pair-tile{transition:none!important}}
