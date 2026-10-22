@@ -1,0 +1,280 @@
+/* NeuroMisión v2.1 beta — escenas ilustradas integradas, no tarjetas planas */
+:root{--beta-navy:#153b58;--beta-blue:#267eaf;--beta-turquoise:#118e9f;--beta-outline:#acd9e5}
+.beta-banner{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:9px;padding:11px 16px;background:#fff8e6;border:1px solid #ecd9a4;border-radius:16px;color:#6a5d3d;font-size:.8rem;margin-top:17px}
+.beta-banner strong{letter-spacing:.05em;font-size:.72rem}.beta-banner a{color:#1f668e;text-decoration:underline;font-weight:800}
+.intro-block{padding-top:30px}.intro-block h1{font-weight:950;text-shadow:0 1px 0 #fff}
+.workspace{border:2px solid #b6dfea;background:#fff;border-radius:26px}
+.home-art{box-shadow:0 20px 33px #4f94a329,inset 0 0 0 1px #fff;min-height:410px}
+.home-art svg{transform:scale(1.13)}.home-art .callout{max-width:290px;margin:auto;font-size:.92rem;letter-spacing:.02em}
+.home-grid .kicker{font-size:.8rem}.home-grid .field-note{line-height:1.5}
+.map-sky.beta-map{border:2px solid #a8dadd;background:#ccedf6;box-shadow:0 16px 34px #3b839f20}
+.beta-map .adventure-world{width:100%;min-width:820px;position:relative;aspect-ratio:1100/650}
+.beta-map .neuro-world-art{width:100%;height:100%}
+/* Los marcadores son señales de destino sobre el paisaje, no tarjetas que lo tapan. */
+.land-marker{--marker:#277cae;position:absolute;z-index:3;width:16%;max-width:166px;min-width:119px;display:flex;align-items:center;flex-direction:column;gap:3px;background:transparent;border:none;padding:0;color:#17405f;transform:translate(-50%,-50%);cursor:pointer;text-align:center;filter:drop-shadow(0 3px 3px #103a4a22);transition:transform .18s ease}
+.land-marker .marker-orb{display:grid;place-items:center;width:55px;height:55px;border-radius:50%;font-weight:1000;font-size:1.26rem;color:#fff;border:4px solid #fff;background:var(--marker);box-shadow:0 0 0 4px #ffffff8f,0 10px 20px #2e657a56;transition:transform .18s}
+.land-marker .marker-name{border:2px solid #fff;background:#ffffffed;color:#19465e;border-radius:13px;padding:6px 10px;font-size:.87rem;font-weight:950;line-height:1.1;letter-spacing:-.01em;box-shadow:0 5px 9px #426d813d}
+.land-marker .marker-state{border-radius:99px;font-size:.64rem;font-weight:900;background:#123b58e8;color:#fff;padding:3px 8px}
+.land-marker:hover:not(:disabled) .marker-orb,.land-marker:focus-visible .marker-orb{transform:scale(1.12)}
+.land-marker:hover:not(:disabled){transform:translate(-50%,-55%)}.land-marker:focus-visible{outline:3px solid #154867;outline-offset:6px;border-radius:14px}
+.land-marker:disabled{filter:grayscale(.75);cursor:not-allowed;opacity:.8}
+.land-marker.completed .marker-orb{background:#238d69}.land-marker.completed .marker-state{background:#238d69}
+.land-marker.active .marker-orb{box-shadow:0 0 0 6px #fff3b3,0 9px 18px #275b6a5b}
+.land-marker.node-0{top:28%;left:15%;--marker:#2e7cb0}
+.land-marker.node-1{top:25%;left:45%;--marker:#7760b9}
+.land-marker.node-2{top:31%;left:78%;--marker:#2c906d}
+.land-marker.node-3{top:68%;left:29%;--marker:#d37a48}
+.land-marker.node-4{top:67%;left:76%;--marker:#a9689c}
+.world-quick-nav{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin:17px 0 2px}
+.world-chip{display:flex;align-items:center;justify-content:center;gap:9px;padding:12px 8px;border-radius:15px;background:#fff;border:1px solid #bcdbe6;box-shadow:0 5px 0 #e0edf1;color:#1b4a66;font-weight:800;line-height:1.22;min-height:69px;text-align:left;cursor:pointer}
+.world-chip>span:first-child{font-size:1.5rem}.world-chip small{display:block;font-size:.69rem;color:#588093;font-weight:750;margin-top:3px}
+.world-chip:hover:not(:disabled){background:#edfaff;border-color:#62bbcb}
+.world-chip:disabled{opacity:.55;cursor:not-allowed}.world-chip.chip-done{border-color:#95cdb1;background:#f4fff3}
+/* El arte del territorio aparece en gran formato en la portada de cada misión. */
+.mission-splash{--land-color:#227ea1;display:grid;grid-template-columns:1.18fr 1fr;min-height:450px;border:2px solid #e1ebef;border-radius:25px;overflow:hidden;background:linear-gradient(120deg,#fff,#f8fcfc);box-shadow:0 15px 35px #6195a71a}
+.splash-art{position:relative;overflow:hidden;background:linear-gradient(140deg,var(--scene-a),var(--scene-b));min-height:400px;display:flex;align-items:center;justify-content:center}
+.splash-art .neuro-world-art{width:100%;height:100%;display:block;position:absolute;inset:0;object-fit:cover}
+.splash-art::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent 77%,#ffffff65 100%);pointer-events:none}
+.splash-number{position:absolute;z-index:1;top:19px;left:19px;background:#fffffff0;border:1px solid #e4edf0;box-shadow:0 4px 14px #6496ab38;border-radius:30px;color:var(--land-color);font-size:.76rem;font-weight:950;padding:8px 13px;letter-spacing:.07em}
+.splash-info{padding:clamp(25px,4vw,55px) clamp(20px,4vw,48px);display:flex;flex-direction:column;align-items:flex-start;justify-content:center}
+.splash-info .kicker{color:var(--land-color);font-size:.76rem}.splash-info h2{margin:10px 0 13px;color:#143b56;font-size:clamp(2rem,4vw,3rem);line-height:1.05;letter-spacing:-.05em}
+.splash-info p{font-size:1rem;color:#54778b;margin:0;line-height:1.6}
+.splash-info .mission-traits{display:flex;flex-wrap:wrap;gap:8px;margin:21px 0}
+.splash-info .mission-traits span{font-size:.76rem;border:1px solid #cce2e8;color:#477c90;background:#f1fbff;border-radius:30px;font-weight:750;padding:6px 10px}
+.splash-actions{display:flex;gap:11px;flex-wrap:wrap;margin-top:9px}
+/* El objetivo pedagógico se lee ANTES de las imágenes de decoración. */
+.focus-layout{--land-color:#228ca1;display:grid;grid-template-columns:1.52fr .6fr;gap:12px;align-items:stretch;margin-bottom:14px}
+.focus-question{display:flex;flex-direction:column;justify-content:center;border:2px solid #c8e2e9;border-left:8px solid var(--land-color);border-radius:19px;padding:21px 25px;background:#fff;box-shadow:0 7px 20px #6ea5af13}
+.focus-question .quest-label{font-size:.7rem;font-weight:950;color:var(--land-color);letter-spacing:.13em;margin-bottom:10px}
+.focus-question h2{font-weight:950;font-size:clamp(1.35rem,2.7vw,2.05rem);letter-spacing:-.025em;line-height:1.19;margin:0;color:#183d58}
+.focus-land{position:relative;border-radius:18px;overflow:hidden;min-height:140px;border:1px solid #b9dbe5;background:#ddf4f7}
+.focus-land .neuro-world-art{position:absolute;inset:0;display:block;width:100%;height:100%}
+.focus-land::after{content:"";position:absolute;inset:0;box-shadow:inset 0 0 24px #fff9;pointer-events:none}
+.play-panel{margin-top:0;box-shadow:0 8px 22px #3c9fa115}
+.play-panel .instruction{font-weight:900;color:#2c7586}
+.choice,.pair-tile,.classify-target{transition:background .16s,transform .16s,border-color .16s}
+@media(max-width:1020px){.world-quick-nav{grid-template-columns:repeat(3,minmax(0,1fr))}.mission-splash{grid-template-columns:1fr 1fr}.splash-art{min-height:350px}}
+@media(max-width:760px){
+ .beta-banner{align-items:flex-start;flex-direction:column;margin-top:12px}
+ .home-art{min-height:260px}
+ .world-quick-nav{display:flex;overflow-x:auto;gap:9px;scroll-snap-type:x proximity;margin-top:14px;padding-bottom:8px}
+ .world-chip{flex:0 0 150px;scroll-snap-align:start;min-height:66px}
+ .beta-map .adventure-world{min-width:820px}.land-marker{max-width:130px}
+ .land-marker .marker-orb{width:48px;height:48px;border-width:3px;font-size:1.05rem}
+ .land-marker .marker-name{font-size:.75rem;padding:6px 7px}
+ .land-marker .marker-state{font-size:.61rem}
+ .mission-splash{grid-template-columns:1fr;min-height:0}
+ .splash-art{min-height:250px;height:250px}.splash-info{padding:24px 19px}
+ .splash-info h2{font-size:2rem}.splash-info .mission-traits{margin:16px 0}
+ .focus-layout{grid-template-columns:1fr;gap:8px}
+ .focus-question{padding:15px 16px;border-left-width:6px}
+ .focus-question h2{font-size:clamp(1.3rem,5.6vw,1.8rem)}
+ .focus-land{height:95px;min-height:95px;max-height:95px}
+ .mission-meta{margin-bottom:10px}.tracker{margin-bottom:11px}
+ .play-panel{padding:14px}
+}
+@media(max-width:380px){.land-marker .marker-name{font-size:.69rem}.focus-question{padding:12px 14px}.focus-land{height:76px;min-height:76px}}
+@media(prefers-reduced-motion:reduce){.land-marker,.land-marker .marker-orb,.choice,.pair-tile{transition:none!important}}
+
+
+/* NeuroMisión beta 2.2 — ilustraciones WebP reales con polígonos invisibles */
+.picture-scroll{max-width:100%;width:100%;overflow-x:auto;overscroll-behavior-x:contain;scrollbar-color:#8ebac9 #e8f7fa;background:#f1faff;border:1px solid #cae4eb;border-radius:20px;-webkit-overflow-scrolling:touch;padding:10px}
+.picture-board{position:relative;max-width:580px;min-width:430px;margin:0 auto;border-radius:15px;isolation:isolate;overflow:hidden;box-shadow:0 13px 30px #6596a42b;background:#e4f6fa;user-select:none;-webkit-user-select:none}
+.picture-board.neuron{max-width:730px;min-width:610px}
+.picture-board>img{position:absolute;inset:0;width:100%;height:100%;display:block;object-fit:fill;pointer-events:none;border-radius:15px}
+.hotspot.image-hit{
+  position:absolute!important;display:block!important;
+  left:var(--x)!important;top:var(--y)!important;
+  width:var(--w)!important;height:var(--h)!important;min-width:0!important;
+  padding:0!important;margin:0!important;
+  transform:none!important;border:0!important;outline:0!important;
+  border-radius:0!important;background:transparent!important;
+  box-shadow:none!important;color:transparent!important;
+  clip-path:var(--shape);-webkit-clip-path:var(--shape);
+  cursor:pointer;touch-action:manipulation;
+  transition:background .16s ease,filter .16s ease!important;
+}
+.hotspot.image-hit::before{content:none!important;display:none!important}
+.hotspot.image-hit:hover:not(:disabled),
+.hotspot.image-hit:focus-visible{
+  background:rgba(248,229,109,.38)!important;
+  filter:drop-shadow(0 0 5px #ffe684)!important;
+}
+.hotspot.image-hit:focus-visible{background:rgba(248,229,109,.52)!important;outline:0!important}
+.hotspot.image-hit.correct,.hotspot.image-hit.correct:hover{
+  background:rgba(56,206,133,.55)!important;filter:drop-shadow(0 0 6px #19ad66)!important
+}
+.hotspot.image-hit.wrong{
+  background:rgba(250,116,100,.45)!important;filter:drop-shadow(0 0 5px #e66862)!important
+}
+.picture-help{margin:13px auto 0;text-align:center;color:#416f84;font-size:.85rem;max-width:570px;line-height:1.5}
+.image-load-error{margin-top:14px;background:#fff0e6;border:1px solid #e5b495;border-radius:9px;color:#8f4e32;padding:10px;font-weight:700}
+@media(max-width:740px){
+  .picture-scroll{padding:6px}
+  .picture-board{min-width:420px}
+  .picture-board.neuron{min-width:600px}
+  .picture-help{font-size:.79rem}
+}
+@media(prefers-reduced-motion:reduce){.hotspot.image-hit{transition:none!important}}
+
+
+/* NeuroMisión beta 2.3 — nuevas ilustraciones interactivas de las tierras 3 a 5 */
+.picture-board.sensory{max-width:650px;min-width:440px}
+.picture-board.reflex,.picture-board.final{max-width:840px;min-width:620px}
+.picture-scroll:focus-visible{outline:3px solid #168ea8;outline-offset:3px}
+.picture-board .image-hit{min-height:0!important;min-width:0!important}
+.picture-board .image-hit:active:not(:disabled){background:rgba(247,214,110,.38)!important}
+.splash-art .raster-scene,.focus-land .raster-scene{
+ display:block;width:100%;height:100%;object-fit:cover;object-position:center;
+ position:absolute;inset:0;border:0;user-select:none;pointer-events:none;
+}
+.splash-art .raster-scene{filter:saturate(1.06)}
+.focus-land .raster-scene{object-position:center}
+@media(max-width:760px){
+ .picture-board.sensory{min-width:450px}
+ .picture-board.reflex,.picture-board.final{min-width:620px}
+ .picture-scroll{scrollbar-width:thin}
+ .picture-help{max-width:590px}
+}
+@media(max-width:420px){
+ .picture-board.sensory{min-width:445px}
+ .picture-board.reflex,.picture-board.final{min-width:610px}
+}
+
+
+/* NeuroMisión v2.5 beta: mapa de aventura adaptativo PC / tableta / móvil.
+   El panorama es una imagen WebP ligera con botones HTML independientes.
+   En escritorio se ve entero; en móvil conserva escala para tocar/deslizar.
+*/
+body.neuro-map-mode .site-wrap{max-width:1760px}
+body.neuro-map-mode .intro-block{display:none}
+body.neuro-map-mode .below-grid{display:none}
+body.neuro-map-mode .workspace{min-height:0;border-radius:24px;overflow:hidden}
+body.neuro-map-mode .game{padding:16px clamp(12px,2.3vw,30px) 20px}
+body.neuro-map-mode .workspace-bar{padding:10px clamp(12px,2vw,24px)}
+.map25-screen{width:100%;color:#183e57}
+.map25-header{display:flex;align-items:center;justify-content:space-between;gap:20px;margin:8px 0 14px}
+.map25-header .kicker{color:#1681a2;margin-bottom:6px;font-size:.68rem;letter-spacing:.13em}
+.map25-header h2{margin:0 0 3px;font-size:clamp(1.6rem,3vw,2.5rem);color:#173c5a;line-height:1.1;letter-spacing:-.03em}
+.map25-header h2 span{color:#f5bb39}
+.map25-header p{margin:0;color:#5b798c;font-size:.94rem;line-height:1.4}
+.map25-score{display:flex;align-items:center;flex-direction:column;gap:1px;white-space:nowrap;background:linear-gradient(145deg,#fffaf0,#ffffff);padding:12px 20px;border:1px solid #f1d8a6;border-radius:18px;box-shadow:0 6px 20px #c3913c15}
+.map25-score-value{font-weight:950;color:#ad6b18;font-size:1.35rem;font-variant-numeric:tabular-nums}
+.map25-score small{font-size:.65rem;font-weight:900;letter-spacing:.1em;color:#886b3e}
+.map25-progress{background:#f2faff;border:1px solid #cbe5ed;border-radius:16px;padding:10px 16px 11px;margin-bottom:13px}
+.map25-progress-meta{display:flex;justify-content:space-between;gap:8px;font-size:.8rem;color:#4a7b90;margin-bottom:8px}
+.map25-progress-meta strong{color:#1b587b}
+.map25-progress-track{width:100%;height:9px;border-radius:20px;background:#d5e8f0;overflow:hidden}
+.map25-progress-track>span{display:block;height:100%;border-radius:20px;background:linear-gradient(90deg,#4db9df,#45c18b);transition:width .3s ease}
+.map25-viewport{position:relative;overflow:hidden;border:2px solid #a7dce8;border-radius:22px;background:#7fd8ec;box-shadow:0 14px 27px #2d7c9c25}
+.map-scroll-v25{width:100%;overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain;scrollbar-width:thin;scrollbar-color:#7db9d0 #d4f6fb;touch-action:pan-x pan-y}
+.map-scroll-v25:focus-visible{outline:4px solid #2077a9;outline-offset:-5px}
+.map25-panorama{width:100%;min-width:970px;position:relative;aspect-ratio:1536 / 448;isolation:isolate;user-select:none}
+.map25-landscape{display:block;width:100%;height:100%;object-fit:fill;position:absolute;inset:0;pointer-events:none}
+.world-place{position:absolute;z-index:2;left:var(--place-x);top:var(--place-y);width:var(--place-w);height:var(--place-h);border:2px solid transparent;border-radius:31%;background:transparent;cursor:pointer;transform:translate(-50%,-50%);transition:background .18s,border-color .18s,filter .18s}
+.world-place:hover:not(:disabled){background:rgba(255,247,193,.14);border-color:rgba(255,255,255,.65);box-shadow:0 0 26px #fff59e80}
+.world-place:focus-visible{outline:4px solid #fff6b0;outline-offset:-5px;background:rgba(255,255,255,.18);border-color:#126b9a}
+.world-place:disabled{cursor:not-allowed;opacity:.7}
+.world-state{position:absolute;z-index:3;left:var(--state-x);top:var(--state-y);transform:translate(-50%,-50%);min-width:118px;height:30px;padding:3px 11px;white-space:nowrap;pointer-events:none;display:flex;align-items:center;justify-content:center;gap:6px;border-radius:20px;background:#fffefa;box-shadow:0 3px 8px #163b6542,inset 0 0 0 1px #ffffff;color:#446c81;font-size:.74rem;font-weight:900}
+.world-state>span{font-size:.89rem}
+.world-state.done{background:#e6fff3;color:#117354}
+.world-state.active{background:#fff5c9;color:#9c630d;box-shadow:0 0 0 3px #ffca6680,0 4px 12px #715d2947}
+.world-state.ready{background:#fffefa;color:#407b8d}
+.map25-navrail{height:46px;display:flex;align-items:center;justify-content:space-between;gap:14px;background:#eefbff;border-top:1px solid #acdbe4;padding:5px 9px}
+.map25-pan-hint{font-size:.75rem;font-weight:800;color:#4a8190;text-align:center}
+.map25-arrow{width:36px;height:34px;flex-shrink:0;border:1px solid #bbdfe6;border-radius:10px;background:#fff;color:#1d6688;font-size:1.6rem;font-weight:800;line-height:1;cursor:pointer}
+.map25-arrow:hover{background:#d7f4fb}
+.map25-arrow:focus-visible{outline:3px solid #2974ad;outline-offset:2px}
+.map25-footer{margin-top:16px}
+.map25-menu{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:9px}
+.map25-chip{display:flex;align-items:center;gap:9px;text-align:left;min-height:62px;border:1px solid #c0dfe9;border-radius:14px;background:#fff;padding:8px 11px;cursor:pointer;box-shadow:0 4px 0 #e1eff4;color:#1d4e6d}
+.map25-chip:hover:not(:disabled){background:#eafaff;border-color:#73bccc}
+.map25-chip:focus-visible{outline:3px solid #3079bd;outline-offset:2px}
+.map25-chip:disabled{opacity:.52;cursor:not-allowed}
+.map25-chip-icon{display:grid;place-items:center;width:34px;height:34px;flex-shrink:0;border-radius:10px;background:#f2f9fc;font-size:1.27rem}
+.map25-chip-label{font-size:.8rem;font-weight:900;line-height:1.25}
+.map25-chip small{display:block;font-size:.66rem;font-weight:750;color:#698b9c;margin-top:3px}
+.map25-chip.done{border-color:#98d5b5;background:#f4fff8}
+.map25-chip.active{border-color:#f0c76b;background:#fffaf0}
+.map25-footer-actions{display:flex;justify-content:space-between;align-items:center;gap:15px;padding:17px 2px 1px}
+.map25-footer-actions>span{font-size:.8rem;color:#557e91}
+@media(max-width:1199px){
+ .map25-menu{gap:7px}
+ .map25-chip{padding:8px 7px;gap:6px}
+ .map25-chip-label{font-size:.75rem}
+}
+@media(max-width:800px){
+ body.neuro-map-mode .site-wrap{padding-left:10px;padding-right:10px}
+ body.neuro-map-mode .game{padding:13px 9px 17px}
+ .map25-header{align-items:flex-start;gap:8px;margin:4px 2px 12px}
+ .map25-header h2{font-size:clamp(1.42rem,5vw,1.85rem)}
+ .map25-header p{font-size:.79rem;max-width:240px}
+ .map25-score{padding:9px 11px;border-radius:13px}
+ .map25-score-value{font-size:1.02rem}
+ .map25-score small{font-size:.52rem}
+ .map25-progress{padding:10px 11px;margin-bottom:11px}
+ .map25-panorama{min-width:1420px}
+ .world-state{height:31px;min-width:133px;font-size:.77rem}
+ .map25-viewport{border-radius:17px}
+ .map25-navrail{height:44px}
+ .map25-pan-hint{font-size:.7rem}
+ .map25-menu{display:flex;overflow-x:auto;padding:3px 2px 9px;gap:9px;scrollbar-width:thin;scroll-snap-type:x proximity}
+ .map25-chip{flex:0 0 158px;min-height:59px;scroll-snap-align:start}
+ .map25-chip-label{font-size:.77rem}
+ .map25-footer-actions{flex-wrap:wrap;padding-top:11px}
+}
+@media(max-width:390px){
+ .map25-header p{font-size:.74rem}
+ .map25-panorama{min-width:1370px}
+ .map25-score{padding:8px}
+ .map25-progress-meta{font-size:.7rem}
+ .map25-pan-hint{font-size:.62rem}
+}
+@media(prefers-reduced-motion:reduce){.world-place,.map25-progress-track>span{transition:none!important}}
+
+
+/* Ajustes v2.6 — experiencia de mapa más clara según tamaño de pantalla. */
+.map25-arrow:disabled{opacity:.25;cursor:default;box-shadow:none;filter:grayscale(1)}
+.map25-overview{display:none;position:relative;height:7px;margin:0 11px 10px;border-radius:30px;background:#a7dbeb;overflow:hidden}
+.map25-overview-thumb{position:absolute;top:0;left:0;height:100%;width:26%;border-radius:30px;background:#1977aa;transition:left .16s linear}
+.map25-load-error{position:absolute;z-index:6;top:50%;left:50%;transform:translate(-50%,-50%);width:min(80%,440px);padding:16px;border:2px solid #f4ba6a;border-radius:16px;background:#fff9e9f2;color:#824e1d;text-align:center;font-weight:800;box-shadow:0 9px 28px #214d696e}
+@media(max-width:800px){
+ body.neuro-map-mode .topbar{padding:11px 0;gap:12px}
+ body.neuro-map-mode .beta-banner{padding:8px 10px;margin-top:9px;border-radius:12px;gap:4px;font-size:.68rem}
+ body.neuro-map-mode .beta-banner strong{font-size:.67rem}
+ body.neuro-map-mode .workspace-bar{padding:7px 12px}
+ .map25-header{margin-top:2px;margin-bottom:9px}
+ .map25-header .kicker{margin-bottom:3px;font-size:.62rem}
+ .map25-header p{font-size:.76rem;line-height:1.3}
+ .map25-progress{padding:8px 10px;margin-bottom:8px}
+ .map25-progress-meta{margin-bottom:5px}
+ .map25-progress-track{height:7px}
+ .map25-navrail{height:40px;background:#f0fbfe}
+ .map25-overview{display:block}
+ .map25-footer{margin-top:11px}
+ .map25-menu{padding-bottom:5px}
+}
+@media(max-width:420px){
+ body.neuro-map-mode .topbar .edition{display:none}
+ .map25-header .kicker{display:none}
+ .map25-header h2{margin:0}
+ .map25-header p{max-width:196px}
+ .map25-score small{letter-spacing:.02em}
+}
+@media(prefers-reduced-motion:reduce){
+ .map25-overview-thumb{transition:none}
+}
+
+
+/* Versión oficial v3: bloqueo progresivo visible en mapa y accesos rápidos. */
+.world-place.locked{cursor:not-allowed;filter:saturate(.65)}
+.world-place.locked:hover{background:transparent;border-color:transparent;box-shadow:none}
+.world-state.locked{background:#e9ecf3;color:#586678;opacity:.97}
+.map25-chip.locked{background:#eef2f7;color:#687586;border-color:#c4cbd2;cursor:not-allowed}
+.map25-chip.locked small{color:#77818e}
+.map25-chip.locked .map25-chip-icon{filter:grayscale(1);opacity:.65}
+.map25-chip.locked:hover{background:#eef2f7;border-color:#c4cbd2}
+.home-art .welcome-v3-image{position:absolute;inset:0;width:100%;height:100%;display:block;object-fit:cover;object-position:33% center}
+.home-art .callout{position:relative;z-index:2}
+@media(min-width:801px){.home-art .welcome-v3-image{object-position:35% center}}
+@media(max-width:760px){.home-art .welcome-v3-image{object-position:21% center}}
