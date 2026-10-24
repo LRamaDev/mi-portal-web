@@ -39,7 +39,7 @@
     try {
       // La URL cambia con la versión: evita que un service worker anterior entregue
       // habilidades sin videos durante la primera visita tras una actualización.
-      const releaseVersion = document.querySelector('meta[name="app-version"]')?.content || '6.21.0';
+      const releaseVersion = document.querySelector('meta[name="app-version"]')?.content || '6.22.0';
       const [skillsData, exerciseData] = await Promise.all([
         fetch(`./data/habilidades.json?v=${encodeURIComponent(releaseVersion)}`, { cache: 'no-store' }).then(r => { if (!r.ok) throw new Error('habilidades'); return r.json(); }),
         fetch('./data/ejercicios.json').then(r => { if (!r.ok) throw new Error('ejercicios'); return r.json(); })
@@ -541,6 +541,13 @@
       frame.referrerPolicy = 'strict-origin-when-cross-origin';
       frame.allowFullscreen = true;
       stage.append(frame);
+      const link = document.createElement('a');
+      link.className = 'skill-video-external';
+      link.href = 'https://www.youtube.com/watch?v=' + video.id;
+      link.target = '_blank';
+      link.rel = 'noopener noreferrer';
+      link.textContent = '↗ Abrir en YouTube';
+      stage.append(link);
       stage.hidden = false;
       activeProfileIds().forEach(id => recordVideoEvent(id, skillId, video.id, 'view'));
     }
@@ -583,16 +590,16 @@
   function renderVideos() {
     const container = $('#video-library');
     if (activeMode === 'together') {
-      const rows = skills.flatMap(skill => validSkillVideos(skill).map(video => ({ videoId: video.id, title: video.titulo, skill, progress: null })));
+      const rows = skills.filter(skill => validSkillVideos(skill).length).map(skill => ({ videoId: validSkillVideos(skill)[0].id, title: validSkillVideos(skill)[0].titulo, skill, progress: null }));
       container.innerHTML = `<section class="video-profile"><p class="video-profile-intro">En modo juntas mostramos la biblioteca compartida sin datos individuales de progreso.</p><div class="video-grid">${rows.map(row => videoCardHtml(row, 'together')).join('')}</div></section>`;
       return;
     }
 
     const id = primaryProfileId();
-    const rows = skills.flatMap(skill => validSkillVideos(skill)
-      .map(video => ({ videoId: video.id, title: video.titulo, skill,
-        recommendedForProfile: video.perfiles?.includes(id) || false,
-        progress: state.profiles[id]?.progress?.[skill.id] })));
+    const rows = skills.filter(skill => validSkillVideos(skill).length)
+      .map(skill => ({ videoId: validSkillVideos(skill)[0].id, title: validSkillVideos(skill)[0].titulo, skill,
+        recommendedForProfile: validSkillVideos(skill).some(video => video.perfiles?.includes(id)),
+        progress: state.profiles[id]?.progress?.[skill.id] }));
     rows.sort((a, b) => {
       const aa = skillAnalysis(id, a.skill.id);
       const bb = skillAnalysis(id, b.skill.id);
@@ -607,11 +614,22 @@
   function videoCardHtml({skill, videoId, title, progress}, profileId) {
     const analysis = profileId === 'together' ? null : skillAnalysis(profileId, skill.id);
     const status = profileId === 'together' ? 'Recurso compartido' : learnerStatusShort(analysis);
+    const videos = validSkillVideos(skill).slice(0, 3);
+    const principal = videos[0];
+    const extraButtons = videos.slice(1).map(video => `
+      <button type="button" class="video-alternative-btn" data-play-video="${video.id}">
+        <strong>${escapeHtml(video.titulo)}</strong><small>${escapeHtml(video.canal || 'Video complementario')}</small>
+      </button>`).join('');
+    const viewed = profileId !== 'together' && (state.profiles[profileId]?.videoLearning?.viewed || []).includes(`${skill.id}:${videoId}`);
     return `<article class="video-card" data-video-id="${videoId}" data-video-skill="${escapeHtml(skill.id)}" data-profile="${profileId}">
       <div class="video-card-top"><span class="level ${profileId === 'together' ? 'unseen' : analysisLevelClass(analysis)}">${escapeHtml(status)}</span><span class="video-subject">${skill.area === 'lengua' ? 'Lengua' : 'Matemática'}</span></div>
-      <h4>${escapeHtml(skill.nombre)}</h4><p>${escapeHtml(title)}</p>
+      <h4>${escapeHtml(skill.nombre)}</h4>
+      <p class="video-main-title" data-current-video-name><strong>${escapeHtml(title)}</strong>${viewed ? ' · Ya visto' : ''}</p>
+      <p class="video-learning-goal">${escapeHtml(principal?.objetivo || 'Mirá la explicación y después poné en práctica lo aprendido.')}</p>
       <div class="video-stage"><button class="video-play" type="button" data-play-video="${videoId}" aria-label="Ver video de ${escapeHtml(skill.nombre)} acá">▷ <span>Ver video acá</span></button></div>
-      <div class="video-actions"><button class="secondary-button" type="button" data-video-practice="${escapeHtml(skill.id)}">Practicar este tema</button></div>
+      <p class="video-external"><a data-video-open href="https://www.youtube.com/watch?v=${videoId}" target="_blank" rel="noopener noreferrer">↗ Abrir en YouTube si no se reproduce</a></p>
+      ${extraButtons ? `<details class="video-alternatives"><summary>Otras explicaciones (${videos.length-1})</summary><div class="video-alternative-list">${extraButtons}</div></details>` : ''}
+      <div class="video-actions"><button class="secondary-button" type="button" data-video-practice="${escapeHtml(skill.id)}">Practicar este tema · 2 ejercicios</button></div>
     </article>`;
   }
 
@@ -625,7 +643,13 @@
       // Un solo reproductor activo; iframe solo tras una acción explícita.
       $('#video-library').querySelectorAll('iframe').forEach(frame => frame.remove());
       $('#video-library').querySelectorAll('.video-play').forEach(button => { button.hidden = false; });
-      play.hidden = true;
+      const selectedVideo = videoForProfile(card.dataset.videoSkill, card.dataset.profile, id);
+      const activeMainButton = card.querySelector('.video-play');
+      if (activeMainButton) activeMainButton.hidden = true;
+      const videoName = card.querySelector('[data-current-video-name]');
+      if (videoName) videoName.textContent = selectedVideo.titulo;
+      const openLink = card.querySelector('[data-video-open]');
+      if (openLink) openLink.href = 'https://www.youtube.com/watch?v=' + id;
       const frame = document.createElement('iframe');
       frame.src = `https://www.youtube-nocookie.com/embed/${id}?rel=0`;
       frame.title = `Video: ${card.querySelector('h4').textContent}`;
@@ -812,7 +836,7 @@
       toast('El diagnóstico es individual. Hacelo desde cada perfil para que el mapa de fortalezas sea preciso.');
       return;
     }
-    const pool = buildSessionPool(type, area, school, skillId);
+    const pool = buildSessionPool(type, area, school, skillId, origin);
     if (!pool.length) return toast('No quedan consignas nuevas para esta selección en los últimos 7 días. Probá otra materia o retomá más adelante.');
     session = {
       type, area, school, skillId, origin, items: pool, index: 0, correct: 0, answers: [], hintUsed: false,
@@ -844,7 +868,7 @@
     return new Set(exercises.filter(e => usedIds.has(e.id)).map(exerciseFingerprint));
   }
 
-  function buildSessionPool(type, area, school, skillId = null) {
+  function buildSessionPool(type, area, school, skillId = null, origin = 'manual') {
     let pool = exercises.filter(e => area === 'all' || e.area === area);
     if (skillId) pool = pool.filter(e => e.habilidad === skillId);
     if (school) pool = pool.filter(e => e.colegios.includes('comun') || e.colegios.includes(school));
@@ -854,7 +878,7 @@
     pool = pool.filter(e => !usedRecently.has(e.id) && !fingerprintsRecently.has(exerciseFingerprint(e)));
     if (type === 'diagnostico') return buildAdaptiveDiagnostic(pool);
     if (type === 'simulacro') return buildSimulationPool(pool, school, area);
-    return buildAdaptivePractice(pool, skillId ? 3 : 8);
+    return buildAdaptivePractice(pool, skillId ? (origin === 'video' ? 2 : 3) : 8);
   }
 
   function buildAdaptiveDiagnostic(pool) {

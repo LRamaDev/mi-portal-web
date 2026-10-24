@@ -190,3 +190,20 @@ button:focus-visible,input:focus-visible,summary:focus-visible,a:focus-visible{o
 .production-example{margin-top:14px}
 .production-example summary{cursor:pointer;font-weight:700}
 @media(max-width:620px){.qualitative-progress-row{grid-template-columns:1fr}.qualitative-progress-row .level{justify-self:start}}
+
+/* v6.22: biblioteca audiovisual por habilidades, accesible en celular. */
+.video-main-title{font-size:.96rem;color:var(--text,#173f6b)!important}
+.video-learning-goal{min-height:2em}
+.video-external{margin:8px 0!important;font-size:.82rem!important}
+.video-external a{color:var(--brand,#17699a);font-weight:700;text-decoration:underline}
+.video-alternatives{margin-top:10px;border:1px solid var(--line);border-radius:12px;background:#fff;padding:10px}
+.video-alternatives summary{cursor:pointer;font-size:.88rem;font-weight:750;line-height:1.5}
+.video-alternative-list{display:grid;gap:8px;margin-top:10px}
+.video-alternative-btn{min-width:0;text-align:left;border:1px solid var(--line);border-radius:10px;padding:10px;background:#f7fafc;color:var(--text,#173f6b);cursor:pointer}
+.video-alternative-btn strong,.video-alternative-btn small{display:block;overflow-wrap:anywhere}
+.video-alternative-btn strong{font-size:.83rem}
+.video-alternative-btn small{margin-top:4px;color:var(--muted);font-size:.78rem}
+.video-alternative-btn:hover,.video-alternative-btn:focus-visible{border-color:#3a799c;background:#eef8fc}
+.skill-video-external{position:absolute;right:7px;bottom:7px;z-index:2;background:#fff;border-radius:8px;padding:6px 9px;color:#173f6b;font-size:.78rem;font-weight:800;text-decoration:none}
+.video-card .video-actions{margin-top:12px}
+@media(max-width:560px){.video-alternative-btn{min-height:48px}.video-card .video-actions button{min-height:48px}}
