@@ -1,5 +1,5 @@
 {
-  "version": 2,
+  "version": 3,
   "fuente": "Programas de ingreso 2026, modelos de examen y Guía Integrada Resuelta del Manuel Belgrano aportados por la familia",
   "habilidades": [
     {
@@ -172,8 +172,19 @@
       "prioridad": 5,
       "videos": [
         {
+          "id": "jdEsCe5sLxE",
+          "titulo": "Comparación de fracciones con distinto denominador",
+          "canal": "unProfesor",
+          "objetivo": "Llevá las fracciones a una forma comparable y explicá cuál es mayor.",
+          "perfiles": [
+            "p2"
+          ]
+        },
+        {
           "id": "ZqnHbXCCSIc",
-          "titulo": "Comparar fracciones",
+          "titulo": "CUÁL FRACCIÓN ES MAYOR - Comparando fracciones",
+          "canal": "Recurso existente",
+          "objetivo": "Compará por representación o equivalencia.",
           "perfiles": [
             "p2"
           ]
@@ -191,9 +202,31 @@
       "prioridad": 4,
       "videos": [
         {
-          "id": "qJtoI1ipxs8",
-          "titulo": "Sumar y restar fracciones",
+          "id": "YpSb9LlsFv8",
+          "titulo": "Comprendiendo la suma y resta de fracciones | Explicación completa",
+          "canal": "Matemáticas profe Alex",
+          "objetivo": "Diferenciá denominadores iguales y distintos, explicando cada paso.",
           "perfiles": [
+            "p1",
+            "p2"
+          ]
+        },
+        {
+          "id": "qJtoI1ipxs8",
+          "titulo": "SUMA Y RESTA DE FRACCIONES CON DIFERENTE DENOMINADOR",
+          "canal": "Daniel Carreón",
+          "objetivo": "Practicá sumas y restas con denominador común.",
+          "perfiles": [
+            "p2"
+          ]
+        },
+        {
+          "id": "-ytm1uOGOXk",
+          "titulo": "MULTIPLICACIÓN DE FRACCIONES Super fácil - Para principiantes",
+          "canal": "Daniel Carreón",
+          "objetivo": "Multiplicá y simplificá fracciones con ejercicios.",
+          "perfiles": [
+            "p1",
             "p2"
           ]
         }
@@ -207,7 +240,19 @@
       "colegios": [
         "comun"
       ],
-      "prioridad": 5
+      "prioridad": 5,
+      "videos": [
+        {
+          "id": "vimcE6ui6NQ",
+          "titulo": "Solución de problemas con fracciones | Ejemplo 1",
+          "canal": "Matemáticas profe Alex",
+          "objetivo": "Elegí la operación a partir de una situación y comprobá el resultado.",
+          "perfiles": [
+            "p1",
+            "p2"
+          ]
+        }
+      ]
     },
     {
       "id": "MAT-DEC-OPS",
@@ -222,8 +267,29 @@
         {
           "id": "y_F5eXD8Cb0",
           "titulo": "Sumas y restas con decimales",
+          "canal": "Recurso existente",
+          "objetivo": "Alineá las comas y comprobá sumas y restas.",
           "perfiles": [
             "p1"
+          ]
+        },
+        {
+          "id": "MzzKzYYVJhI",
+          "titulo": "Multiplicación de números decimales",
+          "canal": "Matemáticas profe Alex",
+          "objetivo": "Multiplicá y ubicá la coma según las cifras decimales.",
+          "perfiles": [
+            "p1",
+            "p2"
+          ]
+        },
+        {
+          "id": "1F0BysuI_K8",
+          "titulo": "División de números decimales",
+          "canal": "Matemáticas profe Alex",
+          "objetivo": "Dividí con decimales por etapas.",
+          "perfiles": [
+            "p2"
           ]
         }
       ]
@@ -397,9 +463,21 @@
       "videos": [
         {
           "id": "OTT8SKMdBD8",
-          "titulo": "Perímetros",
+          "titulo": "PERIMETRO DE TODAS LAS FIGURAS Super facil - Para principiantes",
+          "canal": "Daniel Carreón",
+          "objetivo": "Sumá las longitudes de los lados en figuras comunes.",
           "perfiles": [
-            "p1"
+            "p1",
+            "p2"
+          ]
+        },
+        {
+          "id": "QkLxkak-Oic",
+          "titulo": "Área y Perímetro de figuras compuestas",
+          "canal": "Problemas y Desafíos Matemáticos",
+          "objetivo": "Separá tramos y resolvé una figura compuesta.",
+          "perfiles": [
+            "p2"
           ]
         }
       ]
@@ -415,8 +493,20 @@
       "prioridad": 4,
       "videos": [
         {
+          "id": "Mco4xC2_BZQ",
+          "titulo": "Círculo y Circunferencia | Videos Educativos para Niños",
+          "canal": "Happy Learning Español",
+          "objetivo": "Reconocé centro, radio, diámetro, cuerda, arco y sector.",
+          "perfiles": [
+            "p1",
+            "p2"
+          ]
+        },
+        {
           "id": "bG3f36JQkuA",
           "titulo": "Radio y diámetro a partir de la circunferencia",
+          "canal": "Recurso existente",
+          "objetivo": "Vinculá medidas de circunferencia con radio y diámetro.",
           "perfiles": [
             "p2"
           ]
@@ -551,7 +641,29 @@
       "colegios": [
         "comun"
       ],
-      "prioridad": 5
+      "prioridad": 5,
+      "videos": [
+        {
+          "id": "STGGFtIkyDE",
+          "titulo": "El CUENTO y sus PARTES para NIÑOS de PRIMARIA",
+          "canal": "Clases Particulares en Ávila",
+          "objetivo": "Planificá inicio, nudo y desenlace, con personajes y conflicto.",
+          "perfiles": [
+            "p1",
+            "p2"
+          ]
+        },
+        {
+          "id": "8ZEAslcuDhU",
+          "titulo": "La estructura del cuento y sus partes: inicio, nudo y desenlace",
+          "canal": "Dariana Sánchez Villalona",
+          "objetivo": "Reconocé los momentos del relato antes de escribir.",
+          "perfiles": [
+            "p1",
+            "p2"
+          ]
+        }
+      ]
     },
     {
       "id": "LEN-REC-LIT",
@@ -773,8 +885,30 @@
       "prioridad": 5,
       "videos": [
         {
+          "id": "CCHz_iDHBj0",
+          "titulo": "Coherencia y cohesión",
+          "canal": "Andoni Tutor",
+          "objetivo": "Leé un borrador y corregí su sentido y unión entre oraciones.",
+          "perfiles": [
+            "p1",
+            "p2"
+          ]
+        },
+        {
+          "id": "1b4zfLc5M54",
+          "titulo": "Coherencia y Cohesión | CASTELLANO | Video educativo",
+          "canal": "Recurso complementario",
+          "objetivo": "Revisá conectores y relación lógica de las ideas.",
+          "perfiles": [
+            "p1",
+            "p2"
+          ]
+        },
+        {
           "id": "7Rf1w8UT_rg",
           "titulo": "Concordancia: cómo revisar una oración",
+          "canal": "Recurso existente",
+          "objetivo": "Buscá errores de concordancia al corregir.",
           "perfiles": [
             "p1"
           ]
