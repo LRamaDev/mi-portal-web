@@ -1,261 +1,1109 @@
 "use strict";
 /*
- * NeuroMisión — propuesta de ampliación del banco v3.4.
+ * NeuroMisión v3.4 — 50 consignas revisadas.
  * Se carga DESPUÉS de app-v2.js y ANTES de app-v3.js.
- * Agrega 50 ejercicios sin modificar los 76 existentes y sus IDs.
- * Etiquetas pedagógicas de dificultad para revisión editorial:
- * aún NO modifican la selección aleatoria vigente.
+ * No renumera los 76 ejercicios existentes ni altera IDs de partidas guardadas.
+ * Las etiquetas difficulty son documentales; la selección actual sigue siendo aleatoria.
+ * Las opciones[0] son correctas; el motor aleatoriza el orden mostrado.
  */
-const N34_choice=(q,options,hint,note)=>({type:"choice",q,options,answer:0,hint,note});
-const N34_pair=(q,left,right,hint,note)=>({type:"pair",q,left,right,
-  show:right.map((_,i)=>right.length-1-i),hint,note});
-const N34_classify=(q,buckets,items,hint,note)=>({type:"classify",q,buckets,items,hint,note});
-const N34_order=(q,steps,hint,note)=>({type:"order",q,steps,start:steps.map((_,i)=>steps.length-1-i),hint,note});
-const N34_point=(diagram,target,q,hint,note)=>({type:"point",diagram,target,q,hint,note});
-
-const NEUROMISION_34_NEW=[
-  [ // Misión 1 — Ciudad Central
-    N34_choice("Si una persona se lastima un nervio del brazo, ¿qué comunicación podría verse afectada?",
-      ["La comunicación entre el brazo y el sistema nervioso central","La circulación de sangre dentro del corazón","La producción de huesos del brazo","La entrada de aire a los pulmones"],
-      "Los nervios conectan el sistema nervioso central con el resto del cuerpo.",
-      "Los nervios periféricos transportan información sensitiva y motora entre el cuerpo y el sistema nervioso central."),
-    N34_choice("¿Qué estructura participa especialmente en mantener el equilibrio cuando caminás por una línea?",
-      ["El cerebelo","La lengua","Los pulmones","La retina"],
-      "Está en la región posterior e inferior del encéfalo.",
-      "El cerebelo contribuye al equilibrio y a la coordinación de los movimientos."),
-    N34_choice("¿Qué afirmación distingue correctamente al sistema nervioso central del periférico?",
-      ["El central incluye encéfalo y médula; el periférico incluye los nervios que los conectan con el cuerpo","El central está formado solo por nervios de las piernas","El periférico incluye únicamente los músculos","El encéfalo pertenece exclusivamente al sistema periférico"],
-      "Recordá qué estructuras están protegidas por el cráneo y las vértebras.",
-      "El sistema nervioso central comprende encéfalo y médula espinal; el periférico comprende nervios y ganglios."),
-    N34_pair("Uní cada estructura con su función principal en este ejemplo escolar.",
-      ["Cerebro","Cerebelo","Médula espinal","Nervios periféricos"],
-      ["Procesar información y participar en decisiones","Coordinar movimientos y equilibrio","Comunicar encéfalo y cuerpo y participar en reflejos","Llevar señales entre el sistema central y distintas regiones del cuerpo"],
-      "Pensá en el trabajo más característico de cada estructura.",
-      "Las estructuras nerviosas realizan funciones diferentes y coordinadas, aunque no trabajan aisladas."),
-    N34_pair("Relacioná cada estructura con la descripción que mejor la identifica.",
-      ["Encéfalo","Médula espinal","Nervios de la mano","Cerebelo"],
-      ["Parte central protegida principalmente por el cráneo","Estructura alargada protegida por la columna vertebral","Parte periférica que conecta la mano con el sistema central","Parte del encéfalo que interviene en la coordinación"],
-      "Buscá qué lugar ocupa cada estructura y cómo se relaciona con el cuerpo.",
-      "La ubicación y la función permiten distinguir encéfalo, médula espinal y nervios periféricos."),
-    N34_classify("Clasificá estas estructuras en sistema nervioso central o periférico.",
-      ["Central","Periférico"],
-      [["Médula espinal",0],["Nervio de una pierna",1],["Cerebro",0],["Nervio de un brazo",1]],
-      "El central incluye encéfalo y médula; los nervios del cuerpo son periféricos.",
-      "El sistema central y el periférico se conectan para recibir información y producir respuestas."),
-    N34_classify("¿La descripción corresponde a una estructura central o periférica?",
-      ["Central","Periférica"],
-      [["Estructura que integra información dentro del encéfalo",0],["Nervio que lleva señales desde la piel del brazo",1],["Médula que participa en algunos reflejos",0],["Nervio que conduce órdenes hacia un músculo de la pierna",1]],
-      "Diferenciá dónde se procesa parte de la información y por dónde viajan señales hacia o desde el cuerpo.",
-      "Los centros nerviosos y los nervios periféricos realizan tareas complementarias."),
-    N34_order("Ordená lo que ocurre cuando ves caer un vaso e intentás agarrarlo.",
-      ["La luz del vaso llega a los ojos","Las señales visuales llegan al encéfalo","El encéfalo organiza una respuesta voluntaria","Las señales motoras viajan hacia los músculos","Los músculos mueven el brazo"],
-      "Primero detectás el vaso; después se organiza y ejecuta un movimiento.",
-      "En una acción voluntaria, la información sensorial se procesa y se coordina una respuesta motora."),
-    N34_order("Ordená el recorrido simplificado al escuchar un timbre y caminar hacia la puerta.",
-      ["El timbre produce sonido","El oído detecta el sonido","La información llega al sistema nervioso central","Decidís acercarte a la puerta","Los músculos ejecutan el movimiento"],
-      "Una cosa es captar el sonido y otra decidir qué hacer con esa información.",
-      "La percepción y la acción voluntaria requieren comunicación entre receptores, centros nerviosos y músculos."),
-    N34_point("human","cerebelo",
-      "Tocá la estructura que ayuda a coordinar los movimientos para mantener el equilibrio.",
-      "Está detrás y debajo de otras partes del encéfalo.",
-      "El cerebelo contribuye a ajustar movimientos, postura y equilibrio.")
+const NEUROMISION_34_NEW = [
+  [
+    {
+      "type": "choice",
+      "q": "Si una persona se lastima un nervio del brazo, ¿qué comunicación podría verse afectada?",
+      "options": [
+        "La comunicación entre el brazo y el sistema nervioso central",
+        "La circulación de sangre dentro del corazón",
+        "La producción de huesos del brazo",
+        "La entrada de aire a los pulmones"
+      ],
+      "answer": 0,
+      "hint": "Los nervios conectan el sistema nervioso central con el resto del cuerpo.",
+      "note": "Los nervios periféricos transportan información sensitiva y motora entre el cuerpo y el sistema nervioso central.",
+      "id": "m0-v34-01",
+      "difficulty": "básico"
+    },
+    {
+      "type": "choice",
+      "q": "Cuando escribís una nota, ¿qué recorrido general ayuda a mover la mano voluntariamente?",
+      "options": [
+        "El sistema central organiza el movimiento y los nervios llevan señales hacia los músculos",
+        "Los músculos deciden por sí solos qué letras escribir",
+        "Los receptores del oído envían órdenes directas a los dedos",
+        "La médula transforma la luz en letras antes de escribir"
+      ],
+      "answer": 0,
+      "hint": "Pensá quién organiza la acción y por dónde viajan las órdenes hacia la mano.",
+      "note": "El sistema nervioso central participa en planificar la escritura y las vías motoras conducen señales hacia los músculos de la mano.",
+      "id": "m0-v34-02",
+      "difficulty": "intermedio"
+    },
+    {
+      "type": "choice",
+      "q": "¿Qué afirmación distingue correctamente al sistema nervioso central del periférico?",
+      "options": [
+        "El central incluye encéfalo y médula; el periférico incluye los nervios que los conectan con el cuerpo",
+        "El central incluye nervios de brazos y piernas; el periférico, el encéfalo",
+        "El central incluye solo el cerebro; la médula es siempre periférica",
+        "El periférico incluye la médula espinal; el central, los nervios de la piel"
+      ],
+      "answer": 0,
+      "hint": "Recordá qué estructuras están protegidas por el cráneo y las vértebras.",
+      "note": "El sistema nervioso central comprende encéfalo y médula espinal; el periférico comprende nervios y ganglios.",
+      "id": "m0-v34-03",
+      "difficulty": "intermedio"
+    },
+    {
+      "type": "pair",
+      "q": "Relacioná cada situación con la estructura que interviene especialmente.",
+      "left": [
+        "Mantener el equilibrio al caminar",
+        "Decidir responder una pregunta",
+        "Conducir señales entre encéfalo y cuerpo",
+        "Enviar señales hacia músculos del brazo"
+      ],
+      "right": [
+        "Cerebelo",
+        "Cerebro",
+        "Médula espinal",
+        "Nervios periféricos"
+      ],
+      "show": [
+        3,
+        2,
+        1,
+        0
+      ],
+      "hint": "Pensá qué estructura coordina, cuál participa en decisiones y cuáles comunican señales.",
+      "note": "Cerebro, cerebelo, médula y nervios cumplen funciones complementarias en la vida cotidiana.",
+      "id": "m0-v34-04",
+      "difficulty": "intermedio"
+    },
+    {
+      "type": "pair",
+      "q": "Relacioná cada situación con la dirección de la información nerviosa.",
+      "left": [
+        "Sentís frío en una mano",
+        "Movés una pierna para patear",
+        "Notás una piedra dentro del zapato",
+        "Girás el cuello para saludar"
+      ],
+      "right": [
+        "Sensitiva: desde la mano hacia el sistema central",
+        "Motora: desde el sistema central hacia la pierna",
+        "Sensitiva: desde el pie hacia el sistema central",
+        "Motora: desde el sistema central hacia el cuello"
+      ],
+      "show": [
+        3,
+        2,
+        1,
+        0
+      ],
+      "hint": "Una señal sensitiva informa sobre el cuerpo; una motora dirige el movimiento.",
+      "note": "Las vías sensitivas llevan información hacia el sistema nervioso central; las motoras llevan señales a los músculos.",
+      "id": "m0-v34-05",
+      "difficulty": "desafío"
+    },
+    {
+      "type": "classify",
+      "q": "Clasificá estas estructuras según dónde se encuentran.",
+      "buckets": [
+        "Dentro del cráneo",
+        "En el interior de la columna vertebral",
+        "En otras regiones del cuerpo"
+      ],
+      "items": [
+        [
+          "Cerebro",
+          0
+        ],
+        [
+          "Cerebelo",
+          0
+        ],
+        [
+          "Médula espinal",
+          1
+        ],
+        [
+          "Nervios de la mano",
+          2
+        ],
+        [
+          "Nervios del pie",
+          2
+        ]
+      ],
+      "hint": "Pensá qué estructuras están protegidas por huesos del cráneo y cuáles recorren el cuerpo.",
+      "note": "El encéfalo está protegido por el cráneo, la médula por la columna y muchos nervios periféricos recorren otras regiones.",
+      "id": "m0-v34-06",
+      "difficulty": "intermedio"
+    },
+    {
+      "type": "classify",
+      "q": "¿La descripción corresponde a una estructura central o periférica?",
+      "buckets": [
+        "Central",
+        "Periférica"
+      ],
+      "items": [
+        [
+          "Estructura que integra información dentro del encéfalo",
+          0
+        ],
+        [
+          "Nervio que lleva señales desde la piel del brazo",
+          1
+        ],
+        [
+          "Médula que participa en algunos reflejos",
+          0
+        ],
+        [
+          "Nervio que conduce órdenes hacia un músculo de la pierna",
+          1
+        ]
+      ],
+      "hint": "Diferenciá dónde se procesa parte de la información y por dónde viajan señales hacia o desde el cuerpo.",
+      "note": "Los centros nerviosos y los nervios periféricos realizan tareas complementarias.",
+      "id": "m0-v34-07",
+      "difficulty": "intermedio"
+    },
+    {
+      "type": "order",
+      "q": "Ordená lo que ocurre cuando ves caer un vaso e intentás agarrarlo.",
+      "steps": [
+        "La luz reflejada por el vaso llega a los ojos",
+        "Las señales visuales llegan al encéfalo",
+        "El encéfalo organiza una respuesta voluntaria",
+        "Las señales motoras viajan hacia los músculos",
+        "Los músculos mueven el brazo"
+      ],
+      "start": [
+        4,
+        3,
+        2,
+        1,
+        0
+      ],
+      "hint": "Primero detectás el vaso; después se organiza y ejecuta un movimiento.",
+      "note": "En una acción voluntaria, la información sensorial se procesa y se coordina una respuesta motora.",
+      "id": "m0-v34-08",
+      "difficulty": "intermedio"
+    },
+    {
+      "type": "order",
+      "q": "Ordená el recorrido simplificado al escuchar un timbre y caminar hacia la puerta.",
+      "steps": [
+        "El timbre produce sonido",
+        "El oído detecta el sonido",
+        "La información llega al sistema nervioso central",
+        "Decidís acercarte a la puerta",
+        "Los músculos ejecutan el movimiento"
+      ],
+      "start": [
+        4,
+        3,
+        2,
+        1,
+        0
+      ],
+      "hint": "Una cosa es captar el sonido y otra decidir qué hacer con esa información.",
+      "note": "La percepción y la acción voluntaria requieren comunicación entre receptores, centros nerviosos y músculos.",
+      "id": "m0-v34-09",
+      "difficulty": "intermedio"
+    },
+    {
+      "type": "point",
+      "diagram": "human",
+      "target": "cerebelo",
+      "q": "Tocá la estructura que ayuda a coordinar los movimientos para mantener el equilibrio.",
+      "hint": "Está detrás y debajo de otras partes del encéfalo.",
+      "note": "El cerebelo contribuye a ajustar movimientos, postura y equilibrio.",
+      "id": "m0-v34-10",
+      "difficulty": "básico"
+    }
   ],
-  [ // Misión 2 — Valle de la Neurona
-    N34_choice("¿Cuál es una función de la mielina en muchas neuronas?",
-      ["Favorecer la transmisión rápida de los impulsos a lo largo del axón","Guardar los recuerdos en el núcleo","Producir sonido en el oído","Reemplazar todas las dendritas"],
-      "Pensá en el recubrimiento de algunos axones.",
-      "La mielina contribuye a que el impulso nervioso se propague con mayor rapidez en muchos axones."),
-    N34_choice("¿Qué ocurre, de forma simplificada, en una sinapsis química?",
-      ["Una neurona libera sustancias que permiten transmitir información a otra célula","El axón se transforma en hueso","La neurona produce luz para ver","La médula espinal se convierte en músculo"],
-      "Pensá en la comunicación entre células.",
-      "En muchas sinapsis, una neurona libera neurotransmisores que actúan sobre otra célula."),
-    N34_choice("¿Dónde se encuentra normalmente el núcleo de una neurona?",
-      ["Dentro del cuerpo celular o soma","En el extremo de cada terminal axónica","Fuera de la célula","En el interior de la vaina de mielina"],
-      "El soma es la región principal del cuerpo de la célula.",
-      "El núcleo suele localizarse en el soma y contiene el material genético."),
-    N34_pair("Relacioná las partes de una neurona con su función habitual.",
-      ["Dendritas","Cuerpo celular","Axón","Terminales del axón"],
-      ["Recibir señales de otras células","Contener el núcleo y participar en la integración de señales","Conducir el impulso hacia las terminaciones","Participar en transmitir información a otra célula"],
-      "Seguí el recorrido de la información dentro de una neurona típica.",
-      "La distribución de funciones ayuda a comprender la estructura de una neurona."),
-    N34_pair("Uní cada parte neuronal con una descripción correcta.",
-      ["Núcleo","Mielina","Axón","Terminales"],
-      ["Contiene material genético","Recubrimiento que facilita la propagación del impulso en muchos axones","Prolongación que conduce el impulso nervioso","Extremos que participan en la comunicación con otras células"],
-      "Observá qué hay dentro del soma y qué estructuras aparecen a lo largo del axón.",
-      "El núcleo, la mielina, el axón y las terminales cumplen funciones distintas."),
-    N34_classify("Ubicá cada estructura según su función en el recorrido habitual de la señal.",
-      ["Recepción","Conducción","Transmisión a otra célula"],
-      [["Dendritas",0],["Axón",1],["Terminales del axón",2],["Vaina de mielina que facilita la conducción",1]],
-      "Pensá qué parte recibe, cuál conduce y cuál participa en comunicar la señal a otra célula.",
-      "En una neurona típica, distintas regiones participan en la recepción, conducción y transmisión."),
-    N34_classify("¿Estas estructuras forman parte del soma o se extienden fuera de él?",
-      ["Dentro del soma","Se extiende fuera del soma"],
-      [["Núcleo de la neurona",0],["Axón",1],["Citoplasma del cuerpo celular",0],["Dendritas",1]],
-      "El soma es el cuerpo celular que contiene el núcleo.",
-      "El núcleo y el citoplasma pertenecen al soma; axón y dendritas se prolongan desde él."),
-    N34_order("Ordená la comunicación simplificada desde una neurona hacia otra.",
-      ["Las dendritas reciben una señal","El cuerpo celular participa en integrarla","El impulso se propaga por el axón","Las terminales liberan mensajeros químicos en una sinapsis","La célula siguiente recibe el mensaje"],
-      "Seguimos una neurona con una sinapsis química habitual.",
-      "La señal puede propagarse a través de la neurona y transmitirse químicamente en una sinapsis."),
-    N34_order("Ordená un ejemplo simple de comunicación nerviosa al recibir un estímulo en la piel.",
-      ["Un receptor de la piel detecta un estímulo","Se genera una señal en la vía sensitiva","La señal se propaga a lo largo de un axón","La terminal transmite información a otra célula del circuito"],
-      "Comenzá en el receptor y terminá con la comunicación a otra célula.",
-      "Los impulsos pueden viajar por axones y la información transmitirse en sinapsis."),
-    N34_point("neuron","nucleo",
-      "Señalá el núcleo que está dentro del cuerpo celular de la neurona.",
-      "Buscá la estructura redondeada ubicada dentro del soma.",
-      "El núcleo es una estructura interna del soma que contiene el material genético.")
+  [
+    {
+      "type": "choice",
+      "q": "¿Qué diferencia hay entre un impulso por el axón y la transmisión en una sinapsis química?",
+      "options": [
+        "En el axón se propaga un impulso eléctrico; en la sinapsis química se liberan neurotransmisores",
+        "En el axón se liberan olores y la sinapsis fabrica mielina",
+        "Ambos procesos dependen de que el núcleo salga de la célula",
+        "La sinapsis química es únicamente el recubrimiento del axón"
+      ],
+      "answer": 0,
+      "hint": "Compará cómo avanza una señal por el axón y cómo pasa información a otra célula.",
+      "note": "El impulso nervioso se propaga por la membrana del axón y muchas sinapsis usan neurotransmisores para comunicar células.",
+      "id": "m1-v34-01",
+      "difficulty": "desafío"
+    },
+    {
+      "type": "choice",
+      "q": "¿Qué ocurre, de forma simplificada, en una sinapsis química?",
+      "options": [
+        "Una neurona puede liberar neurotransmisores que llevan información a otra célula",
+        "La información se comunica únicamente cuando los núcleos de dos neuronas se tocan",
+        "Las terminales solo reciben señales luminosas, nunca liberan sustancias",
+        "La mielina funciona como neurotransmisor entre células"
+      ],
+      "answer": 0,
+      "hint": "Pensá en la comunicación entre células.",
+      "note": "En muchas sinapsis, una neurona libera neurotransmisores que actúan sobre otra célula.",
+      "id": "m1-v34-02",
+      "difficulty": "intermedio"
+    },
+    {
+      "type": "choice",
+      "q": "¿Por qué un axón puede transmitir señales hacia zonas alejadas del cuerpo celular?",
+      "options": [
+        "Porque propaga impulsos nerviosos a lo largo de su membrana",
+        "Porque el núcleo se desplaza por su interior hasta el músculo",
+        "Porque las dendritas se convierten en axones cuando aparece un estímulo",
+        "Porque la mielina reemplaza a todas las células del circuito"
+      ],
+      "answer": 0,
+      "hint": "El axón es una prolongación especializada para la conducción de impulsos.",
+      "note": "La membrana del axón permite que se propaguen impulsos nerviosos hasta sus terminaciones.",
+      "id": "m1-v34-03",
+      "difficulty": "intermedio"
+    },
+    {
+      "type": "pair",
+      "q": "Relacioná cada pregunta sobre el funcionamiento neuronal con su estructura.",
+      "left": [
+        "¿Dónde está el material genético?",
+        "¿Qué región participa en integrar señales?",
+        "¿Qué prolongación conduce impulsos?",
+        "¿Dónde puede liberarse un neurotransmisor?"
+      ],
+      "right": [
+        "Núcleo",
+        "Cuerpo celular o soma",
+        "Axón",
+        "Terminales del axón"
+      ],
+      "show": [
+        3,
+        2,
+        1,
+        0
+      ],
+      "hint": "Pensá en el núcleo, el soma y las partes que comunican señales.",
+      "note": "Núcleo, soma, axón y terminales cumplen funciones diferentes en la célula nerviosa.",
+      "id": "m1-v34-04",
+      "difficulty": "intermedio"
+    },
+    {
+      "type": "pair",
+      "q": "Uní cada parte neuronal con una descripción correcta.",
+      "left": [
+        "Núcleo",
+        "Mielina",
+        "Axón",
+        "Terminales"
+      ],
+      "right": [
+        "Contiene material genético",
+        "Recubrimiento que facilita la propagación del impulso en muchos axones",
+        "Prolongación que conduce el impulso nervioso",
+        "Extremos que participan en la comunicación con otras células"
+      ],
+      "show": [
+        3,
+        2,
+        1,
+        0
+      ],
+      "hint": "Observá qué hay dentro del soma y qué estructuras aparecen a lo largo del axón.",
+      "note": "El núcleo, la mielina, el axón y las terminales cumplen funciones distintas.",
+      "id": "m1-v34-05",
+      "difficulty": "intermedio"
+    },
+    {
+      "type": "classify",
+      "q": "Clasificá las partes según su participación más característica.",
+      "buckets": [
+        "Recepción",
+        "Conducción del impulso",
+        "Facilita la conducción",
+        "Comunicación sináptica"
+      ],
+      "items": [
+        [
+          "Dendritas",
+          0
+        ],
+        [
+          "Axón",
+          1
+        ],
+        [
+          "Vaina de mielina",
+          2
+        ],
+        [
+          "Terminales del axón",
+          3
+        ]
+      ],
+      "hint": "Una cosa es conducir el impulso y otra es facilitar que viaje más rápido.",
+      "note": "En el modelo escolar, las dendritas reciben señales, el axón conduce, la mielina facilita y las terminales participan en sinapsis.",
+      "id": "m1-v34-06",
+      "difficulty": "desafío"
+    },
+    {
+      "type": "classify",
+      "q": "¿Estas estructuras forman parte del soma o se extienden fuera de él?",
+      "buckets": [
+        "Dentro del soma",
+        "Se extiende fuera del soma"
+      ],
+      "items": [
+        [
+          "Núcleo de la neurona",
+          0
+        ],
+        [
+          "Axón",
+          1
+        ],
+        [
+          "Citoplasma del cuerpo celular",
+          0
+        ],
+        [
+          "Dendritas",
+          1
+        ]
+      ],
+      "hint": "El soma es el cuerpo celular que contiene el núcleo.",
+      "note": "El núcleo y el citoplasma pertenecen al soma; axón y dendritas se prolongan desde él.",
+      "id": "m1-v34-07",
+      "difficulty": "intermedio"
+    },
+    {
+      "type": "order",
+      "q": "Ordená cómo una neurona motora puede activar un músculo.",
+      "steps": [
+        "Un impulso nervioso viaja por el axón de una neurona motora",
+        "El impulso llega a las terminaciones próximas al músculo",
+        "Se libera un neurotransmisor en la unión con el músculo",
+        "La fibra muscular recibe la señal",
+        "El músculo se contrae"
+      ],
+      "start": [
+        4,
+        3,
+        2,
+        1,
+        0
+      ],
+      "hint": "Seguí la señal desde la neurona motora hasta el músculo.",
+      "note": "En la unión neuromuscular, la señal de una neurona motora puede activar fibras musculares y generar contracción.",
+      "id": "m1-v34-08",
+      "difficulty": "desafío"
+    },
+    {
+      "type": "order",
+      "q": "Ordená un ejemplo simple de comunicación nerviosa al recibir un estímulo en la piel.",
+      "steps": [
+        "Un receptor de la piel detecta un estímulo",
+        "Se genera una señal en la vía sensitiva",
+        "La señal se propaga a lo largo de un axón",
+        "La terminal transmite información a otra célula del circuito"
+      ],
+      "start": [
+        3,
+        2,
+        1,
+        0
+      ],
+      "hint": "Comenzá en el receptor y terminá con la comunicación a otra célula.",
+      "note": "Los impulsos pueden viajar por axones y la información transmitirse en sinapsis.",
+      "id": "m1-v34-09",
+      "difficulty": "intermedio"
+    },
+    {
+      "type": "point",
+      "diagram": "neuron",
+      "target": "nucleo",
+      "q": "Señalá el núcleo que está dentro del cuerpo celular de la neurona.",
+      "hint": "Buscá la estructura redondeada ubicada dentro del soma.",
+      "note": "El núcleo es una estructura interna del soma que contiene el material genético.",
+      "id": "m1-v34-10",
+      "difficulty": "básico"
+    }
   ],
-  [ // Misión 3 — Bosque Sensorial
-    N34_choice("Cuando tocás una superficie rugosa, ¿qué receptores participan principalmente?",
-      ["Mecanorreceptores de la piel","Fotorreceptores de los ojos","Receptores olfatorios de la nariz","Receptores auditivos del oído"],
-      "La rugosidad se percibe mediante el tacto.",
-      "Los mecanorreceptores cutáneos responden a estímulos mecánicos, como presión y contacto."),
-    N34_choice("¿Cuál es el estímulo cuando escuchás la alarma de un reloj?",
-      ["El sonido producido por la alarma","El oído completo","El cerebro de quien escucha","El músculo de la mano"],
-      "El estímulo es algo detectable, no el órgano que lo recibe.",
-      "Las ondas sonoras de la alarma son el estímulo que detecta el sistema auditivo."),
-    N34_choice("¿Por qué podemos detectar el aroma de una fruta?",
-      ["Porque ciertas sustancias que libera estimulan receptores olfatorios","Porque la retina identifica directamente los olores","Porque los músculos del brazo reconocen aromas","Porque el cerebelo produce el aroma"],
-      "Oler depende de sustancias presentes en el aire.",
-      "Los receptores olfatorios detectan determinadas moléculas odorantes que llegan a la nariz."),
-    N34_pair("Uní cada estímulo con el receptor que puede detectarlo.",
-      ["Luz de una pantalla","Vibraciones del sonido de una guitarra","Presión de una mano en el hombro","Moléculas de un perfume"],
-      ["Fotorreceptores de la retina","Receptores auditivos del oído interno","Mecanorreceptores de la piel","Receptores olfatorios de la nariz"],
-      "Diferenciá luz, sonido, presión y olor.",
-      "Los receptores sensoriales están especializados en determinados tipos de estímulos."),
-    N34_pair("Relacioná situaciones cotidianas con el estímulo que detectás.",
-      ["Suena la campana","Encendés una linterna","Sostenés un cubito de hielo","Olfateás una flor"],
-      ["Sonido","Luz","Cambio de temperatura","Sustancias odorantes"],
-      "Pensá en qué cambia en el entorno en cada situación.",
-      "Sonido, luz, temperatura y sustancias químicas pueden estimular diferentes receptores."),
-    N34_classify("Clasificá los estímulos según sean físicos o químicos.",
-      ["Físicos","Químicos"],
-      [["Luz",0],["Sonido",0],["Moléculas olorosas",1],["Sustancias que producen sabor",1]],
-      "En el olfato y el gusto intervienen sustancias químicas.",
-      "Luz y sonido son estímulos físicos; olfato y gusto detectan señales químicas."),
-    N34_classify("Clasificá qué tipo de información detecta cada órgano.",
-      ["Luz","Sustancias químicas","Sonidos o presión"],
-      [["Ojo",0],["Nariz",1],["Lengua",1],["Oído",2],["Piel al tocar un objeto",2]],
-      "La nariz y la lengua detectan sustancias; el ojo recibe luz.",
-      "Los órganos sensoriales poseen receptores adaptados a diferentes estímulos."),
-    N34_order("Ordená lo que pasa cuando apoyás la mano sobre algo frío.",
-      ["La piel entra en contacto con el objeto frío","Los termorreceptores responden al cambio de temperatura","Las vías sensitivas conducen información nerviosa","El sistema nervioso central procesa esa información","Reconocés la sensación de frío"],
-      "Empezá en la piel y terminá en la percepción.",
-      "La percepción de la temperatura requiere receptores, vías nerviosas y procesamiento central."),
-    N34_order("Ordená cómo llegás a percibir el sabor de una fruta.",
-      ["Colocás un trozo de fruta en la boca","Sustancias de la fruta se disuelven en la saliva","Los receptores gustativos responden a esas sustancias","Se transmiten señales nerviosas","El encéfalo participa en la percepción del sabor"],
-      "Para activar receptores gustativos, las sustancias deben entrar en contacto con ellos.",
-      "La percepción del sabor combina señales gustativas y otros sentidos, como el olfato."),
-    N34_point("sensory","hielo",
-      "En el bosque ilustrado, tocá el objeto que puede provocar una sensación de frío.",
-      "Buscá los cubitos transparentes y azulados.",
-      "La piel contiene receptores sensibles a cambios de temperatura.")
+  [
+    {
+      "type": "choice",
+      "q": "Cuando tocás una superficie rugosa, ¿qué receptores participan principalmente?",
+      "options": [
+        "Mecanorreceptores de la piel",
+        "Fotorreceptores de los ojos",
+        "Receptores olfatorios de la nariz",
+        "Receptores auditivos del oído"
+      ],
+      "answer": 0,
+      "hint": "La rugosidad se percibe mediante el tacto.",
+      "note": "Los mecanorreceptores cutáneos responden a estímulos mecánicos, como presión y contacto.",
+      "id": "m2-v34-01",
+      "difficulty": "intermedio"
+    },
+    {
+      "type": "choice",
+      "q": "Ves un relámpago y después escuchás un trueno. ¿Qué estímulo capta cada sentido?",
+      "options": [
+        "Los ojos detectan luz y los oídos detectan sonido",
+        "Los ojos detectan sonido y los oídos detectan luz",
+        "La nariz detecta la luz y la lengua detecta el sonido",
+        "Los músculos del brazo detectan ambos estímulos"
+      ],
+      "answer": 0,
+      "hint": "El relámpago aporta luz y el trueno produce sonido.",
+      "note": "Los fotorreceptores responden a la luz; los receptores auditivos detectan vibraciones que llegan como sonido.",
+      "id": "m2-v34-02",
+      "difficulty": "básico"
+    },
+    {
+      "type": "choice",
+      "q": "¿Por qué podemos detectar el aroma de una fruta?",
+      "options": [
+        "Porque ciertas sustancias que libera estimulan receptores olfatorios",
+        "Porque la retina identifica directamente los olores",
+        "Porque los músculos del brazo reconocen aromas",
+        "Porque el cerebelo produce el aroma"
+      ],
+      "answer": 0,
+      "hint": "Oler depende de sustancias presentes en el aire.",
+      "note": "Los receptores olfatorios detectan determinadas moléculas odorantes que llegan a la nariz.",
+      "id": "m2-v34-03",
+      "difficulty": "básico"
+    },
+    {
+      "type": "pair",
+      "q": "Relacioná la sensación con el tipo de receptor que participa.",
+      "left": [
+        "Notar presión sobre el hombro",
+        "Percibir olor a una naranja",
+        "Ver el brillo de una linterna",
+        "Notar frío al sostener hielo"
+      ],
+      "right": [
+        "Mecanorreceptores de la piel",
+        "Receptores olfatorios",
+        "Fotorreceptores de la retina",
+        "Termorreceptores de la piel"
+      ],
+      "show": [
+        3,
+        2,
+        1,
+        0
+      ],
+      "hint": "Distinguí estímulos mecánicos, sustancias químicas, luz y temperatura.",
+      "note": "Cada tipo de receptor es sensible a determinadas propiedades del ambiente o del cuerpo.",
+      "id": "m2-v34-04",
+      "difficulty": "intermedio"
+    },
+    {
+      "type": "pair",
+      "q": "Relacioná situaciones cotidianas con el estímulo que detectás.",
+      "left": [
+        "Suena la campana",
+        "Encendés una linterna",
+        "Sostenés un cubito de hielo",
+        "Olfateás una flor"
+      ],
+      "right": [
+        "Sonido",
+        "Luz",
+        "Cambio de temperatura",
+        "Sustancias odorantes"
+      ],
+      "show": [
+        3,
+        2,
+        1,
+        0
+      ],
+      "hint": "Pensá en qué cambia en el entorno en cada situación.",
+      "note": "Sonido, luz, temperatura y sustancias químicas pueden estimular diferentes receptores.",
+      "id": "m2-v34-05",
+      "difficulty": "intermedio"
+    },
+    {
+      "type": "classify",
+      "q": "Clasificá ejemplos de estímulos según su tipo.",
+      "buckets": [
+        "Luminoso",
+        "Mecánico",
+        "Térmico",
+        "Químico"
+      ],
+      "items": [
+        [
+          "Brillo de una linterna",
+          0
+        ],
+        [
+          "Vibración producida por un parlante",
+          1
+        ],
+        [
+          "Frío de un cubito de hielo",
+          2
+        ],
+        [
+          "Aroma de pan recién hecho",
+          3
+        ],
+        [
+          "Sal que probás en una comida",
+          3
+        ]
+      ],
+      "hint": "Las ondas de luz, vibraciones, temperatura y moléculas se detectan de maneras diferentes.",
+      "note": "La luz activa fotorreceptores; vibraciones activan mecanorreceptores; temperatura, termorreceptores; sustancias, quimiorreceptores.",
+      "id": "m2-v34-06",
+      "difficulty": "desafío"
+    },
+    {
+      "type": "classify",
+      "q": "Clasificá qué tipo de estímulo detecta principalmente cada órgano en estos ejemplos.",
+      "buckets": [
+        "Luz",
+        "Sonido",
+        "Sustancias químicas",
+        "Contacto o presión"
+      ],
+      "items": [
+        [
+          "Ojo al mirar un cartel",
+          0
+        ],
+        [
+          "Oído al escuchar música",
+          1
+        ],
+        [
+          "Nariz al oler una flor",
+          2
+        ],
+        [
+          "Lengua al probar un alimento",
+          2
+        ],
+        [
+          "Piel al tocar una superficie rugosa",
+          3
+        ]
+      ],
+      "hint": "No agrupes el sonido y el tacto: en estos ejemplos son sentidos distintos.",
+      "note": "Los órganos sensoriales cuentan con receptores que responden a luz, sonido, sustancias químicas o estímulos táctiles.",
+      "id": "m2-v34-07",
+      "difficulty": "desafío"
+    },
+    {
+      "type": "order",
+      "q": "Ordená lo que pasa cuando apoyás la mano sobre algo frío.",
+      "steps": [
+        "La piel entra en contacto con el objeto frío",
+        "Los termorreceptores responden al cambio de temperatura",
+        "Las vías sensitivas conducen información nerviosa",
+        "El sistema nervioso central procesa esa información",
+        "Reconocés la sensación de frío"
+      ],
+      "start": [
+        4,
+        3,
+        2,
+        1,
+        0
+      ],
+      "hint": "Empezá en la piel y terminá en la percepción.",
+      "note": "La percepción de la temperatura requiere receptores, vías nerviosas y procesamiento central.",
+      "id": "m2-v34-08",
+      "difficulty": "intermedio"
+    },
+    {
+      "type": "order",
+      "q": "Ordená cómo llegás a percibir el sabor de una fruta.",
+      "steps": [
+        "Colocás un trozo de fruta en la boca",
+        "Sustancias de la fruta se disuelven en la saliva",
+        "Los receptores gustativos responden a esas sustancias",
+        "Se transmiten señales nerviosas",
+        "El encéfalo participa en la percepción del sabor"
+      ],
+      "start": [
+        4,
+        3,
+        2,
+        1,
+        0
+      ],
+      "hint": "Para activar receptores gustativos, las sustancias deben entrar en contacto con ellos.",
+      "note": "La percepción del sabor combina señales gustativas y otros sentidos, como el olfato.",
+      "id": "m2-v34-09",
+      "difficulty": "intermedio"
+    },
+    {
+      "type": "point",
+      "diagram": "sensory",
+      "target": "hielo",
+      "q": "En el bosque ilustrado, tocá el objeto que puede provocar una sensación de frío.",
+      "hint": "Buscá los cubitos transparentes y azulados.",
+      "note": "La piel contiene receptores sensibles a cambios de temperatura.",
+      "id": "m2-v34-10",
+      "difficulty": "básico"
+    }
   ],
-  [ // Misión 4 — Ruta de los Reflejos
-    N34_choice("¿Por qué podés retirar la mano de algo muy caliente antes de decidirlo conscientemente?",
-      ["Porque ciertos circuitos reflejos pueden organizar una retirada rápida en la médula espinal","Porque no intervienen neuronas","Porque el músculo detecta luz","Porque el cerebro deja de funcionar"],
-      "Pensá en una respuesta protectora automática.",
-      "Un reflejo de retirada puede organizarse mediante circuitos espinales y ocurrir rápidamente."),
-    N34_choice("¿Cuál es la diferencia general entre la vía sensitiva y la vía motora?",
-      ["La sensitiva lleva información hacia el sistema central y la motora conduce órdenes hacia efectores","Las dos transportan solamente oxígeno","La sensitiva mueve huesos y la motora produce olores","La motora percibe colores dentro de la retina"],
-      "Una vía informa y la otra lleva una orden de respuesta.",
-      "Las vías sensitivas llevan información de receptores y las motoras conducen señales a efectores."),
-    N34_choice("¿Cuál de estas acciones es claramente voluntaria?",
-      ["Decidir atarte los cordones","Retirar la mano por reflejo ante calor intenso","Cerrar los ojos de forma refleja ante una ráfaga de aire","La respuesta automática del reflejo rotuliano"],
-      "Buscá la acción que requiere una decisión consciente.",
-      "Atarse los cordones es una acción voluntaria; numerosos reflejos son respuestas automáticas."),
-    N34_pair("Uní los elementos del arco reflejo con su función.",
-      ["Receptor de la piel","Vía sensitiva","Vía motora","Músculo efector"],
-      ["Detectar el estímulo","Conducir información hacia el sistema central","Llevar señales motoras hacia el músculo","Realizar el movimiento de retirada"],
-      "Diferenciá detectar, informar, ordenar y actuar.",
-      "El circuito de un reflejo conecta receptores, vías nerviosas y efectores."),
-    N34_pair("Relacioná cada situación con la explicación que corresponde.",
-      ["Retirar la mano de algo caliente","Parpadear ante una corriente de aire","Elegir lanzar una pelota","Decidir escribir una palabra"],
-      ["Respuesta refleja de protección ante calor","Respuesta automática que ayuda a proteger el ojo","Movimiento iniciado voluntariamente para arrojar un objeto","Movimiento voluntario para producir escritura"],
-      "Dos situaciones ocurren de forma automática y dos requieren una elección.",
-      "Reflejos y acciones voluntarias pueden activar músculos, pero se organizan de manera diferente."),
-    N34_classify("Clasificá elementos que llevan información de entrada o ejecutan la respuesta.",
-      ["Entrada sensitiva","Salida motora o efector"],
-      [["Receptores de la piel que detectan calor",0],["Neurona sensitiva",0],["Neurona motora",1],["Músculo que retira la mano",1]],
-      "Primero llega información al sistema central; después actúa el efector.",
-      "La información sensitiva desencadena respuestas que pueden enviarse mediante vías motoras."),
-    N34_classify("Indicá si cada situación es refleja o voluntaria.",
-      ["Refleja","Voluntaria"],
-      [["Reflejo rotuliano al golpear suavemente el tendón",0],["Elegir levantar una mochila",1],["Retirar rápidamente el pie al pisar algo punzante",0],["Decidir saludar con la mano",1]],
-      "Una respuesta automática no necesita que decidas hacerla.",
-      "En respuestas reflejas intervienen circuitos automáticos; las voluntarias dependen de decisiones."),
-    N34_order("Ordená el circuito simplificado de retirada de la mano ante calor intenso.",
-      ["Receptores de la piel detectan un estímulo peligroso","Una vía sensitiva conduce la información hacia la médula","Circuitos de la médula espinal participan en la respuesta","Una vía motora envía señales a los músculos","Los músculos retiran la mano"],
-      "Empezá por el receptor y terminá por el movimiento.",
-      "El reflejo de retirada es una respuesta protectora rápida organizada por circuitos nerviosos."),
-    N34_order("Ordená una respuesta refleja de parpadeo ante una corriente de aire en el ojo.",
-      ["El aire estimula receptores de la superficie ocular","Las vías sensitivas transmiten la información","Circuitos del sistema nervioso central activan la respuesta refleja","Las vías motoras llevan señales a los músculos del párpado","Los párpados se cierran"],
-      "Identificá el estímulo, el recorrido nervioso y el músculo que responde.",
-      "El parpadeo reflejo ayuda a proteger los ojos mediante circuitos que integran señales sensitivas y motoras."),
-    N34_point("reflex","receptor",
-      "Tocá la zona de la mano donde los receptores detectan el calor.",
-      "Buscá la piel de la mano próxima al objeto caliente.",
-      "La detección inicial de estímulos ocurre en receptores sensoriales de la piel.")
+  [
+    {
+      "type": "choice",
+      "q": "Después de retirar la mano por reflejo ante algo caliente, ¿podés reconocer lo que sucedió?",
+      "options": [
+        "Sí, porque la información también puede llegar al encéfalo y permitir percibir el estímulo",
+        "No, porque en un reflejo nunca llega información al encéfalo",
+        "Solo si antes decidiste conscientemente retirar la mano",
+        "No, porque los receptores de la piel dejan de funcionar durante el reflejo"
+      ],
+      "answer": 0,
+      "hint": "Que la retirada sea automática no significa que el encéfalo deje de recibir información.",
+      "note": "Los circuitos espinales pueden iniciar la retirada rápida mientras información sensitiva llega al encéfalo y se percibe.",
+      "id": "m3-v34-01",
+      "difficulty": "desafío"
+    },
+    {
+      "type": "choice",
+      "q": "¿Cuál es la diferencia general entre la vía sensitiva y la vía motora?",
+      "options": [
+        "La sensitiva lleva información hacia el sistema central y la motora conduce órdenes hacia efectores",
+        "La vía motora lleva información de los receptores hacia la médula y la sensitiva sale al músculo",
+        "Las vías sensitivas y motoras cumplen exactamente el mismo recorrido y función",
+        "Los músculos reemplazan la vía sensitiva y no necesitan señales nerviosas"
+      ],
+      "answer": 0,
+      "hint": "Una vía informa y la otra lleva una orden de respuesta.",
+      "note": "Las vías sensitivas llevan información de receptores y las motoras conducen señales a efectores.",
+      "id": "m3-v34-02",
+      "difficulty": "intermedio"
+    },
+    {
+      "type": "choice",
+      "q": "¿Cuál de estas acciones es claramente voluntaria?",
+      "options": [
+        "Decidir atarte los cordones",
+        "Retirar la mano por reflejo ante calor intenso",
+        "Cerrar los ojos de forma refleja ante una ráfaga de aire",
+        "La respuesta automática del reflejo rotuliano"
+      ],
+      "answer": 0,
+      "hint": "Buscá la acción que requiere una decisión consciente.",
+      "note": "Atarse los cordones es una acción voluntaria; numerosos reflejos son respuestas automáticas.",
+      "id": "m3-v34-03",
+      "difficulty": "básico"
+    },
+    {
+      "type": "pair",
+      "q": "Uní los elementos del arco reflejo con su función.",
+      "left": [
+        "Receptor de la piel",
+        "Vía sensitiva",
+        "Vía motora",
+        "Músculo efector"
+      ],
+      "right": [
+        "Detectar el estímulo",
+        "Conducir información hacia el sistema central",
+        "Llevar señales motoras hacia el músculo",
+        "Realizar el movimiento de retirada"
+      ],
+      "show": [
+        3,
+        2,
+        1,
+        0
+      ],
+      "hint": "Diferenciá detectar, informar, ordenar y actuar.",
+      "note": "El circuito de un reflejo conecta receptores, vías nerviosas y efectores.",
+      "id": "m3-v34-04",
+      "difficulty": "intermedio"
+    },
+    {
+      "type": "pair",
+      "q": "Relacioná cada situación con la explicación que corresponde.",
+      "left": [
+        "Retirar la mano de algo caliente",
+        "Parpadear ante una corriente de aire",
+        "Elegir lanzar una pelota",
+        "Decidir escribir una palabra"
+      ],
+      "right": [
+        "Respuesta refleja de protección ante calor",
+        "Respuesta automática que ayuda a proteger el ojo",
+        "Movimiento iniciado voluntariamente para arrojar un objeto",
+        "Movimiento voluntario para producir escritura"
+      ],
+      "show": [
+        3,
+        2,
+        1,
+        0
+      ],
+      "hint": "Dos situaciones ocurren de forma automática y dos requieren una elección.",
+      "note": "Reflejos y acciones voluntarias pueden activar músculos, pero se organizan de manera diferente.",
+      "id": "m3-v34-05",
+      "difficulty": "intermedio"
+    },
+    {
+      "type": "classify",
+      "q": "Clasificá elementos que llevan información de entrada o ejecutan la respuesta.",
+      "buckets": [
+        "Entrada sensitiva",
+        "Salida motora o efector"
+      ],
+      "items": [
+        [
+          "Receptores de la piel que detectan calor",
+          0
+        ],
+        [
+          "Neurona sensitiva",
+          0
+        ],
+        [
+          "Neurona motora",
+          1
+        ],
+        [
+          "Músculo que retira la mano",
+          1
+        ]
+      ],
+      "hint": "Primero llega información al sistema central; después actúa el efector.",
+      "note": "La información sensitiva desencadena respuestas que pueden enviarse mediante vías motoras.",
+      "id": "m3-v34-06",
+      "difficulty": "intermedio"
+    },
+    {
+      "type": "classify",
+      "q": "Clasificá los componentes del arco reflejo según su función.",
+      "buckets": [
+        "Detecta el estímulo",
+        "Conduce señales nerviosas",
+        "Ejecuta el movimiento"
+      ],
+      "items": [
+        [
+          "Receptores de la piel sensibles al calor",
+          0
+        ],
+        [
+          "Neurona sensitiva",
+          1
+        ],
+        [
+          "Neurona motora",
+          1
+        ],
+        [
+          "Músculo que retira la mano",
+          2
+        ]
+      ],
+      "hint": "Diferenciá lo que detecta, lo que transporta señales y lo que ejecuta la respuesta.",
+      "note": "En el arco reflejo, receptores captan señales, neuronas las conducen y los músculos pueden actuar como efectores.",
+      "id": "m3-v34-07",
+      "difficulty": "intermedio"
+    },
+    {
+      "type": "order",
+      "q": "Ordená un ejemplo simplificado del reflejo rotuliano.",
+      "steps": [
+        "Un golpecito controlado en el tendón debajo de la rodilla estira brevemente el músculo",
+        "Receptores del músculo detectan el estiramiento",
+        "Una neurona sensitiva lleva información hacia la médula espinal",
+        "Una neurona motora envía una señal al músculo del muslo",
+        "El músculo se contrae y la pierna se extiende"
+      ],
+      "start": [
+        4,
+        3,
+        2,
+        1,
+        0
+      ],
+      "hint": "El receptor está en el músculo y el circuito involucra la médula espinal.",
+      "note": "El reflejo rotuliano es un ejemplo de circuito rápido ante estiramiento muscular; se usa en controles médicos.",
+      "id": "m3-v34-08",
+      "difficulty": "desafío"
+    },
+    {
+      "type": "order",
+      "q": "Ordená una respuesta refleja de parpadeo ante una corriente de aire en el ojo.",
+      "steps": [
+        "El aire estimula receptores de la superficie ocular",
+        "Las vías sensitivas transmiten la información",
+        "Circuitos del sistema nervioso central activan la respuesta refleja",
+        "Las vías motoras llevan señales a los músculos del párpado",
+        "Los párpados se cierran"
+      ],
+      "start": [
+        4,
+        3,
+        2,
+        1,
+        0
+      ],
+      "hint": "Identificá el estímulo, el recorrido nervioso y el músculo que responde.",
+      "note": "El parpadeo reflejo ayuda a proteger los ojos mediante circuitos que integran señales sensitivas y motoras.",
+      "id": "m3-v34-09",
+      "difficulty": "desafío"
+    },
+    {
+      "type": "point",
+      "diagram": "reflex",
+      "target": "receptor",
+      "q": "Tocá la zona de la mano donde los receptores detectan el calor.",
+      "hint": "Buscá la piel de la mano próxima al objeto caliente.",
+      "note": "La detección inicial de estímulos ocurre en receptores sensoriales de la piel.",
+      "id": "m3-v34-10",
+      "difficulty": "básico"
+    }
   ],
-  [ // Misión 5 — Torre Final
-    N34_choice("Una jugadora ve una pelota y la atrapa. ¿Qué secuencia describe mejor la acción?",
-      ["Los ojos detectan información, el sistema nervioso la procesa y los músculos ejecutan la respuesta","Los músculos ven la pelota y los ojos mueven el brazo","El oído convierte la pelota en sonido y la médula la detiene","La pelota da órdenes directamente al músculo"],
-      "Primero hay percepción; después procesamiento y movimiento.",
-      "Una acción voluntaria combina información visual, procesamiento nervioso y actividad muscular."),
-    N34_choice("¿Qué parte del cuerpo es el efector cuando decidís patear una pelota?",
-      ["Los músculos que mueven la pierna","La luz reflejada por la pelota","El sonido del silbato","Los fotorreceptores de la retina"],
-      "El efector realiza el movimiento.",
-      "Los músculos son efectores que generan movimientos al recibir señales motoras."),
-    N34_choice("¿Qué afirmación resume mejor cómo se comunican las partes del sistema nervioso?",
-      ["Los receptores captan estímulos, las vías nerviosas comunican señales y los centros nerviosos participan en organizar respuestas","El sistema nervioso solo funciona cuando dormimos","Todas las respuestas se producen sin receptores ni nervios","El cerebro envía músculos directamente por el aire"],
-      "Relacioná receptores, vías nerviosas, centros y respuesta.",
-      "El sistema nervioso integra recepción de información, comunicación entre células y control de respuestas."),
-    N34_pair("Uní cada situación con la estructura más vinculada a ella.",
-      ["Detectar la luz de una pelota","Coordinar el equilibrio al correr","Transportar señales por el brazo","Ejecutar el movimiento de una mano"],
-      ["Fotorreceptores de la retina","Cerebelo","Nervios periféricos","Músculos de la mano"],
-      "Pensá qué detecta, qué coordina, qué comunica y qué ejecuta.",
-      "Distintas estructuras actúan en conjunto al percibir y moverse."),
-    N34_pair("Relacioná cada elemento de una jugada con su papel.",
-      ["Pelota iluminada","Retina del ojo","Encéfalo","Músculos del brazo"],
-      ["Objeto observado cuya luz llega a los ojos","Contiene receptores que responden a la luz","Participa en procesar y organizar la respuesta","Ejecutan el movimiento para atajar"],
-      "En una acción se distingue el estímulo, la recepción, el procesamiento y la respuesta.",
-      "Para atrapar una pelota se integran percepción visual, control nervioso y acción muscular."),
-    N34_classify("¿Qué elementos detectan información y cuáles ejecutan una respuesta?",
-      ["Detectan información","Ejecutan una respuesta"],
-      [["Fotorreceptores de la retina",0],["Receptores olfatorios",0],["Músculos de la mano",1],["Músculos de las piernas",1]],
-      "Los receptores captan estímulos y los músculos pueden actuar como efectores.",
-      "La detección sensorial y la respuesta motora son funciones diferentes y complementarias."),
-    N34_classify("Clasificá estructuras según sean centrales o periféricas.",
-      ["Sistema nervioso central","Sistema nervioso periférico"],
-      [["Cerebro",0],["Médula espinal",0],["Nervio del brazo",1],["Nervio de la pierna",1]],
-      "Encéfalo y médula son centrales; los nervios del cuerpo son periféricos.",
-      "El sistema nervioso central recibe información de la periferia y envía señales a través de ella."),
-    N34_order("Ordená lo que ocurre cuando intentás atajar una pelota.",
-      ["La luz reflejada por la pelota llega a los ojos","La retina transforma esa información en señales nerviosas","El encéfalo procesa información y organiza el movimiento","Se envían señales motoras hacia los músculos del brazo","Los músculos mueven las manos para atajar"],
-      "De la luz a la percepción, y de la planificación a la respuesta.",
-      "Atrapar un objeto implica detectar, procesar y coordinar movimientos voluntarios."),
-    N34_order("Ordená qué sucede si olés humo y decidís alejarte.",
-      ["Moléculas del humo llegan a receptores olfatorios","Las señales nerviosas llegan al encéfalo","Reconocés el olor y decidís alejarte","Las vías motoras conducen órdenes a los músculos","Los músculos permiten caminar hacia un lugar seguro"],
-      "Primero detectás el olor; luego decidís y actuás.",
-      "Una percepción sensorial puede conducir a una decisión y a una respuesta motora voluntaria."),
-    N34_point("final","ojo",
-      "En la escena final, tocá el órgano que recibe la luz reflejada por la pelota.",
-      "Buscá uno de los ojos de la jugadora.",
-      "Los ojos contienen la retina, donde fotorreceptores transforman la luz en señales nerviosas.")
+  [
+    {
+      "type": "choice",
+      "q": "Durante un partido, ves la pelota y escuchás un silbato. ¿Cómo recibís ambas informaciones?",
+      "options": [
+        "Los ojos reciben luz y los oídos detectan sonidos; el sistema nervioso procesa ambas señales",
+        "Los ojos reciben también el silbato como sonido y los oídos detectan colores",
+        "Solo un sentido puede funcionar a la vez durante un partido",
+        "El músculo del brazo detecta directamente la luz y las ondas sonoras"
+      ],
+      "answer": 0,
+      "hint": "Pensá en dos receptores diferentes trabajando al mismo tiempo.",
+      "note": "Distintos sistemas sensoriales pueden captar estímulos simultáneos y aportar información al encéfalo.",
+      "id": "m4-v34-01",
+      "difficulty": "intermedio"
+    },
+    {
+      "type": "choice",
+      "q": "¿Qué parte del cuerpo es el efector cuando decidís patear una pelota?",
+      "options": [
+        "Los músculos que mueven la pierna",
+        "La luz reflejada por la pelota",
+        "El sonido del silbato",
+        "Los fotorreceptores de la retina"
+      ],
+      "answer": 0,
+      "hint": "El efector realiza el movimiento.",
+      "note": "Los músculos son efectores que generan movimientos al recibir señales motoras.",
+      "id": "m4-v34-02",
+      "difficulty": "básico"
+    },
+    {
+      "type": "choice",
+      "q": "¿Qué afirmación resume mejor cómo se comunican las partes del sistema nervioso?",
+      "options": [
+        "Los receptores captan estímulos, las vías nerviosas comunican señales y los centros nerviosos participan en organizar respuestas",
+        "Los receptores ordenan movimientos a los músculos sin intervención de ningún circuito nervioso",
+        "Los centros nerviosos producen los estímulos de luz y sonido que reciben los ojos y los oídos",
+        "Los músculos detectan todos los estímulos del ambiente sin necesitar receptores especializados"
+      ],
+      "answer": 0,
+      "hint": "Relacioná receptores, vías nerviosas, centros y respuesta.",
+      "note": "El sistema nervioso integra recepción de información, comunicación entre células y control de respuestas.",
+      "id": "m4-v34-03",
+      "difficulty": "intermedio"
+    },
+    {
+      "type": "pair",
+      "q": "Uní cada situación con la estructura más vinculada a ella.",
+      "left": [
+        "Detectar la luz de una pelota",
+        "Coordinar el equilibrio al correr",
+        "Transportar señales por el brazo",
+        "Ejecutar el movimiento de una mano"
+      ],
+      "right": [
+        "Fotorreceptores de la retina",
+        "Cerebelo",
+        "Nervios periféricos",
+        "Músculos de la mano"
+      ],
+      "show": [
+        3,
+        2,
+        1,
+        0
+      ],
+      "hint": "Pensá qué detecta, qué coordina, qué comunica y qué ejecuta.",
+      "note": "Distintas estructuras actúan en conjunto al percibir y moverse.",
+      "id": "m4-v34-04",
+      "difficulty": "intermedio"
+    },
+    {
+      "type": "pair",
+      "q": "Relacioná cada elemento de una jugada con su papel.",
+      "left": [
+        "Pelota iluminada",
+        "Retina del ojo",
+        "Encéfalo",
+        "Músculos del brazo"
+      ],
+      "right": [
+        "Objeto observado cuya luz llega a los ojos",
+        "Contiene receptores que responden a la luz",
+        "Participa en procesar y organizar la respuesta",
+        "Ejecutan el movimiento para atajar"
+      ],
+      "show": [
+        3,
+        2,
+        1,
+        0
+      ],
+      "hint": "En una acción se distingue el estímulo, la recepción, el procesamiento y la respuesta.",
+      "note": "Para atrapar una pelota se integran percepción visual, control nervioso y acción muscular.",
+      "id": "m4-v34-05",
+      "difficulty": "intermedio"
+    },
+    {
+      "type": "classify",
+      "q": "¿Qué elementos detectan información y cuáles ejecutan una respuesta?",
+      "buckets": [
+        "Detectan información",
+        "Ejecutan una respuesta"
+      ],
+      "items": [
+        [
+          "Fotorreceptores de la retina",
+          0
+        ],
+        [
+          "Receptores olfatorios",
+          0
+        ],
+        [
+          "Músculos de la mano",
+          1
+        ],
+        [
+          "Músculos de las piernas",
+          1
+        ]
+      ],
+      "hint": "Los receptores captan estímulos y los músculos pueden actuar como efectores.",
+      "note": "La detección sensorial y la respuesta motora son funciones diferentes y complementarias.",
+      "id": "m4-v34-06",
+      "difficulty": "desafío"
+    },
+    {
+      "type": "classify",
+      "q": "Clasificá cada elemento de una respuesta según su papel.",
+      "buckets": [
+        "Recepción sensorial",
+        "Procesamiento en el sistema central",
+        "Respuesta motora"
+      ],
+      "items": [
+        [
+          "La retina detecta la luz",
+          0
+        ],
+        [
+          "El encéfalo organiza un movimiento voluntario",
+          1
+        ],
+        [
+          "Los músculos del brazo se contraen",
+          2
+        ],
+        [
+          "Los receptores del oído detectan sonido",
+          0
+        ],
+        [
+          "La médula espinal integra una respuesta refleja",
+          1
+        ]
+      ],
+      "hint": "Separá lo que detecta, lo que integra y lo que realiza el movimiento.",
+      "note": "Las respuestas integran recepción de información, procesamiento central y ejecución motora.",
+      "id": "m4-v34-07",
+      "difficulty": "desafío"
+    },
+    {
+      "type": "order",
+      "q": "Ordená una respuesta voluntaria cuando agarrás una botella muy fría y decidís apoyarla.",
+      "steps": [
+        "Al agarrar la botella, los receptores de la piel detectan frío",
+        "Las vías sensitivas llevan información al sistema nervioso central",
+        "El encéfalo procesa la sensación y decidís apoyar la botella",
+        "Se envían señales motoras hacia los músculos de la mano y del brazo",
+        "Los músculos permiten colocar la botella sobre la mesa"
+      ],
+      "start": [
+        4,
+        3,
+        2,
+        1,
+        0
+      ],
+      "hint": "Primero sentís el frío, después tomás una decisión y movés la mano.",
+      "note": "El tacto y la temperatura aportan información que puede influir en decisiones y movimientos voluntarios.",
+      "id": "m4-v34-08",
+      "difficulty": "desafío"
+    },
+    {
+      "type": "order",
+      "q": "Ordená qué pasa cuando notás piedritas dentro de una zapatilla y decidís quitártela.",
+      "steps": [
+        "Los receptores de la piel del pie detectan presión incómoda",
+        "Las señales sensitivas viajan hacia el sistema nervioso central",
+        "Percibís la molestia y decidís detenerte",
+        "Las vías motoras activan los músculos necesarios para quitarte la zapatilla",
+        "Retirás la zapatilla"
+      ],
+      "start": [
+        4,
+        3,
+        2,
+        1,
+        0
+      ],
+      "hint": "Una sensación en el pie puede llevarte a decidir una acción.",
+      "note": "La información táctil puede guiar decisiones voluntarias y movimientos coordinados.",
+      "id": "m4-v34-09",
+      "difficulty": "intermedio"
+    },
+    {
+      "type": "point",
+      "diagram": "final",
+      "target": "pelota",
+      "q": "En la escena final, tocá el objeto cuya luz reflejada llega a los ojos de la jugadora.",
+      "hint": "Buscá el objeto que está intentando atajar.",
+      "note": "La pelota refleja luz que llega a los ojos y permite que la jugadora vea su posición.",
+      "id": "m4-v34-10",
+      "difficulty": "básico"
+    }
   ]
 ];
 
-const N34_levels=["básico","intermedio","desafío","intermedio","desafío","básico","intermedio","intermedio","desafío","básico"];
-NEUROMISION_34_NEW.forEach(function(newTasks,mission){
- if(newTasks.length!==10)throw new Error("La misión "+mission+" debe agregar 10 ejercicios");
- const existing=new Set(MISSION_BANKS[mission].map(t=>t.id));
- newTasks.forEach(function(task,index){
-   task.id="m"+mission+"-v34-"+String(index+1).padStart(2,"0");
-   task.difficulty=N34_levels[index]; // Etiqueta documental; selector aún aleatorio.
-   if(existing.has(task.id))throw new Error("ID duplicado: "+task.id);
-   existing.add(task.id);
-   MISSIONS[mission].tasks.push(task);
-   MISSION_BANKS[mission].push(task);
- });
+NEUROMISION_34_NEW.forEach(function(group,mi){
+  if(group.length!==10)throw new Error("Debe haber 10 ejercicios nuevos por misión: "+mi);
+  const used=new Set(MISSION_BANKS[mi].map(t=>t.id));
+  group.forEach(function(t){
+    if(used.has(t.id))throw new Error("ID duplicado: "+t.id);
+    used.add(t.id);
+    MISSIONS[mi].tasks.push(t);
+    MISSION_BANKS[mi].push(t);
+  });
 });
