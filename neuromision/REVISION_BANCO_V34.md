@@ -383,8 +383,11 @@
 - **ID:** se conserva, sin alterar el progreso previo.
 
 ### m0-e07
+- **Consigna corregida:** ¿Qué parte del encéfalo interviene especialmente en coordinar el equilibrio y ajustar los movimientos?
 - **Respuesta correcta:** El cerebelo
 - **Otras opciones:** El cerebro / La médula espinal / Los nervios de las piernas
+- **Pista:** Buscá una región situada detrás y debajo del cerebro.
+- **Devolución:** El cerebelo participa de manera destacada en el equilibrio, la postura y la coordinación fina de movimientos.
 - **ID:** se conserva, sin alterar el progreso previo.
 
 ### m4-e07
