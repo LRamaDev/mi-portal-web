@@ -1107,3 +1107,31 @@ NEUROMISION_34_NEW.forEach(function(group,mi){
     MISSION_BANKS[mi].push(t);
   });
 });
+
+/*
+ * Correcciones editoriales a ejercicios anteriores, conservando sus IDs y
+ * su misma respuesta correcta. No se borran los registros de práctica.
+ */
+const N34_LEGACY_FIXES=[
+  {mission:0,id:"m0-e08",
+    q:"¿Qué parte del sistema nervioso está protegida principalmente por la columna vertebral?",
+    options:["La médula espinal","El cerebro","El cerebelo","Los nervios de la mano"],
+    hint:"La médula espinal recorre un conducto dentro de la columna vertebral.",
+    note:"La columna vertebral protege la médula espinal, que forma parte del sistema nervioso central."},
+  {mission:0,id:"m0-e09",
+    options:["Conectar el sistema nervioso central con el resto del cuerpo","Transportar oxígeno en la sangre","Mantener la forma de los huesos","Digerir los alimentos"]},
+  {mission:0,id:"m0-e07",
+    options:["El cerebelo","El cerebro","La médula espinal","Los nervios de las piernas"]},
+  {mission:4,id:"m4-e07",
+    options:["Estímulo visual → procesamiento nervioso → respuesta muscular","Estímulo visual → movimiento muscular → procesamiento nervioso","Respuesta muscular → percepción visual → decisión","Decisión de frenar → detección de luz → receptor visual"]},
+  {mission:4,id:"m4-e08",
+    options:["Dendritas: recepción de señales","Mielina: lugar donde se almacena el material genético","Cerebelo: transmite impulsos por el axón de una neurona","Médula espinal: receptor principal de la luz"]}
+];
+N34_LEGACY_FIXES.forEach(function(change){
+  const bank=MISSION_BANKS[change.mission];
+  const task=bank.find(t=>t.id===change.id);
+  if(!task)throw new Error("No se encuentra el ejercicio anterior: "+change.id);
+  for(const key of ["q","options","hint","note"]){
+    if(Object.hasOwn(change,key))task[key]=change[key];
+  }
+});
