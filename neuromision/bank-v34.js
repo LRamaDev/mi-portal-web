@@ -13,9 +13,9 @@ const NEUROMISION_34_NEW = [
       "q": "Si una persona se lastima un nervio del brazo, ¿qué comunicación podría verse afectada?",
       "options": [
         "La comunicación entre el brazo y el sistema nervioso central",
-        "La circulación de sangre dentro del corazón",
-        "La producción de huesos del brazo",
-        "La entrada de aire a los pulmones"
+        "Solo el movimiento, porque ninguna vía periférica transmite sensibilidad",
+        "Solo la sensibilidad, porque ninguna vía periférica lleva órdenes a músculos",
+        "El procesamiento cerebral, sin afectar el traslado de señales por el brazo"
       ],
       "answer": 0,
       "hint": "Los nervios conectan el sistema nervioso central con el resto del cuerpo.",
@@ -28,9 +28,9 @@ const NEUROMISION_34_NEW = [
       "q": "Cuando escribís una nota, ¿qué recorrido general ayuda a mover la mano voluntariamente?",
       "options": [
         "El sistema central organiza el movimiento y los nervios llevan señales hacia los músculos",
-        "Los músculos deciden por sí solos qué letras escribir",
-        "Los receptores del oído envían órdenes directas a los dedos",
-        "La médula transforma la luz en letras antes de escribir"
+        "Los nervios periféricos organizan por sí solos qué palabras vas a escribir",
+        "Los músculos de los dedos deciden qué letras formar sin recibir órdenes nerviosas",
+        "Los receptores visuales envían órdenes directas a los dedos sin pasar por centros nerviosos"
       ],
       "answer": 0,
       "hint": "Pensá quién organiza la acción y por dónde viajan las órdenes hacia la mano.",
@@ -261,9 +261,9 @@ const NEUROMISION_34_NEW = [
       "q": "¿Por qué un axón puede transmitir señales hacia zonas alejadas del cuerpo celular?",
       "options": [
         "Porque propaga impulsos nerviosos a lo largo de su membrana",
-        "Porque el núcleo se desplaza por su interior hasta el músculo",
-        "Porque las dendritas se convierten en axones cuando aparece un estímulo",
-        "Porque la mielina reemplaza a todas las células del circuito"
+        "Porque la mielina produce impulsos sin que participe la membrana del axón",
+        "Porque las dendritas conducen todas las señales hasta la otra punta del axón",
+        "Porque el núcleo de la neurona se desplaza por el axón llevando cada mensaje"
       ],
       "answer": 0,
       "hint": "El axón es una prolongación especializada para la conducción de impulsos.",
@@ -474,9 +474,9 @@ const NEUROMISION_34_NEW = [
       "q": "¿Por qué podemos detectar el aroma de una fruta?",
       "options": [
         "Porque ciertas sustancias que libera estimulan receptores olfatorios",
-        "Porque la retina identifica directamente los olores",
-        "Porque los músculos del brazo reconocen aromas",
-        "Porque el cerebelo produce el aroma"
+        "Porque los receptores gustativos de la lengua detectan directamente aromas que están lejos",
+        "Porque los fotorreceptores de la retina detectan moléculas olorosas",
+        "Porque los receptores del oído interno detectan las sustancias que producen el olor"
       ],
       "answer": 0,
       "hint": "Oler depende de sustancias presentes en el aire.",
@@ -913,9 +913,9 @@ const NEUROMISION_34_NEW = [
       "q": "¿Qué afirmación resume mejor cómo se comunican las partes del sistema nervioso?",
       "options": [
         "Los receptores captan estímulos, las vías nerviosas comunican señales y los centros nerviosos participan en organizar respuestas",
-        "Los receptores ordenan movimientos a los músculos sin intervención de ningún circuito nervioso",
-        "Los centros nerviosos producen los estímulos de luz y sonido que reciben los ojos y los oídos",
-        "Los músculos detectan todos los estímulos del ambiente sin necesitar receptores especializados"
+        "Los receptores captan estímulos y ordenan movimientos directos sin intervención de los centros nerviosos",
+        "El sistema nervioso central puede recibir información, pero nunca envía señales hacia los músculos",
+        "Los músculos del cuerpo detectan todos los estímulos del ambiente sin receptores especializados"
       ],
       "answer": 0,
       "hint": "Relacioná receptores, vías nerviosas, centros y respuesta.",
