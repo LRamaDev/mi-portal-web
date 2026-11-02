@@ -572,13 +572,6 @@
       "source_name": "La Palestina",
       "department": "General San Martín"
     },
-    "LA PAMPA": {
-      "lat": -30.9422303821288,
-      "lon": -64.2769351162808,
-      "source": "Georef Argentina · localidades",
-      "source_name": "La Pampa",
-      "department": "Totoral"
-    },
     "LA PARA": {
       "lat": -30.8941305312153,
       "lon": -63.0013963030968,
@@ -1242,12 +1235,18 @@
       "source": "Georef Argentina · asentamientos",
       "source_name": "Yocsina",
       "department": "Santa María"
+    },
+    "CORDOBA": {
+      "lat": -31.4150461523809,
+      "lon": -64.1791140755104,
+      "source": "Georef Argentina · localidades",
+      "source_name": "Córdoba",
+      "department": "Capital"
     }
   },
   "unresolved": [
     "100 CURVAS",
     "BARRIO NORTE",
-    "KILÓMETRO 18",
     "PLAYAS DE ORO",
     "POLINESIA",
     "TROPEZÓN",
