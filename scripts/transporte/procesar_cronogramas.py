@@ -29,7 +29,7 @@ CORRIDOR_PATTERN = (
 ROW_RE = re.compile(
     rf"^\s*({CORRIDOR_PATTERN})\s+"
     r"(.+?)\s+([IV])\s+(\d{2}[:;]\d{2})\s+"
-    r"(.+?)\s+(\d{2}-\d{8}-\d|#N/D)\s*"
+    r"(.+?)\s*(\d{2}-\d{8}-\d|#N/D)\s*"
     r"(.+?)\s*(REGULAR\s+(?:COMÚN|DIFERENCIAL)(?:\s+DIRECTO)?)\s*(.*)$"
 )
 

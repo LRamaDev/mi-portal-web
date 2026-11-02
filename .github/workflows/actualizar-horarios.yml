@@ -6,6 +6,7 @@ on:
       - main
     paths:
       - "datos-fuente/transporte/*.pdf"
+      - "scripts/transporte/procesar_cronogramas.py"
   workflow_dispatch:
     inputs:
       source_branch:
