@@ -177,7 +177,8 @@
           "canal": "unProfesor",
           "objetivo": "Llevá las fracciones a una forma comparable y explicá cuál es mayor.",
           "perfiles": [
-            "p2"
+            "p2",
+            "p1"
           ]
         },
         {
@@ -186,7 +187,8 @@
           "canal": "Recurso existente",
           "objetivo": "Compará por representación o equivalencia.",
           "perfiles": [
-            "p2"
+            "p2",
+            "p1"
           ]
         }
       ]
@@ -872,7 +874,19 @@
       "colegios": [
         "comun"
       ],
-      "prioridad": 5
+      "prioridad": 5,
+      "videos": [
+        {
+          "id": "STGGFtIkyDE",
+          "titulo": "El CUENTO y sus PARTES para NIÑOS de PRIMARIA",
+          "canal": "Clases Particulares en Ávila",
+          "objetivo": "Planificá inicio, conflicto y desenlace antes de escribir tu propio cuento.",
+          "perfiles": [
+            "p1",
+            "p2"
+          ]
+        }
+      ]
     },
     {
       "id": "LEN-REV",
