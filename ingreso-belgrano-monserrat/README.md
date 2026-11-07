@@ -27,6 +27,18 @@ Aplicación web de estudio para preparar, en una misma plataforma, los ingresos 
 - Persistencia local inmediata y sincronización en Supabase.
 - Historial pedagógico protegido: los intentos anteriores se conservan y no se borran desde la app.
 
+## Avisar errores de ejercicios (V6.23)
+
+Durante diagnósticos, prácticas adaptativas y simulacros completos, cada actividad muestra **«⚑ Avisar un error en este ejercicio»**. La alumna elige una categoría, puede escribir hasta 500 caracteres y continúa en la misma consigna sin perder su respuesta ni modificar el puntaje.
+
+El aviso conserva el **ID del ejercicio**, perfil activo (incluido el turno individual en modo juntas), modalidad, materia, colegio y una copia de la consigna, opciones, respuesta esperada y explicación para poder reproducir el problema incluso si luego cambia el banco. Los reportes son independientes de «Contar algo», que sigue recibiendo impresiones generales.
+
+- Con sesión familiar autorizada se guardan en `public.study_exercise_reports` (Supabase) y se ven en **Familia → Errores informados**; desde ese panel se pueden marcar como revisados o corregidos.
+- Si falta conexión, el aviso se conserva en una cola local y se reintenta enviar al reconectar o volver al panel. Un reporte pendiente se etiqueta claramente como tal. En modo visitante solo se conserva en ese dispositivo.
+- Ejecutar la migración aditiva `supabase-study-exercise-reports.sql` si se instala la app en otro proyecto Supabase. La tabla aplica RLS, exige una cuenta presente en `study_access` y permite a la cuenta familiar actualizar únicamente el estado del aviso.
+- La marca «corregido» es administrativa: **no modifica automáticamente la consigna del banco**. Corregir un ejercicio requiere revisar su fuente, cambiarla y volver a publicarla.
+- No se registran nombres reales, respuestas escritas de las alumnas ni datos de navegación en los avisos.
+
 ## Banco pedagógico
 
 ### Videos vinculados a contenidos
