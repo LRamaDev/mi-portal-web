@@ -1,0 +1,335 @@
+{
+  "version": 1,
+  "fecha": "2026-11-07",
+  "ejercicios": [
+    {
+      "id": "NOV26-A-FR-ORD-01",
+      "perfilOrigen": "A",
+      "area": "matematica",
+      "habilidad": "MAT-FR-ORD",
+      "colegios": [
+        "comun"
+      ],
+      "dificultad": 3,
+      "consigna": "Joaquín recorrió 5/6 de una pista, Tomás 3/4 y Mateo 7/12. Ordená las distancias de mayor a menor.",
+      "pista": "Buscá un denominador común a las tres fracciones.",
+      "explicacion": "5/6 = 10/12; 3/4 = 9/12; 7/12 queda igual. Orden: Joaquín > Tomás > Mateo.",
+      "errorFrecuente": "Ordenar por tamaño del denominador.",
+      "criterioEvaluacion": "Compara tres fracciones usando equivalencias.",
+      "papel": true,
+      "fuente": "Propuesta pedagógica familiar; correspondencia con programas oficiales pendiente de revisión documental",
+      "lote": "refuerzo-noviembre-2026",
+      "tipo": "choice",
+      "opciones": [
+        "Joaquín > Tomás > Mateo",
+        "Tomás > Joaquín > Mateo",
+        "Mateo > Tomás > Joaquín",
+        "Joaquín > Mateo > Tomás"
+      ],
+      "respuesta": "Joaquín > Tomás > Mateo",
+      "subhabilidad": "Orden con denominador común"
+    },
+    {
+      "id": "NOV26-A-FR-ORD-02",
+      "perfilOrigen": "A",
+      "area": "matematica",
+      "habilidad": "MAT-FR-ORD",
+      "colegios": [
+        "comun"
+      ],
+      "dificultad": 3,
+      "consigna": "A Lucía le falta 1/8 de una caminata y a Martina 1/10 del mismo recorrido. ¿Quién va más adelantada y por qué?",
+      "pista": "Compará lo que les falta para completar una unidad.",
+      "explicacion": "Martina: 1/10 es menor que 1/8, por lo que recorrió más (9/10 frente a 7/8).",
+      "errorFrecuente": "Confundir una parte más pequeña del resto con un recorrido menor.",
+      "criterioEvaluacion": "Usa el complemento a la unidad para comparar.",
+      "papel": true,
+      "fuente": "Propuesta pedagógica familiar; correspondencia con programas oficiales pendiente de revisión documental",
+      "lote": "refuerzo-noviembre-2026",
+      "tipo": "choice",
+      "opciones": [
+        "Martina, porque le falta una parte menor",
+        "Lucía, porque 1/8 es mayor que 1/10",
+        "Martina, porque solo recorrió 1/10",
+        "Lucía, porque ambas recorrieron 1/8"
+      ],
+      "respuesta": "Martina, porque le falta una parte menor",
+      "subhabilidad": "Complemento a la unidad"
+    },
+    {
+      "id": "NOV26-A-DEC-OPS-01",
+      "perfilOrigen": "A",
+      "area": "matematica",
+      "habilidad": "MAT-DEC-OPS",
+      "colegios": [
+        "comun"
+      ],
+      "dificultad": 3,
+      "consigna": "En una librería se compró un juego de escuadras por $1.840,50 y DOS compases por $2.350,75 cada uno. Se pagó $10.000. Una persona se olvidó de sumar el segundo compás. ¿Cuál es el gasto y el vuelto correctos?",
+      "pista": "Sumá las dos unidades del mismo producto antes de restar el pago.",
+      "explicacion": "Gasto: 1.840,50 + 2 × 2.350,75 = 6.542,00. Vuelto: 10.000 − 6.542 = 3.458,00.",
+      "errorFrecuente": "Olvidar una unidad de un producto al calcular el gasto.",
+      "criterioEvaluacion": "Detecta un error en la modelización de una compra.",
+      "papel": true,
+      "fuente": "Propuesta pedagógica familiar; correspondencia con programas oficiales pendiente de revisión documental",
+      "lote": "refuerzo-noviembre-2026",
+      "tipo": "choice",
+      "opciones": [
+        "Gasto $6.542,00; vuelto $3.458,00",
+        "Gasto $4.191,25; vuelto $5.808,75",
+        "Gasto $6.542,00; vuelto $4.458,00",
+        "Gasto $4.701,50; vuelto $5.298,50"
+      ],
+      "respuesta": "Gasto $6.542,00; vuelto $3.458,00",
+      "subhabilidad": "Cálculo de vuelto y detección de error"
+    },
+    {
+      "id": "NOV26-A-DEC-OPS-02",
+      "perfilOrigen": "A",
+      "area": "matematica",
+      "habilidad": "MAT-DEC-OPS",
+      "colegios": [
+        "comun"
+      ],
+      "dificultad": 2,
+      "consigna": "Un paquete de 100 ganchitos pesa 148,5 gramos. Si todos pesan lo mismo, ¿cuántos gramos pesa uno?",
+      "pista": "Dividí el peso total entre 100 unidades.",
+      "explicacion": "148,5 ÷ 100 = 1,485 gramos.",
+      "errorFrecuente": "Mover la coma una sola posición o hacia el lado contrario.",
+      "criterioEvaluacion": "Divide decimales por potencias de diez.",
+      "papel": true,
+      "fuente": "Propuesta pedagógica familiar; correspondencia con programas oficiales pendiente de revisión documental",
+      "lote": "refuerzo-noviembre-2026",
+      "tipo": "input",
+      "respuesta": "1,485",
+      "validacion": {
+        "tipo": "numero",
+        "valor": "1,485",
+        "unidades": [
+          "g",
+          "gramos"
+        ]
+      },
+      "subhabilidad": "División por 100"
+    },
+    {
+      "id": "NOV26-A-FR-PROB-01",
+      "perfilOrigen": "A",
+      "area": "matematica",
+      "habilidad": "MAT-FR-PROB",
+      "colegios": [
+        "comun"
+      ],
+      "dificultad": 4,
+      "consigna": "Un taller escolar compró 24 metros de cinta. El lunes usó 3/8 del rollo y el martes 5,5 metros. Si cada metro vale $420,50, ¿cuánto vale la cinta que quedó SIN USAR? Respondé en pesos.",
+      "pista": "Calculá primero el consumo del lunes, luego el total usado y el sobrante.",
+      "explicacion": "El lunes se usaron 9 m; en total 14,5 m. Sobran 9,5 m, cuyo valor es 9,5 × 420,50 = $3.994,75.",
+      "errorFrecuente": "Calcular el costo del material utilizado en lugar del sobrante.",
+      "criterioEvaluacion": "Integra fracción de una cantidad y operaciones con decimales.",
+      "papel": true,
+      "fuente": "Propuesta pedagógica familiar; correspondencia con programas oficiales pendiente de revisión documental",
+      "lote": "refuerzo-noviembre-2026",
+      "tipo": "input",
+      "respuesta": "3994,75",
+      "validacion": {
+        "tipo": "numero",
+        "valor": "3994,75",
+        "moneda": true,
+        "unidades": [
+          "pesos"
+        ]
+      },
+      "subhabilidad": "Problema multipaso con entero, decimal y precio"
+    },
+    {
+      "id": "NOV26-A-LEN-CON-01",
+      "perfilOrigen": "A",
+      "area": "lengua",
+      "habilidad": "LEN-CON",
+      "colegios": [
+        "comun"
+      ],
+      "dificultad": 2,
+      "consigna": "Completá: «El estudiante estudió con dedicación todas las semanas; ____, obtuvo el primer puesto en el certamen».",
+      "pista": "Relacioná la segunda idea con la consecuencia de la primera.",
+      "explicacion": "«Por lo tanto» indica consecuencia.",
+      "errorFrecuente": "Confundir conectores de oposición, orden y consecuencia.",
+      "criterioEvaluacion": "Selecciona un conector lógico consecuente.",
+      "papel": true,
+      "fuente": "Propuesta pedagógica familiar; correspondencia con programas oficiales pendiente de revisión documental",
+      "lote": "refuerzo-noviembre-2026",
+      "tipo": "choice",
+      "opciones": [
+        "sin embargo",
+        "por lo tanto",
+        "en primer lugar",
+        "en cambio"
+      ],
+      "respuesta": "por lo tanto",
+      "subhabilidad": "Conectores consecutivos"
+    },
+    {
+      "id": "NOV26-A-LEN-ACENT-01",
+      "perfilOrigen": "A",
+      "area": "lengua",
+      "habilidad": "LEN-ACENT",
+      "colegios": [
+        "comun"
+      ],
+      "dificultad": 3,
+      "consigna": "En «Él trajo su libro, pero él no leyó la consigna», ¿por qué «él» lleva tilde y «su» no?",
+      "pista": "Buscá qué función cumple cada palabra en la oración.",
+      "explicacion": "«Él» es pronombre personal y lleva tilde diacrítica para distinguirlo del artículo «el»; «su» es posesivo átono y no lleva tilde.",
+      "errorFrecuente": "Suponer que todas las palabras de una sílaba siguen la misma regla sin excepciones.",
+      "criterioEvaluacion": "Distingue pronombre con tilde diacrítica y posesivo sin tilde.",
+      "papel": true,
+      "fuente": "Propuesta pedagógica familiar; correspondencia con programas oficiales pendiente de revisión documental",
+      "lote": "refuerzo-noviembre-2026",
+      "tipo": "choice",
+      "opciones": [
+        "«Él» es pronombre personal; «su» es posesivo sin tilde",
+        "«Él» lleva tilde por estar al inicio de la oración",
+        "«Él» es artículo y «su» es un verbo",
+        "«Él» es esdrújula, pero «su» no"
+      ],
+      "respuesta": "«Él» es pronombre personal; «su» es posesivo sin tilde",
+      "subhabilidad": "Tilde diacrítica"
+    },
+    {
+      "id": "NOV26-V-FR-PROB-01",
+      "perfilOrigen": "V",
+      "area": "matematica",
+      "habilidad": "MAT-FR-PROB",
+      "colegios": [
+        "comun"
+      ],
+      "dificultad": 3,
+      "consigna": "En una colecta juntaron 150 cuadernos. Entregaron 2/5 del total a una escuela y después 1/3 DE LOS QUE QUEDARON a otra. ¿Cuántos cuadernos sobraron?",
+      "pista": "La segunda fracción se calcula sobre el resto, no sobre los 150 iniciales.",
+      "explicacion": "2/5 de 150 es 60, quedan 90. 1/3 de 90 es 30. Quedan 60 cuadernos.",
+      "errorFrecuente": "Tomar el total original como base de la segunda fracción.",
+      "criterioEvaluacion": "Identifica el nuevo entero en una fracción del resto.",
+      "papel": true,
+      "fuente": "Propuesta pedagógica familiar; correspondencia con programas oficiales pendiente de revisión documental",
+      "lote": "refuerzo-noviembre-2026",
+      "tipo": "input",
+      "respuesta": "60",
+      "validacion": {
+        "tipo": "numero",
+        "valor": "60",
+        "unidades": [
+          "cuadernos"
+        ]
+      },
+      "subhabilidad": "Fracción del resto"
+    },
+    {
+      "id": "NOV26-V-FR-OPS-01",
+      "perfilOrigen": "V",
+      "area": "matematica",
+      "habilidad": "MAT-FR-OPS",
+      "colegios": [
+        "comun"
+      ],
+      "dificultad": 4,
+      "consigna": "Calculá y escribí como fracción irreducible: (2 + 1/4) − (2/3 + 5/6).",
+      "pista": "Resolvé cada paréntesis antes de restar.",
+      "explicacion": "2 + 1/4 = 9/4; 2/3 + 5/6 = 3/2. Entonces 9/4 − 3/2 = 3/4.",
+      "errorFrecuente": "Restar numeradores y denominadores sin homogeneizar.",
+      "criterioEvaluacion": "Opera y simplifica fracciones con paréntesis.",
+      "papel": true,
+      "fuente": "Propuesta pedagógica familiar; correspondencia con programas oficiales pendiente de revisión documental",
+      "lote": "refuerzo-noviembre-2026",
+      "tipo": "input",
+      "respuesta": "3/4",
+      "validacion": {
+        "tipo": "numero",
+        "valor": "3/4",
+        "irreducible": true
+      },
+      "subhabilidad": "Operaciones combinadas"
+    },
+    {
+      "id": "NOV26-V-FR-ORD-01",
+      "perfilOrigen": "V",
+      "area": "matematica",
+      "habilidad": "MAT-FR-ORD",
+      "colegios": [
+        "comun"
+      ],
+      "dificultad": 3,
+      "consigna": "¿Cuál comparación entre 7/9 y 5/6 está correctamente justificada?",
+      "pista": "Transformalas a fracciones con denominador 18.",
+      "explicacion": "7/9 = 14/18 y 5/6 = 15/18. Por eso 5/6 > 7/9.",
+      "errorFrecuente": "Comparar denominadores como si fueran cantidades completas.",
+      "criterioEvaluacion": "Justifica una comparación de fracciones con equivalencias.",
+      "papel": true,
+      "fuente": "Propuesta pedagógica familiar; correspondencia con programas oficiales pendiente de revisión documental",
+      "lote": "refuerzo-noviembre-2026",
+      "tipo": "choice",
+      "opciones": [
+        "5/6 es mayor porque 15/18 > 14/18",
+        "7/9 es mayor porque 14/18 > 15/18",
+        "Son iguales porque ambas fracciones se acercan a 1",
+        "7/9 es mayor porque su denominador es 9"
+      ],
+      "respuesta": "5/6 es mayor porque 15/18 > 14/18",
+      "subhabilidad": "Comparación y justificación"
+    },
+    {
+      "id": "NOV26-V-FR-ORD-02",
+      "perfilOrigen": "V",
+      "area": "matematica",
+      "habilidad": "MAT-FR-ORD",
+      "colegios": [
+        "comun"
+      ],
+      "dificultad": 4,
+      "consigna": "Ordená de MAYOR a MENOR: 13/15, 7/8 y 5/6.",
+      "pista": "Compará cuánto le falta a cada fracción para llegar a 1.",
+      "explicacion": "Faltan 2/15, 1/8 y 1/6 respectivamente. Como 1/8 < 2/15 < 1/6, se cumple 7/8 > 13/15 > 5/6.",
+      "errorFrecuente": "Ordenar por el tamaño del denominador.",
+      "criterioEvaluacion": "Ordena fracciones cercanas a una unidad por sus complementos.",
+      "papel": true,
+      "fuente": "Propuesta pedagógica familiar; correspondencia con programas oficiales pendiente de revisión documental",
+      "lote": "refuerzo-noviembre-2026",
+      "tipo": "choice",
+      "opciones": [
+        "7/8 > 13/15 > 5/6",
+        "13/15 > 7/8 > 5/6",
+        "5/6 > 13/15 > 7/8",
+        "7/8 > 5/6 > 13/15"
+      ],
+      "respuesta": "7/8 > 13/15 > 5/6",
+      "subhabilidad": "Complementos a la unidad"
+    },
+    {
+      "id": "NOV26-V-LEN-PROD-01",
+      "perfilOrigen": "V",
+      "area": "lengua",
+      "habilidad": "LEN-PROD",
+      "colegios": [
+        "comun"
+      ],
+      "dificultad": 3,
+      "consigna": "En tu cuaderno escribí un párrafo de cuatro oraciones que comience: «El abuelo encontró una llave dorada en el fondo del galpón». Sumá otro personaje, un conflicto y un desenlace. Utilizá verbos en pretérito perfecto simple e imperfecto.",
+      "pista": "Planificá personajes, lugar, problema y resolución antes de escribir. Dejá el ejemplo para después.",
+      "explicacion": "El modelo aparece tras la autoevaluación. Un desenlace debe resolver el conflicto, no simplemente presentar un nuevo misterio.",
+      "errorFrecuente": "Terminar en el descubrimiento de un objeto sin resolver el problema narrativo.",
+      "criterioEvaluacion": "Planifica, escribe y revisa una narración breve con inicio, conflicto y cierre.",
+      "papel": true,
+      "fuente": "Propuesta pedagógica familiar; correspondencia con programas oficiales pendiente de revisión documental",
+      "lote": "refuerzo-noviembre-2026",
+      "tipo": "selfcheck",
+      "maxOraciones": 4,
+      "criterios": [
+        "Escribí un único párrafo de cuatro oraciones",
+        "Presenté un conflicto y lo resolví",
+        "Usé pretérito perfecto simple e imperfecto",
+        "Revisé cohesión, concordancia, ortografía y puntuación"
+      ],
+      "respuestaEjemplo": "Una mañana, el abuelo encontró una llave dorada mientras ordenaba el galpón con su nieta. Como la granja sufría una sequía, ambos estaban preocupados y buscaron qué abría aquella llave. Descubrieron un baúl que guardaba un mapa de un viejo pozo de agua. Siguieron sus indicaciones, encontraron el pozo y salvaron la granja.",
+      "subhabilidad": "Producción narrativa guiada"
+    }
+  ]
+}
