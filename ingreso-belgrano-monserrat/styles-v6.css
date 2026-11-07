@@ -207,3 +207,14 @@ button:focus-visible,input:focus-visible,summary:focus-visible,a:focus-visible{o
 .skill-video-external{position:absolute;right:7px;bottom:7px;z-index:2;background:#fff;border-radius:8px;padding:6px 9px;color:#173f6b;font-size:.78rem;font-weight:800;text-decoration:none}
 .video-card .video-actions{margin-top:12px}
 @media(max-width:560px){.video-alternative-btn{min-height:48px}.video-card .video-actions button{min-height:48px}}
+
+/* v6.24: los comentarios largos nunca deben ensanchar el panel ni la página. */
+.family-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+.family-grid>.panel,.family-feedback-inbox,.family-exercise-reports{min-width:0;max-width:100%}
+.family-feedback-inbox .feedback-inbox-list,.family-exercise-reports .exercise-report-list{display:grid;grid-template-columns:minmax(0,1fr);min-width:0}
+.family-feedback-inbox .feedback-inbox-item,.family-exercise-reports .exercise-report-item{min-width:0;max-width:100%}
+.family-feedback-inbox .feedback-inbox-item>div{flex-wrap:wrap}
+.family-feedback-inbox .feedback-inbox-note,.family-exercise-reports .exercise-report-item p,.family-exercise-reports .exercise-report-item blockquote{white-space:pre-wrap;overflow-wrap:anywhere;word-break:break-word}
+/* El visitante entra automáticamente en un único recorrido, sin selector ni panel familiar. */
+body.ingreso-visitor #profile-gate,body.ingreso-visitor #profile-switch,body.ingreso-visitor #active-profile,body.ingreso-visitor [data-nav="familia"]{display:none!important}
+@media(max-width:560px){.family-grid{grid-template-columns:minmax(0,1fr)}}
