@@ -49,11 +49,11 @@
   }
 
   function reportContext(detail) {
-    if (!detail || !['exercise-dialog', 'full-sim-dialog'].includes(detail.dialogId) || !detail.exercise?.id) return null;
+    if (!detail || !['exercise-dialog', 'full-sim-dialog'].includes(detail.dialogId) || !detail.exercise?.id || !['p1', 'p2'].includes(detail.profileId)) return null;
     const e = detail.exercise;
     return {
       dialogId: detail.dialogId,
-      profile_id: ['p1', 'p2'].includes(detail.profileId) ? detail.profileId : 'p1',
+      profile_id: detail.profileId,
       session_type: ['diagnostico', 'practica', 'simulacro'].includes(detail.sessionType) ? detail.sessionType : 'practica',
       exercise_id: String(e.id).slice(0, 100),
       skill_id: String(e.habilidad || '').slice(0, 100) || null,
@@ -261,7 +261,7 @@
     const waiting = row.pending;
     const date = new Date(row.created_at).toLocaleString('es-AR', { dateStyle: 'short', timeStyle: 'short' });
     const desc = row.snapshot?.consigna || '';
-    const status = waiting ? 'Pendiente de enviar' : (row.status || 'pendiente');
+    const status = row.localVisitor ? 'Solo en este dispositivo (visitante)' : waiting ? 'Pendiente de enviar' : (row.status || 'pendiente');
     const buttons = waiting ? '' :
       '<div class="exercise-report-manage">' +
       (row.status === 'pendiente' ? '<button class="secondary-button" type="button" data-report-status="revisado" data-id="' + escapeHtml(row.id) + '">Marcar revisado</button>' : '') +
@@ -284,7 +284,9 @@
       return;
     }
     section.hidden = false;
-    const localRows = pending(QUEUE_FAMILY).map(row => ({ ...row, pending: true }));
+    const familyPending = pending(QUEUE_FAMILY).map(row => ({ ...row, pending: true }));
+    const visitorLocal = pending(QUEUE_VISITOR).map(row => ({ ...row, pending: true, localVisitor: true }));
+    const localRows = [...familyPending, ...visitorLocal];
     section.innerHTML = '<p class="eyebrow">Revisión de ejercicios</p><h3>Errores informados</h3><p>Cargando avisos…</p>';
     const client = createClient();
     let rows = [];
@@ -307,8 +309,8 @@
     const ordered = [...unique.values()].sort((a, b) => String(b.created_at).localeCompare(String(a.created_at)));
     section.innerHTML =
       '<p class="eyebrow">Revisión de ejercicios</p><h3>Errores informados</h3>' +
-      '<p class="family-activity-intro">' + ordered.length + ' aviso(s) · ' + localRows.length +
-      ' pendiente(s) de enviar. <button type="button" class="secondary-button" data-report-refresh>Actualizar</button></p>' +
+      '<p class="family-activity-intro">' + ordered.length + ' aviso(s) · ' + familyPending.length +
+      ' pendiente(s) de enviar · ' + visitorLocal.length + ' local(es) de visitante. <button type="button" class="secondary-button" data-report-refresh>Actualizar</button></p>' +
       (warning ? '<p class="privacy-note">' + escapeHtml(warning) + '</p>' : '') +
       (ordered.length ? '<div class="exercise-report-list">' + ordered.map(reportHtml).join('') + '</div>' :
         '<p>Todavía no se informaron errores en los ejercicios.</p>');
