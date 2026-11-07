@@ -39,7 +39,7 @@
     try {
       // La URL cambia con la versión: evita que un service worker anterior entregue
       // habilidades sin videos durante la primera visita tras una actualización.
-      const releaseVersion = document.querySelector('meta[name="app-version"]')?.content || '6.23.0';
+      const releaseVersion = document.querySelector('meta[name="app-version"]')?.content || '6.24.0';
       const [skillsData, exerciseData] = await Promise.all([
         fetch(`./data/habilidades.json?v=${encodeURIComponent(releaseVersion)}`, { cache: 'no-store' }).then(r => { if (!r.ok) throw new Error('habilidades'); return r.json(); }),
         fetch('./data/ejercicios.json').then(r => { if (!r.ok) throw new Error('ejercicios'); return r.json(); })
@@ -57,7 +57,7 @@
     refreshGateNames();
     restoreActiveContext();
     setupSupabase();
-    if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js?v=6.23.0').catch(() => {});
+    if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js?v=6.24.0').catch(() => {});
   }
 
   function bindUI() {
@@ -190,13 +190,20 @@
   }
 
   function restoreActiveContext() {
+    // El invitado tiene un único recorrido, aislado del de la cuenta familiar.
+    // No depende de la selección anterior ni ve las tarjetas de Perfil 1/2.
+    if (window.INGRESO_ACCESS_MODE === 'visitor') {
+      state.profiles.p1.name = 'Invitado';
+      enterProfile('p1', { restore: false });
+      return;
+    }
     const savedMode = readSessionValue(ACTIVE_MODE_KEY);
     if (!['p1', 'p2', 'together'].includes(savedMode)) return;
     enterProfile(savedMode, { restore: true });
   }
 
   function enterProfile(mode, { restore = false } = {}) {
-    if (!['p1', 'p2', 'together'].includes(mode)) return;
+    if (!['p1', 'p2', 'together'].includes(mode) || (window.INGRESO_ACCESS_MODE === 'visitor' && mode !== 'p1')) return;
     activeMode = mode;
     writeSessionValue(ACTIVE_MODE_KEY, mode);
     $('#profile-gate').hidden = true;
@@ -209,6 +216,8 @@
   }
 
   function leaveProfile() {
+    // En modo visitante no hay selección de perfiles: salir se hace desde el botón superior.
+    if (window.INGRESO_ACCESS_MODE === 'visitor') return;
     if (session) closeExercise(false);
     $('#video-library').querySelectorAll('iframe').forEach(frame => frame.remove());
     activeMode = null;
@@ -223,6 +232,7 @@
   function refreshStateFromStorage() {
     const previousMode = activeMode;
     state = loadLocalState();
+    if (window.INGRESO_ACCESS_MODE === 'visitor') state.profiles.p1.name = 'Invitado';
     rebuildPedagogySnapshots();
     refreshGateNames();
     if (previousMode) {
@@ -309,7 +319,7 @@
   }
 
   function navigate(view) {
-    if (!view) return;
+    if (!view || (window.INGRESO_ACCESS_MODE === 'visitor' && view === 'familia')) return;
     if (activeMode) writeSessionValue(ACTIVE_VIEW_KEY, view);
     // Desmontar los reproductores detiene el audio al salir de la pestaña correspondiente.
     if (view !== 'videos') $('#video-library').querySelectorAll('iframe').forEach(frame => frame.remove());

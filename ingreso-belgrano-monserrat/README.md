@@ -27,6 +27,11 @@ Aplicación web de estudio para preparar, en una misma plataforma, los ingresos 
 - Persistencia local inmediata y sincronización en Supabase.
 - Historial pedagógico protegido: los intentos anteriores se conservan y no se borran desde la app.
 
+## Mejoras de acceso y comentarios (V6.24)
+
+- **Invitados:** luego de pulsar «Continuar como visitante», la aplicación abre automáticamente un único perfil **Invitado**, con diagnóstico, práctica, simulacros y progreso local. No se muestran las tarjetas de los perfiles familiares ni el panel administrativo. El botón «Salir» permite volver al acceso familiar. Los datos del visitante siguen aislados del progreso de A y V; la versión anterior de los datos locales del visitante no se borra.
+- **Comentarios recibidos:** las observaciones largas se distribuyen en varias líneas, incluso si contienen palabras o repeticiones sin espacios. Se impide que las tarjetas ensanchen la grilla y provoquen desplazamiento horizontal tanto en PC como en móvil. Los textos y registros existentes no cambian.
+
 ## Avisar errores de ejercicios (V6.23)
 
 Durante diagnósticos, prácticas adaptativas y simulacros completos, cada actividad muestra **«⚑ Avisar un error en este ejercicio»**. La alumna elige una categoría, puede escribir hasta 500 caracteres y continúa en la misma consigna sin perder su respuesta ni modificar el puntaje.
