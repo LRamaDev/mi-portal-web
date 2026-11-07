@@ -124,3 +124,47 @@
 @media (prefers-reduced-motion: reduce) {
   .tt-v4 .team-player { transition: none; }
 }
+
+
+/* V4.1.1 · filas compactas: el arrastre reemplaza las flechas verticales */
+.tt-v4 .team-move.is-lineup-move {
+  display: none !important;
+}
+
+.tt-v4 .team-player > .team-player-actions {
+  display: flex;
+  align-items: stretch;
+}
+
+.tt-v4 .team-player-actions .team-move:not(.is-lineup-move) {
+  width: 3rem;
+  min-width: 3rem;
+}
+
+.tt-v4 .team-player-copy strong {
+  overflow: visible !important;
+  text-overflow: clip !important;
+  white-space: normal !important;
+  line-height: 1.15;
+}
+
+@media (max-width: 720px) {
+  .tt-v4 .team-player {
+    grid-template-columns: 2.35rem minmax(0, 1fr) auto !important;
+  }
+
+  .tt-v4 .tt-v41-drag-handle {
+    width: 2.35rem;
+    min-width: 2.35rem;
+  }
+
+  .tt-v4 .team-avatar {
+    width: 1.85rem;
+    height: 1.85rem;
+  }
+
+  .tt-v4 .team-player-actions .team-move:not(.is-lineup-move) {
+    width: 2.7rem;
+    min-width: 2.7rem;
+  }
+}
