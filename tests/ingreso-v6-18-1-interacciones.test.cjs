@@ -87,13 +87,15 @@ test('los interceptores globales de clicks están limitados a acciones intencion
   assert.doesNotMatch(app, /document\.addEventListener\('click',[\s\S]{0,220}stopImmediatePropagation/);
 });
 
-test('la reparación conserva una caché nueva y assets V6.21.0', () => {
+test('la reparación conserva una caché nueva y assets de la versión vigente', () => {
+  const version = index.match(/<meta name="app-version" content="([^"]+)">/)?.[1];
+  assert.ok(version);
   const sw = read('sw.js');
-  assert.match(index, /meta name="app-version" content="6\.21\.0"/);
-  assert.match(index, /app\.js\?v=6\.21\.0/);
-  assert.match(app, /serviceWorker\.register\('\.\/sw\.js\?v=6\.21\.0'\)/);
-  assert.match(sw, /ingreso-bm-v6-21-banco-prioridades/);
-  assert.match(sw, /const VERSION='6\.21\.0'/);
+  assert.ok(index.includes(`meta name="app-version" content="${version}"`));
+  assert.ok(index.includes(`app.js?v=${version}`));
+  assert.ok(app.includes(`serviceWorker.register('./sw.js?v=${version}')`));
+  assert.match(sw, /const CACHE='ingreso-bm-v6-\d+-[a-z0-9-]+'/);
+  assert.ok(sw.includes(`const VERSION='${version}'`));
 });
 
 test('cada sesión pide guardar el avance y distingue respaldo local de sincronización familiar', () => {
