@@ -2,7 +2,7 @@
   'use strict';
   // Se encadena después del ampliador de octubre, sin sustituir los ejercicios existentes.
   const previousFetch = window.fetch.bind(window);
-  const sourceUrl = './data/ejercicios-refuerzo-noviembre.json?v=6.23.1';
+  const sourceUrl = './data/ejercicios-refuerzo-noviembre.json?v=6.24.1';
   let additionsPromise;
 
   function loadAdditions() {
