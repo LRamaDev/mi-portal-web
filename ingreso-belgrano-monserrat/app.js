@@ -1100,6 +1100,17 @@
     } else {
       answerBox.innerHTML = '<p>Cuando termines en el cuaderno, tocá <strong>Comprobar</strong> para abrir la lista de revisión.</p>';
     }
+    document.dispatchEvent(new CustomEvent('ingreso:exercise-visible', { detail: {
+      dialogId: 'exercise-dialog',
+      profileId: currentResponderId(),
+      sessionType: session.type,
+      school: session.school,
+      exercise: {
+        id: e.id, habilidad: e.habilidad, area: e.area, tipo: e.tipo,
+        consigna: e.consigna, texto: e.texto, opciones: e.opciones,
+        respuesta: e.respuesta, explicacion: e.explicacion
+      }
+    } }));
   }
 
   function exerciseTags(e) {
@@ -1217,6 +1228,7 @@
     $('#exercise-answer').hidden = false; $('#exercise-answer').innerHTML = sessionSummaryHtml();
     $('#exercise-feedback').hidden = true; $('#exercise-selfcheck').hidden = true; $('#hint-button').hidden = true; $('#check-answer').hidden = true;
     $('#next-exercise').hidden = false; $('#next-exercise').textContent = 'Ver mi avance';
+    document.dispatchEvent(new CustomEvent('ingreso:exercise-hidden', { detail: { dialogId: 'exercise-dialog' } }));
     renderAll();
     window.setTimeout(() => openSaveReminder('session'), 350);
   }
@@ -1340,6 +1352,7 @@
       if (!window.confirm('¿Querés salir de esta sesión? Las respuestas ya registradas quedan guardadas.')) return;
     }
     session = null;
+    document.dispatchEvent(new CustomEvent('ingreso:exercise-hidden', { detail: { dialogId: 'exercise-dialog' } }));
     if ($('#exercise-dialog').open) $('#exercise-dialog').close();
     renderAll();
   }
