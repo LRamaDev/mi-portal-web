@@ -217,3 +217,4 @@ button:focus-visible,input:focus-visible,summary:focus-visible,a:focus-visible{o
 .family-feedback-inbox .feedback-inbox-note,.family-exercise-reports .exercise-report-item p,.family-exercise-reports .exercise-report-item blockquote{white-space:pre-wrap;overflow-wrap:anywhere;word-break:break-word}
 /* El visitante entra automáticamente en un único recorrido, sin selector ni panel familiar. */
 body.ingreso-visitor #profile-gate,body.ingreso-visitor #profile-switch,body.ingreso-visitor #active-profile,body.ingreso-visitor [data-nav="familia"]{display:none!important}
+@media(max-width:560px){.family-grid{grid-template-columns:minmax(0,1fr)}}
