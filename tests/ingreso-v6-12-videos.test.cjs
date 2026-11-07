@@ -25,7 +25,7 @@ test('los videos viven en el banco de habilidades como recursos compartidos', ()
       videos.push({skill:skill.id, ...video});
     }
   }
-  assert.equal(videos.length, 11);
+  assert.ok(videos.length >= 11, 'la ampliación del banco no debe reducir los recursos audiovisuales');
   assert.ok(videos.some(row => row.skill === 'MAT-MED-LONG' && row.id === 'FvLXSPXaKFI'));
   assert.ok(videos.some(row => row.skill === 'LEN-UNI-BI' && row.id === 'tvs0UpX93mw'));
   assert.ok(videos.some(row => row.skill === 'LEN-REV' && row.id === '7Rf1w8UT_rg'));
