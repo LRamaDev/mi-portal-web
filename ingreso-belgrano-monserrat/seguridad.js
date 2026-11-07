@@ -279,6 +279,11 @@
   }
 
   function leaveVisitor() {
+    // No restaurar en la cuenta familiar el perfil que se usó como invitado.
+    try {
+      sessionStorage.removeItem('ingreso-active-profile-v1');
+      sessionStorage.removeItem('ingreso-active-view-v1');
+    } catch {}
     writeAccessMode('family');
     window.location.reload();
   }
