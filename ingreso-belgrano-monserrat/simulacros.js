@@ -140,6 +140,7 @@
     $('#fs-secondary').hidden = true;
     $('#fs-primary').hidden = false;
     $('#fs-primary').textContent = 'Comenzar simulacro';
+    document.dispatchEvent(new CustomEvent('ingreso:exercise-hidden', { detail: { dialogId: 'full-sim-dialog' } }));
     if (!dialog.open) dialog.showModal();
   }
 
@@ -308,6 +309,17 @@
     } else {
       body.innerHTML = '<p>Realizá la producción completa en el cuaderno. Cuando termines, abrí la revisión y marcá solamente lo que realmente cumpliste.</p>';
     }
+    document.dispatchEvent(new CustomEvent('ingreso:exercise-visible', { detail: {
+      dialogId: 'full-sim-dialog',
+      profileId: activeMode,
+      sessionType: 'simulacro',
+      school: sim.school,
+      exercise: {
+        id: e.id, habilidad: e.habilidad, area: e.area, tipo: e.tipo,
+        consigna: e.consigna, texto: e.texto, opciones: e.opciones,
+        respuesta: e.respuesta, explicacion: e.explicacion
+      }
+    } }));
   }
 
   async function checkCurrent() {
@@ -405,6 +417,7 @@
     $('#fs-paper').hidden = true;
     $('#fs-text').hidden = true;
     $('#fs-title').textContent = `Resultado: ${earned} de 100 puntos`;
+    document.dispatchEvent(new CustomEvent('ingreso:exercise-hidden', { detail: { dialogId: 'full-sim-dialog' } }));
     $('#fs-body').innerHTML = resultHtml(earned);
     $('#fs-feedback').hidden = true;
     $('#fs-secondary').hidden = true;
