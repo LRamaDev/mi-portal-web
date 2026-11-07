@@ -13,6 +13,7 @@
   const contexts = new Map();
   let selected = null;
   let syncing = false;
+  let reportClient = null;
 
   const byId = id => document.getElementById(id);
   const escapeHtml = value => String(value ?? '').replace(/[&<>'"]/g, c => ({
@@ -43,7 +44,8 @@
   function createClient() {
     const cfg = window.INGRESO_CONFIG;
     if (!window.supabase?.createClient || !cfg?.supabaseUrl || !cfg?.supabaseAnonKey) return null;
-    return window.supabase.createClient(cfg.supabaseUrl, cfg.supabaseAnonKey);
+    if (!reportClient) reportClient = window.supabase.createClient(cfg.supabaseUrl, cfg.supabaseAnonKey);
+    return reportClient;
   }
 
   function reportContext(detail) {
@@ -262,7 +264,7 @@
     const status = waiting ? 'Pendiente de enviar' : (row.status || 'pendiente');
     const buttons = waiting ? '' :
       '<div class="exercise-report-manage">' +
-      (row.status !== 'revisado' ? '<button class="secondary-button" type="button" data-report-status="revisado" data-id="' + escapeHtml(row.id) + '">Marcar revisado</button>' : '') +
+      (row.status === 'pendiente' ? '<button class="secondary-button" type="button" data-report-status="revisado" data-id="' + escapeHtml(row.id) + '">Marcar revisado</button>' : '') +
       (row.status !== 'corregido' ? '<button class="secondary-button" type="button" data-report-status="corregido" data-id="' + escapeHtml(row.id) + '">Marcar corregido</button>' : '') +
       '</div>';
     return '<article class="exercise-report-item">' +
@@ -270,7 +272,7 @@
       '</strong><small>' + escapeHtml(status) + '</small></div>' +
       '<p>' + escapeHtml(desc) + '</p>' +
       (row.note ? '<blockquote>' + escapeHtml(row.note) + '</blockquote>' : '') +
-      '<small>' + escapeHtml(profileName(row.profile_id)) + ' · ' + escapeHtml(row.session_type) +
+      '<small>' + escapeHtml(profileName(row.profile_id)) + ' · ' + escapeHtml(row.area === 'matematica' ? 'Matemática' : 'Lengua') + ' · ' + escapeHtml(row.session_type) +
       (row.school ? ' · ' + escapeHtml(row.school) : '') + ' · ' + escapeHtml(date) + '</small>' +
       buttons + '</article>';
   }
@@ -338,6 +340,7 @@
       '.exercise-report-frame select,.exercise-report-frame textarea{box-sizing:border-box;width:100%;padding:10px;border:1px solid #bac9d5;border-radius:10px;font:inherit;background:#fff;color:#173f6b}' +
       '#exercise-report-status{color:#173f6b;font-size:.9rem}' +
       '.family-exercise-reports{grid-column:1/-1}' +
+      '.family-exercise-reports[hidden]{display:none!important}' +
       '.exercise-report-list{display:grid;gap:11px;margin-top:12px}' +
       '.exercise-report-item{border:1px solid #d5e0e9;border-radius:12px;padding:13px;background:#f9fcff;overflow-wrap:anywhere}' +
       '.exercise-report-item p{margin:.45rem 0}.exercise-report-item blockquote{margin:8px 0;padding:8px 10px;border-left:3px solid #6387b0;background:white}' +
