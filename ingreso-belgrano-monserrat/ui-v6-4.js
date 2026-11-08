@@ -83,6 +83,13 @@
       merged.evidence = mergeEvidenceRows(localProfile?.evidence || [], remoteProfile?.evidence || []);
       merged.pendingEvidence = mergeEvidenceRows(localProfile?.pendingEvidence || [], remoteProfile?.pendingEvidence || []);
       merged.videoLearning = mergeVideoLearning(localProfile?.videoLearning || {}, remoteProfile?.videoLearning || {});
+      // Recuperación no destructiva de un nombre familiar contaminado por la
+      // versión anterior. Se preservan historial, intentos, videos y evidencias.
+      if (window.INGRESO_ACCESS_MODE !== 'visitor' && merged.name === 'Invitado') {
+        const recoveredName = [localProfile?.name, remoteProfile?.name]
+          .find(name => typeof name === 'string' && name.trim() && name !== 'Invitado');
+        if (recoveredName) merged.name = recoveredName;
+      }
       return merged;
     }
 
@@ -266,8 +273,14 @@
           if (!PROFILE_IDS.includes(profileId) || !row.payload) return;
           const localStamp = Number(next.profiles?.[profileId]?.updatedAt || next.updatedAt || 0);
           const remoteStamp = Number(row.payload.updatedAt || 0);
-          if (remoteStamp > localStamp) {
-            next.profiles[profileId] = mergeProfilePayload(next.profiles?.[profileId] || null, row.payload, true);
+          const nameNeedsRecovery = window.INGRESO_ACCESS_MODE !== 'visitor' &&
+            next.profiles?.[profileId]?.name === 'Invitado' &&
+            typeof row.payload.name === 'string' && row.payload.name.trim() &&
+            row.payload.name !== 'Invitado';
+          if (remoteStamp > localStamp || nameNeedsRecovery) {
+            next.profiles[profileId] = mergeProfilePayload(
+              next.profiles?.[profileId] || null, row.payload, remoteStamp > localStamp
+            );
             changed = true;
           }
         });

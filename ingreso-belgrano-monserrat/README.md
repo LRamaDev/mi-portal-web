@@ -27,6 +27,13 @@ Aplicación web de estudio para preparar, en una misma plataforma, los ingresos 
 - Persistencia local inmediata y sincronización en Supabase.
 - Historial pedagógico protegido: los intentos anteriores se conservan y no se borran desde la app.
 
+## Corrección urgente de aislamiento y restauración de perfiles (V6.25)
+
+- Al cambiar entre familiar y visitante, el modo para **la próxima recarga** se persiste sin cambiar el modo activo del almacenamiento en la página actual. Esto impide el cruce de datos durante el guardado `pagehide`.
+- La sincronización por perfil prioriza un nombre familiar válido por encima de «Invitado» al fusionar copias antiguas, **sin borrar evidencias, sesiones ni ejercicios**.
+- La cuenta familiar mantiene sus dos perfiles; el visitante continúa con su único perfil local y sin acceso al panel de Familia.
+- Se añadieron pruebas de regresión para el cambio de modo y la conservación de identidades.
+
 ## Mejoras de acceso y comentarios (V6.24)
 
 - **Invitados:** luego de pulsar «Continuar como visitante», la aplicación abre automáticamente un único perfil **Invitado**, con diagnóstico, práctica, simulacros y progreso local. No se muestran las tarjetas de los perfiles familiares ni el panel administrativo. El botón «Salir» permite volver al acceso familiar. Los datos del visitante siguen aislados del progreso de A y V; la versión anterior de los datos locales del visitante no se borra.

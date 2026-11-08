@@ -77,12 +77,13 @@ test('loader agrega sin repetir IDs y conserva el banco si falla la descarga', a
   assert.equal(data.ejercicios.length, 2);
 });
 
-test('orden de carga y recursos versionados en service worker 6.24.1', () => {
+test('orden de carga y recursos versionados en service worker actual', () => {
   const h = read('index.html');
   const s = read('sw.js');
-  assert.match(h, /meta name="app-version" content="6\.24\.1"/);
+  const version = h.match(/meta name="app-version" content="(6\.\d+\.\d+)"/)?.[1];
+  assert.ok(version, 'Debe existir una versión visible');
   assert.ok(h.indexOf('banco-v6-21.js?') < h.indexOf('banco-refuerzo-noviembre.js?'));
   assert.ok(h.indexOf('banco-refuerzo-noviembre.js?') < h.indexOf('app.js?'));
-  assert.ok(s.includes('./data/ejercicios-refuerzo-noviembre.json?v=6.24.1'));
-  assert.ok(read('app.js').includes("register('./sw.js?v=6.24.1')"));
+  assert.ok(s.includes(`./data/ejercicios-refuerzo-noviembre.json?v=${version}`));
+  assert.ok(read('app.js').includes(`register('./sw.js?v=${version}')`));
 });

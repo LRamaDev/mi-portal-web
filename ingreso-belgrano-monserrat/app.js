@@ -39,7 +39,7 @@
     try {
       // La URL cambia con la versión: evita que un service worker anterior entregue
       // habilidades sin videos durante la primera visita tras una actualización.
-      const releaseVersion = document.querySelector('meta[name="app-version"]')?.content || '6.24.1';
+      const releaseVersion = document.querySelector('meta[name="app-version"]')?.content || '6.25.0';
       const [skillsData, exerciseData] = await Promise.all([
         fetch(`./data/habilidades.json?v=${encodeURIComponent(releaseVersion)}`, { cache: 'no-store' }).then(r => { if (!r.ok) throw new Error('habilidades'); return r.json(); }),
         fetch('./data/ejercicios.json').then(r => { if (!r.ok) throw new Error('ejercicios'); return r.json(); })
@@ -57,7 +57,7 @@
     refreshGateNames();
     restoreActiveContext();
     setupSupabase();
-    if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js?v=6.24.1').catch(() => {});
+    if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js?v=6.25.0').catch(() => {});
   }
 
   function bindUI() {
@@ -1474,7 +1474,12 @@
     if (error) { console.error(error); toast('Supabase está conectado, pero falta crear la tabla study_state o revisar sus permisos.'); return; }
     if (!data?.payload) { await syncRemoteState(); return; }
     const remote = hydrateState(data.payload);
-    if ((remote.updatedAt || 0) > (state.updatedAt || 0)) {
+    // Restaurar la identidad familiar aunque el estado local contaminado
+    // tenga una marca de tiempo más nueva que la copia recuperada en Supabase.
+    const needsNameRecovery = window.INGRESO_ACCESS_MODE !== 'visitor' &&
+      ['p1', 'p2'].some(id => state.profiles?.[id]?.name === 'Invitado' &&
+        remote.profiles?.[id]?.name && remote.profiles[id].name !== 'Invitado');
+    if ((remote.updatedAt || 0) > (state.updatedAt || 0) || needsNameRecovery) {
       state = remote; rebuildPedagogySnapshots(); localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); refreshGateNames(); if (activeMode) renderAll();
       toast('Progreso actualizado desde la nube.');
     } else await syncRemoteState();
