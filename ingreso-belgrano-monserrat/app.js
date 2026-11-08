@@ -1474,7 +1474,12 @@
     if (error) { console.error(error); toast('Supabase está conectado, pero falta crear la tabla study_state o revisar sus permisos.'); return; }
     if (!data?.payload) { await syncRemoteState(); return; }
     const remote = hydrateState(data.payload);
-    if ((remote.updatedAt || 0) > (state.updatedAt || 0)) {
+    // Restaurar la identidad familiar aunque el estado local contaminado
+    // tenga una marca de tiempo más nueva que la copia recuperada en Supabase.
+    const needsNameRecovery = window.INGRESO_ACCESS_MODE !== 'visitor' &&
+      ['p1', 'p2'].some(id => state.profiles?.[id]?.name === 'Invitado' &&
+        remote.profiles?.[id]?.name && remote.profiles[id].name !== 'Invitado');
+    if ((remote.updatedAt || 0) > (state.updatedAt || 0) || needsNameRecovery) {
       state = remote; rebuildPedagogySnapshots(); localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); refreshGateNames(); if (activeMode) renderAll();
       toast('Progreso actualizado desde la nube.');
     } else await syncRemoteState();
