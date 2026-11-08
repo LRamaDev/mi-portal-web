@@ -83,6 +83,13 @@
       merged.evidence = mergeEvidenceRows(localProfile?.evidence || [], remoteProfile?.evidence || []);
       merged.pendingEvidence = mergeEvidenceRows(localProfile?.pendingEvidence || [], remoteProfile?.pendingEvidence || []);
       merged.videoLearning = mergeVideoLearning(localProfile?.videoLearning || {}, remoteProfile?.videoLearning || {});
+      // Recuperación no destructiva de un nombre familiar contaminado por la
+      // versión anterior. Se preservan historial, intentos, videos y evidencias.
+      if (window.INGRESO_ACCESS_MODE !== 'visitor' && merged.name === 'Invitado') {
+        const recoveredName = [localProfile?.name, remoteProfile?.name]
+          .find(name => typeof name === 'string' && name.trim() && name !== 'Invitado');
+        if (recoveredName) merged.name = recoveredName;
+      }
       return merged;
     }
 
