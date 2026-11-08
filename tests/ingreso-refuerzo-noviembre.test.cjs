@@ -80,7 +80,7 @@ test('loader agrega sin repetir IDs y conserva el banco si falla la descarga', a
 test('orden de carga y recursos versionados en service worker actual', () => {
   const h = read('index.html');
   const s = read('sw.js');
-  const version = h.match(/meta name="app-version" content="(6\\.\\d+\\.\\d+)"/)?.[1];
+  const version = h.match(/meta name="app-version" content="(6\.\d+\.\d+)"/)?.[1];
   assert.ok(version, 'Debe existir una versión visible');
   assert.ok(h.indexOf('banco-v6-21.js?') < h.indexOf('banco-refuerzo-noviembre.js?'));
   assert.ok(h.indexOf('banco-refuerzo-noviembre.js?') < h.indexOf('app.js?'));
