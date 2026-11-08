@@ -38,11 +38,13 @@
   }
 
   function writeAccessMode(mode) {
-    accessMode = mode === 'visitor' ? 'visitor' : 'family';
-    window.INGRESO_ACCESS_MODE = accessMode;
+    const nextMode = mode === 'visitor' ? 'visitor' : 'family';
+    // Se cambia el modo para la PROXIMA carga; el almacenamiento de esta página
+    // conserva su identidad hasta pagehide, que todavía debe guardar su progreso.
+    // Así salir de visitante nunca graba su recorrido bajo la clave familiar.
     try {
-      if (nativeStorage) nativeStorage.setItem.call(localStorage, ACCESS_MODE_KEY, accessMode);
-      else localStorage.setItem(ACCESS_MODE_KEY, accessMode);
+      if (nativeStorage) nativeStorage.setItem.call(localStorage, ACCESS_MODE_KEY, nextMode);
+      else localStorage.setItem(ACCESS_MODE_KEY, nextMode);
     } catch (error) {
       console.warn('[Ingreso] No se pudo guardar el modo de acceso', error);
     }
