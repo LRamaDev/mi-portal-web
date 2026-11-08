@@ -1,7 +1,7 @@
 (() => {
   'use strict';
   const previousFetch = window.fetch.bind(window);
-  const sourceUrl = './data/ejercicios-prioridades-octubre.json?v=6.24.1';
+  const sourceUrl = './data/ejercicios-prioridades-octubre.json?v=6.25.0';
   let additionsPromise;
 
   function loadAdditions() {
