@@ -198,10 +198,10 @@
     if(run&&(run.status==='queued'||run.status==='in_progress'||run.status==='waiting'||run.status==='requested')){
       return {kind:'running',run:compact};
     }
-    var pulls=await request('/pulls?state=open&base='+encodeURIComponent(BASE_BRANCH)+'&sort=updated&direction=desc&per_page=30');
+    var pulls=await requestWithPublicFallback(client,token,fetchFn,'/pulls?state=open&base='+encodeURIComponent(BASE_BRANCH)+'&sort=updated&direction=desc&per_page=30');
     var after=Date.parse(options.flow.retryRequestedAt||options.flow.sourceMergedAt||0);
     var publication=findPublicationPull(pulls,after);
-    if(publication&&(!options.flow.retryRequestedAt||run&&run.conclusion==='success')){
+    if(publication&&run&&run.conclusion==='success'){
       return {kind:'ready',run:compact,pull:compactPull(publication)};
     }
     if(run&&run.conclusion==='success'){
@@ -229,6 +229,26 @@
       body:JSON.stringify({ref:BASE_BRANCH,inputs:{source_branch:BASE_BRANCH}})
     });
   }
+
+  async function syncFlowMerges(options){
+    var state=options.flow;
+    if(!state||!state.sourcePull)return state;
+    var request=githubClient(options.token||'',options.fetchFn||fetch).request;
+    var updated=Object.assign({},state);
+    if(!updated.sourceMergedAt){
+      var source=await request('/pulls/'+updated.sourcePull.number);
+      if(source&&source.merged_at){
+        updated.sourceMergedAt=source.merged_at;
+        updated.sourceMergeSha=source.merge_commit_sha;
+        updated.processingState='running';
+      }
+    }
+    if(updated.publicationPull&&!updated.publicationMergedAt){
+      var publication=await request('/pulls/'+updated.publicationPull.number);
+      if(publication&&publication.merged_at)updated.publicationMergedAt=publication.merged_at;
+    }
+    return updated;
+  }
   function bind(doc) {
     doc=doc||document;
     var dialog=doc.getElementById('admin-dialog');
@@ -242,7 +262,7 @@
     function setBusy(value){busy=value;submit.disabled=value;files.disabled=value;progress.hidden=!value;}
     function step(state,title,copy,pull,action,label){
       var cls=state==='done'?'done':state==='ready'?'ready':state==='error'?'error':'waiting';
-      return '<article class="admin-step '+cls+'"><span class="admin-step-mark" aria-hidden="true">'+(state==='done'?'✓':state==='ready'?'!':'…')+'</span><div><strong>'+esc(title)+'</strong><p>'+esc(copy)+'</p>'+(pull?'<a href="'+esc(pull.html_url)+'" target="_blank" rel="noopener noreferrer">Abrir PR #'+esc(pull.number)+' en GitHub ↗</a>':'')+'</div>'+(action?'<button type="button" data-admin-action="'+esc(action)+'">'+esc(label)+'</button>':'')+'</article>';
+      return '<article class="admin-step '+cls+'"><span class="admin-step-mark" aria-hidden="true">'+(state==='done'?'✓':state==='error'?'×':state==='ready'?'!':'…')+'</span><div><strong>'+esc(title)+'</strong><p>'+esc(copy)+'</p>'+(pull?'<a href="'+esc(pull.html_url)+'" target="_blank" rel="noopener noreferrer">Abrir PR #'+esc(pull.number)+' en GitHub ↗</a>':'')+'</div>'+(action?'<button type="button" data-admin-action="'+esc(action)+'">'+esc(label)+'</button>':'')+'</article>';
     }
     function renderFlow(){
       if(!flow){result.hidden=true;result.innerHTML='';return;}
@@ -296,7 +316,18 @@
         if(currentSession===session){status.textContent='No se pudo consultar GitHub: '+error.message+'. Abrí el enlace al procesamiento o verificá los permisos de la clave.';status.className='admin-status error';}
       }finally{waiting=false;if(currentSession===session){setBusy(false);renderFlow();}}
     }
-    doc.getElementById('admin-open').addEventListener('click',function(){status.textContent='';progress.hidden=true;flow=loadFlow();renderFlow();dialog.showModal();if(flow&&flow.sourceMergedAt&&!flow.publicationMergedAt&&!flow.publicationPull)locatePublication('',++session,true);});
+    doc.getElementById('admin-open').addEventListener('click',async function(){
+      status.textContent='';progress.hidden=true;flow=loadFlow();renderFlow();dialog.showModal();
+      var openSession=++session;
+      if(flow&&flow.sourcePull){
+        try{
+          var current=await syncFlowMerges({flow:flow});
+          if(openSession!==session)return;
+          flow=current;saveFlow();renderFlow();
+        }catch(error){if(openSession===session){status.textContent='No se pudo verificar si los PR ya se fusionaron en GitHub. '+error.message;status.className='admin-status error';}}
+      }
+      if(openSession===session&&flow&&flow.sourceMergedAt&&!flow.publicationMergedAt&&!flow.publicationPull)locatePublication('',openSession,true);
+    });
     doc.getElementById('admin-close').addEventListener('click',close);doc.getElementById('admin-cancel').addEventListener('click',close);
     files.addEventListener('change',function(){var check=classifyFiles(files.files);list.innerHTML=check.entries.map(function(entry){return '<div class="admin-file-row ok"><strong>'+esc(entry.corridor)+'</strong><span>'+esc(entry.file.name)+'</span></div>';}).join('')+check.errors.map(function(error){return '<div class="error">'+esc(error)+'</div>';}).join('');});
     form.addEventListener('submit',async function(event){
@@ -352,5 +383,5 @@
     renderFlow();
   }
   if(typeof document!=='undefined')document.addEventListener('DOMContentLoaded',function(){bind(document);});
-  return {OWNER:OWNER,REPOSITORY:REPOSITORY,CORRIDORS:CORRIDORS,normalize:normalize,classifyFiles:classifyFiles,branchName:branchName,compactPull:compactPull,githubClient:githubClient,upload:upload,mergePull:mergePull,findPublicationPull:findPublicationPull,waitForPublication:waitForPublication,findRelevantRun:findRelevantRun,parseFailureDetails:parseFailureDetails,readWorkflowErrors:readWorkflowErrors,inspectProcessing:inspectProcessing,waitForProcessing:waitForProcessing,retryProcessing:retryProcessing,bind:bind};
+  return {OWNER:OWNER,REPOSITORY:REPOSITORY,CORRIDORS:CORRIDORS,normalize:normalize,classifyFiles:classifyFiles,branchName:branchName,compactPull:compactPull,githubClient:githubClient,upload:upload,mergePull:mergePull,findPublicationPull:findPublicationPull,waitForPublication:waitForPublication,findRelevantRun:findRelevantRun,parseFailureDetails:parseFailureDetails,readWorkflowErrors:readWorkflowErrors,inspectProcessing:inspectProcessing,waitForProcessing:waitForProcessing,retryProcessing:retryProcessing,syncFlowMerges:syncFlowMerges,bind:bind};
 }));
