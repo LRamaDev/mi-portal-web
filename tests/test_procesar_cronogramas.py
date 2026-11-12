@@ -1,6 +1,7 @@
 import unittest
 
 from scripts.transporte.procesar_cronogramas import (
+    DAYS,
     ROW_RE,
     normalize_route,
     normalize_time,
@@ -29,6 +30,11 @@ class ScheduleParserChecks(unittest.TestCase):
         self.assertEqual(match.group(6), "30-70730781-8")
         self.assertEqual(match.group(7), "JUEVES")
         self.assertEqual(match.group(8), "REGULAR COMÚN")
+
+    def test_acepta_dias_completos_de_corredor_sur(self):
+        # La descripción aparece en dos filas del PDF SUR (páginas 4 y 8).
+        self.assertEqual(DAYS["LUNES, VIERNES, SÁBADO Y DOMINGO"], [1, 5, 6, 7])
+        self.assertEqual(DAYS["LUNES, VIERNES, SÁBADO Y DOM"], [1, 5, 6, 7])
 
     def test_recupera_fecha_desde_metadatos_si_el_panel_renombra_el_pdf(self):
         self.assertEqual(parse_pdf_metadata_date("D:20260828121020-03'00'"), "2026-08-28")
