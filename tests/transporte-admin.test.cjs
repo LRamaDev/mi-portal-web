@@ -165,3 +165,45 @@ test('evita crear PR duplicado si los ocho PDF son idénticos',async()=>{
   assert.equal(calls.filter(c=>c.url.endsWith('/pulls')).length,0);
   assert.equal(calls.filter(c=>c.url.endsWith('/git/refs')).length,0);
 });
+
+
+test('recupera una carga o publicación fusionada directamente desde GitHub',async()=>{
+  const urls=[];
+  const fetchFn=async(url)=>{
+    urls.push(url);
+    if(url.endsWith('/pulls/143'))return {ok:true,status:200,json:async()=>({merged_at:'2026-11-12T17:17:20Z',merge_commit_sha:'commit-fusionado'})};
+    if(url.endsWith('/pulls/146'))return {ok:true,status:200,json:async()=>({merged_at:'2026-11-12T19:00:00Z'})};
+    throw Error('No esperado '+url);
+  };
+  const state=await A.syncFlowMerges({fetchFn,flow:{sourcePull:{number:143},publicationPull:{number:146}}});
+  assert.equal(state.sourceMergedAt,'2026-11-12T17:17:20Z');
+  assert.equal(state.sourceMergeSha,'commit-fusionado');
+  assert.equal(state.publicationMergedAt,'2026-11-12T19:00:00Z');
+  assert.equal(urls.length,2);
+});
+
+test('no muestra un PR viejo si todavía no se encontró una ejecución validada',async()=>{
+  const flow={sourceMergeSha:'commit-pendiente',sourceMergedAt:'2026-11-12T17:00:00Z'};
+  const fetchFn=async(url)=>{
+    const payload=url.includes('/workflows/actualizar-horarios.yml/runs?')?{workflow_runs:[]}:url.includes('/pulls?')?[{number:146,created_at:'2026-11-12T17:01:00Z',updated_at:'2026-11-12T17:01:03Z',head:{ref:'publicacion/horarios-2026-11-06'},base:{ref:'main'}}]:[];
+    return {ok:true,status:200,json:async()=>payload};
+  };
+  const state=await A.inspectProcessing({fetchFn,flow});
+  assert.equal(state.kind,'running');
+});
+
+test('consulta GitHub públicamente si el token no tiene permiso de lectura de Actions',async()=>{
+  const headers=[];
+  const fetchFn=async(url,init={})=>{
+    if(url.includes('/workflows/actualizar-horarios.yml/runs?')){
+      headers.push(init.headers||{});
+      if(init.headers&&init.headers.Authorization)return {ok:false,status:403,json:async()=>({message:'Resource not accessible by personal access token'})};
+      return {ok:true,status:200,json:async()=>({workflow_runs:[{id:1,event:'push',head_branch:'main',head_sha:'sha1',status:'in_progress',created_at:'2026-11-12T17:00:05Z'}]})};
+    }
+    throw Error('No esperaba '+url);
+  };
+  const state=await A.inspectProcessing({token:'sin-actions-read',fetchFn,flow:{sourceMergeSha:'sha1'}});
+  assert.equal(state.kind,'running');
+  assert.equal(headers.length,2);
+  assert.equal(headers[1].Authorization,undefined);
+});
