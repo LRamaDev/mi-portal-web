@@ -72,13 +72,6 @@
       "source_name": "Alto de los Quebrachos",
       "department": "Cruz del Eje"
     },
-    "ANISACATE": {
-      "lat": -31.7255025269638,
-      "lon": -64.4140689988532,
-      "source": "Georef Argentina · localidades",
-      "source_name": "Anisacate",
-      "department": "Santa María"
-    },
     "ARIAS": {
       "lat": -33.6420729225189,
       "lon": -62.4041194655182,
@@ -266,6 +259,13 @@
       "source": "Georef Argentina · localidades",
       "source_name": "Conlara",
       "department": "San Javier"
+    },
+    "CORDOBA": {
+      "lat": -31.4150461523809,
+      "lon": -64.1791140755104,
+      "source": "Georef Argentina · localidades",
+      "source_name": "Córdoba",
+      "department": "Capital"
     },
     "CORONEL MOLDES": {
       "lat": -33.6227285213653,
@@ -1235,13 +1235,6 @@
       "source": "Georef Argentina · asentamientos",
       "source_name": "Yocsina",
       "department": "Santa María"
-    },
-    "CORDOBA": {
-      "lat": -31.4150461523809,
-      "lon": -64.1791140755104,
-      "source": "Georef Argentina · localidades",
-      "source_name": "Córdoba",
-      "department": "Capital"
     }
   },
   "unresolved": [
