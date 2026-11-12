@@ -241,53 +241,105 @@
     function secret(){var value=token.value.trim();if(!value)throw new Error('Ingresá la clave de GitHub para continuar.');return value;}
     function setBusy(value){busy=value;submit.disabled=value;files.disabled=value;progress.hidden=!value;}
     function step(state,title,copy,pull,action,label){
-      var cls=state==='done'?'done':state==='ready'?'ready':'waiting';
+      var cls=state==='done'?'done':state==='ready'?'ready':state==='error'?'error':'waiting';
       return '<article class="admin-step '+cls+'"><span class="admin-step-mark" aria-hidden="true">'+(state==='done'?'✓':state==='ready'?'!':'…')+'</span><div><strong>'+esc(title)+'</strong><p>'+esc(copy)+'</p>'+(pull?'<a href="'+esc(pull.html_url)+'" target="_blank" rel="noopener noreferrer">Abrir PR #'+esc(pull.number)+' en GitHub ↗</a>':'')+'</div>'+(action?'<button type="button" data-admin-action="'+esc(action)+'">'+esc(label)+'</button>':'')+'</article>';
     }
     function renderFlow(){
       if(!flow){result.hidden=true;result.innerHTML='';return;}
       var first=flow.sourceMergedAt?step('done','1. Carga de los PDF','Fusionada correctamente en main.',flow.sourcePull):step('ready','1. Carga de los PDF','Revisá el PR y fusioná los ocho archivos.',flow.sourcePull,'merge-source','Fusionar carga');
-      var second;
+      var second,errorDetails='';
       if(flow.publicationMergedAt)second=step('done','2. Publicación de horarios','Los horarios y el historial fueron fusionados.',flow.publicationPull);
       else if(flow.publicationPull)second=step('ready','2. Publicación de horarios','La extracción y la validación terminaron correctamente.',flow.publicationPull,'merge-publication','Fusionar y publicar');
-      else if(flow.sourceMergedAt)second=step('waiting','2. Publicación de horarios','GitHub está extrayendo y validando los cronogramas.',null,'retry-publication','Buscar publicación');
+      else if(flow.processingState==='failed'){
+        second=step('error','2. Procesamiento detenido','GitHub encontró un error. Los PDF siguen cargados; no se publicaron horarios incompletos.',null,'retry-processing','Reintentar sin subir PDF');
+        var details=Array.isArray(flow.failureDetails)?flow.failureDetails:[];
+        if(details.length)errorDetails='<div class="admin-error-details"><strong>Registros que requieren revisión</strong><ul>'+details.map(function(d){
+          return '<li><strong>'+esc(d.corridor)+' · '+esc(d.file)+' · página '+esc(d.page)+'</strong><span>'+esc(d.reason)+'</span></li>';
+        }).join('')+'</ul><p>Si el PDF contiene un formato nuevo, hay que adaptar el extractor antes de repetir el procesamiento.</p></div>';
+        else errorDetails='<p class="admin-error-details">No se pudo obtener el detalle técnico. Abrí el registro de GitHub para conocer el motivo antes de reintentar.</p>';
+      }else if(flow.processingState==='missing-pr')second=step('error','2. Falta el PR de publicación','GitHub terminó, pero no se encontró el segundo Pull Request. Revisá el registro antes de reintentar.',null,'retry-processing','Reintentar procesamiento');
+      else if(flow.sourceMergedAt)second=step('waiting','2. Procesamiento de horarios','Consultá el estado real de GitHub para saber si sigue procesando o si ya terminó.',null,'check-status','Consultar estado');
       else second=step('waiting','2. Publicación de horarios','Se habilitará después de fusionar la carga.');
-      result.innerHTML='<div class="admin-flow">'+first+second+'</div><p class="admin-flow-links"><a href="'+esc(flow.actionsUrl||('https://github.com/'+OWNER+'/'+REPOSITORY+'/actions'))+'" target="_blank" rel="noopener noreferrer">Ver procesamiento en GitHub ↗</a>'+(flow.publicationMergedAt?' · <a href="https://lramadev.github.io/mi-portal-web/app-transporte/index.html" target="_blank" rel="noopener noreferrer">Abrir la aplicación publicada ↗</a>':'')+'</p>';
+      var runLink=flow.processingRun&&flow.processingRun.html_url?'<a href="'+esc(flow.processingRun.html_url)+'" target="_blank" rel="noopener noreferrer">Ver ejecución de GitHub ↗</a> · ':'';
+      result.innerHTML='<div class="admin-flow">'+first+second+errorDetails+'</div><p class="admin-flow-links">'+runLink+'<a href="'+esc(flow.actionsUrl||('https://github.com/'+OWNER+'/'+REPOSITORY+'/actions'))+'" target="_blank" rel="noopener noreferrer">Ver todos los procesamientos ↗</a>'+(flow.publicationMergedAt?' · <a href="https://lramadev.github.io/mi-portal-web/app-transporte/index.html" target="_blank" rel="noopener noreferrer">Abrir la aplicación publicada ↗</a>':'')+'</p>';
       result.hidden=false;
     }
     function close(){if(busy&&!waiting)return;session++;waiting=false;setBusy(false);token.value='';dialog.close();}
-    async function locatePublication(key,currentSession){
-      waiting=true;setBusy(true);status.className='admin-status';status.textContent='GitHub está procesando los PDF. Esta etapa puede tardar unos minutos…';renderFlow();
+    async function locatePublication(key,currentSession,once){
+      if(!flow||!flow.sourceMergedAt)return;
+      waiting=true;setBusy(true);status.className='admin-status';status.textContent='Consultando el estado real del procesamiento en GitHub…';renderFlow();
       try{
-        var pull=await waitForPublication({token:key,since:Date.parse(flow.sourceMergedAt),cancelled:function(){return currentSession!==session;},onWait:function(attempt){status.textContent='Validando los cronogramas… comprobación '+attempt+'.';}});
-        if(currentSession!==session)return;
-        if(pull){flow.publicationPull=pull;saveFlow();status.textContent='Validación terminada. Ya podés realizar la segunda fusión.';status.className='admin-status success';}
-        else{status.textContent='La publicación todavía no está lista. Podés volver a buscarla desde este panel o revisar el procesamiento.';status.className='admin-status error';}
-      }catch(error){if(currentSession===session){status.textContent='No se pudo consultar la publicación: '+error.message;status.className='admin-status error';}}
-      finally{waiting=false;if(currentSession===session){setBusy(false);renderFlow();}}
+        var state=await waitForProcessing({token:key,flow:flow,attempts:once?1:36,
+          cancelled:function(){return currentSession!==session;},
+          onWait:function(attempt,total,current){
+            if(current.kind==='running')status.textContent=current.run?'GitHub está procesando los cronogramas. Comprobación '+attempt+'.':'Buscando el inicio del procesamiento en GitHub…';
+          }});
+        if(currentSession!==session||!state)return;
+        if(state.run)flow.processingRun=state.run;
+        if(state.kind==='ready'){
+          flow.publicationPull=state.pull;flow.processingState='ready';flow.failureDetails=[];
+          status.textContent='Validación terminada. Ya podés realizar la segunda fusión.';status.className='admin-status success';
+        }else if(state.kind==='failed'){
+          flow.processingState='failed';flow.failureDetails=state.errors||[];
+          status.textContent=state.errors&&state.errors.length?'Procesamiento detenido: revisá el PDF y la página señalados más abajo.':'El procesamiento falló. Consultá el registro técnico antes de reintentar.';
+          status.className='admin-status error';
+        }else if(state.kind==='missing-pr'){
+          flow.processingState='missing-pr';
+          status.textContent='GitHub terminó correctamente, pero no se encontró un PR de publicación. Revisá la ejecución.';
+          status.className='admin-status error';
+        }else{
+          flow.processingState='running';
+          status.textContent=once?'GitHub todavía está procesando. Podés consultar nuevamente desde aquí.':'No se completó el procesamiento durante esta comprobación. Consultá nuevamente más tarde.';
+        }
+        saveFlow();
+      }catch(error){
+        if(currentSession===session){status.textContent='No se pudo consultar GitHub: '+error.message+'. Abrí el enlace al procesamiento o verificá los permisos de la clave.';status.className='admin-status error';}
+      }finally{waiting=false;if(currentSession===session){setBusy(false);renderFlow();}}
     }
-    doc.getElementById('admin-open').addEventListener('click',function(){status.textContent='';progress.hidden=true;flow=loadFlow();renderFlow();dialog.showModal();});
+    doc.getElementById('admin-open').addEventListener('click',function(){status.textContent='';progress.hidden=true;flow=loadFlow();renderFlow();dialog.showModal();if(flow&&flow.sourceMergedAt&&!flow.publicationMergedAt&&!flow.publicationPull)locatePublication('',++session,true);});
     doc.getElementById('admin-close').addEventListener('click',close);doc.getElementById('admin-cancel').addEventListener('click',close);
     files.addEventListener('change',function(){var check=classifyFiles(files.files);list.innerHTML=check.entries.map(function(entry){return '<div class="admin-file-row ok"><strong>'+esc(entry.corridor)+'</strong><span>'+esc(entry.file.name)+'</span></div>';}).join('')+check.errors.map(function(error){return '<div class="error">'+esc(error)+'</div>';}).join('');});
     form.addEventListener('submit',async function(event){
       event.preventDefault();var check=classifyFiles(files.files),key=token.value.trim();
       if(!check.ok){status.textContent=check.errors[0];status.className='admin-status error';return;}
       if(!key){status.textContent='Ingresá la clave de acceso de GitHub.';status.className='admin-status error';return;}
-      flow=null;saveFlow();renderFlow();setBusy(true);progress.value=0;status.className='admin-status';
-      try{var done=await upload({token:key,entries:check.entries,onProgress:function(value,message){progress.value=value;status.textContent=message;}});flow={branch:done.branch,commit:done.commit,sourcePull:done.sourcePull,actionsUrl:done.actionsUrl,createdAt:new Date().toISOString()};saveFlow();status.textContent='Los ocho PDF quedaron cargados. Completá ahora la primera fusión.';status.className='admin-status success';renderFlow();}
+      setBusy(true);progress.value=0;status.className='admin-status';
+      try{
+        var done=await upload({token:key,entries:check.entries,onProgress:function(value,message){progress.value=value;status.textContent=message;}});
+        if(done.unchanged){
+          status.textContent='Estos ocho PDF son idénticos a los ya cargados. No se creó un PR duplicado. Si hubo un error, usá la opción de reintento del procesamiento.';
+          status.className='admin-status success';
+        }else{
+          flow={branch:done.branch,commit:done.commit,sourcePull:done.sourcePull,actionsUrl:done.actionsUrl,createdAt:new Date().toISOString()};
+          saveFlow();status.textContent='Los ocho PDF quedaron cargados. Completá ahora la primera fusión.';status.className='admin-status success';
+        }
+        renderFlow();
+      }
       catch(error){status.textContent='No se pudo completar la carga: '+error.message;status.className='admin-status error';}
       finally{setBusy(false);}
     });
     result.addEventListener('click',async function(event){
       var button=event.target.closest('[data-admin-action]');if(!button||busy)return;
       try{
-        var key=secret(),action=button.dataset.adminAction;
+        var action=button.dataset.adminAction,key=action==='check-status'?token.value.trim():secret();
         if(action==='merge-source'){
           if(typeof confirm==='function'&&!confirm('¿Fusionar los ocho PDF e iniciar la validación?'))return;
           setBusy(true);status.textContent='Fusionando la carga de PDF…';status.className='admin-status';
-          await mergePull({token:key,number:flow.sourcePull.number,sha:flow.sourcePull.head.sha,title:'Incorporar cronogramas para su procesamiento'});
-          flow.sourceMergedAt=new Date().toISOString();saveFlow();renderFlow();setBusy(false);await locatePublication(key,session);
-        }else if(action==='retry-publication')await locatePublication(key,session);
+          var merged=await mergePull({token:key,number:flow.sourcePull.number,sha:flow.sourcePull.head.sha,title:'Incorporar cronogramas para su procesamiento'});
+          flow.sourceMergedAt=new Date().toISOString();flow.sourceMergeSha=merged.sha;flow.retryRequestedAt=null;flow.processingState='running';flow.failureDetails=[];saveFlow();renderFlow();setBusy(false);await locatePublication(key,session);
+        }else if(action==='check-status')await locatePublication(key,session,true);
+        else if(action==='retry-processing'){
+          if(typeof confirm==='function'&&!confirm('¿Volver a procesar los ocho PDF que ya están en GitHub, sin modificar ni publicar los horarios actuales?'))return;
+          setBusy(true);status.textContent='Solicitando un nuevo procesamiento a GitHub…';status.className='admin-status';
+          var requestedAt=new Date().toISOString();
+          try{await retryProcessing({token:key});}
+          catch(error){
+            if(/403|permission|accessible by personal access token|forbidden/i.test(error.message))throw new Error('Tu clave necesita Actions: Read and write para reintentar. Podés ejecutar manualmente el workflow desde GitHub Actions.');
+            throw error;
+          }
+          flow.retryRequestedAt=requestedAt;flow.processingState='running';flow.processingRun=null;flow.failureDetails=[];saveFlow();renderFlow();setBusy(false);
+          await locatePublication(key,session);
+        }
         else if(action==='merge-publication'){
           if(typeof confirm==='function'&&!confirm('¿Publicar los horarios validados y actualizar el historial?'))return;
           setBusy(true);status.textContent='Fusionando los horarios validados…';status.className='admin-status';
@@ -300,5 +352,5 @@
     renderFlow();
   }
   if(typeof document!=='undefined')document.addEventListener('DOMContentLoaded',function(){bind(document);});
-  return {OWNER:OWNER,REPOSITORY:REPOSITORY,CORRIDORS:CORRIDORS,normalize:normalize,classifyFiles:classifyFiles,branchName:branchName,compactPull:compactPull,githubClient:githubClient,upload:upload,mergePull:mergePull,findPublicationPull:findPublicationPull,waitForPublication:waitForPublication,bind:bind};
+  return {OWNER:OWNER,REPOSITORY:REPOSITORY,CORRIDORS:CORRIDORS,normalize:normalize,classifyFiles:classifyFiles,branchName:branchName,compactPull:compactPull,githubClient:githubClient,upload:upload,mergePull:mergePull,findPublicationPull:findPublicationPull,waitForPublication:waitForPublication,findRelevantRun:findRelevantRun,parseFailureDetails:parseFailureDetails,readWorkflowErrors:readWorkflowErrors,inspectProcessing:inspectProcessing,waitForProcessing:waitForProcessing,retryProcessing:retryProcessing,bind:bind};
 }));
