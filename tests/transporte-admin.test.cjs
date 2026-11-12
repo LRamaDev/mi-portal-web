@@ -79,3 +79,89 @@ test('el workflow procesa los PDF recién después de entrar en main',()=>{
   assert.match(workflow,/push:\s*\n\s*branches:\s*\n\s*- main\s*\n\s*paths:/);
   assert.doesNotMatch(workflow,/branches:\s*\n\s*- ["']?actualizacion\/\*\*/);
 });
+
+
+test('selecciona solo la ejecución del commit fusionado, no otra del repositorio',()=>{
+  const runs=[
+    {id:5,event:'push',head_branch:'main',head_sha:'otro-commit',created_at:'2026-11-12T17:20:00Z'},
+    {id:4,event:'push',head_branch:'main',head_sha:'commit-carga',created_at:'2026-11-12T17:17:23Z'}
+  ];
+  const result=A.findRelevantRun(runs,{sourceMergeSha:'commit-carga',sourceMergedAt:'2026-11-12T17:17:20Z'});
+  assert.equal(result.id,4);
+  assert.equal(A.findRelevantRun(runs,{sourceMergeSha:'inexistente'}),null);
+});
+
+test('tras reintento detecta la nueva ejecución manual sin confundirla con el fallo anterior',()=>{
+  const runs=[
+    {id:4,event:'push',head_branch:'main',head_sha:'original',created_at:'2026-11-12T17:17:23Z'},
+    {id:6,event:'workflow_dispatch',head_branch:'main',head_sha:'main-actual',created_at:'2026-11-12T18:00:03Z'}
+  ];
+  assert.equal(A.findRelevantRun(runs,{sourceMergeSha:'original',retryRequestedAt:'2026-11-12T18:00:00Z'}).id,6);
+  assert.equal(A.findRelevantRun(runs,{sourceMergeSha:'original',retryRequestedAt:'2026-11-12T18:10:00Z'}),null);
+});
+
+test('identifica archivo, corredor, página y motivo sin duplicar errores del log',()=>{
+  const log="2026-11-12T17:17:45Z ERROR: Quedaron 2 filas sin interpretar:\n"+
+    "2026-11-12T17:17:45Z - 07-sur.pdf · página 4: días no reconocidos: 'LUNES, VIERNES, SÁBADO Y DOMINGO'\n"+
+    "2026-11-12T17:17:45Z - 07-sur.pdf · página 8: días no reconocidos: 'LUNES, VIERNES, SÁBADO Y DOMINGO'\n"+
+    "2026-11-12T17:17:45Z - 07-sur.pdf · página 4: días no reconocidos: 'LUNES, VIERNES, SÁBADO Y DOMINGO'\n";
+  const details=A.parseFailureDetails(log);
+  assert.equal(details.length,2);
+  assert.deepEqual(details.map(x=>[x.file,x.corridor,x.page]),[['07-sur.pdf','SUR',4],['07-sur.pdf','SUR',8]]);
+  assert.match(details[0].reason,/días no reconocidos/);
+});
+
+test('informa fallo sin esperar un PR, leyendo anotaciones de Actions',async()=>{
+  const run={id:99,name:'Actualizar horarios interurbanos',event:'push',head_branch:'main',head_sha:'commit-carga',status:'completed',conclusion:'failure',created_at:'2026-11-12T17:17:23Z',html_url:'https://github.test/run/99'};
+  const fetchFn=async(url)=>{
+    let data;
+    if(url.includes('/workflows/actualizar-horarios.yml/runs?'))data={workflow_runs:[run]};
+    else if(url.includes('/actions/runs/99/jobs?'))data={jobs:[{id:500,conclusion:'failure',check_run_url:'https://api.github.com/repos/LRamaDev/mi-portal-web/check-runs/12345'}]};
+    else if(url.includes('/check-runs/12345/annotations'))data=[{title:'Fila de cronograma sin interpretar',message:'07-sur.pdf · página 4: días no reconocidos: texto nuevo'}];
+    else throw Error('Solicitud inesperada: '+url);
+    return {ok:true,status:200,json:async()=>data};
+  };
+  const state=await A.inspectProcessing({token:'test',fetchFn,flow:{sourceMergeSha:'commit-carga'}});
+  assert.equal(state.kind,'failed');assert.equal(state.run.id,99);assert.equal(state.errors[0].corridor,'SUR');
+  assert.equal(state.errors[0].page,4);
+});
+
+test('solo habilita publicación cuando existe PR de la ejecución exitosa',async()=>{
+  const flow={sourceMergeSha:'commit',sourceMergedAt:'2026-11-12T17:00:00Z'};
+  const fetchFn=async(url)=>{
+    const payload=url.includes('/workflows/actualizar-horarios.yml/runs?')?{workflow_runs:[
+      {id:3,event:'push',head_branch:'main',head_sha:'commit',status:'completed',conclusion:'success',created_at:'2026-11-12T17:00:03Z'}
+    ]}:url.includes('/pulls?')?[{number:146,created_at:'2026-11-12T17:01:00Z',updated_at:'2026-11-12T17:01:03Z',head:{ref:'publicacion/horarios-2026-11-06',sha:'publicacion'},base:{ref:'main'},html_url:'https://github.test/pull/146'}]:[];
+    return {ok:true,status:200,json:async()=>payload};
+  };
+  const state=await A.inspectProcessing({token:'test',fetchFn,flow});
+  assert.equal(state.kind,'ready');assert.equal(state.pull.number,146);
+});
+
+test('reintenta el workflow sin subir PDF ni fusionar publicaciones',async()=>{
+  const calls=[],fetchFn=async(url,init={})=>{calls.push({url,init});return {ok:true,status:204};};
+  await A.retryProcessing({token:'test',fetchFn});
+  assert.equal(calls.length,1);
+  assert.match(calls[0].url,/\/actions\/workflows\/actualizar-horarios\.yml\/dispatches$/);
+  assert.equal(calls[0].init.method,'POST');
+  assert.deepEqual(JSON.parse(calls[0].init.body),{ref:'main',inputs:{source_branch:'main'}});
+});
+
+test('evita crear PR duplicado si los ocho PDF son idénticos',async()=>{
+  let blob=0;const calls=[];
+  const fetchFn=async(url,init={})=>{
+    calls.push({url,init});
+    let payload={};
+    if(url.includes('/git/ref/heads/'))payload={object:{sha:'base'}};
+    else if(url.endsWith('/git/commits/base'))payload={tree:{sha:'oldtree'}};
+    else if(url.includes('/git/trees/oldtree?'))payload={tree:[]};
+    else if(url.endsWith('/git/blobs'))payload={sha:'blob-'+(++blob)};
+    else if(url.endsWith('/git/trees'))payload={sha:'oldtree'};
+    else throw Error('No debía crear commit/PR: '+url);
+    return {ok:true,status:200,json:async()=>payload};
+  };
+  const result=await A.upload({token:'test',entries:A.classifyFiles(files()).entries,fetchFn});
+  assert.equal(result.unchanged,true);
+  assert.equal(calls.filter(c=>c.url.endsWith('/pulls')).length,0);
+  assert.equal(calls.filter(c=>c.url.endsWith('/git/refs')).length,0);
+});
