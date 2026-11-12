@@ -73,10 +73,20 @@ jobs:
           mapfile -d '' pdfs < <(find datos-fuente/transporte -maxdepth 1 -type f -iname '*.pdf' -print0 | sort -z)
           cp app-transporte/data/horarios.json "$RUNNER_TEMP/horarios-anteriores.json"
           cp app-transporte/data/cabeceras.json "$RUNNER_TEMP/cabeceras-anteriores.json"
-          python scripts/transporte/procesar_cronogramas.py \
+          # Conservar el error original y emitir anotaciones consultables por el panel.
+          if ! python scripts/transporte/procesar_cronogramas.py \
             "${pdfs[@]}" \
             --latest-per-corridor \
-            --output "$RUNNER_TEMP/horarios-nuevos.json"
+            --output "$RUNNER_TEMP/horarios-nuevos.json" 2>&1 | tee "$RUNNER_TEMP/errores-cronogramas.log"; then
+            while IFS= read -r line; do
+              case "$line" in
+                "- "*.pdf*"página "*)
+                  echo "::error title=Fila de cronograma sin interpretar::${line#- }"
+                  ;;
+              esac
+            done < "$RUNNER_TEMP/errores-cronogramas.log"
+            exit 1
+          fi
           python scripts/transporte/generar_cabeceras.py \
             --schedule "$RUNNER_TEMP/horarios-nuevos.json" \
             --existing "$RUNNER_TEMP/cabeceras-anteriores.json" \
