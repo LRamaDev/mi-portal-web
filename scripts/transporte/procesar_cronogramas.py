@@ -53,6 +53,7 @@ DAYS = {
     "LUNES A VIERNES Y DOMINGOS": [1, 2, 3, 4, 5, 7],
     "LUNES A JUEVES Y DOMINGOS": [1, 2, 3, 4, 7],
     "LUNES, VIERNES, SÁBADO Y DOM": [1, 5, 6, 7],
+    "LUNES, VIERNES, SÁBADO Y DOMINGO": [1, 5, 6, 7],
     "LUNES, MIÉRCOLES Y VIERNES": [1, 3, 5],
     "LUNES, MARTES Y MIÉRCOLES": [1, 2, 3],
     "LUNES Y SÁBADO": [1, 6],
