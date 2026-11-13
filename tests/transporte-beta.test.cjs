@@ -242,7 +242,7 @@ test('la beta prepara un contador privado de búsquedas sin datos del trayecto',
   const html = read('index.html');
   const analytics = read('analitica.js');
   const assistant = read('asistente.js');
-  assert.match(html, /analitica\\.js\\?v=1-beta/);
+  assert.ok(html.includes('analitica.js?v=1-beta'));
   assert.ok(html.includes('asistente.js?v=23-beta'));
   assert.match(analytics, /busqueda_realizada/);
   assert.match(analytics, /MEASUREMENT_ID/);
