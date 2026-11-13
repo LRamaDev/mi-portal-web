@@ -295,6 +295,7 @@ body.public-beta {
   text-decoration:underline;
   transform:none;
 }
+.public-beta .assistant-swap-row[hidden] {display:none!important}
 .public-beta .assistant-swap svg {width:17px;height:17px}
 .public-beta .assistant-v13 .assistant-time-fields {
   display:grid;
