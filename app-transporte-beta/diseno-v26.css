@@ -901,3 +901,302 @@ html[data-theme="dark"] body.public-beta {
     transition:none!important;
   }
 }
+
+
+/* v27 · Un único diseño vertical para TODOS los dispositivos.
+   No depende del ancho de pantalla: también se aplica a escritorio.
+   Se mantiene la hoja de impresión original sin forzar este ancho al imprimir. */
+@media screen {
+  .public-beta .wrap {
+    width:min(100%,440px);
+    max-width:440px;
+    margin:0 auto;
+    padding:0 14px max(24px,env(safe-area-inset-bottom));
+  }
+  .public-beta .header {
+    display:flex;
+    min-height:59px;
+    gap:8px;
+    margin:0 -14px;
+    padding:6px 14px 9px;
+    border-left:0;
+    border-right:0;
+    border-radius:0 0 6px 6px;
+  }
+  .public-beta .header .brand {
+    flex:0 0 95px;
+    width:95px;
+    height:40px;
+  }
+  .public-beta .header-title {
+    display:block;
+    flex:1 1 auto;
+    min-width:0;
+    padding-left:10px;
+    border-left-width:2px;
+  }
+  .public-beta .header-title h1 {font-size:16px}
+  .public-beta .header-title span {display:none}
+  .public-beta .header-actions {margin-left:auto}
+  .public-beta .theme-toggle {
+    width:42px;
+    min-width:42px;
+    height:42px;
+  }
+  .public-beta .transport-intro {
+    display:grid;
+    grid-template-columns:minmax(0,1fr) auto;
+    grid-template-areas:
+      "copy copy"
+      "update badge";
+    align-items:center;
+    gap:5px 8px;
+    padding:19px 2px 16px;
+  }
+  .public-beta .transport-intro h2 {font-size:29px}
+  .public-beta .transport-intro p {
+    display:block;
+    margin-top:4px;
+    font-size:13px;
+  }
+  .public-beta .transport-intro .intro-meta {justify-content:flex-end}
+  .public-beta .transport-intro .update-card {
+    justify-content:flex-start;
+    text-align:left;
+  }
+  .public-beta .update-card strong,
+  .public-beta .update-card small {font-size:10px}
+  .public-beta .beta-badge {font-size:9px}
+  .public-beta .transport-shell,
+  .public-beta #user-mode-panel,
+  .public-beta .public-results-area,
+  .public-beta .workspace {
+    width:100%;
+    min-width:0;
+    max-width:100%;
+  }
+  .public-beta .assistant-v13 {
+    width:100%;
+    min-width:0;
+    border-radius:8px;
+  }
+  .public-beta .assistant-layout {padding:20px 17px 17px}
+  .public-beta .assistant-v13 .assistant-form {
+    display:grid;
+    grid-template-columns:minmax(0,1fr);
+    gap:14px;
+    padding:0;
+  }
+  .public-beta .assistant-v13 .assistant-step[data-assistant-step="1"],
+  .public-beta .assistant-v13 .assistant-step[data-assistant-step="2"] {
+    position:relative;
+    grid-column:1;
+    padding-left:22px;
+  }
+  .public-beta .assistant-v13 .assistant-step[data-assistant-step="1"]::before,
+  .public-beta .assistant-v13 .assistant-step[data-assistant-step="2"]::before {
+    content:"";
+    position:absolute;
+    top:3px;
+    left:2px;
+    width:11px;
+    height:11px;
+    border:3px solid var(--app-surface);
+    border-radius:50%;
+    background:var(--app-green);
+    box-shadow:0 0 0 2px var(--app-green);
+  }
+  .public-beta .assistant-v13 .assistant-step[data-assistant-step="1"]::after {
+    content:"";
+    position:absolute;
+    top:21px;
+    bottom:-15px;
+    left:8px;
+    width:2px;
+    background:var(--app-line);
+  }
+  .public-beta .assistant-v13 .assistant-step[data-assistant-step="2"]::before {
+    border-radius:3px;
+    background:var(--app-blue);
+    box-shadow:0 0 0 2px var(--app-blue);
+  }
+  .public-beta .assistant-v13 .assistant-field {gap:6px}
+  .public-beta .assistant-v13 .assistant-field select,
+  .public-beta .assistant-v13 .assistant-field input {
+    min-height:48px;
+    padding:10px 11px;
+    font-size:16px;
+  }
+  .public-beta .assistant-origin-tools {
+    grid-template-columns:minmax(0,1fr) 48px;
+  }
+  .public-beta .assistant-location {
+    width:48px;
+    min-width:48px;
+    min-height:48px;
+  }
+  .public-beta .assistant-swap-row {
+    grid-column:1;
+    margin:-11px 0 -8px;
+  }
+  .public-beta .assistant-v13 .assistant-step[data-assistant-step="3"]>.assistant-field {
+    grid-template-columns:minmax(0,1fr) auto;
+  }
+  .public-beta .assistant-quick-days button {
+    min-width:57px;
+    min-height:48px;
+    padding:6px 8px;
+    font-size:12px;
+  }
+  .public-beta .assistant-v13 .assistant-actions {
+    grid-column:1;
+    gap:5px 12px;
+  }
+  .public-beta .assistant-v13 .assistant-submit {
+    flex:1 0 100%;
+    width:100%;
+    min-height:51px;
+  }
+  .public-beta .assistant-v13 .assistant-secondary,
+  .public-beta #assistant-clear {
+    flex:1 1 auto;
+    min-height:38px;
+    padding:5px 7px;
+    font-size:12px;
+  }
+  .public-beta .assistant-v13 .assistant-results {
+    width:auto;
+    margin:0 17px 14px;
+  }
+  .public-beta .assistant-v13 .assistant-service {
+    grid-template-columns:72px minmax(0,1fr);
+    gap:10px;
+    padding:12px;
+  }
+  .public-beta .assistant-v13 .assistant-service button {
+    grid-column:1/-1;
+    width:100%;
+    min-height:44px;
+    white-space:normal;
+  }
+  .public-beta .service-disclaimer {
+    display:block;
+    margin:0 17px 6px;
+  }
+  .public-beta .service-disclaimer a {
+    display:inline-flex;
+    width:auto;
+    justify-content:flex-start;
+    text-align:left;
+  }
+  .public-beta .assistant-v13 .assistant-note {padding:0 17px 14px}
+  .public-beta .advanced-search {width:100%;min-width:0}
+  .public-beta .advanced-search>summary {
+    grid-template-columns:24px minmax(0,1fr) auto 18px;
+    gap:7px;
+  }
+  .public-beta .advanced-filter-count {display:block}
+  .public-beta .advanced-search-body,
+  .public-beta .advanced-search-body .journey-filters,
+  .public-beta .advanced-search-body .filters {
+    width:100%;
+    min-width:0;
+    max-width:100%;
+  }
+  .public-beta .journey-filters,
+  .public-beta .filters,
+  .public-beta .advanced-search-body .filters {
+    display:grid;
+    grid-template-columns:minmax(0,1fr);
+    gap:10px;
+  }
+  .public-beta .filters .search-field,
+  .public-beta .filters .reset-button {
+    grid-column:auto;
+    width:100%;
+  }
+  .public-beta .filters label,
+  .public-beta .journey-filters label {min-width:0}
+  .public-beta .journey-filters select,
+  .public-beta .filters input,
+  .public-beta .filters select {
+    width:100%;
+    min-width:0;
+    font-size:16px;
+  }
+  .public-beta .public-results-area {
+    display:grid;
+    grid-template-columns:minmax(0,1fr);
+    gap:12px;
+  }
+  .public-beta .public-results-area[hidden] {display:none!important}
+  .public-beta .workspace {
+    display:grid;
+    grid-template-columns:minmax(0,1fr);
+    gap:12px;
+  }
+  .public-beta .map-column,
+  .public-beta .results-panel {
+    width:100%;
+    min-width:0;
+    max-width:100%;
+  }
+  .public-beta #transport-map {
+    width:100%;
+    height:320px;
+    min-height:320px;
+  }
+  .public-beta .results-panel {
+    position:static;
+    height:auto;
+    max-height:none;
+    align-self:stretch;
+  }
+  .public-beta .results-list {
+    min-height:0;
+    max-height:490px;
+    overflow-y:auto;
+    overscroll-behavior:contain;
+  }
+  .public-beta .journey-detail {width:100%;min-width:0}
+  .public-beta .journey-summary {
+    display:grid;
+    grid-template-columns:repeat(3,minmax(0,1fr));
+  }
+  .public-beta .export-bar {
+    display:grid;
+    grid-template-columns:minmax(0,1fr);
+    gap:10px;
+  }
+  .public-beta .export-actions {
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:stretch;
+    width:100%;
+    min-width:0;
+  }
+  .public-beta .export-actions .export-button {
+    flex:1 1 130px;
+    min-width:0;
+  }
+  .public-beta .share-tools {
+    width:100%;
+    min-width:0;
+    max-width:100%;
+  }
+}
+@media screen and (max-width:375px) {
+  .public-beta .header .brand {
+    flex-basis:87px;
+    width:87px;
+  }
+  .public-beta .header-title {padding-left:7px}
+  .public-beta .header-title h1 {font-size:15px}
+  .public-beta .transport-intro h2 {font-size:27px}
+  .public-beta .assistant-layout {padding-inline:13px}
+  .public-beta .assistant-quick-days button {
+    min-width:49px;
+    padding-inline:5px;
+  }
+  .public-beta .journey-summary {grid-template-columns:1fr 1fr}
+}

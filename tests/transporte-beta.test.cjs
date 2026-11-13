@@ -256,7 +256,7 @@ test('la v26 conserva la búsqueda y usa una sola hoja de restyling', () => {
   const html = read('index.html');
   const css = read('diseno-v26.css');
   const assistant = read('asistente.js');
-  assert.ok(html.includes('diseno-v26.css?v=26-beta'));
+  assert.ok(html.includes('diseno-v26.css?v=27-beta'));
   assert.doesNotMatch(html, /href="experiencia-app.css/);
   assert.doesNotMatch(html, /href="interfaz-v25.css/);
   assert.ok(html.includes('transporte.css?v=21-beta'));
@@ -314,4 +314,51 @@ test('la v26 mantiene controles táctiles y adaptaciones para distintos anchos',
   assert.equal(css.split('{').length,css.split('}').length);
   assert.match(css, /min-height:48px/);
   assert.match(css, /font:600 16px/);
+});
+
+test('la v27 usa la misma pantalla vertical en celular y computadora', () => {
+  const html = read('index.html');
+  const css = read('diseno-v26.css');
+  assert.ok(html.includes('diseno-v26.css?v=27-beta'));
+  const globalVertical = css.slice(css.indexOf('/* v27 · Un único diseño vertical'));
+  assert.ok(globalVertical.startsWith('/* v27'));
+  assert.ok(globalVertical.includes('@media screen {'));
+  assert.ok(globalVertical.includes('width:min(100%,440px)'));
+  assert.ok(globalVertical.includes('max-width:440px'));
+  assert.ok(globalVertical.includes('.public-beta .assistant-v13 .assistant-form'));
+  assert.ok(globalVertical.includes('grid-template-columns:minmax(0,1fr)'));
+  assert.ok(globalVertical.includes('.public-beta .workspace'));
+  assert.ok(globalVertical.includes('.public-beta .results-panel'));
+  assert.ok(globalVertical.includes('position:static'));
+  assert.ok(globalVertical.includes('.public-beta #transport-map'));
+  assert.ok(globalVertical.includes('.public-beta .journey-filters'));
+  assert.ok(globalVertical.includes('.public-beta .filters'));
+  assert.ok(globalVertical.includes('.public-beta .export-bar'));
+  assert.ok(globalVertical.includes('.public-beta .export-actions'));
+  assert.ok(globalVertical.includes('.public-beta .public-results-area[hidden]'));
+  assert.ok(globalVertical.includes('@media screen and (max-width:375px)'));
+  assert.equal(css.split('{').length,css.split('}').length);
+});
+
+test('la v27 conserva comportamiento, estructura y recursos de la consulta pública', () => {
+  const html = read('index.html');
+  const transport = read('transporte.js');
+  const assistant = read('asistente.js');
+  assert.ok(html.includes('id="assistant-origin"'));
+  assert.ok(html.includes('id="assistant-destination"'));
+  assert.ok(html.includes('id="assistant-day"'));
+  assert.ok(html.includes('id="assistant-time-mode"'));
+  assert.ok(html.includes('id="assistant-location"'));
+  assert.ok(html.includes('id="assistant-results"'));
+  assert.ok(html.includes('id="transport-map"'));
+  assert.ok(html.includes('id="public-results-area"'));
+  assert.ok(html.includes('id="advanced-search"'));
+  assert.ok(html.includes('id="journey-detail"'));
+  assert.ok(html.includes('class="share-tools"'));
+  assert.ok(html.includes('id="assistant-swap"'));
+  assert.ok(html.includes('Reclamar un servicio que no pasó'));
+  assert.ok(html.includes('analitica.js?v=1-beta'));
+  assert.ok(assistant.includes('function swapRoute'));
+  assert.ok(assistant.includes('ERSePAnalytics'));
+  assert.ok(transport.includes('function revealPublicResults'));
 });
