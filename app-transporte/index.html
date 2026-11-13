@@ -297,10 +297,10 @@
         <div><span class="eyebrow">Actualización semanal</span><h2 id="admin-title">Cargar los ocho cronogramas</h2></div>
         <button id="admin-close" class="admin-close" type="button" aria-label="Cerrar">×</button>
       </header>
-      <p class="admin-lead">Elegí los ocho PDF juntos. El panel crea la carga y te acompaña en las dos fusiones necesarias: primero incorpora los archivos y después publica los horarios validados con su informe e historial.</p>
+      <p class="admin-lead">Elegí los ocho PDF juntos. El panel acompaña las dos fusiones: primero incorpora los archivos y después publica los horarios validados. Si GitHub detecta un error, vas a ver el estado real y podrás reintentar sin volver a subir los PDF.</p>
       <section class="admin-security">
         <strong>Acceso seguro</strong>
-        <p>Usá una clave personal limitada a este repositorio con <em>Contents: Read and write</em> y <em>Pull requests: Read and write</em>. La clave no se guarda; el panel conserva únicamente el estado del trámite para poder retomarlo.</p>
+        <p>Usá una clave personal limitada a este repositorio con <em>Contents: Read and write</em>, <em>Pull requests: Read and write</em> y <em>Actions: Read and write</em> (necesario para reintentar automáticamente). La clave no se guarda; el panel conserva únicamente el estado del trámite para poder retomarlo.</p>
         <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener noreferrer">Crear o renovar la clave en GitHub ↗</a>
       </section>
       <label class="admin-field"><span>Los ocho archivos PDF</span><input id="admin-files" type="file" accept="application/pdf,.pdf" multiple required></label>
@@ -327,6 +327,6 @@
 <script defer src="recorridos.js?v=11"></script>
 <script defer src="historico.js?v=11"></script>
 <script defer src="transporte.js?v=11"></script>
-<script defer src="admin.js?v=11.2"></script>
+<script defer src="admin.js?v=12"></script>
 </body>
 </html>

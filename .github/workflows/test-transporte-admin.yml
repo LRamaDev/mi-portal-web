@@ -1,0 +1,30 @@
+name: Probar panel de transporte
+on:
+  pull_request:
+    paths:
+      - "app-transporte/admin.js"
+      - "app-transporte/index.html"
+      - "app-transporte/transporte.css"
+      - "tests/transporte-admin.test.cjs"
+      - ".github/workflows/test-transporte-admin.yml"
+  push:
+    branches:
+      - main
+    paths:
+      - "app-transporte/admin.js"
+      - "tests/transporte-admin.test.cjs"
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: Verificar carga, fallos y recuperación
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+      - name: Ejecutar pruebas del panel
+        run: node --test tests/transporte-admin.test.cjs
