@@ -229,7 +229,7 @@ test('la beta v21 aclara los horarios, la fuente oficial y el acceso a reclamos'
   assert.match(html, /id="assistant-clear"[^>]*>[\s\S]*Nueva búsqueda/);
   assert.match(html, /transporte\.css\?v=21-beta/);
   assert.match(html, /transporte\.js\?v=21-beta/);
-  assert.match(html, /asistente\.js\?v=21-beta/);
+  assert.ok(html.includes('asistente.js?v=23-beta'));
   assert.match(assistant, /A partir de las/);
   assert.match(assistant, /a partir de las/);
   assert.match(css, /\.assistant-swap-row \.assistant-swap\{border-color:#6d9133;background:#87b540/);
@@ -243,7 +243,7 @@ test('la beta prepara un contador privado de búsquedas sin datos del trayecto',
   const analytics = read('analitica.js');
   const assistant = read('asistente.js');
   assert.match(html, /analitica\\.js\\?v=1-beta/);
-  assert.match(html, /asistente\\.js\\?v=23-beta/);
+  assert.ok(html.includes('asistente.js?v=23-beta'));
   assert.match(analytics, /busqueda_realizada/);
   assert.match(analytics, /MEASUREMENT_ID/);
   assert.match(analytics, /anonymize_ip/);
