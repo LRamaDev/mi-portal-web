@@ -256,7 +256,7 @@ test('la beta v23 reduce el ruido visual y facilita ver resultados desde el celu
   const html = read('index.html');
   const css = read('experiencia-app.css');
   const assistant = read('asistente.js');
-  assert.ok(html.includes('experiencia-app.css?v=23-beta'));
+  assert.ok(html.includes('experiencia-app.css?v=24-beta'));
   assert.ok(html.includes('asistente.js?v=23-beta'));
   assert.ok(html.includes('¿A dónde querés viajar?'));
   assert.ok(html.includes('Ver horarios'));
@@ -271,4 +271,19 @@ test('la beta v23 reduce el ruido visual y facilita ver resultados desde el celu
   assert.ok(assistant.includes('function revealResults()'));
   assert.ok(assistant.includes('scrollIntoView'));
   assert.ok(assistant.includes('aria-pressed'));
+});
+
+test('la beta v24 mantiene identidad institucional y geometría menos redondeada', () => {
+  const html = read('index.html');
+  const css = read('experiencia-app.css');
+  assert.ok(html.includes('experiencia-app.css?v=24-beta'));
+  assert.ok(html.includes('../app-transporte/assets/logo-ersep.png'));
+  assert.ok(css.includes('--ersep-institucional:#a6192e'));
+  assert.ok(css.includes('--ersep-azul-institucional:#00719f'));
+  assert.ok(css.includes('.public-beta .brand-logo'));
+  assert.ok(css.includes('.public-beta .transport-intro .eyebrow'));
+  assert.ok(css.includes('.public-beta .assistant-v13 .assistant-field select'));
+  assert.ok(css.includes('border-radius:5px'));
+  assert.ok(css.includes('.public-beta .assistant-v13::before'));
+  assert.ok(css.includes('@media(max-width:370px)'));
 });
