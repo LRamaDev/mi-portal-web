@@ -33,6 +33,13 @@
     return kilometers<1?Math.max(10,Math.round(kilometers*1000/10)*10)+' m':kilometers.toLocaleString('es-AR',{maximumFractionDigits:1})+' km';
   }
   function clearResults(){var results=$('assistant-results');results.innerHTML='';results.className='assistant-results';}
+  function revealResults(){
+    var results=$('assistant-results');
+    if(!results||!results.scrollIntoView)return;
+    var reduced=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    results.scrollIntoView({behavior:reduced?'auto':'smooth',block:'start'});
+    if(results.focus)results.focus({preventScroll:true});
+  }
 
   function timeSummary(){
     var mode=$('assistant-time-mode').value;
@@ -51,6 +58,11 @@
     $('assistant-swap').disabled=!ready;
     $('assistant-swap').hidden=!ready;
     $('assistant-preview').classList.toggle('is-ready',ready);
+    var today=Number(window.TransportSearch.today());
+    Array.from(document.querySelectorAll('[data-assistant-day-offset]')).forEach(function(button){
+      var offset=Number(button.getAttribute('data-assistant-day-offset'));
+      button.setAttribute('aria-pressed',String(Number($('assistant-day').value)===((today-1+offset)%7)+1));
+    });
   }
   function updateProgress(step,complete){
     step=Math.max(1,Math.min(4,Number(step)||1));
@@ -121,7 +133,9 @@
     updateProgress(4,true);
     if(!results.total){
       setStatus('No encontramos servicios directos de '+origin+' a '+destination+' el '+DAYS[input.day]+timeText+'.',true);
+      $('assistant-results').className='assistant-results has-results';
       $('assistant-results').innerHTML='<div class="assistant-empty"><strong>No hay un servicio directo publicado para esa búsqueda.</strong><p>Probá otro día u horario, o revisá los filtros completos.</p></div>';
+      revealResults();
       return;
     }
     if($('assistant-time-mode').value==='last')setStatus('Listo: te mostramos el último servicio directo de '+origin+' a '+destination+' para el '+DAYS[input.day]+'.',false,'success');
@@ -131,6 +145,7 @@
     $('assistant-results').setAttribute('data-assistant-origin',input.origin);
     $('assistant-results').setAttribute('data-assistant-destination',input.destination);
     $('assistant-results').setAttribute('data-assistant-day',input.day);
+    revealResults();
   }
   function applySearch(key){
     var results=$('assistant-results'),api=window.TransportSearch;
