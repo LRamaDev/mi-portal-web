@@ -243,11 +243,31 @@ test('la beta prepara un contador privado de búsquedas sin datos del trayecto',
   const analytics = read('analitica.js');
   const assistant = read('asistente.js');
   assert.match(html, /analitica\\.js\\?v=1-beta/);
-  assert.match(html, /asistente\\.js\\?v=22-beta/);
+  assert.match(html, /asistente\\.js\\?v=23-beta/);
   assert.match(analytics, /busqueda_realizada/);
   assert.match(analytics, /MEASUREMENT_ID/);
   assert.match(analytics, /anonymize_ip/);
   assert.match(assistant, /ERSePAnalytics/);
   assert.match(assistant, /resultsCount:results\.total/);
   assert.doesNotMatch(analytics, /assistant-origin|assistant-destination|filter-origin|filter-destination/);
+});
+
+test('la beta v23 prioriza un único formulario de viaje, contenido legal y resultados accesibles', () => {
+  const html = read('index.html');
+  const css = read('experiencia-app.css');
+  const assistant = read('asistente.js');
+  assert.match(html, /experiencia-app\\.css\\?v=23-beta/);
+  assert.match(html, /¿A dónde querés viajar\\?/);
+  assert.match(html, /Ver horarios/);
+  assert.match(html, /id="assistant-preview"[^>]*hidden aria-hidden="true"/);
+  assert.match(html, /id="assistant-results"[^>]*tabindex="-1"/);
+  assert.match(html, /id="assistant-location"[^>]*aria-label="Usar mi ubicación/);
+  assert.match(html, /Secretaría de Transporte/);
+  assert.match(html, /Reclamar un servicio que no pasó/);
+  assert.match(css, /\\.public-beta \\.assistant-progress-copy/);
+  assert.match(css, /\\.public-beta \\.assistant-preview\\[hidden\\]/);
+  assert.match(css, /@media\\(max-width:720px\\)/);
+  assert.match(assistant, /function revealResults\\(/);
+  assert.match(assistant, /scrollIntoView/);
+  assert.match(assistant, /aria-pressed/);
 });
