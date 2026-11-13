@@ -239,6 +239,10 @@ html[data-theme="dark"] body.public-beta {
 .public-beta .assistant-v13 .assistant-hero {
   display:none!important;
 }
+.public-beta .assistant-preview[hidden],
+.public-beta .assistant-swap[hidden] {
+  display:none!important;
+}
 .public-beta .assistant-layout {
   display:block;
   padding:22px 24px 20px;
