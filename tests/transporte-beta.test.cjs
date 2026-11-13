@@ -197,7 +197,7 @@ test('la beta v20 ordena los controles progresivos y mejora el encabezado móvil
   const day = html.indexOf('data-assistant-step="3"');
   assert.ok(destination < swap && swap < day);
   assert.match(html, /id="assistant-swap"[^>]*hidden disabled/);
-  assert.match(html, /Intercambiar origen y destino/);
+  assert.match(html, /Invertir recorrido/);
   assert.match(html, /class="theme-moon"/);
   assert.match(html, /class="theme-sun"/);
   assert.match(html, /transporte\.css\?v=\d+-beta/);
