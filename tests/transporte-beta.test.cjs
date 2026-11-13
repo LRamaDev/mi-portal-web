@@ -132,7 +132,7 @@ test('la beta v17 prioriza la búsqueda ciudadana y oculta el contenido secundar
   const css = read('transporte.css');
   const transport = read('transporte.js');
   assert.match(html, /aria-label="Consulta pública de servicios"/);
-  assert.match(html, /VERSIÓN DE PRUEBA/);
+  assert.match(html, /EN PRUEBA/);
   assert.doesNotMatch(html, /mode-select|mode-picker|Volver al portal|Ir a la versión estable|class="stable-link"/);
   assert.doesNotMatch(html, /class="mode-guide user-guide"|id="route-coverage"|class="kpi-row"|class="data-note"|id="map-legend"/);
   assert.match(html, /id="public-results-area"[^>]*hidden/);
@@ -252,66 +252,66 @@ test('la beta prepara un contador privado de búsquedas sin datos del trayecto',
   assert.doesNotMatch(analytics, /assistant-origin|assistant-destination|filter-origin|filter-destination/);
 });
 
-test('la beta v23 reduce el ruido visual y facilita ver resultados desde el celular', () => {
+test('la v26 conserva la búsqueda y usa una sola hoja de restyling', () => {
   const html = read('index.html');
-  const css = read('experiencia-app.css');
+  const css = read('diseno-v26.css');
   const assistant = read('asistente.js');
-  assert.ok(html.includes('experiencia-app.css?v=24-beta'));
-  assert.ok(html.includes('asistente.js?v=23-beta'));
+  assert.ok(html.includes('diseno-v26.css?v=26-beta'));
+  assert.doesNotMatch(html, /href="experiencia-app.css/);
+  assert.doesNotMatch(html, /href="interfaz-v25.css/);
+  assert.ok(html.includes('transporte.css?v=21-beta'));
   assert.ok(html.includes('¿A dónde viajás?'));
-  assert.ok(html.includes('Ver horarios'));
-  assert.ok(html.includes('id="assistant-preview" class="assistant-preview" aria-labelledby="assistant-preview-title" hidden aria-hidden="true"'));
-  assert.ok(html.includes('id="assistant-results" class="assistant-results" aria-live="polite" tabindex="-1"'));
-  assert.ok(html.includes('aria-label="Usar mi ubicación para sugerir el origen"'));
-  assert.ok(html.includes('Secretaría de Transporte'));
-  assert.ok(html.includes('Reclamar un servicio que no pasó'));
-  assert.ok(css.includes('.public-beta .assistant-progress-copy'));
-  assert.ok(css.includes('.public-beta .assistant-preview[hidden]'));
-  assert.ok(css.includes('@media(max-width:720px)'));
-  assert.ok(assistant.includes('function revealResults()'));
-  assert.ok(assistant.includes('scrollIntoView'));
-  assert.ok(assistant.includes('aria-pressed'));
-});
-
-test('la beta v24 mantiene identidad institucional y geometría menos redondeada', () => {
-  const html = read('index.html');
-  const css = read('experiencia-app.css');
-  assert.ok(html.includes('experiencia-app.css?v=24-beta'));
-  assert.ok(html.includes('../app-transporte/assets/logo-ersep.png'));
-  assert.ok(css.includes('--ersep-institucional:#a6192e'));
-  assert.ok(css.includes('--ersep-azul-institucional:#00719f'));
-  assert.ok(css.includes('.public-beta .brand-logo'));
-  assert.ok(css.includes('.public-beta .transport-intro .eyebrow'));
-  assert.ok(css.includes('.public-beta .assistant-v13 .assistant-field select'));
-  assert.ok(css.includes('border-radius:5px'));
-  assert.ok(css.includes('.public-beta .assistant-v13::before'));
-  assert.ok(css.includes('@media(max-width:370px)'));
-});
-
-test('la beta v25 presenta una portada móvil compacta y clara con identidad ERSeP', () => {
-  const html = read('index.html');
-  const css = read('interfaz-v25.css');
-  const assistant = read('asistente.js');
-  assert.ok(html.includes('interfaz-v25.css?v=25-beta'));
-  assert.ok(html.includes('class="intro-meta"'));
-  assert.ok(html.includes('class="intro-copy"'));
-  assert.ok(html.includes('¿A dónde viajás?'));
-  assert.ok(html.includes('<h3 id="travel-assistant-title">Tu viaje</h3>'));
+  assert.ok(html.includes('Consultá horarios del transporte interurbano de Córdoba.'));
+  assert.ok(html.includes('EN PRUEBA'));
   assert.ok(html.includes('id="assistant-origin"'));
   assert.ok(html.includes('id="assistant-destination"'));
   assert.ok(html.includes('id="assistant-day"'));
   assert.ok(html.includes('id="assistant-time-mode"'));
   assert.ok(html.includes('id="assistant-location"'));
-  assert.ok(html.includes('data-assistant-day-offset="0"'));
-  assert.ok(html.includes('data-assistant-day-offset="1"'));
-  assert.ok(html.includes('value="after"'));
-  assert.ok(html.includes('value="last"'));
+  assert.ok(html.includes('id="assistant-swap"'));
+  assert.ok(html.includes('id="assistant-now"'));
+  assert.ok(html.includes('id="assistant-clear"'));
+  assert.ok(html.includes('id="assistant-results"'));
+  assert.ok(html.includes('Ver horarios'));
   assert.ok(html.includes('Reclamar un servicio que no pasó'));
-  assert.ok(css.includes('--app-burgundy:#a6192e'));
-  assert.ok(css.includes('.public-beta .assistant-origin-tools'));
-  assert.ok(css.includes('.public-beta .assistant-v13 .assistant-step[data-assistant-step="3"]>.assistant-field'));
-  assert.ok(css.includes('.public-beta .assistant-status-row.error'));
-  assert.ok(css.includes('@media(max-width:365px)'));
-  assert.ok(assistant.includes('function runQuery()'));
+  assert.ok(html.includes('Secretaría de Transporte'));
+  assert.ok(assistant.includes('function revealResults()'));
   assert.ok(assistant.includes('ERSePAnalytics'));
+  assert.ok(assistant.includes('aria-pressed'));
+  assert.ok(css.includes('.public-beta .assistant-v13 .assistant-form'));
+});
+
+test('la v26 usa una única guarda institucional y no muestra títulos repetidos', () => {
+  const html = read('index.html');
+  const css = read('diseno-v26.css');
+  assert.ok(css.includes('.public-beta .header::after'));
+  assert.ok(css.includes('.public-beta .assistant-v13::before'));
+  assert.ok(css.includes('content:none!important'));
+  assert.ok(css.includes('.public-beta .assistant-v13 .assistant-hero'));
+  assert.ok(css.includes('display:none!important'));
+  assert.ok(css.includes('.public-beta .beta-banner p'));
+  assert.ok(css.includes('.public-beta .assistant-preview[hidden]'));
+  assert.ok(html.includes('aria-label="Consulta pública de servicios"'));
+  assert.ok(html.includes('aria-label="Información sobre horarios y reclamos"'));
+  assert.ok(html.includes('id="updated-date"'));
+  assert.ok(html.includes('id="updated-detail"'));
+  assert.equal((html.match(/id="page-title"/g)||[]).length,1);
+});
+
+test('la v26 mantiene controles táctiles y adaptaciones para distintos anchos', () => {
+  const css = read('diseno-v26.css');
+  for(const style of [
+    '@media(max-width:720px)',
+    '@media(max-width:375px)',
+    '@media(prefers-reduced-motion:reduce)',
+    '.public-beta .assistant-origin-tools',
+    '.public-beta .assistant-quick-days',
+    '.public-beta .assistant-status-row.error',
+    '.public-beta .assistant-status-row.success',
+    '.public-beta .assistant-v13 .assistant-service',
+    '.public-beta .public-results-area[hidden]'
+  ]) assert.ok(css.includes(style), 'Falta '+style);
+  assert.equal(css.split('{').length,css.split('}').length);
+  assert.match(css, /min-height:48px/);
+  assert.match(css, /font:600 16px/);
 });
