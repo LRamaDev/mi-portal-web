@@ -17,6 +17,7 @@
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
   <link rel="stylesheet" href="transporte.css?v=21-beta">
   <link rel="stylesheet" href="experiencia-app.css?v=24-beta">
+  <link rel="stylesheet" href="interfaz-v25.css?v=25-beta">
 </head>
 
 <body class="public-beta">
@@ -58,18 +59,19 @@
     </div>
   </header>
 
-  <aside class="beta-banner" aria-label="Aviso de versión de prueba">
-    <div>
-      <span class="beta-badge">VERSIÓN DE PRUEBA</span>
-      <p>Buscador público en evaluación. Los horarios se actualizan desde los cronogramas oficiales.</p>
-    </div>
-  </aside>
-
   <section class="transport-intro app-intro" aria-labelledby="page-title">
-    <div>
-      <span class="eyebrow">Transporte interurbano · Provincia de Córdoba</span>
-      <h2 id="page-title">¿A dónde querés viajar?</h2>
-      <p id="page-description">Elegí tu recorrido y consultá los horarios disponibles.</p>
+    <div class="intro-meta">
+      <span class="eyebrow">Transporte interurbano de Córdoba</span>
+      <aside class="beta-banner" aria-label="Aviso de versión de prueba">
+        <div>
+          <span class="beta-badge">VERSIÓN DE PRUEBA</span>
+          <p>Buscador público en evaluación. Los horarios se actualizan desde los cronogramas oficiales.</p>
+        </div>
+      </aside>
+    </div>
+    <div class="intro-copy">
+      <h2 id="page-title">¿A dónde viajás?</h2>
+      <p id="page-description">Encontrá los horarios de tu colectivo.</p>
     </div>
     <div class="update-card" aria-live="polite">
       <span>Última publicación procesada</span>
@@ -89,9 +91,8 @@
         <div class="assistant-identity">
           <span class="assistant-avatar" aria-hidden="true"><img src="assets/ersep-viaja-icon.svg" alt=""><i></i></span>
           <div class="travel-assistant-copy">
-            <span class="eyebrow">Asistente de viaje</span>
-            <h3 id="travel-assistant-title">Encontrá tu próximo colectivo</h3>
-            <p>Un viaje, una búsqueda. Sin vueltas.</p>
+            <span class="eyebrow">Consulta de horarios</span>
+            <h3 id="travel-assistant-title">Tu viaje</h3>
           </div>
         </div>
         <div class="assistant-progress-copy">
@@ -114,7 +115,7 @@
               <span class="assistant-step-number" aria-hidden="true"><b>1</b><i>✓</i></span>
               <div class="assistant-field">
                 <small>Primera parada</small>
-                <label for="assistant-origin"><strong>¿Dónde subís?</strong></label>
+                <label for="assistant-origin"><strong>Origen</strong></label>
                 <div class="assistant-origin-tools">
                   <select id="assistant-origin" required><option value="">Elegí el origen</option></select>
                   <button id="assistant-location" class="assistant-location" type="button" aria-label="Usar mi ubicación para sugerir el origen" title="Usar la ubicación del dispositivo para sugerir el origen">
@@ -126,7 +127,7 @@
             </div>
             <label class="assistant-step is-pending" data-assistant-step="2" for="assistant-destination">
               <span class="assistant-step-number" aria-hidden="true"><b>2</b><i>✓</i></span>
-              <span class="assistant-field"><small>Destino del viaje</small><strong>¿Dónde bajás?</strong><select id="assistant-destination" required disabled><option value="">Primero elegí el origen</option></select></span>
+              <span class="assistant-field"><small>Destino del viaje</small><strong>Destino</strong><select id="assistant-destination" required disabled><option value="">Primero elegí el origen</option></select></span>
             </label>
             <div class="assistant-swap-row">
               <button id="assistant-swap" class="assistant-swap" type="button" hidden disabled>
@@ -134,24 +135,24 @@
                   <path d="M7 7h11l-3-3"></path><path d="m18 7-3 3"></path>
                   <path d="M17 17H6l3 3"></path><path d="m6 17 3-3"></path>
                 </svg>
-                <span>Intercambiar origen y destino</span>
+                <span>Invertir recorrido</span>
               </button>
             </div>
             <label class="assistant-step is-pending" data-assistant-step="3" for="assistant-day">
               <span class="assistant-step-number" aria-hidden="true"><b>3</b><i>✓</i></span>
-              <span class="assistant-field"><small>Día de subida</small><strong>¿Qué día viajás?</strong><select id="assistant-day"><option value="1">Lunes</option><option value="2">Martes</option><option value="3">Miércoles</option><option value="4">Jueves</option><option value="5">Viernes</option><option value="6">Sábado</option><option value="7">Domingo</option></select><span class="assistant-quick-days"><button type="button" data-assistant-day-offset="0">Hoy</button><button type="button" data-assistant-day-offset="1">Mañana</button></span></span>
+              <span class="assistant-field"><small>Día de subida</small><strong>¿Cuándo viajás?</strong><select id="assistant-day"><option value="1">Lunes</option><option value="2">Martes</option><option value="3">Miércoles</option><option value="4">Jueves</option><option value="5">Viernes</option><option value="6">Sábado</option><option value="7">Domingo</option></select><span class="assistant-quick-days"><button type="button" data-assistant-day-offset="0">Hoy</button><button type="button" data-assistant-day-offset="1">Mañana</button></span></span>
             </label>
             <div class="assistant-step assistant-time-step is-pending" data-assistant-step="4">
               <span class="assistant-step-number" aria-hidden="true"><b>4</b><i>✓</i></span>
               <div class="assistant-field assistant-time-fields">
-                <label for="assistant-time-mode"><small>Horario de salida</small><strong>¿Qué horario querés consultar?</strong></label>
-                <select id="assistant-time-mode"><option value="all">Mostrar todos los horarios del día</option><option value="after">Salir a partir de una hora elegida</option><option value="last">Ver el último servicio del día</option></select>
-                <label id="assistant-time-wrap" class="assistant-time-wrap" for="assistant-time" hidden><span>Elegí la hora más temprana</span><input id="assistant-time" type="time" value="08:00"></label>
+                <label for="assistant-time-mode"><small>Horario de salida</small><strong>Horario</strong></label>
+                <select id="assistant-time-mode"><option value="all">Todos los horarios</option><option value="after">Desde una hora</option><option value="last">Último servicio del día</option></select>
+                <label id="assistant-time-wrap" class="assistant-time-wrap" for="assistant-time" hidden><span>Desde las</span><input id="assistant-time" type="time" value="08:00"></label>
               </div>
             </div>
             <div class="assistant-actions">
               <button class="assistant-submit" type="submit">Ver horarios <span aria-hidden="true">→</span></button>
-              <button id="assistant-now" class="assistant-secondary" type="button">Hoy, desde ahora</button>
+              <button id="assistant-now" class="assistant-secondary" type="button">Buscar desde ahora</button>
               <button id="assistant-clear" class="assistant-secondary" type="button"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 4v6h6"></path><path d="M20 11a8 8 0 1 0-2.3 5.7L20 14"></path></svg><span>Nueva búsqueda</span></button>
             </div>
           </form>
@@ -187,11 +188,11 @@
       <aside class="service-disclaimer" aria-label="Información sobre horarios y reclamos">
         <div>
           <strong>Horarios oficiales publicados</strong>
-          <p>La información corresponde a los cronogramas de la Secretaría de Transporte. La publicación del horario no garantiza que la empresa haya prestado efectivamente el servicio.</p>
+          <p>Según cronogramas de la Secretaría de Transporte de Córdoba. Publicación no equivale a prestación efectiva.</p>
         </div>
         <a href="https://ersep.cba.gov.ar/usuariosnopresencial/" target="_blank" rel="noopener noreferrer">Reclamar un servicio que no pasó <span aria-hidden="true">↗</span></a>
       </aside>
-      <p class="assistant-note"><strong>Sobre las paradas intermedias:</strong> sus horarios de paso son estimados.</p>
+      <p class="assistant-note">Los horarios en paradas intermedias son <strong>estimados</strong>.</p>
     </section>
 
     <details id="advanced-search" class="advanced-search">

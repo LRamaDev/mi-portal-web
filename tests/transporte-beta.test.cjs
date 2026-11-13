@@ -197,7 +197,7 @@ test('la beta v20 ordena los controles progresivos y mejora el encabezado móvil
   const day = html.indexOf('data-assistant-step="3"');
   assert.ok(destination < swap && swap < day);
   assert.match(html, /id="assistant-swap"[^>]*hidden disabled/);
-  assert.match(html, /Intercambiar origen y destino/);
+  assert.match(html, /Invertir recorrido/);
   assert.match(html, /class="theme-moon"/);
   assert.match(html, /class="theme-sun"/);
   assert.match(html, /transporte\.css\?v=\d+-beta/);
@@ -216,10 +216,10 @@ test('la beta v21 aclara los horarios, la fuente oficial y el acceso a reclamos'
   const html = read('index.html');
   const css = read('transporte.css');
   const assistant = read('asistente.js');
-  assert.match(html, /¿Qué horario querés consultar\?/);
-  assert.match(html, /Mostrar todos los horarios del día/);
-  assert.match(html, /Salir a partir de una hora elegida/);
-  assert.match(html, /Elegí la hora más temprana/);
+  assert.match(html, /<strong>Horario<\/strong>/);
+  assert.match(html, /Todos los horarios/);
+  assert.match(html, /Desde una hora/);
+  assert.match(html, /Desde las/);
   assert.doesNotMatch(html, />Después de una hora</);
   assert.doesNotMatch(html, />Hora mínima</);
   assert.match(html, /Secretaría de Transporte de la Provincia de Córdoba/);
@@ -258,7 +258,7 @@ test('la beta v23 reduce el ruido visual y facilita ver resultados desde el celu
   const assistant = read('asistente.js');
   assert.ok(html.includes('experiencia-app.css?v=24-beta'));
   assert.ok(html.includes('asistente.js?v=23-beta'));
-  assert.ok(html.includes('¿A dónde querés viajar?'));
+  assert.ok(html.includes('¿A dónde viajás?'));
   assert.ok(html.includes('Ver horarios'));
   assert.ok(html.includes('id="assistant-preview" class="assistant-preview" aria-labelledby="assistant-preview-title" hidden aria-hidden="true"'));
   assert.ok(html.includes('id="assistant-results" class="assistant-results" aria-live="polite" tabindex="-1"'));
@@ -286,4 +286,32 @@ test('la beta v24 mantiene identidad institucional y geometría menos redondeada
   assert.ok(css.includes('border-radius:5px'));
   assert.ok(css.includes('.public-beta .assistant-v13::before'));
   assert.ok(css.includes('@media(max-width:370px)'));
+});
+
+test('la beta v25 presenta una portada móvil compacta y clara con identidad ERSeP', () => {
+  const html = read('index.html');
+  const css = read('interfaz-v25.css');
+  const assistant = read('asistente.js');
+  assert.ok(html.includes('interfaz-v25.css?v=25-beta'));
+  assert.ok(html.includes('class="intro-meta"'));
+  assert.ok(html.includes('class="intro-copy"'));
+  assert.ok(html.includes('¿A dónde viajás?'));
+  assert.ok(html.includes('<h3 id="travel-assistant-title">Tu viaje</h3>'));
+  assert.ok(html.includes('id="assistant-origin"'));
+  assert.ok(html.includes('id="assistant-destination"'));
+  assert.ok(html.includes('id="assistant-day"'));
+  assert.ok(html.includes('id="assistant-time-mode"'));
+  assert.ok(html.includes('id="assistant-location"'));
+  assert.ok(html.includes('data-assistant-day-offset="0"'));
+  assert.ok(html.includes('data-assistant-day-offset="1"'));
+  assert.ok(html.includes('value="after"'));
+  assert.ok(html.includes('value="last"'));
+  assert.ok(html.includes('Reclamar un servicio que no pasó'));
+  assert.ok(css.includes('--app-burgundy:#a6192e'));
+  assert.ok(css.includes('.public-beta .assistant-origin-tools'));
+  assert.ok(css.includes('.public-beta .assistant-v13 .assistant-step[data-assistant-step="3"]>.assistant-field'));
+  assert.ok(css.includes('.public-beta .assistant-status-row.error'));
+  assert.ok(css.includes('@media(max-width:365px)'));
+  assert.ok(assistant.includes('function runQuery()'));
+  assert.ok(assistant.includes('ERSePAnalytics'));
 });
