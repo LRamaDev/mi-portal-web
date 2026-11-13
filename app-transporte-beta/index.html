@@ -2,7 +2,7 @@
 <html lang="es" data-theme="light">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="description" content="ERSeP Viaja: consulta de horarios y recorridos interurbanos de la provincia de Córdoba.">
   <title>ERSeP Viaja · Versión de prueba · ERSeP</title>
   <meta name="theme-color" content="#00719f">
@@ -16,6 +16,7 @@
   </script>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
   <link rel="stylesheet" href="transporte.css?v=21-beta">
+  <link rel="stylesheet" href="experiencia-app.css?v=23-beta">
 </head>
 
 <body class="public-beta">
@@ -64,11 +65,11 @@
     </div>
   </aside>
 
-  <section class="transport-intro" aria-labelledby="page-title">
+  <section class="transport-intro app-intro" aria-labelledby="page-title">
     <div>
       <span class="eyebrow">Transporte interurbano · Provincia de Córdoba</span>
-      <h2 id="page-title">¿Desde dónde y hasta dónde viajás?</h2>
-      <p id="page-description">Elegí origen, destino, día y horario para encontrar los servicios disponibles.</p>
+      <h2 id="page-title">¿A dónde querés viajar?</h2>
+      <p id="page-description">Elegí tu recorrido y consultá los horarios disponibles.</p>
     </div>
     <div class="update-card" aria-live="polite">
       <span>Última publicación procesada</span>
@@ -89,8 +90,8 @@
           <span class="assistant-avatar" aria-hidden="true"><img src="assets/ersep-viaja-icon.svg" alt=""><i></i></span>
           <div class="travel-assistant-copy">
             <span class="eyebrow">Asistente de viaje</span>
-            <h3 id="travel-assistant-title">Encontrá tu servicio conversando paso a paso</h3>
-            <p>Elegí origen, destino y horario. Los resultados corresponden a los cronogramas oficiales publicados por la Secretaría de Transporte de la Provincia de Córdoba.</p>
+            <h3 id="travel-assistant-title">Encontrá tu próximo colectivo</h3>
+            <p>Un viaje, una búsqueda. Sin vueltas.</p>
           </div>
         </div>
         <div class="assistant-progress-copy">
@@ -116,7 +117,7 @@
                 <label for="assistant-origin"><strong>¿Dónde subís?</strong></label>
                 <div class="assistant-origin-tools">
                   <select id="assistant-origin" required><option value="">Elegí el origen</option></select>
-                  <button id="assistant-location" class="assistant-location" type="button" title="Usar la ubicación del dispositivo para sugerir el origen">
+                  <button id="assistant-location" class="assistant-location" type="button" aria-label="Usar mi ubicación para sugerir el origen" title="Usar la ubicación del dispositivo para sugerir el origen">
                     <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21s7-6.1 7-12a7 7 0 1 0-14 0c0 5.9 7 12 7 12Z"></path><circle cx="12" cy="9" r="2.4"></circle></svg>
                     <span data-location-label>Usar mi ubicación</span>
                   </button>
@@ -149,7 +150,7 @@
               </div>
             </div>
             <div class="assistant-actions">
-              <button class="assistant-submit" type="submit">Buscar servicios <span aria-hidden="true">→</span></button>
+              <button class="assistant-submit" type="submit">Ver horarios <span aria-hidden="true">→</span></button>
               <button id="assistant-now" class="assistant-secondary" type="button">Hoy, desde ahora</button>
               <button id="assistant-clear" class="assistant-secondary" type="button"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 4v6h6"></path><path d="M20 11a8 8 0 1 0-2.3 5.7L20 14"></path></svg><span>Nueva búsqueda</span></button>
             </div>
@@ -161,7 +162,7 @@
           </div>
         </div>
 
-        <aside id="assistant-preview" class="assistant-preview" aria-labelledby="assistant-preview-title">
+        <aside id="assistant-preview" class="assistant-preview" aria-labelledby="assistant-preview-title" hidden aria-hidden="true">
           <span class="eyebrow">Tu consulta</span>
           <h4 id="assistant-preview-title">Así queda tu viaje</h4>
           <div class="assistant-route-visual">
@@ -182,7 +183,7 @@
         </aside>
       </div>
 
-      <div id="assistant-results" class="assistant-results" aria-live="polite"></div>
+      <div id="assistant-results" class="assistant-results" aria-live="polite" tabindex="-1"></div>
       <aside class="service-disclaimer" aria-label="Información sobre horarios y reclamos">
         <div>
           <strong>Horarios oficiales publicados</strong>
@@ -196,7 +197,7 @@
     <details id="advanced-search" class="advanced-search">
       <summary>
         <span class="advanced-search-icon" aria-hidden="true">⌕</span>
-        <span><strong>Búsqueda avanzada</strong><small>Filtrá manualmente por localidad, corredor, línea, empresa o modalidad.</small></span>
+        <span><strong>Más opciones de búsqueda</strong><small>Corredor, línea, empresa y modalidad.</small></span>
         <span id="advanced-filter-count" class="advanced-filter-count">Opcional</span>
       </summary>
       <div class="advanced-search-body">
@@ -415,6 +416,6 @@
 <script defer src="recorridos.js?v=12-beta"></script>
 <script defer src="historico.js?v=12-beta"></script>
 <script defer src="transporte.js?v=21-beta"></script>
-<script defer src="asistente.js?v=22-beta"></script>
+<script defer src="asistente.js?v=23-beta"></script>
 </body>
 </html>

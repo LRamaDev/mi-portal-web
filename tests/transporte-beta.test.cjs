@@ -229,7 +229,7 @@ test('la beta v21 aclara los horarios, la fuente oficial y el acceso a reclamos'
   assert.match(html, /id="assistant-clear"[^>]*>[\s\S]*Nueva búsqueda/);
   assert.match(html, /transporte\.css\?v=21-beta/);
   assert.match(html, /transporte\.js\?v=21-beta/);
-  assert.match(html, /asistente\.js\?v=21-beta/);
+  assert.ok(html.includes('asistente.js?v=23-beta'));
   assert.match(assistant, /A partir de las/);
   assert.match(assistant, /a partir de las/);
   assert.match(css, /\.assistant-swap-row \.assistant-swap\{border-color:#6d9133;background:#87b540/);
@@ -242,12 +242,33 @@ test('la beta prepara un contador privado de búsquedas sin datos del trayecto',
   const html = read('index.html');
   const analytics = read('analitica.js');
   const assistant = read('asistente.js');
-  assert.match(html, /analitica\\.js\\?v=1-beta/);
-  assert.match(html, /asistente\\.js\\?v=22-beta/);
+  assert.ok(html.includes('analitica.js?v=1-beta'));
+  assert.ok(html.includes('asistente.js?v=23-beta'));
   assert.match(analytics, /busqueda_realizada/);
   assert.match(analytics, /MEASUREMENT_ID/);
   assert.match(analytics, /anonymize_ip/);
   assert.match(assistant, /ERSePAnalytics/);
   assert.match(assistant, /resultsCount:results\.total/);
   assert.doesNotMatch(analytics, /assistant-origin|assistant-destination|filter-origin|filter-destination/);
+});
+
+test('la beta v23 reduce el ruido visual y facilita ver resultados desde el celular', () => {
+  const html = read('index.html');
+  const css = read('experiencia-app.css');
+  const assistant = read('asistente.js');
+  assert.ok(html.includes('experiencia-app.css?v=23-beta'));
+  assert.ok(html.includes('asistente.js?v=23-beta'));
+  assert.ok(html.includes('¿A dónde querés viajar?'));
+  assert.ok(html.includes('Ver horarios'));
+  assert.ok(html.includes('id="assistant-preview" class="assistant-preview" aria-labelledby="assistant-preview-title" hidden aria-hidden="true"'));
+  assert.ok(html.includes('id="assistant-results" class="assistant-results" aria-live="polite" tabindex="-1"'));
+  assert.ok(html.includes('aria-label="Usar mi ubicación para sugerir el origen"'));
+  assert.ok(html.includes('Secretaría de Transporte'));
+  assert.ok(html.includes('Reclamar un servicio que no pasó'));
+  assert.ok(css.includes('.public-beta .assistant-progress-copy'));
+  assert.ok(css.includes('.public-beta .assistant-preview[hidden]'));
+  assert.ok(css.includes('@media(max-width:720px)'));
+  assert.ok(assistant.includes('function revealResults()'));
+  assert.ok(assistant.includes('scrollIntoView'));
+  assert.ok(assistant.includes('aria-pressed'));
 });
