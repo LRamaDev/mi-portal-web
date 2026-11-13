@@ -57,6 +57,7 @@
     $('assistant-summary-submit').textContent=ready?'Buscar con estos datos':'Completá origen y destino';
     $('assistant-swap').disabled=!ready;
     $('assistant-swap').hidden=!ready;
+    $('assistant-swap').parentNode.hidden=!ready;
     $('assistant-preview').classList.toggle('is-ready',ready);
     var today=Number(window.TransportSearch.today());
     Array.from(document.querySelectorAll('[data-assistant-day-offset]')).forEach(function(button){
