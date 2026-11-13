@@ -252,22 +252,23 @@ test('la beta prepara un contador privado de búsquedas sin datos del trayecto',
   assert.doesNotMatch(analytics, /assistant-origin|assistant-destination|filter-origin|filter-destination/);
 });
 
-test('la beta v23 prioriza un único formulario de viaje, contenido legal y resultados accesibles', () => {
+test('la beta v23 reduce el ruido visual y facilita ver resultados desde el celular', () => {
   const html = read('index.html');
   const css = read('experiencia-app.css');
   const assistant = read('asistente.js');
-  assert.match(html, /experiencia-app\\.css\\?v=23-beta/);
-  assert.match(html, /¿A dónde querés viajar\\?/);
-  assert.match(html, /Ver horarios/);
-  assert.match(html, /id="assistant-preview"[^>]*hidden aria-hidden="true"/);
-  assert.match(html, /id="assistant-results"[^>]*tabindex="-1"/);
-  assert.match(html, /id="assistant-location"[^>]*aria-label="Usar mi ubicación/);
-  assert.match(html, /Secretaría de Transporte/);
-  assert.match(html, /Reclamar un servicio que no pasó/);
-  assert.match(css, /\\.public-beta \\.assistant-progress-copy/);
-  assert.match(css, /\\.public-beta \\.assistant-preview\\[hidden\\]/);
-  assert.match(css, /@media\\(max-width:720px\\)/);
-  assert.match(assistant, /function revealResults\\(/);
-  assert.match(assistant, /scrollIntoView/);
-  assert.match(assistant, /aria-pressed/);
+  assert.ok(html.includes('experiencia-app.css?v=23-beta'));
+  assert.ok(html.includes('asistente.js?v=23-beta'));
+  assert.ok(html.includes('¿A dónde querés viajar?'));
+  assert.ok(html.includes('Ver horarios'));
+  assert.ok(html.includes('id="assistant-preview" class="assistant-preview" aria-labelledby="assistant-preview-title" hidden aria-hidden="true"'));
+  assert.ok(html.includes('id="assistant-results" class="assistant-results" aria-live="polite" tabindex="-1"'));
+  assert.ok(html.includes('aria-label="Usar mi ubicación para sugerir el origen"'));
+  assert.ok(html.includes('Secretaría de Transporte'));
+  assert.ok(html.includes('Reclamar un servicio que no pasó'));
+  assert.ok(css.includes('.public-beta .assistant-progress-copy'));
+  assert.ok(css.includes('.public-beta .assistant-preview[hidden]'));
+  assert.ok(css.includes('@media(max-width:720px)'));
+  assert.ok(assistant.includes('function revealResults()'));
+  assert.ok(assistant.includes('scrollIntoView'));
+  assert.ok(assistant.includes('aria-pressed'));
 });
