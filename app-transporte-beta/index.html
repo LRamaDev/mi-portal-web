@@ -16,7 +16,7 @@
   </script>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
   <link rel="stylesheet" href="transporte.css?v=21-beta">
-  <link rel="stylesheet" href="diseno-v28.css?v=28-beta">
+  <link rel="stylesheet" href="diseno-v29.css?v=29-beta">
 </head>
 
 <body class="public-beta">
@@ -45,9 +45,9 @@
       <img class="viaja-logo" src="assets/viaja-marca.svg" alt="">
       <div class="viaja-lockup">
         <h1>ERSeP <span>Viaja</span></h1>
-        <p>Horarios del transporte interurbano de Córdoba</p>
       </div>
     </div>
+    <p class="header-tagline">Horarios del transporte interurbano de Córdoba</p>
     <div class="header-actions">
       <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Activar modo oscuro" title="Activar modo oscuro">
         <span id="theme-icon" class="theme-icon" aria-hidden="true">
@@ -84,24 +84,8 @@
         </div>
       </header>
   <section class="transport-intro app-intro" aria-labelledby="page-title">
-    <div class="intro-meta">
-      <span class="eyebrow">Transporte interurbano de Córdoba</span>
-      <aside class="beta-banner" aria-label="Aviso de versión de prueba">
-        <div>
-          <span class="beta-badge">EN PRUEBA</span>
-          <p>Buscador público en evaluación. Los horarios se actualizan desde los cronogramas oficiales.</p>
-        </div>
-      </aside>
-    </div>
-    <div class="intro-copy">
-      <h2 id="page-title">¿A dónde viajás?</h2>
-      <p id="page-description">Consultá horarios y recorridos del transporte interurbano.</p>
-    </div>
-    <div class="update-card" aria-live="polite">
-      <span>Última publicación procesada</span>
-      <strong id="updated-date">Cargando…</strong>
-      <small id="updated-detail">Verificando cronogramas</small>
-    </div>
+    <h2 id="page-title">¿A dónde viajás?</h2>
+    <p id="page-description">Consultá horarios y recorridos del transporte interurbano.</p>
   </section>
 
 
@@ -189,14 +173,7 @@
       </div>
 
       <div id="assistant-results" class="assistant-results" aria-live="polite" tabindex="-1"></div>
-      <details class="service-disclaimer" aria-label="Información sobre horarios y reclamos">
-        <summary>Fuente oficial, estimaciones y reclamos</summary>
-        <div>
-          <strong>Horarios oficiales publicados</strong>
-          <p>Según cronogramas de la Secretaría de Transporte de Córdoba. Publicación no equivale a prestación efectiva. Los horarios en paradas intermedias son estimados.</p>
-          <a href="https://ersep.cba.gov.ar/usuariosnopresencial/" target="_blank" rel="noopener noreferrer">Reclamar un servicio que no pasó <span aria-hidden="true">↗</span></a>
-        </div>
-      </details>
+
     </section>
 
     <nav class="viaja-shortcuts" aria-label="Accesos rápidos">
@@ -242,6 +219,15 @@
     </section>
       </div>
     </details>
+
+      <details class="service-disclaimer" aria-label="Información sobre horarios y reclamos">
+        <summary>Fuente oficial, estimaciones y reclamos</summary>
+        <div>
+          <strong>Horarios oficiales publicados</strong>
+          <p>Según cronogramas de la Secretaría de Transporte de Córdoba. Publicación no equivale a prestación efectiva. Los horarios en paradas intermedias son estimados.</p>
+          <a href="https://ersep.cba.gov.ar/usuariosnopresencial/" target="_blank" rel="noopener noreferrer">Reclamar un servicio que no pasó <span aria-hidden="true">↗</span></a>
+        </div>
+      </details>
 
     <section id="public-results-area" class="public-results-area" aria-label="Resultados y recorrido" hidden>
     <details class="share-tools">
@@ -431,8 +417,18 @@
 
   <footer class="viaja-footer">
     <img class="ersep-oficial" src="../app-transporte/assets/logo-ersep.png" alt="ERSeP, Ente Regulador de los Servicios Públicos">
-    <span>Una herramienta del ERSeP · Horarios publicados por la Secretaría de Transporte de Córdoba</span>
     <span class="footer-colorbar" aria-hidden="true"></span>
+    <div class="footer-meta">
+      <aside class="beta-banner" aria-label="Aviso de versión de prueba">
+        <span class="beta-badge">EN PRUEBA</span>
+      </aside>
+      <div class="update-card" aria-live="polite">
+        <span>Última publicación procesada</span>
+        <strong id="updated-date">Cargando…</strong>
+        <small id="updated-detail">Verificando cronogramas</small>
+      </div>
+    </div>
+    <p class="footer-credit">Una herramienta del ERSeP · Horarios publicados por la Secretaría de Transporte de Córdoba.</p>
   </footer>
 </div>
 
