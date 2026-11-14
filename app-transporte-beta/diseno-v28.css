@@ -15,8 +15,8 @@
     --viaja-border:#d8e0e7;
     --viaja-shadow:0 10px 28px rgba(96,24,48,.10);
     color:var(--viaja-ink);
-    background:radial-gradient(ellipse at 52% 260px,#ffe8ef 0%,var(--viaja-bg) 65%,#fff9fa 100%);
-    background-image:none;
+    background-color:var(--viaja-bg);
+    background-image:radial-gradient(ellipse at 52% 260px,#ffe8ef 0%,var(--viaja-bg) 65%,#fff9fa 100%);
     -webkit-font-smoothing:antialiased;
   }
   html[data-theme="dark"] body.public-beta {
@@ -431,7 +431,8 @@
   .public-beta #assistant-day {
     grid-column:1;
     grid-row:2;
-    width:100%;
+    margin-left:31px;
+    width:calc(100% - 31px);
   }
   .public-beta .assistant-quick-days {
     display:flex;
@@ -501,7 +502,14 @@
     box-shadow:0 6px 13px rgba(166,25,46,.14);
     cursor:pointer;
   }
-  .public-beta .assistant-v13 .assistant-submit .cta-bus {font-size:17px;line-height:1}
+  .public-beta .assistant-v13 .assistant-submit .cta-bus {
+    display:block;
+    width:23px;
+    height:23px;
+    fill:none;
+    stroke:#fff;
+    stroke-width:2;
+  }
   .public-beta .assistant-v13 .assistant-submit:hover:not(:disabled) {
     border-color:#8a0d2b;
     background:#8a0d2b;
