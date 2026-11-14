@@ -270,7 +270,7 @@ test('v30 usa como cabecera el recorte de la referencia original y no redibuja l
   assert.doesNotMatch(html, /class="header-brand"/);
   assert.doesNotMatch(html, /class="hero-landscape"/);
   assert.doesNotMatch(html, /class="viaja-lockup"/);
-  assert.ok(html.includes('diseno-v30.css?v=32-beta'));
+  assert.ok(html.includes('diseno-v30.css?v=33-beta'));
   assert.doesNotMatch(html, /href="diseno-v29.css/);
   assert.ok(css.includes('CABECERA BLOQUEADA'));
   assert.ok(css.includes('cabecera-fiel-v30.webp'));
@@ -346,7 +346,7 @@ test('v30 mantiene accesos y el logo original del ERSeP al pie', () => {
 
 test('v31 iguala el ancho del encabezado y la tarjeta sin espacio superior', () => {
   const html=read('index.html'),css=read('diseno-v30.css');
-  assert.ok(html.includes('diseno-v30.css?v=32-beta'));
+  assert.ok(html.includes('diseno-v30.css?v=33-beta'));
   assert.ok(css.includes('.public-beta .header .header-reference'));
   assert.ok(css.includes('margin:0 calc(var(--ref-gutter) * 2);'));
   assert.ok(css.includes('padding-inline:calc(var(--ref-gutter) * 2);'));
@@ -402,7 +402,7 @@ test('v31 abre mapa y detalle solamente después de seleccionar un servicio', ()
 test('v32 une cabecera y tarjeta con borde superior recto sin tocar la referencia', () => {
   const html=read('index.html'),css=read('diseno-v30.css');
   assert.ok(html.includes('src="assets/cabecera-fiel-v30.webp"'));
-  assert.ok(html.includes('diseno-v30.css?v=32-beta'));
+  assert.ok(html.includes('diseno-v30.css?v=33-beta'));
   assert.ok(css.includes('border-radius:0 0 21px 21px'));
   assert.ok(css.includes('border-top:0;'));
   assert.ok(css.includes('border-top-left-radius:0;'));
@@ -423,4 +423,49 @@ test('v32 no muestra logo de producto en la precarga pero conserva progreso anim
   assert.ok(splash.includes('ERSeP Viaja'));
   assert.ok(css.includes('.public-beta .app-splash-card>strong'));
   assert.ok(css.includes('.public-beta .app-splash-bus'));
+});
+
+test('v33 usa el ancho completo disponible en celulares y conserva vista vertical en escritorio', () => {
+  const html=read('index.html');
+  const css=read('diseno-v30.css');
+  assert.ok(html.includes('diseno-v30.css?v=33-beta'));
+  assert.ok(css.includes('@media screen and (max-width:640px)'));
+  assert.ok(css.includes('width:100%;'));
+  assert.ok(css.includes('max-width:none;'));
+  assert.ok(css.includes('.public-beta .wrap'));
+  assert.ok(css.includes('.public-beta .header'));
+  assert.ok(css.includes('.public-beta .transport-shell'));
+  assert.ok(css.includes('.public-beta .assistant-v13'));
+  assert.ok(css.includes('margin:0;'));
+  assert.ok(css.includes('border-left:0;'));
+  assert.ok(css.includes('border-right:0;'));
+  assert.ok(css.includes('width:min(100%,440px)'));
+  assert.ok(html.includes('src="assets/cabecera-fiel-v30.webp"'));
+});
+
+test('v33 las tarjetas de servicios evitan superposición y presentan hora, trayecto y acción', () => {
+  const css=read('diseno-v30.css'),assistant=read('asistente.js');
+  assert.ok(css.includes('grid-template-columns:minmax(0,1fr)'));
+  assert.ok(css.includes('.public-beta .assistant-v13 .assistant-service-time'));
+  assert.ok(css.includes('flex-wrap:wrap;'));
+  assert.ok(css.includes('.public-beta .assistant-v13 .assistant-service-main'));
+  assert.ok(css.includes('.public-beta .assistant-v13 .assistant-service-main h4'));
+  assert.ok(css.includes('.public-beta .assistant-v13 .assistant-service-meta'));
+  assert.ok(css.includes('overflow-wrap:anywhere;'));
+  assert.ok(css.includes('.public-beta .assistant-v13 .assistant-service button'));
+  assert.ok(assistant.includes('class="assistant-service-time"'));
+  assert.ok(assistant.includes('class="assistant-service-main"'));
+  assert.ok(assistant.includes('data-assistant-open='));
+});
+
+test('v33 el logo institucional es visible en ambos temas sin sustituir archivo oficial', () => {
+  const html=read('index.html'),css=read('diseno-v30.css');
+  assert.ok(html.includes('class="ersep-oficial" src="../app-transporte/assets/logo-ersep.png"'));
+  assert.ok(css.includes('html[data-theme="dark"] .public-beta .ersep-oficial'));
+  assert.ok(css.includes('mix-blend-mode:screen'));
+  assert.ok(css.includes('filter:invert(1) hue-rotate(180deg)'));
+  assert.ok(css.includes('html[data-theme="light"] .public-beta .ersep-oficial'));
+  assert.ok(css.includes('mix-blend-mode:multiply'));
+  assert.ok(css.includes('filter:none'));
+  assert.equal(css.split('{').length,css.split('}').length);
 });

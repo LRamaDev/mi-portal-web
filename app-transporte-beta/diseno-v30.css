@@ -1453,3 +1453,267 @@
     animation-delay:.28s;
   }
 }
+
+
+/* v33 · Última revisión visual: pantalla sin costados, servicios legibles y
+   logo institucional visible en modo oscuro. No altera cabecera ni horarios. */
+@media screen {
+  /* Tarjetas de resultados: una sola columna, sin textos superpuestos.
+     Esto también anula la regla antigua de 70/78px y el flex horizontal
+     que hacía colisionar "Paso estimado" con el nombre del recorrido. */
+  .public-beta .assistant-v13 .assistant-service {
+    box-sizing:border-box;
+    display:grid;
+    grid-template-columns:minmax(0,1fr);
+    grid-auto-flow:row;
+    gap:9px;
+    align-items:start;
+    min-width:0;
+    width:100%;
+    padding:15px;
+    border-left:4px solid var(--viaja-bordo);
+    overflow-wrap:break-word;
+  }
+  .public-beta .assistant-v13 .assistant-service-time {
+    display:flex;
+    align-items:baseline;
+    flex-wrap:wrap;
+    gap:7px 12px;
+    grid-column:1;
+    min-width:0;
+    width:100%;
+  }
+  .public-beta .assistant-v13 .assistant-service-time strong {
+    display:block;
+    flex:0 0 auto;
+    margin:0;
+    color:var(--viaja-bordo);
+    font-size:28px;
+    font-weight:900;
+    line-height:1.1;
+  }
+  .public-beta .assistant-v13 .assistant-service-time span {
+    display:block;
+    flex:0 1 auto;
+    min-width:0;
+    margin:0;
+    color:var(--viaja-gris);
+    font-size:11px;
+    font-weight:750;
+    line-height:1.4;
+    white-space:normal;
+  }
+  .public-beta .assistant-v13 .assistant-service-main {
+    display:block;
+    grid-column:1;
+    min-width:0;
+    width:100%;
+  }
+  .public-beta .assistant-v13 .assistant-service-main h4 {
+    margin:0;
+    max-width:100%;
+    overflow-wrap:anywhere;
+    color:var(--viaja-tinta);
+    font-size:16px;
+    font-weight:850;
+    line-height:1.35;
+    letter-spacing:0;
+  }
+  .public-beta .assistant-v13 .assistant-service-main>p {
+    display:block;
+    margin:5px 0 0;
+    max-width:100%;
+    overflow-wrap:anywhere;
+    color:var(--viaja-gris);
+    font-size:12px;
+    line-height:1.45;
+  }
+  .public-beta .assistant-v13 .assistant-service-meta {
+    display:flex;
+    flex-wrap:wrap;
+    gap:6px;
+    max-width:100%;
+    margin-top:10px;
+  }
+  .public-beta .assistant-v13 .assistant-service-meta span {
+    display:inline-flex;
+    align-items:center;
+    max-width:100%;
+    padding:5px 8px;
+    margin:0;
+    overflow-wrap:anywhere;
+    white-space:normal;
+    border-radius:6px;
+    color:var(--viaja-gris);
+    background:var(--viaja-campo);
+    font-size:11px;
+    line-height:1.35;
+  }
+  .public-beta .assistant-v13 .assistant-service button {
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    grid-column:1;
+    width:100%;
+    min-width:0;
+    min-height:44px;
+    margin-top:4px;
+    padding:9px 12px;
+    overflow-wrap:anywhere;
+    white-space:normal;
+    font-size:13px;
+    font-weight:850;
+  }
+  /* Cabecera del conjunto: título y contador con ancho flexible. */
+  .public-beta .assistant-v13 .assistant-results {
+    width:auto;
+    min-width:0;
+  }
+  .public-beta .assistant-v13 .assistant-results-title {
+    display:grid;
+    grid-template-columns:minmax(0,1fr) auto;
+    gap:10px;
+    width:100%;
+    min-width:0;
+    align-items:center;
+  }
+  .public-beta .assistant-v13 .assistant-results-title>div {
+    min-width:0;
+    overflow-wrap:anywhere;
+  }
+  .public-beta .assistant-v13 .assistant-results-title strong {
+    display:block;
+    overflow-wrap:anywhere;
+    line-height:1.35;
+  }
+  .public-beta .assistant-v13 .assistant-results-title>b {
+    align-self:center;
+    justify-self:end;
+    display:grid;
+    place-items:center;
+    min-width:34px;
+    height:auto;
+    min-height:34px;
+    padding:4px 7px;
+  }
+  /* Modo oscuro: el blanco de la imagen se vuelve transparente mediante
+     mezcla de pantalla; los colores del logotipo vuelven a ganar luminosidad.
+     No se edita ni sustituye el PNG institucional original. */
+  html[data-theme="dark"] .public-beta .ersep-oficial {
+    mix-blend-mode:screen;
+    filter:invert(1) hue-rotate(180deg) saturate(1.25) brightness(1.1);
+    background:transparent;
+    opacity:1;
+  }
+  html[data-theme="light"] .public-beta .ersep-oficial {
+    mix-blend-mode:multiply;
+    filter:none;
+    opacity:1;
+  }
+}
+/* Celulares: ancho completo, manteniendo la única disposición vertical.
+   En computadora continúa la app centrada y de ancho máximo 440px. */
+@media screen and (max-width:640px) {
+  body.public-beta {
+    width:100%;
+    max-width:100%;
+    min-width:0;
+    overflow-x:clip;
+  }
+  .public-beta .wrap {
+    box-sizing:border-box;
+    display:block;
+    width:100%;
+    max-width:none;
+    min-width:0;
+    margin:0;
+    padding:0 0 max(16px,env(safe-area-inset-bottom));
+    overflow:visible;
+  }
+  .public-beta .header {
+    box-sizing:border-box;
+    width:100%;
+    max-width:100%;
+    margin:0;
+    padding:0;
+    border-radius:0;
+  }
+  .public-beta .header .header-reference {
+    display:block;
+    box-sizing:border-box;
+    width:100%;
+    max-width:100%;
+    height:auto;
+  }
+  .public-beta .transport-shell {
+    box-sizing:border-box;
+    display:block;
+    width:100%;
+    max-width:100%;
+    min-width:0;
+    margin:0;
+    padding:0;
+  }
+  .public-beta #user-mode-panel {
+    box-sizing:border-box;
+    width:100%;
+    max-width:100%;
+    min-width:0;
+  }
+  .public-beta .assistant-v13 {
+    box-sizing:border-box;
+    width:100%;
+    max-width:100%;
+    min-width:0;
+    margin:-8px 0 0;
+    border-left:0;
+    border-right:0;
+    border-radius:0 0 19px 19px;
+  }
+  .public-beta .transport-intro,
+  .public-beta .assistant-layout,
+  .public-beta .assistant-v13 .assistant-results {
+    box-sizing:border-box;
+    min-width:0;
+  }
+  .public-beta .assistant-v13 .assistant-results {
+    margin-inline:16px;
+  }
+  .public-beta .viaja-shortcuts,
+  .public-beta .viaja-quick-panel,
+  .public-beta .public-results-area,
+  .public-beta .advanced-search,
+  .public-beta .service-disclaimer {
+    box-sizing:border-box;
+    width:auto;
+    max-width:calc(100% - 24px);
+    min-width:0;
+    margin-left:12px;
+    margin-right:12px;
+  }
+  .public-beta .viaja-footer {
+    box-sizing:border-box;
+    width:100%;
+    max-width:100%;
+    margin-inline:0;
+    padding-inline:12px;
+  }
+  .public-beta .workspace,
+  .public-beta .map-column,
+  .public-beta .results-panel {
+    box-sizing:border-box;
+    max-width:100%;
+    min-width:0;
+  }
+}
+@media screen and (max-width:375px) {
+  .public-beta .assistant-v13 .assistant-service {
+    padding:12px;
+  }
+  .public-beta .assistant-v13 .assistant-service-time strong {
+    font-size:26px;
+  }
+  .public-beta .assistant-v13 .assistant-service-main h4 {
+    font-size:15px;
+  }
+}
