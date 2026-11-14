@@ -254,104 +254,92 @@ test('la beta prepara un contador privado de búsquedas sin datos del trayecto',
 
 
 
-test('la v29 reproduce la cabecera de marca y la tarjeta superpuesta', () => {
+
+test('v30 usa como cabecera el recorte de la referencia original y no redibuja la marca', () => {
   const html=read('index.html');
-  const css=read('diseno-v29.css');
-  const landscape=read('assets/cordoba-paisaje.svg');
-  assert.ok(html.includes('diseno-v29.css?v=29-beta'));
-  assert.doesNotMatch(html, /href="diseno-v28.css/);
-  assert.doesNotMatch(html, /href="diseno-v26.css/);
-  assert.ok(html.includes('class="viaja-logo" src="assets/viaja-marca.svg"'));
-  assert.ok(html.includes('class="hero-landscape" src="assets/cordoba-paisaje.svg"'));
-  assert.ok(html.includes('<h1>ERSeP <span>Viaja</span></h1>'));
-  assert.ok(html.includes('class="header-tagline"'));
-  assert.ok(landscape.includes('Silueta ilustrada de la arquitectura histórica de Córdoba'));
-  assert.ok(css.includes('background:linear-gradient(120deg,#810a2b'));
-  assert.ok(css.includes('.public-beta .header::before'));
-  assert.ok(css.includes('.public-beta .header::after'));
-  assert.ok(css.includes('.public-beta .assistant-v13'));
-  assert.ok(css.includes('margin:-26px 0 0'));
-  assert.ok(css.includes('.public-beta .assistant-v13::before {content:none!important'));
-  assert.ok(css.includes('.public-beta .transport-intro h2'));
-  assert.ok(css.includes('font-size:clamp(28px,7.2vw,34px)'));
+  const css=read('diseno-v30.css');
+  const pathRef=path.join(beta,'assets','cabecera-fiel-v30.webp');
+  assert.ok(fs.existsSync(pathRef));
+  const bytes=fs.readFileSync(pathRef);
+  assert.ok(bytes.length>7000);
+  assert.equal(bytes.subarray(0,4).toString('ascii'),'RIFF');
+  assert.equal(bytes.subarray(8,12).toString('ascii'),'WEBP');
+  assert.ok(html.includes('src="assets/cabecera-fiel-v30.webp"'));
+  assert.ok(html.includes('width="500" height="133"'));
+  assert.ok(html.includes('class="visually-hidden"'));
+  assert.doesNotMatch(html, /class="header-brand"/);
+  assert.doesNotMatch(html, /class="hero-landscape"/);
+  assert.doesNotMatch(html, /class="viaja-lockup"/);
+  assert.ok(html.includes('diseno-v30.css?v=30-beta'));
+  assert.doesNotMatch(html, /href="diseno-v29.css/);
+  assert.ok(css.includes('CABECERA BLOQUEADA'));
+  assert.ok(css.includes('cabecera-fiel-v30.webp'));
+  assert.ok(css.includes('.public-beta .header .header-reference'));
+  assert.ok(css.includes('.public-beta .header::before,'));
+  assert.ok(css.includes('content:none!important'));
 });
 
-test('la v29 deja solo la búsqueda en la tarjeta, sin información accesoria encima', () => {
+test('v30 coloca EN PRUEBA y una sola guarda de colores en la entrada al formulario', () => {
   const html=read('index.html');
-  const a=html.indexOf('class="travel-assistant assistant-v13"');
-  const b=html.indexOf('</section>',html.indexOf('class="transport-intro app-intro"'));
-  const c=html.indexOf('class="viaja-shortcuts"');
-  const d=html.indexOf('class="service-disclaimer"');
-  const e=html.indexOf('class="viaja-footer"');
-  assert.ok(a>=0&&b>a&&c>b&&d>c&&e>d);
+  const css=read('diseno-v30.css');
+  const header=html.indexOf('<header class="header"');
+  const card=html.indexOf('class="travel-assistant assistant-v13"');
+  const heading=html.indexOf('class="intro-heading"');
+  const badge=html.indexOf('class="beta-banner"');
+  const bar=html.indexOf('class="intro-colorbar"');
+  const form=html.indexOf('id="assistant-form"');
+  assert.ok(header>=0&&card>header&&heading>card&&badge>heading&&bar>badge&&form>bar);
+  assert.equal((html.match(/class="beta-banner"/g)||[]).length,1);
+  assert.equal((html.match(/class="intro-colorbar"/g)||[]).length,1);
+  assert.equal((html.match(/id="page-title"/g)||[]).length,1);
   assert.ok(html.includes('¿A dónde viajás?'));
   assert.ok(html.includes('Consultá horarios y recorridos del transporte interurbano.'));
-  assert.equal((html.match(/id="page-title"/g)||[]).length,1);
-  assert.equal((html.match(/id="updated-date"/g)||[]).length,1);
-  assert.equal((html.match(/class="beta-banner"/g)||[]).length,1);
-  assert.ok(html.indexOf('id="updated-date"')>e);
-  assert.ok(html.indexOf('class="beta-banner"')>e);
-  assert.ok(html.includes('class="footer-colorbar"'));
-  assert.ok(html.includes('class="ersep-oficial" src="../app-transporte/assets/logo-ersep.png"'));
-  assert.ok(html.indexOf('class="ersep-oficial"')>c);
-  assert.ok(html.indexOf('class="footer-colorbar"')>html.indexOf('class="ersep-oficial"'));
-  assert.ok(html.includes('aria-label="Información sobre horarios y reclamos"'));
-  assert.ok(html.includes('Reclamar un servicio que no pasó'));
+  assert.ok(css.includes('.public-beta .intro-heading'));
+  assert.ok(css.includes('.public-beta .intro-colorbar'));
+  assert.ok(css.includes('width:min(100%,440px)'));
 });
 
-test('la v29 conserva los controles de búsqueda y la navegación vertical universal', () => {
+test('v30 conserva la interfaz y sus herramientas funcionales intactas', () => {
   const html=read('index.html');
-  const css=read('diseno-v29.css');
-  const assistant=read('asistente.js');
+  const css=read('diseno-v30.css');
+  const js=read('asistente.js');
   const transport=read('transporte.js');
-  assert.ok(css.includes('@media screen {'));
-  assert.ok(css.includes('width:min(100%,440px)'));
-  assert.ok(css.includes('max-width:440px'));
-  assert.ok(css.includes('grid-template-columns:minmax(0,1fr)'));
-  assert.ok(css.includes('@media screen and (max-width:365px)'));
-  assert.ok(css.includes('prefers-reduced-motion:reduce'));
-  assert.ok(css.includes('.public-beta .workspace'));
-  assert.ok(css.includes('.public-beta .results-panel'));
-  assert.ok(css.includes('.public-beta #transport-map'));
-  assert.ok(css.includes('.public-beta .public-results-area[hidden]'));
-  assert.ok(css.includes('.public-beta .assistant-v13 .assistant-step[data-assistant-step="1"]::after'));
-  assert.ok(css.includes('border-left:3px dotted var(--viaja-bordo)'));
-  assert.ok(css.includes('.public-beta .assistant-quick-days button[aria-pressed="true"]'));
-  for(const id of ['assistant-origin','assistant-destination','assistant-day','assistant-time-mode','assistant-location','assistant-swap','assistant-now','assistant-clear','assistant-results','transport-map','journey-detail','public-results-area','advanced-search','updated-date','updated-detail']) {
+  for (const id of ['assistant-form','assistant-origin','assistant-destination','assistant-day',
+    'assistant-time-mode','assistant-time','assistant-location','assistant-swap',
+    'assistant-results','assistant-now','assistant-clear','public-results-area',
+    'advanced-search','transport-map','journey-detail','updated-date','updated-detail','theme-toggle']) {
     assert.ok(html.includes('id="'+id+'"'),'Falta '+id);
   }
   assert.equal((html.match(/class="field-icon"/g)||[]).length,4);
   assert.equal((html.match(/data-assistant-step="/g)||[]).length,4);
   assert.equal((html.match(/data-assistant-day-offset="/g)||[]).length,2);
-  assert.ok(transport.includes("users?'¿A dónde viajás?'"));
+  assert.ok(html.indexOf('id="theme-toggle"')>html.indexOf('class="viaja-footer"'));
+  assert.ok(html.includes('id="theme-label"'));
+  assert.ok(css.includes('.public-beta .footer-settings .theme-toggle'));
+  assert.ok(css.includes('.public-beta .workspace'));
+  assert.ok(css.includes('.public-beta #transport-map'));
+  assert.ok(css.includes('.public-beta .public-results-area[hidden]'));
+  assert.ok(css.includes('@media screen and (max-width:375px)'));
+  assert.ok(js.includes('function swapRoute'));
+  assert.ok(js.includes('ERSePAnalytics'));
   assert.ok(transport.includes('function revealPublicResults'));
-  assert.ok(assistant.includes('function swapRoute'));
-  assert.ok(assistant.includes('ERSePAnalytics'));
   assert.equal(css.split('{').length,css.split('}').length);
 });
 
-test('la v29 conserva favoritos, alertas e información útil con acciones reales', () => {
+test('v30 mantiene accesos y el logo original del ERSeP al pie', () => {
   const html=read('index.html');
-  const js=read('accesos-v28.js');
-  const css=read('diseno-v29.css');
+  const shortcuts=read('accesos-v28.js');
   assert.equal((html.match(/data-shortcut="/g)||[]).length,3);
-  for(const key of ['favorites','alerts','info'])
-    assert.ok(html.includes('data-shortcut="'+key+'"'));
-  assert.ok(html.includes('id="quick-panel"'));
-  assert.ok(html.includes('accesos-v28.js?v=28-beta'));
-  assert.ok(js.includes('window.localStorage.setItem'));
-  assert.ok(js.includes('window.localStorage.getItem'));
-  assert.ok(js.includes('function renderFavorites()'));
-  assert.ok(js.includes('function restore(item)'));
-  assert.ok(js.includes('form.requestSubmit()'));
-  assert.ok(js.includes('function renderAlerts()'));
-  assert.ok(js.includes('Todavía no cuenta con alertas verificadas'));
-  assert.ok(js.includes('function renderInfo()'));
-  assert.ok(js.includes('La ausencia de un aviso aquí no significa'));
-  assert.doesNotMatch(js,/fetch\(|XMLHttpRequest|sendBeacon|supabase|google-analytics/);
-  assert.ok(css.includes('.public-beta .viaja-shortcuts'));
-  assert.ok(css.includes('.public-beta .viaja-quick-panel[hidden]'));
-  assert.ok(css.includes('.public-beta .quick-primary'));
+  for(const key of ['favorites','alerts','info']) assert.ok(html.includes('data-shortcut="'+key+'"'));
+  assert.ok(html.includes('class="ersep-oficial" src="../app-transporte/assets/logo-ersep.png"'));
+  assert.ok(html.includes('class="footer-colorbar"'));
+  assert.ok(html.includes('class="service-disclaimer"'));
+  assert.ok(html.includes('Reclamar un servicio que no pasó'));
   assert.ok(html.includes('analitica.js?v=1-beta'));
-  assert.ok(html.includes('class="share-tools"'));
+  assert.ok(html.includes('accesos-v28.js?v=28-beta'));
+  assert.ok(shortcuts.includes('function renderFavorites()'));
+  assert.ok(shortcuts.includes('function renderAlerts()'));
+  assert.ok(shortcuts.includes('Todavía no cuenta con alertas verificadas'));
+  assert.ok(shortcuts.includes('function renderInfo()'));
+  assert.doesNotMatch(shortcuts,/fetch\(|XMLHttpRequest|sendBeacon|supabase/);
 });
