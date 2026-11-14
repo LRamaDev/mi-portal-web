@@ -108,7 +108,7 @@
     var reverseOrigin=api.listOrigins(day).some(function(place){return place.id===oldDestination;});
     var reverseDestination=reverseOrigin&&api.listDestinations(oldDestination,day).some(function(place){return place.id===oldOrigin;});
     if(!reverseDestination){
-      setStatus('No encontramos un servicio directo de vuelta entre esas localidades para el '+DAYS[day]+'. Probá otro día o usá la búsqueda avanzada.',true);
+      setStatus('No encontramos un servicio directo de vuelta entre esas localidades para el '+DAYS[day]+'. Probá otro día o consultá un horario distinto.',true);
       return;
     }
     origin.value=oldDestination;populateDestinations(false);destination.value=oldOrigin;
@@ -135,14 +135,14 @@
     if(!results.total){
       setStatus('No encontramos servicios directos de '+origin+' a '+destination+' el '+DAYS[input.day]+timeText+'.',true);
       $('assistant-results').className='assistant-results has-results';
-      $('assistant-results').innerHTML='<div class="assistant-empty"><strong>No hay un servicio directo publicado para esa búsqueda.</strong><p>Probá otro día u horario, o revisá los filtros completos.</p></div>';
+      $('assistant-results').innerHTML='<div class="assistant-empty"><strong>No hay un servicio directo publicado para esa búsqueda.</strong><p>Probá otro día u horario.</p></div>';
       revealResults();
       return;
     }
     if($('assistant-time-mode').value==='last')setStatus('Listo: te mostramos el último servicio directo de '+origin+' a '+destination+' para el '+DAYS[input.day]+'.',false,'success');
     else setStatus('¡Listo! Encontramos '+results.total.toLocaleString('es-AR')+' servicio'+(results.total===1?'':'s')+' directo'+(results.total===1?'':'s')+' para el '+DAYS[input.day]+timeText+'.',false,'success');
     $('assistant-results').className='assistant-results has-results';
-    $('assistant-results').innerHTML='<header class="assistant-results-title"><div><span>Opciones encontradas</span><strong>'+esc(origin)+' → '+esc(destination)+'</strong></div><b>'+results.total.toLocaleString('es-AR')+'</b></header>'+results.journeys.map(resultHTML).join('')+(results.total>results.journeys.length?'<button class="assistant-all" type="button" data-assistant-all>Ver los '+results.total.toLocaleString('es-AR')+' servicios en la búsqueda completa</button>':'');
+    $('assistant-results').innerHTML='<header class="assistant-results-title"><div><span>Opciones encontradas</span><strong>'+esc(origin)+' → '+esc(destination)+'</strong></div><b>'+results.total.toLocaleString('es-AR')+'</b></header>'+results.journeys.map(resultHTML).join('')+(results.total>results.journeys.length?'<p class="assistant-more-note">Mostramos '+results.journeys.length+' de '+results.total.toLocaleString('es-AR')+' servicios. Elegí otro horario para ajustar la consulta.</p>':'');
     $('assistant-results').setAttribute('data-assistant-origin',input.origin);
     $('assistant-results').setAttribute('data-assistant-destination',input.destination);
     $('assistant-results').setAttribute('data-assistant-day',input.day);
@@ -201,7 +201,7 @@
     $('assistant-now').addEventListener('click',useNow);$('assistant-clear').addEventListener('click',clear);$('assistant-swap').addEventListener('click',swapRoute);$('assistant-summary-submit').addEventListener('click',runQuery);
     $('assistant-results').addEventListener('click',function(event){
       var open=event.target.closest&&event.target.closest('[data-assistant-open]');if(open){applySearch(open.getAttribute('data-assistant-open'));return;}
-      if(event.target.closest&&event.target.closest('[data-assistant-all]'))applySearch('');
+
     });
   }
   window.TransportAssistantInit=init;

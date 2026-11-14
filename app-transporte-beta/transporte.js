@@ -164,6 +164,12 @@
     if($('kpi-companies'))$('kpi-companies').textContent=unique(journeys.map(function(j){return j.service.company;})).length.toLocaleString('es-AR');
     $('result-count').textContent=journeys.length.toLocaleString('es-AR');
     $('results').innerHTML=journeys.length?journeys.slice(0,200).map(serviceHTML).join('')+(journeys.length>200?'<div class="empty-state">Primeros 200 resultados. Usá los filtros para precisar el viaje.</div>':''):'<div class="empty-state"><strong>No encontramos viajes para esa combinación.</strong><p>Revisá el sentido y el día de subida. Algunos servicios todavía no tienen intermedias vinculadas; también podés buscarlos por línea o cabeceras.</p></div>';
+    // Mantener ocultos mapa y detalle hasta seleccionar un servicio concreto.
+    var mapColumn=document.querySelector('.map-column');
+    if(mapColumn)mapColumn.hidden=!active;
+    var publicArea=$('public-results-area');
+    if(publicArea)publicArea.hidden=!active;
+    if(!active){renderDetails(null);return;}
     renderMap(journeys,active);renderDetails(active);
   }
   function updateAdvancedSummary(){
@@ -338,7 +344,8 @@
   function bind(){
     var timer;
     $('filter-search').addEventListener('input',function(){clearTimeout(timer);timer=setTimeout(changed,160);});
-    $('advanced-search').addEventListener('toggle',function(){if(this.open){revealPublicResults();render();}});
+    // Los filtros avanzados permanecen internamente para el motor,
+    // pero ya no se exponen en la consulta pública.
     FIELDS.forEach(function(f){$('filter-'+f).addEventListener('change',changed);});
     $('reset-filters').addEventListener('click',function(){clearTimeout(timer);$('filter-search').value='';FIELDS.forEach(function(f){$('filter-'+f).value='';});$('filter-day').value=String(today());changed();});
     $('results').addEventListener('click',function(event){var button=event.target.closest('[data-journey]');if(!button)return;var key=button.getAttribute('data-journey');state.focus=state.focus===key?null:key;render();});
@@ -357,7 +364,11 @@
     $('inspector-lines-none').addEventListener('click',function(){state.inspectorAllLines=false;state.inspectorLines=new Set();renderInspectorLines(state.inspectorAvailableLines);renderInspector();});
     $('user-print').addEventListener('click',function(){printExport('users');});$('user-image').addEventListener('click',function(){imageExport('users');});
     $('inspector-print').addEventListener('click',function(){printExport('inspectors');});$('inspector-image').addEventListener('click',function(){imageExport('inspectors');});
-    document.addEventListener('visibilitychange',function(){if(document.hidden)stopAnimation();else renderMap(state.results,state.results.find(function(j){return j.key===state.focus;}));});
+    document.addEventListener('visibilitychange',function(){
+      if(document.hidden){stopAnimation();return;}
+      var active=state.results.find(function(j){return j.key===state.focus;});
+      if(active&&state.map)renderMap(state.results,active);
+    });
   }
   function dismissSplash(){
     var splash=$('app-splash');
@@ -439,9 +450,18 @@
         ['origin','destination','corridor','line','direction','day','company','modality'].forEach(function(field){$('filter-'+field).value='';});
         updateOptions();
         ['origin','destination','corridor','line','direction','day','company','modality'].forEach(function(field){$('filter-'+field).value=input[field]||'';});
-        state.focus=null;revealPublicResults();changed();
+        state.focus=null;changed();
       },
-      focus:function(key){revealPublicResults();state.focus=key;render();}
+      focus:function(key){
+        state.focus=key;
+        if(!state.results.some(function(j){return j.key===key;})){render();return;}
+        revealPublicResults();
+        var mapColumn=document.querySelector('.map-column');
+        if(mapColumn)mapColumn.hidden=false;
+        // Inicialización diferida: no cargar Leaflet ni teselas antes de elegir servicio.
+        if(!state.map)initMap();
+        render();
+      }
     };
     if(typeof window.TransportAssistantInit==='function')window.TransportAssistantInit();
   }
@@ -457,6 +477,6 @@
       state.profileUnsafePlaces=new Map(warnings.map(function(item){return [item.profile_id,new Set(item.unsafe_place_ids||[])];}));
       state.unsafePlaces=new Set(((state.traces.audit&&state.traces.audit.quarantined_places)||[]).map(function(item){return item.place_id;}));
     }
-    state.engine=R.create(state.data,state.geo,state.routes);initMap();$('filter-day').value=String(today());$('inspector-day').value=String(today());updateOptions();updateAdvancedSummary();updateInspectorControls();bind();sourceSummary();render();renderInspector();exposeSearch();dismissSplash();
+    state.engine=R.create(state.data,state.geo,state.routes);$('filter-day').value=String(today());$('inspector-day').value=String(today());updateOptions();updateAdvancedSummary();updateInspectorControls();bind();sourceSummary();render();renderInspector();exposeSearch();dismissSplash();
   }).catch(function(error){$('results').innerHTML='<div class="empty-state"><strong>No se pudo cargar la información.</strong><p>'+esc(error.message)+'</p></div>';$('updated-date').textContent='Error de carga';dismissSplash();});
 }());

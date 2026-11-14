@@ -16,7 +16,7 @@
   </script>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
   <link rel="stylesheet" href="transporte.css?v=21-beta">
-  <link rel="stylesheet" href="diseno-v30.css?v=30-beta">
+  <link rel="stylesheet" href="diseno-v30.css?v=31-beta">
 </head>
 
 <body class="public-beta">
@@ -186,7 +186,7 @@
       <div id="quick-panel-content"></div>
     </section>
 
-    <details id="advanced-search" class="advanced-search">
+    <details id="advanced-search" class="advanced-search" hidden aria-hidden="true">
       <summary>
         <span class="advanced-search-icon" aria-hidden="true">⌕</span>
         <span><strong>Más opciones de búsqueda</strong><small>Corredor, línea, empresa y modalidad.</small></span>
@@ -221,7 +221,7 @@
       </details>
 
     <section id="public-results-area" class="public-results-area" aria-label="Resultados y recorrido" hidden>
-    <details class="share-tools">
+    <details class="share-tools" hidden>
       <summary>Guardar o compartir resultados</summary>
     <section class="export-bar" aria-label="Exportar consulta de atención a usuarios">
       <div><strong>Guardar o compartir esta consulta</strong><span>El archivo incluirá únicamente los resultados filtrados en pantalla.</span></div>
@@ -234,7 +234,7 @@
     </details>
 
     <section class="workspace">
-      <div class="map-column">
+      <div class="map-column" hidden>
         <div id="transport-map" role="region" aria-label="Mapa orientativo de líneas interurbanas"></div>
         <div class="map-caption">
           <p><strong>Recorrido orientativo.</strong> No muestra la ubicación del colectivo en tiempo real.</p>
@@ -242,7 +242,7 @@
         </div>
         <section id="journey-detail" class="journey-detail" aria-label="Detalle del recorrido seleccionado" hidden></section>
       </div>
-      <aside class="results-panel" aria-labelledby="results-title">
+      <aside class="results-panel" aria-labelledby="results-title" hidden>
         <header><div><span class="eyebrow">Resultados</span><h3 id="results-title">Servicios disponibles</h3></div><span id="result-count" class="result-count">—</span></header>
         <div id="results" class="results-list" aria-live="polite"></div>
       </aside>
@@ -439,8 +439,8 @@
 <script defer src="analitica.js?v=1-beta"></script>
 <script defer src="recorridos.js?v=12-beta"></script>
 <script defer src="historico.js?v=12-beta"></script>
-<script defer src="transporte.js?v=21-beta"></script>
-<script defer src="asistente.js?v=23-beta"></script>
+<script defer src="transporte.js?v=31-beta"></script>
+<script defer src="asistente.js?v=31-beta"></script>
 <script defer src="accesos-v28.js?v=28-beta"></script>
 </body>
 </html>

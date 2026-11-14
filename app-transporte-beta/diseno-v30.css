@@ -1264,3 +1264,152 @@
   }
   .public-beta .assistant-quick-days button {flex:1}
 }
+
+
+/* V31 · Ajustes puntuales sobre la cabecera FIJA (sin alterar su imagen):
+   misma anchura de cabecera y tarjeta, campos sin desbordes,
+   consulta guiada sin búsqueda exhaustiva, mapa bajo demanda y pie integrado. */
+@media screen {
+  /* La cabecera conserva el arte original, sin fondo visible por encima. */
+  .public-beta .header {
+    box-sizing:border-box;
+    width:auto;
+    min-height:0;
+    margin:0 calc(var(--ref-gutter) * 2);
+    padding:0;
+    border:0;
+    border-radius:18px 18px 0 0;
+    background:transparent;
+    box-shadow:none;
+  }
+  .public-beta .header .header-reference {
+    display:block;
+    width:100%;
+    height:auto;
+    aspect-ratio:500 / 133;
+    object-fit:contain;
+    border:0;
+  }
+  .public-beta .transport-shell {
+    box-sizing:border-box;
+    width:100%;
+    padding-inline:calc(var(--ref-gutter) * 2);
+  }
+  .public-beta .assistant-v13 {
+    box-sizing:border-box;
+    width:100%;
+    max-width:100%;
+    margin:-8px 0 0;
+    border-radius:21px;
+  }
+  /* En el origen, el ancho lo define la rejilla select + ubicación. */
+  .public-beta .assistant-v13 .assistant-origin-tools {
+    box-sizing:border-box;
+    width:calc(100% - 34px);
+    max-width:calc(100% - 34px);
+    margin-left:34px;
+    margin-right:0;
+    grid-template-columns:minmax(0,1fr) 51px;
+  }
+  .public-beta .assistant-v13 #assistant-origin {
+    box-sizing:border-box;
+    min-width:0;
+    width:100%;
+    max-width:100%;
+    margin:0;
+  }
+  /* Estos dos selectores estaban creciendo al 100% MÁS el margen de 34 px.
+     El ID asegura la precedencia respecto del CSS base. */
+  .public-beta .assistant-v13 #assistant-destination,
+  .public-beta .assistant-v13 #assistant-time-mode {
+    box-sizing:border-box;
+    display:block;
+    width:calc(100% - 34px);
+    max-width:calc(100% - 34px);
+    min-width:0;
+    margin:0 0 0 34px;
+  }
+  .public-beta .assistant-v13 #assistant-day {
+    box-sizing:border-box;
+    min-width:0;
+    max-width:calc(100% - 34px);
+    width:calc(100% - 34px);
+    margin-left:34px;
+  }
+  .public-beta .assistant-v13 .assistant-time-wrap {
+    box-sizing:border-box;
+    width:calc(100% - 34px);
+    max-width:calc(100% - 34px);
+    margin-left:34px;
+  }
+  .public-beta .assistant-v13 .assistant-time-wrap #assistant-time {
+    box-sizing:border-box;
+    width:100%;
+    max-width:100%;
+    margin:0;
+  }
+  .public-beta .assistant-v13 .assistant-step,
+  .public-beta .assistant-v13 .assistant-field {
+    box-sizing:border-box;
+    min-width:0;
+    max-width:100%;
+  }
+  /* Elementos internos se mantienen para el motor, pero no como interfaz. */
+  .public-beta #advanced-search[hidden],
+  .public-beta .map-column[hidden],
+  .public-beta .results-panel[hidden],
+  .public-beta .share-tools[hidden],
+  .public-beta #public-results-area[hidden] {
+    display:none!important;
+  }
+  .public-beta .public-results-area {
+    width:100%;
+    min-width:0;
+    margin-top:12px;
+  }
+  .public-beta .workspace {
+    display:block;
+    width:100%;
+    min-width:0;
+  }
+  .public-beta .map-column {
+    display:block;
+    width:100%;
+    min-width:0;
+    max-width:100%;
+  }
+  .public-beta #transport-map {
+    width:100%;
+    height:320px;
+    min-height:320px;
+  }
+  .public-beta .assistant-more-note {
+    margin:0;
+    padding:8px 4px 0;
+    color:var(--viaja-gris);
+    font-size:11px;
+    line-height:1.5;
+  }
+  /* El blanco del PNG se mezcla con el fondo rosado en lugar de ser una placa. */
+  .public-beta .ersep-oficial {
+    display:block;
+    max-width:100%;
+    height:102px;
+    border:0;
+    background:transparent;
+    mix-blend-mode:multiply;
+  }
+  .public-beta .footer-colorbar {
+    display:none!important;
+  }
+}
+@media screen and (max-width:375px) {
+  .public-beta .assistant-v13 .assistant-origin-tools {
+    grid-template-columns:minmax(0,1fr) 46px;
+  }
+  .public-beta .assistant-v13 #assistant-destination,
+  .public-beta .assistant-v13 #assistant-time-mode {
+    width:calc(100% - 34px);
+    max-width:calc(100% - 34px);
+  }
+}
