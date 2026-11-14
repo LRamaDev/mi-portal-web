@@ -998,7 +998,24 @@
   .public-beta .transport-shell {padding-inline:9px}
   .public-beta .transport-intro {padding-inline:14px}
   .public-beta .assistant-layout {padding-inline:14px}
-  .public-beta .assistant-quick-days button {min-width:46px;padding-inline:4px}
+  .public-beta .assistant-v13 .assistant-step[data-assistant-step="3"]>.assistant-field {
+    grid-template-columns:minmax(0,1fr);
+  }
+  .public-beta #assistant-day {
+    grid-column:1;
+    grid-row:2;
+    width:calc(100% - 31px);
+  }
+  .public-beta .assistant-quick-days {
+    grid-column:1;
+    grid-row:3;
+    margin-left:31px;
+  }
+  .public-beta .assistant-quick-days button {
+    flex:1;
+    min-width:0;
+    padding-inline:7px;
+  }
   .public-beta .assistant-v13 .assistant-field select {padding-inline:8px}
   .public-beta .viaja-shortcut {font-size:10px}
 }
