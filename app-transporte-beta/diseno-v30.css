@@ -1413,3 +1413,43 @@
     max-width:calc(100% - 34px);
   }
 }
+
+/* v32 — encastre cabecera/formulario y precarga sin logotipo.
+   La imagen aprobada cabecera-fiel-v30.webp permanece intacta. */
+@media screen {
+  /* Bordes superiores rectos: el formulario continúa visualmente la cabecera. */
+  .public-beta .assistant-v13 {
+    border-radius:0 0 21px 21px;
+    border-top:0;
+    margin-top:-8px;
+    overflow:hidden;
+  }
+  /* En pantallas pequeñas mantenemos exactamente la misma unión. */
+  .public-beta .transport-shell .assistant-v13 {
+    border-top-left-radius:0;
+    border-top-right-radius:0;
+  }
+  /* Precarga liviana: nombre y animación del recorrido, sin logo de producto. */
+  .public-beta .app-splash-card {
+    gap:0;
+  }
+  .public-beta .app-splash-card>strong {
+    margin-top:0;
+    font-size:clamp(26px,7vw,34px);
+    animation-delay:.08s;
+  }
+  .public-beta .app-splash-card>span {
+    margin-top:6px;
+    animation-delay:.16s;
+  }
+  .public-beta .app-splash-route {
+    margin-top:26px;
+    animation-delay:.22s;
+  }
+  .public-beta .app-splash-route>i {
+    animation-delay:.24s;
+  }
+  .public-beta .app-splash-bus {
+    animation-delay:.28s;
+  }
+}
