@@ -16,7 +16,7 @@
   </script>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
   <link rel="stylesheet" href="transporte.css?v=21-beta">
-  <link rel="stylesheet" href="diseno-v29.css?v=29-beta">
+  <link rel="stylesheet" href="diseno-v30.css?v=30-beta">
 </head>
 
 <body class="public-beta">
@@ -39,24 +39,9 @@
   </div>
 </div>
 <div class="wrap">
-  <header class="header">
-    <img class="hero-landscape" src="assets/cordoba-paisaje.svg" alt="" aria-hidden="true">
-    <div class="header-brand">
-      <img class="viaja-logo" src="assets/viaja-marca.svg" alt="">
-      <div class="viaja-lockup">
-        <h1>ERSeP <span>Viaja</span></h1>
-      </div>
-    </div>
-    <p class="header-tagline">Horarios del transporte interurbano de Córdoba</p>
-    <div class="header-actions">
-      <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Activar modo oscuro" title="Activar modo oscuro">
-        <span id="theme-icon" class="theme-icon" aria-hidden="true">
-          <svg class="theme-moon" viewBox="0 0 24 24" focusable="false"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"></path></svg>
-          <svg class="theme-sun" viewBox="0 0 24 24" focusable="false"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4"></path></svg>
-        </span>
-        <span id="theme-label">Modo oscuro</span>
-      </button>
-    </div>
+  <header class="header" aria-label="ERSeP Viaja">
+    <img class="header-reference" src="assets/cabecera-fiel-v30.webp" alt="" width="500" height="133">
+    <h1 class="visually-hidden">ERSeP Viaja — Horarios del transporte interurbano de Córdoba</h1>
   </header>
 
 
@@ -84,8 +69,14 @@
         </div>
       </header>
   <section class="transport-intro app-intro" aria-labelledby="page-title">
-    <h2 id="page-title">¿A dónde viajás?</h2>
+    <div class="intro-heading">
+        <h2 id="page-title">¿A dónde viajás?</h2>
+        <aside class="beta-banner" aria-label="Aviso de versión de prueba">
+        <span class="beta-badge">EN PRUEBA</span>
+      </aside>
+      </div>
     <p id="page-description">Consultá horarios y recorridos del transporte interurbano.</p>
+    <span class="intro-colorbar" aria-hidden="true"></span>
   </section>
 
 
@@ -418,10 +409,19 @@
   <footer class="viaja-footer">
     <img class="ersep-oficial" src="../app-transporte/assets/logo-ersep.png" alt="ERSeP, Ente Regulador de los Servicios Públicos">
     <span class="footer-colorbar" aria-hidden="true"></span>
+    <div class="footer-settings">
+    <div class="header-actions">
+      <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Activar modo oscuro" title="Activar modo oscuro">
+        <span id="theme-icon" class="theme-icon" aria-hidden="true">
+          <svg class="theme-moon" viewBox="0 0 24 24" focusable="false"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"></path></svg>
+          <svg class="theme-sun" viewBox="0 0 24 24" focusable="false"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4"></path></svg>
+        </span>
+        <span id="theme-label">Modo oscuro</span>
+      </button>
+    </div>
+    </div>
     <div class="footer-meta">
-      <aside class="beta-banner" aria-label="Aviso de versión de prueba">
-        <span class="beta-badge">EN PRUEBA</span>
-      </aside>
+
       <div class="update-card" aria-live="polite">
         <span>Última publicación procesada</span>
         <strong id="updated-date">Cargando…</strong>
