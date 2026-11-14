@@ -913,16 +913,6 @@
     color:var(--viaja-gris);
     text-align:center;
   }
-  .public-beta .ersep-oficial {
-    display:block;
-    width:245px;
-    max-width:100%;
-    height:102px;
-    object-fit:cover;
-    object-position:center;
-    filter:none;
-    background:transparent;
-  }
   .public-beta .footer-colorbar {
     display:block;
     width:min(100%,300px);
@@ -1391,14 +1381,6 @@
     line-height:1.5;
   }
   /* El blanco del PNG se mezcla con el fondo rosado en lugar de ser una placa. */
-  .public-beta .ersep-oficial {
-    display:block;
-    max-width:100%;
-    height:102px;
-    border:0;
-    background:transparent;
-    mix-blend-mode:multiply;
-  }
   .public-beta .footer-colorbar {
     display:none!important;
   }
@@ -1599,17 +1581,6 @@
   /* Modo oscuro: el blanco de la imagen se vuelve transparente mediante
      mezcla de pantalla; los colores del logotipo vuelven a ganar luminosidad.
      No se edita ni sustituye el PNG institucional original. */
-  html[data-theme="dark"] .public-beta .ersep-oficial {
-    mix-blend-mode:screen;
-    filter:invert(1) hue-rotate(180deg) saturate(1.25) brightness(1.1);
-    background:transparent;
-    opacity:1;
-  }
-  html[data-theme="light"] .public-beta .ersep-oficial {
-    mix-blend-mode:multiply;
-    filter:none;
-    opacity:1;
-  }
 }
 /* Celulares: ancho completo, manteniendo la única disposición vertical.
    En computadora continúa la app centrada y de ancho máximo 440px. */
@@ -1718,35 +1689,58 @@
   }
 }
 
-/* v34 · Logo institucional auténtico específico para modo oscuro.
-   Recurso derivado de la referencia visual oficial suministrada, fondo transparente.
-   Se evita invertir/mezclar el logo claro, que lo oscurecía y deformaba. */
+/* v35 · Un solo espacio de marca institucional en el pie.
+   La imagen clara (549×364) tiene un lienzo blanco más alto y requiere recorte
+   centrado; la oscura (213×103) ya es transparente y se encuadra completa.
+   Cambiar de modo no altera el tamaño ni la posición del pie. */
 @media screen {
-  .public-beta .viaja-footer .ersep-oficial-dark {
-    display:none;
-    width:235px;
+  .public-beta .viaja-footer .ersep-logo-wrap {
+    box-sizing:border-box;
+    display:grid;
+    place-items:center;
+    width:min(230px,78vw);
     max-width:100%;
-    height:auto;
+    height:90px;
+    min-height:90px;
+    margin:0 auto 8px;
+    padding:0;
+    overflow:hidden;
+    flex-shrink:0;
+  }
+  .public-beta .viaja-footer .ersep-logo-wrap > img {
+    box-sizing:border-box;
+    grid-area:1 / 1;
+    display:block;
+    width:100%;
+    max-width:100%;
+    height:100%;
     min-height:0;
-    margin:0 auto;
-    object-fit:contain;
+    max-height:100%;
+    margin:0;
+    padding:0;
     border:0;
     border-radius:0;
+    object-position:center;
     background:transparent;
+  }
+  /* Recorte del gran lienzo claro, sin editar el logo institucional. */
+  .public-beta .viaja-footer .ersep-logo-wrap > .ersep-oficial {
+    object-fit:cover;
+    mix-blend-mode:multiply;
+    filter:none;
+    opacity:1;
+  }
+  /* Recurso oscuro transparente, contenido sin cortes ni inversión cromática. */
+  .public-beta .viaja-footer .ersep-logo-wrap > .ersep-oficial-dark {
+    object-fit:contain;
     mix-blend-mode:normal;
     filter:none;
     opacity:1;
   }
-  html[data-theme="dark"] .public-beta .viaja-footer .ersep-oficial {
-    display:none!important;
+  html[data-theme="dark"] .public-beta .viaja-footer .ersep-logo-wrap > .ersep-oficial {
+    display:none;
   }
-  html[data-theme="dark"] .public-beta .viaja-footer .ersep-oficial-dark {
-    display:block!important;
-    mix-blend-mode:normal!important;
-    filter:none!important;
-    opacity:1!important;
-  }
-  html:not([data-theme="dark"]) .public-beta .viaja-footer .ersep-oficial-dark {
-    display:none!important;
+  html:not([data-theme="dark"]) .public-beta .viaja-footer .ersep-logo-wrap > .ersep-oficial-dark {
+    display:none;
   }
 }

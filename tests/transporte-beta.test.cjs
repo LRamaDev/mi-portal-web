@@ -270,7 +270,7 @@ test('v30 usa como cabecera el recorte de la referencia original y no redibuja l
   assert.doesNotMatch(html, /class="header-brand"/);
   assert.doesNotMatch(html, /class="hero-landscape"/);
   assert.doesNotMatch(html, /class="viaja-lockup"/);
-  assert.ok(html.includes('diseno-v30.css?v=34-beta'));
+  assert.ok(html.includes('diseno-v30.css?v=35-beta'));
   assert.doesNotMatch(html, /href="diseno-v29.css/);
   assert.ok(css.includes('CABECERA BLOQUEADA'));
   assert.ok(css.includes('cabecera-fiel-v30.webp'));
@@ -346,7 +346,7 @@ test('v30 mantiene accesos y el logo original del ERSeP al pie', () => {
 
 test('v31 iguala el ancho del encabezado y la tarjeta sin espacio superior', () => {
   const html=read('index.html'),css=read('diseno-v30.css');
-  assert.ok(html.includes('diseno-v30.css?v=34-beta'));
+  assert.ok(html.includes('diseno-v30.css?v=35-beta'));
   assert.ok(css.includes('.public-beta .header .header-reference'));
   assert.ok(css.includes('margin:0 calc(var(--ref-gutter) * 2);'));
   assert.ok(css.includes('padding-inline:calc(var(--ref-gutter) * 2);'));
@@ -402,7 +402,7 @@ test('v31 abre mapa y detalle solamente después de seleccionar un servicio', ()
 test('v32 une cabecera y tarjeta con borde superior recto sin tocar la referencia', () => {
   const html=read('index.html'),css=read('diseno-v30.css');
   assert.ok(html.includes('src="assets/cabecera-fiel-v30.webp"'));
-  assert.ok(html.includes('diseno-v30.css?v=34-beta'));
+  assert.ok(html.includes('diseno-v30.css?v=35-beta'));
   assert.ok(css.includes('border-radius:0 0 21px 21px'));
   assert.ok(css.includes('border-top:0;'));
   assert.ok(css.includes('border-top-left-radius:0;'));
@@ -428,7 +428,7 @@ test('v32 no muestra logo de producto en la precarga pero conserva progreso anim
 test('v33 usa el ancho completo disponible en celulares y conserva vista vertical en escritorio', () => {
   const html=read('index.html');
   const css=read('diseno-v30.css');
-  assert.ok(html.includes('diseno-v30.css?v=34-beta'));
+  assert.ok(html.includes('diseno-v30.css?v=35-beta'));
   assert.ok(css.includes('@media screen and (max-width:640px)'));
   assert.ok(css.includes('width:100%;'));
   assert.ok(css.includes('max-width:none;'));
@@ -459,24 +459,47 @@ test('v33 las tarjetas de servicios evitan superposición y presentan hora, tray
 });
 
 
-test('v34 usa el logo institucional correcto según el tema, sin alterar el logo de exportación', () => {
+test('v35 mantiene logos institucionales originales en un único contenedor estable', () => {
   const html=read('index.html'),css=read('diseno-v30.css');
   const img=fs.readFileSync(path.join(beta,'assets','logo-ersep-dark-v34.png'));
   assert.ok(img.length>2000);
   assert.equal(img.subarray(0,8).toString('hex'),'89504e470d0a1a0a');
-  assert.ok(img.includes(Buffer.from('tRNS','ascii')), 'Debe conservar transparencia real');
-  assert.ok(html.includes('class="ersep-oficial" src="../app-transporte/assets/logo-ersep.png"'));
-  assert.ok(html.includes('class="ersep-oficial-dark" src="assets/logo-ersep-dark-v34.png"'));
+  assert.ok(img.includes(Buffer.from('tRNS','ascii')), 'El logo oscuro debe seguir siendo transparente');
+  const footer=html.slice(html.indexOf('<footer class="viaja-footer">'));
+  assert.ok(footer.includes('<div class="ersep-logo-wrap">'));
+  assert.equal((footer.match(/class="ersep-logo-wrap"/g)||[]).length,1);
+  assert.ok(footer.includes('class="ersep-oficial" src="../app-transporte/assets/logo-ersep.png"'));
+  assert.ok(footer.includes('class="ersep-oficial-dark" src="assets/logo-ersep-dark-v34.png"'));
   assert.ok(html.includes('id="export-logo-source"'));
   assert.ok(html.includes('class="export-logo-source" src="../app-transporte/assets/logo-ersep.png"'));
-  assert.ok(css.includes('.public-beta .viaja-footer .ersep-oficial-dark'));
-  assert.ok(css.includes('html[data-theme="dark"] .public-beta .viaja-footer .ersep-oficial {'));
-  assert.ok(css.includes('display:none!important'));
-  assert.ok(css.includes('html[data-theme="dark"] .public-beta .viaja-footer .ersep-oficial-dark {'));
-  assert.ok(css.includes('display:block!important'));
-  assert.ok(css.includes('filter:none!important'));
-  assert.ok(css.includes('mix-blend-mode:normal!important'));
+  assert.ok(css.includes('.public-beta .viaja-footer .ersep-logo-wrap'));
+  assert.ok(css.includes('width:min(230px,78vw);'));
+  assert.ok(css.includes('height:90px;'));
+  assert.ok(css.includes('min-height:90px;'));
+  assert.ok(css.includes('grid-area:1 / 1;'));
+  assert.ok(css.includes('object-fit:cover;'));
+  assert.ok(css.includes('object-fit:contain;'));
+  assert.ok(css.includes('html[data-theme="dark"] .public-beta .viaja-footer .ersep-logo-wrap > .ersep-oficial'));
+  assert.ok(css.includes('html:not([data-theme="dark"]) .public-beta .viaja-footer .ersep-logo-wrap > .ersep-oficial-dark'));
+  assert.doesNotMatch(css, /filter:invert\(1\) hue-rotate/);
+  assert.doesNotMatch(css, /display:block!important;\s*mix-blend-mode:normal!important/);
   assert.equal(css.split('{').length,css.split('}').length);
+});
+
+test('v35 conserva altura de pie en ambos temas y un solo marco para ambos logos', () => {
+  const html=read('index.html'),css=read('diseno-v30.css');
+  assert.ok(html.includes('diseno-v30.css?v=35-beta'));
+  assert.equal((css.match(/v35 · Un solo espacio de marca/g)||[]).length,1);
+  const v35=css.slice(css.indexOf('/* v35 ·'));
+  assert.ok(v35.includes('place-items:center;'));
+  assert.ok(v35.includes('overflow:hidden;'));
+  assert.ok(v35.includes('object-position:center;'));
+  assert.ok(v35.includes('mix-blend-mode:multiply;'));
+  assert.ok(v35.includes('mix-blend-mode:normal;'));
+  assert.ok(v35.includes('flex-shrink:0;'));
+  assert.ok(v35.includes('height:100%;'));
+  assert.ok(v35.includes('max-height:100%;'));
+  assert.ok(v35.includes('display:none;'));
 });
 
 test('v34 renueva el favicon de pestaña con la marca Viaja y sin referencias a la anterior', () => {
@@ -488,5 +511,5 @@ test('v34 renueva el favicon de pestaña con la marca Viaja y sin referencias a 
   assert.ok(icon.includes('Letra V blanca de Viaja'));
   assert.ok(icon.includes('fill="#fff"'));
   assert.ok(icon.includes('#c20043'));
-  assert.ok(html.includes('diseno-v30.css?v=34-beta'));
+  assert.ok(html.includes('diseno-v30.css?v=35-beta'));
 });
