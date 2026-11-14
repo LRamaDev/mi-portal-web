@@ -228,8 +228,8 @@ test('la beta v21 aclara los horarios, la fuente oficial y el acceso a reclamos'
   assert.match(html, /Reclamar un servicio que no pasó/);
   assert.match(html, /id="assistant-clear"[^>]*>[\s\S]*Nueva búsqueda/);
   assert.match(html, /transporte\.css\?v=21-beta/);
-  assert.match(html, /transporte\.js\?v=21-beta/);
-  assert.ok(html.includes('asistente.js?v=23-beta'));
+  assert.match(html, /transporte\.js\?v=31-beta/);
+  assert.ok(html.includes('asistente.js?v=31-beta'));
   assert.match(assistant, /A partir de las/);
   assert.match(assistant, /a partir de las/);
   assert.match(css, /\.assistant-swap-row \.assistant-swap\{border-color:#6d9133;background:#87b540/);
@@ -243,7 +243,7 @@ test('la beta prepara un contador privado de búsquedas sin datos del trayecto',
   const analytics = read('analitica.js');
   const assistant = read('asistente.js');
   assert.ok(html.includes('analitica.js?v=1-beta'));
-  assert.ok(html.includes('asistente.js?v=23-beta'));
+  assert.ok(html.includes('asistente.js?v=31-beta'));
   assert.match(analytics, /busqueda_realizada/);
   assert.match(analytics, /MEASUREMENT_ID/);
   assert.match(analytics, /anonymize_ip/);
@@ -270,7 +270,7 @@ test('v30 usa como cabecera el recorte de la referencia original y no redibuja l
   assert.doesNotMatch(html, /class="header-brand"/);
   assert.doesNotMatch(html, /class="hero-landscape"/);
   assert.doesNotMatch(html, /class="viaja-lockup"/);
-  assert.ok(html.includes('diseno-v30.css?v=30-beta'));
+  assert.ok(html.includes('diseno-v30.css?v=31-beta'));
   assert.doesNotMatch(html, /href="diseno-v29.css/);
   assert.ok(css.includes('CABECERA BLOQUEADA'));
   assert.ok(css.includes('cabecera-fiel-v30.webp'));
@@ -342,4 +342,59 @@ test('v30 mantiene accesos y el logo original del ERSeP al pie', () => {
   assert.ok(shortcuts.includes('Todavía no cuenta con alertas verificadas'));
   assert.ok(shortcuts.includes('function renderInfo()'));
   assert.doesNotMatch(shortcuts,/fetch\(|XMLHttpRequest|sendBeacon|supabase/);
+});
+
+test('v31 iguala el ancho del encabezado y la tarjeta sin espacio superior', () => {
+  const html=read('index.html'),css=read('diseno-v30.css');
+  assert.ok(html.includes('diseno-v30.css?v=31-beta'));
+  assert.ok(css.includes('.public-beta .header .header-reference'));
+  assert.ok(css.includes('margin:0 calc(var(--ref-gutter) * 2);'));
+  assert.ok(css.includes('padding-inline:calc(var(--ref-gutter) * 2);'));
+  assert.ok(css.includes('background:transparent;'));
+  assert.ok(css.includes('mix-blend-mode:multiply'));
+  assert.ok(css.includes('.public-beta .footer-colorbar'));
+  assert.ok(css.includes('display:none!important'));
+  assert.equal(css.split('{').length,css.split('}').length);
+});
+
+test('v31 alinea origen destino día y horario sin recortar selectores', () => {
+  const css=read('diseno-v30.css');
+  for(const selector of [
+    '.public-beta .assistant-v13 #assistant-origin',
+    '.public-beta .assistant-v13 #assistant-destination',
+    '.public-beta .assistant-v13 #assistant-day',
+    '.public-beta .assistant-v13 #assistant-time-mode',
+    '.public-beta .assistant-v13 .assistant-origin-tools'
+  ]) assert.ok(css.includes(selector), 'Falta '+selector);
+  assert.ok(css.includes('max-width:calc(100% - 34px)'));
+  assert.ok(css.includes('box-sizing:border-box'));
+});
+
+test('v31 elimina búsqueda exhaustiva pública sin borrar filtros del motor', () => {
+  const html=read('index.html'),assistant=read('asistente.js'),transport=read('transporte.js');
+  assert.ok(html.includes('id="advanced-search" class="advanced-search" hidden aria-hidden="true"'));
+  assert.ok(html.includes('id="filter-origin"'));
+  assert.ok(html.includes('id="filter-destination"'));
+  assert.ok(html.includes('id="filter-search"'));
+  assert.ok(html.includes('id="filter-day"'));
+  assert.ok(transport.includes('state.engine.query(filters())'));
+  assert.doesNotMatch(assistant,/data-assistant-all/);
+  assert.doesNotMatch(assistant,/búsqueda completa|búsqueda avanzada|filtros completos/);
+  assert.ok(assistant.includes('assistant-more-note'));
+});
+
+test('v31 abre mapa y detalle solamente después de seleccionar un servicio', () => {
+  const html=read('index.html'),transport=read('transporte.js'),css=read('diseno-v30.css');
+  assert.ok(html.includes('class="map-column" hidden'));
+  assert.ok(html.includes('id="public-results-area" class="public-results-area" aria-label="Resultados y recorrido" hidden'));
+  assert.ok(html.includes('class="results-panel" aria-labelledby="results-title" hidden'));
+  assert.ok(html.includes('class="share-tools" hidden'));
+  assert.ok(css.includes('.public-beta .map-column[hidden]'));
+  assert.ok(css.includes('.public-beta #advanced-search[hidden]'));
+  assert.ok(transport.includes('if(mapColumn)mapColumn.hidden=!active'));
+  assert.ok(transport.includes('if(publicArea)publicArea.hidden=!active'));
+  assert.ok(transport.includes('if(!active){renderDetails(null);return;}'));
+  assert.ok(transport.includes('if(!state.map)initMap()'));
+  assert.doesNotMatch(transport,/state\.routes\);initMap\(\)/);
+  assert.doesNotMatch(transport,/addEventListener\('toggle'.*revealPublicResults/);
 });
