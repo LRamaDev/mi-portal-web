@@ -262,8 +262,8 @@
     $('user-mode-panel').hidden=!users;$('inspector-mode-panel').hidden=!inspectors;$('claims-mode-panel').hidden=!claims;
     $('mode-select').value=mode;
     $('mode-description').textContent=users?'Buscá quién viaja, a qué hora pasa y cuál es el cartel del colectivo.':inspectors?'Prepará un control combinando lugar, empresas, líneas y horarios.':'Verificá qué servicio figuraba para la fecha de un reclamo.';
-    $('page-title').textContent=users?'¿Desde dónde y hasta dónde viajás?':inspectors?'Prepará un control de horarios':'Verificá el cronograma de una fecha';
-    $('page-description').textContent=users?'Consultá salidas publicadas, localidades intermedias y tiempos estimados. Todos los filtros se combinan.':inspectors?'Elegí la base, el lugar del operativo, los sentidos y varias empresas y líneas para ordenar los servicios que deben pasar.':'Consultá qué servicios figuraban en la publicación disponible para la fecha del reclamo y revisá los cambios semanales.';
+    $('page-title').textContent=users?'¿A dónde viajás?':inspectors?'Prepará un control de horarios':'Verificá el cronograma de una fecha';
+    $('page-description').textContent=users?'Consultá horarios y recorridos del transporte interurbano.':inspectors?'Elegí la base, el lugar del operativo, los sentidos y varias empresas y líneas para ordenar los servicios que deben pasar.':'Consultá qué servicios figuraban en la publicación disponible para la fecha del reclamo y revisá los cambios semanales.';
     if(users){if(state.map&&state.map.invalidateSize)state.map.invalidateSize();render();}
     else if(inspectors){stopAnimation();renderInspector();}
     else{stopAnimation();if(window.TransportHistory)window.TransportHistory.activate();}
