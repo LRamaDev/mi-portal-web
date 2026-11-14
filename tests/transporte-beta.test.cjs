@@ -40,7 +40,7 @@ test('los recursos locales de la beta existen y su JavaScript es válido', () =>
   for (const resource of localResources) {
     assert.ok(fs.existsSync(path.resolve(beta, resource)), `No existe ${resource}`);
   }
-  for (const name of ['analitica.js', 'recorridos.js', 'historico.js', 'transporte.js', 'asistente.js']) {
+  for (const name of ['analitica.js', 'recorridos.js', 'historico.js', 'transporte.js', 'asistente.js', 'accesos-v28.js']) {
     assert.doesNotThrow(() => new vm.Script(read(name), { filename: name }));
   }
 });
@@ -153,7 +153,7 @@ test('la beta v18 presenta la identidad ERSeP Viaja y una entrada animada accesi
   const transport = read('transporte.js');
   const icon = read('assets/ersep-viaja-icon.svg');
   assert.match(html, /<title>ERSeP Viaja · Versión de prueba · ERSeP<\/title>/);
-  assert.match(html, /name="theme-color" content="#00719f"/);
+  assert.match(html, /name="theme-color" content="#990d32"/);
   assert.match(html, /id="app-splash"/);
   assert.match(html, /assets\/ersep-viaja-icon\.svg/);
   assert.match(html, /transporte\.css\?v=\d+-beta/);
@@ -252,113 +252,99 @@ test('la beta prepara un contador privado de búsquedas sin datos del trayecto',
   assert.doesNotMatch(analytics, /assistant-origin|assistant-destination|filter-origin|filter-destination/);
 });
 
-test('la v26 conserva la búsqueda y usa una sola hoja de restyling', () => {
-  const html = read('index.html');
-  const css = read('diseno-v26.css');
-  const assistant = read('asistente.js');
-  assert.ok(html.includes('diseno-v26.css?v=27-beta'));
-  assert.doesNotMatch(html, /href="experiencia-app.css/);
-  assert.doesNotMatch(html, /href="interfaz-v25.css/);
-  assert.ok(html.includes('transporte.css?v=21-beta'));
-  assert.ok(html.includes('¿A dónde viajás?'));
-  assert.ok(html.includes('Consultá horarios del transporte interurbano de Córdoba.'));
-  assert.ok(html.includes('EN PRUEBA'));
-  assert.ok(html.includes('id="assistant-origin"'));
-  assert.ok(html.includes('id="assistant-destination"'));
-  assert.ok(html.includes('id="assistant-day"'));
-  assert.ok(html.includes('id="assistant-time-mode"'));
-  assert.ok(html.includes('id="assistant-location"'));
-  assert.ok(html.includes('id="assistant-swap"'));
-  assert.ok(html.includes('id="assistant-now"'));
-  assert.ok(html.includes('id="assistant-clear"'));
-  assert.ok(html.includes('id="assistant-results"'));
-  assert.ok(html.includes('Ver horarios'));
-  assert.ok(html.includes('Reclamar un servicio que no pasó'));
-  assert.ok(html.includes('Secretaría de Transporte'));
-  assert.ok(assistant.includes('function revealResults()'));
-  assert.ok(assistant.includes('ERSePAnalytics'));
-  assert.ok(assistant.includes('aria-pressed'));
-  assert.ok(css.includes('.public-beta .assistant-v13 .assistant-form'));
-});
 
-test('la v26 usa una única guarda institucional y no muestra títulos repetidos', () => {
-  const html = read('index.html');
-  const css = read('diseno-v26.css');
-  assert.ok(css.includes('.public-beta .header::after'));
+test('la v28 muestra marca propia bordó y el logo institucional real al pie', () => {
+  const html=read('index.html');
+  const css=read('diseno-v28.css');
+  const icon=read('assets/viaja-marca.svg');
+  const scenery=read('assets/cordoba-paisaje.svg');
+  assert.ok(html.includes('diseno-v28.css?v=28-beta'));
+  assert.doesNotMatch(html,/href="diseno-v26.css/);
+  assert.doesNotMatch(html,/href="experiencia-app.css/);
+  assert.doesNotMatch(html,/href="interfaz-v25.css/);
+  assert.ok(html.includes('class="header-brand"'));
+  assert.ok(html.includes('class="viaja-logo" src="assets/viaja-marca.svg"'));
+  assert.ok(html.includes('class="hero-landscape" src="assets/cordoba-paisaje.svg"'));
+  assert.ok(html.includes('<h1>ERSeP <span>Viaja</span></h1>'));
+  assert.ok(html.includes('class="ersep-oficial" src="../app-transporte/assets/logo-ersep.png"'));
+  assert.ok(html.indexOf('class="ersep-oficial"')>html.indexOf('data-shortcut="info"'));
+  assert.ok(icon.includes('<svg')&&icon.includes('Colectivo y ubicación sobre un camino'));
+  assert.ok(scenery.includes('<svg'));
+  assert.ok(css.includes('background:linear-gradient(128deg,#810c29'));
+  assert.ok(css.includes('.public-beta .footer-colorbar'));
   assert.ok(css.includes('.public-beta .assistant-v13::before'));
   assert.ok(css.includes('content:none!important'));
-  assert.ok(css.includes('.public-beta .assistant-v13 .assistant-hero'));
-  assert.ok(css.includes('display:none!important'));
-  assert.ok(css.includes('.public-beta .beta-banner p'));
-  assert.ok(css.includes('.public-beta .assistant-preview[hidden]'));
-  assert.ok(html.includes('aria-label="Consulta pública de servicios"'));
-  assert.ok(html.includes('aria-label="Información sobre horarios y reclamos"'));
-  assert.ok(html.includes('id="updated-date"'));
-  assert.ok(html.includes('id="updated-detail"'));
-  assert.equal((html.match(/id="page-title"/g)||[]).length,1);
+  assert.ok(css.includes('radial-gradient'));
 });
 
-test('la v26 mantiene controles táctiles y adaptaciones para distintos anchos', () => {
-  const css = read('diseno-v26.css');
-  for(const style of [
-    '@media(max-width:720px)',
-    '@media(max-width:375px)',
-    '@media(prefers-reduced-motion:reduce)',
-    '.public-beta .assistant-origin-tools',
-    '.public-beta .assistant-quick-days',
-    '.public-beta .assistant-status-row.error',
-    '.public-beta .assistant-status-row.success',
-    '.public-beta .assistant-v13 .assistant-service',
-    '.public-beta .public-results-area[hidden]'
-  ]) assert.ok(css.includes(style), 'Falta '+style);
-  assert.equal(css.split('{').length,css.split('}').length);
-  assert.match(css, /min-height:48px/);
-  assert.match(css, /font:600 16px/);
-});
-
-test('la v27 usa la misma pantalla vertical en celular y computadora', () => {
-  const html = read('index.html');
-  const css = read('diseno-v26.css');
-  assert.ok(html.includes('diseno-v26.css?v=27-beta'));
-  const globalVertical = css.slice(css.indexOf('/* v27 · Un único diseño vertical'));
-  assert.ok(globalVertical.startsWith('/* v27'));
-  assert.ok(globalVertical.includes('@media screen {'));
-  assert.ok(globalVertical.includes('width:min(100%,440px)'));
-  assert.ok(globalVertical.includes('max-width:440px'));
-  assert.ok(globalVertical.includes('.public-beta .assistant-v13 .assistant-form'));
-  assert.ok(globalVertical.includes('grid-template-columns:minmax(0,1fr)'));
-  assert.ok(globalVertical.includes('.public-beta .workspace'));
-  assert.ok(globalVertical.includes('.public-beta .results-panel'));
-  assert.ok(globalVertical.includes('position:static'));
-  assert.ok(globalVertical.includes('.public-beta #transport-map'));
-  assert.ok(globalVertical.includes('.public-beta .journey-filters'));
-  assert.ok(globalVertical.includes('.public-beta .filters'));
-  assert.ok(globalVertical.includes('.public-beta .export-bar'));
-  assert.ok(globalVertical.includes('.public-beta .export-actions'));
-  assert.ok(globalVertical.includes('.public-beta .public-results-area[hidden]'));
-  assert.ok(globalVertical.includes('@media screen and (max-width:375px)'));
-  assert.equal(css.split('{').length,css.split('}').length);
-});
-
-test('la v27 conserva comportamiento, estructura y recursos de la consulta pública', () => {
-  const html = read('index.html');
-  const transport = read('transporte.js');
-  const assistant = read('asistente.js');
-  assert.ok(html.includes('id="assistant-origin"'));
-  assert.ok(html.includes('id="assistant-destination"'));
-  assert.ok(html.includes('id="assistant-day"'));
-  assert.ok(html.includes('id="assistant-time-mode"'));
-  assert.ok(html.includes('id="assistant-location"'));
-  assert.ok(html.includes('id="assistant-results"'));
-  assert.ok(html.includes('id="transport-map"'));
-  assert.ok(html.includes('id="public-results-area"'));
-  assert.ok(html.includes('id="advanced-search"'));
-  assert.ok(html.includes('id="journey-detail"'));
-  assert.ok(html.includes('class="share-tools"'));
-  assert.ok(html.includes('id="assistant-swap"'));
-  assert.ok(html.includes('Reclamar un servicio que no pasó'));
-  assert.ok(html.includes('analitica.js?v=1-beta'));
+test('la v28 conserva la búsqueda accesible y una pantalla vertical universal', () => {
+  const html=read('index.html');
+  const css=read('diseno-v28.css');
+  const assistant=read('asistente.js');
+  assert.ok(css.includes('@media screen {'));
+  assert.ok(css.includes('width:min(100%,440px)'));
+  assert.ok(css.includes('max-width:440px'));
+  assert.ok(css.includes('.public-beta .assistant-v13 .assistant-form'));
+  assert.ok(css.includes('grid-template-columns:minmax(0,1fr)'));
+  assert.ok(css.includes('.public-beta .workspace'));
+  assert.ok(css.includes('.public-beta #transport-map'));
+  assert.ok(css.includes('.public-beta .results-panel'));
+  assert.ok(css.includes('position:static'));
+  assert.ok(css.includes('@media screen and (max-width:370px)'));
+  assert.ok(css.includes('@media(prefers-reduced-motion:reduce)'));
+  for(const id of ['assistant-origin','assistant-destination','assistant-day','assistant-time-mode','assistant-location','assistant-swap','assistant-now','assistant-clear','assistant-results','assistant-preview','transport-map','journey-detail','public-results-area','advanced-search','updated-date']) {
+    assert.ok(html.includes('id="'+id+'"'),'Falta '+id);
+  }
+  assert.equal((html.match(/data-assistant-step="/g)||[]).length,4);
+  assert.equal((html.match(/data-assistant-day-offset="/g)||[]).length,2);
+  assert.equal((html.match(/class="field-icon"/g)||[]).length,4);
+  assert.ok(html.includes('data-assistant-step="1"'));
   assert.ok(assistant.includes('function swapRoute'));
   assert.ok(assistant.includes('ERSePAnalytics'));
+  assert.equal(css.split('{').length,css.split('}').length);
+});
+
+test('la v28 implementa tres accesos visibles e interactivos sin inventar datos de alertas', () => {
+  const html=read('index.html');
+  const script=read('accesos-v28.js');
+  const css=read('diseno-v28.css');
+  assert.equal((html.match(/data-shortcut="/g)||[]).length,3);
+  for(const kind of ['favorites','alerts','info']) {
+    assert.ok(html.includes('data-shortcut="'+kind+'"'));
+  }
+  assert.ok(html.includes('Mis búsquedas'));
+  assert.ok(html.includes('Alertas'));
+  assert.ok(html.includes('Información'));
+  assert.ok(html.includes('id="quick-panel"'));
+  assert.ok(html.includes('id="quick-panel-close"'));
+  assert.ok(html.includes('accesos-v28.js?v=28-beta'));
+  assert.ok(html.includes('class="service-disclaimer" aria-label="Información sobre horarios y reclamos"'));
+  assert.ok(script.includes('window.localStorage.setItem'));
+  assert.ok(script.includes('window.localStorage.getItem'));
+  assert.ok(script.includes("function renderFavorites()"));
+  assert.ok(script.includes("function restore(item)"));
+  assert.ok(script.includes('form.requestSubmit()'));
+  assert.ok(script.includes("function renderAlerts()"));
+  assert.ok(script.includes('Todavía no cuenta con alertas verificadas'));
+  assert.ok(script.includes("function renderInfo()"));
+  assert.ok(script.includes('La ausencia de un aviso aquí no significa'));
+  assert.ok(script.includes('textContent=text'));
+  assert.ok(css.includes('.public-beta .viaja-shortcuts'));
+  assert.ok(css.includes('.public-beta .viaja-quick-panel[hidden]'));
+});
+
+test('la v28 no altera la fuente oficial ni la analítica y no crea rutas personales en servidor', () => {
+  const html=read('index.html');
+  const assistant=read('asistente.js');
+  const shortcuts=read('accesos-v28.js');
+  const transport=read('transporte.js');
+  assert.ok(html.includes('analitica.js?v=1-beta'));
+  assert.ok(html.includes('Reclamar un servicio que no pasó'));
+  assert.ok(html.includes('Secretaría de Transporte'));
+  assert.ok(html.includes('class="share-tools"'));
   assert.ok(transport.includes('function revealPublicResults'));
+  assert.ok(assistant.includes('resultsCount:results.total'));
+  assert.ok(shortcuts.includes('Se conservan solo en este dispositivo'));
+  assert.doesNotMatch(shortcuts, /fetch\(|XMLHttpRequest|sendBeacon|supabase|google-analytics/);
+  assert.doesNotMatch(shortcuts, /coords\.latitude|coords\.longitude|geolocation/);
 });

@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="description" content="ERSeP Viaja: consulta de horarios y recorridos interurbanos de la provincia de Córdoba.">
   <title>ERSeP Viaja · Versión de prueba · ERSeP</title>
-  <meta name="theme-color" content="#00719f">
+  <meta name="theme-color" content="#990d32">
   <meta name="application-name" content="ERSeP Viaja">
   <meta name="apple-mobile-web-app-title" content="ERSeP Viaja">
   <link rel="icon" href="assets/ersep-viaja-icon.svg" type="image/svg+xml">
@@ -16,13 +16,13 @@
   </script>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
   <link rel="stylesheet" href="transporte.css?v=21-beta">
-  <link rel="stylesheet" href="diseno-v26.css?v=27-beta">
+  <link rel="stylesheet" href="diseno-v28.css?v=28-beta">
 </head>
 
 <body class="public-beta">
 <div id="app-splash" class="app-splash" role="status" aria-live="polite" aria-label="Cargando ERSeP Viaja">
   <div class="app-splash-card">
-    <img class="app-splash-logo" src="../app-transporte/assets/logo-ersep.png" alt="ERSeP">
+    <img class="app-splash-logo" src="assets/viaja-marca.svg" alt="">
     <strong>ERSeP Viaja</strong>
     <span>Horarios y recorridos interurbanos</span>
     <div class="app-splash-route" aria-hidden="true">
@@ -40,44 +40,26 @@
 </div>
 <div class="wrap">
   <header class="header">
-    <div class="brand">
-      <img class="brand-logo" src="../app-transporte/assets/logo-ersep.png" alt="ERSeP · Ente Regulador de los Servicios Públicos">
-    </div>
-    <div class="header-title">
-      <h1>ERSeP Viaja</h1>
-      <span>Horarios y recorridos interurbanos de Córdoba</span>
+    <img class="hero-landscape" src="assets/cordoba-paisaje.svg" alt="" aria-hidden="true">
+    <div class="header-brand">
+      <img class="viaja-logo" src="assets/viaja-marca.svg" alt="">
+      <div class="viaja-lockup">
+        <h1>ERSeP <span>Viaja</span></h1>
+        <p>Horarios del transporte interurbano de Córdoba</p>
+      </div>
     </div>
     <div class="header-actions">
       <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Activar modo oscuro" title="Activar modo oscuro">
         <span id="theme-icon" class="theme-icon" aria-hidden="true">
           <svg class="theme-moon" viewBox="0 0 24 24" focusable="false"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"></path></svg>
-          <svg class="theme-sun" viewBox="0 0 24 24" focusable="false"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg>
+          <svg class="theme-sun" viewBox="0 0 24 24" focusable="false"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4"></path></svg>
         </span>
         <span id="theme-label">Modo oscuro</span>
       </button>
     </div>
   </header>
 
-  <section class="transport-intro app-intro" aria-labelledby="page-title">
-    <div class="intro-meta">
-      <span class="eyebrow">Transporte interurbano de Córdoba</span>
-      <aside class="beta-banner" aria-label="Aviso de versión de prueba">
-        <div>
-          <span class="beta-badge">EN PRUEBA</span>
-          <p>Buscador público en evaluación. Los horarios se actualizan desde los cronogramas oficiales.</p>
-        </div>
-      </aside>
-    </div>
-    <div class="intro-copy">
-      <h2 id="page-title">¿A dónde viajás?</h2>
-      <p id="page-description">Consultá horarios del transporte interurbano de Córdoba.</p>
-    </div>
-    <div class="update-card" aria-live="polite">
-      <span>Última publicación procesada</span>
-      <strong id="updated-date">Cargando…</strong>
-      <small id="updated-detail">Verificando cronogramas</small>
-    </div>
-  </section>
+
 
   <main class="transport-shell">
 
@@ -85,7 +67,7 @@
     <section id="user-mode-panel" aria-label="Consulta pública de servicios">
 
 
-    <section class="travel-assistant assistant-v13" aria-labelledby="travel-assistant-title">
+    <section class="travel-assistant assistant-v13" aria-labelledby="page-title">
       <header class="assistant-hero">
         <div class="assistant-identity">
           <span class="assistant-avatar" aria-hidden="true"><img src="assets/ersep-viaja-icon.svg" alt=""><i></i></span>
@@ -101,6 +83,27 @@
           </div>
         </div>
       </header>
+  <section class="transport-intro app-intro" aria-labelledby="page-title">
+    <div class="intro-meta">
+      <span class="eyebrow">Transporte interurbano de Córdoba</span>
+      <aside class="beta-banner" aria-label="Aviso de versión de prueba">
+        <div>
+          <span class="beta-badge">EN PRUEBA</span>
+          <p>Buscador público en evaluación. Los horarios se actualizan desde los cronogramas oficiales.</p>
+        </div>
+      </aside>
+    </div>
+    <div class="intro-copy">
+      <h2 id="page-title">¿A dónde viajás?</h2>
+      <p id="page-description">Consultá horarios y recorridos del transporte interurbano.</p>
+    </div>
+    <div class="update-card" aria-live="polite">
+      <span>Última publicación procesada</span>
+      <strong id="updated-date">Cargando…</strong>
+      <small id="updated-detail">Verificando cronogramas</small>
+    </div>
+  </section>
+
 
       <div class="assistant-layout">
         <div class="assistant-conversation">
@@ -113,6 +116,7 @@
             <div class="assistant-step is-active" data-assistant-step="1">
               <span class="assistant-step-number" aria-hidden="true"><b>1</b><i>✓</i></span>
               <div class="assistant-field">
+                <svg class="field-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-6.1 7-12a7 7 0 0 0-14 0c0 5.9 7 12 7 12Z"/><circle cx="12" cy="9" r="2.6"/></svg>
                 <small>Primera parada</small>
                 <label for="assistant-origin"><strong>Origen</strong></label>
                 <div class="assistant-origin-tools">
@@ -126,7 +130,7 @@
             </div>
             <label class="assistant-step is-pending" data-assistant-step="2" for="assistant-destination">
               <span class="assistant-step-number" aria-hidden="true"><b>2</b><i>✓</i></span>
-              <span class="assistant-field"><small>Destino del viaje</small><strong>Destino</strong><select id="assistant-destination" required disabled><option value="">Primero elegí el origen</option></select></span>
+              <span class="assistant-field"><svg class="field-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-6.1 7-12a7 7 0 0 0-14 0c0 5.9 7 12 7 12Z"/><circle cx="12" cy="9" r="2.6"/></svg><small>Destino del viaje</small><strong>Destino</strong><select id="assistant-destination" required disabled><option value="">Primero elegí el origen</option></select></span>
             </label>
             <div class="assistant-swap-row">
               <button id="assistant-swap" class="assistant-swap" type="button" hidden disabled>
@@ -139,18 +143,19 @@
             </div>
             <label class="assistant-step is-pending" data-assistant-step="3" for="assistant-day">
               <span class="assistant-step-number" aria-hidden="true"><b>3</b><i>✓</i></span>
-              <span class="assistant-field"><small>Día de subida</small><strong>¿Cuándo viajás?</strong><select id="assistant-day"><option value="1">Lunes</option><option value="2">Martes</option><option value="3">Miércoles</option><option value="4">Jueves</option><option value="5">Viernes</option><option value="6">Sábado</option><option value="7">Domingo</option></select><span class="assistant-quick-days"><button type="button" data-assistant-day-offset="0">Hoy</button><button type="button" data-assistant-day-offset="1">Mañana</button></span></span>
+              <span class="assistant-field"><svg class="field-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 2v6M16 2v6M3 10h18M8 14h2M13 14h2"/></svg><small>Día de subida</small><strong>¿Cuándo viajás?</strong><select id="assistant-day"><option value="1">Lunes</option><option value="2">Martes</option><option value="3">Miércoles</option><option value="4">Jueves</option><option value="5">Viernes</option><option value="6">Sábado</option><option value="7">Domingo</option></select><span class="assistant-quick-days"><button type="button" data-assistant-day-offset="0">Hoy</button><button type="button" data-assistant-day-offset="1">Mañana</button></span></span>
             </label>
             <div class="assistant-step assistant-time-step is-pending" data-assistant-step="4">
               <span class="assistant-step-number" aria-hidden="true"><b>4</b><i>✓</i></span>
               <div class="assistant-field assistant-time-fields">
+                <svg class="field-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 6v6l4 2"/></svg>
                 <label for="assistant-time-mode"><small>Horario de salida</small><strong>Horario</strong></label>
                 <select id="assistant-time-mode"><option value="all">Todos los horarios</option><option value="after">Desde una hora</option><option value="last">Último servicio del día</option></select>
                 <label id="assistant-time-wrap" class="assistant-time-wrap" for="assistant-time" hidden><span>Desde las</span><input id="assistant-time" type="time" value="08:00"></label>
               </div>
             </div>
             <div class="assistant-actions">
-              <button class="assistant-submit" type="submit">Ver horarios <span aria-hidden="true">→</span></button>
+              <button class="assistant-submit" type="submit"><svg class="cta-bus" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><g fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"><rect x="6" y="4" width="20" height="23" rx="5"/><path d="M7 18h18M12 4h8M6 27v3M26 27v3"/><circle cx="11" cy="22" r="1.3" fill="currentColor"/><circle cx="21" cy="22" r="1.3" fill="currentColor"/></g></svg> Ver horarios <span aria-hidden="true">→</span></button>
               <button id="assistant-now" class="assistant-secondary" type="button">Buscar desde ahora</button>
               <button id="assistant-clear" class="assistant-secondary" type="button"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 4v6h6"></path><path d="M20 11a8 8 0 1 0-2.3 5.7L20 14"></path></svg><span>Nueva búsqueda</span></button>
             </div>
@@ -184,14 +189,33 @@
       </div>
 
       <div id="assistant-results" class="assistant-results" aria-live="polite" tabindex="-1"></div>
-      <aside class="service-disclaimer" aria-label="Información sobre horarios y reclamos">
+      <details class="service-disclaimer" aria-label="Información sobre horarios y reclamos">
+        <summary>Fuente oficial, estimaciones y reclamos</summary>
         <div>
           <strong>Horarios oficiales publicados</strong>
-          <p>Según cronogramas de la Secretaría de Transporte de Córdoba. Publicación no equivale a prestación efectiva.</p>
+          <p>Según cronogramas de la Secretaría de Transporte de Córdoba. Publicación no equivale a prestación efectiva. Los horarios en paradas intermedias son estimados.</p>
+          <a href="https://ersep.cba.gov.ar/usuariosnopresencial/" target="_blank" rel="noopener noreferrer">Reclamar un servicio que no pasó <span aria-hidden="true">↗</span></a>
         </div>
-        <a href="https://ersep.cba.gov.ar/usuariosnopresencial/" target="_blank" rel="noopener noreferrer">Reclamar un servicio que no pasó <span aria-hidden="true">↗</span></a>
-      </aside>
-      <p class="assistant-note">Los horarios en paradas intermedias son <strong>estimados</strong>.</p>
+      </details>
+    </section>
+
+    <nav class="viaja-shortcuts" aria-label="Accesos rápidos">
+      <button type="button" class="viaja-shortcut" data-shortcut="favorites" aria-controls="quick-panel" aria-expanded="false">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 2.4 3 6.2 6.9 1-5 4.9 1.2 6.9L12 18.1l-6.1 3.3 1.2-6.9-5-4.9 6.9-1z"/></svg>
+        <span>Mis búsquedas<br>favoritas</span>
+      </button>
+      <button type="button" class="viaja-shortcut" data-shortcut="alerts" aria-controls="quick-panel" aria-expanded="false">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9ZM10 21h4"/></svg>
+        <span>Alertas<br>de servicio</span>
+      </button>
+      <button type="button" class="viaja-shortcut" data-shortcut="info" aria-controls="quick-panel" aria-expanded="false">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v6m0-10v1"/></svg>
+        <span>Información<br>útil</span>
+      </button>
+    </nav>
+    <section id="quick-panel" class="viaja-quick-panel" aria-label="Acceso rápido seleccionado" tabindex="-1" hidden>
+      <div class="viaja-quick-panel-heading"><h3 id="quick-panel-title">Acceso rápido</h3><button id="quick-panel-close" type="button" aria-label="Cerrar panel">×</button></div>
+      <div id="quick-panel-content"></div>
     </section>
 
     <details id="advanced-search" class="advanced-search">
@@ -405,7 +429,11 @@
     </section>
   </main>
 
-  <footer>ERSeP Viaja · Versión de prueba · Horarios interurbanos de Córdoba</footer>
+  <footer class="viaja-footer">
+    <img class="ersep-oficial" src="../app-transporte/assets/logo-ersep.png" alt="ERSeP, Ente Regulador de los Servicios Públicos">
+    <span>Una herramienta del ERSeP · Horarios publicados por la Secretaría de Transporte de Córdoba</span>
+    <span class="footer-colorbar" aria-hidden="true"></span>
+  </footer>
 </div>
 
 <img id="export-logo-source" class="export-logo-source" src="../app-transporte/assets/logo-ersep.png" alt="" hidden>
@@ -417,5 +445,6 @@
 <script defer src="historico.js?v=12-beta"></script>
 <script defer src="transporte.js?v=21-beta"></script>
 <script defer src="asistente.js?v=23-beta"></script>
+<script defer src="accesos-v28.js?v=28-beta"></script>
 </body>
 </html>
