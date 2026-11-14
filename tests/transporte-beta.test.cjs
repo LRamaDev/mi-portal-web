@@ -270,7 +270,7 @@ test('v30 usa como cabecera el recorte de la referencia original y no redibuja l
   assert.doesNotMatch(html, /class="header-brand"/);
   assert.doesNotMatch(html, /class="hero-landscape"/);
   assert.doesNotMatch(html, /class="viaja-lockup"/);
-  assert.ok(html.includes('diseno-v30.css?v=31-beta'));
+  assert.ok(html.includes('diseno-v30.css?v=32-beta'));
   assert.doesNotMatch(html, /href="diseno-v29.css/);
   assert.ok(css.includes('CABECERA BLOQUEADA'));
   assert.ok(css.includes('cabecera-fiel-v30.webp'));
@@ -346,7 +346,7 @@ test('v30 mantiene accesos y el logo original del ERSeP al pie', () => {
 
 test('v31 iguala el ancho del encabezado y la tarjeta sin espacio superior', () => {
   const html=read('index.html'),css=read('diseno-v30.css');
-  assert.ok(html.includes('diseno-v30.css?v=31-beta'));
+  assert.ok(html.includes('diseno-v30.css?v=32-beta'));
   assert.ok(css.includes('.public-beta .header .header-reference'));
   assert.ok(css.includes('margin:0 calc(var(--ref-gutter) * 2);'));
   assert.ok(css.includes('padding-inline:calc(var(--ref-gutter) * 2);'));
@@ -397,4 +397,30 @@ test('v31 abre mapa y detalle solamente después de seleccionar un servicio', ()
   assert.ok(transport.includes('if(!state.map)initMap()'));
   assert.doesNotMatch(transport,/state\.routes\);initMap\(\)/);
   assert.doesNotMatch(transport,/addEventListener\('toggle'.*revealPublicResults/);
+});
+
+test('v32 une cabecera y tarjeta con borde superior recto sin tocar la referencia', () => {
+  const html=read('index.html'),css=read('diseno-v30.css');
+  assert.ok(html.includes('src="assets/cabecera-fiel-v30.webp"'));
+  assert.ok(html.includes('diseno-v30.css?v=32-beta'));
+  assert.ok(css.includes('border-radius:0 0 21px 21px'));
+  assert.ok(css.includes('border-top:0;'));
+  assert.ok(css.includes('border-top-left-radius:0;'));
+  assert.ok(css.includes('border-top-right-radius:0;'));
+  assert.equal(css.split('{').length,css.split('}').length);
+});
+
+test('v32 no muestra logo de producto en la precarga pero conserva progreso animado', () => {
+  const html=read('index.html'),css=read('diseno-v30.css');
+  const from=html.indexOf('<div id="app-splash"');
+  const to=html.indexOf('<div class="wrap">',from);
+  const splash=html.slice(from,to);
+  assert.ok(from>=0&&to>from);
+  assert.doesNotMatch(splash,/<img/);
+  assert.doesNotMatch(splash,/viaja-marca.svg|logo-ersep.png/);
+  assert.ok(splash.includes('class="app-splash-bus"'));
+  assert.ok(splash.includes('class="app-splash-route"'));
+  assert.ok(splash.includes('ERSeP Viaja'));
+  assert.ok(css.includes('.public-beta .app-splash-card>strong'));
+  assert.ok(css.includes('.public-beta .app-splash-bus'));
 });
