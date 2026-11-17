@@ -11,8 +11,8 @@ export const CRITERIOS = Object.freeze({
   puntuacion: 4
 });
 export const MODEL_IDS = Object.freeze({
-  qwen: "@cf/qwen/qwen3-30b-a3b-fp8",
-  glm: "@cf/zai-org/glm-4.7-flash"
+  glm: "@cf/zai-org/glm-4.7-flash",
+  oss: "@cf/openai/gpt-oss-20b"
 });
 const own = (obj, k) => Object.prototype.hasOwnProperty.call(obj, k);
 const safeString = v => typeof v === "string" ? v.trim().slice(0, 400) : "";
@@ -23,7 +23,7 @@ const strings = (value, limit) => {
   return result;
 };
 
-export function prepararSolicitud(fixture, modelo = "qwen") {
+export function prepararSolicitud(fixture, modelo = "glm") {
   if (!fixture || typeof fixture.texto !== "string" || !own(MODEL_IDS, modelo)) throw new Error("Entrada de prueba inválida");
   const system = [
     "Sos un corrector pedagógico de narraciones en español argentino para práctica de ingreso al Colegio Nacional de Monserrat.",

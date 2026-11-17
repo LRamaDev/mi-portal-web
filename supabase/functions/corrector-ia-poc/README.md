@@ -55,3 +55,14 @@ Las pruebas verifican la *estructura técnica*, no la calidad de las correccione
 - https://developers.cloudflare.com/workers-ai/platform/pricing/
 
 **Nota de evaluación:** la rúbrica del prototipo es original, orientativa y parcial: un texto digital no permite verificar presentación manuscrita, cantidad real de renglones ni subrayados. La rúbrica oficial del ingreso pondera criterios, pero este ensayo no pretende replicar su calificación.
+
+## Seguridad adicional para pruebas reales (17/11/2026)
+
+- Se instaló en el proyecto de Supabase una cuota **global** de hasta **4 llamadas reales por día UTC** mediante `public.ai_poc_take_slot()`. El incremento es atómico.
+- La tabla `public.ai_poc_daily_quota` tiene RLS y no concede permisos a `anon` ni `authenticated`.
+- La función solo permite la RPC mediante `ctx.supabaseAdmin`. Si la cuota o su verificación falla, se cancela la llamada a Cloudflare.
+- El modo `mock` no consume la cuota.
+- Se retiró el modelo `qwen3-30b-a3b-fp8` porque Cloudflare anunció su retirada para el **20 de noviembre de 2026**. Las opciones pasan a ser `glm` (GLM 4.7 Flash) y `oss` (GPT-OSS 20B).
+- Los secretos no se leen ni se verifican por el conector. El cambio a `POC_AI_MODE=live` exige una acción explícita de la persona adulta en el panel de Supabase.
+- Sigue prohibido enviar texto libre, identidades, fotos o respuestas reales de menores.
+- Referencias: https://developers.cloudflare.com/workers-ai/models/qwen3-30b-a3b-fp8/ · https://developers.cloudflare.com/workers-ai/models/glm-4.7-flash/ · https://developers.cloudflare.com/workers-ai/models/gpt-oss-20b/

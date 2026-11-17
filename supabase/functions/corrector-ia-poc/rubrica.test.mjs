@@ -15,12 +15,12 @@ test("el puntaje máximo de la rúbrica es 35", () => {
   assert.equal(Object.values(CRITERIOS).reduce((a,b) => a+b, 0), 35);
 });
 test("solo se aceptan dos modelos autorizados", () => {
-  assert.deepEqual(Object.keys(MODEL_IDS).sort(), ["glm", "qwen"]);
+  assert.deepEqual(Object.keys(MODEL_IDS).sort(), ["glm", "oss"]);
   assert.throws(() => prepararSolicitud(getFixture("ficcion-01"), "modelo-desconocido"));
 });
 test("el prompt solo incluye el relato ficticio, sin datos de A o V", () => {
-  const request = prepararSolicitud(getFixture("ficcion-01"), "qwen");
-  assert.equal(request.model, MODEL_IDS.qwen);
+  const request = prepararSolicitud(getFixture("ficcion-01"), "glm");
+  assert.equal(request.model, MODEL_IDS.glm);
   assert.equal(JSON.parse(request.body.messages[1].content).texto, getFixture("ficcion-01").texto);
   assert.equal(request.body.response_format.type, "json_object");
 });
@@ -60,4 +60,18 @@ test("el endpoint admite las cabeceras CORS de supabase-js", () => {
     "x-retry-count", "traceparent", "tracestate", "baggage"]) {
     assert.ok(source.includes(header), "Falta cabecera " + header);
   }
+});
+
+test("la función impone cupo global antes de contactar Cloudflare", () => {
+  const source=readFileSync(new URL("./index.ts",import.meta.url),"utf8");
+  assert.ok(source.includes('ctx.supabaseAdmin.rpc("ai_poc_take_slot")'));
+  assert.ok(source.indexOf('ctx.supabaseAdmin.rpc("ai_poc_take_slot")') < source.indexOf('await fetch('));
+  assert.ok(source.includes('quota_exceeded'));
+  assert.ok(source.includes('quota_unavailable'));
+  assert.ok(source.includes('runMode === "mock"'));
+});
+test("Qwen descontinuado ya no figura en los modelos permitidos", () => {
+  assert.equal(MODEL_IDS.qwen, undefined);
+  assert.equal(MODEL_IDS.oss, "@cf/openai/gpt-oss-20b");
+  assert.throws(() => prepararSolicitud(getFixture("ficcion-02"),"qwen"));
 });

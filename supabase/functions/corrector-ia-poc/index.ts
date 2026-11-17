@@ -38,7 +38,7 @@ const authHandler = withSupabase({ auth: "user" }, async (req, ctx) => {
     return json({ error: "Solo se admiten datos de prueba" }, 400, origin);
   }
   const fixtureId = payload.fixtureId;
-  const modelo = payload.modelo ?? "qwen";
+  const modelo = payload.modelo ?? "glm";
   if (typeof fixtureId !== "string" || typeof modelo !== "string" ||
       !getFixture(fixtureId) || !Object.hasOwn(MODEL_IDS, modelo)) {
     return json({ error: "Prueba desconocida" }, 400, origin);
@@ -51,8 +51,13 @@ const authHandler = withSupabase({ auth: "user" }, async (req, ctx) => {
   const token = Deno.env.get("CLOUDFLARE_API_TOKEN");
   if (!account || !token) return json({ error: "Proveedor no configurado" }, 503, origin);
 
+  // Cuota GLOBAL atómica en PostgreSQL, máximo cuatro llamadas reales por día UTC.
+  // Solo la cuenta privilegiada de la función puede ejecutar esta RPC; falla cerrada.
+  const { data: allowed, error: quotaError } = await ctx.supabaseAdmin.rpc("ai_poc_take_slot");
+  if (quotaError) return json({ error: "Límite de seguridad no disponible", code: "quota_unavailable" }, 503, origin);
+  if (allowed !== true) return json({ error: "Se alcanzó el máximo de cuatro pruebas diarias", code: "quota_exceeded" }, 429, origin);
+
   // La solicitud al proveedor se construye SOLO a partir de texto ficticio del servidor.
-  // Producción pendiente: incorporar cuota persistente ANTES de habilitar respuestas reales.
   const { model, body } = prepararSolicitud(getFixture(fixtureId), modelo);
   try {
     const response = await fetch(`https://api.cloudflare.com/client/v4/accounts/${encodeURIComponent(account)}/ai/run/${model}`, {
@@ -60,7 +65,7 @@ const authHandler = withSupabase({ auth: "user" }, async (req, ctx) => {
         "Content-Type": "application/json" }, body: JSON.stringify(body),
       signal: AbortSignal.timeout(25000)
     });
-    if (!response.ok) return json({ error: "El proveedor no respondió correctamente" }, 502, origin);
+    if (!response.ok) return json({ error: "El proveedor no respondió correctamente", code: "provider_http", providerStatus: response.status }, 502, origin);
     const result = interpretarRespuestaCloudflare(await response.json());
     return json({ estado: "ok", modo: "proveedor", fixtureId, modelo, resultado: result }, 200, origin);
   } catch {
