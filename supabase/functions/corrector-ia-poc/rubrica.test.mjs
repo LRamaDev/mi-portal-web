@@ -22,7 +22,8 @@ test("el prompt solo incluye el relato ficticio, sin datos de A o V", () => {
   const request = prepararSolicitud(getFixture("ficcion-01"), "glm");
   assert.equal(request.model, MODEL_IDS.glm);
   assert.equal(JSON.parse(request.body.messages[1].content).texto, getFixture("ficcion-01").texto);
-  assert.equal(request.body.response_format.type, "json_object");
+  assert.equal(request.body.response_format, undefined);
+  assert.equal(request.body.max_completion_tokens, 2400);
 });
 test("se normalizan respuestas simuladas y el total se calcula en el servidor", () => {
   const data = correccionSimulada("ficcion-01");
@@ -74,4 +75,37 @@ test("Qwen descontinuado ya no figura en los modelos permitidos", () => {
   assert.equal(MODEL_IDS.qwen, undefined);
   assert.equal(MODEL_IDS.oss, "@cf/openai/gpt-oss-20b");
   assert.throws(() => prepararSolicitud(getFixture("ficcion-02"),"qwen"));
+});
+
+test("acepta respuesta de Chat Completions de Cloudflare", () => {
+  const source = correccionSimulada("ficcion-01");
+  const envelope = {id:"chatcmpl-example",choices:[{finish_reason:"stop",
+    message:{role:"assistant",content:JSON.stringify(source)}}]};
+  const answer = interpretarRespuestaCloudflare(envelope);
+  assert.equal(answer.puntajeEstimado, 23);
+});
+test("detecta respuesta truncada, texto no JSON y esquema inválido", () => {
+  const source = correccionSimulada("ficcion-01");
+  assert.throws(
+    () => interpretarRespuestaCloudflare({choices:[{finish_reason:"length",message:{content:JSON.stringify(source)}}]}),
+    error => error.code === "provider_truncated"
+  );
+  assert.throws(
+    () => interpretarRespuestaCloudflare({choices:[{finish_reason:"stop",message:{content:"Corrección libre"}}]}),
+    error => error.code === "provider_invalid_json"
+  );
+  assert.throws(
+    () => interpretarRespuestaCloudflare({choices:[{finish_reason:"stop",message:{content:JSON.stringify({criterios:{}})}}]}),
+    error => error.code === "provider_invalid_schema"
+  );
+});
+test("usa el endpoint uniforme y mensajes de fallo seguros", () => {
+  const source=readFileSync(new URL("./index.ts",import.meta.url), "utf8");
+  assert.ok(source.includes("/ai/v1/chat/completions"));
+  assert.ok(!source.includes("/ai/run/"));
+  assert.ok(source.includes('provider_http'));
+  assert.ok(source.includes('provider_timeout'));
+  assert.ok(source.includes('provider_invalid_json'));
+  assert.ok(source.includes('ctx.supabaseAdmin.rpc("ai_poc_take_slot")'));
+  assert.ok(source.indexOf('ctx.supabaseAdmin.rpc("ai_poc_take_slot")') < source.indexOf('await fetch('));
 });

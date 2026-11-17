@@ -36,23 +36,46 @@ export function prepararSolicitud(fixture, modelo = "glm") {
     "La suma de los criterios debe representar un juicio orientativo; no afirma nota oficial. No agregues nombres ni datos personales."
   ].join(" ");
   const user = JSON.stringify({ consigna: fixture.consigna, texto: fixture.texto });
+  // La API Chat Completions de Cloudflare es común a GLM y GPT-OSS.
+  // No forzar response_format: JSON Mode no está garantizado para estos dos modelos.
+  // Validamos el JSON estríctamente en el servidor y nunca mostramos texto no validado.
   return {
     model: MODEL_IDS[modelo],
     body: { messages: [{ role: "system", content: system }, { role: "user", content: user }],
-      temperature: 0.1, max_tokens: 1200, stream: false, response_format: { type: "json_object" } }
+      temperature: 0.1, max_completion_tokens: 2400, stream: false }
   };
 }
 
+// Se publican únicamente categorías de fallos: nunca respuestas o datos brutos del proveedor.
+export class RespuestaProveedorInvalida extends Error {
+  constructor(code) { super(code); this.name = "RespuestaProveedorInvalida"; this.code = code; }
+}
 export function interpretarRespuestaCloudflare(body) {
-  if (body?.success === false) throw new Error("El proveedor rechazó la solicitud");
-  const result = body?.result ?? body;
-  let raw = result?.response ?? result?.choices?.[0]?.message?.content ?? result?.content;
-  if (typeof raw === "object" && raw !== null) return normalizarCorreccion(raw);
-  if (typeof raw !== "string" || raw.length > 24000) throw new Error("Respuesta del proveedor inválida");
-  raw = raw.trim().replace(/^```(?:json)?\s*/i, "").replace(/\s*```$/, "");
+  if (!body || typeof body !== "object" || body.success === false)
+    throw new RespuestaProveedorInvalida("provider_invalid_envelope");
+  const result = body.result ?? body;
+  const choice = result.choices?.[0];
+  if (choice?.finish_reason === "length")
+    throw new RespuestaProveedorInvalida("provider_truncated");
+  let raw = choice?.message?.content ?? result.response ?? result.content;
+  if (Array.isArray(raw)) {
+    raw = raw.filter(item => item?.type === "text" && typeof item?.text === "string")
+      .map(item => item.text).join("\n");
+  }
+  if (raw === null || raw === undefined || raw === "") 
+    throw new RespuestaProveedorInvalida("provider_empty");
   let parsed;
-  try { parsed = JSON.parse(raw); } catch { throw new Error("El proveedor no devolvió JSON válido"); }
-  return normalizarCorreccion(parsed);
+  if (typeof raw === "object" && !Array.isArray(raw)) {
+    parsed = raw;
+  } else {
+    if (typeof raw !== "string" || raw.length > 24000)
+      throw new RespuestaProveedorInvalida("provider_invalid_format");
+    const clean = raw.trim().replace(/^```(?:json)?\\s*/i, "").replace(/\\s*```$/, "");
+    try { parsed = JSON.parse(clean); }
+    catch { throw new RespuestaProveedorInvalida("provider_invalid_json"); }
+  }
+  try { return normalizarCorreccion(parsed); }
+  catch { throw new RespuestaProveedorInvalida("provider_invalid_schema"); }
 }
 
 export function normalizarCorreccion(data) {

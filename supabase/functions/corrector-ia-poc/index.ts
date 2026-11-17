@@ -63,17 +63,33 @@ const authHandler = withSupabase({ auth: "user" }, async (req, ctx) => {
   // La solicitud al proveedor se construye SOLO a partir de texto ficticio del servidor.
   const { model, body } = prepararSolicitud(getFixture(fixtureId), modelo);
   try {
-    const response = await fetch(`https://api.cloudflare.com/client/v4/accounts/${encodeURIComponent(account)}/ai/run/${model}`, {
+    // Endpoint unificado para ambos modelos. El ID del modelo está en el body.
+    const response = await fetch(`https://api.cloudflare.com/client/v4/accounts/${encodeURIComponent(account)}/ai/v1/chat/completions`, {
       method: "POST", headers: { "Authorization": `Bearer ${token}`,
-        "Content-Type": "application/json" }, body: JSON.stringify(body),
+        "Content-Type": "application/json" }, body: JSON.stringify({ model, ...body }),
       signal: AbortSignal.timeout(25000)
     });
-    if (!response.ok) return json({ error: "El proveedor no respondió correctamente", code: "provider_http", providerStatus: response.status }, 502, origin);
-    const result = interpretarRespuestaCloudflare(await response.json());
-    return json({ estado: "ok", modo: "proveedor", fixtureId, modelo, resultado: result }, 200, origin);
-  } catch {
-    // No registrar ni exponer texto, credenciales o respuestas del proveedor.
-    return json({ error: "No se pudo validar la respuesta del proveedor" }, 502, origin);
+    if (!response.ok) {
+      return json({ error: "Cloudflare rechazó la solicitud",
+        code: "provider_http", providerStatus: response.status }, 502, origin);
+    }
+    let envelope;
+    try { envelope = await response.json(); }
+    catch { return json({ error: "Cloudflare devolvió una respuesta no JSON", code: "provider_invalid_envelope" }, 502, origin); }
+    try {
+      const result = interpretarRespuestaCloudflare(envelope);
+      return json({ estado: "ok", modo: "proveedor", fixtureId, modelo, resultado: result }, 200, origin);
+    } catch (error) {
+      const codes = ["provider_invalid_envelope", "provider_truncated", "provider_empty",
+        "provider_invalid_format", "provider_invalid_json", "provider_invalid_schema"];
+      const code = codes.includes(error?.code) ? error.code : "provider_invalid_schema";
+      return json({ error: "La corrección no pasó la validación", code }, 502, origin);
+    }
+  } catch (error) {
+    const code = error?.name === "TimeoutError" || error?.name === "AbortError"
+      ? "provider_timeout" : "provider_network";
+    // No registrar ni exponer textos, respuestas o credenciales del proveedor.
+    return json({ error: "No fue posible consultar Cloudflare", code }, 502, origin);
   }
 });
 
