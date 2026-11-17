@@ -1,6 +1,6 @@
 # Prueba técnica de corrección asistida — Monserrat (aislada)
 
-**Estado al 17/11/2026:** Edge Function `corrector-ia-poc` **desplegada en Supabase Tercer Tiempo**, versión 2, estado ACTIVE y `verify_jwt=true`. El usuario configuró `POC_AI_MODE=mock` en los secretos (su valor no es legible con las herramientas disponibles). **Sin conexión con la aplicación publicada.** No es aún un servicio de corrección para estudiantes.
+**Estado al 17/11/2026:** Edge Function `corrector-ia-poc` **desplegada en Supabase Tercer Tiempo**, versión 3, estado ACTIVE y `verify_jwt=true`. El usuario configuró `POC_AI_MODE=mock` en los secretos (su valor no es legible con las herramientas disponibles). **La pantalla de prueba aislada ya está publicada, pero la aplicación de estudio continúa desconectada del corrector.** No es aún un servicio de corrección para estudiantes.
 
 ## Qué contiene
 
@@ -23,7 +23,7 @@ Las pruebas verifican la *estructura técnica*, no la calidad de las correccione
 
 1. El navegador **no** recibe tokens de Cloudflare. Los secretos quedan en variables de entorno de Supabase.
 2. La función exige un JWT válido del usuario y verifica su pertenencia a `study_access`. La comprobación no depende del nombre de perfil informado por el navegador.
-3. Se aceptan exclusivamente `{ "fixtureId": "ficcion-01"|"ficcion-02", "modelo": "qwen"|"glm" }`. **No hay campo de texto libre**, ni cargas de fotos ni referencias a perfiles familiares.
+3. Se aceptan exclusivamente `{ "fixtureId": "ficcion-01"|"ficcion-02", "modelo": "glm"|"oss" } (la versión anterior de la pantalla puede usar "qwen" solo como alias de simulación)`. **No hay campo de texto libre**, ni cargas de fotos ni referencias a perfiles familiares.
 4. `POC_AI_MODE` ausente o distinto de `mock`/`live` devuelve 503. `mock` no llama a Cloudflare.
 5. Ninguna respuesta ni texto se escribe en Supabase. No se modifica `study_profile_state`, `study_attempt_evidence`, historial ni maestría.
 6. La función rechaza otros orígenes en navegador; **CORS no sustituye la autenticación**.
@@ -31,11 +31,11 @@ Las pruebas verifican la *estructura técnica*, no la calidad de las correccione
 
 ## Comprobaciones posteriores al despliegue
 
-- Supabase confirmó `status=ACTIVE`, `version=2` y `verify_jwt=true`.
+- Supabase confirmó `status=ACTIVE`, `version=3` y `verify_jwt=true`.
 - Se recuperó el código de la función desplegada y se comprobó que conserva `withSupabase({auth:"user"})`, la consulta a `study_access`, el bloqueo por modo y las dos fichas ficticias.
 - Las pruebas automáticas del PR finalizaron correctamente, incluyendo una prueba de cabeceras CORS del navegador.
-- **Pendiente:** invocación autenticada desde el origen oficial (`https://lramadev.github.io`), sin compartir tokens, para comprobar que `mock` devuelve `modo: simulado`. No hay acceso a una sesión familiar desde el conector y la terminal de esta sesión no puede resolver el host público, por lo que esta verificación no se ha simulado ni afirmado.
-- **Pendiente:** verificación del resultado real de Qwen/GLM antes de pasar de `mock` a `live`.
+- **Verificado en navegador familiar:** la pantalla devolvió `modo: simulado` y `23/35` (captura aportada por el usuario).
+- **Pendiente:** ensayo real de GLM/GPT-OSS con los relatos ficticios; requiere que una persona adulta habilite `live` en Supabase después de publicar la pantalla comparadora.
 - No se alteraron los datos de los perfiles ni el banco de ejercicios.
 
 ## Antes de cualquier prueba real con Cloudflare
