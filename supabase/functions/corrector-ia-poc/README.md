@@ -1,6 +1,6 @@
 # Prueba técnica de corrección asistida — Monserrat (aislada)
 
-**Estado al 17/11/2026:** Edge Function `corrector-ia-poc` **desplegada en Supabase Tercer Tiempo**, versión 1, estado ACTIVE y `verify_jwt=true`. El usuario configuró `POC_AI_MODE=mock` en los secretos (su valor no es legible con las herramientas disponibles). **Sin conexión con la aplicación publicada.** No es aún un servicio de corrección para estudiantes.
+**Estado al 17/11/2026:** Edge Function `corrector-ia-poc` **desplegada en Supabase Tercer Tiempo**, versión 2, estado ACTIVE y `verify_jwt=true`. El usuario configuró `POC_AI_MODE=mock` en los secretos (su valor no es legible con las herramientas disponibles). **Sin conexión con la aplicación publicada.** No es aún un servicio de corrección para estudiantes.
 
 ## Qué contiene
 
@@ -31,9 +31,9 @@ Las pruebas verifican la *estructura técnica*, no la calidad de las correccione
 
 ## Comprobaciones posteriores al despliegue
 
-- Supabase confirmó `status=ACTIVE`, `version=1` y `verify_jwt=true`.
+- Supabase confirmó `status=ACTIVE`, `version=2` y `verify_jwt=true`.
 - Se recuperó el código de la función desplegada y se comprobó que conserva `withSupabase({auth:"user"})`, la consulta a `study_access`, el bloqueo por modo y las dos fichas ficticias.
-- Las pruebas automáticas del PR finalizaron correctamente.
+- Las pruebas automáticas del PR finalizaron correctamente, incluyendo una prueba de cabeceras CORS del navegador.
 - **Pendiente:** invocación autenticada desde el origen oficial (`https://lramadev.github.io`), sin compartir tokens, para comprobar que `mock` devuelve `modo: simulado`. No hay acceso a una sesión familiar desde el conector y la terminal de esta sesión no puede resolver el host público, por lo que esta verificación no se ha simulado ni afirmado.
 - **Pendiente:** verificación del resultado real de Qwen/GLM antes de pasar de `mock` a `live`.
 - No se alteraron los datos de los perfiles ni el banco de ejercicios.
