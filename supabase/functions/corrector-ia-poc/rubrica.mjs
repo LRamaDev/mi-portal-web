@@ -70,7 +70,7 @@ export function interpretarRespuestaCloudflare(body) {
   } else {
     if (typeof raw !== "string" || raw.length > 24000)
       throw new RespuestaProveedorInvalida("provider_invalid_format");
-    const clean = raw.trim().replace(/^```(?:json)?\\s*/i, "").replace(/\\s*```$/, "");
+    const clean = raw.trim().replace(/^```(?:json)?\s*/i, "").replace(/\s*```$/, "");
     try { parsed = JSON.parse(clean); }
     catch { throw new RespuestaProveedorInvalida("provider_invalid_json"); }
   }
