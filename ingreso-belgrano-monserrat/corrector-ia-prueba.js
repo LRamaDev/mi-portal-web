@@ -58,8 +58,26 @@
     if(status===502){
       try{
         const response=await error.context.clone().json();
-        const code=Number(response?.providerStatus);
-        if(Number.isInteger(code)&&code>=400&&code<=599)return 'Cloudflare devolvió HTTP '+code+'.';
+        if(response?.code==='provider_http'){
+          const remoteStatus=Number(response?.providerStatus);
+          if(Number.isInteger(remoteStatus)&&remoteStatus>=400&&remoteStatus<=599){
+            if(remoteStatus===401||remoteStatus===403) return 'Cloudflare rechazó las credenciales o sus permisos (HTTP '+remoteStatus+').';
+            if(remoteStatus===429) return 'Cloudflare limitó las solicitudes (HTTP 429).';
+            if(remoteStatus===400||remoteStatus===422) return 'Cloudflare rechazó el formato de solicitud (HTTP '+remoteStatus+').';
+            return 'Cloudflare devolvió HTTP '+remoteStatus+'.';
+          }
+        }
+        const kinds={
+          provider_invalid_json:'Cloudflare respondió, pero no devolvió JSON válido.',
+          provider_invalid_schema:'Cloudflare respondió, pero no respetó la rúbrica pedida.',
+          provider_truncated:'Cloudflare interrumpió su respuesta antes de terminarla.',
+          provider_empty:'Cloudflare devolvió una respuesta vacía.',
+          provider_invalid_envelope:'Cloudflare devolvió un formato de respuesta inesperado.',
+          provider_invalid_format:'Cloudflare devolvió un formato de contenido no admitido.',
+          provider_network:'No se pudo establecer conexión de salida con Cloudflare.',
+          provider_timeout:'Cloudflare no respondió antes del límite de tiempo.'
+        };
+        if(typeof response?.code==='string'&&Object.hasOwn(kinds,response.code))return kinds[response.code];
       }catch{}
       return 'No se obtuvo una corrección válida del proveedor (502).';
     }

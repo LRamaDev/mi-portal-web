@@ -90,3 +90,18 @@ test('Rechaza IDs y modelos inventados antes de llamar al servidor',async()=>{
  assert.equal(h.invoked,false);
  assert.equal(h.elements['test-status'].dataset.state,'error');
 });
+
+test('Describe HTTP 400 de Cloudflare sin mostrar el cuerpo del proveedor',async()=>{
+  const h=harness({httpError:{context:{status:502,clone(){return {async json(){return {code:'provider_http',providerStatus:400,error:'dato secreto que no debe mostrarse'};}};}}}});
+  await h.flush();await h.click();
+  assert.match(h.elements['test-status'].textContent,/formato de solicitud/i);
+  assert.doesNotMatch(h.elements['test-status'].textContent,/dato secreto/);
+});
+test('Describe JSON inválido y respuesta truncada con mensajes diferenciados',async()=>{
+  for(const [code,word] of [['provider_invalid_json','JSON válido'],['provider_truncated','interrumpió'],['provider_invalid_schema','rúbrica']]){
+    const h=harness({httpError:{context:{status:502,clone(){return {async json(){return {code};}};}}}});
+    await h.flush();await h.click();
+    assert.match(h.elements['test-status'].textContent,new RegExp(word,'i'));
+    assert.equal(h.elements['result-panel'].hidden,true);
+  }
+});
