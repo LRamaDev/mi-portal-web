@@ -76,7 +76,7 @@ export default {
     if (req.method === "OPTIONS") {
       return new Response(null, { status: 204, headers: {
         "Access-Control-Allow-Origin": ORIGEN, "Access-Control-Allow-Methods": "POST, OPTIONS",
-        "Access-Control-Allow-Headers": "authorization, apikey, content-type",
+        "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-retry-count, traceparent, tracestate, baggage",
         "Access-Control-Max-Age": "300", Vary: "Origin" } });
     }
     if (req.method !== "POST") return json({ error: "Método no permitido" }, 405, origin);
