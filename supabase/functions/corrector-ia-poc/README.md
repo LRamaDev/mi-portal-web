@@ -80,3 +80,14 @@ Las pruebas verifican la *estructura técnica*, no la calidad de las correccione
 - La presentación amigable de esos códigos en la web está en el PR #164 independiente.
 
 Documentación: https://developers.cloudflare.com/workers-ai/configuration/open-ai-compatibility/ · https://developers.cloudflare.com/workers-ai/features/json-mode/
+
+## Prueba de cupo agotado — 17/11/2026
+
+- La pantalla mostró HTTP **429**: límite global de cuatro pruebas por día UTC alcanzado.
+- Confirmación directa: `public.ai_poc_daily_quota` contiene `2026-11-17 → requests = 4`.
+- En `function_edge_logs` se observan cuatro invocaciones **502** (dos sobre versión 4 y dos sobre versión 5) y una invocación posterior **429**.
+- El cupo se reserva **antes** de llamar a Cloudflare: los fallos también cuentan. Esta es la conducta prevista de seguridad; no modificar ni reiniciar la cuota para saltar el límite.
+- **No hay evidencia de correcciones reales exitosas**; los logs de acceso solo muestran códigos HTTP, no el código seguro específico devuelto en el cuerpo. La causa del 502 sigue sin confirmarse.
+- Próximo intento: recuperar el código amigable del error desde la pantalla ya publicada, usando **solo una** solicitud ficticia cuando empiece un nuevo día UTC. Si hubiera un 502, registrar únicamente el código (`provider_http`, `provider_invalid_json`, `provider_invalid_schema`, `provider_timeout`, etc.) y detener nuevas solicitudes hasta ajustar la causa.
+- El siguiente reinicio del cupo es `2026-11-18 00:00 UTC`, equivalente a `2026-11-17 21:00` en Córdoba.
+- La pantalla sigue aislada de los perfiles y del resto de la aplicación.
