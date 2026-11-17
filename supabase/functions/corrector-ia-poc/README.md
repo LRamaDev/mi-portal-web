@@ -1,6 +1,6 @@
 # Prueba técnica de corrección asistida — Monserrat (aislada)
 
-**Estado al 17/11/2026:** Edge Function `corrector-ia-poc` **desplegada en Supabase Tercer Tiempo**, versión 3, estado ACTIVE y `verify_jwt=true`. El usuario configuró `POC_AI_MODE=mock` en los secretos (su valor no es legible con las herramientas disponibles). **La pantalla de prueba aislada ya está publicada, pero la aplicación de estudio continúa desconectada del corrector.** No es aún un servicio de corrección para estudiantes.
+**Estado al 17/11/2026:** Edge Function `corrector-ia-poc` **desplegada en Supabase Tercer Tiempo**, versión 5, estado ACTIVE y `verify_jwt=true`. El usuario configuró `POC_AI_MODE=mock` en los secretos (su valor no es legible con las herramientas disponibles). **La pantalla de prueba aislada ya está publicada, pero la aplicación de estudio continúa desconectada del corrector.** No es aún un servicio de corrección para estudiantes.
 
 ## Qué contiene
 
@@ -31,7 +31,7 @@ Las pruebas verifican la *estructura técnica*, no la calidad de las correccione
 
 ## Comprobaciones posteriores al despliegue
 
-- Supabase confirmó `status=ACTIVE`, `version=3` y `verify_jwt=true`.
+- Supabase confirmó `status=ACTIVE`, `version=5` y `verify_jwt=true`.
 - Se recuperó el código de la función desplegada y se comprobó que conserva `withSupabase({auth:"user"})`, la consulta a `study_access`, el bloqueo por modo y las dos fichas ficticias.
 - Las pruebas automáticas del PR finalizaron correctamente, incluyendo una prueba de cabeceras CORS del navegador.
 - **Verificado en navegador familiar:** la pantalla devolvió `modo: simulado` y `23/35` (captura aportada por el usuario).
@@ -66,3 +66,17 @@ Las pruebas verifican la *estructura técnica*, no la calidad de las correccione
 - Los secretos no se leen ni se verifican por el conector. El cambio a `POC_AI_MODE=live` exige una acción explícita de la persona adulta en el panel de Supabase.
 - Sigue prohibido enviar texto libre, identidades, fotos o respuestas reales de menores.
 - Referencias: https://developers.cloudflare.com/workers-ai/models/qwen3-30b-a3b-fp8/ · https://developers.cloudflare.com/workers-ai/models/glm-4.7-flash/ · https://developers.cloudflare.com/workers-ai/models/gpt-oss-20b/
+
+## Diagnóstico del primer 502 y corrección (17/11/2026)
+
+- La captura de la prueba real mostró error 502 al seleccionar GPT-OSS 20B.
+- Los registros de Supabase confirman solicitudes autenticadas que terminaron en 502; la cuota diaria registraba **2 de 4** llamadas.
+- El código antiguo devolvía un error genérico que no permitía distinguir rechazo de Cloudflare de validación de JSON. **La causa exacta anterior no quedó registrada** y no se debe afirmar como confirmada.
+- La **versión 5**, desplegada en Supabase, ahora utiliza el endpoint uniforme `/ai/v1/chat/completions`, compatible con GLM y GPT-OSS.
+- Se eliminó `response_format: {type:"json_object"}`, ya que la compatibilidad JSON Mode no estaba verificada para esos modelos. La función exige y valida JSON devuelto de forma independiente, sin exponer contenidos brutos.
+- Se incorporaron códigos de error seguros para `provider_http` (status), `provider_invalid_json`, `provider_invalid_schema`, `provider_truncated`, `provider_empty`, `provider_timeout` y `provider_network`.
+- Se corrigió el reconocimiento de JSON entre marcas Markdown y la suite de pruebas finalizó correctamente.
+- **Pendiente:** una nueva prueba auténtica limitada a uno de los relatos ficticios para validar una devolución real. No afirmar que el problema quedó resuelto hasta entonces.
+- La presentación amigable de esos códigos en la web está en el PR #164 independiente.
+
+Documentación: https://developers.cloudflare.com/workers-ai/configuration/open-ai-compatibility/ · https://developers.cloudflare.com/workers-ai/features/json-mode/
