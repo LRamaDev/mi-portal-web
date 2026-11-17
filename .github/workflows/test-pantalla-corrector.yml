@@ -1,0 +1,21 @@
+name: Corrector IA - pantalla de prueba aislada
+on:
+  pull_request:
+    paths:
+      - 'ingreso-belgrano-monserrat/corrector-ia-prueba.*'
+      - '.github/workflows/test-pantalla-corrector.yml'
+  workflow_dispatch:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Pruebas de interfaz sin llamadas de red ni credenciales
+        run: |
+          node --check ingreso-belgrano-monserrat/corrector-ia-prueba.js
+          node --test ingreso-belgrano-monserrat/corrector-ia-prueba.test.mjs
