@@ -38,7 +38,10 @@ const authHandler = withSupabase({ auth: "user" }, async (req, ctx) => {
     return json({ error: "Solo se admiten datos de prueba" }, 400, origin);
   }
   const fixtureId = payload.fixtureId;
-  const modelo = payload.modelo ?? "glm";
+  // Compatibilidad temporal: la pantalla inicial enviaba "qwen" en modo simulado.
+  // Ese alias NUNCA habilita el modelo retirado en Cloudflare.
+  const modelo = payload.modelo === "qwen" && runMode === "mock"
+    ? "glm" : (payload.modelo ?? "glm");
   if (typeof fixtureId !== "string" || typeof modelo !== "string" ||
       !getFixture(fixtureId) || !Object.hasOwn(MODEL_IDS, modelo)) {
     return json({ error: "Prueba desconocida" }, 400, origin);
