@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' https://cdn.jsdelivr.net; style-src 'self'; connect-src https://vyacdprekslhrmrlpcgx.supabase.co; base-uri 'none'; form-action 'none'; img-src 'self'">
+  <title>Prueba segura del corrector · Ingreso Belgrano/Monserrat</title>
+  <link rel="stylesheet" href="./corrector-ia-prueba.css?v=1">
+  <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script defer src="./config.js?v=6.25.0"></script>
+  <script defer src="./corrector-ia-prueba.js?v=1"></script>
+</head>
+<body>
+  <main class="layout">
+    <header class="heading">
+      <span class="eyebrow">Prueba técnica · Uso familiar</span>
+      <h1>Comprobar conexión del corrector</h1>
+      <p>Esta página prueba el acceso al corrector experimental desde GitHub Pages a Supabase. <strong>No analiza producciones reales ni llama a Cloudflare.</strong></p>
+    </header>
+
+    <section class="panel" aria-labelledby="section-title">
+      <h2 id="section-title">1. Verificación de acceso</h2>
+      <p id="connection-status" role="status" aria-live="polite" data-state="loading">Comprobando la sesión familiar…</p>
+      <p class="small">Si no tenés una sesión activa, ingresá a la app familiar y luego volvé a esta página. No hace falta abrir la consola.</p>
+      <p><a href="./index.html">Ir a la aplicación familiar</a></p>
+    </section>
+
+    <section class="panel" aria-labelledby="sample-title">
+      <h2 id="sample-title">2. Relato ficticio de prueba</h2>
+      <p>Solo se envía el identificador <code>ficcion-01</code>. El texto de muestra está definido en el servidor y no se envía ninguna información sobre A ni V.</p>
+      <button id="run-check" type="button" disabled>Comprobar conexión (modo simulado)</button>
+      <p id="test-status" role="status" aria-live="polite" data-state="idle">La prueba estará disponible al verificar el acceso.</p>
+    </section>
+
+    <section class="panel" id="result-panel" aria-labelledby="result-title" hidden>
+      <h2 id="result-title">3. Resultado</h2>
+      <p class="simulation-label">Resultado simulado · No generado por inteligencia artificial</p>
+      <dl class="result-data">
+        <div><dt>Modo</dt><dd id="result-mode">—</dd></div>
+        <div><dt>Puntaje técnico</dt><dd id="result-score">—</dd></div>
+      </dl>
+      <h3>Fortalezas del ejemplo</h3>
+      <ul id="result-strengths"></ul>
+      <p class="small">Un resultado correcto confirma que la cuenta familiar puede consultar la función. No valida todavía la calidad de Qwen o GLM.</p>
+    </section>
+
+    <footer class="footer">Prototipo aislado. No modifica el banco de ejercicios, las calificaciones ni los avances guardados. <a href="https://github.com/LRamaDev/mi-portal-web/pull/161">Ver prototipo del corrector</a>.</footer>
+  </main>
+  <noscript>Para comprobar la conexión necesitás activar JavaScript.</noscript>
+</body>
+</html>
