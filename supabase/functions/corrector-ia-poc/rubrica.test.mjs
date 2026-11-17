@@ -1,3 +1,4 @@
+import { readFileSync } from "node:fs";
 import test from "node:test";
 import assert from "node:assert/strict";
 import { FIXTURES, getFixture } from "./fixtures.mjs";
@@ -51,4 +52,12 @@ test("se rechazan respuestas incompletas o inválidas", () => {
   assert.throws(() => normalizarCorreccion({...source, fortalezas:[]}));
   assert.throws(() => interpretarRespuestaCloudflare({success:false}));
   assert.throws(() => interpretarRespuestaCloudflare({result:{response:"no es JSON"}}));
+});
+
+test("el endpoint admite las cabeceras CORS de supabase-js", () => {
+  const source = readFileSync(new URL("./index.ts", import.meta.url), "utf8");
+  for (const header of ["authorization", "apikey", "content-type", "x-client-info",
+    "x-retry-count", "traceparent", "tracestate", "baggage"]) {
+    assert.ok(source.includes(header), "Falta cabecera " + header);
+  }
 });
