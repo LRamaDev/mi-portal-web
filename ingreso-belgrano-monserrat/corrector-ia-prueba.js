@@ -1,104 +1,115 @@
 (() => {
   'use strict';
+  const ui=id=>document.getElementById(id);
+  const button=ui('run-check');
+  const accessStatus=ui('connection-status');
+  const testStatus=ui('test-status');
+  const panel=ui('result-panel');
+  const extra=ui('extra-feedback');
+  const MODEL_LABELS={glm:'GLM 4.7 Flash',oss:'GPT-OSS 20B'};
+  const FIXTURES=['ficcion-01','ficcion-02'];
+  let client=null;
+  let running=false;
 
-  // Esta página NO carga app.js ni seguridad.js. Solo crea un cliente Supabase
-  // en su propio documento, sin interferir con el cliente de la app familiar.
-  const ui = id => document.getElementById(id);
-  const button = ui('run-check');
-  const accessStatus = ui('connection-status');
-  const testStatus = ui('test-status');
-  const resultPanel = ui('result-panel');
-  let client = null;
-  let running = false;
+  function message(element,text,state){ element.textContent=text;element.dataset.state=state; }
 
-  function message(element, text, state) {
-    element.textContent = text;
-    element.dataset.state = state;
-  }
-
-  async function checkAccess() {
-    button.disabled = true;
-    try {
-      if (localStorage.getItem('ingreso-access-mode-v1') === 'visitor') {
-        message(accessStatus, 'La aplicación está en modo visitante. Ingresá con la cuenta familiar para hacer esta prueba.', 'error');
+  async function checkAccess(){
+    button.disabled=true;
+    try{
+      if(localStorage.getItem('ingreso-access-mode-v1')==='visitor'){
+        message(accessStatus,'La aplicación está en modo visitante. Ingresá con la cuenta familiar para realizar la prueba.','error');
         return;
       }
-      const config = window.INGRESO_CONFIG;
-      if (!window.supabase?.createClient || !config?.supabaseUrl || !config?.supabaseAnonKey) {
-        message(accessStatus, 'No se pudo cargar la configuración de Supabase. Actualizá la página.', 'error');
-        return;
+      const cfg=window.INGRESO_CONFIG;
+      if(!window.supabase?.createClient||!cfg?.supabaseUrl||!cfg?.supabaseAnonKey){
+        message(accessStatus,'No se pudo cargar la configuración de Supabase. Actualizá la página.','error');return;
       }
-      client = window.supabase.createClient(config.supabaseUrl, config.supabaseAnonKey, {
-        auth: { detectSessionInUrl: false }
-      });
-      const { data: userData, error: authError } = await client.auth.getUser();
-      if (authError || !userData?.user?.id) {
-        message(accessStatus, 'No hay una sesión familiar válida. Abrí la aplicación, iniciá sesión y volvé aquí.', 'error');
-        return;
+      // Un único cliente en este documento; no cargamos la app ni sus otros clientes.
+      client=window.supabase.createClient(cfg.supabaseUrl,cfg.supabaseAnonKey,{auth:{detectSessionInUrl:false}});
+      const {data:userData,error:authError}=await client.auth.getUser();
+      if(authError||!userData?.user?.id){
+        message(accessStatus,'No hay sesión familiar válida. Ingresá en la app y volvé aquí.','error');return;
       }
-      const { data: authorized, error: accessError } = await client.from('study_access')
-        .select('user_id').eq('user_id', userData.user.id).maybeSingle();
-      if (accessError || !authorized?.user_id) {
-        message(accessStatus, 'La cuenta no figura entre las autorizadas para esta aplicación.', 'error');
-        return;
+      const {data:allowed,error:accessError}=await client.from('study_access')
+        .select('user_id').eq('user_id',userData.user.id).maybeSingle();
+      if(accessError||!allowed?.user_id){
+        message(accessStatus,'La cuenta no está autorizada para esta aplicación.','error');return;
       }
-      button.disabled = false;
-      message(accessStatus, 'Sesión familiar autorizada. Podés realizar la prueba.', 'ok');
-      message(testStatus, 'Listo para comprobar la conexión.', 'idle');
-    } catch {
-      message(accessStatus, 'No fue posible comprobar la sesión. Revisá la conexión y actualizá la página.', 'error');
+      button.disabled=false;
+      message(accessStatus,'Sesión familiar autorizada. Podés realizar la prueba.','ok');
+      message(testStatus,'Elegí un relato ficticio y un modelo para comprobar la conexión.','idle');
+    }catch{
+      message(accessStatus,'No se pudo comprobar la sesión. Revisá la conexión y actualizá.','error');
     }
   }
 
-  function showStrengths(items) {
-    const list = ui('result-strengths');
-    list.replaceChildren();
-    for (const item of items) {
-      const element = document.createElement('li');
-      element.textContent = item;
-      list.appendChild(element);
+  function list(id,items){
+    const target=ui(id);target.replaceChildren();
+    for(const item of items){
+      const li=document.createElement('li');li.textContent=String(item);target.appendChild(li);
     }
   }
-
-  async function runCheck() {
-    if (running || !client || button.disabled) return;
-    running = true;
-    button.disabled = true;
-    resultPanel.hidden = true;
-    message(testStatus, 'Consultando la función experimental de Supabase…', 'busy');
-    try {
-      const { data, error } = await client.functions.invoke('corrector-ia-poc', {
-        body: { fixtureId: 'ficcion-01', modelo: 'qwen' }
-      });
-      if (error) {
-        const status = Number(error?.context?.status);
-        const detail = status === 401 ? 'La sesión no fue aceptada.'
-          : status === 403 ? 'La cuenta no está autorizada.'
-          : status === 503 ? 'La función está deshabilitada o no está en modo de prueba.'
-          : Number.isInteger(status) && status > 0 ? 'La función respondió con HTTP ' + status + '.'
-          : 'No se pudo establecer conexión con la función.';
-        message(testStatus, 'No se completó la prueba. ' + detail, 'error');
-        return;
-      }
-      if (data?.modo !== 'simulado' || data?.fixtureId !== 'ficcion-01' ||
-          data?.resultado?.puntajeEstimado !== 23 || data?.resultado?.maximo !== 35 ||
-          !Array.isArray(data?.resultado?.fortalezas)) {
-        message(testStatus, 'Respuesta inesperada: no se confirmó el modo simulado. No usamos esta respuesta como una evaluación.', 'error');
-        return;
-      }
-      ui('result-mode').textContent = 'Simulado';
-      ui('result-score').textContent = '23 / 35';
-      showStrengths(data.resultado.fortalezas);
-      resultPanel.hidden = false;
-      message(testStatus, 'Conexión verificada: GitHub Pages → Supabase → corrector-ia-poc.', 'ok');
-    } catch {
-      message(testStatus, 'La prueba no pudo completarse. No se enviaron datos personales.', 'error');
-    } finally {
-      running = false;
-      button.disabled = false;
+  async function detailFor(error){
+    const status=Number(error?.context?.status);
+    if(status===401)return 'Sesión no aceptada (401).';
+    if(status===403)return 'La cuenta no está autorizada (403).';
+    if(status===429)return 'Se alcanzó el límite global de cuatro pruebas reales por día (429).';
+    if(status===503)return 'La prueba está deshabilitada o no se pudo comprobar el cupo (503).';
+    if(status===502){
+      try{
+        const response=await error.context.clone().json();
+        const code=Number(response?.providerStatus);
+        if(Number.isInteger(code)&&code>=400&&code<=599)return 'Cloudflare devolvió HTTP '+code+'.';
+      }catch{}
+      return 'No se obtuvo una corrección válida del proveedor (502).';
     }
+    return Number.isInteger(status)&&status>0 ? 'La función respondió HTTP '+status+'.'
+      : 'No fue posible conectar con la función.';
   }
 
-  button.addEventListener('click', runCheck);
+  async function runCheck(){
+    if(running||!client||button.disabled)return;
+    const fixtureId=ui('fixture-select').value,modelo=ui('model-select').value;
+    if(!FIXTURES.includes(fixtureId)||!Object.hasOwn(MODEL_LABELS,modelo)){
+      message(testStatus,'Prueba o modelo no reconocido.','error');return;
+    }
+    running=true;button.disabled=true;panel.hidden=true;
+    message(testStatus,'Consultando la función experimental…','busy');
+    try{
+      const {data,error}=await client.functions.invoke('corrector-ia-poc',{body:{fixtureId,modelo}});
+      if(error){message(testStatus,'No se completó la prueba. '+await detailFor(error),'error');return;}
+      const result=data?.resultado;
+      if(data?.fixtureId!==fixtureId||data?.modelo!==modelo||
+         !['simulado','proveedor'].includes(data?.modo)||
+         !Number.isInteger(result?.puntajeEstimado)||result.puntajeEstimado<0||result.puntajeEstimado>35||
+         result.maximo!==35||!Array.isArray(result.fortalezas)){
+        message(testStatus,'El proveedor devolvió una estructura inesperada. No se considera una evaluación válida.','error');
+        return;
+      }
+      if(data.modo==='simulado'&&result.puntajeEstimado!==23){
+        message(testStatus,'La respuesta simulada no coincide con el valor de control.','error');return;
+      }
+      ui('result-mode').textContent=data.modo==='simulado'?'Simulado':'Cloudflare';
+      ui('result-model').textContent=MODEL_LABELS[modelo];
+      ui('result-score').textContent=result.puntajeEstimado+' / 35';
+      ui('result-note').textContent=data.modo==='simulado'
+        ? 'Resultado simulado · No generado por IA'
+        : 'Evaluación generada por IA sobre un texto ficticio';
+      list('result-strengths',result.fortalezas);
+      if(data.modo==='proveedor'){
+        list('result-tips',Array.isArray(result.sugerencias)?result.sugerencias:[]);
+        list('result-errors',Array.isArray(result.errores)?
+          result.errores.map(x=>x.fragmento+' → '+x.correccion+': '+x.explicacion):[]);
+        extra.hidden=false;
+      }else extra.hidden=true;
+      panel.hidden=false;
+      message(testStatus,data.modo==='simulado'
+        ? 'Conexión verificada; el modo simulado sigue activo.'
+        : 'Cloudflare devolvió una corrección del relato ficticio. Revisá sus observaciones.','ok');
+    }catch{
+      message(testStatus,'La prueba no pudo completarse. No se enviaron textos personales.','error');
+    }finally{running=false;button.disabled=false;}
+  }
+  button.addEventListener('click',runCheck);
   checkAccess();
 })();
