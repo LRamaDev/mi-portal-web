@@ -2,6 +2,8 @@
   'use strict';
   const ui=id=>document.getElementById(id);
   const button=ui('run-check');
+  const settingsButton=ui('check-settings');
+  const settingsStatus=ui('settings-status');
   const accessStatus=ui('connection-status');
   const testStatus=ui('test-status');
   const panel=ui('result-panel');
@@ -15,6 +17,7 @@
 
   async function checkAccess(){
     button.disabled=true;
+    settingsButton.disabled=true;
     try{
       if(localStorage.getItem('ingreso-access-mode-v1')==='visitor'){
         message(accessStatus,'La aplicación está en modo visitante. Ingresá con la cuenta familiar para realizar la prueba.','error');
@@ -36,6 +39,7 @@
         message(accessStatus,'La cuenta no está autorizada para esta aplicación.','error');return;
       }
       button.disabled=false;
+      settingsButton.disabled=false;
       message(accessStatus,'Sesión familiar autorizada. Podés realizar la prueba.','ok');
       message(testStatus,'Elegí un relato ficticio y un modelo para comprobar la conexión.','idle');
     }catch{
@@ -85,13 +89,64 @@
       : 'No fue posible conectar con la función.';
   }
 
+  async function verifySettings() {
+    if(running||!client||settingsButton.disabled)return;
+    running=true;
+    settingsButton.disabled=true;
+    button.disabled=true;
+    const resultList=ui('settings-results');
+    resultList.hidden=true;
+    message(settingsStatus,'Comprobando la configuración local en Supabase…','busy');
+    try {
+      const {data,error}=await client.functions.invoke('corrector-ia-poc',{
+        body:{accion:'diagnostico'}
+      });
+      if(error) {
+        const status=Number(error?.context?.status);
+        message(settingsStatus,'No se pudo completar el diagnóstico (HTTP '+(status||'?')+').','error');
+        return;
+      }
+      const checks=data?.comprobaciones;
+      if(data?.modo!=='diagnostico'||data?.consumeCupo!==false||
+         data?.realizoSolicitudExterna!==false||
+         !checks||typeof checks.cuenta!=='boolean'||
+         typeof checks.token!=='boolean'||typeof checks.cabecera!=='boolean') {
+        message(settingsStatus,'La función todavía no tiene disponible el diagnóstico. No se realizó una prueba de IA.','error');
+        return;
+      }
+      const entries=[
+        ['Account ID',checks.cuenta],
+        ['Formato del token',checks.token],
+        ['Cabecera de autorización',checks.cabecera]
+      ];
+      resultList.replaceChildren();
+      for(const [label,valid] of entries){
+        const li=document.createElement('li');
+        li.textContent=(valid?'Correcto: ':'Revisar: ')+label;
+        resultList.appendChild(li);
+      }
+      resultList.hidden=false;
+      const allValid=entries.every(([_,valid])=>valid);
+      message(settingsStatus,allValid
+        ? 'Los formatos son válidos. Esto no confirma la conexión ni los permisos de Cloudflare.'
+        : 'Se encontró un problema de formato. Revisá el secreto indicado en Supabase antes de otra prueba real.',
+        allValid?'ok':'error');
+    }catch{
+      message(settingsStatus,'El diagnóstico no pudo completarse. No se consumió una corrección de IA.','error');
+    }finally{
+      running=false;
+      settingsButton.disabled=false;
+      button.disabled=false;
+    }
+  }
+
   async function runCheck(){
     if(running||!client||button.disabled)return;
     const fixtureId=ui('fixture-select').value,modelo=ui('model-select').value;
     if(!FIXTURES.includes(fixtureId)||!Object.hasOwn(MODEL_LABELS,modelo)){
       message(testStatus,'Prueba o modelo no reconocido.','error');return;
     }
-    running=true;button.disabled=true;panel.hidden=true;
+    running=true;button.disabled=true;settingsButton.disabled=true;panel.hidden=true;
     message(testStatus,'Consultando la función experimental…','busy');
     try{
       const {data,error}=await client.functions.invoke('corrector-ia-poc',{body:{fixtureId,modelo}});
@@ -126,8 +181,9 @@
         : 'Cloudflare devolvió una corrección del relato ficticio. Revisá sus observaciones.','ok');
     }catch{
       message(testStatus,'La prueba no pudo completarse. No se enviaron textos personales.','error');
-    }finally{running=false;button.disabled=false;}
+    }finally{running=false;button.disabled=false;settingsButton.disabled=false;}
   }
   button.addEventListener('click',runCheck);
+  settingsButton.addEventListener('click',verifySettings);
   checkAccess();
 })();

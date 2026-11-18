@@ -9,7 +9,7 @@
   <link rel="stylesheet" href="./corrector-ia-prueba.css?v=2">
   <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script defer src="./config.js?v=6.25.0"></script>
-  <script defer src="./corrector-ia-prueba.js?v=3"></script>
+  <script defer src="./corrector-ia-prueba.js?v=4"></script>
 </head>
 <body>
   <main class="layout">
@@ -22,6 +22,9 @@
       <h2 id="section-title">1. Verificación de acceso</h2>
       <p id="connection-status" role="status" aria-live="polite" data-state="loading">Comprobando la sesión familiar…</p>
       <p class="small">Ingresá con la cuenta familiar en <a href="./index.html">la aplicación</a> y luego regresá aquí. No hace falta abrir DevTools.</p>
+      <button id="check-settings" class="secondary" type="button" disabled>Comprobar configuración (sin gastar cupo)</button>
+      <p id="settings-status" role="status" aria-live="polite" data-state="idle">La comprobación revisa el formato de los secretos en Supabase; nunca revela su contenido ni contacta a Cloudflare.</p>
+      <ul id="settings-results" class="diagnostic-results" hidden></ul>
     </section>
     <section class="panel" aria-labelledby="sample-title">
       <h2 id="sample-title">2. Elegir una prueba ficticia</h2>

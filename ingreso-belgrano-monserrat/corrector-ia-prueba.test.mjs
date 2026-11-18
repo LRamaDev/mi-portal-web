@@ -6,12 +6,12 @@ const base=new URL('./',import.meta.url);
 const html=readFileSync(new URL('corrector-ia-prueba.html',base),'utf8');
 const src=readFileSync(new URL('corrector-ia-prueba.js',base),'utf8');
 
-function harness({authorized=true,loggedIn=true,visitor=false,response=null,modelo='glm',fixtureId='ficcion-01',httpError=null}={}){
-  const ids=['run-check','connection-status','test-status','result-panel','result-note','result-mode','result-score','result-model','result-strengths',
+function harness({authorized=true,loggedIn=true,visitor=false,response=null,diagnosticResponse=null,modelo='glm',fixtureId='ficcion-01',httpError=null}={}){
+  const ids=['run-check','check-settings','settings-status','settings-results','connection-status','test-status','result-panel','result-note','result-mode','result-score','result-model','result-strengths',
     'extra-feedback','result-tips','result-errors','fixture-select','model-select'];
   const elements=Object.fromEntries(ids.map(id=>[id,{
     textContent:'',value:id==='fixture-select'?fixtureId:id==='model-select'?modelo:'',
-    dataset:{},disabled:id==='run-check',hidden:['result-panel','extra-feedback'].includes(id),children:[],listeners:{},
+    dataset:{},disabled:['run-check','check-settings'].includes(id),hidden:['result-panel','extra-feedback','settings-results'].includes(id),children:[],listeners:{},
     replaceChildren(){this.children=[];},appendChild(x){this.children.push(x);},addEventListener(t,fn){this.listeners[t]=fn;}
   }]));
   let clients=0,invoked=false,body;
@@ -20,6 +20,10 @@ function harness({authorized=true,loggedIn=true,visitor=false,response=null,mode
     from(table){assert.equal(table,'study_access');return{select(){return this;},eq(col,id){assert.equal(col,'user_id');assert.equal(id,'dummy-uid');return this;},async maybeSingle(){return {data:authorized?{user_id:'dummy-uid'}:null,error:null};}};},
     functions:{async invoke(slug,opts){
       invoked=true;body=opts.body;assert.equal(slug,'corrector-ia-poc');
+      if(body.accion==='diagnostico')return {
+        data:diagnosticResponse??{modo:'diagnostico',consumeCupo:false,realizoSolicitudExterna:false,
+          comprobaciones:{cuenta:true,token:true,cabecera:true}},error:null
+      };
       return httpError ? {data:null,error:httpError}:{data:response??{
         modo:'simulado',fixtureId:body.fixtureId,modelo:body.modelo,
         resultado:{puntajeEstimado:23,maximo:35,fortalezas:['Relato ficticio verificado.']}
@@ -32,7 +36,7 @@ function harness({authorized=true,loggedIn=true,visitor=false,response=null,mode
     localStorage:{getItem(){return visitor?'visitor':'family';}},
     document:{getElementById(id){return elements[id];},createElement(){return {textContent:''};}}
   });
-  return {elements,flush:()=>new Promise(resolve=>setImmediate(resolve)),click:()=>elements['run-check'].listeners.click(),get clients(){return clients;},get invoked(){return invoked;},get body(){return body;}};
+  return {elements,flush:()=>new Promise(resolve=>setImmediate(resolve)),click:()=>elements['run-check'].listeners.click(),diag:()=>elements['check-settings'].listeners.click(),get clients(){return clients;},get invoked(){return invoked;},get body(){return body;}};
 }
 
 test('Interfaz aislada sin datos personales ni app.js',()=>{
@@ -104,4 +108,29 @@ test('Describe JSON inválido y respuesta truncada con mensajes diferenciados',a
     assert.match(h.elements['test-status'].textContent,new RegExp(word,'i'));
     assert.equal(h.elements['result-panel'].hidden,true);
   }
+});
+
+test('diagnóstico no consume cupo ni solicita corrección de IA',async()=>{
+  const h=harness();await h.flush();
+  assert.equal(h.elements['check-settings'].disabled,false);
+  await h.diag();
+  assert.deepEqual(Object.keys(h.body),['accion']);
+  assert.equal(h.body.accion,'diagnostico');
+  assert.match(h.elements['settings-status'].textContent,/no confirma la conexión/);
+  assert.equal(h.elements['settings-results'].children.length,3);
+  assert.equal(h.elements['settings-results'].hidden,false);
+});
+test('diagnóstico distingue credenciales con formato inválido',async()=>{
+  const h=harness({diagnosticResponse:{
+    modo:'diagnostico',consumeCupo:false,realizoSolicitudExterna:false,
+    comprobaciones:{cuenta:false,token:true,cabecera:true}
+  }});
+  await h.flush();await h.diag();
+  assert.equal(h.elements['settings-status'].dataset.state,'error');
+  assert.match(h.elements['settings-results'].children[0].textContent,/Revisar: Account ID/);
+});
+test('modo visitante no permite diagnosticar',async()=>{
+  const h=harness({visitor:true});await h.flush();
+  assert.equal(h.elements['check-settings'].disabled,true);
+  assert.equal(h.invoked,false);
 });
