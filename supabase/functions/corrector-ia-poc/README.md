@@ -108,3 +108,11 @@ Documentación: https://developers.cloudflare.com/workers-ai/configuration/open-
 - No se cambia el límite global diario de cuatro peticiones ni se reinician contadores.
 - Ninguna de estas modificaciones demuestra una corrección real exitosa: el siguiente ensayo requiere solicitud autenticada del usuario con uno de los textos ficticios, sin repetir ante error.
 - Fuentes: https://supabase.com/docs/guides/functions/limits · https://developers.cloudflare.com/workers-ai/features/reject-if-busy/ .
+
+## Truncamiento detectado — 18/11/2026
+- El navegador informó `provider_truncated`: una respuesta llegó desde Cloudflare con `finish_reason=length` (sin poder completar el JSON).
+- Supabase registra **3** reservas del cupo de 4 llamadas de ese día; queda una. No se reinició el cupo ni se volvió a consultar la API en esta modificación.
+- GLM 4.7 Flash es un modelo de razonamiento. La documentación de Cloudflare admite `chat_template_kwargs: { enable_thinking: false }`, que se añade **solo a GLM** y no se envía a GPT-OSS.
+- Se conservan el límite de salida de 1600 tokens, el timeout de 65s, la validación estricta, `rejectIfBusy`, la sesión familiar, la autorización `study_access` y la cuota global de cuatro llamadas por día.
+- Esta corrección NO implica aún que GLM entregue JSON válido: falta una prueba de extremo a extremo, con un único texto ficticio.
+- Referencias: https://developers.cloudflare.com/workers-ai/models/glm-4.7-flash/ ; https://developers.cloudflare.com/agents/models/ai-sdk/ .

@@ -42,7 +42,8 @@ export function prepararSolicitud(fixture, modelo = "glm") {
   return {
     model: MODEL_IDS[modelo],
     body: { messages: [{ role: "system", content: system }, { role: "user", content: user }],
-      temperature: 0.1, max_completion_tokens: 1600, stream: false }
+      temperature: 0.1, max_completion_tokens: 1600, stream: false,
+      ...(modelo === "glm" ? { chat_template_kwargs: { enable_thinking: false } } : {}) }
   };
 }
 

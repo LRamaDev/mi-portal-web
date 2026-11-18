@@ -143,3 +143,26 @@ test("el prototipo limita salida y espera con margen sin reintentos", () => {
     assert.ok(src.includes(field), "Falta control "+field);
   }
 });
+
+test("GLM genera corrección directa sin gastar tokens de razonamiento", () => {
+  const sample = getFixture("ficcion-01");
+  const request = prepararSolicitud(sample, "glm");
+  assert.deepEqual(request.body.chat_template_kwargs, { enable_thinking: false });
+  assert.equal(request.body.max_completion_tokens, 1600);
+  assert.equal(request.body.stream, false);
+  assert.equal(request.model, MODEL_IDS.glm);
+});
+test("GPT-OSS conserva su configuración específica sin parámetros de GLM", () => {
+  const request = prepararSolicitud(getFixture("ficcion-02"), "oss");
+  assert.equal(request.body.chat_template_kwargs, undefined);
+  assert.equal(request.model, MODEL_IDS.oss);
+});
+test("la respuesta truncada se rechaza incluso cuando contiene un JSON válido", () => {
+  const source = correccionSimulada("ficcion-01");
+  assert.throws(
+    () => interpretarRespuestaCloudflare({ choices: [
+      {finish_reason: "length", message: {content: JSON.stringify(source)}}
+    ]}),
+    error => error.code === "provider_truncated"
+  );
+});
