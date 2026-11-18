@@ -99,3 +99,12 @@ Documentación: https://developers.cloudflare.com/workers-ai/configuration/open-
 - La misma validación se ejecuta en modo real **antes** de reservar un cupo; si falla devuelve uno de `config_invalid_account`, `config_invalid_token`, `config_invalid_header`.
 - El diagnóstico local **no garantiza** que el token tenga permisos suficientes ni que exista conectividad externa. Solo verifica sintaxis.
 - El código conserva el control `withSupabase({auth:"user"})` y la consulta de autorización familiar a `study_access`.
+
+## Corrección de timeout de GLM — 18/11/2026
+- Registros confirmados: petición del 18/11/2026 a las 15:32:23 UTC devolvió HTTP 502 tras **25.731 ms** de ejecución. La función desplegada tenía `AbortSignal.timeout(25000)`, por lo que el límite impuesto por nuestra app es la causa inmediata más probable del corte.
+- Se amplía la espera controlada a **65 segundos** (por debajo del timeout de solicitud inactiva de 150s publicado por Supabase) sin reintentos automáticos.
+- Se limita la salida del modelo a **1600 tokens** en lugar de 2400 y se piden explicaciones breves. Esto reduce trabajo potencial pero podría requerir ajuste si el modelo devuelve JSON incompleto.
+- Se agrega `options: {rejectIfBusy:true}` en el cuerpo de Chat Completions. Cloudflare documenta que, si no tiene capacidad, responde con 429 en lugar de dejar la solicitud en cola.
+- No se cambia el límite global diario de cuatro peticiones ni se reinician contadores.
+- Ninguna de estas modificaciones demuestra una corrección real exitosa: el siguiente ensayo requiere solicitud autenticada del usuario con uno de los textos ficticios, sin repetir ante error.
+- Fuentes: https://supabase.com/docs/guides/functions/limits · https://developers.cloudflare.com/workers-ai/features/reject-if-busy/ .

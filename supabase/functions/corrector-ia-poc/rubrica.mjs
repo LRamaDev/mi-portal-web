@@ -33,7 +33,7 @@ export function prepararSolicitud(fixture, modelo = "glm") {
     "Sé respetuoso, preciso y constructivo. Diferenciá errores ortográficos de opciones de estilo.",
     "Usá únicamente estos criterios y puntajes máximos: " + JSON.stringify(CRITERIOS) + ".",
     "Devolvé SOLO un objeto JSON con: criterios (objeto con los siete enteros entre 0 y su máximo), fortalezas (1 a 3 frases), sugerencias (1 a 3 frases) y errores (array de 0 a 5 objetos {fragmento, correccion, explicacion}).",
-    "La suma de los criterios debe representar un juicio orientativo; no afirma nota oficial. No agregues nombres ni datos personales."
+    "Sé conciso: cada fortaleza y sugerencia, máximo 120 caracteres; cada explicación, máximo 140 caracteres. No muestres razonamientos ni pasos internos. La suma de los criterios es orientativa y no es nota oficial. No agregues nombres ni datos personales."
   ].join(" ");
   const user = JSON.stringify({ consigna: fixture.consigna, texto: fixture.texto });
   // La API Chat Completions de Cloudflare es común a GLM y GPT-OSS.
@@ -42,7 +42,7 @@ export function prepararSolicitud(fixture, modelo = "glm") {
   return {
     model: MODEL_IDS[modelo],
     body: { messages: [{ role: "system", content: system }, { role: "user", content: user }],
-      temperature: 0.1, max_completion_tokens: 2400, stream: false }
+      temperature: 0.1, max_completion_tokens: 1600, stream: false }
   };
 }
 

@@ -24,7 +24,7 @@ test("el prompt solo incluye el relato ficticio, sin datos de A o V", () => {
   assert.equal(request.model, MODEL_IDS.glm);
   assert.equal(JSON.parse(request.body.messages[1].content).texto, getFixture("ficcion-01").texto);
   assert.equal(request.body.response_format, undefined);
-  assert.equal(request.body.max_completion_tokens, 2400);
+  assert.equal(request.body.max_completion_tokens, 1600);
 });
 test("se normalizan respuestas simuladas y el total se calcula en el servidor", () => {
   const data = correccionSimulada("ficcion-01");
@@ -129,4 +129,17 @@ test("el diagnóstico está antes del límite y no envía solicitudes externas",
   assert.ok(src.includes('config_invalid_account'));
   assert.ok(src.includes('config_invalid_token'));
   assert.ok(src.includes('realizoSolicitudExterna: false'));
+});
+
+test("el prototipo limita salida y espera con margen sin reintentos", () => {
+  const src=readFileSync(new URL("./index.ts",import.meta.url),"utf8");
+  assert.ok(src.includes("AbortSignal.timeout(65000)"));
+  assert.ok(!src.includes("AbortSignal.timeout(25000)"));
+  assert.ok(src.includes("options: { rejectIfBusy: true }"));
+  assert.ok(src.indexOf('ctx.supabaseAdmin.rpc("ai_poc_take_slot")') < src.indexOf('await fetch('));
+  assert.equal((src.match(/await fetch\(/g)||[]).length,1);
+  for(const field of ["withSupabase({ auth: \"user\" })", 'from("study_access")',
+    'getFixture(fixtureId)', 'runMode === "mock"']) {
+    assert.ok(src.includes(field), "Falta control "+field);
+  }
 });

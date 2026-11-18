@@ -85,8 +85,10 @@ const authHandler = withSupabase({ auth: "user" }, async (req, ctx) => {
     // Endpoint unificado para ambos modelos. El ID del modelo está en el body.
     const response = await fetch(`https://api.cloudflare.com/client/v4/accounts/${encodeURIComponent(account)}/ai/v1/chat/completions`, {
       method: "POST", headers: { "Authorization": `Bearer ${token}`,
-        "Content-Type": "application/json" }, body: JSON.stringify({ model, ...body }),
-      signal: AbortSignal.timeout(25000)
+        "Content-Type": "application/json" }, body: JSON.stringify({ model, ...body, options: { rejectIfBusy: true } }),
+      // La espera anterior de 25s cortaba solicitudes mientras Cloudflare seguía generando.
+      // Supabase admite un request idle timeout de 150s. Acotamos a 65s, sin reintentos.
+      signal: AbortSignal.timeout(65000)
     });
     if (!response.ok) {
       return json({ error: "Cloudflare rechazó la solicitud",
