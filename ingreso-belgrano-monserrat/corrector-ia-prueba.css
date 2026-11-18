@@ -14,3 +14,5 @@ button:disabled{background:#90a4b7;cursor:not-allowed}
 .result-data{display:flex;flex-wrap:wrap;gap:14px;margin:18px 0}.result-data>div{background:#eef3f9;padding:12px;border-radius:8px;flex:1;min-width:150px}.result-data dt{font-size:.86rem;color:#526477}.result-data dd{margin:6px 0;font-weight:800;font-size:1.15rem}
 code{padding:2px 5px;background:#f2f5f8;border-radius:4px}
 [hidden]{display:none!important}@media(max-width:480px){body{padding:12px}.panel{padding:17px}.heading{padding:20px 4px}}
+
+button.secondary{background:#e8eff6;color:#1e4d78;border:1px solid #b5c8dc}button.secondary:hover:not(:disabled){background:#d7e6f3}.diagnostic-results{padding-left:22px;line-height:1.7}.diagnostic-results li{margin-bottom:4px}
