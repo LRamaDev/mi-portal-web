@@ -58,7 +58,22 @@
     if(status===401)return 'Sesión no aceptada (401).';
     if(status===403)return 'La cuenta no está autorizada (403).';
     if(status===429)return 'Se alcanzó el límite global de cuatro pruebas reales por día (429).';
-    if(status===503)return 'La prueba está deshabilitada o no se pudo comprobar el cupo (503).';
+    if(status===503){
+      // Solo códigos de error predefinidos: nunca volcamos la respuesta cruda.
+      try {
+        const response=await error.context.clone().json();
+        const messages={
+          mode_disabled:'El corrector está deshabilitado. Revisá POC_AI_MODE en Supabase: para una prueba real debe ser exactamente live.',
+          quota_unavailable:'Supabase no pudo consultar el contador diario. No se consumió una consulta de IA.',
+          config_invalid_account:'El Account ID no tiene el formato esperado. Ejecutá el diagnóstico sin cupo.',
+          config_invalid_token:'El token tiene un formato inválido. Ejecutá el diagnóstico sin cupo.',
+          config_invalid_header:'No pudo construirse la autorización de Cloudflare. Ejecutá el diagnóstico sin cupo.'
+        };
+        if(typeof response?.code==='string' && Object.hasOwn(messages,response.code)) return messages[response.code];
+        if(response?.error==='Prueba deshabilitada')return messages.mode_disabled;
+      }catch{}
+      return 'No se pudo habilitar la prueba (503). Usá «Comprobar configuración» antes de repetirla.';
+    }
     if(status===502){
       try{
         const response=await error.context.clone().json();
@@ -127,10 +142,23 @@
       }
       resultList.hidden=false;
       const allValid=entries.every(([_,valid])=>valid);
-      message(settingsStatus,allValid
+      const modeNames={real:'REAL: acepta pruebas con IA',simulado:'SIMULADO: no utiliza Cloudflare',
+        deshabilitado:'DESHABILITADO: POC_AI_MODE no es live ni mock'};
+      const mode=typeof data.modoServicio==='string'&&Object.hasOwn(modeNames,data.modoServicio)
+        ? data.modoServicio : 'deshabilitado';
+      const modeItem=document.createElement('li');
+      modeItem.textContent='Modo del corrector: '+modeNames[mode];
+      resultList.appendChild(modeItem);
+      const mainMessage=allValid
         ? 'Los formatos son válidos. Esto no confirma la conexión ni los permisos de Cloudflare.'
-        : 'Se encontró un problema de formato. Revisá el secreto indicado en Supabase antes de otra prueba real.',
-        allValid?'ok':'error');
+        : 'Se encontró un problema de formato. Revisá el secreto indicado en Supabase.';
+      const modeAdvice=mode==='real'
+        ? ' El corrector está habilitado para pruebas reales.'
+        : mode==='simulado'
+        ? ' El corrector está en modo simulado. Para una corrección real, poné POC_AI_MODE en live.'
+        : ' El corrector está deshabilitado. Revisá POC_AI_MODE en Supabase.';
+      message(settingsStatus,mainMessage+modeAdvice,
+        allValid&&mode!=='deshabilitado'?'ok':'error');
     }catch{
       message(settingsStatus,'El diagnóstico no pudo completarse. No se consumió una corrección de IA.','error');
     }finally{

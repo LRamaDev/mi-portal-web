@@ -21,7 +21,7 @@ function harness({authorized=true,loggedIn=true,visitor=false,response=null,diag
     functions:{async invoke(slug,opts){
       invoked=true;body=opts.body;assert.equal(slug,'corrector-ia-poc');
       if(body.accion==='diagnostico')return {
-        data:diagnosticResponse??{modo:'diagnostico',consumeCupo:false,realizoSolicitudExterna:false,
+        data:diagnosticResponse??{modo:'diagnostico',modoServicio:'real',consumeCupo:false,realizoSolicitudExterna:false,
           comprobaciones:{cuenta:true,token:true,cabecera:true}},error:null
       };
       return httpError ? {data:null,error:httpError}:{data:response??{
@@ -117,12 +117,12 @@ test('diagnóstico no consume cupo ni solicita corrección de IA',async()=>{
   assert.deepEqual(Object.keys(h.body),['accion']);
   assert.equal(h.body.accion,'diagnostico');
   assert.match(h.elements['settings-status'].textContent,/no confirma la conexión/);
-  assert.equal(h.elements['settings-results'].children.length,3);
+  assert.equal(h.elements['settings-results'].children.length,4);
   assert.equal(h.elements['settings-results'].hidden,false);
 });
 test('diagnóstico distingue credenciales con formato inválido',async()=>{
   const h=harness({diagnosticResponse:{
-    modo:'diagnostico',consumeCupo:false,realizoSolicitudExterna:false,
+    modo:'diagnostico',modoServicio:'real',consumeCupo:false,realizoSolicitudExterna:false,
     comprobaciones:{cuenta:false,token:true,cabecera:true}
   }});
   await h.flush();await h.diag();
@@ -133,4 +133,32 @@ test('modo visitante no permite diagnosticar',async()=>{
   const h=harness({visitor:true});await h.flush();
   assert.equal(h.elements['check-settings'].disabled,true);
   assert.equal(h.invoked,false);
+});
+
+test('diagnóstico de modo deshabilitado no llama al proveedor ni lo presenta como éxito',async()=>{
+  const h=harness({diagnosticResponse:{modo:'diagnostico',modoServicio:'deshabilitado',
+    consumeCupo:false,realizoSolicitudExterna:false,comprobaciones:{cuenta:true,token:true,cabecera:true}}});
+  await h.flush();await h.diag();
+  assert.equal(h.body.accion,'diagnostico');
+  assert.equal(h.elements['settings-status'].dataset.state,'error');
+  assert.match(h.elements['settings-status'].textContent,/POC_AI_MODE/);
+  assert.match(h.elements['settings-results'].children[3].textContent,/DESHABILITADO/);
+});
+test('diagnóstico del modo simulado advierte que no puede corregir con IA',async()=>{
+  const h=harness({diagnosticResponse:{modo:'diagnostico',modoServicio:'simulado',
+    consumeCupo:false,realizoSolicitudExterna:false,comprobaciones:{cuenta:true,token:true,cabecera:true}}});
+  await h.flush();await h.diag();
+  assert.match(h.elements['settings-status'].textContent,/modo simulado/);
+  assert.match(h.elements['settings-results'].children[3].textContent,/SIMULADO/);
+});
+test('HTTP 503 diferencia modo inválido de contador inaccesible sin exponer respuestas crudas',async()=>{
+  for(const [code,expected] of [['mode_disabled',/POC_AI_MODE/],['quota_unavailable',/contador diario/],
+    ['config_invalid_token',/token tiene un formato inválido/]]){
+    const h=harness({httpError:{context:{status:503,clone(){return {async json(){
+      return {code,error:'secretos que no deben mostrarse'};
+    }};}}}});
+    await h.flush();await h.click();
+    assert.match(h.elements['test-status'].textContent,expected);
+    assert.doesNotMatch(h.elements['test-status'].textContent,/secretos que no deben mostrarse/);
+  }
 });
