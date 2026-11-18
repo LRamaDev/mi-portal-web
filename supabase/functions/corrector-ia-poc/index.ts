@@ -22,8 +22,6 @@ const authHandler = withSupabase({ auth: "user" }, async (req, ctx) => {
   if (accessError || !permiso?.user_id) return json({ error: "Cuenta no habilitada" }, 403, origin);
 
   const runMode = Deno.env.get("POC_AI_MODE") ?? "disabled";
-  if (runMode !== "mock" && runMode !== "live") return json({ error: "Prueba deshabilitada" }, 503, origin);
-
   const length = Number(req.headers.get("Content-Length") || "0");
   if (length > 1024) return json({ error: "Solicitud demasiado extensa" }, 413, origin);
   let payload: Record<string, unknown>;
@@ -41,9 +39,17 @@ const authHandler = withSupabase({ auth: "user" }, async (req, ctx) => {
       Deno.env.get("CLOUDFLARE_ACCOUNT_ID"),
       Deno.env.get("CLOUDFLARE_API_TOKEN")
     );
+    // Informamos únicamente el estado operativo a una sesión familiar autorizada.
+    // Esto evita solicitar inferencia si el secreto POC_AI_MODE no está en "live".
+    const modoServicio = runMode === "live" ? "real" :
+      (runMode === "mock" ? "simulado" : "deshabilitado");
     return json({ estado: "ok", modo: "diagnostico", comprobaciones: estado,
-      consumeCupo: false, realizoSolicitudExterna: false }, 200, origin);
+      modoServicio, consumeCupo: false, realizoSolicitudExterna: false }, 200, origin);
   }
+
+  // Las comprobaciones no consumen cupo ni requieren habilitar inferencia.
+  if (runMode !== "mock" && runMode !== "live")
+    return json({ error: "Prueba deshabilitada", code: "mode_disabled" }, 503, origin);
 
   // Solo IDs; prohibimos explícitamente texto, nombres, perfil y otras propiedades.
   if (!payload || typeof payload !== "object" || Array.isArray(payload) ||

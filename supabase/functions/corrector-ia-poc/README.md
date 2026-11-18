@@ -116,3 +116,11 @@ Documentación: https://developers.cloudflare.com/workers-ai/configuration/open-
 - Se conservan el límite de salida de 1600 tokens, el timeout de 65s, la validación estricta, `rejectIfBusy`, la sesión familiar, la autorización `study_access` y la cuota global de cuatro llamadas por día.
 - Esta corrección NO implica aún que GLM entregue JSON válido: falta una prueba de extremo a extremo, con un único texto ficticio.
 - Referencias: https://developers.cloudflare.com/workers-ai/models/glm-4.7-flash/ ; https://developers.cloudflare.com/agents/models/ai-sdk/ .
+
+## Diagnóstico no consumible para HTTP 503 (18/11/2026)
+
+- La solicitud del 18/11/2026 a las 15:56:23 UTC devolvió `503` en 434 ms, mientras el contador seguía en 3/4: no alcanzó Cloudflare ni consumió cupo.
+- El error 503 podía producirse por `POC_AI_MODE` distinto de `mock` o `live`, `config_invalid_*` o `quota_unavailable`. La pantalla agrupaba todos estos estados en un mensaje genérico.
+- La acción autenticada `{accion:"diagnostico"}` ahora responde incluso con `POC_AI_MODE` deshabilitado y devuelve solo la clasificación `modoServicio: real | simulado | deshabilitado`, sin mostrar secretos ni consumir cupo.
+- El error por modo no habilitado incluye ahora `code: mode_disabled`. La interfaz (PR independiente) distinguirá `mode_disabled`, `quota_unavailable` y configuración inválida sin enviar otro texto a Cloudflare.
+- **La causa concreta de ese 503 anterior aún no puede inferirse del registro de acceso solamente.** No crear nuevos intentos de IA hasta ejecutar este diagnóstico.

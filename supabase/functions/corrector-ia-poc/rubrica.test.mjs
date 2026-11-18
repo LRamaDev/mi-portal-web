@@ -166,3 +166,16 @@ test("la respuesta truncada se rechaza incluso cuando contiene un JSON válido",
     error => error.code === "provider_truncated"
   );
 });
+
+
+test("el diagnóstico informa estado de modo antes del bloqueo por POC_AI_MODE", () => {
+  const src=readFileSync(new URL("./index.ts",import.meta.url),"utf8");
+  const diag=src.indexOf('payload.accion === "diagnostico"');
+  const gate=src.indexOf('code: "mode_disabled"');
+  const quota=src.indexOf('ctx.supabaseAdmin.rpc("ai_poc_take_slot")');
+  const fetch=src.indexOf('await fetch(');
+  assert.ok(diag>0 && gate>diag && quota>gate && fetch>quota);
+  assert.ok(src.includes('modoServicio, consumeCupo: false, realizoSolicitudExterna: false'));
+  assert.ok(src.includes('runMode === "live" ? "real"'));
+  assert.ok(src.includes('runMode === "mock" ? "simulado"'));
+});
