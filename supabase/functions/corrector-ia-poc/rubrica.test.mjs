@@ -138,7 +138,7 @@ test("el prototipo limita salida y espera con margen sin reintentos", () => {
   assert.ok(src.includes("options: { rejectIfBusy: true }"));
   assert.ok(src.indexOf('ctx.supabaseAdmin.rpc("ai_poc_take_slot")') < src.indexOf('await fetch('));
   assert.equal((src.match(/await fetch\(/g)||[]).length,1);
-  for(const field of ['withSupabase({ auth: "user" })', 'from("study_access")',
+  for(const field of ['withSupabase({ auth: "user" }', 'from("study_access")',
     'getFixture(fixtureId)', 'runMode === "mock"']) {
     assert.ok(src.includes(field), "Falta control "+field);
   }
