@@ -91,3 +91,11 @@ Documentación: https://developers.cloudflare.com/workers-ai/configuration/open-
 - Próximo intento: recuperar el código amigable del error desde la pantalla ya publicada, usando **solo una** solicitud ficticia cuando empiece un nuevo día UTC. Si hubiera un 502, registrar únicamente el código (`provider_http`, `provider_invalid_json`, `provider_invalid_schema`, `provider_timeout`, etc.) y detener nuevas solicitudes hasta ajustar la causa.
 - El siguiente reinicio del cupo es `2026-11-18 00:00 UTC`, equivalente a `2026-11-17 21:00` en Córdoba.
 - La pantalla sigue aislada de los perfiles y del resto de la aplicación.
+
+## Diagnóstico local de secretos (18/11/2026)
+
+- Nuevo comando autenticado `{ "accion": "diagnostico" }`. Comprueba la **forma** de los secretos de Cloudflare (`Account ID` de 32 hex, token sin espacios o caracteres de control, cabecera HTTP construible).
+- No devuelve credenciales, fragmentos, huellas ni longitudes. No hace solicitudes al proveedor ni usa la cuota de IA.
+- La misma validación se ejecuta en modo real **antes** de reservar un cupo; si falla devuelve uno de `config_invalid_account`, `config_invalid_token`, `config_invalid_header`.
+- El diagnóstico local **no garantiza** que el token tenga permisos suficientes ni que exista conectividad externa. Solo verifica sintaxis.
+- El código conserva el control `withSupabase({auth:"user"})` y la consulta de autorización familiar a `study_access`.

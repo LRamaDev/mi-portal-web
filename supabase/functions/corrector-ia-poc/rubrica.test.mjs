@@ -1,3 +1,4 @@
+import { diagnosticarCredenciales } from "./credenciales.mjs";
 import { readFileSync } from "node:fs";
 import test from "node:test";
 import assert from "node:assert/strict";
@@ -108,4 +109,24 @@ test("usa el endpoint uniforme y mensajes de fallo seguros", () => {
   assert.ok(source.includes('provider_invalid_json'));
   assert.ok(source.includes('ctx.supabaseAdmin.rpc("ai_poc_take_slot")'));
   assert.ok(source.indexOf('ctx.supabaseAdmin.rpc("ai_poc_take_slot")') < source.indexOf('await fetch('));
+});
+
+test("diagnóstico local: configuración con formato válido, sin conexión", () => {
+  const result = diagnosticarCredenciales("a".repeat(32), "cftoken_" + "B".repeat(42));
+  assert.deepEqual(result, { cuenta: true, token: true, cabecera: true });
+});
+test("diagnóstico detecta Account ID mal copiado y token con saltos de línea", () => {
+  const invalidAccount = diagnosticarCredenciales("https://dash.cloudflare.com/", "cftoken_" + "B".repeat(42));
+  assert.equal(invalidAccount.cuenta, false);
+  const invalidToken = diagnosticarCredenciales("a".repeat(32), "cftoken_" + "B".repeat(42) + "\n");
+  assert.equal(invalidToken.token, false);
+  assert.equal(invalidToken.cabecera, false);
+});
+test("el diagnóstico está antes del límite y no envía solicitudes externas", () => {
+  const src=readFileSync(new URL("./index.ts",import.meta.url),"utf8");
+  assert.ok(src.includes('payload.accion === "diagnostico"'));
+  assert.ok(src.indexOf('payload.accion === "diagnostico"') < src.indexOf('ctx.supabaseAdmin.rpc("ai_poc_take_slot")'));
+  assert.ok(src.includes('config_invalid_account'));
+  assert.ok(src.includes('config_invalid_token'));
+  assert.ok(src.includes('realizoSolicitudExterna: false'));
 });

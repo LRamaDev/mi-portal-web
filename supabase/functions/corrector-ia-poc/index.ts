@@ -2,6 +2,7 @@
 // NUNCA enviar respuestas reales de estudiantes desde esta función.
 import { withSupabase } from "npm:@supabase/server@1";
 import { getFixture } from "./fixtures.mjs";
+import { diagnosticarCredenciales } from "./credenciales.mjs";
 import { MODEL_IDS, prepararSolicitud, interpretarRespuestaCloudflare, correccionSimulada } from "./rubrica.mjs";
 
 const ORIGEN = "https://lramadev.github.io";
@@ -32,6 +33,18 @@ const authHandler = withSupabase({ auth: "user" }, async (req, ctx) => {
     payload = JSON.parse(raw);
   } catch { return json({ error: "JSON inválido" }, 400, origin); }
 
+  // Diagnóstico de CONFIGURACIÓN, sin conexión externa y sin consumir cupo.
+  // Solo disponible para la cuenta familiar autenticada y autorizada.
+  if (payload && !Array.isArray(payload) && typeof payload === "object" &&
+      Object.keys(payload).length === 1 && payload.accion === "diagnostico") {
+    const estado = diagnosticarCredenciales(
+      Deno.env.get("CLOUDFLARE_ACCOUNT_ID"),
+      Deno.env.get("CLOUDFLARE_API_TOKEN")
+    );
+    return json({ estado: "ok", modo: "diagnostico", comprobaciones: estado,
+      consumeCupo: false, realizoSolicitudExterna: false }, 200, origin);
+  }
+
   // Solo IDs; prohibimos explícitamente texto, nombres, perfil y otras propiedades.
   if (!payload || typeof payload !== "object" || Array.isArray(payload) ||
       Object.keys(payload).some(k => !["fixtureId", "modelo"].includes(k))) {
@@ -52,7 +65,13 @@ const authHandler = withSupabase({ auth: "user" }, async (req, ctx) => {
 
   const account = Deno.env.get("CLOUDFLARE_ACCOUNT_ID");
   const token = Deno.env.get("CLOUDFLARE_API_TOKEN");
-  if (!account || !token) return json({ error: "Proveedor no configurado" }, 503, origin);
+  const checks = diagnosticarCredenciales(account, token);
+  if (!checks.cuenta) return json({ error: "El Account ID no tiene el formato esperado",
+    code: "config_invalid_account" }, 503, origin);
+  if (!checks.token) return json({ error: "El token no tiene el formato esperado",
+    code: "config_invalid_token" }, 503, origin);
+  if (!checks.cabecera) return json({ error: "El encabezado Authorization no pudo construirse",
+    code: "config_invalid_header" }, 503, origin);
 
   // Cuota GLOBAL atómica en PostgreSQL, máximo cuatro llamadas reales por día UTC.
   // Solo la cuenta privilegiada de la función puede ejecutar esta RPC; falla cerrada.
