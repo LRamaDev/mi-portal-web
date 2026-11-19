@@ -19,3 +19,4 @@ jobs:
         run: |
           node --test supabase/functions/corrector-ia-poc/rubrica.test.mjs
           node --test supabase/functions/corrector-ia-poc/benchmark/comparar.test.mjs
+          node --test supabase/functions/corrector-ia-poc/hibrido.test.mjs

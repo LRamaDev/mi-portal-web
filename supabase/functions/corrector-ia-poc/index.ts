@@ -4,6 +4,7 @@ import { withSupabase } from "npm:@supabase/server@1";
 import { getFixture } from "./fixtures.mjs";
 import { diagnosticarCredenciales } from "./credenciales.mjs";
 import { auditarCorreccionFicticia } from "./auditoria.mjs";
+import { corregirReglasVerificadas, prepararSolicitudNarrativa, normalizarNarrativa, narrativaSimulada } from "./hibrido.mjs";
 import { MODEL_IDS, prepararSolicitud, interpretarRespuestaCloudflare, correccionSimulada } from "./rubrica.mjs";
 
 const ORIGEN = "https://lramadev.github.io";
@@ -46,6 +47,72 @@ const authHandler = withSupabase({ auth: "user" }, async (req, ctx) => {
       (runMode === "mock" ? "simulado" : "deshabilitado");
     return json({ estado: "ok", modo: "diagnostico", comprobaciones: estado,
       modoServicio, consumeCupo: false, realizoSolicitudExterna: false }, 200, origin);
+  }
+
+  // Corrector híbrido: SOLO los dos relatos fijos y una revisión humana contextual.
+  // La rama determinística es gratuita y funciona aunque POC_AI_MODE esté apagado.
+  if (payload && typeof payload === "object" && !Array.isArray(payload) &&
+      payload.accion === "hibrido") {
+    if (Object.keys(payload).some(k=>!["accion","fixtureId","narrativa","modelo"].includes(k)) ||
+        (payload.narrativa !== undefined && typeof payload.narrativa !== "boolean")) {
+      return json({ error: "La prueba híbrida no admite texto libre ni otros campos" }, 400, origin);
+    }
+    const fixtureId = payload.fixtureId;
+    const modelo = payload.modelo ?? "glm";
+    if (typeof fixtureId !== "string" || !getFixture(fixtureId) ||
+        typeof modelo !== "string" || !Object.hasOwn(MODEL_IDS, modelo)) {
+      return json({ error: "Relato o modelo de prueba inválido" }, 400, origin);
+    }
+    const solicitaNarrativa = payload.narrativa === true;
+    const correccion = corregirReglasVerificadas(fixtureId);
+    const local = { estado:"ok",modo:"hibrido",fixtureId,correccion,
+      narrativa:null,consumeCupo:false,realizoSolicitudExterna:false };
+    if (!solicitaNarrativa) return json(local, 200, origin);
+
+    // Un clic distinto debe autorizar expresamente el uso de Cloudflare.
+    if (runMode === "mock") return json({...local,narrativa:narrativaSimulada(fixtureId),
+      modoNarrativa:"simulado"}, 200, origin);
+    if (runMode !== "live") return json({error:"Prueba narrativa deshabilitada",
+      code:"mode_disabled"},503,origin);
+
+    const account = Deno.env.get("CLOUDFLARE_ACCOUNT_ID");
+    const token = Deno.env.get("CLOUDFLARE_API_TOKEN");
+    const checks = diagnosticarCredenciales(account,token);
+    if (!checks.cuenta || !checks.token || !checks.cabecera) {
+      return json({error:"Cloudflare no está configurado correctamente",
+        code:"config_invalid_token"},503,origin);
+    }
+    const {data:allowed,error:quotaError}=await ctx.supabaseAdmin.rpc("ai_poc_take_slot");
+    if (quotaError) return json({error:"No se pudo verificar el cupo",
+      code:"quota_unavailable"},503,origin);
+    if (allowed !== true) return json({error:"Límite diario alcanzado",
+      code:"quota_exceeded"},429,origin);
+
+    const {model,body}=prepararSolicitudNarrativa(fixtureId,modelo);
+    try {
+      const response=await fetch(
+        `https://api.cloudflare.com/client/v4/accounts/${encodeURIComponent(account)}/ai/v1/chat/completions`, {
+        method:"POST",headers:{Authorization:`Bearer ${token}`,"Content-Type":"application/json"},
+        body:JSON.stringify({model,...body,options:{rejectIfBusy:true}}),
+        signal:AbortSignal.timeout(65000)
+      });
+      if (!response.ok) return json({error:"Cloudflare rechazó la solicitud",
+        code:"provider_http",providerStatus:response.status},502,origin);
+      let envelope;
+      try {envelope=await response.json();}
+      catch {return json({error:"Respuesta inválida del proveedor",
+        code:"provider_invalid_envelope"},502,origin);}
+      let narrativa;
+      try {narrativa=normalizarNarrativa(envelope);}
+      catch {return json({error:"La sugerencia narrativa no pudo validarse",
+        code:"provider_invalid_schema"},502,origin);}
+      return json({...local,narrativa,modoNarrativa:"proveedor",
+        consumeCupo:true,realizoSolicitudExterna:true},200,origin);
+    } catch(error) {
+      const code=error?.name==="TimeoutError"||error?.name==="AbortError" ?
+        "provider_timeout":"provider_network";
+      return json({error:"No fue posible consultar Cloudflare",code},502,origin);
+    }
   }
 
   // Las comprobaciones no consumen cupo ni requieren habilitar inferencia.

@@ -141,3 +141,20 @@ Documentación: https://developers.cloudflare.com/workers-ai/configuration/open-
 - GPT-OSS 20B sigue **pendiente de prueba real**. No se infirieron ni inventaron resultados.
 - Se detectó una contradicción de contrato: 6 errores obligatorios, pero antes se admitían solo 5 observaciones; se cambió a **10 observaciones máximo**. Este cambio sigue únicamente en el PR experimental, **NO se despliega como parte de la creación del benchmark**.
 - El comparador offline verifica coincidencia de errores y sustituciones; **no** sustituye la corrección adulta de explicaciones o narrativa. No realiza llamadas externas ni altera la base de datos.
+
+## Corrector híbrido experimental — 19/11/2026
+
+Se añadió la acción autenticada `{ "accion":"hibrido", "fixtureId":"ficcion-01" }`, separada de la antigua corrección IA. El backend solo reconoce `ficcion-01` y `ficcion-02`, ya corregidos de forma contextual por una persona adulta.
+
+**Componente de forma, sin IA:** `hibrido.mjs` convierte las referencias humanas de `benchmark/referencia-humana.mjs` en correcciones con fragmento original, propuesta, explicación y posición exacta. No corrige texto libre, no hace consultas externas, no consume cupo y **no asigna notas**; funciona en `mock`, `live` o modo deshabilitado.
+
+**Componente narrativo, separado y optativo:** `{ "accion":"hibrido", "fixtureId":"ficcion-01", "narrativa":true, "modelo":"glm" }`. En `mock` utiliza respuestas SIMULADAS; en `live` exige autenticación, autorización `study_access`, credenciales válidas y un cupo global de cuatro llamadas UTC antes de contactar Cloudflare. El modelo recibe exclusivamente la consigna y el relato **ficticios**; solo se le solicita fortalezas, sugerencias narrativas y preguntas de revisión. Se rechazan salidas que incluyan puntuaciones u otros campos. Aun así las sugerencias **no están validadas pedagógicamente**: requieren revisión adulta.
+
+**Alcance limitado intencionalmente:** esto no es un corrector general de ortografía ni puede utilizarse con producciones de A/V. Las reglas de referencia solo son seguras porque están adaptadas a esos fragmentos exactos. Cualquier ampliación debe construir y verificar referencias nuevas. No modifica `study_profile_state`, `study_attempt_evidence` ni la aplicación principal.
+
+**Pruebas (sin proveedor):**
+```sh
+node --test supabase/functions/corrector-ia-poc/hibrido.test.mjs
+```
+
+No fusionar el PR #161 ni activar la IA para textos reales de menores sin revisar privacidad, permisos adultos y adecuación pedagógica.
