@@ -124,3 +124,13 @@ Documentación: https://developers.cloudflare.com/workers-ai/configuration/open-
 - La acción autenticada `{accion:"diagnostico"}` ahora responde incluso con `POC_AI_MODE` deshabilitado y devuelve solo la clasificación `modoServicio: real | simulado | deshabilitado`, sin mostrar secretos ni consumir cupo.
 - El error por modo no habilitado incluye ahora `code: mode_disabled`. La interfaz (PR independiente) distinguirá `mode_disabled`, `quota_unavailable` y configuración inválida sin enviar otro texto a Cloudflare.
 - **La causa concreta de ese 503 anterior aún no puede inferirse del registro de acceso solamente.** No crear nuevos intentos de IA hasta ejecutar este diagnóstico.
+
+## Auditoría pedagógica tras primera respuesta real — 19/11/2026
+
+- La prueba con `ficcion-01` y GLM 4.7 Flash respondió correctamente por primera vez, pero **dio 35/35 a un texto con faltas evidentes**.
+- El modelo ofreció explicaciones incorrectas: `quizo` no es un subjuntivo en la frase, `después` es adverbio y `logró` está en 3.ª persona; omitió `se callo → se cayó`.
+- Se agrega `auditoria.mjs`, con referencias esperadas SOLO para los dos relatos ficticios. Descarta errores cuya cita no aparezca literalmente en el texto; identifica cobertura incompleta y contradicciones de máximo puntaje.
+- **No se muestra ninguna nota como válida automáticamente**, ni siquiera cuando el modelo devuelve JSON correcto. `puntajeEstimado: null`, `puntajePropuestoPorModelo` conserva la cifra como dato de investigación, `calificacionValidada:false` y `auditoria.estado:requiere_revision_adulta`.
+- La auditoría **no puede certificar la exactitud de una explicación gramatical** ni sustituir la valoración humana. Antes de permitir datos de estudiantes deben añadirse pruebas de calidad y privacidad aplicables a menores.
+- Para la UI experimental se requiere el PR de presentación posterior, que mostrará claramente `Puntaje sin validar` y advertencias al titular.
+- No se hacen consultas de IA durante pruebas de CI ni al desplegar.

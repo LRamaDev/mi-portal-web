@@ -3,6 +3,7 @@
 import { withSupabase } from "npm:@supabase/server@1";
 import { getFixture } from "./fixtures.mjs";
 import { diagnosticarCredenciales } from "./credenciales.mjs";
+import { auditarCorreccionFicticia } from "./auditoria.mjs";
 import { MODEL_IDS, prepararSolicitud, interpretarRespuestaCloudflare, correccionSimulada } from "./rubrica.mjs";
 
 const ORIGEN = "https://lramadev.github.io";
@@ -105,7 +106,9 @@ const authHandler = withSupabase({ auth: "user" }, async (req, ctx) => {
     catch { return json({ error: "Cloudflare devolvió una respuesta no JSON", code: "provider_invalid_envelope" }, 502, origin); }
     try {
       const result = interpretarRespuestaCloudflare(envelope);
-      return json({ estado: "ok", modo: "proveedor", fixtureId, modelo, resultado: result }, 200, origin);
+      // Solo textos del servidor. No publicar puntajes sin una revisión pedagógica.
+      const revisado = auditarCorreccionFicticia(fixtureId, getFixture(fixtureId), result);
+      return json({ estado: "ok", modo: "proveedor", fixtureId, modelo, resultado: revisado }, 200, origin);
     } catch (error) {
       const codes = ["provider_invalid_envelope", "provider_truncated", "provider_empty",
         "provider_invalid_format", "provider_invalid_json", "provider_invalid_schema"];

@@ -1,3 +1,4 @@
+import { auditarCorreccionFicticia } from "./auditoria.mjs";
 import { diagnosticarCredenciales } from "./credenciales.mjs";
 import { readFileSync } from "node:fs";
 import test from "node:test";
@@ -178,4 +179,45 @@ test("el diagnóstico informa estado de modo antes del bloqueo por POC_AI_MODE",
   assert.ok(src.includes('modoServicio, consumeCupo: false, realizoSolicitudExterna: false'));
   assert.ok(src.includes('runMode === "live" ? "real"'));
   assert.ok(src.includes('runMode === "mock" ? "simulado"'));
+});
+
+test("un 35/35 con faltas se oculta y se marca para revisión adulta", () => {
+  const original=correccionSimulada("ficcion-01");
+  const response={...original,
+    criterios:{coherencia:7,complicacion_resolucion:8,recursos_expresivos:5,cohesion:4,
+      morfosintaxis:3,ortografia:4,puntuacion:4},
+    puntajeEstimado:35,
+    errores:[{fragmento:"El chico quizo abrirla",correccion:"El chico quiso abrirla",
+      explicacion:"Se escribe quiso con s."}]
+  };
+  const audited=auditarCorreccionFicticia("ficcion-01",getFixture("ficcion-01"),response);
+  assert.equal(audited.puntajeEstimado,null);
+  assert.equal(audited.puntajePropuestoPorModelo,35);
+  assert.equal(audited.calificacionValidada,false);
+  assert.ok(audited.auditoria.motivos.includes("puntaje_maximo_con_errores"));
+  assert.ok(audited.auditoria.motivos.includes("errores_esperados_omitidos"));
+  assert.ok(audited.auditoria.indiciosConocidosOmitidos > 0);
+});
+test("no mostramos fragmentos inventados por el modelo", () => {
+  const source=correccionSimulada("ficcion-02");
+  const invented={fragmento:"La luna cantaba",correccion:"La luna brillaba",explicacion:"No corresponde"};
+  const audited=auditarCorreccionFicticia("ficcion-02",getFixture("ficcion-02"),
+    {...source,errores:[invented,...source.errores]});
+  assert.equal(audited.errores.some(e=>e.fragmento==="La luna cantaba"),false);
+  assert.equal(audited.auditoria.fragmentosInventadosDescartados,1);
+  assert.equal(audited.puntajeEstimado,null);
+});
+test("también se evita usar como calificación una corrección razonable no calibrada", () => {
+  const source=correccionSimulada("ficcion-02");
+  const audited=auditarCorreccionFicticia("ficcion-02",getFixture("ficcion-02"),source);
+  assert.equal(audited.puntajeEstimado,null);
+  assert.equal(audited.calificacionValidada,false);
+  assert.equal(audited.puntajePropuestoPorModelo,23);
+});
+test("la auditoría precede a cualquier respuesta real al navegador", () => {
+  const source=readFileSync(new URL("./index.ts",import.meta.url),"utf8");
+  assert.ok(source.includes('auditarCorreccionFicticia(fixtureId, getFixture(fixtureId), result)'));
+  assert.ok(source.indexOf('auditarCorreccionFicticia(fixtureId, getFixture(fixtureId), result)') <
+    source.indexOf('modo: "proveedor", fixtureId, modelo, resultado: revisado'));
+  assert.ok(source.includes('withSupabase({ auth: "user" }'));
 });
