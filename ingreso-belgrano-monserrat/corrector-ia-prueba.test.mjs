@@ -7,11 +7,11 @@ const html=readFileSync(new URL('corrector-ia-prueba.html',base),'utf8');
 const src=readFileSync(new URL('corrector-ia-prueba.js',base),'utf8');
 
 function harness({authorized=true,loggedIn=true,visitor=false,response=null,diagnosticResponse=null,modelo='glm',fixtureId='ficcion-01',httpError=null}={}){
-  const ids=['run-check','check-settings','settings-status','settings-results','connection-status','test-status','result-panel','result-note','result-mode','result-score','result-model','result-strengths',
+  const ids=['run-check','check-settings','settings-status','settings-results','connection-status','test-status','result-panel','result-note','result-mode','result-score','result-audit','result-model','result-strengths',
     'extra-feedback','result-tips','result-errors','fixture-select','model-select'];
   const elements=Object.fromEntries(ids.map(id=>[id,{
     textContent:'',value:id==='fixture-select'?fixtureId:id==='model-select'?modelo:'',
-    dataset:{},disabled:['run-check','check-settings'].includes(id),hidden:['result-panel','extra-feedback','settings-results'].includes(id),children:[],listeners:{},
+    dataset:{},disabled:['run-check','check-settings'].includes(id),hidden:['result-panel','extra-feedback','settings-results','result-audit'].includes(id),children:[],listeners:{},
     replaceChildren(){this.children=[];},appendChild(x){this.children.push(x);},addEventListener(t,fn){this.listeners[t]=fn;}
   }]));
   let clients=0,invoked=false,body;
@@ -60,13 +60,18 @@ test('Simulación sin Cloudflare requiere un solo cliente y un clic',async()=>{
 test('Se acepta una devolución real ficticia estructurada',async()=>{
  const h=harness({modelo:'oss',fixtureId:'ficcion-02',response:{
    modo:'proveedor',fixtureId:'ficcion-02',modelo:'oss',
-   resultado:{puntajeEstimado:19,maximo:35,fortalezas:['Secuencia clara.'],
+   resultado:{puntajeEstimado:null,puntajePropuestoPorModelo:19,calificacionValidada:false,
+     auditoria:{estado:'requiere_revision_adulta',motivos:['evaluacion_no_calibrada'],
+       indiciosConocidosOmitidos:1,fragmentosInventadosDescartados:0},
+     maximo:35,fortalezas:['Secuencia clara.'],
      sugerencias:['Separá las ideas.'],errores:[{fragmento:'no sabia',correccion:'no sabía',explicacion:'Lleva tilde.'}]}
  }});
  await h.flush();await h.click();
  assert.equal(h.body.modelo,'oss');assert.equal(h.body.fixtureId,'ficcion-02');
  assert.equal(h.elements['result-mode'].textContent,'Cloudflare');
- assert.equal(h.elements['result-score'].textContent,'19 / 35');
+ assert.equal(h.elements['result-score'].textContent,'No validado');
+ assert.match(h.elements['result-audit'].textContent,/modelo propuso 19\/35/);
+ assert.equal(h.elements['result-audit'].hidden,false);
  assert.equal(h.elements['extra-feedback'].hidden,false);
  assert.equal(h.elements['result-errors'].children.length,1);
 });
@@ -161,4 +166,12 @@ test('HTTP 503 diferencia modo inválido de contador inaccesible sin exponer res
     assert.match(h.elements['test-status'].textContent,expected);
     assert.doesNotMatch(h.elements['test-status'].textContent,/secretos que no deben mostrarse/);
   }
+});
+
+test('rechaza respuesta IA sin auditoría y nunca muestra 35/35 como nota válida',async()=>{
+  const h=harness({response:{modo:'proveedor',fixtureId:'ficcion-01',modelo:'glm',
+    resultado:{puntajeEstimado:35,maximo:35,fortalezas:['Texto perfecto.']}}});
+  await h.flush();await h.click();
+  assert.equal(h.elements['result-panel'].hidden,true);
+  assert.equal(h.elements['test-status'].dataset.state,'error');
 });

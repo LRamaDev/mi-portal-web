@@ -9,7 +9,7 @@
   <link rel="stylesheet" href="./corrector-ia-prueba.css?v=2">
   <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script defer src="./config.js?v=6.25.0"></script>
-  <script defer src="./corrector-ia-prueba.js?v=5"></script>
+  <script defer src="./corrector-ia-prueba.js?v=6"></script>
 </head>
 <body>
   <main class="layout">
@@ -52,9 +52,10 @@
       <p id="result-note" class="simulation-label">Resultado experimental</p>
       <dl class="result-data">
         <div><dt>Modo</dt><dd id="result-mode">—</dd></div>
-        <div><dt>Puntaje orientativo</dt><dd id="result-score">—</dd></div>
+        <div><dt>Calificación</dt><dd id="result-score">—</dd></div>
         <div><dt>Modelo solicitado</dt><dd id="result-model">—</dd></div>
       </dl>
+      <p id="result-audit" class="simulation-label" role="note" hidden></p>
       <h3>Fortalezas</h3>
       <ul id="result-strengths"></ul>
       <div id="extra-feedback" hidden>
