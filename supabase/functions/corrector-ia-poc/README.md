@@ -134,3 +134,10 @@ Documentación: https://developers.cloudflare.com/workers-ai/configuration/open-
 - La auditoría **no puede certificar la exactitud de una explicación gramatical** ni sustituir la valoración humana. Antes de permitir datos de estudiantes deben añadirse pruebas de calidad y privacidad aplicables a menores.
 - Para la UI experimental se requiere el PR de presentación posterior, que mostrará claramente `Puntaje sin validar` y advertencias al titular.
 - No se hacen consultas de IA durante pruebas de CI ni al desplegar.
+
+## Benchmark offline de dos relatos ficticios — 19/11/2026
+- Se agregó una referencia humana en `benchmark/REFERENCIA_PEDAGOGICA.md` y una versión procesable `benchmark/referencia-humana.mjs`.
+- La transcripción manual del primer resultado real de GLM permite comprobar **5 de 6** detecciones ortográficas, con explicaciones gramaticales erróneas y una calificación **35/35 no validable**.
+- GPT-OSS 20B sigue **pendiente de prueba real**. No se infirieron ni inventaron resultados.
+- Se detectó una contradicción de contrato: 6 errores obligatorios, pero antes se admitían solo 5 observaciones; se cambió a **10 observaciones máximo**. Este cambio sigue únicamente en el PR experimental, **NO se despliega como parte de la creación del benchmark**.
+- El comparador offline verifica coincidencia de errores y sustituciones; **no** sustituye la corrección adulta de explicaciones o narrativa. No realiza llamadas externas ni altera la base de datos.

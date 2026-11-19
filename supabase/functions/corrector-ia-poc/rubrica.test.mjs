@@ -221,3 +221,11 @@ test("la auditoría precede a cualquier respuesta real al navegador", () => {
     source.indexOf('modo: "proveedor", fixtureId, modelo, resultado: revisado'));
   assert.ok(source.includes('withSupabase({ auth: "user" }'));
 });
+
+test("se admiten hasta diez observaciones para relatar todos los errores ficticios",()=>{
+  const source=correccionSimulada("ficcion-01");
+  const six=Array.from({length:6},(_,i)=>({fragmento:"señal "+i,
+    correccion:"cambio "+i,explicacion:"Explicación del caso "+i}));
+  assert.equal(normalizarCorreccion({...source,errores:six}).errores.length,6);
+  assert.throws(()=>normalizarCorreccion({...source,errores:Array.from({length:11},()=>six[0])}));
+});
