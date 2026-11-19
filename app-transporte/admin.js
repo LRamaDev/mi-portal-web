@@ -192,6 +192,9 @@
     var fetchFn=options.fetchFn||fetch,token=options.token||'',client=githubClient(token,fetchFn),request=client.request;
     var runs=await requestWithPublicFallback(client,token,fetchFn,'/actions/workflows/'+WORKFLOW_FILE+'/runs?branch='+BASE_BRANCH+'&per_page=30');
     var run=findRelevantRun(runs.workflow_runs||[],options.flow),compact=compactRun(run);
+    if(options.flow.sourceChangedFiles===0&&!options.flow.retryRequestedAt){
+      return {kind:'unchanged',run:null};
+    }
     if(run&&run.conclusion==='failure'){
       return {kind:'failed',run:compact,errors:await readWorkflowErrors({token:token,fetchFn:fetchFn,run:run})};
     }
@@ -206,6 +209,10 @@
     }
     if(run&&run.conclusion==='success'){
       return {kind:'missing-pr',run:compact};
+    }
+    var mergeTime=Date.parse(options.flow.sourceMergedAt||0);
+    if(!run&&mergeTime&&Date.now()-mergeTime>120000&&!options.flow.retryRequestedAt){
+      return {kind:'not-started',run:null};
     }
     return {kind:'running',run:compact};
   }
@@ -235,12 +242,15 @@
     if(!state||!state.sourcePull)return state;
     var request=githubClient(options.token||'',options.fetchFn||fetch).request;
     var updated=Object.assign({},state);
-    if(!updated.sourceMergedAt){
+    if(!updated.sourceMergedAt||typeof updated.sourceChangedFiles!=='number'){
       var source=await request('/pulls/'+updated.sourcePull.number);
+      if(source&&typeof source.changed_files==='number'){
+        updated.sourceChangedFiles=source.changed_files;
+      }
       if(source&&source.merged_at){
         updated.sourceMergedAt=source.merged_at;
         updated.sourceMergeSha=source.merge_commit_sha;
-        updated.processingState='running';
+        updated.processingState=source.changed_files===0?'unchanged':updated.processingState||'running';
       }
     }
     if(updated.publicationPull&&!updated.publicationMergedAt){
@@ -266,9 +276,11 @@
     }
     function renderFlow(){
       if(!flow){result.hidden=true;result.innerHTML='';return;}
-      var first=flow.sourceMergedAt?step('done','1. Carga de los PDF','Fusionada correctamente en main.',flow.sourcePull):step('ready','1. Carga de los PDF','Revisá el PR y fusioná los ocho archivos.',flow.sourcePull,'merge-source','Fusionar carga');
+      var sourceUnchanged=flow.sourceChangedFiles===0&&flow.sourceMergedAt&&!flow.retryRequestedAt;
+      var first=sourceUnchanged?step('error','1. Carga sin archivos nuevos','El PR se fusionó, pero no modificó ninguno de los ocho PDF.',flow.sourcePull):flow.sourceMergedAt?step('done','1. Carga de los PDF','Fusionada correctamente en main.',flow.sourcePull):step('ready','1. Carga de los PDF','Revisá el PR y fusioná los ocho archivos.',flow.sourcePull,'merge-source','Fusionar carga');
       var second,errorDetails='';
-      if(flow.publicationMergedAt)second=step('done','2. Publicación de horarios','Los horarios y el historial fueron fusionados.',flow.publicationPull);
+      if(sourceUnchanged)second=step('waiting','2. No hubo nuevo procesamiento','Los PDF guardados en GitHub siguen iguales. Seleccioná los ocho cronogramas nuevos y presioná «Subir los ocho PDF». No es necesario reintentar el proceso anterior.');
+      else if(flow.publicationMergedAt)second=step('done','2. Publicación de horarios','Los horarios y el historial fueron fusionados.',flow.publicationPull);
       else if(flow.publicationPull)second=step('ready','2. Publicación de horarios','La extracción y la validación terminaron correctamente.',flow.publicationPull,'merge-publication','Fusionar y publicar');
       else if(flow.processingState==='failed'){
         second=step('error','2. Procesamiento detenido','GitHub encontró un error. Los PDF siguen cargados; no se publicaron horarios incompletos.',null,'retry-processing','Reintentar sin subir PDF');
@@ -278,6 +290,7 @@
         }).join('')+'</ul><p>Si el PDF contiene un formato nuevo, hay que adaptar el extractor antes de repetir el procesamiento.</p></div>';
         else errorDetails='<p class="admin-error-details">No se pudo obtener el detalle técnico. Abrí el registro de GitHub para conocer el motivo antes de reintentar.</p>';
       }else if(flow.processingState==='missing-pr')second=step('error','2. Falta el PR de publicación','GitHub terminó, pero no se encontró el segundo Pull Request. Revisá el registro antes de reintentar.',null,'retry-processing','Reintentar procesamiento');
+      else if(flow.processingState==='not-started')second=step('error','2. No se inició el procesamiento','GitHub no registró una ejecución para esta fusión. Comprobá si cambió algún PDF; si hubo cambios podés reintentar.',null,'retry-processing','Reintentar procesamiento');
       else if(flow.sourceMergedAt)second=step('waiting','2. Procesamiento de horarios','Consultá el estado real de GitHub para saber si sigue procesando o si ya terminó.',null,'check-status','Consultar estado');
       else second=step('waiting','2. Publicación de horarios','Se habilitará después de fusionar la carga.');
       var runLink=flow.processingRun&&flow.processingRun.html_url?'<a href="'+esc(flow.processingRun.html_url)+'" target="_blank" rel="noopener noreferrer">Ver ejecución de GitHub ↗</a> · ':'';
@@ -306,6 +319,14 @@
         }else if(state.kind==='missing-pr'){
           flow.processingState='missing-pr';
           status.textContent='GitHub terminó correctamente, pero no se encontró un PR de publicación. Revisá la ejecución.';
+          status.className='admin-status error';
+        }else if(state.kind==='unchanged'){
+          flow.processingState='unchanged';
+          status.textContent='El PR fusionado no modificó ningún PDF. No hay un procesamiento nuevo. Subí los ocho PDF actualizados para iniciar una nueva carga.';
+          status.className='admin-status error';
+        }else if(state.kind==='not-started'){
+          flow.processingState='not-started';
+          status.textContent='No se inició el procesamiento de esta carga. Revisá si hubo archivos modificados antes de reintentar.';
           status.className='admin-status error';
         }else{
           flow.processingState='running';
@@ -338,7 +359,7 @@
       try{
         var done=await upload({token:key,entries:check.entries,onProgress:function(value,message){progress.value=value;status.textContent=message;}});
         if(done.unchanged){
-          status.textContent='Estos ocho PDF son idénticos a los ya cargados. No se creó un PR duplicado. Si hubo un error, usá la opción de reintento del procesamiento.';
+          status.textContent='Estos ocho PDF son idénticos a los ya cargados en GitHub. No se creó una carga nueva. Si esperabas horarios distintos, verificá que hayas elegido los PDF correctos.';
           status.className='admin-status success';
         }else{
           flow={branch:done.branch,commit:done.commit,sourcePull:done.sourcePull,actionsUrl:done.actionsUrl,createdAt:new Date().toISOString()};
@@ -357,7 +378,13 @@
           if(typeof confirm==='function'&&!confirm('¿Fusionar los ocho PDF e iniciar la validación?'))return;
           setBusy(true);status.textContent='Fusionando la carga de PDF…';status.className='admin-status';
           var merged=await mergePull({token:key,number:flow.sourcePull.number,sha:flow.sourcePull.head.sha,title:'Incorporar cronogramas para su procesamiento'});
-          flow.sourceMergedAt=new Date().toISOString();flow.sourceMergeSha=merged.sha;flow.retryRequestedAt=null;flow.processingState='running';flow.failureDetails=[];saveFlow();renderFlow();setBusy(false);await locatePublication(key,session);
+          flow.sourceMergedAt=new Date().toISOString();flow.sourceMergeSha=merged.sha;flow.retryRequestedAt=null;flow.processingState='running';flow.failureDetails=[];
+          try{flow=await syncFlowMerges({flow:flow,token:key});}catch(error){}
+          saveFlow();renderFlow();setBusy(false);
+          if(flow.sourceChangedFiles===0){
+            status.textContent='La fusión no modificó los PDF: no se inició un procesamiento. Subí los cronogramas nuevos.';
+            status.className='admin-status error';
+          }else await locatePublication(key,session);
         }else if(action==='check-status')await locatePublication(key,session,true);
         else if(action==='retry-processing'){
           if(typeof confirm==='function'&&!confirm('¿Volver a procesar los ocho PDF que ya están en GitHub, sin modificar ni publicar los horarios actuales?'))return;
