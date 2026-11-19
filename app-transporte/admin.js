@@ -350,7 +350,7 @@
       if(openSession===session&&flow&&flow.sourceMergedAt&&!flow.publicationMergedAt&&!flow.publicationPull)locatePublication('',openSession,true);
     });
     doc.getElementById('admin-close').addEventListener('click',close);doc.getElementById('admin-cancel').addEventListener('click',close);
-    files.addEventListener('change',function(){var check=classifyFiles(files.files);list.innerHTML=check.entries.map(function(entry){return '<div class="admin-file-row ok"><strong>'+esc(entry.corridor)+'</strong><span>'+esc(entry.file.name)+'</span></div>';}).join('')+check.errors.map(function(error){return '<div class="error">'+esc(error)+'</div>';}).join('');});
+    files.addEventListener('change',function(){var check=classifyFiles(files.files);list.innerHTML=(check.ok?'<p class="admin-selection-note">Ocho PDF seleccionados, todavía NO enviados a GitHub. Presioná «Subir los ocho PDF» para comenzar.</p>':'')+check.entries.map(function(entry){return '<div class="admin-file-row ok"><strong>'+esc(entry.corridor)+'</strong><span>'+esc(entry.file.name)+'</span></div>';}).join('')+check.errors.map(function(error){return '<div class="error">'+esc(error)+'</div>';}).join('');if(check.ok){status.textContent='Los archivos están seleccionados, pero todavía no se cargaron. Presioná «Subir los ocho PDF». ';status.className='admin-status';}});
     form.addEventListener('submit',async function(event){
       event.preventDefault();var check=classifyFiles(files.files),key=token.value.trim();
       if(!check.ok){status.textContent=check.errors[0];status.className='admin-status error';return;}
