@@ -1235,6 +1235,13 @@
       "source": "Georef Argentina · asentamientos",
       "source_name": "Yocsina",
       "department": "Santa María"
+    },
+    "ANISACATE": {
+      "lat": -31.7255025269638,
+      "lon": -64.4140689988532,
+      "source": "Georef Argentina · localidades",
+      "source_name": "Anisacate",
+      "department": "Santa María"
     }
   },
   "unresolved": [
