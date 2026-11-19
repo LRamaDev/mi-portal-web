@@ -182,14 +182,14 @@ test('recupera una carga o publicación fusionada directamente desde GitHub',asy
   assert.equal(urls.length,2);
 });
 
-test('no muestra un PR viejo si todavía no se encontró una ejecución validada',async()=>{
+test('si no se inició ninguna ejecución pasada la espera razonable, informa que no se inició',async()=>{
   const flow={sourceMergeSha:'commit-pendiente',sourceMergedAt:'2026-11-12T17:00:00Z'};
   const fetchFn=async(url)=>{
     const payload=url.includes('/workflows/actualizar-horarios.yml/runs?')?{workflow_runs:[]}:url.includes('/pulls?')?[{number:146,created_at:'2026-11-12T17:01:00Z',updated_at:'2026-11-12T17:01:03Z',head:{ref:'publicacion/horarios-2026-11-06'},base:{ref:'main'}}]:[];
     return {ok:true,status:200,json:async()=>payload};
   };
   const state=await A.inspectProcessing({fetchFn,flow});
-  assert.equal(state.kind,'running');
+  assert.equal(state.kind,'not-started');
 });
 
 test('consulta GitHub públicamente si el token no tiene permiso de lectura de Actions',async()=>{
@@ -206,4 +206,42 @@ test('consulta GitHub públicamente si el token no tiene permiso de lectura de A
   assert.equal(state.kind,'running');
   assert.equal(headers.length,2);
   assert.equal(headers[1].Authorization,undefined);
+});
+
+
+test('detecta un PR ya fusionado que no modificó ningún PDF',async()=>{
+  const fetchFn=async(url)=>{
+    assert.match(url,/\/pulls\/144$/);
+    return {ok:true,status:200,json:async()=>({
+      number:144,changed_files:0,
+      merged_at:'2026-11-19T10:01:24Z',
+      merge_commit_sha:'4e7af35aafb8527d86d31ce16d0034ac15e5a1a3'
+    })};
+  };
+  const state=await A.syncFlowMerges({fetchFn,flow:{
+    sourcePull:{number:144},sourceMergedAt:'2026-11-19T10:01:24Z',processingState:'running'
+  }});
+  assert.equal(state.sourceChangedFiles,0);
+  assert.equal(state.processingState,'unchanged');
+  assert.equal(state.sourceMergeSha,'4e7af35aafb8527d86d31ce16d0034ac15e5a1a3');
+});
+
+test('un PR fusionado sin cambios no debe quedar procesando ni ofrecer publicar',async()=>{
+  const fetchFn=async(url)=>{
+    if(url.includes('/workflows/actualizar-horarios.yml/runs?'))
+      return {ok:true,status:200,json:async()=>({workflow_runs:[]})};
+    throw Error('Una carga sin cambios no debe buscar el PR de publicación: '+url);
+  };
+  const state=await A.inspectProcessing({fetchFn,flow:{
+    sourceChangedFiles:0,sourceMergedAt:'2026-11-19T10:01:24Z',sourceMergeSha:'merge-empty'
+  }});
+  assert.equal(state.kind,'unchanged');
+  assert.equal(state.pull,undefined);
+});
+
+test('si un procesamiento nuevo acaba de fusionarse y aún no aparece, no da error prematuro',async()=>{
+  const now=new Date().toISOString();
+  const fetchFn=async(url)=>({ok:true,status:200,json:async()=>url.includes('/workflows/')?{workflow_runs:[]}:[]});
+  const state=await A.inspectProcessing({fetchFn,flow:{sourceChangedFiles:8,sourceMergedAt:now,sourceMergeSha:'sha-new'}});
+  assert.equal(state.kind,'running');
 });
