@@ -138,7 +138,8 @@ test("el prototipo limita salida y espera con margen sin reintentos", () => {
   assert.ok(!src.includes("AbortSignal.timeout(25000)"));
   assert.ok(src.includes("options: { rejectIfBusy: true }"));
   assert.ok(src.indexOf('ctx.supabaseAdmin.rpc("ai_poc_take_slot")') < src.indexOf('await fetch('));
-  assert.equal((src.match(/await fetch\(/g)||[]).length,1);
+  // Dos rutas independientes, cada una con una sola llamada sin reintentos automáticos.
+  assert.equal((src.match(/await fetch\(/g)||[]).length,2);
   for(const field of ['withSupabase({ auth: "user" }', 'from("study_access")',
     'getFixture(fixtureId)', 'runMode === "mock"']) {
     assert.ok(src.includes(field), "Falta control "+field);
@@ -172,10 +173,12 @@ test("la respuesta truncada se rechaza incluso cuando contiene un JSON válido",
 test("el diagnóstico informa estado de modo antes del bloqueo por POC_AI_MODE", () => {
   const src=readFileSync(new URL("./index.ts",import.meta.url),"utf8");
   const diag=src.indexOf('payload.accion === "diagnostico"');
-  const gate=src.indexOf('code: "mode_disabled"');
-  const quota=src.indexOf('ctx.supabaseAdmin.rpc("ai_poc_take_slot")');
-  const fetch=src.indexOf('await fetch(');
-  assert.ok(diag>0 && gate>diag && quota>gate && fetch>quota);
+  // Analizar la ruta histórica aparte: el híbrido gratuito está delante del gate.
+  const historical=src.slice(src.indexOf('  // Las comprobaciones no consumen cupo'));
+  const gate=historical.indexOf('code: "mode_disabled"');
+  const quota=historical.indexOf('ctx.supabaseAdmin.rpc("ai_poc_take_slot")');
+  const fetch=historical.indexOf('await fetch(');
+  assert.ok(diag>0 && gate>0 && quota>gate && fetch>quota);
   assert.ok(src.includes('modoServicio, consumeCupo: false, realizoSolicitudExterna: false'));
   assert.ok(src.includes('runMode === "live" ? "real"'));
   assert.ok(src.includes('runMode === "mock" ? "simulado"'));
