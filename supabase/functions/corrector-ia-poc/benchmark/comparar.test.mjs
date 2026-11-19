@@ -7,6 +7,7 @@ import {getFixture} from "../fixtures.mjs";
 import {normalizarCorreccion} from "../rubrica.mjs";
 
 const testGLM=JSON.parse(readFileSync(new URL("./glm-ficcion01-captura-20261119.json",import.meta.url),"utf8"));
+const testGPT=JSON.parse(readFileSync(new URL("./gpt-oss-ficcion01-captura-20261119.json",import.meta.url),"utf8"));
 
 test("dos referencias cotejadas literalmente con los relatos ficticios",()=>{
   assert.deepEqual(Object.keys(REFERENCIAS).sort(),["ficcion-01","ficcion-02"]);
@@ -71,4 +72,32 @@ test("el contrato del backend admite suficientes observaciones para Ficción 1",
     sugerencias:["Ampliar el ambiente y los detalles"],errores}).errores.length,6);
   assert.throws(()=>normalizarCorreccion({criterios:base,fortalezas:["Cuenta una historia breve"],
     sugerencias:["Ampliar el ambiente y los detalles"],errores:Array.from({length:11},()=>errores[0])}));
+});
+
+test("GPT-OSS 20B detecta 5 de 6 errores de Ficción 1 y omite «logro»",()=>{
+  const a=compararCobertura("ficcion-01",testGPT);
+  assert.equal(a.detectados,5);
+  assert.equal(a.correccionesCoincidentes,5);
+  assert.equal(a.coberturaPorcentaje,83.3);
+  assert.equal(a.citasNoVerificables,0);
+  assert.deepEqual(a.objetivos.filter(x=>!x.detectado).map(x=>x.id),["logro"]);
+  assert.equal(a.puntajePropuestoPorModelo,27);
+  assert.equal(a.puntajeMaximoIncompatible,false);
+  assert.equal(a.explicacionesGramaticalesVerificadas,false);
+  assert.equal(a.requiereRevisionHumana,true);
+});
+test("los dos modelos tienen igual cobertura, pero omiten faltas distintas",()=>{
+  const glm=compararCobertura("ficcion-01",testGLM);
+  const gpt=compararCobertura("ficcion-01",testGPT);
+  assert.equal(glm.detectados,gpt.detectados);
+  assert.equal(glm.correccionesCoincidentes,gpt.correccionesCoincidentes);
+  assert.notDeepEqual(glm.objetivos.filter(x=>!x.detectado).map(x=>x.id),
+    gpt.objetivos.filter(x=>!x.detectado).map(x=>x.id));
+});
+test("las explicaciones de GPT-OSS se mantienen fuera de la métrica automática",()=>{
+  const e=testGPT.errores.find(x=>x.fragmento==="quizo");
+  assert.equal(e.correccion,"quiso");
+  assert.match(e.explicacion,/acento/);
+  assert.equal(testGPT.calificacionValidada,false);
+  assert.equal(compararCobertura("ficcion-01",testGPT).explicacionesGramaticalesVerificadas,false);
 });

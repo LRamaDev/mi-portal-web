@@ -53,8 +53,25 @@ node --test supabase/functions/corrector-ia-poc/benchmark/comparar.test.mjs
 ```
 La prueba no lee secretos, no contacta Cloudflare ni modifica Supabase. El comparador mide cobertura de errores obligatorios y coincidencia literal de la propuesta, pero no acredita el puntaje, la calidad narrativa ni las explicaciones gramaticales. Eso requiere revisión adulta.
 
-### GPT-OSS 20B: pendiente
-**No hay todavía ninguna corrección real de GPT-OSS registrada y validada** en este banco. No inventar un resultado para completar la comparación. Cuando exista una respuesta real de un texto **ficticio**, se podrá transcribir por separado, revisar las explicaciones y ejecutar las mismas pruebas.
+### Segundo registro real: GPT-OSS 20B — 19/11/2026
+`gpt-oss-ficcion01-captura-20261119.json` es una **transcripción manual** de la captura compartida por el usuario, no el JSON bruto del proveedor.
+
+**Comparación sobre la misma ficción 1:**
+
+| Indicador | GLM 4.7 Flash | GPT-OSS 20B |
+| --- | --- | --- |
+| Errores ortográficos obligatorios detectados | 5/6 (83,3 %) | 5/6 (83,3 %) |
+| Error omitido | `se callo → se cayó` | `logro → logró` |
+| Sustituciones textualmente coincidentes | 5/6 | 5/6 |
+| Explicaciones | Errores al identificar subjuntivo, conjunción y persona verbal | La explicación de `quizo` es falsa: no falta ninguna tilde; la de `se callo` es incompleta |
+| Nota propuesta por el modelo | 35/35 | 27/35 |
+| Nota validada | Ninguna | Ninguna |
+
+**Precisión de las explicaciones de GPT-OSS:** acertó la sustitución `quizo → quiso` pero afirmó que faltaba tilde en «ó», lo cual es falso: la forma correcta `quiso` lleva **s** y no lleva tilde. La explicación de `se callo → se cayó` alude a la tilde, pero omite distinguir los verbos *caerse* y *callarse* y el cambio de **ll** por **y**. Las observaciones de `Después`, `buscó` y `encontró` son sustancialmente correctas.
+
+**Interpretación:** ambos tuvieron la misma cobertura literal en una sola ficción. GPT-OSS parece formular mejores explicaciones en este caso, pero **la evidencia es demasiado pequeña para elegir un modelo de forma definitiva**. No hay justificación pedagógica para convertir la cifra 27/35 en nota.
+
+**Limitaciones metodológicas:** no evaluamos todavía la calidad real de las observaciones narrativas ni una segunda ficción con ambos modelos. Las transcripciones de capturas no sustituyen los registros estructurados originales.
 
 ### Antes de estudiar con este corrector
 1. Exigir que todos los errores obligatorios aparezcan, que las sugerencias sean gramaticalmente correctas y que la retroalimentación no introduzca errores nuevos.
