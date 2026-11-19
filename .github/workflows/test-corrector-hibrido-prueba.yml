@@ -1,0 +1,21 @@
+name: Corrector hibrido ficticio - pruebas de pantalla
+on:
+  pull_request:
+    paths:
+      - 'ingreso-belgrano-monserrat/corrector-hibrido-prueba.*'
+      - '.github/workflows/test-corrector-hibrido-prueba.yml'
+  workflow_dispatch:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verificar pantalla y separación de llamadas
+        run: |
+          node --check ingreso-belgrano-monserrat/corrector-hibrido-prueba.js
+          node --test ingreso-belgrano-monserrat/corrector-hibrido-prueba.test.mjs

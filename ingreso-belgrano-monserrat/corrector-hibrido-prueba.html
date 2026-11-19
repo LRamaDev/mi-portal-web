@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' https://cdn.jsdelivr.net; style-src 'self'; connect-src https://vyacdprekslhrmrlpcgx.supabase.co; img-src 'self'; base-uri 'none'; form-action 'none'">
+<title>Corrector híbrido experimental · Monserrat</title>
+<link rel="stylesheet" href="./corrector-ia-prueba.css?v=2">
+<script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script defer src="./config.js?v=6.25.0"></script>
+<script defer src="./corrector-hibrido-prueba.js?v=1"></script>
+</head>
+<body>
+<main class="layout">
+<header class="heading">
+  <span class="eyebrow">Laboratorio de Lengua · Solo pruebas ficticias</span>
+  <h1>Corrector híbrido experimental</h1>
+  <p>Primero revisa faltas con referencias humanas verificadas. Después, si lo pedís expresamente, muestra sugerencias narrativas simuladas o generadas por IA. <strong>No admite textos de estudiantes y no otorga notas.</strong></p>
+</header>
+<section class="panel" aria-labelledby="acceso">
+  <h2 id="acceso">1. Acceso familiar</h2>
+  <p id="access-status" role="status" data-state="busy" aria-live="polite">Verificando sesión…</p>
+  <p class="small">Si hace falta, <a href="./index.html">ingresá a la app familiar</a> y regresá a esta página.</p>
+</section>
+<section class="panel" aria-labelledby="ficticios">
+  <h2 id="ficticios">2. Revisar una ficción sin IA</h2>
+  <p>Las correcciones provienen de dos relatos inventados y previamente revisados por una persona adulta.</p>
+  <div class="fields">
+    <label for="hybrid-fixture">Relato de prueba
+      <select id="hybrid-fixture">
+        <option value="ficcion-01">Ficción 1 · Caja en el patio</option>
+        <option value="ficcion-02">Ficción 2 · Biblioteca</option>
+      </select>
+    </label>
+  </div>
+  <button id="hybrid-local" type="button" disabled>Ver correcciones verificadas (gratis)</button>
+  <p id="local-status" role="status" aria-live="polite" data-state="idle">Primero verificaremos tu sesión.</p>
+</section>
+<section id="hybrid-results" class="panel" aria-labelledby="resultados" hidden>
+  <h2 id="resultados">3. Corrección revisada</h2>
+  <p class="simulation-label">Referencia humana del relato ficticio · Sin IA · Sin nota</p>
+  <p id="hybrid-story"></p>
+  <h3>Correcciones</h3>
+  <ul id="hybrid-corrections"></ul>
+  <h3>Ideas para revisar con una persona adulta</h3>
+  <ul id="hybrid-observations"></ul>
+  <p class="small">Estas reglas son válidas para estos textos concretos. No funcionan como corrector general.</p>
+</section>
+<section class="panel" aria-labelledby="narrativa">
+  <h2 id="narrativa">4. Sugerencias narrativas opcionales</h2>
+  <p>La IA no corregirá ortografía ni pondrá una calificación. Solo puede comentar conflicto, desarrollo, coherencia y formas de mejorar el relato.</p>
+  <div class="fields">
+    <label for="hybrid-model">Modelo experimental
+      <select id="hybrid-model">
+        <option value="glm">GLM 4.7 Flash</option>
+        <option value="oss">GPT-OSS 20B</option>
+      </select>
+    </label>
+  </div>
+  <button id="hybrid-narrative" type="button" disabled>Pedir sugerencias narrativas</button>
+  <p class="small">En modo `mock` las sugerencias son simuladas y no consumen cupo. En modo `live`, este botón solicita explícitamente una consulta a Cloudflare y consume una de las cuatro solicitudes máximas diarias.</p>
+  <p id="narrative-status" role="status" aria-live="polite" data-state="idle">Primero revisá el relato con el botón anterior.</p>
+</section>
+<section class="panel" id="narrative-results" aria-labelledby="narrativa-result" hidden>
+  <h2 id="narrativa-result">5. Sugerencias para revisar</h2>
+  <p class="simulation-label" id="narrative-badge">Pendiente de revisión adulta</p>
+  <h3>Aspectos logrados</h3><ul id="narrative-strengths"></ul>
+  <h3>Propuestas de mejora</h3><ul id="narrative-tips"></ul>
+  <h3>Preguntas para revisar</h3><ul id="narrative-questions"></ul>
+  <p class="small">Las sugerencias de un modelo pueden equivocarse. No modifican el progreso de A ni V.</p>
+</section>
+<footer class="footer">Página aislada de pruebas. No integra el corrector a la app de estudio ni permite enviar textos libres.</footer>
+</main>
+</body>
+</html>
