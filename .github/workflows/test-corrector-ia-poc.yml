@@ -15,5 +15,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Probar contrato de rubrica y datos ficticios
-        run: node --test supabase/functions/corrector-ia-poc/rubrica.test.mjs
+      - name: Probar rúbrica, benchmark humano y datos ficticios
+        run: |
+          node --test supabase/functions/corrector-ia-poc/rubrica.test.mjs
+          node --test supabase/functions/corrector-ia-poc/benchmark/comparar.test.mjs
