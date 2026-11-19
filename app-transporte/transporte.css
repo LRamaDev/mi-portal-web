@@ -178,3 +178,6 @@ body{background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gr
 .admin-error-details li span{font-size:12px;line-height:1.45}
 .admin-error-details p{font-size:11px;line-height:1.45;margin:9px 0 0}
 .admin-flow-links a{overflow-wrap:anywhere}
+
+/* v12.1: selección no es carga */
+.admin-selection-note{margin:5px 0 11px;padding:10px 12px;border-left:4px solid var(--ersep-yellow);background:var(--surface);font-weight:800;font-size:12px;line-height:1.45;color:var(--text)}
