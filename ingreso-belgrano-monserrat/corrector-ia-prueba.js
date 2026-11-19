@@ -182,8 +182,14 @@
       const result=data?.resultado;
       if(data?.fixtureId!==fixtureId||data?.modelo!==modelo||
          !['simulado','proveedor'].includes(data?.modo)||
-         !Number.isInteger(result?.puntajeEstimado)||result.puntajeEstimado<0||result.puntajeEstimado>35||
-         result.maximo!==35||!Array.isArray(result.fortalezas)){
+         result.maximo!==35||!Array.isArray(result.fortalezas)||
+         (data.modo==='simulado' &&
+           (!Number.isInteger(result?.puntajeEstimado)||result.puntajeEstimado<0||result.puntajeEstimado>35))||
+         (data.modo==='proveedor' &&
+           !(result?.calificacionValidada===false && result.puntajeEstimado===null &&
+             Number.isInteger(result.puntajePropuestoPorModelo) &&
+             result.puntajePropuestoPorModelo>=0 && result.puntajePropuestoPorModelo<=35 &&
+             result.auditoria?.estado==='requiere_revision_adulta'))){
         message(testStatus,'El proveedor devolvió una estructura inesperada. No se considera una evaluación válida.','error');
         return;
       }
@@ -192,10 +198,24 @@
       }
       ui('result-mode').textContent=data.modo==='simulado'?'Simulado':'Cloudflare';
       ui('result-model').textContent=MODEL_LABELS[modelo];
-      ui('result-score').textContent=result.puntajeEstimado+' / 35';
+      ui('result-score').textContent=data.modo==='simulado'
+        ? result.puntajeEstimado+' / 35' : 'No validado';
       ui('result-note').textContent=data.modo==='simulado'
         ? 'Resultado simulado · No generado por IA'
-        : 'Evaluación generada por IA sobre un texto ficticio';
+        : 'IA experimental: la calificación requiere revisión adulta';
+      const auditPanel=ui('result-audit');
+      if(data.modo==='proveedor'){
+        const proposed=result.puntajePropuestoPorModelo;
+        const count=result.auditoria?.indiciosConocidosOmitidos;
+        auditPanel.textContent='El modelo propuso '+proposed+'/35, pero NO es una nota válida. '+
+          (Number.isInteger(count)&&count>0
+            ? 'No detectó '+count+' indicio(s) de error conocido(s). ':'')+
+          'Las observaciones también deben revisarse: la IA puede confundir reglas gramaticales.';
+        auditPanel.hidden=false;
+      }else{
+        auditPanel.textContent='';
+        auditPanel.hidden=true;
+      }
       list('result-strengths',result.fortalezas);
       if(data.modo==='proveedor'){
         list('result-tips',Array.isArray(result.sugerencias)?result.sugerencias:[]);
