@@ -1588,8 +1588,12 @@
     // Restaurar la identidad familiar aunque el estado local contaminado
     // tenga una marca de tiempo más nueva que la copia recuperada en Supabase.
     const needsNameRecovery = window.INGRESO_ACCESS_MODE !== 'visitor' &&
-      ['p1', 'p2'].some(id => state.profiles?.[id]?.name === 'Invitado' &&
-        remote.profiles?.[id]?.name && remote.profiles[id].name !== 'Invitado');
+      ['p1', 'p2'].some(id => {
+        const localName = String(state.profiles?.[id]?.name || '').trim().toLocaleLowerCase('es');
+        const remoteName = String(remote.profiles?.[id]?.name || '').trim().toLocaleLowerCase('es');
+        return ['invitado', 'perfil 1', 'perfil 2'].includes(localName) &&
+          Boolean(remoteName) && !['invitado', 'perfil 1', 'perfil 2'].includes(remoteName);
+      });
     if ((remote.updatedAt || 0) > (state.updatedAt || 0) || needsNameRecovery) {
       state = remote; rebuildPedagogySnapshots(); localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); refreshGateNames(); if (activeMode) renderAll();
       toast('Progreso actualizado desde la nube.');

@@ -83,12 +83,18 @@
       merged.evidence = mergeEvidenceRows(localProfile?.evidence || [], remoteProfile?.evidence || []);
       merged.pendingEvidence = mergeEvidenceRows(localProfile?.pendingEvidence || [], remoteProfile?.pendingEvidence || []);
       merged.videoLearning = mergeVideoLearning(localProfile?.videoLearning || {}, remoteProfile?.videoLearning || {});
-      // Recuperación no destructiva de un nombre familiar contaminado por la
-      // versión anterior. Se preservan historial, intentos, videos y evidencias.
-      if (window.INGRESO_ACCESS_MODE !== 'visitor' && merged.name === 'Invitado') {
-        const recoveredName = [localProfile?.name, remoteProfile?.name]
-          .find(name => typeof name === 'string' && name.trim() && name !== 'Invitado');
-        if (recoveredName) merged.name = recoveredName;
+      // Un perfil remoto con nombre familiar explícito prevalece sobre un rótulo
+      // local predeterminado (Perfil 1/2 o Invitado), independientemente del timestamp.
+      // El resto del payload se combina como antes, conservando la evidencia.
+      if (window.INGRESO_ACCESS_MODE !== 'visitor') {
+        const generic = name => !name || ['invitado', 'perfil 1', 'perfil 2'].includes(
+          String(name).trim().toLocaleLowerCase('es')
+        );
+        if (generic(merged.name)) {
+          const recoveredName = [remoteProfile?.name, localProfile?.name]
+            .find(name => typeof name === 'string' && name.trim() && !generic(name));
+          if (recoveredName) merged.name = recoveredName;
+        }
       }
       return merged;
     }
@@ -273,10 +279,13 @@
           if (!PROFILE_IDS.includes(profileId) || !row.payload) return;
           const localStamp = Number(next.profiles?.[profileId]?.updatedAt || next.updatedAt || 0);
           const remoteStamp = Number(row.payload.updatedAt || 0);
+          const genericLocalName = ['invitado', 'perfil 1', 'perfil 2'].includes(
+            String(next.profiles?.[profileId]?.name || '').trim().toLocaleLowerCase('es')
+          );
+          const remoteName = String(row.payload.name || '').trim();
           const nameNeedsRecovery = window.INGRESO_ACCESS_MODE !== 'visitor' &&
-            next.profiles?.[profileId]?.name === 'Invitado' &&
-            typeof row.payload.name === 'string' && row.payload.name.trim() &&
-            row.payload.name !== 'Invitado';
+            genericLocalName && remoteName &&
+            !['invitado', 'perfil 1', 'perfil 2'].includes(remoteName.toLocaleLowerCase('es'));
           if (remoteStamp > localStamp || nameNeedsRecovery) {
             next.profiles[profileId] = mergeProfilePayload(
               next.profiles?.[profileId] || null, row.payload, remoteStamp > localStamp
