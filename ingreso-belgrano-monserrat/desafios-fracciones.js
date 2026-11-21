@@ -176,11 +176,11 @@
     }
     if(t.kind==='discs') {
       const counts=[0,1].map(g=>[...sel].filter(i=>Math.floor(i/8)===g).length);
-      return {valid:sel.size>0,correct:counts.every(n=>n===t.numerator),reason:`Pintaste ${counts[0]} y ${counts[1]} sectores. La consigna pide ${t.numerator} en cada rueda.`};
+      return {valid:sel.size>0,correct:counts.every(n=>n===t.numerator),reason:`Marcaste ${counts[0]} y ${counts[1]} sectores. Revisá la fracción total que pide la consigna en CADA rueda, sin sumar las dos ruedas entre sí.`};
     }
     if(t.kind==='mixed') {
       const counts=[0,1].map(g=>[...sel].filter(i=>Math.floor(i/6)===g).length), part=6*t.numerator/t.denominator;
-      return {valid:sel.size>0,correct:(counts[0]===6&&counts[1]===part)||(counts[1]===6&&counts[0]===part),reason:`Pintaste ${counts[0]} y ${counts[1]} cuadrados. Un tablero debe estar completo (6) y el otro tener ${part}.`};
+      return {valid:sel.size>0,correct:(counts[0]===6&&counts[1]===part)||(counts[1]===6&&counts[0]===part),reason:`Marcaste ${counts[0]} y ${counts[1]} cuadrados. Un tablero debe representar una unidad completa y el otro la parte adicional.`};
     }
     if(t.kind==='squares'||t.kind==='triangles') {
       const expected=t.kind==='squares'?t.count*t.numerator/t.denominator:t.target;
@@ -301,7 +301,7 @@
     dialog.showModal();
     app.innerHTML='<p role="status">Cargando los desafíos…</p>';
     try{
-      const version=document.querySelector('meta[name="app-version"]')?.content || '6.27.0';
+      const version=document.querySelector('meta[name="app-version"]')?.content || '6.28.0';
       const response=await fetch('./data/desafios-fracciones.json?v='+encodeURIComponent(version));
       if(!response.ok)throw new Error('No se pudo cargar el banco de desafíos');
       const data=await response.json(), tasks=data.rounds?.[round];
