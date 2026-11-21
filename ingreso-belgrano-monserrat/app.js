@@ -66,6 +66,7 @@
     $('#active-profile').addEventListener('click', leaveProfile);
     $$('[data-nav]').forEach(btn => btn.addEventListener('click', e => { e.preventDefault(); navigate(btn.dataset.nav); }));
     $('#start-recommended').addEventListener('click', startRecommended);
+    $('[data-start-fractions]').forEach(button => button.addEventListener('click', startFractionChallenges));
     $('#start-diagnostic').addEventListener('click', () => startSession({ type: 'diagnostico', area: 'all', origin: 'manual' }));
     $$('[data-practice]').forEach(btn => btn.addEventListener('click', () => startSession({ type: 'practica', area: btn.dataset.practice, origin: 'manual' })));
     $$('[data-sim-school]').forEach(btn => btn.addEventListener('click', () => startSession({ type: 'simulacro', area: btn.dataset.simArea, school: btn.dataset.simSchool, origin: 'simulacro' })));
@@ -219,6 +220,7 @@
     // En modo visitante no hay selección de perfiles: salir se hace desde el botón superior.
     if (window.INGRESO_ACCESS_MODE === 'visitor') return;
     if (session) closeExercise(false);
+    window.IngresoFractionChallenges?.close();
     $('#video-library').querySelectorAll('iframe').forEach(frame => frame.remove());
     activeMode = null;
     writeSessionValue(ACTIVE_MODE_KEY, null);
@@ -360,6 +362,7 @@
     renderNextStep(ids, needsDiagnostic);
     renderWeeklyMission(ids);
     renderBalanceCoach(needsDiagnostic ? null : balanceRecommendation());
+    renderFractionEntry();
   }
 
   function renderNextStep(ids, needsDiagnostic) {
@@ -832,6 +835,111 @@
 
   function hasCompletedDiagnostic(id) {
     return (state.profiles[id]?.history || []).some(item => item.type === 'diagnostico');
+  }
+
+  // Desafíos de fracciones · módulo separado de los entrenamientos adaptativos.
+  // El historial se conserva por perfil y no exige migraciones de Supabase.
+  function fractionCompletedRounds(profile) {
+    return new Set((profile?.history || [])
+      .filter(row => row.type === 'desafios_fracciones' && ['A','B'].includes(row.roundId))
+      .map(row => row.roundId));
+  }
+
+  function renderFractionEntry() {
+    if (!activeMode) return;
+    const both = activeMode === 'together';
+    const profile = both ? null : state.profiles[primaryProfileId()];
+    const completed = fractionCompletedRounds(profile);
+    const next = !completed.has('A') ? 'A' : !completed.has('B') ? 'B' : null;
+    const partial = next && (profile?.evidence || []).some(event => String(event.exerciseId || '').startsWith('FR26-' + next + '-'));
+    $('[data-fraction-status]').forEach(el => {
+      el.textContent = both
+        ? 'Disponible por separado para cada perfil.'
+        : next
+          ? (partial ? 'Retomá la tanda ' + next + ' desde el desafío pendiente.' : 'Tanda ' + next + ' · 7 ejercicios diferentes.')
+          : 'Ya completaste las dos tandas disponibles. ¡Seguí con tus entrenamientos habituales!';
+    });
+    $('[data-start-fractions]').forEach(button => {
+      button.disabled = both || !next;
+      button.title = both ? 'Elegí un perfil individual para guardar sus respuestas.' : !next ? 'Las dos tandas ya fueron completadas.' : '';
+    });
+  }
+
+  function startFractionChallenges() {
+    if (!activeMode || activeMode === 'together') {
+      toast('Estos desafíos son individuales. Elegí uno de los perfiles para comenzar.');
+      return;
+    }
+    if (session) return toast('Primero terminá el entrenamiento abierto.');
+    const engine = window.IngresoFractionChallenges;
+    if (!engine) return toast('No se cargó la práctica especial. Recargá la página.');
+    const pid = primaryProfileId(), profile = state.profiles[pid];
+    const completed = fractionCompletedRounds(profile);
+    const round = !completed.has('A') ? 'A' : !completed.has('B') ? 'B' : null;
+    if (!round) return toast('Ya completaste las dos tandas de desafíos disponibles.');
+    const prefix = 'FR26-' + round + '-';
+    const priorById = new Map();
+    for (const event of profile.evidence || []) {
+      if (!String(event.exerciseId || '').startsWith(prefix)) continue;
+      priorById.set(event.exerciseId, {
+        id: event.exerciseId,
+        round,
+        status: !event.correct ? 'revisar' : event.hintUsed ? 'ayuda' : 'autonoma'
+      });
+    }
+    engine.open({
+      round,
+      prior: [...priorById.values()],
+      onResult: result => {
+        if (activeMode !== pid) return;
+        recordFractionAttempt(pid, result);
+      },
+      onComplete: ({round: finished, results}) => {
+        if (activeMode !== pid || finished !== round || fractionCompletedRounds(profile).has(round)) return;
+        if (results.length !== 7) return;
+        const autonomous = results.filter(row => row.status === 'autonoma').length;
+        const withHelp = results.filter(row => row.status === 'ayuda').length;
+        profile.sessions = (profile.sessions || 0) + 1;
+        profile.history = [...(profile.history || []), {
+          at: Date.now(), type: 'desafios_fracciones', area: 'matematica', school: null,
+          roundId: round, score: autonomous + withHelp, total: 7,
+          autonomous, withHelp, toReview: results.filter(row => row.status === 'revisar').length,
+          durationSeconds: Math.max(1, Math.round(results.reduce((n,row) => n + (row.durationMs || 0), 0) / 1000))
+        }];
+        saveState();
+        renderAll();
+      }
+    }).catch(error => { console.error(error); toast('No se pudieron abrir los desafíos.'); });
+  }
+
+  function recordFractionAttempt(pid, result) {
+    const engine = window.IngresoPedagogy;
+    const profile = state.profiles[pid];
+    if (!engine || !profile || !/^FR26-[AB]-0[1-7]$/.test(result.id)) return;
+    if ((profile.evidence || []).some(row => row.exerciseId === result.id)) return;
+    if (!['autonoma', 'ayuda', 'revisar'].includes(result.status)) return;
+    if (!['MAT-FR-CON','MAT-FR-PROB','MAT-FR-OPS'].includes(result.skill)) return;
+    const exercise = {
+      id: result.id, area: 'matematica', habilidad: result.skill,
+      dificultad: Math.max(1, Math.min(4, Number(result.difficulty) || 2)),
+      colegios: ['comun']
+    };
+    const now = Date.now();
+    const analysis = skillAnalysis(pid, exercise.habilidad);
+    const purpose = engine.derivePurpose(analysis, {
+      sessionType: 'practica', difficulty: exercise.dificultad, now
+    });
+    const event = engine.createEvidence({
+      profileId: pid, exercise, correct: result.status !== 'revisar',
+      hintUsed: result.status !== 'autonoma',
+      sessionType: 'practica', origin: 'desafios_fracciones', purpose,
+      durationMs: Math.max(0, Number(result.durationMs) || 0),
+      evaluationWeight: result.status === 'ayuda' ? 0.75 : 1,
+      school: null, at: now
+    });
+    engine.applyAttempt(profile, exercise, event, { maxDifficulty: skillMaxDifficulty(exercise.habilidad) });
+    markExerciseUsedToday(pid, exercise.id);
+    saveState();
   }
 
   function startRecommended() {
