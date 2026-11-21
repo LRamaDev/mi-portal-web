@@ -53,6 +53,19 @@
       return cell(i, 'polygon', `points="${x+18},${y} ${x+36},${y+32} ${x},${y+32}"`, `Triángulo ${i+1}`);
     }).join('')}</svg>`;
   }
+  // Recta numérica accesible con clic, toque o teclado (intervalos 0-1 y 0-2).
+  function line(task) {
+    const ticks = task.denominator * task.max;
+    return `<div class="fraction-numberline"><svg viewBox="0 0 620 145" role="group" aria-label="Recta numérica de cero a ${task.max}">
+      <line x1="40" y1="75" x2="580" y2="75" class="fraction-axis"></line>
+      ${Array.from({length:ticks + 1},(_,i) => {
+        const x = 40 + 540 * i / ticks;
+        const label = i % task.denominator === 0
+          ? `<text x="${x}" y="123" text-anchor="middle" class="fraction-axis-label">${i/task.denominator}</text>` : '';
+        return `<line x1="${x}" y1="64" x2="${x}" y2="86" class="fraction-axis-tick"></line>` +
+          cell(i,'circle',`cx="${x}" cy="75" r="15"`,`Seleccionar ${i}/${task.denominator}`) + label;
+      }).join('')}</svg><p>Elegí una marca de la recta.</p></div>`;
+  }
   function unit(task) {
     return `<div class="fraction-unit"><p>Las primeras ${task.given} fichas ya están dadas. Agregá las que faltan.</p><div class="fraction-circles">${Array.from({length:task.given+session.added},(_,i) =>
       `<span class="fraction-circle${i>=task.given?' fraction-circle-added':''}" aria-label="${i>=task.given?'Ficha agregada':'Ficha dada'}"></span>`).join('')}</div><div class="fraction-stepper"><button type="button" id="fraction-minus" aria-label="Quitar ficha">−</button><output>${session.added} agregadas</output><button type="button" id="fraction-plus" aria-label="Agregar ficha">+</button></div></div>`;
@@ -63,8 +76,13 @@
     if (task.kind === 'mixed') return mixed();
     if (task.kind === 'triangles') return triangles(task);
     if (task.kind === 'unit') return unit(task);
-    if (task.kind === 'cards') return `<div class="fraction-fields"><label>¿Cuántas son de vehículos?<input id="fraction-ans1" type="text" inputmode="numeric" autocomplete="off"></label><label>¿Cuántas de animales son especiales?<input id="fraction-ans2" type="text" inputmode="numeric" autocomplete="off"></label></div>`;
-    if (task.kind === 'remainder') return `<div class="fraction-fields"><label>¿Qué fracción del mural se pintó?<input id="fraction-ans1" type="text" inputmode="text" placeholder="Por ejemplo: 3/8" autocomplete="off"></label></div>`;
+    if (task.kind === 'line') return line(task);
+    if (task.kind === 'cards') return `<div class="fraction-fields">
+      <label>${esc(task.question1 || '¿Cuántas son de vehículos?')}<input id="fraction-ans1" type="text" inputmode="numeric" autocomplete="off"></label>
+      <label>${esc(task.question2 || '¿Cuántas de animales son especiales?')}<input id="fraction-ans2" type="text" inputmode="numeric" autocomplete="off"></label>
+    </div>`;
+    if (task.kind === 'remainder' || task.kind === 'fractioninput') return `<div class="fraction-fields"><label>${esc(task.question || '¿Qué fracción se obtuvo?')}<input id="fraction-ans1" type="text" inputmode="text" placeholder="Por ejemplo: 3/8" autocomplete="off"></label></div>`;
+    if (task.kind === 'number') return `<div class="fraction-fields"><label>${esc(task.question || '¿Cuál es el total?')}<input id="fraction-ans1" type="text" inputmode="numeric" placeholder="Escribí un número" autocomplete="off"></label></div>`;
     return '';
   }
   function taskNow() { return session?.tasks[session.index]; }
@@ -85,11 +103,24 @@
     const counts = [0,1].map(group => [...session.selection].filter(k => Math.floor(k/(task.kind==='discs'?8:6))===group).length);
     if (task.kind === 'discs') return `Rueda 1: ${counts[0]}/8 · Rueda 2: ${counts[1]}/8`;
     if (task.kind === 'mixed') return `Tablero 1: ${counts[0]}/6 · Tablero 2: ${counts[1]}/6`;
+    if (task.kind === 'line') {
+      const tick = [...session.selection][0];
+      return tick === undefined ? 'Elegí un punto de la recta.' : `Marcaste ${tick}/${task.denominator}.`;
+    }
     return `Pintaste ${session.selection.size} partes.`;
   }
   function toggleCell(i) {
     if (session?.locked) return;
-    if (session.selection.has(i)) session.selection.delete(i); else session.selection.add(i);
+    if (taskNow().kind === 'line') {
+      for (const old of session.selection) {
+        const previous=app.querySelector(`[data-fraction-cell="${old}"]`);
+        previous?.classList.remove('selected');
+        previous?.setAttribute('aria-pressed','false');
+      }
+      session.selection.clear();
+      session.selection.add(i);
+    } else if (session.selection.has(i)) session.selection.delete(i);
+    else session.selection.add(i);
     const el=app.querySelector(`[data-fraction-cell="${i}"]`);
     el.classList.toggle('selected', session.selection.has(i));
     el.setAttribute('aria-pressed', String(session.selection.has(i)));
@@ -111,7 +142,7 @@
     const next=app.querySelector('#fraction-next');
     next.hidden=true;
     const count=app.querySelector('#fraction-selected-count');
-    count.textContent=['discs','squares','mixed','triangles'].includes(task.kind)?countLabel():'';
+    count.textContent=['discs','squares','mixed','triangles','line'].includes(task.kind)?countLabel():'';
     app.querySelector('#fraction-check').onclick=check;
     app.querySelector('#fraction-hint').onclick=hint;
     next.onclick=advance;
@@ -126,7 +157,9 @@
   }
   const readNumber=id=>{
     const s=app.querySelector('#fraction-'+id)?.value.trim()||'';
-    return /^\d{1,10}$/.test(s)?Number(s):null;
+    const plain = /^\d{1,10}$/.test(s) ? s
+      : /^\d{1,3}(?:\.\d{3})+$/.test(s) ? s.replace(/\./g,'') : null;
+    return plain === null ? null : Number(plain);
   };
   function readFraction() {
     const value=app.querySelector('#fraction-ans1')?.value.trim()||'';
@@ -135,6 +168,12 @@
   }
   function evaluate(t) {
     const sel=session.selection;
+    if(t.kind==='line') {
+      const tick=[...sel][0];
+      const correct=sel.size===1 && tick===t.numerator;
+      const value=tick===undefined?'ninguno':tick+'/'+t.denominator;
+      return {valid:sel.size===1,correct,reason:`Marcaste ${value}. Revisá cuántas partes iguales hay entre 0 y 1 y contá desde el cero.`};
+    }
     if(t.kind==='discs') {
       const counts=[0,1].map(g=>[...sel].filter(i=>Math.floor(i/8)===g).length);
       return {valid:sel.size>0,correct:counts.every(n=>n===t.numerator),reason:`Pintaste ${counts[0]} y ${counts[1]} sectores. La consigna pide ${t.numerator} en cada rueda.`};
@@ -155,8 +194,9 @@
       const other=readNumber('ans1'),special=readNumber('ans2');
       if(other===null||special===null) return {valid:false};
       const mistakes=[];
-      if(other!==t.other) mistakes.push(other===t.portion?'Ese es el total de animales, no de vehículos.':'Para los vehículos, restá los animales del total.');
-      if(special!==t.special) mistakes.push(special===t.total/t.smallDenominator?'Calculaste sobre todas las tarjetas; la fracción corresponde solo a los animales.':'Para las especiales, calculá la fracción de las tarjetas de animales.');
+      const subset=t.subsetLabel || 'animales', rest=t.restLabel || 'vehículos', specialName=t.specialLabel || 'especiales';
+      if(other!==t.other) mistakes.push(other===t.portion?`Ese es el total de ${subset}, no de ${rest}.`:`Para encontrar ${rest}, restá ${subset} del total.`);
+      if(special!==t.special) mistakes.push(special===t.total/t.smallDenominator?`Calculaste sobre el total general; la parte de ${specialName} se obtiene solo de ${subset}.`:`Calculá la fracción correspondiente a ${specialName} sobre ${subset}.`);
       return {valid:true,correct:other===t.other&&special===t.special,reason:mistakes.join(' ')};
     }
     if(t.kind==='remainder') {
@@ -164,7 +204,17 @@
       if(!f) return {valid:false};
       const correct=f[0]*t.remaining[1]===f[1]*t.remaining[0];
       const covered=f[0]*t.covered[1]===f[1]*t.covered[0];
-      return {valid:true,correct,reason:covered?'Esa es la fracción cubierta; la pregunta pide el resto.':'Primero calculá la parte cubierta y restala de la unidad entera.'};
+      return {valid:true,correct,reason:covered?'Esa es la fracción ocupada; la pregunta pide el resto.':'Primero calculá la parte ocupada y restala del entero.'};
+    }
+    if(t.kind==='fractioninput') {
+      const f=readFraction();
+      if(!f)return {valid:false};
+      const correct=f[0]*t.expected[1]===f[1]*t.expected[0];
+      return {valid:true,correct,reason:'Una fracción de otra se calcula multiplicando numeradores entre sí y denominadores entre sí. Después podés simplificar.'};
+    }
+    if(t.kind==='number') {
+      const n=readNumber('ans1');
+      return {valid:n!==null,correct:n===t.expected,reason:'Si conocés una parte, averiguá cuánto vale una fracción unitaria antes de reconstruir el total.'};
     }
     return {valid:false};
   }
@@ -246,12 +296,12 @@
     dialog.addEventListener('cancel',event=>{event.preventDefault();close();});
   }
   async function open({round='A',prior=[],onResult=()=>{},onComplete=()=>{}}={}) {
-    if(!dialog||!app||loading||dialog.open||!['A','B'].includes(round))return;
+    if(!dialog||!app||loading||dialog.open||!['A','B','C','D','E','F','G','H'].includes(round))return;
     loading=true;
     dialog.showModal();
     app.innerHTML='<p role="status">Cargando los desafíos…</p>';
     try{
-      const version=document.querySelector('meta[name="app-version"]')?.content || '6.26.2';
+      const version=document.querySelector('meta[name="app-version"]')?.content || '6.27.0';
       const response=await fetch('./data/desafios-fracciones.json?v='+encodeURIComponent(version));
       if(!response.ok)throw new Error('No se pudo cargar el banco de desafíos');
       const data=await response.json(), tasks=data.rounds?.[round];

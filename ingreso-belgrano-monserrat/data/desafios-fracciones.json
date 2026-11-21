@@ -1,6 +1,6 @@
 {
-  "version": 1,
-  "source": "Actividades originales de la tanda validada; no reproduce los ejercicios de ingreso aportados.",
+  "version": 2,
+  "source": "Tandas originales A-H para preparación de ingreso. No reproduce ejercicios ya resueltos de los modelos aportados.",
   "rounds": {
     "A": [
       {
@@ -337,6 +337,1083 @@
           "Láminas: 2/5 × 5/8 = 1/4.",
           "El mural entero es 4/4.",
           "Resto pintado: 4/4 − 1/4 = 3/4."
+        ]
+      }
+    ],
+    "C": [
+      {
+        "id": "FR26-C-01",
+        "round": "C",
+        "area": "matematica",
+        "school": null,
+        "kind": "discs",
+        "title": "Rosetas de una biblioteca",
+        "skill": "MAT-FR-CON",
+        "difficulty": 2,
+        "prompt": "En cada una de las dos rosetas, pintá 1/2 de sus 8 sectores.",
+        "numerator": 4,
+        "hints": [
+          "Cada roseta tiene 8 sectores iguales.",
+          "La mitad de 8 son 4: resolvé cada roseta por separado."
+        ],
+        "steps": [
+          "Cada círculo tiene 8 sectores.",
+          "8 ÷ 2 = 4 sectores por círculo.",
+          "Se pintan 4 sectores en cada roseta."
+        ]
+      },
+      {
+        "id": "FR26-C-02",
+        "round": "C",
+        "area": "matematica",
+        "school": null,
+        "kind": "line",
+        "title": "Fracción en la recta",
+        "skill": "MAT-FR-CON",
+        "difficulty": 2,
+        "prompt": "Marcá 3/4 en la recta numérica que va de 0 a 1.",
+        "denominator": 4,
+        "numerator": 3,
+        "max": 1,
+        "hints": [
+          "El segmento entre 0 y 1 está dividido en cuatro partes iguales.",
+          "Contá tres marcas desde el cero."
+        ],
+        "steps": [
+          "El denominador 4 indica cuatro partes iguales.",
+          "El numerador 3 indica tres de esas partes.",
+          "La marca correcta es 3/4."
+        ]
+      },
+      {
+        "id": "FR26-C-03",
+        "round": "C",
+        "area": "matematica",
+        "school": null,
+        "kind": "squares",
+        "title": "Un mosaico de doce piezas",
+        "skill": "MAT-FR-CON",
+        "difficulty": 2,
+        "prompt": "Un mosaico está formado por 12 cuadrados iguales. Pintá 7/12 del total.",
+        "count": 12,
+        "numerator": 7,
+        "denominator": 12,
+        "hints": [
+          "Cada cuadradito equivale a 1/12.",
+          "El numerador indica cuántos de los doce pintar."
+        ],
+        "steps": [
+          "El total es 12 cuadrados.",
+          "Cada cuadrado representa 1/12.",
+          "Para 7/12 hay que pintar 7 cuadrados."
+        ]
+      },
+      {
+        "id": "FR26-C-04",
+        "round": "C",
+        "area": "matematica",
+        "school": null,
+        "kind": "unit",
+        "title": "Fichas para completar una colección",
+        "skill": "MAT-FR-PROB",
+        "difficulty": 3,
+        "prompt": "En una colección, estas 9 fichas representan 3/5 del total. Agregá las que faltan para formar la colección completa.",
+        "given": 9,
+        "parts": 3,
+        "totalParts": 5,
+        "hints": [
+          "Dividí las nueve fichas en tres grupos iguales.",
+          "Cada quinto tiene 3 fichas: la colección completa tiene cinco quintos."
+        ],
+        "steps": [
+          "Un quinto representa 9 ÷ 3 = 3 fichas.",
+          "Cinco quintos son 3 × 5 = 15 fichas.",
+          "Faltan 15 − 9 = 6 fichas."
+        ]
+      },
+      {
+        "id": "FR26-C-05",
+        "round": "C",
+        "area": "matematica",
+        "school": null,
+        "kind": "triangles",
+        "title": "Banderines para un acto",
+        "skill": "MAT-FR-PROB",
+        "difficulty": 3,
+        "prompt": "De 40 banderines, 1/2 se destinó a un pasillo. Pintá 3/5 de los banderines de ese pasillo.",
+        "count": 40,
+        "target": 12,
+        "first": [
+          1,
+          2
+        ],
+        "second": [
+          3,
+          5
+        ],
+        "hints": [
+          "Primero encontrá la mitad de 40.",
+          "La mitad son 20; ahora buscá 3/5 de 20."
+        ],
+        "steps": [
+          "1/2 de 40 = 20 banderines.",
+          "3/5 de 20 = 12 banderines.",
+          "Pintá 12 triángulos."
+        ]
+      },
+      {
+        "id": "FR26-C-06",
+        "round": "C",
+        "area": "matematica",
+        "school": null,
+        "kind": "cards",
+        "title": "Libros para una feria",
+        "skill": "MAT-FR-PROB",
+        "difficulty": 4,
+        "prompt": "En una feria hay 280 libros. 3/7 son novelas y el resto son cuentos. De las novelas, 1/6 son ilustradas. Respondé ambas preguntas.",
+        "total": 280,
+        "numerator": 3,
+        "denominator": 7,
+        "portion": 120,
+        "smallDenominator": 6,
+        "other": 160,
+        "special": 20,
+        "subsetLabel": "novelas",
+        "restLabel": "cuentos",
+        "specialLabel": "novelas ilustradas",
+        "question1": "¿Cuántos libros son cuentos?",
+        "question2": "¿Cuántas novelas son ilustradas?",
+        "hints": [
+          "Primero calculá 3/7 de 280 para averiguar cuántas novelas hay.",
+          "Las ilustradas son 1/6 solo de las novelas; los cuentos son el complemento."
+        ],
+        "steps": [
+          "Novelas: 280 ÷ 7 × 3 = 120.",
+          "Cuentos: 280 − 120 = 160.",
+          "Novelas ilustradas: 120 ÷ 6 = 20."
+        ]
+      },
+      {
+        "id": "FR26-C-07",
+        "round": "C",
+        "area": "matematica",
+        "school": null,
+        "kind": "fractioninput",
+        "title": "Parte del sendero",
+        "skill": "MAT-FR-OPS",
+        "difficulty": 3,
+        "prompt": "Una excursión recorrió 2/3 de 3/4 de un sendero. ¿Qué fracción del sendero completo recorrió? Escribí una fracción.",
+        "expected": [
+          1,
+          2
+        ],
+        "question": "Fracción del sendero recorrido",
+        "hints": [
+          "La palabra «de» indica multiplicación de fracciones.",
+          "Multiplicá numeradores y denominadores; después simplificá."
+        ],
+        "steps": [
+          "2/3 × 3/4 = 6/12.",
+          "6/12 equivale a 1/2.",
+          "Se recorrió la mitad del sendero."
+        ]
+      }
+    ],
+    "D": [
+      {
+        "id": "FR26-D-01",
+        "round": "D",
+        "area": "matematica",
+        "school": null,
+        "kind": "mixed",
+        "title": "Paneles de una muestra",
+        "skill": "MAT-FR-CON",
+        "difficulty": 3,
+        "prompt": "Cada panel de seis cuadrados es una unidad. Pintá 1 entero y 5/6 de otro.",
+        "perUnit": 6,
+        "numerator": 5,
+        "denominator": 6,
+        "hints": [
+          "Primero completá una unidad de seis cuadrados.",
+          "En la otra unidad pintá cinco de los seis."
+        ],
+        "steps": [
+          "Una unidad completa tiene 6 cuadrados.",
+          "Cinco sextos son 5 cuadrados.",
+          "Pintá 6 en un panel y 5 en el otro."
+        ]
+      },
+      {
+        "id": "FR26-D-02",
+        "round": "D",
+        "area": "matematica",
+        "school": null,
+        "kind": "line",
+        "title": "Más allá del entero",
+        "skill": "MAT-FR-CON",
+        "difficulty": 3,
+        "prompt": "La recta va de 0 a 2. Marcá 7/4.",
+        "denominator": 4,
+        "numerator": 7,
+        "max": 2,
+        "hints": [
+          "4/4 equivale a 1. La marca buscada es mayor que 1.",
+          "7/4 es 1 entero y 3/4: avanzá tres cuartos después del 1."
+        ],
+        "steps": [
+          "7/4 = 4/4 + 3/4.",
+          "Es 1 y 3/4.",
+          "La marca buscada está antes del 2."
+        ]
+      },
+      {
+        "id": "FR26-D-03",
+        "round": "D",
+        "area": "matematica",
+        "school": null,
+        "kind": "squares",
+        "title": "Superficie para sembrar",
+        "skill": "MAT-FR-CON",
+        "difficulty": 2,
+        "prompt": "Un cantero tiene 12 sectores iguales. Pintá 2/3 de ellos.",
+        "count": 12,
+        "numerator": 2,
+        "denominator": 3,
+        "hints": [
+          "Dividí 12 en tres grupos iguales.",
+          "Cada tercio son cuatro sectores; necesitás dos grupos."
+        ],
+        "steps": [
+          "12 ÷ 3 = 4 sectores por tercio.",
+          "2 × 4 = 8 sectores.",
+          "Pintá 8 cuadrados."
+        ]
+      },
+      {
+        "id": "FR26-D-04",
+        "round": "D",
+        "area": "matematica",
+        "school": null,
+        "kind": "number",
+        "title": "Las entradas de un festival",
+        "skill": "MAT-FR-PROB",
+        "difficulty": 4,
+        "prompt": "Se distribuyeron 84 entradas, que representan 3/7 de todas las disponibles. ¿Cuántas entradas había en total?",
+        "expected": 196,
+        "question": "Total de entradas disponibles",
+        "hints": [
+          "Si 3/7 equivalen a 84, encontrá primero 1/7.",
+          "84 ÷ 3 = 28. La unidad son siete grupos de 28."
+        ],
+        "steps": [
+          "1/7 corresponde a 84 ÷ 3 = 28.",
+          "7/7 son 28 × 7 = 196.",
+          "Había 196 entradas."
+        ]
+      },
+      {
+        "id": "FR26-D-05",
+        "round": "D",
+        "area": "matematica",
+        "school": null,
+        "kind": "remainder",
+        "title": "La huerta comunitaria",
+        "skill": "MAT-FR-OPS",
+        "difficulty": 4,
+        "prompt": "Se sembraron flores en 3/4 de 2/9 de una huerta. El resto se reservó para hortalizas. ¿Qué fracción quedó para hortalizas?",
+        "covered": [
+          1,
+          6
+        ],
+        "remaining": [
+          5,
+          6
+        ],
+        "question": "Fracción reservada para hortalizas",
+        "hints": [
+          "Calculá 3/4 × 2/9 para hallar la superficie con flores.",
+          "La parte con flores equivale a 1/6; restala del entero."
+        ],
+        "steps": [
+          "Flores: 3/4 × 2/9 = 6/36 = 1/6.",
+          "El entero es 6/6.",
+          "Hortalizas: 6/6 − 1/6 = 5/6."
+        ]
+      },
+      {
+        "id": "FR26-D-06",
+        "round": "D",
+        "area": "matematica",
+        "school": null,
+        "kind": "unit",
+        "title": "Reconstruir un collar",
+        "skill": "MAT-FR-PROB",
+        "difficulty": 3,
+        "prompt": "Un collar tiene colocadas 10 cuentas, que equivalen a 5/8 del total. Agregá las que faltan.",
+        "given": 10,
+        "parts": 5,
+        "totalParts": 8,
+        "hints": [
+          "Cada octavo tiene la misma cantidad de cuentas.",
+          "Diez cuentas representan cinco octavos; un octavo son dos."
+        ],
+        "steps": [
+          "1/8 equivale a 10 ÷ 5 = 2 cuentas.",
+          "8/8 son 16 cuentas.",
+          "Faltan 16 − 10 = 6."
+        ]
+      },
+      {
+        "id": "FR26-D-07",
+        "round": "D",
+        "area": "matematica",
+        "school": null,
+        "kind": "cards",
+        "title": "Semillas de dos clases",
+        "skill": "MAT-FR-PROB",
+        "difficulty": 4,
+        "prompt": "Hay 360 semillas: 5/9 son aromáticas y las demás son florales. 1/8 de las aromáticas corresponde a albahaca.",
+        "total": 360,
+        "numerator": 5,
+        "denominator": 9,
+        "portion": 200,
+        "smallDenominator": 8,
+        "other": 160,
+        "special": 25,
+        "subsetLabel": "aromáticas",
+        "restLabel": "florales",
+        "specialLabel": "de albahaca",
+        "question1": "¿Cuántas semillas son florales?",
+        "question2": "¿Cuántas aromáticas son de albahaca?",
+        "hints": [
+          "Calculá primero 5/9 de 360.",
+          "Para las de albahaca, calculá 1/8 solamente sobre las aromáticas."
+        ],
+        "steps": [
+          "Aromáticas: 360 ÷ 9 × 5 = 200.",
+          "Florales: 360 − 200 = 160.",
+          "Albahaca: 200 ÷ 8 = 25."
+        ]
+      }
+    ],
+    "E": [
+      {
+        "id": "FR26-E-01",
+        "round": "E",
+        "area": "matematica",
+        "school": null,
+        "kind": "discs",
+        "title": "Ventanas de colores",
+        "skill": "MAT-FR-CON",
+        "difficulty": 3,
+        "prompt": "Dos vitrales tienen 8 partes iguales cada uno. Pintá 3/4 de cada vitral.",
+        "numerator": 6,
+        "hints": [
+          "Convertí 3/4 a octavos.",
+          "3/4 equivale a 6/8. Contá seis partes por vitral."
+        ],
+        "steps": [
+          "Cada vitral tiene 8 sectores.",
+          "3/4 = 6/8.",
+          "Se pintan seis sectores en cada vitral."
+        ]
+      },
+      {
+        "id": "FR26-E-02",
+        "round": "E",
+        "area": "matematica",
+        "school": null,
+        "kind": "line",
+        "title": "Ubicar cinco sextos",
+        "skill": "MAT-FR-CON",
+        "difficulty": 2,
+        "prompt": "Marcá 5/6 entre 0 y 1 en esta recta.",
+        "denominator": 6,
+        "numerator": 5,
+        "max": 1,
+        "hints": [
+          "Dividí el intervalo 0 a 1 en seis partes iguales.",
+          "Contá cinco pasos desde 0; es una marca antes del 1."
+        ],
+        "steps": [
+          "El intervalo tiene seis partes iguales.",
+          "Cinco de esas partes forman 5/6.",
+          "Elegí la quinta marca a partir de 0."
+        ]
+      },
+      {
+        "id": "FR26-E-03",
+        "round": "E",
+        "area": "matematica",
+        "school": null,
+        "kind": "triangles",
+        "title": "Elementos del taller",
+        "skill": "MAT-FR-PROB",
+        "difficulty": 4,
+        "prompt": "De 48 piezas, se reservaron 3/4 para un taller. Pintá 2/3 de las piezas reservadas.",
+        "count": 48,
+        "target": 24,
+        "first": [
+          3,
+          4
+        ],
+        "second": [
+          2,
+          3
+        ],
+        "hints": [
+          "Primero hallá 3/4 de 48.",
+          "Después calculá 2/3 de 36."
+        ],
+        "steps": [
+          "3/4 de 48 = 36.",
+          "2/3 de 36 = 24.",
+          "Pintá 24 triángulos."
+        ]
+      },
+      {
+        "id": "FR26-E-04",
+        "round": "E",
+        "area": "matematica",
+        "school": null,
+        "kind": "fractioninput",
+        "title": "Parte de un terreno",
+        "skill": "MAT-FR-OPS",
+        "difficulty": 4,
+        "prompt": "Se usó 3/5 de 5/9 de un terreno para plantar árboles. ¿Qué fracción del total se destinó a árboles?",
+        "expected": [
+          1,
+          3
+        ],
+        "question": "Fracción del terreno destinada a árboles",
+        "hints": [
+          "Multiplicá las dos fracciones que indican la parte del terreno.",
+          "3/5 × 5/9 = 15/45. Simplificá."
+        ],
+        "steps": [
+          "3/5 × 5/9 = 15/45.",
+          "15/45 se simplifica a 1/3.",
+          "Los árboles ocupan un tercio del terreno."
+        ]
+      },
+      {
+        "id": "FR26-E-05",
+        "round": "E",
+        "area": "matematica",
+        "school": null,
+        "kind": "mixed",
+        "title": "Más de un mosaico",
+        "skill": "MAT-FR-CON",
+        "difficulty": 2,
+        "prompt": "Cada mosaico de seis partes es una unidad. Representá 1 entero y 1/3 de otro.",
+        "perUnit": 6,
+        "numerator": 1,
+        "denominator": 3,
+        "hints": [
+          "Pintá primero seis partes en un mosaico.",
+          "Un tercio de seis son dos partes."
+        ],
+        "steps": [
+          "Una unidad representa 6 cuadrados.",
+          "1/3 de 6 = 2.",
+          "Se pintan 6 y 2 cuadrados."
+        ]
+      },
+      {
+        "id": "FR26-E-06",
+        "round": "E",
+        "area": "matematica",
+        "school": null,
+        "kind": "cards",
+        "title": "Colección de postales",
+        "skill": "MAT-FR-PROB",
+        "difficulty": 4,
+        "prompt": "En una colección hay 420 postales. 4/7 son de paisajes y el resto de ciudades. 1/6 de las de paisajes tiene relieve.",
+        "total": 420,
+        "numerator": 4,
+        "denominator": 7,
+        "portion": 240,
+        "smallDenominator": 6,
+        "other": 180,
+        "special": 40,
+        "subsetLabel": "paisajes",
+        "restLabel": "ciudades",
+        "specialLabel": "de paisajes con relieve",
+        "question1": "¿Cuántas postales son de ciudades?",
+        "question2": "¿Cuántas de paisajes tienen relieve?",
+        "hints": [
+          "Averiguá cuántas de las 420 son de paisajes.",
+          "Calculá 1/6 sobre las 240 de paisajes, no sobre las 420."
+        ],
+        "steps": [
+          "Paisajes: 420 ÷ 7 × 4 = 240.",
+          "Ciudades: 420 − 240 = 180.",
+          "Con relieve: 240 ÷ 6 = 40."
+        ]
+      },
+      {
+        "id": "FR26-E-07",
+        "round": "E",
+        "area": "matematica",
+        "school": null,
+        "kind": "unit",
+        "title": "Piezas de un rompecabezas",
+        "skill": "MAT-FR-PROB",
+        "difficulty": 3,
+        "prompt": "Las 12 piezas que ves representan 3/4 de un conjunto completo. ¿Cuántas piezas faltan? Agregalas.",
+        "given": 12,
+        "parts": 3,
+        "totalParts": 4,
+        "hints": [
+          "Las 12 piezas corresponden a tres cuartos.",
+          "Si un cuarto son cuatro piezas, el total tiene cuatro grupos."
+        ],
+        "steps": [
+          "1/4 = 12 ÷ 3 = 4 piezas.",
+          "El conjunto completo tiene 16.",
+          "Faltan 16 − 12 = 4."
+        ]
+      }
+    ],
+    "F": [
+      {
+        "id": "FR26-F-01",
+        "round": "F",
+        "area": "matematica",
+        "school": null,
+        "kind": "squares",
+        "title": "Trama de azulejos",
+        "skill": "MAT-FR-CON",
+        "difficulty": 2,
+        "prompt": "Pintá 3/4 de la figura de doce cuadrados iguales.",
+        "count": 12,
+        "numerator": 3,
+        "denominator": 4,
+        "hints": [
+          "¿Cuántos cuadrados representan un cuarto de 12?",
+          "Cada cuarto son 3 cuadrados; necesitás tres cuartos."
+        ],
+        "steps": [
+          "12 ÷ 4 = 3.",
+          "3 × 3 = 9.",
+          "Pintá nueve cuadrados."
+        ]
+      },
+      {
+        "id": "FR26-F-02",
+        "round": "F",
+        "area": "matematica",
+        "school": null,
+        "kind": "line",
+        "title": "Un entero y medio",
+        "skill": "MAT-FR-CON",
+        "difficulty": 3,
+        "prompt": "La recta va de 0 a 2. Ubicá 9/6.",
+        "denominator": 6,
+        "numerator": 9,
+        "max": 2,
+        "hints": [
+          "6/6 es 1 entero.",
+          "9/6 es un entero y tres sextos; equivale a 1 y 1/2."
+        ],
+        "steps": [
+          "9/6 = 6/6 + 3/6.",
+          "Es 1 + 1/2 = 1,5.",
+          "Marcá exactamente la mitad entre 1 y 2."
+        ]
+      },
+      {
+        "id": "FR26-F-03",
+        "round": "F",
+        "area": "matematica",
+        "school": null,
+        "kind": "number",
+        "title": "Reunir materiales",
+        "skill": "MAT-FR-PROB",
+        "difficulty": 4,
+        "prompt": "En una campaña juntaron 120 tapas azules, que representan 2/9 del total de tapas. ¿Cuántas tapas juntaron entre todos los colores?",
+        "expected": 540,
+        "question": "Total de tapas",
+        "hints": [
+          "Si dos novenos son 120, primero averiguá cuánto es un noveno.",
+          "120 ÷ 2 = 60 y el total tiene nueve novenos."
+        ],
+        "steps": [
+          "1/9 equivale a 120 ÷ 2 = 60 tapas.",
+          "9/9 = 60 × 9 = 540.",
+          "El total es 540 tapas."
+        ]
+      },
+      {
+        "id": "FR26-F-04",
+        "round": "F",
+        "area": "matematica",
+        "school": null,
+        "kind": "unit",
+        "title": "Completar fichas de una caja",
+        "skill": "MAT-FR-PROB",
+        "difficulty": 3,
+        "prompt": "Un conjunto de seis fichas representa 2/5 del contenido completo de una caja. Agregá las necesarias para completar la caja.",
+        "given": 6,
+        "parts": 2,
+        "totalParts": 5,
+        "hints": [
+          "Dos quintos son seis fichas: dividí entre dos.",
+          "Cada quinto son tres fichas; hacen falta cinco quintos."
+        ],
+        "steps": [
+          "1/5 = 6 ÷ 2 = 3 fichas.",
+          "El total es 3 × 5 = 15.",
+          "Faltan 15 − 6 = 9 fichas."
+        ]
+      },
+      {
+        "id": "FR26-F-05",
+        "round": "F",
+        "area": "matematica",
+        "school": null,
+        "kind": "remainder",
+        "title": "Decoración de una pared",
+        "skill": "MAT-FR-OPS",
+        "difficulty": 4,
+        "prompt": "Se cubrió con dibujos 3/5 de 5/12 de una pared. El resto se pintó de un solo color. ¿Qué fracción quedó pintada de un solo color?",
+        "covered": [
+          1,
+          4
+        ],
+        "remaining": [
+          3,
+          4
+        ],
+        "question": "Fracción de pared pintada de un solo color",
+        "hints": [
+          "Hallá primero 3/5 de 5/12.",
+          "Ese producto equivale a 1/4. ¿Qué parte queda del entero?"
+        ],
+        "steps": [
+          "Dibujos: 3/5 × 5/12 = 15/60 = 1/4.",
+          "El entero es 4/4.",
+          "Resto: 4/4 − 1/4 = 3/4."
+        ]
+      },
+      {
+        "id": "FR26-F-06",
+        "round": "F",
+        "area": "matematica",
+        "school": null,
+        "kind": "triangles",
+        "title": "Cintas para decorar",
+        "skill": "MAT-FR-PROB",
+        "difficulty": 3,
+        "prompt": "Se eligió 1/2 de 50 cintas y después 4/5 de las elegidas. Pintá cuántas cintas quedaron seleccionadas.",
+        "count": 50,
+        "target": 20,
+        "first": [
+          1,
+          2
+        ],
+        "second": [
+          4,
+          5
+        ],
+        "hints": [
+          "Primero calculá la mitad de 50.",
+          "4/5 de 25 son veinte."
+        ],
+        "steps": [
+          "1/2 de 50 = 25.",
+          "4/5 de 25 = 20.",
+          "Pintá 20 triángulos."
+        ]
+      },
+      {
+        "id": "FR26-F-07",
+        "round": "F",
+        "area": "matematica",
+        "school": null,
+        "kind": "cards",
+        "title": "Materiales del museo",
+        "skill": "MAT-FR-PROB",
+        "difficulty": 4,
+        "prompt": "Un museo catalogó 270 piezas: 2/3 son fotografías y el resto son mapas. 1/9 de las fotografías es de principios de siglo.",
+        "total": 270,
+        "numerator": 2,
+        "denominator": 3,
+        "portion": 180,
+        "smallDenominator": 9,
+        "other": 90,
+        "special": 20,
+        "subsetLabel": "fotografías",
+        "restLabel": "mapas",
+        "specialLabel": "fotografías antiguas",
+        "question1": "¿Cuántas piezas son mapas?",
+        "question2": "¿Cuántas fotografías son de principios de siglo?",
+        "hints": [
+          "Calculá primero las fotografías y restalas del total.",
+          "La última fracción se aplica solo a las fotografías."
+        ],
+        "steps": [
+          "Fotografías: 270 ÷ 3 × 2 = 180.",
+          "Mapas: 270 − 180 = 90.",
+          "Fotografías antiguas: 180 ÷ 9 = 20."
+        ]
+      }
+    ],
+    "G": [
+      {
+        "id": "FR26-G-01",
+        "round": "G",
+        "area": "matematica",
+        "school": null,
+        "kind": "mixed",
+        "title": "Un tablero completo y un sexto",
+        "skill": "MAT-FR-CON",
+        "difficulty": 3,
+        "prompt": "En dos tableros de seis casillas, pintá una unidad completa y 1/6 de la segunda.",
+        "perUnit": 6,
+        "numerator": 1,
+        "denominator": 6,
+        "hints": [
+          "Primero pintá todas las casillas de un tablero.",
+          "Un sexto del segundo tablero es una casilla."
+        ],
+        "steps": [
+          "El primer tablero aporta seis casillas.",
+          "Un sexto del segundo tablero aporta una.",
+          "En total quedan siete casillas pintadas, distribuidas 6 y 1."
+        ]
+      },
+      {
+        "id": "FR26-G-02",
+        "round": "G",
+        "area": "matematica",
+        "school": null,
+        "kind": "line",
+        "title": "Fracción impropia",
+        "skill": "MAT-FR-CON",
+        "difficulty": 3,
+        "prompt": "Ubicá 7/6 en la recta de 0 a 2.",
+        "denominator": 6,
+        "numerator": 7,
+        "max": 2,
+        "hints": [
+          "Convertí 7/6 en un entero y una parte.",
+          "7/6 = 1 + 1/6; elegí la primera marca después del 1."
+        ],
+        "steps": [
+          "6/6 forma una unidad.",
+          "7/6 es 1 y 1/6.",
+          "Se ubica una marca después de 1."
+        ]
+      },
+      {
+        "id": "FR26-G-03",
+        "round": "G",
+        "area": "matematica",
+        "school": null,
+        "kind": "fractioninput",
+        "title": "Multiplicación de fracciones",
+        "skill": "MAT-FR-OPS",
+        "difficulty": 4,
+        "prompt": "De una reserva, 2/9 se usó para juegos. De esa parte se aprovechó 3/4. ¿Qué fracción de la reserva completa se aprovechó?",
+        "expected": [
+          1,
+          6
+        ],
+        "question": "Fracción del total que se aprovechó",
+        "hints": [
+          "Multiplicá 2/9 por 3/4.",
+          "6/36 puede simplificarse dividiendo por 6."
+        ],
+        "steps": [
+          "2/9 × 3/4 = 6/36.",
+          "6/36 = 1/6.",
+          "La parte aprovechada es un sexto."
+        ]
+      },
+      {
+        "id": "FR26-G-04",
+        "round": "G",
+        "area": "matematica",
+        "school": null,
+        "kind": "discs",
+        "title": "Dos mapas circulares",
+        "skill": "MAT-FR-CON",
+        "difficulty": 3,
+        "prompt": "Pintá 7/8 de cada una de las dos figuras circulares.",
+        "numerator": 7,
+        "hints": [
+          "Cada figura representa una unidad distinta.",
+          "Dejá sin pintar solo un sector en cada círculo."
+        ],
+        "steps": [
+          "Cada figura tiene ocho sectores.",
+          "7/8 exige pintar siete.",
+          "Repetí la misma cantidad en ambos círculos."
+        ]
+      },
+      {
+        "id": "FR26-G-05",
+        "round": "G",
+        "area": "matematica",
+        "school": null,
+        "kind": "cards",
+        "title": "Libros de una biblioteca",
+        "skill": "MAT-FR-PROB",
+        "difficulty": 4,
+        "prompt": "Una biblioteca ordenó 504 libros: 5/9 son de ficción y el resto de divulgación. 1/7 de los de ficción tiene tapa dura.",
+        "total": 504,
+        "numerator": 5,
+        "denominator": 9,
+        "portion": 280,
+        "smallDenominator": 7,
+        "other": 224,
+        "special": 40,
+        "subsetLabel": "ficción",
+        "restLabel": "divulgación",
+        "specialLabel": "ficción de tapa dura",
+        "question1": "¿Cuántos libros son de divulgación?",
+        "question2": "¿Cuántos de ficción tienen tapa dura?",
+        "hints": [
+          "Averiguá los libros de ficción antes de restar.",
+          "Los de tapa dura son 1/7 únicamente de la ficción."
+        ],
+        "steps": [
+          "Ficción: 504 ÷ 9 × 5 = 280.",
+          "Divulgación: 504 − 280 = 224.",
+          "De tapa dura: 280 ÷ 7 = 40."
+        ]
+      },
+      {
+        "id": "FR26-G-06",
+        "round": "G",
+        "area": "matematica",
+        "school": null,
+        "kind": "unit",
+        "title": "Colección de estampillas",
+        "skill": "MAT-FR-PROB",
+        "difficulty": 4,
+        "prompt": "Las nueve estampillas dadas son 3/7 de toda la colección. Agregá las que faltan.",
+        "given": 9,
+        "parts": 3,
+        "totalParts": 7,
+        "hints": [
+          "Si tres séptimos valen nueve, dividí entre tres.",
+          "Cada séptimo son tres estampillas; el entero son siete séptimos."
+        ],
+        "steps": [
+          "1/7 equivale a 9 ÷ 3 = 3.",
+          "La colección entera tiene 21 estampillas.",
+          "Faltan 21 − 9 = 12."
+        ]
+      },
+      {
+        "id": "FR26-G-07",
+        "round": "G",
+        "area": "matematica",
+        "school": null,
+        "kind": "number",
+        "title": "Boletos para el teatro",
+        "skill": "MAT-FR-PROB",
+        "difficulty": 4,
+        "prompt": "Se vendieron 144 boletos, que son 4/9 de los disponibles. ¿Cuántos boletos había antes de empezar la venta?",
+        "expected": 324,
+        "question": "Boletos disponibles al principio",
+        "hints": [
+          "144 boletos representan cuatro novenos.",
+          "Primero hallá un noveno y luego multiplicá por nueve."
+        ],
+        "steps": [
+          "1/9 = 144 ÷ 4 = 36.",
+          "9/9 = 36 × 9 = 324.",
+          "Había 324 boletos."
+        ]
+      }
+    ],
+    "H": [
+      {
+        "id": "FR26-H-01",
+        "round": "H",
+        "area": "matematica",
+        "school": null,
+        "kind": "triangles",
+        "title": "Carteles en dos etapas",
+        "skill": "MAT-FR-PROB",
+        "difficulty": 4,
+        "prompt": "Se preparó 2/3 de un lote de 60 carteles. De esos, se decoró 3/4. Pintá cuántos carteles quedaron decorados.",
+        "count": 60,
+        "target": 30,
+        "first": [
+          2,
+          3
+        ],
+        "second": [
+          3,
+          4
+        ],
+        "hints": [
+          "Calculá primero 2/3 de 60.",
+          "De 40 carteles, calculá tres cuartos."
+        ],
+        "steps": [
+          "2/3 de 60 = 40.",
+          "3/4 de 40 = 30.",
+          "Pintá 30 triángulos."
+        ]
+      },
+      {
+        "id": "FR26-H-02",
+        "round": "H",
+        "area": "matematica",
+        "school": null,
+        "kind": "line",
+        "title": "Ubicar cinco cuartos",
+        "skill": "MAT-FR-CON",
+        "difficulty": 3,
+        "prompt": "En la recta de 0 a 2, señalá la posición de 5/4.",
+        "denominator": 4,
+        "numerator": 5,
+        "max": 2,
+        "hints": [
+          "La fracción es mayor que una unidad.",
+          "5/4 equivale a 1 entero y 1/4."
+        ],
+        "steps": [
+          "4/4 es 1 entero.",
+          "5/4 es 1 y 1/4.",
+          "Seleccioná la primera marca después del 1."
+        ]
+      },
+      {
+        "id": "FR26-H-03",
+        "round": "H",
+        "area": "matematica",
+        "school": null,
+        "kind": "squares",
+        "title": "Recubrimiento de una figura",
+        "skill": "MAT-FR-CON",
+        "difficulty": 3,
+        "prompt": "Pintá 5/6 de una figura formada por doce cuadrados iguales.",
+        "count": 12,
+        "numerator": 5,
+        "denominator": 6,
+        "hints": [
+          "Un sexto de doce son dos cuadrados.",
+          "Cinco sextos equivalen a cinco grupos de dos."
+        ],
+        "steps": [
+          "12 ÷ 6 = 2.",
+          "5 × 2 = 10.",
+          "Se pintan diez cuadrados."
+        ]
+      },
+      {
+        "id": "FR26-H-04",
+        "round": "H",
+        "area": "matematica",
+        "school": null,
+        "kind": "unit",
+        "title": "Completar una serie de fichas",
+        "skill": "MAT-FR-PROB",
+        "difficulty": 4,
+        "prompt": "Quince fichas equivalen a 5/8 de la colección completa. Agregá las fichas que faltan.",
+        "given": 15,
+        "parts": 5,
+        "totalParts": 8,
+        "hints": [
+          "Dividí 15 entre 5 para encontrar un octavo.",
+          "La colección completa reúne ocho grupos del mismo tamaño."
+        ],
+        "steps": [
+          "1/8 = 15 ÷ 5 = 3 fichas.",
+          "8/8 son 24 fichas.",
+          "Faltan 24 − 15 = 9."
+        ]
+      },
+      {
+        "id": "FR26-H-05",
+        "round": "H",
+        "area": "matematica",
+        "school": null,
+        "kind": "fractioninput",
+        "title": "Una parte de otra parte",
+        "skill": "MAT-FR-OPS",
+        "difficulty": 4,
+        "prompt": "Una huerta reservó 3/7 del terreno para semillas. De esa porción, 2/5 se usó para plantines. ¿Qué fracción del terreno total ocupan los plantines?",
+        "expected": [
+          6,
+          35
+        ],
+        "question": "Fracción total ocupada por plantines",
+        "hints": [
+          "Calculá 2/5 de 3/7.",
+          "Multiplicá 2 × 3 y 5 × 7."
+        ],
+        "steps": [
+          "3/7 × 2/5 = 6/35.",
+          "6 y 35 no tienen divisores comunes mayores que 1.",
+          "La fracción es 6/35."
+        ]
+      },
+      {
+        "id": "FR26-H-06",
+        "round": "H",
+        "area": "matematica",
+        "school": null,
+        "kind": "cards",
+        "title": "Estantes de una biblioteca escolar",
+        "skill": "MAT-FR-PROB",
+        "difficulty": 4,
+        "prompt": "La biblioteca recibió 480 libros: 7/12 son cuentos y los demás son manuales. 1/8 de los cuentos está encuadernado a mano.",
+        "total": 480,
+        "numerator": 7,
+        "denominator": 12,
+        "portion": 280,
+        "smallDenominator": 8,
+        "other": 200,
+        "special": 35,
+        "subsetLabel": "cuentos",
+        "restLabel": "manuales",
+        "specialLabel": "cuentos encuadernados a mano",
+        "question1": "¿Cuántos libros son manuales?",
+        "question2": "¿Cuántos cuentos están encuadernados a mano?",
+        "hints": [
+          "Buscá 7/12 de 480 para saber cuántos cuentos hay.",
+          "Los manuales se obtienen por diferencia y los encuadernados son 1/8 de los cuentos."
+        ],
+        "steps": [
+          "Cuentos: 480 ÷ 12 × 7 = 280.",
+          "Manuales: 480 − 280 = 200.",
+          "Encuadernados a mano: 280 ÷ 8 = 35."
+        ]
+      },
+      {
+        "id": "FR26-H-07",
+        "round": "H",
+        "area": "matematica",
+        "school": null,
+        "kind": "remainder",
+        "title": "Trabajo sobre una pared",
+        "skill": "MAT-FR-OPS",
+        "difficulty": 4,
+        "prompt": "En una pared se colocaron afiches en 3/7 de 7/9 de la superficie. Todo lo demás quedó libre. ¿Qué fracción quedó libre?",
+        "covered": [
+          1,
+          3
+        ],
+        "remaining": [
+          2,
+          3
+        ],
+        "question": "Fracción de la pared que quedó libre",
+        "hints": [
+          "Calculá primero 3/7 de 7/9.",
+          "La parte ocupada es 1/3; lo libre es el complemento."
+        ],
+        "steps": [
+          "Afiches: 3/7 × 7/9 = 21/63 = 1/3.",
+          "El entero es 3/3.",
+          "Quedó libre 3/3 − 1/3 = 2/3."
         ]
       }
     ]
