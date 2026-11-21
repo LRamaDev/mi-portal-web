@@ -1,0 +1,270 @@
+(function fractionChallenges() {
+  'use strict';
+  const dialog = document.getElementById('fraction-challenge-dialog');
+  const app = document.getElementById('fraction-challenge-content');
+  const closeButton = document.getElementById('fraction-challenge-close');
+  let session = null;
+  let loading = false;
+
+  const esc = value => String(value ?? '').replace(/[&<>"']/g, c => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+  }[c]));
+  const button = (text, id, secondary = false) =>
+    `<button id="${id}" class="${secondary ? 'secondary-button' : 'primary-button'}" type="button">${text}</button>`;
+  const notice = (title, body, good = false) =>
+    `<div class="fraction-notice${good ? ' fraction-notice-good' : ''}" role="status"><strong>${esc(title)}</strong><div>${body}</div></div>`;
+
+  function cell(id, shape, attrs, label) {
+    return `<${shape} data-fraction-cell="${id}" ${attrs} tabindex="0" role="button" aria-label="${esc(label)}" aria-pressed="false"></${shape}>`;
+  }
+  function discs() {
+    return `<div class="fraction-figures">${[0, 1].map(group => {
+      let paths = '';
+      for (let i = 0; i < 8; i++) {
+        const a = -Math.PI / 2 + i * Math.PI / 4, b = a + Math.PI / 4;
+        const x1 = 57 + 48 * Math.cos(a), y1 = 57 + 48 * Math.sin(a);
+        const x2 = 57 + 48 * Math.cos(b), y2 = 57 + 48 * Math.sin(b);
+        paths += cell(group * 8 + i, 'path',
+          `d="M57 57 L${x1} ${y1} A48 48 0 0 1 ${x2} ${y2} Z"`,
+          `Sector ${i + 1} de la rueda ${group + 1}`);
+      }
+      return `<div class="fraction-figure"><svg viewBox="0 0 114 114" aria-label="Rueda ${group + 1}">${paths}</svg><span>Rueda ${group + 1}</span></div>`;
+    }).join('')}</div>`;
+  }
+  function squares() {
+    const cells = [[1,0],[2,0],[0,1],[1,1],[2,1],[3,1],[1,2],[2,2],[0,3],[1,3],[2,3],[3,3]];
+    return `<svg class="fraction-squares" viewBox="0 0 240 240" aria-label="Figura de doce cuadrados">${cells.map(([x,y],i) =>
+      cell(i, 'rect', `x="${23 + x * 48}" y="${23 + y * 48}" width="48" height="48"`, `Cuadrado ${i + 1}`)
+    ).join('')}</svg>`;
+  }
+  function mixed() {
+    return `<div class="fraction-figures">${[0,1].map(group =>
+      `<div class="fraction-figure"><svg viewBox="0 0 166 132" aria-label="Tablero ${group + 1}">${Array.from({length:6},(_,i) =>
+        cell(group * 6 + i, 'rect',
+          `x="${11+(i % 3)*48}" y="${11+Math.floor(i/3)*48}" width="48" height="48"`,
+          `Cuadrado ${i+1} del tablero ${group+1}`)
+      ).join('')}</svg><span>Tablero ${group+1}</span></div>`
+    ).join('')}</div>`;
+  }
+  function triangles(task) {
+    const count = task.count, cols = 8, rows = Math.ceil(count / cols);
+    return `<svg class="fraction-triangles" viewBox="0 0 343 ${rows*40+7}" aria-label="${count} triángulos">${Array.from({length:count},(_,i) => {
+      const x=8+(i%cols)*41, y=8+Math.floor(i/cols)*40;
+      return cell(i, 'polygon', `points="${x+18},${y} ${x+36},${y+32} ${x},${y+32}"`, `Triángulo ${i+1}`);
+    }).join('')}</svg>`;
+  }
+  function unit(task) {
+    return `<div class="fraction-unit"><p>Las primeras ${task.given} fichas ya están dadas. Agregá las que faltan.</p><div class="fraction-circles">${Array.from({length:task.given+session.added},(_,i) =>
+      `<span class="fraction-circle${i>=task.given?' fraction-circle-added':''}" aria-label="${i>=task.given?'Ficha agregada':'Ficha dada'}"></span>`).join('')}</div><div class="fraction-stepper"><button type="button" id="fraction-minus" aria-label="Quitar ficha">−</button><output>${session.added} agregadas</output><button type="button" id="fraction-plus" aria-label="Agregar ficha">+</button></div></div>`;
+  }
+  function board(task) {
+    if (task.kind === 'discs') return discs();
+    if (task.kind === 'squares') return squares();
+    if (task.kind === 'mixed') return mixed();
+    if (task.kind === 'triangles') return triangles(task);
+    if (task.kind === 'unit') return unit(task);
+    if (task.kind === 'cards') return `<div class="fraction-fields"><label>¿Cuántas son de vehículos?<input id="fraction-ans1" type="text" inputmode="numeric" autocomplete="off"></label><label>¿Cuántas de animales son especiales?<input id="fraction-ans2" type="text" inputmode="numeric" autocomplete="off"></label></div>`;
+    if (task.kind === 'remainder') return `<div class="fraction-fields"><label>¿Qué fracción del mural se pintó?<input id="fraction-ans1" type="text" inputmode="text" placeholder="Por ejemplo: 3/8" autocomplete="off"></label></div>`;
+    return '';
+  }
+  function taskNow() { return session?.tasks[session.index]; }
+  function drawUnit() {
+    document.getElementById('fraction-board').innerHTML = unit(taskNow());
+    bindStepper();
+  }
+  function bindStepper() {
+    document.getElementById('fraction-minus').onclick = () => {
+      if (!session.locked && session.added > 0) { session.added--; drawUnit(); }
+    };
+    document.getElementById('fraction-plus').onclick = () => {
+      if (!session.locked && session.added < 30) { session.added++; drawUnit(); }
+    };
+  }
+  function countLabel() {
+    const task = taskNow();
+    const counts = [0,1].map(group => [...session.selection].filter(k => Math.floor(k/(task.kind==='discs'?8:6))===group).length);
+    if (task.kind === 'discs') return `Rueda 1: ${counts[0]}/8 · Rueda 2: ${counts[1]}/8`;
+    if (task.kind === 'mixed') return `Tablero 1: ${counts[0]}/6 · Tablero 2: ${counts[1]}/6`;
+    return `Pintaste ${session.selection.size} partes.`;
+  }
+  function toggleCell(i) {
+    if (session?.locked) return;
+    if (session.selection.has(i)) session.selection.delete(i); else session.selection.add(i);
+    const el=app.querySelector(`[data-fraction-cell="${i}"]`);
+    el.classList.toggle('selected', session.selection.has(i));
+    el.setAttribute('aria-pressed', String(session.selection.has(i)));
+    app.querySelector('#fraction-selected-count').textContent = countLabel();
+  }
+  function showTask() {
+    const task=taskNow();
+    if (!task) return showSummary();
+    session.selection=new Set(); session.added=0; session.attempts=0; session.hints=0;
+    session.locked=false; session.startedAt=Date.now();
+    app.innerHTML=`<div class="fraction-progress"><span>Desafío ${session.index+1} de ${session.tasks.length}</span><span>Tanda ${esc(session.round)}</span></div>
+      <div class="fraction-track"><span style="width:${session.results.size/session.tasks.length*100}%"></span></div>
+      <p class="eyebrow">${esc(task.title)}</p><h2>${esc(task.prompt)}</h2>
+      <div id="fraction-board" class="fraction-board">${board(task)}</div>
+      <p class="fraction-selected" id="fraction-selected-count" aria-live="polite"></p>
+      <div id="fraction-feedback" aria-live="polite"></div>
+      <div class="fraction-controls">${button('Comprobar','fraction-check')}${button('Dame una pista','fraction-hint',true)}${button('Siguiente desafío','fraction-next')}</div>
+      <p class="fraction-info">Podés corregir tu respuesta. Si pedís pistas o revisás un error, queda registrado como resolución con ayuda.</p>`;
+    const next=app.querySelector('#fraction-next');
+    next.hidden=true;
+    const count=app.querySelector('#fraction-selected-count');
+    count.textContent=['discs','squares','mixed','triangles'].includes(task.kind)?countLabel():'';
+    app.querySelector('#fraction-check').onclick=check;
+    app.querySelector('#fraction-hint').onclick=hint;
+    next.onclick=advance;
+    app.querySelectorAll('[data-fraction-cell]').forEach(el => {
+      const id=Number(el.dataset.fractionCell);
+      el.addEventListener('click',()=>toggleCell(id));
+      el.addEventListener('keydown',event=>{
+        if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleCell(id);}
+      });
+    });
+    if(task.kind==='unit') bindStepper();
+  }
+  const readNumber=id=>{
+    const s=app.querySelector('#fraction-'+id)?.value.trim()||'';
+    return /^\d{1,10}$/.test(s)?Number(s):null;
+  };
+  function readFraction() {
+    const value=app.querySelector('#fraction-ans1')?.value.trim()||'';
+    const match=/^(\d{1,10})\s*\/\s*(\d{1,10})$/.exec(value);
+    return match && Number(match[2])>0?[Number(match[1]),Number(match[2])]:null;
+  }
+  function evaluate(t) {
+    const sel=session.selection;
+    if(t.kind==='discs') {
+      const counts=[0,1].map(g=>[...sel].filter(i=>Math.floor(i/8)===g).length);
+      return {valid:sel.size>0,correct:counts.every(n=>n===t.numerator),reason:`Pintaste ${counts[0]} y ${counts[1]} sectores. La consigna pide ${t.numerator} en cada rueda.`};
+    }
+    if(t.kind==='mixed') {
+      const counts=[0,1].map(g=>[...sel].filter(i=>Math.floor(i/6)===g).length), part=6*t.numerator/t.denominator;
+      return {valid:sel.size>0,correct:(counts[0]===6&&counts[1]===part)||(counts[1]===6&&counts[0]===part),reason:`Pintaste ${counts[0]} y ${counts[1]} cuadrados. Un tablero debe estar completo (6) y el otro tener ${part}.`};
+    }
+    if(t.kind==='squares'||t.kind==='triangles') {
+      const expected=t.kind==='squares'?t.count*t.numerator/t.denominator:t.target;
+      return {valid:sel.size>0,correct:sel.size===expected,reason:`Pintaste ${sel.size} partes. Revisá la cantidad que pide la fracción.`};
+    }
+    if(t.kind==='unit') {
+      const full=t.given*t.totalParts/t.parts, expected=full-t.given;
+      return {valid:true,correct:session.added===expected,reason:session.added===full?'Encontraste la unidad completa, pero la pregunta pide cuántas fichas AGREGAR.':`Agregaste ${session.added} fichas. ¿Cuántas faltan para completar la unidad?`};
+    }
+    if(t.kind==='cards') {
+      const other=readNumber('ans1'),special=readNumber('ans2');
+      if(other===null||special===null) return {valid:false};
+      const mistakes=[];
+      if(other!==t.other) mistakes.push(other===t.portion?'Ese es el total de animales, no de vehículos.':'Para los vehículos, restá los animales del total.');
+      if(special!==t.special) mistakes.push(special===t.total/t.smallDenominator?'Calculaste sobre todas las tarjetas; la fracción corresponde solo a los animales.':'Para las especiales, calculá la fracción de las tarjetas de animales.');
+      return {valid:true,correct:other===t.other&&special===t.special,reason:mistakes.join(' ')};
+    }
+    if(t.kind==='remainder') {
+      const f=readFraction();
+      if(!f) return {valid:false};
+      const correct=f[0]*t.remaining[1]===f[1]*t.remaining[0];
+      const covered=f[0]*t.covered[1]===f[1]*t.covered[0];
+      return {valid:true,correct,reason:covered?'Esa es la fracción cubierta; la pregunta pide el resto.':'Primero calculá la parte cubierta y restala de la unidad entera.'};
+    }
+    return {valid:false};
+  }
+  function feedback(html) { app.querySelector('#fraction-feedback').innerHTML=html; }
+  function hint() {
+    if(!session||session.locked)return;
+    const t=taskNow();
+    if(session.hints>=2||session.attempts>=2) return showSolution();
+    feedback(notice(`Pista ${session.hints+1}`,esc(t.hints[session.hints])));
+    session.hints++;
+    if(session.hints>=2) app.querySelector('#fraction-hint').textContent='Ver explicación';
+  }
+  function steps(t) { return `<ol class="fraction-steps">${t.steps.map(s=>`<li>${esc(s)}</li>`).join('')}</ol>`; }
+  function storeResult(status) {
+    const task=taskNow();
+    const result={id:task.id,round:session.round,status,skill:task.skill,difficulty:task.difficulty,durationMs:Math.max(0,Date.now()-session.startedAt)};
+    session.results.set(task.id,result);
+    try{session.onResult(result);}catch(err){console.error('[Desafíos] Error al guardar resultado',err);}
+  }
+  function lock() {
+    session.locked=true;
+    app.querySelector('#fraction-check').hidden=true;
+    app.querySelector('#fraction-hint').hidden=true;
+    app.querySelector('#fraction-next').hidden=false;
+    app.querySelectorAll('[data-fraction-cell]').forEach(el=>{el.setAttribute('aria-disabled','true');el.tabIndex=-1;});
+    app.querySelectorAll('input').forEach(el=>el.disabled=true);
+    app.querySelectorAll('#fraction-plus,#fraction-minus').forEach(el=>el.disabled=true);
+  }
+  function check() {
+    if(!session||session.locked)return;
+    const task=taskNow(), answer=evaluate(task);
+    if(!answer.valid) return feedback(notice('Falta una respuesta','Elegí partes o completá todos los casilleros antes de comprobar.'));
+    session.attempts++;
+    if(answer.correct){
+      const helped=session.hints>0||session.attempts>1;
+      storeResult(helped?'ayuda':'autonoma');
+      feedback(notice(helped?'¡Lo resolviste!':'¡Muy bien!',
+        `${helped?'Pudiste revisar tu respuesta y llegar al resultado.':'Lo resolviste sin pistas.'}<details><summary>Ver explicación</summary>${steps(task)}</details>`,true));
+      lock();
+    }else{
+      feedback(notice('Todavía no está resuelto',esc(answer.reason)+'<p>Podés corregir la respuesta e intentarlo otra vez.</p>'));
+      if(session.attempts>=2)app.querySelector('#fraction-hint').textContent='Ver explicación';
+    }
+  }
+  function showSolution() {
+    if(!session||session.locked)return;
+    storeResult('revisar');
+    feedback(notice('Veamos el procedimiento',steps(taskNow())+'<p>Este desafío queda señalado para practicar con nuevos datos.</p>'));
+    lock();
+  }
+  function advance() {
+    if(!session||!session.locked)return;
+    session.index++;
+    while(session.index<session.tasks.length&&session.results.has(session.tasks[session.index].id))session.index++;
+    if(session.index>=session.tasks.length)showSummary();else showTask();
+  }
+  function showSummary() {
+    if(!session)return;
+    const results=[...session.results.values()], count=status=>results.filter(r=>r.status===status).length;
+    const names={autonoma:'✓ Sin ayuda',ayuda:'↗ Con ayuda',revisar:'↺ Para revisar'};
+    app.innerHTML=`<p class="eyebrow">Tanda ${esc(session.round)} completada</p><h2>¡Terminaste los desafíos!</h2>
+      <p>Este resumen es de la práctica realizada: no representa una calificación ni un porcentaje de dominio.</p>
+      <div class="fraction-summary"><div><strong>${count('autonoma')}</strong><span>Sin ayuda</span></div><div><strong>${count('ayuda')}</strong><span>Con ayuda</span></div><div><strong>${count('revisar')}</strong><span>Para revisar</span></div></div>
+      <ul class="fraction-summary-list">${session.tasks.map(t=>`<li><span>${esc(t.title)}</span><b>${names[session.results.get(t.id)?.status]||'Pendiente'}</b></li>`).join('')}</ul>
+      <p class="fraction-info">La app guardará estos intentos en tu perfil y sugerirá nuevas actividades según lo que necesitás practicar.</p>
+      <div class="fraction-controls">${button('Volver a la app','fraction-finish')}</div>`;
+    app.querySelector('#fraction-finish').onclick=close;
+    if(!session.completeNotified){
+      session.completeNotified=true;
+      try{session.onComplete({round:session.round,results});}catch(err){console.error('[Desafíos] Error al registrar la sesión',err);}
+    }
+  }
+  function close() {
+    if(dialog.open)dialog.close();
+    session=null;
+  }
+  if(dialog&&app&&closeButton){
+    closeButton.addEventListener('click',close);
+    dialog.addEventListener('cancel',event=>{event.preventDefault();close();});
+  }
+  async function open({round='A',prior=[],onResult=()=>{},onComplete=()=>{}}={}) {
+    if(!dialog||!app||loading||dialog.open||!['A','B'].includes(round))return;
+    loading=true;
+    dialog.showModal();
+    app.innerHTML='<p role="status">Cargando los desafíos…</p>';
+    try{
+      const response=await fetch('./data/desafios-fracciones.json?v=6.26.0');
+      if(!response.ok)throw new Error('No se pudo cargar el banco de desafíos');
+      const data=await response.json(), tasks=data.rounds?.[round];
+      if(!Array.isArray(tasks)||tasks.length!==7||new Set(tasks.map(t=>t.id)).size!==7)throw new Error('Banco de desafíos incompleto');
+      if(!dialog.open)return;
+      const taskIds=new Set(tasks.map(t=>t.id));
+      const results=new Map(prior.filter(r=>taskIds.has(r.id)&&['autonoma','ayuda','revisar'].includes(r.status)).map(r=>[r.id,r]));
+      session={round,tasks,index:0,results,onResult,onComplete,selection:new Set(),added:0,attempts:0,hints:0,locked:false,completeNotified:false,startedAt:0};
+      while(session.index<tasks.length&&results.has(tasks[session.index].id))session.index++;
+      if(session.index===tasks.length)showSummary();else showTask();
+    }catch(error){
+      console.error('[Desafíos]',error);
+      app.innerHTML='<p role="alert">No se pudieron cargar los desafíos. Revisá la conexión y volvé a intentarlo.</p>';
+    }finally{loading=false;}
+  }
+  window.IngresoFractionChallenges={open,close};
+})();
