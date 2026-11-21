@@ -39,7 +39,7 @@
     try {
       // La URL cambia con la versión: evita que un service worker anterior entregue
       // habilidades sin videos durante la primera visita tras una actualización.
-      const releaseVersion = document.querySelector('meta[name="app-version"]')?.content || '6.26.2';
+      const releaseVersion = document.querySelector('meta[name="app-version"]')?.content || '6.27.0';
       const [skillsData, exerciseData] = await Promise.all([
         fetch(`./data/habilidades.json?v=${encodeURIComponent(releaseVersion)}`, { cache: 'no-store' }).then(r => { if (!r.ok) throw new Error('habilidades'); return r.json(); }),
         fetch('./data/ejercicios.json').then(r => { if (!r.ok) throw new Error('ejercicios'); return r.json(); })
@@ -57,7 +57,7 @@
     refreshGateNames();
     restoreActiveContext();
     setupSupabase();
-    if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js?v=6.26.2').catch(() => {});
+    if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js?v=6.27.0').catch(() => {});
   }
 
   function bindUI() {
@@ -839,9 +839,10 @@
 
   // Desafíos de fracciones · módulo separado de los entrenamientos adaptativos.
   // El historial se conserva por perfil y no exige migraciones de Supabase.
+  const FRACTION_ROUNDS = ['A','B','C','D','E','F','G','H'];
   function fractionCompletedRounds(profile) {
     return new Set((profile?.history || [])
-      .filter(row => row.type === 'desafios_fracciones' && ['A','B'].includes(row.roundId))
+      .filter(row => row.type === 'desafios_fracciones' && FRACTION_ROUNDS.includes(row.roundId))
       .map(row => row.roundId));
   }
 
@@ -850,18 +851,18 @@
     const both = activeMode === 'together';
     const profile = both ? null : state.profiles[primaryProfileId()];
     const completed = fractionCompletedRounds(profile);
-    const next = !completed.has('A') ? 'A' : !completed.has('B') ? 'B' : null;
+    const next = FRACTION_ROUNDS.find(round => !completed.has(round)) || null;
     const partial = next && (profile?.evidence || []).some(event => String(event.exerciseId || '').startsWith('FR26-' + next + '-'));
     $$('[data-fraction-status]').forEach(el => {
       el.textContent = both
         ? 'Disponible por separado para cada perfil.'
         : next
           ? (partial ? 'Retomá la tanda ' + next + ' desde el desafío pendiente.' : 'Tanda ' + next + ' · 7 ejercicios diferentes.')
-          : 'Ya completaste las dos tandas disponibles. ¡Seguí con tus entrenamientos habituales!';
+          : 'Completaste las ocho tandas disponibles. ¡Seguí con tus entrenamientos habituales!';
     });
     $$('[data-start-fractions]').forEach(button => {
       button.disabled = both || !next;
-      button.title = both ? 'Elegí un perfil individual para guardar sus respuestas.' : !next ? 'Las dos tandas ya fueron completadas.' : '';
+      button.title = both ? 'Elegí un perfil individual para guardar sus respuestas.' : !next ? 'Las ocho tandas ya fueron completadas.' : '';
     });
   }
 
@@ -875,8 +876,8 @@
     if (!engine) return toast('No se cargó la práctica especial. Recargá la página.');
     const pid = primaryProfileId(), profile = state.profiles[pid];
     const completed = fractionCompletedRounds(profile);
-    const round = !completed.has('A') ? 'A' : !completed.has('B') ? 'B' : null;
-    if (!round) return toast('Ya completaste las dos tandas de desafíos disponibles.');
+    const round = FRACTION_ROUNDS.find(item => !completed.has(item)) || null;
+    if (!round) return toast('Ya completaste las ocho tandas de desafíos disponibles.');
     const prefix = 'FR26-' + round + '-';
     const priorById = new Map();
     for (const event of profile.evidence || []) {
@@ -918,7 +919,7 @@
   function recordFractionAttempt(pid, result) {
     const engine = window.IngresoPedagogy;
     const profile = state.profiles[pid];
-    if (!engine || !profile || !/^FR26-[AB]-0[1-7]$/.test(result.id)) return;
+    if (!engine || !profile || !/^FR26-[A-H]-0[1-7]$/.test(result.id)) return;
     if ((profile.evidence || []).some(row => row.exerciseId === result.id)) return;
     if (!['autonoma', 'ayuda', 'revisar'].includes(result.status)) return;
     if (!['MAT-FR-CON','MAT-FR-PROB','MAT-FR-OPS'].includes(result.skill)) return;
