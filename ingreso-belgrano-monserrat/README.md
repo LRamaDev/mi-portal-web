@@ -10,6 +10,19 @@ Aplicación web de estudio para preparar, en una misma plataforma, los ingresos 
 - **V3 pedagógica – etapa 2:** diagnóstico adaptativo, práctica 60/25/15 y simulacros construidos por bloques temáticos.
 - **V3 pedagógica – etapa 3:** simulacros completos sobre 100 puntos, con estructura y ponderación diferenciadas por colegio y materia.
 
+## Desafíos de ingreso: Fracciones (V6.26)
+
+Se incorpora una práctica específica desde **Inicio** y **Entrenar**, basada en el formato de las actividades de ingreso pero con **14 consignas originales** distintas de las ya resueltas: 2 tandas de 7 desafíos, con selección de sectores, figuras compuestas, números mixtos, fracciones de fracciones, reconstrucción de unidades, problemas de dos respuestas y complementos.
+
+- La alumna pinta celdas con clic o teclado, agrega fichas con botones o escribe resultados numéricos y fracciones equivalentes. El corrector es local, determinista y ofrece un diagnóstico de error, dos pistas progresivas y resolución paso a paso.
+- El módulo se habilita **solo para perfiles individuales**. Las dos tandas son independientes por perfil y se ofrecen en orden A/B; no se repiten como nuevas después de completarlas. Si la sesión se interrumpe, al volver retoma los ejercicios pendientes a partir de las evidencias ya guardadas.
+- Cada desafío finalizado produce **una única evidencia** en el motor pedagógico existente. Los aciertos sin ayuda se distinguen de los alcanzados con pistas o después de revisar un error; revelar la solución genera un registro de revisión, no un acierto.
+- Se registra el cierre de cada tanda en el historial del perfil. La ficha de estudiante no expone porcentajes de mastery ni compara a A y V; la información detallada queda dentro de las evidencias para el análisis adulto.
+- No modifica tablas, políticas de acceso ni el historial anterior. El estado se guarda localmente y se sincroniza mediante los flujos actuales de Supabase. El visitante conserva su progreso aislado en su dispositivo.
+- Los recursos `desafios-fracciones.js`, `desafios-fracciones.css` y `data/desafios-fracciones.json` se agregan al caché versionado de la PWA.
+
+**Verificación manual recomendada antes de fusionar:** abrir la app con cada perfil; realizar una selección incorrecta y corregirla; pedir pistas; revelar una solución; escribir fracciones equivalentes; interrumpir y reanudar una tanda; comprobar que la otra alumna sigue teniendo la tanda intacta; probar modo visitante, modo juntas, móvil y funcionamiento sin conexión después de la primera carga. Confirmar en el panel adulto los registros de `study_attempt_evidence` con `origin='desafios_fracciones'` cuando la conexión esté disponible.
+
 ## Funcionalidades
 
 - Dos perfiles independientes, sin nombres reales dentro del repositorio.

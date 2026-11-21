@@ -1,0 +1,81 @@
+
+/* Desafíos de ingreso · Fracciones (V6.26). Estilos aislados del motor habitual. */
+#fraction-challenge-dialog {
+  border:0; border-radius:20px; padding:0; width:min(850px,calc(100vw - 24px));
+  max-height:min(92vh,920px); overflow:auto; background:#fff; color:#19324a;
+  box-shadow:0 22px 70px #14283e55;
+}
+#fraction-challenge-dialog::backdrop { background:rgba(11,27,44,.68); }
+#fraction-challenge-dialog * { box-sizing:border-box; }
+#fraction-challenge-dialog button, #fraction-challenge-dialog input { font:inherit; }
+#fraction-challenge-dialog button { cursor:pointer; min-height:44px; }
+#fraction-challenge-dialog button:focus-visible,
+#fraction-challenge-dialog [data-fraction-cell]:focus-visible,
+#fraction-challenge-dialog input:focus-visible { outline:3px solid #f4ad55; outline-offset:3px; }
+.fraction-dialog-header { display:flex; justify-content:space-between; align-items:center; gap:12px;
+  padding:14px clamp(16px,4vw,30px); border-bottom:1px solid #dce5ef; position:sticky;
+  top:0; z-index:1; background:#fff; }
+.fraction-dialog-header strong { display:block; font-size:1.05rem; }
+.fraction-dialog-header small { display:block; color:#617488; }
+.fraction-close { display:grid; place-items:center; min-width:44px; min-height:44px;
+  border:1px solid #c6d3e3; background:white; border-radius:12px; font-size:1.5rem !important; }
+#fraction-challenge-content { padding:clamp(16px,4vw,32px); }
+#fraction-challenge-content h2 { font-size:clamp(1.2rem,3.2vw,1.6rem); line-height:1.4; margin:10px 0 16px; font-weight:700; }
+.fraction-progress {display:flex;justify-content:space-between;gap:10px;font-size:.83rem;font-weight:700;color:#566a7f;}
+.fraction-track {height:8px; border-radius:30px; overflow:hidden; background:#e7edf5; margin:10px 0 22px;}
+.fraction-track span {height:100%;display:block;background:#286cb3; transition:width .2s;}
+.fraction-board {border:1px solid #d9e3ed;background:#fbfdff;border-radius:16px;min-height:200px;
+  display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px;
+  padding:16px 10px;overflow:hidden;margin:14px 0;}
+.fraction-board svg {height:auto;max-width:100%;}
+.fraction-board .fraction-squares {width:min(260px,100%);}
+.fraction-board .fraction-triangles {width:min(530px,100%);}
+.fraction-figures {display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:14px;width:100%;}
+.fraction-figure {width:42%;min-width:125px;max-width:185px;text-align:center;}
+.fraction-figure svg {width:100%;}
+.fraction-figure span {display:block;color:#566a7f;font-size:.85rem;font-weight:650;}
+.fraction-board [data-fraction-cell] {fill:#fff;stroke:#49647f;stroke-width:1.7;cursor:pointer;touch-action:manipulation;}
+.fraction-board [data-fraction-cell]:hover {fill:#d4e8fb;}
+.fraction-board [data-fraction-cell].selected, .fraction-board [data-fraction-cell].selected:hover {fill:#7db8ee;stroke:#1e64a6;}
+.fraction-board [data-fraction-cell][aria-disabled="true"] {cursor:default;}
+.fraction-selected {font-weight:700;color:#2a5c8c;font-size:.88rem;min-height:1em;}
+.fraction-fields {display:flex;flex-direction:column;gap:15px;width:100%;max-width:540px;}
+.fraction-fields label {display:flex;flex-direction:column;gap:8px;font-weight:700;}
+.fraction-fields input {width:100%;max-width:270px;min-height:44px;border:1px solid #9fb5ca;border-radius:10px;padding:10px 12px;background:white;}
+.fraction-unit {text-align:center;width:100%;}
+.fraction-circles {display:flex;gap:7px;justify-content:center;flex-wrap:wrap;margin:14px auto;max-width:600px;}
+.fraction-circle {display:block;width:42px;height:42px;border:2px solid #416584;background:#d5e8fa;border-radius:50%;}
+.fraction-circle-added {background:#fff;border-style:dashed;}
+.fraction-stepper {display:flex;align-items:center;justify-content:center;gap:14px;}
+.fraction-stepper button {min-width:45px;border-radius:10px;border:1px solid #9dbad2;color:#235f98;background:white;font-size:1.5rem !important;}
+.fraction-stepper output {font-weight:750;}
+.fraction-controls {display:flex;flex-wrap:wrap;gap:9px;margin:18px 0 8px;}
+.fraction-controls button[hidden] {display:none !important;}
+.fraction-info {color:#5c6d80;font-size:.86rem;line-height:1.5;}
+.fraction-notice {padding:15px 17px;border:1px solid #edd0a0;border-radius:13px;
+  background:#fff9ee;color:#6d4a18;margin:16px 0;line-height:1.55;}
+.fraction-notice-good {background:#eff9f3;border-color:#b6dcc4;color:#135b37;}
+.fraction-notice strong {display:block;margin-bottom:6px;}
+.fraction-notice details {margin-top:10px;}
+.fraction-steps {padding-left:22px;margin:10px 0;}
+.fraction-steps li {margin:5px 0;}
+.fraction-summary {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:20px 0;}
+.fraction-summary div {text-align:center;border-radius:12px;padding:14px 8px;background:#eef4fb;}
+.fraction-summary strong {display:block;font-size:1.7rem;color:#245986;}
+.fraction-summary span {display:block;font-size:.79rem;color:#586b80;}
+.fraction-summary-list {padding:0;margin:12px 0;list-style:none;}
+.fraction-summary-list li {display:flex;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid #dce6ef;}
+.fraction-summary-list b {font-size:.8rem;white-space:nowrap;}
+.fraction-entry {display:flex;align-items:center;justify-content:space-between;gap:14px;}
+.fraction-entry .fraction-entry-title {margin:4px 0 7px;}
+.fraction-entry p {margin:0 0 7px;line-height:1.5;}
+.fraction-entry .fraction-entry-meta {color:#536c83;font-size:.85rem;}
+@media (max-width:650px) {
+  #fraction-challenge-dialog {width:calc(100vw - 12px);max-height:97vh;border-radius:14px;}
+  .fraction-board {padding:12px 5px;}
+  .fraction-figure {min-width:112px;}
+  .fraction-circle {width:36px;height:36px;}
+  .fraction-entry {flex-direction:column;align-items:stretch;}
+  .fraction-controls button {flex:1;}
+  .fraction-summary-list li {align-items:flex-start;}
+}
