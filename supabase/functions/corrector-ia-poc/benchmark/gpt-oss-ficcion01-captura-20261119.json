@@ -1,0 +1,52 @@
+{
+  "origen": "Transcripción manual de la captura compartida por el usuario el 19/11/2026; no es el JSON bruto del proveedor.",
+  "modelo": "GPT-OSS 20B",
+  "fixtureId": "ficcion-01",
+  "calificacionValidada": false,
+  "puntajePropuestoPorModelo": 27,
+  "fortalezas": [
+    "Narrativa clara y sencilla.",
+    "Conflicto y resolución bien definidos.",
+    "Secuencia lógica de eventos."
+  ],
+  "sugerencias": [
+    "Corregir acentos y tiempos verbales.",
+    "Añadir conectores para mayor cohesión.",
+    "Usar vocabulario más variado para enriquecer."
+  ],
+  "errores": [
+    {
+      "fragmento": "quizo",
+      "correccion": "quiso",
+      "explicacion": "Falta acento en la 'ó' del verbo."
+    },
+    {
+      "fragmento": "se callo",
+      "correccion": "se cayó",
+      "explicacion": "Se necesita acento en 'ó' y la forma correcta es 'cayó'."
+    },
+    {
+      "fragmento": "Despues",
+      "correccion": "Después",
+      "explicacion": "Falta acento en la 'e' de 'Después'."
+    },
+    {
+      "fragmento": "busco",
+      "correccion": "buscó",
+      "explicacion": "El verbo debe ir en pretérito, no en presente."
+    },
+    {
+      "fragmento": "encontro",
+      "correccion": "encontró",
+      "explicacion": "Falta acento en la 'ó' del verbo."
+    }
+  ],
+  "evaluacionHumana": {
+    "correccionDeQuizo": "correcta",
+    "explicacionDeQuizo": "incorrecta: quiso no lleva tilde; el problema es z por s",
+    "explicacionDeSeCallo": "incompleta: necesita distinguir cayó (caerse) de calló (callarse), además de la tilde",
+    "explicacionesDeDespuesBuscoEncontro": "sustancialmente correctas aunque simplificadas",
+    "errorOmitido": "logro → logró",
+    "nota": "La cifra 27/35 es una propuesta no validada y no puede compararse con una calificación humana sin rúbrica aplicada íntegramente."
+  }
+}

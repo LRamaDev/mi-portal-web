@@ -1,0 +1,38 @@
+{
+  "origen": "Transcripción manual de la captura compartida por el usuario el 19/11/2026; no es el JSON bruto de la API.",
+  "modelo": "GLM 4.7 Flash",
+  "fixtureId": "ficcion-01",
+  "puntajePropuestoPorModelo": 35,
+  "fortalezas": [
+    "La idea de usar una rama para sacar la llave es ingeniosa.",
+    "El conflicto y la resolución están bien integrados en la trama.",
+    "El tono es sencillo y directo, adecuado para el formato."
+  ],
+  "sugerencias": [
+    "Enriquecé la descripción de la caja y el entorno para mayor inmersión.",
+    "Variá la estructura de oraciones para evitar la repetición de sujetos.",
+    "Usá conectores temporales más precisos para mejorar la fluidez."
+  ],
+  "errores": [
+    {
+      "fragmento": "El chico quizo abrirla",
+      "correccion": "El chico quiso abrirla",
+      "explicacion": "El subjuntivo es incorrecto en este contexto de intención."
+    },
+    {
+      "fragmento": "Despues busco",
+      "correccion": "Después buscó",
+      "explicacion": "Falta tilde en la conjunción temporal y acento en el verbo."
+    },
+    {
+      "fragmento": "logro sacar",
+      "correccion": "logró sacar",
+      "explicacion": "Falta tilde en el verbo conjugado en primera persona."
+    },
+    {
+      "fragmento": "Cuando la abrió encontro",
+      "correccion": "Cuando la abrió, encontró",
+      "explicacion": "Falta tilde en el verbo y coma para separar oraciones."
+    }
+  ]
+}
