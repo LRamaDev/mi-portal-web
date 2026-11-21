@@ -251,7 +251,8 @@
     dialog.showModal();
     app.innerHTML='<p role="status">Cargando los desafíos…</p>';
     try{
-      const response=await fetch('./data/desafios-fracciones.json?v=6.26.0');
+      const version=document.querySelector('meta[name="app-version"]')?.content || '6.26.2';
+      const response=await fetch('./data/desafios-fracciones.json?v='+encodeURIComponent(version));
       if(!response.ok)throw new Error('No se pudo cargar el banco de desafíos');
       const data=await response.json(), tasks=data.rounds?.[round];
       if(!Array.isArray(tasks)||tasks.length!==7||new Set(tasks.map(t=>t.id)).size!==7)throw new Error('Banco de desafíos incompleto');
