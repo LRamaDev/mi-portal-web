@@ -1,0 +1,344 @@
+{
+  "version": 1,
+  "source": "Actividades originales de la tanda validada; no reproduce los ejercicios de ingreso aportados.",
+  "rounds": {
+    "A": [
+      {
+        "id": "FR26-A-01",
+        "round": "A",
+        "area": "matematica",
+        "school": null,
+        "kind": "discs",
+        "title": "Dos mosaicos circulares",
+        "skill": "MAT-FR-CON",
+        "difficulty": 2,
+        "numerator": 5,
+        "prompt": "Cada mosaico está dividido en 8 sectores iguales. Pintá 5/8 de cada mosaico.",
+        "hints": [
+          "El denominador indica en cuántas partes iguales está dividido cada mosaico.",
+          "El numerador 5 indica cuántos sectores pintar en CADA mosaico."
+        ],
+        "steps": [
+          "Cada mosaico es una unidad con 8 partes.",
+          "Pintamos 5 sectores de cada uno.",
+          "En total son 10, repartidos en 5 y 5."
+        ]
+      },
+      {
+        "id": "FR26-A-02",
+        "round": "A",
+        "area": "matematica",
+        "school": null,
+        "kind": "squares",
+        "title": "Una figura compuesta",
+        "skill": "MAT-FR-CON",
+        "difficulty": 2,
+        "count": 12,
+        "numerator": 5,
+        "denominator": 6,
+        "prompt": "La figura tiene 12 cuadrados iguales. Pintá 5/6 de su superficie.",
+        "hints": [
+          "Dividí 12 en seis grupos iguales.",
+          "Un sexto son 2 cuadrados; necesitás cinco grupos."
+        ],
+        "steps": [
+          "12 ÷ 6 = 2 cuadrados por sexto.",
+          "5 × 2 = 10 cuadrados.",
+          "Pintamos 10 de los 12."
+        ]
+      },
+      {
+        "id": "FR26-A-03",
+        "round": "A",
+        "area": "matematica",
+        "school": null,
+        "kind": "mixed",
+        "title": "Más de una unidad",
+        "skill": "MAT-FR-CON",
+        "difficulty": 3,
+        "perUnit": 6,
+        "numerator": 2,
+        "denominator": 3,
+        "prompt": "Cada tablero de 6 cuadrados es una unidad. Pintá 1 entero y 2/3 de otro.",
+        "hints": [
+          "Pintá un tablero completo primero.",
+          "En el otro tablero, 2/3 de 6 son 4 cuadrados."
+        ],
+        "steps": [
+          "Un tablero entero tiene 6 cuadrados.",
+          "2/3 de 6 = 4 cuadrados.",
+          "Pintamos 6 en uno y 4 en el otro."
+        ]
+      },
+      {
+        "id": "FR26-A-04",
+        "round": "A",
+        "area": "matematica",
+        "school": null,
+        "kind": "triangles",
+        "title": "Una fracción de otra fracción",
+        "skill": "MAT-FR-PROB",
+        "difficulty": 4,
+        "count": 36,
+        "target": 18,
+        "prompt": "Pintá 3/4 de 2/3 de un conjunto de 36 triángulos iguales.",
+        "hints": [
+          "Primero buscá 2/3 de 36.",
+          "2/3 de 36 es 24. ¿Cuántos son 3/4 de 24?"
+        ],
+        "steps": [
+          "2/3 de 36 = 24.",
+          "3/4 de 24 = 18.",
+          "Hay que pintar 18 triángulos."
+        ]
+      },
+      {
+        "id": "FR26-A-05",
+        "round": "A",
+        "area": "matematica",
+        "school": null,
+        "kind": "unit",
+        "title": "Reconstruir la unidad",
+        "skill": "MAT-FR-PROB",
+        "difficulty": 3,
+        "given": 6,
+        "parts": 3,
+        "totalParts": 5,
+        "prompt": "Estas 6 fichas representan 3/5 de la unidad. Agregá las que faltan para completar la unidad.",
+        "hints": [
+          "Si 3/5 equivalen a 6, ¿cuántas fichas tiene un quinto?",
+          "Un quinto tiene 2 fichas. La unidad tiene cinco quintos."
+        ],
+        "steps": [
+          "Un quinto tiene 6 ÷ 3 = 2 fichas.",
+          "La unidad completa tiene 2 × 5 = 10.",
+          "Hay que agregar 10 − 6 = 4."
+        ]
+      },
+      {
+        "id": "FR26-A-06",
+        "round": "A",
+        "area": "matematica",
+        "school": null,
+        "kind": "cards",
+        "title": "Un problema de varios pasos",
+        "skill": "MAT-FR-PROB",
+        "difficulty": 4,
+        "total": 240,
+        "numerator": 3,
+        "denominator": 8,
+        "portion": 90,
+        "smallDenominator": 5,
+        "other": 150,
+        "special": 18,
+        "prompt": "En un álbum hay 240 figuritas. 3/8 son de animales y las demás son de vehículos. 1/5 de las figuritas de animales son brillantes.",
+        "hints": [
+          "Primero encontrá las figuritas de animales y luego las de vehículos.",
+          "3/8 de 240 son 90 animales; restá 90 a 240. Las brillantes son 1/5 de 90."
+        ],
+        "steps": [
+          "Animales: 240 ÷ 8 × 3 = 90.",
+          "Vehículos: 240 − 90 = 150.",
+          "Animales brillantes: 90 ÷ 5 = 18."
+        ]
+      },
+      {
+        "id": "FR26-A-07",
+        "round": "A",
+        "area": "matematica",
+        "school": null,
+        "kind": "remainder",
+        "title": "La parte que queda",
+        "skill": "MAT-FR-OPS",
+        "difficulty": 4,
+        "covered": [
+          3,
+          10
+        ],
+        "remaining": [
+          7,
+          10
+        ],
+        "prompt": "En un mural se cubrió con mosaicos 3/4 de 2/5 de su superficie. El resto se pintó. ¿Qué fracción del mural se pintó?",
+        "hints": [
+          "Calculá 3/4 de 2/5.",
+          "3/4 × 2/5 = 3/10. Restá esa parte del entero."
+        ],
+        "steps": [
+          "Mosaicos: 3/4 × 2/5 = 3/10.",
+          "El mural entero es 10/10.",
+          "Resto pintado: 10/10 − 3/10 = 7/10."
+        ]
+      }
+    ],
+    "B": [
+      {
+        "id": "FR26-B-01",
+        "round": "B",
+        "area": "matematica",
+        "school": null,
+        "kind": "discs",
+        "title": "Dos ruedas divididas en sectores",
+        "skill": "MAT-FR-CON",
+        "difficulty": 2,
+        "numerator": 3,
+        "prompt": "Cada rueda está dividida en 8 sectores iguales. Pintá 3/8 de cada rueda.",
+        "hints": [
+          "Ocho indica las partes iguales de cada rueda.",
+          "El numerador 3 indica cuántos sectores debe tener pintados cada rueda."
+        ],
+        "steps": [
+          "Cada rueda representa una unidad de 8 sectores.",
+          "Pintamos 3 sectores en cada una.",
+          "Son 6 sectores en total, repartidos en 3 y 3."
+        ]
+      },
+      {
+        "id": "FR26-B-02",
+        "round": "B",
+        "area": "matematica",
+        "school": null,
+        "kind": "squares",
+        "title": "Fracción de una figura compuesta",
+        "skill": "MAT-FR-CON",
+        "difficulty": 2,
+        "count": 12,
+        "numerator": 2,
+        "denominator": 3,
+        "prompt": "Esta figura tiene 12 cuadrados iguales. Pintá 2/3 de la figura.",
+        "hints": [
+          "Dividí los 12 cuadrados en tres grupos iguales.",
+          "Un tercio son 4 cuadrados. Necesitás dos tercios."
+        ],
+        "steps": [
+          "12 ÷ 3 = 4.",
+          "2 × 4 = 8.",
+          "Pintamos 8 cuadrados."
+        ]
+      },
+      {
+        "id": "FR26-B-03",
+        "round": "B",
+        "area": "matematica",
+        "school": null,
+        "kind": "mixed",
+        "title": "Representar más de una unidad",
+        "skill": "MAT-FR-CON",
+        "difficulty": 3,
+        "perUnit": 6,
+        "numerator": 1,
+        "denominator": 2,
+        "prompt": "Cada tablero representa una unidad de 6 cuadrados. Pintá 1 entero y 1/2 de otro.",
+        "hints": [
+          "Primero pintá un tablero completo.",
+          "En el segundo, la mitad de 6 son 3."
+        ],
+        "steps": [
+          "Un tablero entero tiene 6 cuadrados.",
+          "La mitad de 6 son 3.",
+          "Pintamos 6 y 3, uno en cada tablero."
+        ]
+      },
+      {
+        "id": "FR26-B-04",
+        "round": "B",
+        "area": "matematica",
+        "school": null,
+        "kind": "triangles",
+        "title": "Una fracción de otra fracción",
+        "skill": "MAT-FR-PROB",
+        "difficulty": 4,
+        "count": 40,
+        "target": 12,
+        "prompt": "Pintá 2/5 de 3/4 de un conjunto de 40 triángulos iguales.",
+        "hints": [
+          "Primero calculá 3/4 de 40.",
+          "Tres cuartos son 30. ¿Cuánto son dos quintos de 30?"
+        ],
+        "steps": [
+          "3/4 de 40 = 30.",
+          "2/5 de 30 = 30 ÷ 5 × 2 = 12.",
+          "Pintamos 12 triángulos."
+        ]
+      },
+      {
+        "id": "FR26-B-05",
+        "round": "B",
+        "area": "matematica",
+        "school": null,
+        "kind": "unit",
+        "title": "Reconstruir la unidad",
+        "skill": "MAT-FR-PROB",
+        "difficulty": 3,
+        "given": 8,
+        "parts": 4,
+        "totalParts": 7,
+        "prompt": "Estas 8 fichas representan 4/7 de la unidad. Agregá las que faltan.",
+        "hints": [
+          "Si 4/7 equivalen a 8 fichas, ¿cuánto vale un séptimo?",
+          "Un séptimo tiene 2 fichas. La unidad tiene siete séptimos."
+        ],
+        "steps": [
+          "Un séptimo vale 8 ÷ 4 = 2.",
+          "La unidad entera tiene 7 × 2 = 14.",
+          "Faltan 14 − 8 = 6 fichas."
+        ]
+      },
+      {
+        "id": "FR26-B-06",
+        "round": "B",
+        "area": "matematica",
+        "school": null,
+        "kind": "cards",
+        "title": "Un problema de varios pasos",
+        "skill": "MAT-FR-PROB",
+        "difficulty": 4,
+        "total": 300,
+        "numerator": 2,
+        "denominator": 5,
+        "portion": 120,
+        "smallDenominator": 6,
+        "other": 180,
+        "special": 20,
+        "prompt": "En una feria hay 300 tarjetas. 2/5 son de animales y el resto de vehículos. 1/6 de las de animales tiene relieve.",
+        "hints": [
+          "Calculá primero las tarjetas de animales.",
+          "2/5 de 300 son 120; el resto es de vehículos. 1/6 se calcula SOLO sobre 120."
+        ],
+        "steps": [
+          "Animales: 300 ÷ 5 × 2 = 120.",
+          "Vehículos: 300 − 120 = 180.",
+          "Con relieve: 120 ÷ 6 = 20."
+        ]
+      },
+      {
+        "id": "FR26-B-07",
+        "round": "B",
+        "area": "matematica",
+        "school": null,
+        "kind": "remainder",
+        "title": "La parte que queda",
+        "skill": "MAT-FR-OPS",
+        "difficulty": 4,
+        "covered": [
+          1,
+          4
+        ],
+        "remaining": [
+          3,
+          4
+        ],
+        "prompt": "En un mural escolar se colocaron láminas en 2/5 de 5/8 de la superficie. El resto se pintó. ¿Qué fracción se pintó?",
+        "hints": [
+          "Primero calculá 2/5 × 5/8.",
+          "Esa parte equivale a 1/4. Restala de 1 entero."
+        ],
+        "steps": [
+          "Láminas: 2/5 × 5/8 = 1/4.",
+          "El mural entero es 4/4.",
+          "Resto pintado: 4/4 − 1/4 = 3/4."
+        ]
+      }
+    ]
+  }
+}
