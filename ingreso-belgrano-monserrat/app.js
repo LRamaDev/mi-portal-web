@@ -66,7 +66,7 @@
     $('#active-profile').addEventListener('click', leaveProfile);
     $$('[data-nav]').forEach(btn => btn.addEventListener('click', e => { e.preventDefault(); navigate(btn.dataset.nav); }));
     $('#start-recommended').addEventListener('click', startRecommended);
-    $('[data-start-fractions]').forEach(button => button.addEventListener('click', startFractionChallenges));
+    $$('[data-start-fractions]').forEach(button => button.addEventListener('click', startFractionChallenges));
     $('#start-diagnostic').addEventListener('click', () => startSession({ type: 'diagnostico', area: 'all', origin: 'manual' }));
     $$('[data-practice]').forEach(btn => btn.addEventListener('click', () => startSession({ type: 'practica', area: btn.dataset.practice, origin: 'manual' })));
     $$('[data-sim-school]').forEach(btn => btn.addEventListener('click', () => startSession({ type: 'simulacro', area: btn.dataset.simArea, school: btn.dataset.simSchool, origin: 'simulacro' })));
@@ -852,14 +852,14 @@
     const completed = fractionCompletedRounds(profile);
     const next = !completed.has('A') ? 'A' : !completed.has('B') ? 'B' : null;
     const partial = next && (profile?.evidence || []).some(event => String(event.exerciseId || '').startsWith('FR26-' + next + '-'));
-    $('[data-fraction-status]').forEach(el => {
+    $$('[data-fraction-status]').forEach(el => {
       el.textContent = both
         ? 'Disponible por separado para cada perfil.'
         : next
           ? (partial ? 'Retomá la tanda ' + next + ' desde el desafío pendiente.' : 'Tanda ' + next + ' · 7 ejercicios diferentes.')
           : 'Ya completaste las dos tandas disponibles. ¡Seguí con tus entrenamientos habituales!';
     });
-    $('[data-start-fractions]').forEach(button => {
+    $$('[data-start-fractions]').forEach(button => {
       button.disabled = both || !next;
       button.title = both ? 'Elegí un perfil individual para guardar sus respuestas.' : !next ? 'Las dos tandas ya fueron completadas.' : '';
     });
