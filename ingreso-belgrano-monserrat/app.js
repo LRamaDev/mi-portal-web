@@ -895,12 +895,15 @@
         recordFractionAttempt(pid, result);
       },
       onComplete: ({round: finished, results}) => {
-        if (activeMode !== pid || finished !== round || fractionCompletedRounds(profile).has(round)) return;
+        const currentProfile = state.profiles[pid];
+        if (activeMode !== pid || finished !== round || !currentProfile || fractionCompletedRounds(currentProfile).has(round)) return;
         if (results.length !== 7) return;
+        const recorded = new Set((currentProfile.evidence || []).map(row => row.exerciseId));
+        if (results.some(row => !recorded.has(row.id))) return;
         const autonomous = results.filter(row => row.status === 'autonoma').length;
         const withHelp = results.filter(row => row.status === 'ayuda').length;
-        profile.sessions = (profile.sessions || 0) + 1;
-        profile.history = [...(profile.history || []), {
+        currentProfile.sessions = (currentProfile.sessions || 0) + 1;
+        currentProfile.history = [...(currentProfile.history || []), {
           at: Date.now(), type: 'desafios_fracciones', area: 'matematica', school: null,
           roundId: round, score: autonomous + withHelp, total: 7,
           autonomous, withHelp, toReview: results.filter(row => row.status === 'revisar').length,
