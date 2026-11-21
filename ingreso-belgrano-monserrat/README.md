@@ -10,12 +10,12 @@ Aplicación web de estudio para preparar, en una misma plataforma, los ingresos 
 - **V3 pedagógica – etapa 2:** diagnóstico adaptativo, práctica 60/25/15 y simulacros construidos por bloques temáticos.
 - **V3 pedagógica – etapa 3:** simulacros completos sobre 100 puntos, con estructura y ponderación diferenciadas por colegio y materia.
 
-## Desafíos de ingreso: Fracciones (V6.26)
+## Desafíos de ingreso: Fracciones (V6.27)
 
-Se incorpora una práctica específica desde **Inicio** y **Entrenar**, basada en el formato de las actividades de ingreso pero con **14 consignas originales** distintas de las ya resueltas: 2 tandas de 7 desafíos, con selección de sectores, figuras compuestas, números mixtos, fracciones de fracciones, reconstrucción de unidades, problemas de dos respuestas y complementos.
+Se incorpora una práctica específica desde **Inicio** y **Entrenar**, basada en el formato de las actividades de ingreso pero con **56 consignas originales** distintas de las ya resueltas: 8 tandas de 7 desafíos (A-H), con selección de sectores, figuras compuestas, números mixtos, fracciones de fracciones, reconstrucción de unidades, problemas de dos respuestas y complementos.
 
-- La alumna pinta celdas con clic o teclado, agrega fichas con botones o escribe resultados numéricos y fracciones equivalentes. El corrector es local, determinista y ofrece un diagnóstico de error, dos pistas progresivas y resolución paso a paso.
-- El módulo se habilita **solo para perfiles individuales**. Las dos tandas son independientes por perfil y se ofrecen en orden A/B; no se repiten como nuevas después de completarlas. Si la sesión se interrumpe, al volver retoma los ejercicios pendientes a partir de las evidencias ya guardadas.
+- La alumna pinta celdas con clic o teclado, ubica puntos en rectas numéricas, agrega fichas con botones o escribe resultados numéricos y fracciones equivalentes. El corrector es local, determinista y ofrece un diagnóstico de error, dos pistas progresivas y resolución paso a paso.
+- El módulo se habilita **solo para perfiles individuales**. Las ocho tandas son independientes por perfil y se ofrecen en orden A-H; no se repiten como nuevas después de completarlas. Si la sesión se interrumpe, al volver retoma los ejercicios pendientes a partir de las evidencias ya guardadas.
 - Cada desafío finalizado produce **una única evidencia** en el motor pedagógico existente. Los aciertos sin ayuda se distinguen de los alcanzados con pistas o después de revisar un error; revelar la solución genera un registro de revisión, no un acierto.
 - Se registra el cierre de cada tanda en el historial del perfil. La ficha de estudiante no expone porcentajes de mastery ni compara a A y V; la información detallada queda dentro de las evidencias para el análisis adulto.
 - No modifica tablas, políticas de acceso ni el historial anterior. El estado se guarda localmente y se sincroniza mediante los flujos actuales de Supabase. El visitante conserva su progreso aislado en su dispositivo.
@@ -157,3 +157,11 @@ La V6.18 usa un caché versionado propio e incluye `pedagogy-v6-18.js`, `simulac
 - Preparar sesiones familiares de 20, 30 y 45 minutos.
 - Mejorar el historial para mostrar la evolución de puntajes de simulacros a lo largo del tiempo.
 - Agregar una tarjeta de acceso desde la portada de `mi-portal-web` cuando la V3 quede validada.
+
+### Ampliación de tandas C–H (V6.27)
+
+- Se preservan sin cambios los IDs y las consignas de las tandas A y B. Los perfiles que ya las finalizaron pasan directamente a C, sin reiniciar ni duplicar evidencias.
+- Se agregan **42 desafíos originales**, con situaciones nuevas y variedad de representaciones y razonamientos: rectas de 0 a 1 y de 0 a 2, reconstrucción del total con datos parciales, figuras compuestas, complementos y problemas de dos etapas.
+- Los tipos `line`, `fractioninput` y `number` se corrigen localmente sin servicios externos. El tipo `cards` usa preguntas y categorías específicas de cada consigna, evitando respuestas genéricas de otros problemas.
+- Cada nueva tanda sigue usando 7 evidencias del motor existente y un cierre de sesión individual por perfil. No requiere nuevas migraciones SQL.
+- Verificación antes del uso: comprobar que A/B completadas lleven a C, que una recta pueda seleccionarse por toque o teclado, que una fracción equivalente se acepte, que la corrección con ayuda no figure como autónoma, y que la tanda siguiente avance sin mezclar historiales.
