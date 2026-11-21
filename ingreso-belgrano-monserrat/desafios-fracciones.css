@@ -1,5 +1,5 @@
 
-/* Desafíos de ingreso · Fracciones (V6.26). Estilos aislados del motor habitual. */
+/* Desafíos de ingreso · Fracciones (V6.27). Estilos aislados del motor habitual. */
 #fraction-challenge-dialog {
   border:0; border-radius:20px; padding:0; width:min(850px,calc(100vw - 24px));
   max-height:min(92vh,920px); overflow:auto; background:#fff; color:#19324a;
@@ -78,4 +78,18 @@
   .fraction-entry {flex-direction:column;align-items:stretch;}
   .fraction-controls button {flex:1;}
   .fraction-summary-list li {align-items:flex-start;}
+}
+
+/* Recta numérica: ancho táctil suficiente incluso en pantallas pequeñas. */
+.fraction-numberline { width:100%; max-width:100%; overflow-x:auto; padding:10px 8px; text-align:center; }
+.fraction-numberline svg { width:100%; min-width:580px; display:block; }
+.fraction-numberline p { font-size:.85rem; color:#526679; }
+.fraction-axis { stroke:#365879; stroke-width:3; }
+.fraction-axis-tick { stroke:#7a97b1; stroke-width:2; pointer-events:none; }
+.fraction-axis-label { fill:#233c58; font-size:22px; font-weight:700; pointer-events:none; }
+.fraction-numberline [data-fraction-cell] { fill:#fff; stroke:#34638e; stroke-width:2.6; }
+.fraction-numberline [data-fraction-cell].selected { fill:#367bc0; stroke:#17518a; }
+@media(max-width:640px) {
+  .fraction-numberline svg { width:580px; }
+  .fraction-numberline::after { content:"Deslizá horizontalmente para ver todas las marcas."; display:block; color:#62758a; font-size:.78rem; padding-top:8px; }
 }
