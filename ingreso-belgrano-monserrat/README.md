@@ -10,6 +10,12 @@ Aplicación web de estudio para preparar, en una misma plataforma, los ingresos 
 - **V3 pedagógica – etapa 2:** diagnóstico adaptativo, práctica 60/25/15 y simulacros construidos por bloques temáticos.
 - **V3 pedagógica – etapa 3:** simulacros completos sobre 100 puntos, con estructura y ponderación diferenciadas por colegio y materia.
 
+## Representaciones de fracciones con un paso más (V6.28)
+
+Las tandas C-H mantienen sus 7 desafíos y sus IDs, pero 16 consignas de **marcar, pintar o ubicar fracciones** ahora exigen una operación previa breve: combinar fracciones de la misma unidad sin superponer, completar hasta el entero, traducir entre fracción impropia y número mixto, o reconocer equivalencias antes de marcar la recta. Las pistas primero orientan el razonamiento y la segunda explica la conversión; la corrección visual no da inmediatamente la cantidad correcta tras un error.
+
+Se preservan A-B, ya recorridas, y todos los IDs de las tandas para respetar el progreso existente por perfil. No se modifican sincronización, Supabase ni evidencias previas. Validar con un perfil que tenga C-H pendientes y comprobar selección, corrección, pistas, renovación del caché y retorno al progreso al cerrar una sesión.
+
 ## Desafíos de ingreso: Fracciones (V6.27)
 
 Se incorpora una práctica específica desde **Inicio** y **Entrenar**, basada en el formato de las actividades de ingreso pero con **56 consignas originales** distintas de las ya resueltas: 8 tandas de 7 desafíos (A-H), con selección de sectores, figuras compuestas, números mixtos, fracciones de fracciones, reconstrucción de unidades, problemas de dos respuestas y complementos.
