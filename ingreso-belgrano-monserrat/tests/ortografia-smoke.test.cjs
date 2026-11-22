@@ -16,7 +16,7 @@ test('112 ejercicios de ortografía con circuitos C/D en G/J y tildes',()=>{
   const items=Object.values(bank.blocks).flatMap(b=>['A','B','C','D'].flatMap(round=>b[round]||[]));
   assert.equal(Object.keys(bank.blocks).length,5);
   assert.equal(items.length,112);
-  assert.equal(new Set(items.map(t=>t.id)).size,70);
+  assert.equal(new Set(items.map(t=>t.id)).size,112);
   assert.deepEqual([...new Set(items.map(t=>t.kind))].sort(),
     ['orth-accent','orth-accent-write','orth-classify','orth-diacritic','orth-diacritic-write','orth-fill','orth-sentence']);
   const skills=new Set(['LEN-DIP-HIA','LEN-GJ','LEN-BV','LEN-CSZ','LEN-ACENT','LEN-DIAC']);
@@ -40,7 +40,7 @@ test('los accesos nuevos están en Desafíos y versionados para la PWA',()=>{
   assert.equal((html.match(/data-start-ortho=/g)||[]).length,5);
   assert.equal((html.match(/data-ortho-status=/g)||[]).length,5);
   assert.equal((html.match(/data-start-fractions(?=[ >])/g)||[]).length,1);
-  assert.equal((html.match(/data-start-model=/g)||[]).length,2);
+  assert.equal((html.match(/data-start-model=/g)||[]).length,4);
   assert.ok(version,'no app version');
   assert.ok(read('sw.js').includes('desafios-ortografia.json?v='+version));
   new vm.Script(engine);
