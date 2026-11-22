@@ -10,6 +10,7 @@ const bank=JSON.parse(read('data/desafios-ortografia.json'));
 const engine=read('desafios-fracciones.js');
 const app=read('app.js');
 const html=read('index.html');
+const version=html.match(/app-version" content="(6\.\d+\.\d+)"/)?.[1];
 
 test('70 ejercicios originales en cinco tipos de ortografía',()=>{
   const items=Object.values(bank.blocks).flatMap(b=>[...b.A,...b.B]);
@@ -36,8 +37,8 @@ test('los accesos nuevos están en Desafíos y versionados para la PWA',()=>{
   assert.equal((html.match(/data-ortho-status=/g)||[]).length,5);
   assert.equal((html.match(/data-start-fractions(?=[ >])/g)||[]).length,1);
   assert.equal((html.match(/data-start-model=/g)||[]).length,2);
-  assert.match(html,/app-version" content="6\.31\.0"/);
-  assert.match(read('sw.js'),/desafios-ortografia\.json\?v=6\.31\.0/);
+  assert.ok(version,'no app version');
+  assert.ok(read('sw.js').includes('desafios-ortografia.json?v='+version));
   new vm.Script(engine);
   new vm.Script(app);
 });
@@ -56,7 +57,7 @@ function makeEngine(){
   const document={
     getElementById:id=>id==='fraction-challenge-dialog'?dialog:
       id==='fraction-challenge-content'?surface:node(id),
-    querySelector:sel=>sel==='meta[name="app-version"]'?{content:'6.31.0'}:null
+    querySelector:sel=>sel==='meta[name="app-version"]'?{content:version}:null
   };
   const sources={
     './data/desafios-ortografia.json':bank,
