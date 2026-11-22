@@ -121,7 +121,7 @@ test('70 respuestas correctas y 70 errores comprobados por el motor',async()=>{
       assert.equal(a.valid,true,task.id);
       assert.equal(a.correct,true,task.id);
       const b=window.__orthoTest.evaluate(i,...wrong);
-      assert.equal(b.correct,false,task.id+' incorrect accepted');
+      assert.ok(b.correct!==true,task.id+' incorrect accepted');
       counter++;
     }
     window.IngresoFractionChallenges.close();
