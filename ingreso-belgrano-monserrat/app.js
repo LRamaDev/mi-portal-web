@@ -36,10 +36,11 @@
   // Delegación permanente: evita que un selector de un solo elemento rompa todos
   // los accesos a desafíos, aunque cambie la ubicación de los botones.
   document.addEventListener('click', event => {
-    const button = event.target?.closest?.('[data-start-fractions], [data-start-model]');
+    const button = event.target?.closest?.('[data-start-fractions], [data-start-model], [data-start-ortho]');
     if (!button || button.disabled) return;
     event.preventDefault();
     if (button.hasAttribute('data-start-fractions')) startFractionChallenges();
+    else if (button.hasAttribute('data-start-ortho')) startOrthographyChallenges(button.dataset.startOrtho);
     else startModelChallenges(button.dataset.startModel);
   });
 
@@ -49,7 +50,7 @@
     try {
       // La URL cambia con la versión: evita que un service worker anterior entregue
       // habilidades sin videos durante la primera visita tras una actualización.
-      const releaseVersion = document.querySelector('meta[name="app-version"]')?.content || '6.30.0';
+      const releaseVersion = document.querySelector('meta[name="app-version"]')?.content || '6.31.0';
       const [skillsData, exerciseData] = await Promise.all([
         fetch(`./data/habilidades.json?v=${encodeURIComponent(releaseVersion)}`, { cache: 'no-store' }).then(r => { if (!r.ok) throw new Error('habilidades'); return r.json(); }),
         fetch('./data/ejercicios.json').then(r => { if (!r.ok) throw new Error('ejercicios'); return r.json(); })
@@ -67,7 +68,7 @@
     refreshGateNames();
     restoreActiveContext();
     setupSupabase();
-    if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js?v=6.30.0').catch(() => {});
+    if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js?v=6.31.0').catch(() => {});
   }
 
   function bindUI() {
@@ -340,7 +341,7 @@
     $$('.view').forEach(v => v.classList.toggle('active', v.dataset.view === view));
     $$('.nav-button, .mobile-nav button').forEach(b => b.classList.toggle('active', b.dataset.nav === view));
     if (view === 'contenidos') renderSkills($('.chip.active')?.dataset.skillFilter || 'all');
-    if (view === 'desafios' && activeMode) { renderFractionEntry(); renderModelEntries(); }
+    if (view === 'desafios' && activeMode) { renderFractionEntry(); renderModelEntries(); renderOrthographyEntries(); }
     if (view === 'progreso') renderProgress();
     if (view === 'videos') renderVideos();
     if (view === 'familia') renderFamily();
@@ -376,6 +377,7 @@
     renderBalanceCoach(needsDiagnostic ? null : balanceRecommendation());
     renderFractionEntry();
     renderModelEntries();
+    renderOrthographyEntries();
   }
 
   function renderNextStep(ids, needsDiagnostic) {
@@ -1059,6 +1061,121 @@
       origin:'desafios_modelo_'+(result.block==='R'?'representaciones':'perimetros'),
       purpose,durationMs:Math.max(0,Number(result.durationMs)||0),
       evaluationWeight:result.status==='ayuda'?0.75:1,school:'belgrano',at:now
+    });
+    engine.applyAttempt(profile,exercise,event,{maxDifficulty:skillMaxDifficulty(exercise.habilidad)});
+    markExerciseUsedToday(pid,exercise.id);
+    saveState();
+  }
+
+
+  // Ortografía Monserrat: cinco estructuras de resolución con repetición A/B.
+  // Toda la práctica reutiliza el motor de fracciones, su devolución y guardado.
+  const ORTHOGRAPHY_BLOCKS = {
+    D: 'Diptongo e hiato',
+    J: 'Oraciones correctas e incorrectas',
+    B: 'Uso de B, V, C, S y Z',
+    A: 'Acentuación de palabras',
+    T: 'Tilde diacrítica'
+  };
+  const ORTHOGRAPHY_ROUNDS=['A','B'];
+  const ORTHOGRAPHY_SKILLS=new Set(['LEN-DIP-HIA','LEN-GJ','LEN-BV','LEN-CSZ','LEN-ACENT','LEN-DIAC']);
+  function completedOrthographyRounds(profile,block){
+    return new Set((profile?.history||[])
+      .filter(event=>event.type==='desafios_ortografia' &&
+        event.orthographyBlockId===block && ORTHOGRAPHY_ROUNDS.includes(event.roundId))
+      .map(event=>event.roundId));
+  }
+  function nextOrthographyRound(profile,block){
+    const completed=completedOrthographyRounds(profile,block);
+    return ORTHOGRAPHY_ROUNDS.find(round=>!completed.has(round))||null;
+  }
+  function renderOrthographyEntries(){
+    if(!activeMode)return;
+    const individual=activeMode!=='together';
+    const profile=individual?state.profiles[primaryProfileId()]:null;
+    $$('[data-ortho-status]').forEach(label=>{
+      const block=label.dataset.orthoStatus;
+      if(!ORTHOGRAPHY_BLOCKS[block])return;
+      const round=individual?nextOrthographyRound(profile,block):null;
+      const prefix='MO26-'+block+'-'+round+'-';
+      const hasPartial=round&&(profile?.evidence||[])
+        .some(event=>String(event.exerciseId||'').startsWith(prefix));
+      label.textContent=!individual?'Elegí un perfil individual para guardar el recorrido.'
+        :!round?'Completaste los dos circuitos de este bloque.'
+        :hasPartial?'Retomá el circuito '+round+' desde el desafío pendiente.'
+        :'Circuito '+round+' · 7 ejercicios originales.';
+    });
+    $$('[data-start-ortho]').forEach(btn=>{
+      const block=btn.dataset.startOrtho;
+      const round=individual?nextOrthographyRound(profile,block):null;
+      btn.disabled=!ORTHOGRAPHY_BLOCKS[block]||!round;
+      btn.title=!individual?'Este entrenamiento es individual.':!round?'Los dos circuitos están completos.':'';
+    });
+  }
+  function startOrthographyChallenges(block){
+    if(!ORTHOGRAPHY_BLOCKS[block])return;
+    if(!activeMode||activeMode==='together')return toast('Elegí un perfil individual para estos desafíos.');
+    if(session)return toast('Primero terminá el entrenamiento abierto.');
+    const engine=window.IngresoFractionChallenges;
+    if(!engine)return toast('No se pudo cargar el motor interactivo. Recargá la aplicación.');
+    const pid=primaryProfileId(),profile=state.profiles[pid],round=nextOrthographyRound(profile,block);
+    if(!round)return toast('Ya completaste los dos circuitos de este bloque.');
+    const prefix='MO26-'+block+'-'+round+'-';
+    const priorById=new Map();
+    for(const row of profile.evidence||[]){
+      if(!String(row.exerciseId||'').startsWith(prefix))continue;
+      priorById.set(row.exerciseId,{
+        id:row.exerciseId,round,
+        status:!row.correct?'revisar':row.hintUsed?'ayuda':'autonoma'
+      });
+    }
+    engine.open({
+      orthographyBlock:block,round,prior:[...priorById.values()],
+      onResult:result=>{
+        if(activeMode!==pid||result.orthographyBlock!==block)return;
+        recordOrthographyAttempt(pid,result);
+      },
+      onComplete:({orthographyBlock:finishedBlock,round:finishedRound,results})=>{
+        const current=state.profiles[pid];
+        if(!current||activeMode!==pid||finishedBlock!==block||finishedRound!==round)return;
+        if(completedOrthographyRounds(current,block).has(round)||results.length!==7)return;
+        const recorded=new Set((current.evidence||[]).map(row=>row.exerciseId));
+        if(results.some(row=>!recorded.has(row.id)))return;
+        const autonomous=results.filter(row=>row.status==='autonoma').length;
+        const withHelp=results.filter(row=>row.status==='ayuda').length;
+        current.sessions=(current.sessions||0)+1;
+        current.history=[...(current.history||[]),{
+          at:Date.now(),type:'desafios_ortografia',area:'lengua',school:'monserrat',
+          orthographyBlockId:block,roundId:round,
+          score:autonomous+withHelp,total:7,autonomous,withHelp,
+          toReview:results.filter(row=>row.status==='revisar').length,
+          durationSeconds:Math.max(1,Math.round(results.reduce((sum,row)=>sum+(row.durationMs||0),0)/1000))
+        }];
+        saveState();
+        renderAll();
+      }
+    }).catch(error=>{console.error('[Desafíos ortografía]',error);toast('No se pudieron abrir los desafíos de ortografía.');});
+  }
+  function recordOrthographyAttempt(pid,result){
+    const match=/^MO26-([DJBAT])-[AB]-0[1-7]$/.exec(result.id||'');
+    if(!match||match[1]!==result.orthographyBlock||!ORTHOGRAPHY_SKILLS.has(result.skill))return;
+    if(!['autonoma','ayuda','revisar'].includes(result.status))return;
+    const profile=state.profiles[pid],engine=window.IngresoPedagogy;
+    if(!profile||!engine||(profile.evidence||[]).some(event=>event.exerciseId===result.id))return;
+    const exercise={
+      id:result.id,area:'lengua',habilidad:result.skill,
+      dificultad:Math.min(4,Math.max(1,Number(result.difficulty)||2)),
+      colegios:['monserrat']
+    };
+    const now=Date.now();
+    const analysis=skillAnalysis(pid,exercise.habilidad);
+    const purpose=engine.derivePurpose(analysis,{sessionType:'practica',difficulty:exercise.dificultad,now});
+    const event=engine.createEvidence({
+      profileId:pid,exercise,correct:result.status!=='revisar',
+      hintUsed:result.status!=='autonoma',sessionType:'practica',
+      origin:'desafios_ortografia_'+result.orthographyBlock,
+      purpose,durationMs:Math.max(0,Number(result.durationMs)||0),
+      evaluationWeight:result.status==='ayuda'?0.75:1,school:'monserrat',at:now
     });
     engine.applyAttempt(profile,exercise,event,{maxDifficulty:skillMaxDifficulty(exercise.habilidad)});
     markExerciseUsedToday(pid,exercise.id);
