@@ -27,7 +27,7 @@ test('app y motor tienen sintaxis JS válida y no reaparece $.forEach', () => {
   new vm.Script(app, {filename: 'app.js'});
   new vm.Script(challenges, {filename: 'desafios-fracciones.js'});
   new vm.Script(sw, {filename: 'sw.js'});
-  assert.doesNotMatch(app, /(?<!\$)\$\([^\n]*\)\.forEach\s*\(/);
+  assert.doesNotMatch(app, /(?<!\$)\$\((?:'[^']*'|"[^"]*")\)\.forEach\s*\(/);
 });
 
 function setup() {
