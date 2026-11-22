@@ -431,7 +431,7 @@
     dialog.showModal();
     app.innerHTML='<p role="status">Cargando los desafíos…</p>';
     try{
-      const version=document.querySelector('meta[name="app-version"]')?.content || '6.28.0';
+      const version=document.querySelector('meta[name="app-version"]')?.content || '6.30.0';
       const source=block?'./data/desafios-modelo.json':'./data/desafios-fracciones.json';
       const response=await fetch(source+'?v='+encodeURIComponent(version));
       if(!response.ok)throw new Error('No se pudo cargar el banco de desafíos');
