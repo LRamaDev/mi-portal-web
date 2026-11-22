@@ -160,3 +160,82 @@ test('misma experiencia: sin ayuda, con pistas, para revisar; Matemática intact
   assert.match(surface.innerHTML,/Reconocer lo sombreado/);
   window.IngresoFractionChallenges.close();
 });
+
+
+test('clic en Ortografía abre el circuito propio de cada perfil sin mezclar avances',()=>{
+  const listeners={};const elements=new Map();
+  function node(key){
+    if(!elements.has(key))elements.set(key,{
+      dataset:{},textContent:'',disabled:false,title:'',
+      addEventListener(){},classList:{toggle(){},add(){},remove(){}}
+    });
+    return elements.get(key);
+  }
+  const btn=node('btn');btn.dataset.startOrtho='D';
+  btn.hasAttribute=key=>key==='data-start-ortho';
+  const label=node('label');label.dataset.orthoStatus='D';
+  const document={
+    addEventListener(n,callback){(listeners[n]||=[]).push(callback);},
+    querySelector:node,
+    querySelectorAll(sel){
+      if(sel==='[data-start-ortho]')return [btn];
+      if(sel==='[data-ortho-status]')return [label];
+      return [];
+    }
+  };
+  const profile=()=>({name:'Perfil',history:[],evidence:[],progress:{},pendingEvidence:[],sessions:0});
+  const state={profiles:{p1:profile(),p2:profile()}};
+  state.profiles.p1.history=[{
+    type:'desafios_ortografia',orthographyBlockId:'D',roundId:'A',at:1
+  }];
+  const localStorage={
+    getItem:key=>key==='ingreso-belgrano-monserrat-v1'?JSON.stringify(state):null,
+    setItem(){},removeItem(){}
+  };
+  const opened=[];
+  const window={
+    INGRESO_ACCESS_MODE:'family',addEventListener(){},
+    IngresoFractionChallenges:{open:async args=>opened.push({
+      block:args.orthographyBlock,round:args.round
+    })},
+    IngresoPedagogy:{
+      ensureAnalysis:()=>({state:'explorando'}),
+      derivePurpose:()=> 'practica',
+      createEvidence:args=>({
+        exerciseId:args.exercise.id,skillId:args.exercise.habilidad,
+        correct:args.correct,hintUsed:args.hintUsed,origin:args.origin
+      }),
+      applyAttempt:(p,e,event)=>p.evidence.push(event)
+    }
+  };
+  const marker='  function startRecommended() {';
+  assert.ok(app.includes(marker));
+  const hook=[
+    '  window.__orthoAppSmoke={',
+    '    mode:m=>{activeMode=m;},render:renderOrthographyEntries,',
+    '    record:recordOrthographyAttempt,profiles:()=>state.profiles',
+    '  };',
+    marker
+  ].join('\n');
+  vm.runInNewContext(app.replace(marker,hook),{window,document,localStorage,console});
+  const verify=window.__orthoAppSmoke;
+  const click=()=>listeners.click.forEach(callback=>callback({
+    target:{closest:()=>btn},preventDefault(){}
+  }));
+  verify.mode('p1');verify.render();click();
+  assert.equal(opened.at(-1).round,'B');
+  verify.mode('p2');verify.render();click();
+  assert.equal(opened.at(-1).round,'A');
+  verify.mode('p1');
+  verify.record('p1',{
+    id:'MO26-D-B-01',orthographyBlock:'D',skill:'LEN-DIP-HIA',
+    status:'ayuda',difficulty:2,durationMs:10000
+  });
+  assert.equal(verify.profiles().p1.evidence.length,1);
+  assert.equal(verify.profiles().p2.evidence.length,0);
+  assert.equal(verify.profiles().p1.evidence[0].hintUsed,true);
+  verify.mode('together');verify.render();
+  assert.equal(btn.disabled,true);
+  const before=opened.length;click();
+  assert.equal(opened.length,before);
+});
