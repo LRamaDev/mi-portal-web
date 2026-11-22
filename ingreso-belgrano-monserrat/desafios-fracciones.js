@@ -193,6 +193,79 @@
     return {valid:false};
   }
 
+
+  // Ortografía Monserrat: mismas tandas de siete, corrección, ayudas y resumen,
+  // con respuesta activa (no solo reconocimiento por descarte).
+  function spelling(value) {
+    return String(value ?? '').trim().normalize('NFC').toLocaleLowerCase('es');
+  }
+  function orthoButtons(options) {
+    return '<div class="orthography-options" role="group" aria-label="Elegí una respuesta">' +
+      options.map((item,index) =>
+        '<button type="button" class="orthography-option" data-orth-option="' + index +
+        '" aria-pressed="false">' + esc(item) + '</button>').join('') + '</div>';
+  }
+  function orthoTextInput(label,placeholder) {
+    return '<div class="fraction-fields orthography-fields"><label>' + esc(label) +
+      '<input id="fraction-ans1" type="text" spellcheck="false" autocapitalize="off" autocomplete="off" maxlength="80" placeholder="' +
+      esc(placeholder) + '"></label></div>';
+  }
+  function orthoBoard(task) {
+    if(task.kind==='orth-classify') return '<div class="orthography-keyword" lang="es">' +
+      esc(task.word) + '</div>' + orthoButtons(['Diptongo','Hiato']);
+    if(task.kind==='orth-sentence') return '<blockquote class="orthography-sentence" lang="es">' +
+      esc(task.sentence) + '</blockquote>' + orthoButtons(['Correcta','Incorrecta']) +
+      orthoTextInput('Si elegiste «Incorrecta», escribí aquí la palabra bien escrita.','Palabra corregida');
+    if(task.kind==='orth-fill') return '<blockquote class="orthography-sentence" lang="es">' +
+      esc(task.sentence) + '</blockquote>' + orthoTextInput('Escribí la palabra completa, con todas sus letras y tildes.','Palabra completa');
+    if(task.kind==='orth-accent') return orthoButtons(task.options) +
+      orthoTextInput('Escribí la palabra seleccionada con la tilde correcta.','Palabra con tilde');
+    if(task.kind==='orth-diacritic') return '<blockquote class="orthography-sentence" lang="es">' +
+      esc(task.context) + '</blockquote>' + orthoButtons(task.options);
+    return '';
+  }
+  function orthoEvaluate(task) {
+    const selected=session.choice;
+    const word=spelling(app.querySelector('#fraction-ans1')?.value);
+    if(task.kind==='orth-classify'){
+      const values=['diptongo','hiato'];
+      return {valid:selected!==null,correct:selected!==null&&values[selected]===task.expected,
+        reason:'Pronunciá despacio y comprobá si las vocales consecutivas pertenecen a la misma sílaba.'};
+    }
+    if(task.kind==='orth-sentence'){
+      const values=['correcta','incorrecta'],choice=values[selected];
+      if(selected===null || (choice==='incorrecta'&&!word))return {valid:false};
+      const detected=choice===task.expected;
+      const corrected=task.expected==='correcta'||word===spelling(task.correction);
+      return {valid:true,correct:detected&&corrected,
+        reason:!detected?'Revisá las palabras con G y J antes de decidir si hay un error.':
+          'Reconociste que hay un error, pero necesitás escribir correctamente la palabra completa.'};
+    }
+    if(task.kind==='orth-fill')return {valid:Boolean(word),
+      correct:word===spelling(task.expected),
+      reason:'Revisá las letras que faltan, la familia de palabras y la acentuación al escribirla completa.'};
+    if(task.kind==='orth-accent'){
+      if(selected===null||!word)return {valid:false};
+      return {valid:true,
+        correct:task.options[selected]===task.unaccented&&word===spelling(task.expected),
+        reason:'Identificá la sílaba tónica y aplicá la regla de agudas, graves o esdrújulas. Escribí la palabra completa con tilde.'};
+    }
+    if(task.kind==='orth-diacritic')return {valid:selected!==null,
+      correct:selected!==null&&task.options[selected]===task.expected,
+      reason:'La tilde depende de la función y el significado que tiene la palabra en esta oración.'};
+    return {valid:false};
+  }
+  function chooseOrthOption(index) {
+    if(!session||session.locked)return;
+    session.choice=index;
+    app.querySelectorAll('[data-orth-option]').forEach(el=>{
+      const selected=Number(el.dataset.orthOption)===index;
+      el.classList.toggle('selected',selected);
+      el.setAttribute('aria-pressed',String(selected));
+    });
+    app.querySelector('#fraction-selected-count').textContent='Elegiste: '+(app.querySelector('[data-orth-option="'+index+'"]')?.textContent||'');
+  }
+
   function board(task) {
     if (task.kind === 'discs') return discs();
     if (task.kind === 'squares') return squares();
@@ -206,6 +279,7 @@
     </div>`;
     if (task.kind === 'remainder' || task.kind === 'fractioninput') return `<div class="fraction-fields"><label>${esc(task.question || '¿Qué fracción se obtuvo?')}<input id="fraction-ans1" type="text" inputmode="text" placeholder="Por ejemplo: 3/8" autocomplete="off"></label></div>`;
     if (task.kind === 'number') return `<div class="fraction-fields"><label>${esc(task.question || '¿Cuál es el total?')}<input id="fraction-ans1" type="text" inputmode="numeric" placeholder="Escribí un número" autocomplete="off"></label></div>`;
+    if(task.orthographyBlock) return orthoBoard(task);
     if(task.block) return modelBoard(task);
     return '';
   }
@@ -255,9 +329,9 @@
   function showTask() {
     const task=taskNow();
     if (!task) return showSummary();
-    session.selection=new Set(); session.added=0; session.attempts=0; session.hints=0;
+    session.selection=new Set(); session.choice=null; session.added=0; session.attempts=0; session.hints=0;
     session.locked=false; session.startedAt=Date.now();
-    app.innerHTML=`<div class="fraction-progress"><span>Desafío ${session.index+1} de ${session.tasks.length}</span><span>${session.block?'Circuito':'Tanda'} ${esc(session.round)}</span></div>
+    app.innerHTML=`<div class="fraction-progress"><span>Desafío ${session.index+1} de ${session.tasks.length}</span><span>${(session.block||session.orthographyBlock)?'Circuito':'Tanda'} ${esc(session.round)}</span></div>
       <div class="fraction-track"><span style="width:${session.results.size/session.tasks.length*100}%"></span></div>
       <p class="eyebrow">${esc(task.title)}</p><h2>${esc(task.prompt)}</h2>
       <div id="fraction-board" class="fraction-board">${board(task)}</div>
@@ -279,6 +353,9 @@
         if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleCell(id);}
       });
     });
+    app.querySelectorAll('[data-orth-option]').forEach(el => {
+      el.addEventListener('click',()=>chooseOrthOption(Number(el.dataset.orthOption)));
+    });
     if(task.kind==='unit') bindStepper();
   }
   const readNumber=id=>{
@@ -293,6 +370,7 @@
     return match && Number(match[2])>0?[Number(match[1]),Number(match[2])]:null;
   }
   function evaluate(t) {
+    if(t.orthographyBlock) return orthoEvaluate(t);
     if(t.block) return modelEvaluate(t);
     const sel=session.selection;
     if(t.kind==='line') {
@@ -357,7 +435,7 @@
   function steps(t) { return `<ol class="fraction-steps">${t.steps.map(s=>`<li>${esc(s)}</li>`).join('')}</ol>`; }
   function storeResult(status) {
     const task=taskNow();
-    const result={id:task.id,round:session.round,block:session.block||null,status,skill:task.skill,difficulty:task.difficulty,durationMs:Math.max(0,Date.now()-session.startedAt)};
+    const result={id:task.id,round:session.round,block:session.block||null,orthographyBlock:session.orthographyBlock||null,status,skill:task.skill,difficulty:task.difficulty,durationMs:Math.max(0,Date.now()-session.startedAt)};
     session.results.set(task.id,result);
     try{session.onResult(result);}catch(err){console.error('[Desafíos] Error al guardar resultado',err);}
   }
@@ -368,6 +446,7 @@
     app.querySelector('#fraction-next').hidden=false;
     app.querySelectorAll('[data-fraction-cell]').forEach(el=>{el.setAttribute('aria-disabled','true');el.tabIndex=-1;});
     app.querySelectorAll('input').forEach(el=>el.disabled=true);
+    app.querySelectorAll('[data-orth-option]').forEach(el=>el.disabled=true);
     app.querySelectorAll('#fraction-plus,#fraction-minus').forEach(el=>el.disabled=true);
   }
   function check() {
@@ -402,7 +481,7 @@
     if(!session)return;
     const results=[...session.results.values()], count=status=>results.filter(r=>r.status===status).length;
     const names={autonoma:'✓ Sin ayuda',ayuda:'↗ Con ayuda',revisar:'↺ Para revisar'};
-    app.innerHTML=`<p class="eyebrow">${session.block?"Circuito":"Tanda"} ${esc(session.round)} completado</p><h2>¡Terminaste los desafíos!</h2>
+    app.innerHTML=`<p class="eyebrow">${(session.block||session.orthographyBlock)?"Circuito":"Tanda"} ${esc(session.round)} completado</p><h2>¡Terminaste los desafíos!</h2>
       <p>Este resumen es de la práctica realizada: no representa una calificación ni un porcentaje de dominio.</p>
       <div class="fraction-summary"><div><strong>${count('autonoma')}</strong><span>Sin ayuda</span></div><div><strong>${count('ayuda')}</strong><span>Con ayuda</span></div><div><strong>${count('revisar')}</strong><span>Para revisar</span></div></div>
       <ul class="fraction-summary-list">${session.tasks.map(t=>`<li><span>${esc(t.title)}</span><b>${names[session.results.get(t.id)?.status]||'Pendiente'}</b></li>`).join('')}</ul>
@@ -411,38 +490,47 @@
     app.querySelector('#fraction-finish').onclick=close;
     if(!session.completeNotified){
       session.completeNotified=true;
-      try{session.onComplete({round:session.round,block:session.block||null,results});}catch(err){console.error('[Desafíos] Error al registrar la sesión',err);}
+      try{session.onComplete({round:session.round,block:session.block||null,orthographyBlock:session.orthographyBlock||null,results});}catch(err){console.error('[Desafíos] Error al registrar la sesión',err);}
     }
   }
   function close() {
     if(dialog.open)dialog.close();
     session=null;
     document.getElementById('fraction-challenge-title').textContent='Desafíos de ingreso: Fracciones';
+    const subtitle=document.getElementById('fraction-challenge-subtitle');
+    if(subtitle) subtitle.textContent='Matemática · práctica individual';
   }
   if(dialog&&app&&closeButton){
     closeButton.addEventListener('click',close);
     dialog.addEventListener('cancel',event=>{event.preventDefault();close();});
   }
-  async function open({round='A',block=null,prior=[],onResult=()=>{},onComplete=()=>{}}={}) {
+  async function open({round='A',block=null,orthographyBlock=null,prior=[],onResult=()=>{},onComplete=()=>{}}={}) {
     if(!dialog||!app||loading||dialog.open||!['A','B','C','D','E','F','G','H'].includes(round))return;
     if(block!==null && !['R','P'].includes(block))return;
-    if(block && !['A','B'].includes(round))return;
+    if(orthographyBlock!==null && !['D','J','B','A','T'].includes(orthographyBlock))return;
+    if(block&&orthographyBlock)return;
+    if((block||orthographyBlock) && !['A','B'].includes(round))return;
     loading=true;
     dialog.showModal();
     app.innerHTML='<p role="status">Cargando los desafíos…</p>';
     try{
-      const version=document.querySelector('meta[name="app-version"]')?.content || '6.30.0';
-      const source=block?'./data/desafios-modelo.json':'./data/desafios-fracciones.json';
+      const version=document.querySelector('meta[name="app-version"]')?.content || '6.31.0';
+      const source=orthographyBlock?'./data/desafios-ortografia.json':block?'./data/desafios-modelo.json':'./data/desafios-fracciones.json';
       const response=await fetch(source+'?v='+encodeURIComponent(version));
       if(!response.ok)throw new Error('No se pudo cargar el banco de desafíos');
       const data=await response.json();
-      const tasks=block ? data.blocks?.[block]?.rounds?.[round] : data.rounds?.[round];
-      document.getElementById('fraction-challenge-title').textContent=block?'Desafíos de ingreso: '+(data.blocks?.[block]?.label||'Práctica por bloques'):'Desafíos de ingreso: Fracciones';
+      const tasks=orthographyBlock?data.blocks?.[orthographyBlock]?.[round]:block?data.blocks?.[block]?.rounds?.[round]:data.rounds?.[round];
+      document.getElementById('fraction-challenge-title').textContent=orthographyBlock
+        ? 'Desafíos de Lengua: '+(data.blocks?.[orthographyBlock]?.label||'Ortografía')
+        :block?'Desafíos de ingreso: '+(data.blocks?.[block]?.label||'Práctica por bloques')
+        :'Desafíos de ingreso: Fracciones';
+      const subtitle=document.getElementById('fraction-challenge-subtitle');
+      if(subtitle)subtitle.textContent=orthographyBlock?'Lengua · Ortografía · práctica individual':'Matemática · práctica individual';
       if(!Array.isArray(tasks)||tasks.length!==7||new Set(tasks.map(t=>t.id)).size!==7)throw new Error('Banco de desafíos incompleto');
       if(!dialog.open)return;
       const taskIds=new Set(tasks.map(t=>t.id));
       const results=new Map(prior.filter(r=>taskIds.has(r.id)&&['autonoma','ayuda','revisar'].includes(r.status)).map(r=>[r.id,r]));
-      session={round,block,tasks,index:0,results,onResult,onComplete,selection:new Set(),added:0,attempts:0,hints:0,locked:false,completeNotified:false,startedAt:0};
+      session={round,block,orthographyBlock,tasks,index:0,results,onResult,onComplete,selection:new Set(),choice:null,added:0,attempts:0,hints:0,locked:false,completeNotified:false,startedAt:0};
       while(session.index<tasks.length&&results.has(tasks[session.index].id))session.index++;
       if(session.index===tasks.length)showSummary();else showTask();
     }catch(error){
