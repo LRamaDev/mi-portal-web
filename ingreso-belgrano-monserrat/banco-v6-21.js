@@ -3,7 +3,7 @@
   const previousFetch = window.fetch.bind(window);
   // Mantener la URL alineada con el caché PWA de la versión publicada.
   // En pruebas de Node sin DOM usamos el valor de respaldo.
-  const version = (typeof document !== 'undefined'
+  const version = (typeof document !== 'undefined' && typeof document.querySelector === 'function'
     ? document.querySelector('meta[name="app-version"]')?.content
     : null) || '6.31.0';
   const sourceUrl = './data/ejercicios-prioridades-octubre.json?v=' + encodeURIComponent(version);
