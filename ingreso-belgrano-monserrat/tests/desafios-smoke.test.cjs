@@ -10,6 +10,7 @@ const app = fs.readFileSync(path.join(root, 'app.js'), 'utf8');
 const challenges = fs.readFileSync(path.join(root, 'desafios-fracciones.js'), 'utf8');
 const sw = fs.readFileSync(path.join(root, 'sw.js'), 'utf8');
 const count = (text, fragment) => text.split(fragment).length - 1;
+const version = html.match(/app-version" content="(6\.\d+\.\d+)"/)?.[1];
 
 test('el nuevo acceso está en una pestaña central y es visible en escritorio y móvil', () => {
   assert.equal(count(html, 'data-view="desafios"'), 1);
@@ -18,9 +19,9 @@ test('el nuevo acceso está en una pestaña central y es visible en escritorio y
   assert.equal(count(html, 'data-start-model="P"'), 1);
   assert.match(html, /class="nav-button" data-nav="desafios"/);
   assert.match(html, /<nav class="mobile-nav"[\s\S]*data-nav="desafios"/);
-  assert.match(html, /app-version" content="6\.30\.0"/);
-  assert.match(sw, /const VERSION='6\.30\.0'/);
-  assert.match(sw, /desafios-modelo\.json\?v=6\.30\.0/);
+  assert.ok(version, 'app version missing');
+  assert.ok(sw.includes("const VERSION='"+version+"'"));
+  assert.ok(sw.includes('desafios-modelo.json?v='+version));
 });
 
 test('app y motor tienen sintaxis JS válida y no reaparece $.forEach', () => {
