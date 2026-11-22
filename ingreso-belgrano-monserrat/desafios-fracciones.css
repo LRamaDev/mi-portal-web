@@ -144,3 +144,29 @@
   .mobile-nav {left:5px;right:5px;}
   .mobile-nav button {font-size:.59rem;letter-spacing:-.15px;}
 }
+
+/* Ortografía Monserrat · misma experiencia, opciones activas y escritura propia */
+.challenge-section-title { margin:24px 0 8px; font-size:1.18rem; color:#244965; }
+.challenge-intro { margin:4px 0 12px; color:#54697c; max-width:780px; line-height:1.55; }
+.orthography-hub-card .challenge-hub-symbol { background:#f1ebfa; color:#624a8d; }
+.orthography-keyword {font-size:clamp(2rem,6vw,3.2rem);font-weight:800;color:#215682;
+  letter-spacing:.035em;padding:16px;text-align:center;word-break:break-word;}
+.orthography-sentence {font-size:clamp(1.05rem,3vw,1.23rem);line-height:1.75;
+  margin:0;width:100%;max-width:640px;padding:20px;border-radius:14px;
+  border-left:5px solid #719bc4;background:#f0f6fd;color:#263d54;}
+.orthography-options {display:flex;flex-wrap:wrap;gap:10px;justify-content:center;max-width:640px;}
+.orthography-option {padding:11px 18px;min-width:116px;min-height:50px;
+  border:2px solid #a4bbd0;border-radius:12px;background:#fff;color:#274865;
+  font-size:1.05rem;font-weight:720;line-height:1.4;transition:background .15s,border-color .15s;}
+.orthography-option:hover {border-color:#497da8;background:#edf5fe;}
+.orthography-option.selected {border-color:#2366a1;background:#cce7fa;color:#1d456f;}
+.orthography-option:disabled {cursor:default;opacity:.85;}
+.orthography-fields {margin:8px auto 2px;}
+.orthography-fields label {font-size:.92rem;}
+.orthography-fields input {max-width:430px;}
+@media(max-width:540px) {
+  .orthography-sentence {padding:14px;font-size:1rem;}
+  .orthography-options {width:100%;}
+  .orthography-option {flex:1 1 calc(50% - 10px);min-width:0;padding:10px 8px;font-size:1rem;}
+  .orthography-keyword {padding:8px 2px;}
+}
