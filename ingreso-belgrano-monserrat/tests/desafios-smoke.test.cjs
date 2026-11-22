@@ -39,7 +39,7 @@ function setup() {
       hidden: false, title: '', handlers: {},
       classList: {toggle() {}, add() {}, remove() {}},
       addEventListener(type, cb) { (this.handlers[type] ||= []).push(cb); },
-      querySelectorAll() { return []; }
+      querySelectorAll() { return []; }, hasAttribute() { return false; }
     });
     return registry.get(id);
   }
