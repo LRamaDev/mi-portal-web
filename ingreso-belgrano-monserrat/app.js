@@ -67,7 +67,7 @@
     $$('[data-nav]').forEach(btn => btn.addEventListener('click', e => { e.preventDefault(); navigate(btn.dataset.nav); }));
     $('#start-recommended').addEventListener('click', startRecommended);
     $('[data-start-fractions]').forEach(button => button.addEventListener('click', startFractionChallenges));
-    $('[data-start-model]').forEach(button => button.addEventListener('click', () => startModelChallenges(button.dataset.startModel)));
+    $$('[data-start-model]').forEach(button => button.addEventListener('click', () => startModelChallenges(button.dataset.startModel)));
     $('#start-diagnostic').addEventListener('click', () => startSession({ type: 'diagnostico', area: 'all', origin: 'manual' }));
     $$('[data-practice]').forEach(btn => btn.addEventListener('click', () => startSession({ type: 'practica', area: btn.dataset.practice, origin: 'manual' })));
     $$('[data-sim-school]').forEach(btn => btn.addEventListener('click', () => startSession({ type: 'simulacro', area: btn.dataset.simArea, school: btn.dataset.simSchool, origin: 'simulacro' })));
@@ -968,7 +968,7 @@
     if(!activeMode)return;
     const individual=activeMode!=='together';
     const profile=individual?state.profiles[primaryProfileId()]:null;
-    $('[data-model-status]').forEach(element=>{
+    $$('[data-model-status]').forEach(element=>{
       const block=element.dataset.modelStatus;
       const next=individual?nextModelRound(profile,block):null;
       const partial=next&&Boolean((profile?.evidence||[])
@@ -977,7 +977,7 @@
         :!next?'Completaste los dos circuitos de este bloque.'
         :partial?'Retomá el circuito '+next+' desde donde lo dejaste.':'Circuito '+next+' · 7 desafíos diferentes.';
     });
-    $('[data-start-model]').forEach(button=>{
+    $$('[data-start-model]').forEach(button=>{
       const block=button.dataset.startModel;
       const next=individual?nextModelRound(profile,block):null;
       button.disabled=!next;
