@@ -39,7 +39,7 @@
     try {
       // La URL cambia con la versión: evita que un service worker anterior entregue
       // habilidades sin videos durante la primera visita tras una actualización.
-      const releaseVersion = document.querySelector('meta[name="app-version"]')?.content || '6.28.0';
+      const releaseVersion = document.querySelector('meta[name="app-version"]')?.content || '6.29.0';
       const [skillsData, exerciseData] = await Promise.all([
         fetch(`./data/habilidades.json?v=${encodeURIComponent(releaseVersion)}`, { cache: 'no-store' }).then(r => { if (!r.ok) throw new Error('habilidades'); return r.json(); }),
         fetch('./data/ejercicios.json').then(r => { if (!r.ok) throw new Error('ejercicios'); return r.json(); })
@@ -57,7 +57,7 @@
     refreshGateNames();
     restoreActiveContext();
     setupSupabase();
-    if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js?v=6.28.0').catch(() => {});
+    if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js?v=6.29.0').catch(() => {});
   }
 
   function bindUI() {
@@ -66,7 +66,8 @@
     $('#active-profile').addEventListener('click', leaveProfile);
     $$('[data-nav]').forEach(btn => btn.addEventListener('click', e => { e.preventDefault(); navigate(btn.dataset.nav); }));
     $('#start-recommended').addEventListener('click', startRecommended);
-    $$('[data-start-fractions]').forEach(button => button.addEventListener('click', startFractionChallenges));
+    $('[data-start-fractions]').forEach(button => button.addEventListener('click', startFractionChallenges));
+    $('[data-start-model]').forEach(button => button.addEventListener('click', () => startModelChallenges(button.dataset.startModel)));
     $('#start-diagnostic').addEventListener('click', () => startSession({ type: 'diagnostico', area: 'all', origin: 'manual' }));
     $$('[data-practice]').forEach(btn => btn.addEventListener('click', () => startSession({ type: 'practica', area: btn.dataset.practice, origin: 'manual' })));
     $$('[data-sim-school]').forEach(btn => btn.addEventListener('click', () => startSession({ type: 'simulacro', area: btn.dataset.simArea, school: btn.dataset.simSchool, origin: 'simulacro' })));
@@ -363,6 +364,7 @@
     renderWeeklyMission(ids);
     renderBalanceCoach(needsDiagnostic ? null : balanceRecommendation());
     renderFractionEntry();
+    renderModelEntries();
   }
 
   function renderNextStep(ids, needsDiagnostic) {
@@ -943,6 +945,112 @@
     });
     engine.applyAttempt(profile, exercise, event, { maxDifficulty: skillMaxDifficulty(exercise.habilidad) });
     markExerciseUsedToday(pid, exercise.id);
+    saveState();
+  }
+
+
+  // Bloques del examen de Matemática: mismo motor interactivo, evidencias independientes.
+  const MODEL_BLOCKS = {
+    R: {label:'Representaciones de fracciones', skill:'MAT-FR-CON'},
+    P: {label:'Perímetros de figuras compuestas',skill:'MAT-PER'}
+  };
+  const MODEL_ROUNDS = ['A','B'];
+  function completedModelRounds(profile,block){
+    return new Set((profile?.history||[])
+      .filter(item=>item.type==='desafios_modelo'&&item.blockId===block&&MODEL_ROUNDS.includes(item.roundId))
+      .map(item=>item.roundId));
+  }
+  function nextModelRound(profile,block){
+    const completed=completedModelRounds(profile,block);
+    return MODEL_ROUNDS.find(round=>!completed.has(round))||null;
+  }
+  function renderModelEntries(){
+    if(!activeMode)return;
+    const individual=activeMode!=='together';
+    const profile=individual?state.profiles[primaryProfileId()]:null;
+    $('[data-model-status]').forEach(element=>{
+      const block=element.dataset.modelStatus;
+      const next=individual?nextModelRound(profile,block):null;
+      const partial=next&&Boolean((profile?.evidence||[])
+        .some(event=>String(event.exerciseId||'').startsWith('MB26-'+block+'-'+next+'-')));
+      element.textContent=!individual?'Elegí un perfil individual para guardar el recorrido.'
+        :!next?'Completaste los dos circuitos de este bloque.'
+        :partial?'Retomá el circuito '+next+' desde donde lo dejaste.':'Circuito '+next+' · 7 desafíos diferentes.';
+    });
+    $('[data-start-model]').forEach(button=>{
+      const block=button.dataset.startModel;
+      const next=individual?nextModelRound(profile,block):null;
+      button.disabled=!next;
+      button.title=!individual?'Este entrenamiento es individual.':!next?'Circuitos completos.':'';
+    });
+  }
+  function startModelChallenges(block){
+    if(!MODEL_BLOCKS[block])return;
+    if(!activeMode||activeMode==='together')return toast('Elegí uno de los perfiles individuales para este circuito.');
+    if(session)return toast('Terminá primero el entrenamiento abierto.');
+    const engine=window.IngresoFractionChallenges;
+    if(!engine)return toast('No se pudo cargar el motor interactivo. Recargá la aplicación.');
+    const pid=primaryProfileId(),profile=state.profiles[pid],round=nextModelRound(profile,block);
+    if(!round)return toast('Ya completaste los dos circuitos de este bloque.');
+    const prefix='MB26-'+block+'-'+round+'-';
+    const previous=new Map();
+    for(const event of profile.evidence||[]){
+      if(!String(event.exerciseId||'').startsWith(prefix))continue;
+      previous.set(event.exerciseId,{
+        id:event.exerciseId,round,
+        status:!event.correct?'revisar':event.hintUsed?'ayuda':'autonoma'
+      });
+    }
+    engine.open({
+      block,round,prior:[...previous.values()],
+      onResult:result=>{
+        if(activeMode!==pid||result.block!==block)return;
+        recordModelAttempt(pid,result);
+      },
+      onComplete:({block:doneBlock,round:doneRound,results})=>{
+        const current=state.profiles[pid];
+        if(activeMode!==pid||!current||doneBlock!==block||doneRound!==round)return;
+        if(completedModelRounds(current,block).has(round)||results.length!==7)return;
+        const savedIds=new Set((current.evidence||[]).map(item=>item.exerciseId));
+        if(results.some(item=>!savedIds.has(item.id)))return;
+        const autonomous=results.filter(item=>item.status==='autonoma').length;
+        const helped=results.filter(item=>item.status==='ayuda').length;
+        current.sessions=(current.sessions||0)+1;
+        current.history=[...(current.history||[]),{
+          at:Date.now(),type:'desafios_modelo',area:'matematica',school:'belgrano',
+          blockId:block,roundId:round,score:autonomous+helped,total:7,
+          autonomous,withHelp:helped,toReview:results.filter(item=>item.status==='revisar').length,
+          durationSeconds:Math.max(1,Math.round(results.reduce((sum,item)=>sum+(item.durationMs||0),0)/1000))
+        }];
+        saveState();
+        renderAll();
+      }
+    }).catch(error=>{console.error('[Ingreso bloques]',error);toast('No se pudieron abrir estos desafíos.');});
+  }
+  function recordModelAttempt(pid,result){
+    if(!/^MB26-[RP]-[AB]-0[1-7]$/.test(result.id)||!MODEL_BLOCKS[result.block])return;
+    if(!['autonoma','ayuda','revisar'].includes(result.status))return;
+    if(result.skill!==MODEL_BLOCKS[result.block].skill)return;
+    const profile=state.profiles[pid],engine=window.IngresoPedagogy;
+    if(!profile||!engine||(profile.evidence||[]).some(item=>item.exerciseId===result.id))return;
+    const exercise={
+      id:result.id,area:'matematica',habilidad:result.skill,
+      dificultad:Math.min(4,Math.max(1,Number(result.difficulty)||2)),
+      colegios:['belgrano']
+    };
+    const now=Date.now(),before=skillAnalysis(pid,exercise.habilidad);
+    const purpose=engine.derivePurpose(before,{
+      sessionType:'practica',difficulty:exercise.dificultad,now
+    });
+    const event=engine.createEvidence({
+      profileId:pid,exercise,correct:result.status!=='revisar',
+      hintUsed:result.status!=='autonoma',sessionType:'practica',
+      origin:'desafios_modelo_'+(result.block==='R'?'representaciones':'perimetros'),
+      purpose,durationMs:Math.max(0,Number(result.durationMs)||0),
+      evaluationWeight:result.status==='ayuda'?0.75:1,school:'belgrano',at:now
+    });
+    engine.applyAttempt(profile,exercise,event,{maxDifficulty:skillMaxDifficulty(exercise.habilidad)});
+    markExerciseUsedToday(pid,exercise.id);
     saveState();
   }
 
