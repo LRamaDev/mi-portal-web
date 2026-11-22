@@ -125,3 +125,22 @@
   .model-word span {width:31px;height:41px;font-size:1.1rem;}
   .model-chip {width:29px;height:29px;}
 }
+
+/* V6.30 · Pestaña única de Desafíos. El diálogo original permanece intacto. */
+.challenge-hub-grid { display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,255px),1fr));gap:16px;align-items:stretch;margin:18px 0; }
+.challenge-hub-card { gap:10px;min-height:278px; }
+.challenge-hub-card h3 { margin:0;color:#1e3c59;font-size:1.12rem;line-height:1.32; }
+.challenge-hub-card .fraction-entry-meta { margin-top:auto;font-weight:700;color:#285d87; }
+.challenge-hub-card .primary-button { margin-top:0;min-height:44px; }
+.challenge-hub-tag { font-size:.77rem;color:#536a80;font-weight:750;letter-spacing:.015em; }
+.challenge-hub-symbol { display:grid;place-items:center;width:46px;height:46px;border-radius:12px;background:#e2effb;color:#1e5b8e;font-weight:800;font-size:1.45rem; }
+.challenge-hub-card:has(button:disabled) { opacity:.8; }
+@media(max-width:880px) {
+  .mobile-nav { grid-template-columns:repeat(6,minmax(0,1fr));gap:0;padding:5px 3px; }
+  .mobile-nav button { min-width:0;padding:6px 0;font-size:.63rem;overflow:hidden;text-overflow:clip; }
+  .mobile-nav button span {font-size:1.05rem;}
+}
+@media(max-width:360px) {
+  .mobile-nav {left:5px;right:5px;}
+  .mobile-nav button {font-size:.59rem;letter-spacing:-.15px;}
+}
