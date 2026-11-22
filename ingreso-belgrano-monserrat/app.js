@@ -50,7 +50,7 @@
     try {
       // La URL cambia con la versión: evita que un service worker anterior entregue
       // habilidades sin videos durante la primera visita tras una actualización.
-      const releaseVersion = document.querySelector('meta[name="app-version"]')?.content || '6.31.0';
+      const releaseVersion = document.querySelector('meta[name="app-version"]')?.content || '6.32.0';
       const [skillsData, exerciseData] = await Promise.all([
         fetch(`./data/habilidades.json?v=${encodeURIComponent(releaseVersion)}`, { cache: 'no-store' }).then(r => { if (!r.ok) throw new Error('habilidades'); return r.json(); }),
         fetch('./data/ejercicios.json').then(r => { if (!r.ok) throw new Error('ejercicios'); return r.json(); })
@@ -68,7 +68,7 @@
     refreshGateNames();
     restoreActiveContext();
     setupSupabase();
-    if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js?v=6.31.0').catch(() => {});
+    if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js?v=6.32.0').catch(() => {});
   }
 
   function bindUI() {
@@ -964,8 +964,10 @@
 
   // Bloques del examen de Matemática: mismo motor interactivo, evidencias independientes.
   const MODEL_BLOCKS = {
-    R: {label:'Representaciones de fracciones', skill:'MAT-FR-CON'},
-    P: {label:'Perímetros de figuras compuestas',skill:'MAT-PER'}
+    R: {label:'Representaciones de fracciones',skill:'MAT-FR-CON',school:'belgrano'},
+    P: {label:'Perímetros de figuras compuestas',skill:'MAT-PER',school:'belgrano'},
+    C: {label:'Circunferencia y sus elementos',skill:'MAT-CIRC',school:'monserrat'},
+    F: {label:'Comparación y orden de fracciones',skill:'MAT-FR-ORD',school:null}
   };
   const MODEL_ROUNDS = ['A','B'];
   function completedModelRounds(profile,block){
@@ -993,7 +995,7 @@
     $$('[data-start-model]').forEach(button=>{
       const block=button.dataset.startModel;
       const next=individual?nextModelRound(profile,block):null;
-      button.disabled=!next;
+      button.disabled=!MODEL_BLOCKS[block]||!next;
       button.title=!individual?'Este entrenamiento es individual.':!next?'Circuitos completos.':'';
     });
   }
@@ -1004,7 +1006,7 @@
     const engine=window.IngresoFractionChallenges;
     if(!engine)return toast('No se pudo cargar el motor interactivo. Recargá la aplicación.');
     const pid=primaryProfileId(),profile=state.profiles[pid],round=nextModelRound(profile,block);
-    if(!round)return toast('Ya completaste los dos circuitos de este bloque.');
+    if(!round)return toast('Ya completaste los circuitos de este bloque.');
     const prefix='MB26-'+block+'-'+round+'-';
     const previous=new Map();
     for(const event of profile.evidence||[]){
@@ -1030,7 +1032,7 @@
         const helped=results.filter(item=>item.status==='ayuda').length;
         current.sessions=(current.sessions||0)+1;
         current.history=[...(current.history||[]),{
-          at:Date.now(),type:'desafios_modelo',area:'matematica',school:'belgrano',
+          at:Date.now(),type:'desafios_modelo',area:'matematica',school:MODEL_BLOCKS[block].school,
           blockId:block,roundId:round,score:autonomous+helped,total:7,
           autonomous,withHelp:helped,toReview:results.filter(item=>item.status==='revisar').length,
           durationSeconds:Math.max(1,Math.round(results.reduce((sum,item)=>sum+(item.durationMs||0),0)/1000))
@@ -1041,7 +1043,7 @@
     }).catch(error=>{console.error('[Ingreso bloques]',error);toast('No se pudieron abrir estos desafíos.');});
   }
   function recordModelAttempt(pid,result){
-    if(!/^MB26-[RP]-[AB]-0[1-7]$/.test(result.id)||!MODEL_BLOCKS[result.block])return;
+    if(!/^MB26-[RPCF]-[AB]-0[1-7]$/.test(result.id)||!MODEL_BLOCKS[result.block])return;
     if(!['autonoma','ayuda','revisar'].includes(result.status))return;
     if(result.skill!==MODEL_BLOCKS[result.block].skill)return;
     const profile=state.profiles[pid],engine=window.IngresoPedagogy;
@@ -1049,7 +1051,7 @@
     const exercise={
       id:result.id,area:'matematica',habilidad:result.skill,
       dificultad:Math.min(4,Math.max(1,Number(result.difficulty)||2)),
-      colegios:['belgrano']
+      colegios:MODEL_BLOCKS[result.block].school?[MODEL_BLOCKS[result.block].school]:['comun']
     };
     const now=Date.now(),before=skillAnalysis(pid,exercise.habilidad);
     const purpose=engine.derivePurpose(before,{
@@ -1058,9 +1060,9 @@
     const event=engine.createEvidence({
       profileId:pid,exercise,correct:result.status!=='revisar',
       hintUsed:result.status!=='autonoma',sessionType:'practica',
-      origin:'desafios_modelo_'+(result.block==='R'?'representaciones':'perimetros'),
+      origin:'desafios_modelo_'+({R:'representaciones',P:'perimetros',C:'circunferencia',F:'comparacion'}[result.block]),
       purpose,durationMs:Math.max(0,Number(result.durationMs)||0),
-      evaluationWeight:result.status==='ayuda'?0.75:1,school:'belgrano',at:now
+      evaluationWeight:result.status==='ayuda'?0.75:1,school:MODEL_BLOCKS[result.block].school,at:now
     });
     engine.applyAttempt(profile,exercise,event,{maxDifficulty:skillMaxDifficulty(exercise.habilidad)});
     markExerciseUsedToday(pid,exercise.id);
@@ -1072,22 +1074,24 @@
   // Toda la práctica reutiliza el motor de fracciones, su devolución y guardado.
   const ORTHOGRAPHY_BLOCKS = {
     D: 'Diptongo e hiato',
-    J: 'Oraciones correctas e incorrectas',
+    J: 'Uso de G y J: detectar y escribir',
     B: 'Uso de B, V, C, S y Z',
-    A: 'Acentuación de palabras',
-    T: 'Tilde diacrítica'
+    A: 'Acentuación general',
+    T: 'Tilde diacrítica en monosílabos'
   };
-  const ORTHOGRAPHY_ROUNDS=['A','B'];
+  const ORTHOGRAPHY_ROUNDS=['A','B','C','D'];
+  const extraOrthographyRounds=new Set(['J','A','T']);
+  function orthographyRounds(block){return extraOrthographyRounds.has(block)?ORTHOGRAPHY_ROUNDS:ORTHOGRAPHY_ROUNDS.slice(0,2);}
   const ORTHOGRAPHY_SKILLS=new Set(['LEN-DIP-HIA','LEN-GJ','LEN-BV','LEN-CSZ','LEN-ACENT','LEN-DIAC']);
   function completedOrthographyRounds(profile,block){
     return new Set((profile?.history||[])
       .filter(event=>event.type==='desafios_ortografia' &&
-        event.orthographyBlockId===block && ORTHOGRAPHY_ROUNDS.includes(event.roundId))
+        event.orthographyBlockId===block && orthographyRounds(block).includes(event.roundId))
       .map(event=>event.roundId));
   }
   function nextOrthographyRound(profile,block){
     const completed=completedOrthographyRounds(profile,block);
-    return ORTHOGRAPHY_ROUNDS.find(round=>!completed.has(round))||null;
+    return orthographyRounds(block).find(round=>!completed.has(round))||null;
   }
   function renderOrthographyEntries(){
     if(!activeMode)return;
@@ -1101,7 +1105,7 @@
       const hasPartial=round&&(profile?.evidence||[])
         .some(event=>String(event.exerciseId||'').startsWith(prefix));
       label.textContent=!individual?'Elegí un perfil individual para guardar el recorrido.'
-        :!round?'Completaste los dos circuitos de este bloque.'
+        :!round?'Completaste los '+orthographyRounds(block).length+' circuitos de este bloque.'
         :hasPartial?'Retomá el circuito '+round+' desde el desafío pendiente.'
         :'Circuito '+round+' · 7 ejercicios originales.';
     });
@@ -1109,7 +1113,7 @@
       const block=btn.dataset.startOrtho;
       const round=individual?nextOrthographyRound(profile,block):null;
       btn.disabled=!ORTHOGRAPHY_BLOCKS[block]||!round;
-      btn.title=!individual?'Este entrenamiento es individual.':!round?'Los dos circuitos están completos.':'';
+      btn.title=!individual?'Este entrenamiento es individual.':!round?'Los circuitos están completos.':'';
     });
   }
   function startOrthographyChallenges(block){
@@ -1119,7 +1123,7 @@
     const engine=window.IngresoFractionChallenges;
     if(!engine)return toast('No se pudo cargar el motor interactivo. Recargá la aplicación.');
     const pid=primaryProfileId(),profile=state.profiles[pid],round=nextOrthographyRound(profile,block);
-    if(!round)return toast('Ya completaste los dos circuitos de este bloque.');
+    if(!round)return toast('Ya completaste los circuitos de este bloque.');
     const prefix='MO26-'+block+'-'+round+'-';
     const priorById=new Map();
     for(const row of profile.evidence||[]){
@@ -1157,7 +1161,8 @@
     }).catch(error=>{console.error('[Desafíos ortografía]',error);toast('No se pudieron abrir los desafíos de ortografía.');});
   }
   function recordOrthographyAttempt(pid,result){
-    const match=/^MO26-([DJBAT])-[AB]-0[1-7]$/.exec(result.id||'');
+    const match=/^MO26-([DJBAT])-([ABCD])-0[1-7]$/.exec(result.id||'');
+    if(match&&!orthographyRounds(match[1]).includes(match[2]))return;
     if(!match||match[1]!==result.orthographyBlock||!ORTHOGRAPHY_SKILLS.has(result.skill))return;
     if(!['autonoma','ayuda','revisar'].includes(result.status))return;
     const profile=state.profiles[pid],engine=window.IngresoPedagogy;
