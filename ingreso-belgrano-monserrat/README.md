@@ -193,3 +193,17 @@ La V6.18 usa un caché versionado propio e incluye `pedagogy-v6-18.js`, `simulac
 5. Cambiar al otro perfil y al modo visitante; comprobar aislamiento y persistencia.
 6. Verificar en móvil la selección táctil de segmentos y que los recursos se carguen offline tras la primera visita.
 7. Revisar evidencias `origin='desafios_modelo_representaciones'` / `origin='desafios_modelo_perimetros'` en el panel adulto; las niñas nunca deben ver porcentajes de dominio.
+ 
+
+## Pestaña Desafíos: acceso unificado y reparación de clics (V6.30)
+
+El problema observado en la versión anterior era una línea del enlazador de eventos que ejecutaba `$('[data-start-fractions]').forEach(...)`. El selector `$` devuelve un solo elemento, no una lista; llamar a `.forEach` lanzaba una excepción que interrumpía la inicialización del resto de botones.
+
+- **Accesos reunidos:** nueva pestaña **Desafíos**, visible en navegación lateral de escritorio y barra inferior del celular. Muestra tres bloques independientes: Fracciones (8 tandas), Representaciones (2 circuitos) y Perímetros (2 circuitos). Inicio y Entrenar muestran solo accesos a esa pestaña, evitando duplicación de tarjetas y fuentes de error.
+- **Mismo motor de práctica:** no se modifican las consignas, los 56+28 ejercicios existentes, la interacción visual, las pistas ni la corrección por ejercicio.
+- **Eventos robustos:** los botones `data-start-fractions` y `data-start-model` usan una sola delegación de eventos instalada a nivel de documento, al cargar `app.js`; ya no dependen de que `bindUI()` recorra cada botón de forma correcta.
+- **Progreso por estudiante y por bloque:** cada perfil conserva su tanda/circuito pendiente, sus evidencias y su historial. Ninguna tabla SQL ni política de Supabase cambia.
+- **Prueba de regresión:** `node --test ingreso-belgrano-monserrat/tests/desafios-smoke.test.cjs` verifica la estructura del menú y la pestaña, sintaxis, inicialización de `bindUI()`, apertura de los tres bloques, avance independiente por perfil y clics en botones deshabilitados. El workflow `.github/workflows/ingreso-desafios.yml` ejecuta la prueba en pull requests y en main.
+- **Caché PWA:** versión 6.30.0 con nueva clave de caché; no pide borrar datos locales ni reiniciar perfiles.
+
+Prueba manual posterior al merge: confirmar Versión 6.30.0, entrar a «Desafíos», abrir Fracciones, Representaciones y Perímetros; comprobar navegación desde Inicio/Entrenar y en móvil; solicitar una pista, resolver, cerrar/reanudar y confirmar que los perfiles siguen aislados.
