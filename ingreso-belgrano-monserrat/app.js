@@ -33,13 +33,23 @@
   const $ = (s, root = document) => root.querySelector(s);
   const $$ = (s, root = document) => [...root.querySelectorAll(s)];
 
+  // Delegación permanente: evita que un selector de un solo elemento rompa todos
+  // los accesos a desafíos, aunque cambie la ubicación de los botones.
+  document.addEventListener('click', event => {
+    const button = event.target?.closest?.('[data-start-fractions], [data-start-model]');
+    if (!button || button.disabled) return;
+    event.preventDefault();
+    if (button.hasAttribute('data-start-fractions')) startFractionChallenges();
+    else startModelChallenges(button.dataset.startModel);
+  });
+
   document.addEventListener('DOMContentLoaded', init);
 
   async function init() {
     try {
       // La URL cambia con la versión: evita que un service worker anterior entregue
       // habilidades sin videos durante la primera visita tras una actualización.
-      const releaseVersion = document.querySelector('meta[name="app-version"]')?.content || '6.29.0';
+      const releaseVersion = document.querySelector('meta[name="app-version"]')?.content || '6.30.0';
       const [skillsData, exerciseData] = await Promise.all([
         fetch(`./data/habilidades.json?v=${encodeURIComponent(releaseVersion)}`, { cache: 'no-store' }).then(r => { if (!r.ok) throw new Error('habilidades'); return r.json(); }),
         fetch('./data/ejercicios.json').then(r => { if (!r.ok) throw new Error('ejercicios'); return r.json(); })
@@ -57,7 +67,7 @@
     refreshGateNames();
     restoreActiveContext();
     setupSupabase();
-    if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js?v=6.29.0').catch(() => {});
+    if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js?v=6.30.0').catch(() => {});
   }
 
   function bindUI() {
@@ -66,8 +76,8 @@
     $('#active-profile').addEventListener('click', leaveProfile);
     $$('[data-nav]').forEach(btn => btn.addEventListener('click', e => { e.preventDefault(); navigate(btn.dataset.nav); }));
     $('#start-recommended').addEventListener('click', startRecommended);
-    $('[data-start-fractions]').forEach(button => button.addEventListener('click', startFractionChallenges));
-    $$('[data-start-model]').forEach(button => button.addEventListener('click', () => startModelChallenges(button.dataset.startModel)));
+    // Los accesos a Desafíos se atienden por delegación en document:
+    // no dependen de la ubicación de las tarjetas ni de que bindUI llegue hasta aquí.
     $('#start-diagnostic').addEventListener('click', () => startSession({ type: 'diagnostico', area: 'all', origin: 'manual' }));
     $$('[data-practice]').forEach(btn => btn.addEventListener('click', () => startSession({ type: 'practica', area: btn.dataset.practice, origin: 'manual' })));
     $$('[data-sim-school]').forEach(btn => btn.addEventListener('click', () => startSession({ type: 'simulacro', area: btn.dataset.simArea, school: btn.dataset.simSchool, origin: 'simulacro' })));
@@ -330,6 +340,7 @@
     $$('.view').forEach(v => v.classList.toggle('active', v.dataset.view === view));
     $$('.nav-button, .mobile-nav button').forEach(b => b.classList.toggle('active', b.dataset.nav === view));
     if (view === 'contenidos') renderSkills($('.chip.active')?.dataset.skillFilter || 'all');
+    if (view === 'desafios' && activeMode) { renderFractionEntry(); renderModelEntries(); }
     if (view === 'progreso') renderProgress();
     if (view === 'videos') renderVideos();
     if (view === 'familia') renderFamily();
