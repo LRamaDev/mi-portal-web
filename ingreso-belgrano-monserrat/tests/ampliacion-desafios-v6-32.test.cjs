@@ -149,3 +149,95 @@ test('se conserva el módulo de fracciones y el de representaciones',async()=>{
   assert.match(surface.innerHTML,/Reconocer lo sombreado/);
   window.IngresoFractionChallenges.close();
 });
+
+
+test('al completar A/B en G/J y acentuación se habilita C, sin mezclar los perfiles',()=>{
+  const listeners=new Map(),nodes=new Map();
+  function node(k){
+    if(!nodes.has(k))nodes.set(k,{
+      textContent:'',title:'',disabled:false,dataset:{},
+      addEventListener(){},classList:{add(){},remove(){},toggle(){}},
+      hasAttribute(attr){return attr==='data-start-ortho'&&Boolean(this.dataset.startOrtho);}
+    });
+    return nodes.get(k);
+  }
+  const labels=['J','A','T','D','B'].map(k=>{const n=node('status'+k);n.dataset.orthoStatus=k;return n});
+  const btns=['J','A','T','D','B'].map(k=>{const n=node('btn'+k);n.dataset.startOrtho=k;return n});
+  const modelLabels=['R','P','C','F'].map(k=>{const n=node('mstatus'+k);n.dataset.modelStatus=k;return n});
+  const modelBtns=['R','P','C','F'].map(k=>{const n=node('mbtn'+k);n.dataset.startModel=k;return n});
+  const document={
+    addEventListener(type,callback){
+      if(!listeners.has(type))listeners.set(type,[]);
+      listeners.get(type).push(callback);
+    },
+    querySelector:node,
+    querySelectorAll(sel){
+      if(sel==='[data-ortho-status]')return labels;
+      if(sel==='[data-start-ortho]')return btns;
+      if(sel==='[data-model-status]')return modelLabels;
+      if(sel==='[data-start-model]')return modelBtns;
+      return [];
+    }
+  };
+  const makeProfile=()=>({name:'Perfil',history:[],evidence:[],progress:{},pendingEvidence:[],sessions:0});
+  const initial={profiles:{p1:makeProfile(),p2:makeProfile()}};
+  for(const round of ['A','B'])for(const block of ['J','A','T']){
+    initial.profiles.p1.history.push({
+      type:'desafios_ortografia',orthographyBlockId:block,roundId:round,at:1
+    });
+  }
+  for(const round of ['A','B'])initial.profiles.p1.history.push({
+    type:'desafios_ortografia',orthographyBlockId:'D',roundId:round,at:1
+  });
+  const localStorage={
+    getItem:key=>key==='ingreso-belgrano-monserrat-v1'?JSON.stringify(initial):null,
+    setItem(){},removeItem(){}
+  };
+  const opens=[];
+  const window={
+    addEventListener(){}, INGRESO_ACCESS_MODE:'family',
+    IngresoFractionChallenges:{open:async args=>opens.push({
+      block:args.block||null,orthographyBlock:args.orthographyBlock||null,
+      round:args.round
+    })}
+  };
+  const anchor='  function startRecommended() {';
+  assert.ok(app.includes(anchor));
+  const instrument=[
+    '  window.__roundTest={',
+    '    setMode:m=>{activeMode=m;},',
+    '    model:renderModelEntries,',
+    '    ortho:renderOrthographyEntries,',
+    '    complete:(pid,b,r)=>state.profiles[pid].history.push({',
+    "       type:'desafios_ortografia',orthographyBlockId:b,roundId:r,at:1",
+    '    })',
+    '  };',
+    anchor
+  ].join('\n');
+  vm.runInNewContext(app.replace(anchor,instrument),{window,document,localStorage,console});
+  const testApp=window.__roundTest;
+  function click(btn){
+    for(const callback of listeners.get('click')||[]){
+      callback({target:{closest:()=>btn},preventDefault(){}});
+    }
+  }
+  testApp.setMode('p1');testApp.ortho();testApp.model();
+  for(const b of ['J','A','T']) {
+    const btn=node('btn'+b);
+    assert.equal(btn.disabled,false,b);
+    click(btn);
+    assert.equal(opens.at(-1).round,'C',b);
+  }
+  assert.equal(node('btnD').disabled,true,'Diptongo has only A/B');
+  click(node('mbtnC'));assert.deepEqual(opens.at(-1),{
+    block:'C',orthographyBlock:null,round:'A'
+  });
+  click(node('mbtnF'));assert.equal(opens.at(-1).round,'A');
+  testApp.complete('p1','J','C');testApp.ortho();click(node('btnJ'));
+  assert.equal(opens.at(-1).round,'D');
+  testApp.setMode('p2');testApp.ortho();click(node('btnJ'));
+  assert.equal(opens.at(-1).round,'A');
+  testApp.setMode('together');testApp.ortho();testApp.model();
+  assert.equal(btns.every(btn=>btn.disabled),true);
+  assert.equal(modelBtns.every(btn=>btn.disabled),true);
+});
