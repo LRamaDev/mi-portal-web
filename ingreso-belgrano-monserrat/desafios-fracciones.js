@@ -70,6 +70,129 @@
     return `<div class="fraction-unit"><p>Las primeras ${task.given} fichas ya están dadas. Agregá las que faltan.</p><div class="fraction-circles">${Array.from({length:task.given+session.added},(_,i) =>
       `<span class="fraction-circle${i>=task.given?' fraction-circle-added':''}" aria-label="${i>=task.given?'Ficha agregada':'Ficha dada'}"></span>`).join('')}</div><div class="fraction-stepper"><button type="button" id="fraction-minus" aria-label="Quitar ficha">−</button><output>${session.added} agregadas</output><button type="button" id="fraction-plus" aria-label="Agregar ficha">+</button></div></div>`;
   }
+
+  // Nuevos bloques del modelo: el mismo diálogo, controles, pistas, revisión
+  // y sistema de resultados que las tandas de fracciones originales.
+  function modelGrid(task) {
+    const cols = task.cells > 12 ? 4 : task.cells % 5 === 0 ? 5 : 4;
+    const rows = Math.ceil(task.cells / cols);
+    const w = cols*48+16, h = rows*48+16;
+    let cells = '';
+    for(let i=0;i<task.cells;i++){
+      const x=8+i%cols*48, y=8+Math.floor(i/cols)*48;
+      const full = task.kind === 'visual-half' ? Math.floor(task.shadedHalves/2) > i : task.shaded > i;
+      const half = task.kind === 'visual-half' && Math.floor(task.shadedHalves/2) === i && task.shadedHalves % 2 === 1;
+      cells += `<rect x="${x}" y="${y}" width="48" height="48" fill="${full?'#79b8ed':'#fff'}" stroke="#3e5976" stroke-width="2"></rect>`;
+      if(half) cells += `<path d="M${x} ${y} L${x+48} ${y} L${x} ${y+48} Z" fill="#79b8ed" stroke="#3e5976" stroke-width="1"></path>`;
+    }
+    return `<div class="model-grid"><svg viewBox="0 0 ${w} ${h}" role="img" aria-label="Figura de ${task.cells} cuadrados iguales, con zonas pintadas">${cells}</svg></div>`;
+  }
+  function modelPaint(task) {
+    const cols=task.cells>12?4:4, rows=Math.ceil(task.cells/cols);
+    return `<div class="model-grid"><svg viewBox="0 0 208 ${rows*48+16}" role="group" aria-label="Cuadrícula para pintar">
+      ${Array.from({length:task.cells},(_,i)=>cell(i,'rect',
+        `x="${8+i%cols*48}" y="${8+Math.floor(i/cols)*48}" width="48" height="48"`,
+        `Cuadrado ${i+1}`)).join('')}</svg></div>`;
+  }
+  function modelChips(task) {
+    const group=(name,count)=>`<div class="model-chip-group"><strong>Fila ${name}: ${count} fichas</strong>
+      <div class="model-chips">${Array.from({length:count},(_,i)=>
+        `<span class="model-chip" aria-label="Ficha ${i+1}"></span>`).join('')}</div></div>`;
+    return `<div class="model-chip-compare">${group('A',task.top)}${group('B',task.bottom)}</div>`;
+  }
+  function modelWord(task) {
+    return `<div class="model-word" role="group" aria-label="Palabra ${esc(task.word)}">
+      ${[...task.word].map(ch=>`<span>${esc(ch)}</span>`).join('')}</div>`;
+  }
+  function modelSegments(figure) {
+    const segments=[];
+    const add=(a,b,outer=true)=>segments.push({a,b,outer});
+    let fill='';
+    if(figure==='joined'){
+      fill='<path d="M35 30 H145 V30 H200 V85 H145 V150 H35 Z" fill="#dceafb" stroke="none"></path>';
+      const pts=[[35,30],[145,30],[200,30],[200,85],[145,85],[145,150],[35,150]];
+      for(let i=0;i<pts.length;i++)add(pts[i],pts[(i+1)%pts.length]);
+      add([145,30],[145,85],false);
+    } else if(figure==='square-hole'){
+      fill='<path d="M45 25 H185 V165 L115 43 L45 165 Z" fill="#dceafb" stroke="none"></path>';
+      add([45,25],[185,25]);add([185,25],[185,165]);add([185,165],[115,43]);
+      add([115,43],[45,165]);add([45,165],[45,25]);
+      add([45,165],[185,165],false);
+    } else if(figure==='rectangle-join'){
+      fill='<path d="M35 25 H150 V70 H230 V130 H150 V160 H35 Z" fill="#dceafb" stroke="none"></path>';
+      const pts=[[35,25],[150,25],[150,70],[230,70],[230,130],[150,130],[150,160],[35,160]];
+      for(let i=0;i<pts.length;i++)add(pts[i],pts[(i+1)%pts.length]);
+      add([150,70],[150,130],false);
+    } else if(figure==='hex-wings'){
+      fill='<path d="M26 45 L102 68 L158 68 L236 45 L186 120 L158 170 L102 170 L74 120 Z" fill="#dceafb" stroke="none"></path>';
+      const pts=[[26,45],[102,68],[158,68],[236,45],[186,120],[158,170],[102,170],[74,120]];
+      for(let i=0;i<pts.length;i++)add(pts[i],pts[(i+1)%pts.length]);
+      add([102,68],[74,120],false);
+      add([158,68],[186,120],false);
+    }
+    return {fill,segments};
+  }
+  function modelFigure(task) {
+    const {fill,segments}=modelSegments(task.figure);
+    const selectable=task.kind==='perimeter-select';
+    return `<div class="model-perimeter-figure">
+      <svg viewBox="0 0 280 205" role="${selectable?'group':'img'}" aria-label="Figura geométrica ${selectable?'con segmentos seleccionables':'de referencia, no a escala'}">
+        ${fill}
+        ${segments.map((part,i) =>
+          `<line x1="${part.a[0]}" y1="${part.a[1]}" x2="${part.b[0]}" y2="${part.b[1]}"
+             class="${selectable?'model-select-edge':'model-static-edge'}"
+             ${selectable?`data-fraction-cell="${i}" tabindex="0" role="button" aria-label="Tramo ${i+1}" aria-pressed="false"`:''}></line>`).join('')}
+      </svg>
+      <p>${selectable?'Tocá los tramos del borde que correspondan. Podés seleccionar varios.':'Esquema de la figura (no está a escala).'}</p>
+    </div>`;
+  }
+  function modelBoard(task) {
+    if(['visual-read','visual-half'].includes(task.kind))return modelGrid(task) + modelFractionInput();
+    if(task.kind==='visual-compare')return modelChips(task) + modelFractionInput();
+    if(task.kind==='visual-word')return modelWord(task) + modelFractionInput();
+    if(task.kind==='visual-paint')return modelPaint(task);
+    if(task.kind==='perimeter-select')return modelFigure(task);
+    if(task.kind==='perimeter-number')return modelFigure(task)+`<div class="fraction-fields">
+       <label>Perímetro exterior (${esc(task.unit)})<input id="fraction-ans1" type="text" inputmode="numeric" autocomplete="off" placeholder="Escribí la medida"></label></div>`;
+    if(task.kind==='perimeter-pair')return modelFigure(task)+`<div class="fraction-fields">
+       <label>${esc(task.question1)}<input id="fraction-ans1" type="text" inputmode="numeric" autocomplete="off"></label>
+       <label>${esc(task.question2)}<input id="fraction-ans2" type="text" inputmode="numeric" autocomplete="off"></label></div>`;
+    return '';
+  }
+  function modelFractionInput(){
+    return '<div class="fraction-fields"><label>Escribí la fracción que corresponde<input id="fraction-ans1" type="text" inputmode="text" placeholder="Por ejemplo: 3/4" autocomplete="off"></label></div>';
+  }
+  function modelEvaluate(task) {
+    if(['visual-read','visual-half','visual-compare','visual-word'].includes(task.kind)){
+      const f=readFraction();
+      if(!f)return {valid:false};
+      return {valid:true,correct:f[0]*task.expected[1]===task.expected[0]*f[1],
+        reason:'Revisá qué cantidad se toma como unidad de referencia, qué se cuenta y si tu fracción es equivalente.'};
+    }
+    if(task.kind==='visual-paint'){
+      return {valid:session.selection.size>0,correct:session.selection.size===task.paint,
+        reason:`Pintaste ${session.selection.size} cuadrados. Revisá cuántos representa la fracción solicitada.`};
+    }
+    if(task.kind==='perimeter-select'){
+      const segments=modelSegments(task.figure).segments;
+      const expected=segments.map((p,i)=>p.outer?i:-1).filter(i=>i>=0);
+      const correct=expected.length===session.selection.size && expected.every(i=>session.selection.has(i));
+      return {valid:session.selection.size>0,correct,reason:'Seguí el borde de la región solicitada y revisá si marcaste algún segmento interior o te falta algún tramo exterior.'};
+    }
+    if(task.kind==='perimeter-number'){
+      const answer=readNumber('ans1');
+      return {valid:answer!==null,correct:answer===task.expected,
+        reason:'Revisá las medidas de los lados del contorno. Los bordes compartidos no se suman al perímetro exterior.'};
+    }
+    if(task.kind==='perimeter-pair'){
+      const first=readNumber('ans1'),second=readNumber('ans2');
+      return {valid:first!==null && second!==null,
+        correct:first===task.expected[0]&&second===task.expected[1],
+        reason:first!==task.expected[0]?'Primero hallá cuánto mide el lado chico usando la relación entre los cuadrados.':'La medida del lado chico está bien. Revisá el tramo compartido al calcular el perímetro exterior.'};
+    }
+    return {valid:false};
+  }
+
   function board(task) {
     if (task.kind === 'discs') return discs();
     if (task.kind === 'squares') return squares();
@@ -83,6 +206,7 @@
     </div>`;
     if (task.kind === 'remainder' || task.kind === 'fractioninput') return `<div class="fraction-fields"><label>${esc(task.question || '¿Qué fracción se obtuvo?')}<input id="fraction-ans1" type="text" inputmode="text" placeholder="Por ejemplo: 3/8" autocomplete="off"></label></div>`;
     if (task.kind === 'number') return `<div class="fraction-fields"><label>${esc(task.question || '¿Cuál es el total?')}<input id="fraction-ans1" type="text" inputmode="numeric" placeholder="Escribí un número" autocomplete="off"></label></div>`;
+    if(task.block) return modelBoard(task);
     return '';
   }
   function taskNow() { return session?.tasks[session.index]; }
@@ -107,6 +231,8 @@
       const tick = [...session.selection][0];
       return tick === undefined ? 'Elegí un punto de la recta.' : `Marcaste ${tick}/${task.denominator}.`;
     }
+    if (task.kind === 'visual-paint') return `Pintaste ${session.selection.size} cuadrados.`;
+    if (task.kind === 'perimeter-select') return `Marcaste ${session.selection.size} tramos del contorno.`;
     return `Pintaste ${session.selection.size} partes.`;
   }
   function toggleCell(i) {
@@ -131,7 +257,7 @@
     if (!task) return showSummary();
     session.selection=new Set(); session.added=0; session.attempts=0; session.hints=0;
     session.locked=false; session.startedAt=Date.now();
-    app.innerHTML=`<div class="fraction-progress"><span>Desafío ${session.index+1} de ${session.tasks.length}</span><span>Tanda ${esc(session.round)}</span></div>
+    app.innerHTML=`<div class="fraction-progress"><span>Desafío ${session.index+1} de ${session.tasks.length}</span><span>${session.block?'Circuito':'Tanda'} ${esc(session.round)}</span></div>
       <div class="fraction-track"><span style="width:${session.results.size/session.tasks.length*100}%"></span></div>
       <p class="eyebrow">${esc(task.title)}</p><h2>${esc(task.prompt)}</h2>
       <div id="fraction-board" class="fraction-board">${board(task)}</div>
@@ -142,7 +268,7 @@
     const next=app.querySelector('#fraction-next');
     next.hidden=true;
     const count=app.querySelector('#fraction-selected-count');
-    count.textContent=['discs','squares','mixed','triangles','line'].includes(task.kind)?countLabel():'';
+    count.textContent=['discs','squares','mixed','triangles','line','visual-paint','perimeter-select'].includes(task.kind)?countLabel():'';
     app.querySelector('#fraction-check').onclick=check;
     app.querySelector('#fraction-hint').onclick=hint;
     next.onclick=advance;
@@ -167,6 +293,7 @@
     return match && Number(match[2])>0?[Number(match[1]),Number(match[2])]:null;
   }
   function evaluate(t) {
+    if(t.block) return modelEvaluate(t);
     const sel=session.selection;
     if(t.kind==='line') {
       const tick=[...sel][0];
@@ -230,7 +357,7 @@
   function steps(t) { return `<ol class="fraction-steps">${t.steps.map(s=>`<li>${esc(s)}</li>`).join('')}</ol>`; }
   function storeResult(status) {
     const task=taskNow();
-    const result={id:task.id,round:session.round,status,skill:task.skill,difficulty:task.difficulty,durationMs:Math.max(0,Date.now()-session.startedAt)};
+    const result={id:task.id,round:session.round,block:session.block||null,status,skill:task.skill,difficulty:task.difficulty,durationMs:Math.max(0,Date.now()-session.startedAt)};
     session.results.set(task.id,result);
     try{session.onResult(result);}catch(err){console.error('[Desafíos] Error al guardar resultado',err);}
   }
@@ -275,7 +402,7 @@
     if(!session)return;
     const results=[...session.results.values()], count=status=>results.filter(r=>r.status===status).length;
     const names={autonoma:'✓ Sin ayuda',ayuda:'↗ Con ayuda',revisar:'↺ Para revisar'};
-    app.innerHTML=`<p class="eyebrow">Tanda ${esc(session.round)} completada</p><h2>¡Terminaste los desafíos!</h2>
+    app.innerHTML=`<p class="eyebrow">${session.block?"Circuito":"Tanda"} ${esc(session.round)} completado</p><h2>¡Terminaste los desafíos!</h2>
       <p>Este resumen es de la práctica realizada: no representa una calificación ni un porcentaje de dominio.</p>
       <div class="fraction-summary"><div><strong>${count('autonoma')}</strong><span>Sin ayuda</span></div><div><strong>${count('ayuda')}</strong><span>Con ayuda</span></div><div><strong>${count('revisar')}</strong><span>Para revisar</span></div></div>
       <ul class="fraction-summary-list">${session.tasks.map(t=>`<li><span>${esc(t.title)}</span><b>${names[session.results.get(t.id)?.status]||'Pendiente'}</b></li>`).join('')}</ul>
@@ -284,32 +411,38 @@
     app.querySelector('#fraction-finish').onclick=close;
     if(!session.completeNotified){
       session.completeNotified=true;
-      try{session.onComplete({round:session.round,results});}catch(err){console.error('[Desafíos] Error al registrar la sesión',err);}
+      try{session.onComplete({round:session.round,block:session.block||null,results});}catch(err){console.error('[Desafíos] Error al registrar la sesión',err);}
     }
   }
   function close() {
     if(dialog.open)dialog.close();
     session=null;
+    document.getElementById('fraction-challenge-title').textContent='Desafíos de ingreso: Fracciones';
   }
   if(dialog&&app&&closeButton){
     closeButton.addEventListener('click',close);
     dialog.addEventListener('cancel',event=>{event.preventDefault();close();});
   }
-  async function open({round='A',prior=[],onResult=()=>{},onComplete=()=>{}}={}) {
+  async function open({round='A',block=null,prior=[],onResult=()=>{},onComplete=()=>{}}={}) {
     if(!dialog||!app||loading||dialog.open||!['A','B','C','D','E','F','G','H'].includes(round))return;
+    if(block!==null && !['R','P'].includes(block))return;
+    if(block && !['A','B'].includes(round))return;
     loading=true;
     dialog.showModal();
     app.innerHTML='<p role="status">Cargando los desafíos…</p>';
     try{
       const version=document.querySelector('meta[name="app-version"]')?.content || '6.28.0';
-      const response=await fetch('./data/desafios-fracciones.json?v='+encodeURIComponent(version));
+      const source=block?'./data/desafios-modelo.json':'./data/desafios-fracciones.json';
+      const response=await fetch(source+'?v='+encodeURIComponent(version));
       if(!response.ok)throw new Error('No se pudo cargar el banco de desafíos');
-      const data=await response.json(), tasks=data.rounds?.[round];
+      const data=await response.json();
+      const tasks=block ? data.blocks?.[block]?.rounds?.[round] : data.rounds?.[round];
+      document.getElementById('fraction-challenge-title').textContent=block?'Desafíos de ingreso: '+(data.blocks?.[block]?.label||'Práctica por bloques'):'Desafíos de ingreso: Fracciones';
       if(!Array.isArray(tasks)||tasks.length!==7||new Set(tasks.map(t=>t.id)).size!==7)throw new Error('Banco de desafíos incompleto');
       if(!dialog.open)return;
       const taskIds=new Set(tasks.map(t=>t.id));
       const results=new Map(prior.filter(r=>taskIds.has(r.id)&&['autonoma','ayuda','revisar'].includes(r.status)).map(r=>[r.id,r]));
-      session={round,tasks,index:0,results,onResult,onComplete,selection:new Set(),added:0,attempts:0,hints:0,locked:false,completeNotified:false,startedAt:0};
+      session={round,block,tasks,index:0,results,onResult,onComplete,selection:new Set(),added:0,attempts:0,hints:0,locked:false,completeNotified:false,startedAt:0};
       while(session.index<tasks.length&&results.has(tasks[session.index].id))session.index++;
       if(session.index===tasks.length)showSummary();else showTask();
     }catch(error){
