@@ -153,7 +153,10 @@ test('los datos adicionales se precachean con la versión y ambos correctores ca
   const version = html.match(/meta name="app-version" content="([^"]+)"/)[1];
   const dataUrl = `./data/ejercicios-prioridades-octubre.json?v=${version}`;
   assert.ok(sw.includes(dataUrl));
-  assert.ok(read('banco-v6-21.js').includes(dataUrl));
+  const bankModule = read('banco-v6-21.js');
+  // La URL se construye dinámicamente desde la versión del meta HTML.
+  assert.match(bankModule, /ejercicios-prioridades-octubre\.json\?v=/);
+  assert.match(bankModule, /app-version/);
   for (const file of ['banco-v6-21.js', 'respuestas-v6-21.js']) {
     assert.ok(html.indexOf(`./${file}?`) < html.indexOf('./app.js?'));
     assert.ok(sw.includes(`./${file}?v=${version}`));

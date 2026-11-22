@@ -207,3 +207,26 @@ El problema observado en la versión anterior era una línea del enlazador de ev
 - **Caché PWA:** versión 6.30.0 con nueva clave de caché; no pide borrar datos locales ni reiniciar perfiles.
 
 Prueba manual posterior al merge: confirmar Versión 6.30.0, entrar a «Desafíos», abrir Fracciones, Representaciones y Perímetros; comprobar navegación desde Inicio/Entrenar y en móvil; solicitar una pista, resolver, cerrar/reanudar y confirmar que los perfiles siguen aislados.
+
+
+## Lengua · Desafíos de Ortografía (V6.31)
+
+**Fuente pedagógica:** «Examen Lengua.pdf», prueba de ingreso **2026** del Colegio Nacional de Monserrat, apartado I «Ortografía» (18 puntos), **páginas 2 y 3**, consignas I.1–I.5. Los ejercicios de la aplicación son nuevos, no transcripciones de las respuestas del examen.
+
+Se conserva **exactamente el recorrido interactivo de Matemática** (7 desafíos por circuito, 2 pistas graduales, corrección inmediata, posibilidad de revisión, explicación en tres pasos y resumen por autonomía). El banco `data/desafios-ortografia.json` tiene **70 consignas originales**: cinco bloques con dos circuitos A/B de siete ejercicios cada uno.
+
+| Bloque | Tipo de consigna del examen | Modalidad interactiva |
+|---|---|---|
+| D | I.1: diptongo o hiato | Clasificar una palabra; pista de separación silábica |
+| J | I.2: oración correcta o incorrecta | Detectar error de G/J y, si existe, escribir la palabra corregida |
+| B | I.3: completar B/V/C/S/Z | Escribir una palabra completa con la letra correcta dentro de una oración |
+| A | I.4: palabra que necesita tilde | Seleccionar una palabra de cuatro **y escribirla acentuada** |
+| T | I.5: tilde diacrítica | Elegir la forma correcta a partir del significado en una oración |
+
+**Criterio de práctica:** la repetición es intencional, los problemas usan vocabulario y contextos distintos a los ya resueltos, y se alterna reconocimiento con producción escrita. No se permite dar por correcta una palabra sin tilde si la tilde es obligatoria. Tampoco se considera completa la clasificación de una oración incorrecta sin escribir la palabra corregida. Las explicaciones se ofrecen al finalizar o como segunda ayuda.
+
+**Integración técnica:** reusa `IngresoFractionChallenges.open({orthographyBlock,round,...})` sobre el mismo diálogo existente y la misma interfaz. `app.js` habilita cinco tarjetas nuevas en la pestaña **Desafíos**, bajo «Lengua · Ortografía», con eventos delegados resistentes a la reorganización de la página. Cada perfil tiene su propia secuencia A→B por bloque, con continuidad por `MO26-[DJBAT]-[AB]-0x`, seguimiento pedagógico por habilidades `LEN-DIP-HIA`, `LEN-GJ`, `LEN-BV`, `LEN-CSZ`, `LEN-ACENT` y `LEN-DIAC`. La base de Supabase no necesita migraciones.
+
+**Verificación automatizada:** `node --test ingreso-belgrano-monserrat/tests/desafios-smoke.test.cjs ingreso-belgrano-monserrat/tests/ortografia-smoke.test.cjs` dentro del flujo CI de Desafíos. Revisa banco, corrección de los 70 ejercicios y 70 respuestas incorrectas, pistas, retroalimentación, regreso a Matemática, activación de botones y separación de perfiles. Versión/caché PWA **6.31.0**.
+
+**Prueba manual tras fusionar:** actualizar hasta ver versión 6.31.0, ir a Desafíos → Lengua · Ortografía; abrir cada bloque desde Perfil A y Perfil V; comprobar el uso táctil de las opciones, la escritura con tildes, el mensaje de error y las pistas; cerrar/reanudar un circuito y verificar que el otro perfil permanece intacto.
