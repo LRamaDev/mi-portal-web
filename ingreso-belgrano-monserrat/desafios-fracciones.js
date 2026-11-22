@@ -146,7 +146,104 @@
       <p>${selectable?'Tocá los tramos del borde que correspondan. Podés seleccionar varios.':'Esquema de la figura (no está a escala).'}</p>
     </div>`;
   }
+
+  // Circunferencia y comparación de fracciones: nuevas actividades en el mismo
+  // modal y circuito de siete desafíos, sin reemplazar el banco existente.
+  const circleParts=['centro','radio','diametro','cuerda','arco','circunferencia'];
+  const circleDescriptions=[
+    'Un punto destacado en el centro',
+    'Un segmento del centro al borde',
+    'Un segmento que atraviesa el centro y une dos puntos del borde',
+    'Un segmento entre dos puntos del borde sin pasar por el centro',
+    'Un tramo curvo del borde',
+    'Toda la línea curva del borde'
+  ];
+  function circleDiagram(part) {
+    const start='<svg viewBox="0 0 120 120" role="img" aria-hidden="true"><circle cx="60" cy="60" r="38" fill="#f5faff" stroke="#8ba9c2" stroke-width="2"/>';
+    const marks={
+      centro:'<circle cx="60" cy="60" r="6" fill="#c26e25"/>',
+      radio:'<path d="M60 60 L98 60" stroke="#c26e25" stroke-width="5"/><circle cx="60" cy="60" r="3" fill="#25455e"/>',
+      diametro:'<path d="M22 60 L98 60" stroke="#c26e25" stroke-width="5"/><circle cx="60" cy="60" r="3" fill="#25455e"/>',
+      cuerda:'<path d="M30 37 L90 37" stroke="#c26e25" stroke-width="5"/>',
+      arco:'<path d="M60 22 A38 38 0 0 1 98 60" fill="none" stroke="#c26e25" stroke-width="6"/>',
+      circunferencia:'<circle cx="60" cy="60" r="38" fill="none" stroke="#c26e25" stroke-width="6"/>'
+    };
+    return start+marks[part]+'</svg>';
+  }
+  function circlePick() {
+    return '<div class="circle-pick-grid" role="group" aria-label="Elegí uno de los dibujos">' +
+      circleParts.map((part,i)=>'<button type="button" data-orth-option="'+i+
+        '" class="circle-pick-choice" aria-label="Dibujo '+(i+1)+': '+esc(circleDescriptions[i])+
+        '" aria-pressed="false">'+circleDiagram(part)+'<span>Dibujo '+(i+1)+'</span></button>').join('')+
+      '</div>';
+  }
+  function circleMeasure(task){
+    const radius=task.givenKind==='radio',kind=radius?'radio':'diámetro';
+    const line=radius?'<path d="M75 73 L150 73" stroke="#c26e25" stroke-width="4" stroke-linecap="round"/>':
+      '<path d="M0 73 L150 73" stroke="#c26e25" stroke-width="4" stroke-linecap="round"/>';
+    return '<div class="circle-measure"><svg viewBox="0 0 225 155" role="img" aria-label="Circunferencia con '+esc(kind)+' destacado">' +
+      '<circle cx="75" cy="73" r="73" fill="#f5faff" stroke="#557d9f" stroke-width="3"/>'+
+      line+'<circle cx="75" cy="73" r="3.5" fill="#244969"/></svg>'+
+      '<strong>'+esc(kind==='radio'?'Radio':'Diámetro')+': '+esc(task.given)+' '+esc(task.unit)+'</strong></div>'+
+      '<div class="fraction-fields"><label>'+esc(task.ask==='longitud'?'Longitud de la circunferencia':task.ask==='radio'?'Radio':'Diámetro')+
+      ' ('+esc(task.unit)+')<input id="fraction-ans1" type="text" inputmode="decimal" autocomplete="off" placeholder="Escribí solo el número"></label></div>';
+  }
+  function fractionPanel(f,letter) {
+    return '<div class="fraction-comparison-panel"><strong>'+esc(letter)+': '+f[0]+'/'+f[1]+'</strong><div class="fraction-comparison-bar" style="grid-template-columns:repeat('+f[1]+',minmax(0,1fr))">'+
+      Array.from({length:f[1]},(_,i)=>'<span class="'+(i<f[0]?'colored':'')+'"></span>').join('')+
+      '</div></div>';
+  }
+  function comparisonBoard(task){
+    if(task.kind==='circle-pick')return circlePick();
+    if(task.kind==='circle-number')return circleMeasure(task);
+    if(task.kind==='fraction-compare')return '<div class="fraction-comparison-pair">'+
+      fractionPanel(task.left,'Primera')+fractionPanel(task.right,'Segunda')+
+      '</div><p>Elegí el signo que corresponde entre la primera y la segunda.</p>'+orthoButtons(['<','>','=']);
+    if(task.kind==='fraction-order')return '<div class="fraction-order-cards" role="group" aria-label="Seleccioná de mayor a menor">'+
+      task.fractions.map((f,i)=>'<button type="button" data-fraction-cell="'+i+'" class="fraction-order-choice" aria-pressed="false" aria-label="'+
+        esc('Tarjeta '+String.fromCharCode(65+i)+', '+f[0]+'/'+f[1])+'"><strong>'+String.fromCharCode(65+i)+'</strong>'+
+        fractionPanel(f,'Fracción')+'</button>').join('')+'</div>';
+    if(task.kind==='fraction-between')return '<div class="fraction-between-limits">'+
+      fractionPanel(task.lower,'Mayor que')+fractionPanel(task.upper,'Menor que')+'</div>'+modelFractionInput();
+    return '';
+  }
+  function readDecimalAnswer(){
+    const value=app.querySelector('#fraction-ans1')?.value.trim()||'';
+    if(!/^\d{1,8}(?:[,.]\d{1,2})?$/.test(value))return null;
+    const num=Number(value.replace(',','.'));
+    return Number.isFinite(num)?num:null;
+  }
+  function mathExtraEvaluate(t){
+    if(t.kind==='circle-pick')return {valid:session.choice!==null,correct:circleParts[session.choice]===t.target,
+      reason:'Compará el elemento destacado con las definiciones de centro, radio, diámetro, cuerda, arco y circunferencia.'};
+    if(t.kind==='circle-number'){
+      const answer=readDecimalAnswer();
+      return {valid:answer!==null,correct:answer!==null&&Math.abs(answer-t.expected)<0.005,
+        reason:'Revisá la relación entre radio y diámetro. Para la longitud de una circunferencia usá π ≈ 3,14 y el diámetro.'};
+    }
+    if(t.kind==='fraction-compare'){
+      const signs=['<','>','='];
+      return {valid:session.choice!==null,correct:session.choice!==null&&signs[session.choice]===t.expected,
+        reason:'Probá expresar ambas fracciones con el mismo denominador antes de compararlas.'};
+    }
+    if(t.kind==='fraction-order'){
+      const chosen=[...session.selection];
+      return {valid:chosen.length===t.fractions.length,correct:chosen.every((i,n)=>i===t.expected[n]),
+        reason:'Convertí las tres fracciones a un denominador común y volvé a ordenarlas de mayor a menor.'};
+    }
+    if(t.kind==='fraction-between'){
+      const f=readFraction();
+      if(!f)return {valid:false};
+      const n=f[0],d=f[1],low=t.lower,up=t.upper;
+      const correct=n*low[1]>low[0]*d&&n*up[1]<up[0]*d;
+      return {valid:true,correct,
+        reason:'La fracción elegida tiene que estar estrictamente entre los extremos. No pueden ser iguales.'};
+    }
+    return {valid:false};
+  }
+
   function modelBoard(task) {
+    if(['circle-pick','circle-number','fraction-compare','fraction-order','fraction-between'].includes(task.kind))return comparisonBoard(task);
     if(['visual-read','visual-half'].includes(task.kind))return modelGrid(task) + modelFractionInput();
     if(task.kind==='visual-compare')return modelChips(task) + modelFractionInput();
     if(task.kind==='visual-word')return modelWord(task) + modelFractionInput();
@@ -163,6 +260,7 @@
     return '<div class="fraction-fields"><label>Escribí la fracción que corresponde<input id="fraction-ans1" type="text" inputmode="text" placeholder="Por ejemplo: 3/4" autocomplete="off"></label></div>';
   }
   function modelEvaluate(task) {
+    if(['circle-pick','circle-number','fraction-compare','fraction-order','fraction-between'].includes(task.kind))return mathExtraEvaluate(task);
     if(['visual-read','visual-half','visual-compare','visual-word'].includes(task.kind)){
       const f=readFraction();
       if(!f)return {valid:false};
@@ -222,6 +320,11 @@
       orthoTextInput('Escribí la palabra seleccionada con la tilde correcta.','Palabra con tilde');
     if(task.kind==='orth-diacritic') return '<blockquote class="orthography-sentence" lang="es">' +
       esc(task.context) + '</blockquote>' + orthoButtons(task.options);
+    if(task.kind==='orth-diacritic-write') return '<blockquote class="orthography-sentence" lang="es">' +
+      esc(task.context) + '</blockquote>' + orthoTextInput('Escribí solamente el monosílabo que falta, con o sin tilde.','Palabra correcta');
+    if(task.kind==='orth-accent-write')return '<div class="orthography-keyword">'+esc(task.word)+'</div>'+
+      '<p class="orthography-context">En contexto: '+esc(task.context)+'</p>'+
+      orthoTextInput('Escribí la palabra completa con todas sus tildes.','Palabra corregida');
     return '';
   }
   function orthoEvaluate(task) {
@@ -253,6 +356,12 @@
     if(task.kind==='orth-diacritic')return {valid:selected!==null,
       correct:selected!==null&&task.options[selected]===task.expected,
       reason:'La tilde depende de la función y el significado que tiene la palabra en esta oración.'};
+    if(task.kind==='orth-diacritic-write')return {valid:Boolean(word),
+      correct:word===spelling(task.expected),
+      reason:'Leé qué función cumple el monosílabo: una misma pronunciación puede tener grafías diferentes.'};
+    if(task.kind==='orth-accent-write')return {valid:Boolean(word),
+      correct:word===spelling(task.expected),
+      reason:'Revisá la sílaba tónica y la regla de acentuación. No alcanza con escribir la palabra sin tilde.'};
     return {valid:false};
   }
   function chooseOrthOption(index) {
@@ -305,6 +414,10 @@
       const tick = [...session.selection][0];
       return tick === undefined ? 'Elegí un punto de la recta.' : `Marcaste ${tick}/${task.denominator}.`;
     }
+    if (task.kind === 'fraction-order') {
+      const order=[...session.selection].map(i=>String.fromCharCode(65+i));
+      return order.length ? 'Elegiste: '+order.join(' → ') : 'Tocá las tarjetas de mayor a menor.';
+    }
     if (task.kind === 'visual-paint') return `Pintaste ${session.selection.size} cuadrados.`;
     if (task.kind === 'perimeter-select') return `Marcaste ${session.selection.size} tramos del contorno.`;
     return `Pintaste ${session.selection.size} partes.`;
@@ -342,7 +455,7 @@
     const next=app.querySelector('#fraction-next');
     next.hidden=true;
     const count=app.querySelector('#fraction-selected-count');
-    count.textContent=['discs','squares','mixed','triangles','line','visual-paint','perimeter-select'].includes(task.kind)?countLabel():'';
+    count.textContent=['discs','squares','mixed','triangles','line','visual-paint','perimeter-select','fraction-order'].includes(task.kind)?countLabel():'';
     app.querySelector('#fraction-check').onclick=check;
     app.querySelector('#fraction-hint').onclick=hint;
     next.onclick=advance;
@@ -506,15 +619,16 @@
   }
   async function open({round='A',block=null,orthographyBlock=null,prior=[],onResult=()=>{},onComplete=()=>{}}={}) {
     if(!dialog||!app||loading||dialog.open||!['A','B','C','D','E','F','G','H'].includes(round))return;
-    if(block!==null && !['R','P'].includes(block))return;
+    if(block!==null && !['R','P','C','F'].includes(block))return;
     if(orthographyBlock!==null && !['D','J','B','A','T'].includes(orthographyBlock))return;
     if(block&&orthographyBlock)return;
-    if((block||orthographyBlock) && !['A','B'].includes(round))return;
+    if(block && !['A','B'].includes(round))return;
+    if(orthographyBlock && !['A','B',...(['J','A','T'].includes(orthographyBlock)?['C','D']:[])].includes(round))return;
     loading=true;
     dialog.showModal();
     app.innerHTML='<p role="status">Cargando los desafíos…</p>';
     try{
-      const version=document.querySelector('meta[name="app-version"]')?.content || '6.31.0';
+      const version=document.querySelector('meta[name="app-version"]')?.content || '6.32.0';
       const source=orthographyBlock?'./data/desafios-ortografia.json':block?'./data/desafios-modelo.json':'./data/desafios-fracciones.json';
       const response=await fetch(source+'?v='+encodeURIComponent(version));
       if(!response.ok)throw new Error('No se pudo cargar el banco de desafíos');
