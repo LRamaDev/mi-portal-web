@@ -230,3 +230,26 @@ Se conserva **exactamente el recorrido interactivo de Matemática** (7 desafíos
 **Verificación automatizada:** `node --test ingreso-belgrano-monserrat/tests/desafios-smoke.test.cjs ingreso-belgrano-monserrat/tests/ortografia-smoke.test.cjs` dentro del flujo CI de Desafíos. Revisa banco, corrección de los 70 ejercicios y 70 respuestas incorrectas, pistas, retroalimentación, regreso a Matemática, activación de botones y separación de perfiles. Versión/caché PWA **6.31.0**.
 
 **Prueba manual tras fusionar:** actualizar hasta ver versión 6.31.0, ir a Desafíos → Lengua · Ortografía; abrir cada bloque desde Perfil A y Perfil V; comprobar el uso táctil de las opciones, la escritura con tildes, el mensaje de error y las pistas; cerrar/reanudar un circuito y verificar que el otro perfil permanece intacto.
+
+
+## Ampliación de Desafíos de Matemática y Ortografía (V6.32)
+
+Se agregan **70 actividades originales** sin eliminar ni renumerar las 154 existentes. Se mantiene el mismo modal `IngresoFractionChallenges`, con siete consignas por circuito, dos pistas, corrección inmediata, explicación paso a paso y registro por perfil de soluciones autónomas, con ayuda o para revisar.
+
+| Bloque | Situación nueva | Circuitos nuevos | Ejercicios nuevos |
+|---|---|---|---:|
+| Matemática — Circunferencia (C) | Reconocer centro, radio, diámetro, cuerda, arco y línea circunferencial; hallar radio, diámetro y longitud con π ≈ 3,14 | A y B | 14 |
+| Matemática — Comparación y orden de fracciones (F) | Comparar con <, > o =; ordenar tocando tarjetas; escribir cualquier fracción estrictamente intermedia | A y B | 14 |
+| Lengua — G/J (J) | Completar G/J en palabras enteras y corregir errores en oraciones | C y D, conservando A/B | 14 |
+| Lengua — Acentuación general (A) | Identificar y escribir la palabra que requiere tilde; luego colocarla sin opciones | C y D, conservando A/B | 14 |
+| Lengua — Tilde diacrítica en monosílabos (T) | Elegir según contexto y luego escribir el monosílabo correcto sin alternativas | C y D, conservando A/B | 14 |
+
+**Total:** 224 ejercicios especiales en los bancos (56 de fracciones originales, 56 de los cuatro bloques específicos de Matemática y 112 de Ortografía). Los bloques Ortografía Diptongo/Hiato y B/V/C/S/Z conservan dos circuitos A/B sin cambios; G/J, Acentuación y Tilde diacrítica tienen cuatro A/B/C/D.
+
+**Continuidad de perfiles:** si un perfil ya terminó A y B de G/J, Acentuación o Tilde diacrítica, la app le ofrece **C** directamente. Si terminó también C, avanza a **D**. Los dos perfiles no comparten progreso. Los resultados mantienen los ID históricos y usan los nuevos `MB26-C/F` y `MO26-J/A/T-C/D` sin cambios en Supabase.
+
+**Matemática y precisión:** en los problemas de longitud circular, se informa expresamente la aproximación π ≈ 3,14 y se aceptan números decimales con coma o punto; en fracciones se comparan productos cruzados, se respeta la equivalencia y se acepta **cualquier fracción estrictamente intermedia**, no una única solución modelo. En Ortografía se comprueban las tildes y letras efectivamente escritas; un ejemplo sin tilde obligatoria no puede contarse como correcto.
+
+**Pruebas automáticas:** `node --test ingreso-belgrano-monserrat/tests/desafios-smoke.test.cjs ingreso-belgrano-monserrat/tests/ortografia-smoke.test.cjs ingreso-belgrano-monserrat/tests/ampliacion-desafios-v6-32.test.cjs`. El workflow `.github/workflows/ingreso-desafios.yml` las ejecuta en cada PR. La caché PWA avanza a 6.32.0.
+
+**Prueba manual recomendada antes de empezar el uso habitual:** entrar con ambos perfiles a Desafíos y abrir Circunferencia y Comparación; comprobar selección de dibujos, orden táctil y escritura fraccionaria; verificar una respuesta decimal «31,4» y una incorrecta; retomar las tandas C/D de Ortografía y escribir monosílabos con/sin tilde; probar en un celular y comprobar que ambos perfiles conservan su historial.

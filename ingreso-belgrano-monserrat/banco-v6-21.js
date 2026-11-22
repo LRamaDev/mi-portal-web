@@ -5,7 +5,7 @@
   // En pruebas de Node sin DOM usamos el valor de respaldo.
   const version = (typeof document !== 'undefined' && typeof document.querySelector === 'function'
     ? document.querySelector('meta[name="app-version"]')?.content
-    : null) || '6.31.0';
+    : null) || '6.32.0';
   const sourceUrl = './data/ejercicios-prioridades-octubre.json?v=' + encodeURIComponent(version);
   let additionsPromise;
 

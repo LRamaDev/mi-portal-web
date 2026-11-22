@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "version": 2,
   "source": "Ejercicios originales diseñados a partir de los tipos de resolución del modelo adjunto de prueba de nivel de Matemática de ingreso al Manuel Belgrano (2025/2026). No se transcriben las consignas originales.",
   "blocks": {
     "R": {
@@ -729,6 +729,796 @@
             "area": "matematica",
             "school": "belgrano",
             "skill": "MAT-PER"
+          }
+        ]
+      }
+    },
+    "C": {
+      "label": "Circunferencia y sus elementos",
+      "reference": "Refuerzo del contenido de circunferencia del programa de ingreso",
+      "rounds": {
+        "A": [
+          {
+            "kind": "circle-pick",
+            "title": "Identificá el centro",
+            "prompt": "Seleccioná el dibujo que señala el centro de una circunferencia.",
+            "target": "centro",
+            "hints": [
+              "Buscá un punto, no una línea.",
+              "El centro está a igual distancia de todos los puntos de la circunferencia."
+            ],
+            "steps": [
+              "El centro es un punto interior.",
+              "Todos los radios parten de ese punto.",
+              "Seleccionamos la figura que resalta el punto central."
+            ],
+            "difficulty": 2,
+            "id": "MB26-C-A-01",
+            "block": "C",
+            "round": "A",
+            "area": "matematica",
+            "school": "monserrat",
+            "skill": "MAT-CIRC"
+          },
+          {
+            "kind": "circle-pick",
+            "title": "Reconocer un radio",
+            "prompt": "¿En cuál de los dibujos está marcado un radio?",
+            "target": "radio",
+            "hints": [
+              "El radio es un segmento, no la línea curva.",
+              "Une el centro con cualquier punto de la circunferencia."
+            ],
+            "steps": [
+              "Identificamos el centro y el borde.",
+              "El radio conecta ambos puntos.",
+              "Elegimos el segmento que va del centro al borde."
+            ],
+            "difficulty": 2,
+            "id": "MB26-C-A-02",
+            "block": "C",
+            "round": "A",
+            "area": "matematica",
+            "school": "monserrat",
+            "skill": "MAT-CIRC"
+          },
+          {
+            "kind": "circle-pick",
+            "title": "Buscar el diámetro",
+            "prompt": "Seleccioná el dibujo que representa un diámetro.",
+            "target": "diametro",
+            "hints": [
+              "El diámetro atraviesa el centro.",
+              "Une dos puntos de la circunferencia pasando por el centro."
+            ],
+            "steps": [
+              "El diámetro tiene ambos extremos sobre la circunferencia.",
+              "El segmento pasa por el centro.",
+              "Equivale a dos radios."
+            ],
+            "difficulty": 2,
+            "id": "MB26-C-A-03",
+            "block": "C",
+            "round": "A",
+            "area": "matematica",
+            "school": "monserrat",
+            "skill": "MAT-CIRC"
+          },
+          {
+            "kind": "circle-pick",
+            "title": "Diferenciar una cuerda",
+            "prompt": "¿Qué dibujo marca una cuerda que NO pasa por el centro?",
+            "target": "cuerda",
+            "hints": [
+              "Una cuerda une dos puntos de la circunferencia.",
+              "Si no pasa por el centro, es una cuerda que no es diámetro."
+            ],
+            "steps": [
+              "La cuerda es un segmento con extremos en la circunferencia.",
+              "No pasa por el centro en este dibujo.",
+              "La distinguimos del diámetro."
+            ],
+            "difficulty": 3,
+            "id": "MB26-C-A-04",
+            "block": "C",
+            "round": "A",
+            "area": "matematica",
+            "school": "monserrat",
+            "skill": "MAT-CIRC"
+          },
+          {
+            "kind": "circle-number",
+            "title": "Del radio al diámetro",
+            "prompt": "Una circunferencia tiene un radio de 7 cm. ¿Cuánto mide el diámetro?",
+            "givenKind": "radio",
+            "given": 7,
+            "ask": "diametro",
+            "expected": 14,
+            "unit": "cm",
+            "hints": [
+              "El diámetro está formado por dos radios.",
+              "Multiplicá 7 por 2."
+            ],
+            "steps": [
+              "Radio = 7 cm.",
+              "Diámetro = 2 × 7.",
+              "El diámetro mide 14 cm."
+            ],
+            "difficulty": 2,
+            "id": "MB26-C-A-05",
+            "block": "C",
+            "round": "A",
+            "area": "matematica",
+            "school": "monserrat",
+            "skill": "MAT-CIRC"
+          },
+          {
+            "kind": "circle-number",
+            "title": "Del diámetro al radio",
+            "prompt": "Un aro tiene 18 cm de diámetro. ¿Cuál es su radio?",
+            "givenKind": "diametro",
+            "given": 18,
+            "ask": "radio",
+            "expected": 9,
+            "unit": "cm",
+            "hints": [
+              "El radio es la mitad del diámetro.",
+              "Dividí 18 entre 2."
+            ],
+            "steps": [
+              "Diámetro = 18 cm.",
+              "Radio = 18 ÷ 2.",
+              "El radio mide 9 cm."
+            ],
+            "difficulty": 2,
+            "id": "MB26-C-A-06",
+            "block": "C",
+            "round": "A",
+            "area": "matematica",
+            "school": "monserrat",
+            "skill": "MAT-CIRC"
+          },
+          {
+            "kind": "circle-number",
+            "title": "Longitud de un borde circular",
+            "prompt": "Una rueda tiene radio de 5 cm. Calculá la longitud de la circunferencia usando π ≈ 3,14.",
+            "givenKind": "radio",
+            "given": 5,
+            "ask": "longitud",
+            "expected": 31.4,
+            "unit": "cm",
+            "hints": [
+              "La longitud es el recorrido completo alrededor del círculo.",
+              "Multiplicá el diámetro por 3,14; el diámetro es el doble del radio."
+            ],
+            "steps": [
+              "Diámetro = 2 × 5 = 10 cm.",
+              "Longitud = 3,14 × 10.",
+              "La circunferencia mide aproximadamente 31,4 cm."
+            ],
+            "difficulty": 3,
+            "id": "MB26-C-A-07",
+            "block": "C",
+            "round": "A",
+            "area": "matematica",
+            "school": "monserrat",
+            "skill": "MAT-CIRC"
+          }
+        ],
+        "B": [
+          {
+            "kind": "circle-pick",
+            "title": "Reconocer un arco",
+            "prompt": "¿En qué dibujo se destaca solamente un arco de la circunferencia?",
+            "target": "arco",
+            "hints": [
+              "Un arco es una parte curva del borde.",
+              "No es un segmento recto ni toda la circunferencia."
+            ],
+            "steps": [
+              "Observamos una porción curva.",
+              "El arco pertenece a la circunferencia.",
+              "Elegimos el dibujo con solo parte del borde destacada."
+            ],
+            "difficulty": 2,
+            "id": "MB26-C-B-01",
+            "block": "C",
+            "round": "B",
+            "area": "matematica",
+            "school": "monserrat",
+            "skill": "MAT-CIRC"
+          },
+          {
+            "kind": "circle-pick",
+            "title": "Reconocer la circunferencia",
+            "prompt": "Seleccioná el dibujo que destaca toda la circunferencia.",
+            "target": "circunferencia",
+            "hints": [
+              "La circunferencia es el borde completo.",
+              "Es una línea curva cerrada; el interior es el círculo."
+            ],
+            "steps": [
+              "Recorremos todos los puntos del borde.",
+              "No elegimos el interior ni un arco pequeño.",
+              "La circunferencia es la línea completa."
+            ],
+            "difficulty": 3,
+            "id": "MB26-C-B-02",
+            "block": "C",
+            "round": "B",
+            "area": "matematica",
+            "school": "monserrat",
+            "skill": "MAT-CIRC"
+          },
+          {
+            "kind": "circle-pick",
+            "title": "Un segmento entre extremos",
+            "prompt": "Seleccioná la cuerda que une dos puntos del borde sin atravesar el centro.",
+            "target": "cuerda",
+            "hints": [
+              "Las cuerdas son rectas entre dos puntos del borde.",
+              "La cuerda que buscamos no pasa por el punto central."
+            ],
+            "steps": [
+              "Encontramos dos extremos sobre el borde.",
+              "El segmento no atraviesa el centro.",
+              "Es la cuerda indicada."
+            ],
+            "difficulty": 3,
+            "id": "MB26-C-B-03",
+            "block": "C",
+            "round": "B",
+            "area": "matematica",
+            "school": "monserrat",
+            "skill": "MAT-CIRC"
+          },
+          {
+            "kind": "circle-pick",
+            "title": "Radio o diámetro",
+            "prompt": "¿Cuál de los dibujos destaca un radio y no un diámetro?",
+            "target": "radio",
+            "hints": [
+              "El diámetro tiene los dos extremos en el borde.",
+              "El radio solo llega del centro hasta un punto del borde."
+            ],
+            "steps": [
+              "Un extremo del radio está en el centro.",
+              "El otro está en la circunferencia.",
+              "Marcamos el segmento que representa un solo radio."
+            ],
+            "difficulty": 3,
+            "id": "MB26-C-B-04",
+            "block": "C",
+            "round": "B",
+            "area": "matematica",
+            "school": "monserrat",
+            "skill": "MAT-CIRC"
+          },
+          {
+            "kind": "circle-number",
+            "title": "Circunferencia a partir del diámetro",
+            "prompt": "Un cartel circular tiene 12 m de diámetro. Calculá la longitud de su circunferencia con π ≈ 3,14.",
+            "givenKind": "diametro",
+            "given": 12,
+            "ask": "longitud",
+            "expected": 37.68,
+            "unit": "m",
+            "hints": [
+              "No confundas área con longitud: queremos todo el borde.",
+              "Multiplicá el diámetro de 12 m por 3,14."
+            ],
+            "steps": [
+              "Diámetro = 12 m.",
+              "Longitud = 3,14 × 12.",
+              "El borde mide aproximadamente 37,68 m."
+            ],
+            "difficulty": 3,
+            "id": "MB26-C-B-05",
+            "block": "C",
+            "round": "B",
+            "area": "matematica",
+            "school": "monserrat",
+            "skill": "MAT-CIRC"
+          },
+          {
+            "kind": "circle-number",
+            "title": "Dos radios hacen un diámetro",
+            "prompt": "Una tapa circular tiene radio de 8 cm. ¿Cuál es su diámetro?",
+            "givenKind": "radio",
+            "given": 8,
+            "ask": "diametro",
+            "expected": 16,
+            "unit": "cm",
+            "hints": [
+              "Un diámetro mide dos radios.",
+              "Multiplicá el radio por 2."
+            ],
+            "steps": [
+              "Radio = 8 cm.",
+              "Diámetro = 2 × 8.",
+              "El diámetro es 16 cm."
+            ],
+            "difficulty": 2,
+            "id": "MB26-C-B-06",
+            "block": "C",
+            "round": "B",
+            "area": "matematica",
+            "school": "monserrat",
+            "skill": "MAT-CIRC"
+          },
+          {
+            "kind": "circle-number",
+            "title": "Dar una vuelta completa",
+            "prompt": "Una pista circular tiene radio de 9 m. ¿Cuántos metros se recorren en una vuelta por el borde, usando π ≈ 3,14?",
+            "givenKind": "radio",
+            "given": 9,
+            "ask": "longitud",
+            "expected": 56.52,
+            "unit": "m",
+            "hints": [
+              "Una vuelta equivale a la longitud de la circunferencia.",
+              "Primero buscá el diámetro; después multiplicalo por 3,14."
+            ],
+            "steps": [
+              "Diámetro = 18 m.",
+              "Longitud = 3,14 × 18.",
+              "Una vuelta mide aproximadamente 56,52 m."
+            ],
+            "difficulty": 4,
+            "id": "MB26-C-B-07",
+            "block": "C",
+            "round": "B",
+            "area": "matematica",
+            "school": "monserrat",
+            "skill": "MAT-CIRC"
+          }
+        ]
+      }
+    },
+    "F": {
+      "label": "Comparación y orden de fracciones",
+      "reference": "Refuerzo del contenido de comparación, equivalencia e intercalación de fracciones",
+      "rounds": {
+        "A": [
+          {
+            "kind": "fraction-compare",
+            "title": "Comparar fracciones",
+            "prompt": "Compará 3/8 y 5/8. Elegí el signo correcto entre ambas.",
+            "left": [
+              3,
+              8
+            ],
+            "right": [
+              5,
+              8
+            ],
+            "expected": "<",
+            "hints": [
+              "Los denominadores son iguales: compará los numeradores.",
+              "Tres octavos son menos partes que cinco octavos."
+            ],
+            "steps": [
+              "Ambas fracciones tienen denominador 8.",
+              "Comparamos 3 con 5: 3 es menor.",
+              "3/8 < 5/8."
+            ],
+            "difficulty": 2,
+            "id": "MB26-F-A-01",
+            "block": "F",
+            "round": "A",
+            "area": "matematica",
+            "school": null,
+            "skill": "MAT-FR-ORD"
+          },
+          {
+            "kind": "fraction-compare",
+            "title": "Comparar fracciones",
+            "prompt": "Compará 4/7 y 2/7. Elegí el signo correcto entre ambas.",
+            "left": [
+              4,
+              7
+            ],
+            "right": [
+              2,
+              7
+            ],
+            "expected": ">",
+            "hints": [
+              "Las partes tienen el mismo tamaño.",
+              "Cuatro partes de siete superan a dos partes."
+            ],
+            "steps": [
+              "Ambas fracciones tienen denominador 7.",
+              "4 > 2.",
+              "4/7 > 2/7."
+            ],
+            "difficulty": 2,
+            "id": "MB26-F-A-02",
+            "block": "F",
+            "round": "A",
+            "area": "matematica",
+            "school": null,
+            "skill": "MAT-FR-ORD"
+          },
+          {
+            "kind": "fraction-compare",
+            "title": "Comparar fracciones",
+            "prompt": "Compará 3/4 y 6/8. Elegí el signo correcto entre ambas.",
+            "left": [
+              3,
+              4
+            ],
+            "right": [
+              6,
+              8
+            ],
+            "expected": "=",
+            "hints": [
+              "Probá transformar una de las fracciones.",
+              "3/4 equivale a 6/8 al multiplicar arriba y abajo por 2."
+            ],
+            "steps": [
+              "3/4 × 2/2 = 6/8.",
+              "Ambas cantidades representan lo mismo.",
+              "3/4 = 6/8."
+            ],
+            "difficulty": 3,
+            "id": "MB26-F-A-03",
+            "block": "F",
+            "round": "A",
+            "area": "matematica",
+            "school": null,
+            "skill": "MAT-FR-ORD"
+          },
+          {
+            "kind": "fraction-compare",
+            "title": "Comparar fracciones",
+            "prompt": "Compará 5/6 y 3/4. Elegí el signo correcto entre ambas.",
+            "left": [
+              5,
+              6
+            ],
+            "right": [
+              3,
+              4
+            ],
+            "expected": ">",
+            "hints": [
+              "Buscá un denominador común.",
+              "5/6 son 10/12 y 3/4 son 9/12."
+            ],
+            "steps": [
+              "m.c.m.(6,4) = 12.",
+              "5/6 = 10/12 y 3/4 = 9/12.",
+              "10/12 > 9/12."
+            ],
+            "difficulty": 3,
+            "id": "MB26-F-A-04",
+            "block": "F",
+            "round": "A",
+            "area": "matematica",
+            "school": null,
+            "skill": "MAT-FR-ORD"
+          },
+          {
+            "kind": "fraction-compare",
+            "title": "Comparar fracciones",
+            "prompt": "Compará 2/3 y 3/5. Elegí el signo correcto entre ambas.",
+            "left": [
+              2,
+              3
+            ],
+            "right": [
+              3,
+              5
+            ],
+            "expected": ">",
+            "hints": [
+              "Buscá un denominador común para los tercios y los quintos.",
+              "Multiplicá 2 × 5 y 3 × 3 para comparar sin dividir."
+            ],
+            "steps": [
+              "2/3 = 10/15.",
+              "3/5 = 9/15.",
+              "10/15 > 9/15."
+            ],
+            "difficulty": 3,
+            "id": "MB26-F-A-05",
+            "block": "F",
+            "round": "A",
+            "area": "matematica",
+            "school": null,
+            "skill": "MAT-FR-ORD"
+          },
+          {
+            "kind": "fraction-order",
+            "title": "Ordenar tres fracciones",
+            "prompt": "Seleccioná las tarjetas de mayor a menor, tocando cada una en el orden que corresponda.",
+            "fractions": [
+              [
+                1,
+                2
+              ],
+              [
+                3,
+                4
+              ],
+              [
+                2,
+                3
+              ]
+            ],
+            "expected": [
+              1,
+              2,
+              0
+            ],
+            "hints": [
+              "Convertí todas a doceavos.",
+              "1/2 = 6/12; 3/4 = 9/12; 2/3 = 8/12."
+            ],
+            "steps": [
+              "Las cantidades equivalen a 6/12, 9/12 y 8/12.",
+              "De mayor a menor: 9/12 > 8/12 > 6/12.",
+              "Tocá B, luego C y finalmente A."
+            ],
+            "difficulty": 4,
+            "id": "MB26-F-A-06",
+            "block": "F",
+            "round": "A",
+            "area": "matematica",
+            "school": null,
+            "skill": "MAT-FR-ORD"
+          },
+          {
+            "kind": "fraction-between",
+            "title": "Encontrar una fracción intermedia",
+            "prompt": "Escribí una fracción que sea MAYOR que 1/3 y MENOR que 2/3.",
+            "lower": [
+              1,
+              3
+            ],
+            "upper": [
+              2,
+              3
+            ],
+            "hints": [
+              "Pensá en sextos.",
+              "1/3 = 2/6 y 2/3 = 4/6. ¿Qué fracción queda entre ambas?"
+            ],
+            "steps": [
+              "En sextos, los extremos son 2/6 y 4/6.",
+              "3/6 queda estrictamente entre ambas.",
+              "3/6 = 1/2 es una respuesta posible; hay otras equivalentes o intermedias."
+            ],
+            "difficulty": 4,
+            "id": "MB26-F-A-07",
+            "block": "F",
+            "round": "A",
+            "area": "matematica",
+            "school": null,
+            "skill": "MAT-FR-ORD"
+          }
+        ],
+        "B": [
+          {
+            "kind": "fraction-compare",
+            "title": "Comparar fracciones",
+            "prompt": "Compará 7/10 y 3/5. Elegí el signo correcto entre ambas.",
+            "left": [
+              7,
+              10
+            ],
+            "right": [
+              3,
+              5
+            ],
+            "expected": ">",
+            "hints": [
+              "Convertí los quintos a décimos.",
+              "3/5 es igual a 6/10."
+            ],
+            "steps": [
+              "3/5 = 6/10.",
+              "Comparamos 7/10 con 6/10.",
+              "7/10 > 3/5."
+            ],
+            "difficulty": 3,
+            "id": "MB26-F-B-01",
+            "block": "F",
+            "round": "B",
+            "area": "matematica",
+            "school": null,
+            "skill": "MAT-FR-ORD"
+          },
+          {
+            "kind": "fraction-compare",
+            "title": "Comparar fracciones",
+            "prompt": "Compará 5/12 y 1/2. Elegí el signo correcto entre ambas.",
+            "left": [
+              5,
+              12
+            ],
+            "right": [
+              1,
+              2
+            ],
+            "expected": "<",
+            "hints": [
+              "Convertí 1/2 a doceavos.",
+              "1/2 = 6/12."
+            ],
+            "steps": [
+              "1/2 es 6/12.",
+              "5/12 es menor que 6/12.",
+              "5/12 < 1/2."
+            ],
+            "difficulty": 3,
+            "id": "MB26-F-B-02",
+            "block": "F",
+            "round": "B",
+            "area": "matematica",
+            "school": null,
+            "skill": "MAT-FR-ORD"
+          },
+          {
+            "kind": "fraction-compare",
+            "title": "Comparar fracciones",
+            "prompt": "Compará 4/9 y 8/18. Elegí el signo correcto entre ambas.",
+            "left": [
+              4,
+              9
+            ],
+            "right": [
+              8,
+              18
+            ],
+            "expected": "=",
+            "hints": [
+              "Multiplicá numerador y denominador de 4/9 por dos.",
+              "4/9 es equivalente a 8/18."
+            ],
+            "steps": [
+              "4/9 × 2/2 = 8/18.",
+              "Son fracciones equivalentes.",
+              "4/9 = 8/18."
+            ],
+            "difficulty": 3,
+            "id": "MB26-F-B-03",
+            "block": "F",
+            "round": "B",
+            "area": "matematica",
+            "school": null,
+            "skill": "MAT-FR-ORD"
+          },
+          {
+            "kind": "fraction-compare",
+            "title": "Comparar fracciones",
+            "prompt": "Compará 7/8 y 5/6. Elegí el signo correcto entre ambas.",
+            "left": [
+              7,
+              8
+            ],
+            "right": [
+              5,
+              6
+            ],
+            "expected": ">",
+            "hints": [
+              "Buscá denominador 24.",
+              "7/8 son 21/24 y 5/6 son 20/24."
+            ],
+            "steps": [
+              "7/8 = 21/24.",
+              "5/6 = 20/24.",
+              "21/24 > 20/24."
+            ],
+            "difficulty": 4,
+            "id": "MB26-F-B-04",
+            "block": "F",
+            "round": "B",
+            "area": "matematica",
+            "school": null,
+            "skill": "MAT-FR-ORD"
+          },
+          {
+            "kind": "fraction-compare",
+            "title": "Comparar fracciones",
+            "prompt": "Compará 11/15 y 3/4. Elegí el signo correcto entre ambas.",
+            "left": [
+              11,
+              15
+            ],
+            "right": [
+              3,
+              4
+            ],
+            "expected": "<",
+            "hints": [
+              "Buscá el denominador común 60.",
+              "11/15 = 44/60 y 3/4 = 45/60."
+            ],
+            "steps": [
+              "11/15 = 44/60.",
+              "3/4 = 45/60.",
+              "11/15 < 3/4."
+            ],
+            "difficulty": 4,
+            "id": "MB26-F-B-05",
+            "block": "F",
+            "round": "B",
+            "area": "matematica",
+            "school": null,
+            "skill": "MAT-FR-ORD"
+          },
+          {
+            "kind": "fraction-order",
+            "title": "Ordenar tres fracciones",
+            "prompt": "Seleccioná las tarjetas de mayor a menor, tocando cada una en el orden que corresponda.",
+            "fractions": [
+              [
+                5,
+                6
+              ],
+              [
+                2,
+                3
+              ],
+              [
+                3,
+                4
+              ]
+            ],
+            "expected": [
+              0,
+              2,
+              1
+            ],
+            "hints": [
+              "Usá el denominador 12 para las tres fracciones.",
+              "5/6 = 10/12, 2/3 = 8/12 y 3/4 = 9/12."
+            ],
+            "steps": [
+              "Pasamos a doceavos: 10/12, 8/12, 9/12.",
+              "Orden descendente: 10/12 > 9/12 > 8/12.",
+              "Tocá A, después C y luego B."
+            ],
+            "difficulty": 4,
+            "id": "MB26-F-B-06",
+            "block": "F",
+            "round": "B",
+            "area": "matematica",
+            "school": null,
+            "skill": "MAT-FR-ORD"
+          },
+          {
+            "kind": "fraction-between",
+            "title": "Encontrar una fracción intermedia",
+            "prompt": "Escribí una fracción que sea MAYOR que 3/8 y MENOR que 5/8.",
+            "lower": [
+              3,
+              8
+            ],
+            "upper": [
+              5,
+              8
+            ],
+            "hints": [
+              "Entre tres y cinco octavos cabe cuatro octavos.",
+              "4/8 equivale a 1/2; también se aceptan otras fracciones estrictamente intermedias."
+            ],
+            "steps": [
+              "Los extremos son 3/8 y 5/8.",
+              "4/8 está estrictamente entre los dos.",
+              "4/8 = 1/2 es una respuesta válida."
+            ],
+            "difficulty": 4,
+            "id": "MB26-F-B-07",
+            "block": "F",
+            "round": "B",
+            "area": "matematica",
+            "school": null,
+            "skill": "MAT-FR-ORD"
           }
         ]
       }

@@ -12,16 +12,16 @@ const app=read('app.js');
 const html=read('index.html');
 const version=html.match(/app-version" content="(6\.\d+\.\d+)"/)?.[1];
 
-test('70 ejercicios originales en cinco tipos de ortografía',()=>{
-  const items=Object.values(bank.blocks).flatMap(b=>[...b.A,...b.B]);
+test('112 ejercicios de ortografía con circuitos C/D en G/J y tildes',()=>{
+  const items=Object.values(bank.blocks).flatMap(b=>['A','B','C','D'].flatMap(round=>b[round]||[]));
   assert.equal(Object.keys(bank.blocks).length,5);
-  assert.equal(items.length,70);
-  assert.equal(new Set(items.map(t=>t.id)).size,70);
+  assert.equal(items.length,112);
+  assert.equal(new Set(items.map(t=>t.id)).size,112);
   assert.deepEqual([...new Set(items.map(t=>t.kind))].sort(),
-    ['orth-accent','orth-classify','orth-diacritic','orth-fill','orth-sentence']);
+    ['orth-accent','orth-accent-write','orth-classify','orth-diacritic','orth-diacritic-write','orth-fill','orth-sentence']);
   const skills=new Set(['LEN-DIP-HIA','LEN-GJ','LEN-BV','LEN-CSZ','LEN-ACENT','LEN-DIAC']);
   for(const task of items){
-    assert.match(task.id,/^MO26-[DJBAT]-[AB]-0[1-7]$/);
+    assert.match(task.id,/^MO26-[DJBAT]-[ABCD]-0[1-7]$/);
     assert.equal(task.hints.length,2,task.id);
     assert.equal(task.steps.length,3,task.id);
     assert.ok(skills.has(task.skill),task.id);
@@ -29,6 +29,10 @@ test('70 ejercicios originales en cinco tipos de ortografía',()=>{
       assert.equal(task.masked.replace('_',task.letter),task.expected,task.id);
     if(task.kind==='orth-accent')
       assert.equal(task.expected.normalize('NFD').replace(/\p{M}/gu,''),task.unaccented,task.id);
+    if(task.kind==='orth-accent-write')
+      assert.equal(task.expected.normalize('NFD').replace(/\p{M}/gu,''),task.word,task.id);
+    if(task.kind==='orth-diacritic-write')
+      assert.ok(task.context.includes('___')&&task.expected!==task.alternate,task.id);
   }
 });
 
@@ -36,7 +40,7 @@ test('los accesos nuevos están en Desafíos y versionados para la PWA',()=>{
   assert.equal((html.match(/data-start-ortho=/g)||[]).length,5);
   assert.equal((html.match(/data-ortho-status=/g)||[]).length,5);
   assert.equal((html.match(/data-start-fractions(?=[ >])/g)||[]).length,1);
-  assert.equal((html.match(/data-start-model=/g)||[]).length,2);
+  assert.equal((html.match(/data-start-model=/g)||[]).length,4);
   assert.ok(version,'no app version');
   assert.ok(read('sw.js').includes('desafios-ortografia.json?v='+version));
   new vm.Script(engine);
@@ -104,14 +108,16 @@ function samples(t){
     case 'orth-diacritic':{
       const i=t.options.indexOf(t.expected);return [[i,''],[i?0:1,'']];
     }
+    case 'orth-accent-write': return [[null,t.expected],[null,t.word]];
+    case 'orth-diacritic-write': return [[null,t.expected],[null,t.alternate]];
     default:throw new Error(t.kind);
   }
 }
 
-test('70 respuestas correctas y 70 errores comprobados por el motor',async()=>{
+test('112 respuestas correctas y 112 errores comprobados por el motor',async()=>{
   const {window,dialog,surface}=makeEngine();
   let counter=0;
-  for(const [block,part] of Object.entries(bank.blocks))for(const round of ['A','B']){
+  for(const [block,part] of Object.entries(bank.blocks))for(const round of ['A','B','C','D'].filter(x=>Array.isArray(part[x]))){
     await window.IngresoFractionChallenges.open({orthographyBlock:block,round});
     assert.equal(dialog.open,true);
     assert.match(surface.innerHTML,/Desafío 1 de 7/);
@@ -126,7 +132,7 @@ test('70 respuestas correctas y 70 errores comprobados por el motor',async()=>{
     }
     window.IngresoFractionChallenges.close();
   }
-  assert.equal(counter,70);
+  assert.equal(counter,112);
 });
 
 test('misma experiencia: sin ayuda, con pistas, para revisar; Matemática intacta',async()=>{
