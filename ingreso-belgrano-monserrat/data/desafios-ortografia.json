@@ -1475,7 +1475,7 @@
           "kind": "orth-diacritic",
           "title": "Tilde diacrítica en contexto",
           "prompt": "Elegí la palabra que completa correctamente la oración.",
-          "context": "___ conocés muy bien la ciudad.",
+          "context": "___ conoces muy bien la ciudad.",
           "options": [
             "Tú",
             "Tu"
