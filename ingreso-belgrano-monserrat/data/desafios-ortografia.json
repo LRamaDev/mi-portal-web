@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "version": 2,
   "reference": "Examen de Lengua del Colegio Nacional de Monserrat, Ingreso 2026, apartado I. Ortografía, ejercicios I.1–I.5, pp. 2-3. Todas las consignas nuevas son originales.",
   "blocks": {
     "D": {
@@ -333,7 +333,7 @@
       ]
     },
     "J": {
-      "label": "Oraciones correctas e incorrectas",
+      "label": "Uso de G y J: detectar y corregir",
       "reference": "I.2, página 2",
       "A": [
         {
@@ -687,6 +687,360 @@
             "La forma correcta es «protegimos».",
             "La letra cambia según la grafía correcta del verbo; verificá la forma completa."
           ]
+        }
+      ],
+      "C": [
+        {
+          "kind": "orth-fill",
+          "title": "Completar con G o J",
+          "prompt": "Leé la oración y escribí completa la palabra que tiene una letra faltante.",
+          "sentence": "El escultor trabajó sobre el gara_e antiguo.",
+          "masked": "gara_e",
+          "expected": "garaje",
+          "letter": "j",
+          "skill": "LEN-GJ",
+          "hints": [
+            "Leé la palabra completa en su contexto y pensá si pertenece a una familia conocida.",
+            "Esta vez elegí entre G y J; después escribí la palabra entera, no solo la letra."
+          ],
+          "steps": [
+            "En el texto aparece «gara_e».",
+            "La palabra es «garaje», con J.",
+            "«Garaje» termina en -aje y se escribe con J."
+          ],
+          "difficulty": 3,
+          "id": "MO26-J-C-01",
+          "orthographyBlock": "J",
+          "round": "C",
+          "school": "monserrat",
+          "area": "lengua"
+        },
+        {
+          "kind": "orth-fill",
+          "title": "Completar con G o J",
+          "prompt": "Leé la oración y escribí completa la palabra que tiene una letra faltante.",
+          "sentence": "Desde la ventana se veía un hermoso paisa_e.",
+          "masked": "paisa_e",
+          "expected": "paisaje",
+          "letter": "j",
+          "skill": "LEN-GJ",
+          "hints": [
+            "Leé la palabra completa en su contexto y pensá si pertenece a una familia conocida.",
+            "Esta vez elegí entre G y J; después escribí la palabra entera, no solo la letra."
+          ],
+          "steps": [
+            "En el texto aparece «paisa_e».",
+            "La palabra es «paisaje», con J.",
+            "«Paisaje» termina en -aje y se escribe con J."
+          ],
+          "difficulty": 3,
+          "id": "MO26-J-C-02",
+          "orthographyBlock": "J",
+          "round": "C",
+          "school": "monserrat",
+          "area": "lengua"
+        },
+        {
+          "kind": "orth-fill",
+          "title": "Completar con G o J",
+          "prompt": "Leé la oración y escribí completa la palabra que tiene una letra faltante.",
+          "sentence": "El equipo empezó a prote_er las plantas.",
+          "masked": "prote_er",
+          "expected": "proteger",
+          "letter": "g",
+          "skill": "LEN-GJ",
+          "hints": [
+            "Leé la palabra completa en su contexto y pensá si pertenece a una familia conocida.",
+            "Esta vez elegí entre G y J; después escribí la palabra entera, no solo la letra."
+          ],
+          "steps": [
+            "En el texto aparece «prote_er».",
+            "La palabra es «proteger», con G.",
+            "El infinitivo «proteger» se escribe con G."
+          ],
+          "difficulty": 3,
+          "id": "MO26-J-C-03",
+          "orthographyBlock": "J",
+          "round": "C",
+          "school": "monserrat",
+          "area": "lengua"
+        },
+        {
+          "kind": "orth-fill",
+          "title": "Completar con G o J",
+          "prompt": "Leé la oración y escribí completa la palabra que tiene una letra faltante.",
+          "sentence": "La artesana aprendió a te_er una bufanda.",
+          "masked": "te_er",
+          "expected": "tejer",
+          "letter": "j",
+          "skill": "LEN-GJ",
+          "hints": [
+            "Leé la palabra completa en su contexto y pensá si pertenece a una familia conocida.",
+            "Esta vez elegí entre G y J; después escribí la palabra entera, no solo la letra."
+          ],
+          "steps": [
+            "En el texto aparece «te_er».",
+            "La palabra es «tejer», con J.",
+            "El verbo «tejer» se escribe con J."
+          ],
+          "difficulty": 3,
+          "id": "MO26-J-C-04",
+          "orthographyBlock": "J",
+          "round": "C",
+          "school": "monserrat",
+          "area": "lengua"
+        },
+        {
+          "kind": "orth-fill",
+          "title": "Completar con G o J",
+          "prompt": "Leé la oración y escribí completa la palabra que tiene una letra faltante.",
+          "sentence": "El guardaparque podía exi_ir respeto por el sendero.",
+          "masked": "exi_ir",
+          "expected": "exigir",
+          "letter": "g",
+          "skill": "LEN-GJ",
+          "hints": [
+            "Leé la palabra completa en su contexto y pensá si pertenece a una familia conocida.",
+            "Esta vez elegí entre G y J; después escribí la palabra entera, no solo la letra."
+          ],
+          "steps": [
+            "En el texto aparece «exi_ir».",
+            "La palabra es «exigir», con G.",
+            "El verbo «exigir» se escribe con G."
+          ],
+          "difficulty": 3,
+          "id": "MO26-J-C-05",
+          "orthographyBlock": "J",
+          "round": "C",
+          "school": "monserrat",
+          "area": "lengua"
+        },
+        {
+          "kind": "orth-fill",
+          "title": "Completar con G o J",
+          "prompt": "Leé la oración y escribí completa la palabra que tiene una letra faltante.",
+          "sentence": "La sala tiene una ima_en de las montañas.",
+          "masked": "ima_en",
+          "expected": "imagen",
+          "letter": "g",
+          "skill": "LEN-GJ",
+          "hints": [
+            "Leé la palabra completa en su contexto y pensá si pertenece a una familia conocida.",
+            "Esta vez elegí entre G y J; después escribí la palabra entera, no solo la letra."
+          ],
+          "steps": [
+            "En el texto aparece «ima_en».",
+            "La palabra es «imagen», con G.",
+            "«Imagen» lleva G, y su plural «imágenes» también."
+          ],
+          "difficulty": 3,
+          "id": "MO26-J-C-06",
+          "orthographyBlock": "J",
+          "round": "C",
+          "school": "monserrat",
+          "area": "lengua"
+        },
+        {
+          "kind": "orth-fill",
+          "title": "Completar con G o J",
+          "prompt": "Leé la oración y escribí completa la palabra que tiene una letra faltante.",
+          "sentence": "Necesitamos ele_ir una estrategia de estudio.",
+          "masked": "ele_ir",
+          "expected": "elegir",
+          "letter": "g",
+          "skill": "LEN-GJ",
+          "hints": [
+            "Leé la palabra completa en su contexto y pensá si pertenece a una familia conocida.",
+            "Esta vez elegí entre G y J; después escribí la palabra entera, no solo la letra."
+          ],
+          "steps": [
+            "En el texto aparece «ele_ir».",
+            "La palabra es «elegir», con G.",
+            "El infinitivo «elegir» se escribe con G."
+          ],
+          "difficulty": 3,
+          "id": "MO26-J-C-07",
+          "orthographyBlock": "J",
+          "round": "C",
+          "school": "monserrat",
+          "area": "lengua"
+        }
+      ],
+      "D": [
+        {
+          "kind": "orth-sentence",
+          "title": "Detectar y corregir G/J",
+          "prompt": "¿La oración está bien escrita? Si encontrás un error de G/J, señalalo y escribí la palabra correcta.",
+          "sentence": "La investigadora exijió una explicación detallada.",
+          "expected": "incorrecta",
+          "wrong": "exijió",
+          "correction": "exigió",
+          "skill": "LEN-GJ",
+          "hints": [
+            "Buscá las palabras con G o J, especialmente en sus terminaciones.",
+            "Si la oración está mal escrita, no alcanza con marcar «Incorrecta»: escribí la palabra bien."
+          ],
+          "steps": [
+            "La palabra «exijió» está mal escrita.",
+            "Debe escribirse «exigió».",
+            "El verbo «exigir» conserva G antes de I."
+          ],
+          "difficulty": 3,
+          "id": "MO26-J-D-01",
+          "orthographyBlock": "J",
+          "round": "D",
+          "school": "monserrat",
+          "area": "lengua"
+        },
+        {
+          "kind": "orth-sentence",
+          "title": "Detectar y corregir G/J",
+          "prompt": "¿La oración está bien escrita? Si encontrás un error de G/J, señalalo y escribí la palabra correcta.",
+          "sentence": "La bibliotecaria organizó los libros por tema.",
+          "expected": "correcta",
+          "wrong": null,
+          "correction": null,
+          "skill": "LEN-GJ",
+          "hints": [
+            "Buscá las palabras con G o J, especialmente en sus terminaciones.",
+            "Si la oración está mal escrita, no alcanza con marcar «Incorrecta»: escribí la palabra bien."
+          ],
+          "steps": [
+            "La oración no tiene errores de G/J.",
+            "No hace falta cambiar ninguna palabra.",
+            "«Organizó» está correctamente escrita; no corresponde cambiarla."
+          ],
+          "difficulty": 3,
+          "id": "MO26-J-D-02",
+          "orthographyBlock": "J",
+          "round": "D",
+          "school": "monserrat",
+          "area": "lengua"
+        },
+        {
+          "kind": "orth-sentence",
+          "title": "Detectar y corregir G/J",
+          "prompt": "¿La oración está bien escrita? Si encontrás un error de G/J, señalalo y escribí la palabra correcta.",
+          "sentence": "El viajero escojía siempre caminos tranquilos.",
+          "expected": "incorrecta",
+          "wrong": "escojía",
+          "correction": "escogía",
+          "skill": "LEN-GJ",
+          "hints": [
+            "Buscá las palabras con G o J, especialmente en sus terminaciones.",
+            "Si la oración está mal escrita, no alcanza con marcar «Incorrecta»: escribí la palabra bien."
+          ],
+          "steps": [
+            "La palabra «escojía» está mal escrita.",
+            "Debe escribirse «escogía».",
+            "La forma «escogía», del verbo escoger, se escribe con G."
+          ],
+          "difficulty": 3,
+          "id": "MO26-J-D-03",
+          "orthographyBlock": "J",
+          "round": "D",
+          "school": "monserrat",
+          "area": "lengua"
+        },
+        {
+          "kind": "orth-sentence",
+          "title": "Detectar y corregir G/J",
+          "prompt": "¿La oración está bien escrita? Si encontrás un error de G/J, señalalo y escribí la palabra correcta.",
+          "sentence": "El equipo dirigió la campaña de reciclaje.",
+          "expected": "correcta",
+          "wrong": null,
+          "correction": null,
+          "skill": "LEN-GJ",
+          "hints": [
+            "Buscá las palabras con G o J, especialmente en sus terminaciones.",
+            "Si la oración está mal escrita, no alcanza con marcar «Incorrecta»: escribí la palabra bien."
+          ],
+          "steps": [
+            "La oración no tiene errores de G/J.",
+            "No hace falta cambiar ninguna palabra.",
+            "«Dirigió» se escribe con G y «reciclaje» termina en -aje con J."
+          ],
+          "difficulty": 3,
+          "id": "MO26-J-D-04",
+          "orthographyBlock": "J",
+          "round": "D",
+          "school": "monserrat",
+          "area": "lengua"
+        },
+        {
+          "kind": "orth-sentence",
+          "title": "Detectar y corregir G/J",
+          "prompt": "¿La oración está bien escrita? Si encontrás un error de G/J, señalalo y escribí la palabra correcta.",
+          "sentence": "Los caminantes protejieron el mapa de la lluvia.",
+          "expected": "incorrecta",
+          "wrong": "protejieron",
+          "correction": "protegieron",
+          "skill": "LEN-GJ",
+          "hints": [
+            "Buscá las palabras con G o J, especialmente en sus terminaciones.",
+            "Si la oración está mal escrita, no alcanza con marcar «Incorrecta»: escribí la palabra bien."
+          ],
+          "steps": [
+            "La palabra «protejieron» está mal escrita.",
+            "Debe escribirse «protegieron».",
+            "La forma correcta es «protegieron», con G."
+          ],
+          "difficulty": 3,
+          "id": "MO26-J-D-05",
+          "orthographyBlock": "J",
+          "round": "D",
+          "school": "monserrat",
+          "area": "lengua"
+        },
+        {
+          "kind": "orth-sentence",
+          "title": "Detectar y corregir G/J",
+          "prompt": "¿La oración está bien escrita? Si encontrás un error de G/J, señalalo y escribí la palabra correcta.",
+          "sentence": "El relojero revisó cada engranaje con paciencia.",
+          "expected": "correcta",
+          "wrong": null,
+          "correction": null,
+          "skill": "LEN-GJ",
+          "hints": [
+            "Buscá las palabras con G o J, especialmente en sus terminaciones.",
+            "Si la oración está mal escrita, no alcanza con marcar «Incorrecta»: escribí la palabra bien."
+          ],
+          "steps": [
+            "La oración no tiene errores de G/J.",
+            "No hace falta cambiar ninguna palabra.",
+            "«Relojero» y «engranaje» están correctamente escritas con J."
+          ],
+          "difficulty": 3,
+          "id": "MO26-J-D-06",
+          "orthographyBlock": "J",
+          "round": "D",
+          "school": "monserrat",
+          "area": "lengua"
+        },
+        {
+          "kind": "orth-sentence",
+          "title": "Detectar y corregir G/J",
+          "prompt": "¿La oración está bien escrita? Si encontrás un error de G/J, señalalo y escribí la palabra correcta.",
+          "sentence": "La profesora sujirió volver a leer el enunciado.",
+          "expected": "incorrecta",
+          "wrong": "sujirió",
+          "correction": "sugirió",
+          "skill": "LEN-GJ",
+          "hints": [
+            "Buscá las palabras con G o J, especialmente en sus terminaciones.",
+            "Si la oración está mal escrita, no alcanza con marcar «Incorrecta»: escribí la palabra bien."
+          ],
+          "steps": [
+            "La palabra «sujirió» está mal escrita.",
+            "Debe escribirse «sugirió».",
+            "La forma «sugirió», del verbo sugerir, se escribe con G."
+          ],
+          "difficulty": 3,
+          "id": "MO26-J-D-07",
+          "orthographyBlock": "J",
+          "round": "D",
+          "school": "monserrat",
+          "area": "lengua"
         }
       ]
     },
@@ -1049,7 +1403,7 @@
       ]
     },
     "A": {
-      "label": "Acentuación de palabras",
+      "label": "Acentuación general",
       "reference": "I.4, página 3",
       "A": [
         {
@@ -1460,10 +1814,385 @@
             "«Canción» es aguda y termina en N: lleva tilde."
           ]
         }
+      ],
+      "C": [
+        {
+          "kind": "orth-accent",
+          "title": "Elegir y acentuar",
+          "prompt": "Elegí la única palabra que necesita tilde y escribila con la tilde correspondiente.",
+          "options": [
+            "murcielago",
+            "camino",
+            "reloj",
+            "lunes"
+          ],
+          "unaccented": "murcielago",
+          "expected": "murciélago",
+          "skill": "LEN-ACENT",
+          "hints": [
+            "Identificá cuál sílaba tiene mayor fuerza de voz.",
+            "Comprobá dónde cae el acento y cómo termina la palabra; después agregá la tilde."
+          ],
+          "steps": [
+            "La palabra sin tilde es «murcielago».",
+            "Se escribe «murciélago».",
+            "«Murciélago» es esdrújula y lleva tilde."
+          ],
+          "difficulty": 3,
+          "id": "MO26-A-C-01",
+          "orthographyBlock": "A",
+          "round": "C",
+          "school": "monserrat",
+          "area": "lengua"
+        },
+        {
+          "kind": "orth-accent",
+          "title": "Elegir y acentuar",
+          "prompt": "Elegí la única palabra que necesita tilde y escribila con la tilde correspondiente.",
+          "options": [
+            "marmol",
+            "examen",
+            "costumbre",
+            "pared"
+          ],
+          "unaccented": "marmol",
+          "expected": "mármol",
+          "skill": "LEN-ACENT",
+          "hints": [
+            "Identificá cuál sílaba tiene mayor fuerza de voz.",
+            "Comprobá dónde cae el acento y cómo termina la palabra; después agregá la tilde."
+          ],
+          "steps": [
+            "La palabra sin tilde es «marmol».",
+            "Se escribe «mármol».",
+            "«Mármol» es grave y termina en L: lleva tilde."
+          ],
+          "difficulty": 3,
+          "id": "MO26-A-C-02",
+          "orthographyBlock": "A",
+          "round": "C",
+          "school": "monserrat",
+          "area": "lengua"
+        },
+        {
+          "kind": "orth-accent",
+          "title": "Elegir y acentuar",
+          "prompt": "Elegí la única palabra que necesita tilde y escribila con la tilde correspondiente.",
+          "options": [
+            "brujula",
+            "pared",
+            "mensaje",
+            "feliz"
+          ],
+          "unaccented": "brujula",
+          "expected": "brújula",
+          "skill": "LEN-ACENT",
+          "hints": [
+            "Identificá cuál sílaba tiene mayor fuerza de voz.",
+            "Comprobá dónde cae el acento y cómo termina la palabra; después agregá la tilde."
+          ],
+          "steps": [
+            "La palabra sin tilde es «brujula».",
+            "Se escribe «brújula».",
+            "«Brújula» es esdrújula: siempre lleva tilde."
+          ],
+          "difficulty": 3,
+          "id": "MO26-A-C-03",
+          "orthographyBlock": "A",
+          "round": "C",
+          "school": "monserrat",
+          "area": "lengua"
+        },
+        {
+          "kind": "orth-accent",
+          "title": "Elegir y acentuar",
+          "prompt": "Elegí la única palabra que necesita tilde y escribila con la tilde correspondiente.",
+          "options": [
+            "rapido",
+            "guitarra",
+            "animal",
+            "ventana"
+          ],
+          "unaccented": "rapido",
+          "expected": "rápido",
+          "skill": "LEN-ACENT",
+          "hints": [
+            "Identificá cuál sílaba tiene mayor fuerza de voz.",
+            "Comprobá dónde cae el acento y cómo termina la palabra; después agregá la tilde."
+          ],
+          "steps": [
+            "La palabra sin tilde es «rapido».",
+            "Se escribe «rápido».",
+            "«Rápido» es esdrújula y lleva tilde."
+          ],
+          "difficulty": 3,
+          "id": "MO26-A-C-04",
+          "orthographyBlock": "A",
+          "round": "C",
+          "school": "monserrat",
+          "area": "lengua"
+        },
+        {
+          "kind": "orth-accent",
+          "title": "Elegir y acentuar",
+          "prompt": "Elegí la única palabra que necesita tilde y escribila con la tilde correspondiente.",
+          "options": [
+            "corazon",
+            "postal",
+            "tablero",
+            "salud"
+          ],
+          "unaccented": "corazon",
+          "expected": "corazón",
+          "skill": "LEN-ACENT",
+          "hints": [
+            "Identificá cuál sílaba tiene mayor fuerza de voz.",
+            "Comprobá dónde cae el acento y cómo termina la palabra; después agregá la tilde."
+          ],
+          "steps": [
+            "La palabra sin tilde es «corazon».",
+            "Se escribe «corazón».",
+            "«Corazón» es aguda terminada en N: lleva tilde."
+          ],
+          "difficulty": 3,
+          "id": "MO26-A-C-05",
+          "orthographyBlock": "A",
+          "round": "C",
+          "school": "monserrat",
+          "area": "lengua"
+        },
+        {
+          "kind": "orth-accent",
+          "title": "Elegir y acentuar",
+          "prompt": "Elegí la única palabra que necesita tilde y escribila con la tilde correspondiente.",
+          "options": [
+            "tunel",
+            "imagen",
+            "artista",
+            "alegre"
+          ],
+          "unaccented": "tunel",
+          "expected": "túnel",
+          "skill": "LEN-ACENT",
+          "hints": [
+            "Identificá cuál sílaba tiene mayor fuerza de voz.",
+            "Comprobá dónde cae el acento y cómo termina la palabra; después agregá la tilde."
+          ],
+          "steps": [
+            "La palabra sin tilde es «tunel».",
+            "Se escribe «túnel».",
+            "«Túnel» es grave terminada en L: lleva tilde."
+          ],
+          "difficulty": 3,
+          "id": "MO26-A-C-06",
+          "orthographyBlock": "A",
+          "round": "C",
+          "school": "monserrat",
+          "area": "lengua"
+        },
+        {
+          "kind": "orth-accent",
+          "title": "Elegir y acentuar",
+          "prompt": "Elegí la única palabra que necesita tilde y escribila con la tilde correspondiente.",
+          "options": [
+            "capitan",
+            "comedor",
+            "pincel",
+            "verdad"
+          ],
+          "unaccented": "capitan",
+          "expected": "capitán",
+          "skill": "LEN-ACENT",
+          "hints": [
+            "Identificá cuál sílaba tiene mayor fuerza de voz.",
+            "Comprobá dónde cae el acento y cómo termina la palabra; después agregá la tilde."
+          ],
+          "steps": [
+            "La palabra sin tilde es «capitan».",
+            "Se escribe «capitán».",
+            "«Capitán» es aguda terminada en N: lleva tilde."
+          ],
+          "difficulty": 3,
+          "id": "MO26-A-C-07",
+          "orthographyBlock": "A",
+          "round": "C",
+          "school": "monserrat",
+          "area": "lengua"
+        }
+      ],
+      "D": [
+        {
+          "kind": "orth-accent-write",
+          "title": "Escribir con tildes",
+          "prompt": "Leé la palabra sin acento escrito y redactá su forma correcta, colocando todas las tildes necesarias.",
+          "word": "semaforo",
+          "expected": "semáforo",
+          "context": "En la esquina hay un semaforo.",
+          "skill": "LEN-ACENT",
+          "hints": [
+            "Pronunciá la palabra y localizá la sílaba tónica.",
+            "Aplicá la regla de las agudas, graves, esdrújulas o hiatos y escribila completa."
+          ],
+          "steps": [
+            "Partimos de «semaforo».",
+            "La escritura correcta es «semáforo».",
+            "«Semáforo» es esdrújula: lleva tilde en «má»."
+          ],
+          "difficulty": 4,
+          "id": "MO26-A-D-01",
+          "orthographyBlock": "A",
+          "round": "D",
+          "school": "monserrat",
+          "area": "lengua"
+        },
+        {
+          "kind": "orth-accent-write",
+          "title": "Escribir con tildes",
+          "prompt": "Leé la palabra sin acento escrito y redactá su forma correcta, colocando todas las tildes necesarias.",
+          "word": "cajon",
+          "expected": "cajón",
+          "context": "Guardamos los materiales en el cajon.",
+          "skill": "LEN-ACENT",
+          "hints": [
+            "Pronunciá la palabra y localizá la sílaba tónica.",
+            "Aplicá la regla de las agudas, graves, esdrújulas o hiatos y escribila completa."
+          ],
+          "steps": [
+            "Partimos de «cajon».",
+            "La escritura correcta es «cajón».",
+            "«Cajón» es aguda y termina en N: lleva tilde."
+          ],
+          "difficulty": 4,
+          "id": "MO26-A-D-02",
+          "orthographyBlock": "A",
+          "round": "D",
+          "school": "monserrat",
+          "area": "lengua"
+        },
+        {
+          "kind": "orth-accent-write",
+          "title": "Escribir con tildes",
+          "prompt": "Leé la palabra sin acento escrito y redactá su forma correcta, colocando todas las tildes necesarias.",
+          "word": "dificil",
+          "expected": "difícil",
+          "context": "El desafío parecía dificil al principio.",
+          "skill": "LEN-ACENT",
+          "hints": [
+            "Pronunciá la palabra y localizá la sílaba tónica.",
+            "Aplicá la regla de las agudas, graves, esdrújulas o hiatos y escribila completa."
+          ],
+          "steps": [
+            "Partimos de «dificil».",
+            "La escritura correcta es «difícil».",
+            "«Difícil» es grave terminada en L: lleva tilde."
+          ],
+          "difficulty": 4,
+          "id": "MO26-A-D-03",
+          "orthographyBlock": "A",
+          "round": "D",
+          "school": "monserrat",
+          "area": "lengua"
+        },
+        {
+          "kind": "orth-accent-write",
+          "title": "Escribir con tildes",
+          "prompt": "Leé la palabra sin acento escrito y redactá su forma correcta, colocando todas las tildes necesarias.",
+          "word": "ecuacion",
+          "expected": "ecuación",
+          "context": "Resolvieron una ecuacion sencilla.",
+          "skill": "LEN-ACENT",
+          "hints": [
+            "Pronunciá la palabra y localizá la sílaba tónica.",
+            "Aplicá la regla de las agudas, graves, esdrújulas o hiatos y escribila completa."
+          ],
+          "steps": [
+            "Partimos de «ecuacion».",
+            "La escritura correcta es «ecuación».",
+            "«Ecuación» es aguda terminada en N: lleva tilde."
+          ],
+          "difficulty": 4,
+          "id": "MO26-A-D-04",
+          "orthographyBlock": "A",
+          "round": "D",
+          "school": "monserrat",
+          "area": "lengua"
+        },
+        {
+          "kind": "orth-accent-write",
+          "title": "Escribir con tildes",
+          "prompt": "Leé la palabra sin acento escrito y redactá su forma correcta, colocando todas las tildes necesarias.",
+          "word": "colibri",
+          "expected": "colibrí",
+          "context": "Un colibri se acercó a las flores.",
+          "skill": "LEN-ACENT",
+          "hints": [
+            "Pronunciá la palabra y localizá la sílaba tónica.",
+            "Aplicá la regla de las agudas, graves, esdrújulas o hiatos y escribila completa."
+          ],
+          "steps": [
+            "Partimos de «colibri».",
+            "La escritura correcta es «colibrí».",
+            "«Colibrí» es aguda terminada en vocal: lleva tilde."
+          ],
+          "difficulty": 4,
+          "id": "MO26-A-D-05",
+          "orthographyBlock": "A",
+          "round": "D",
+          "school": "monserrat",
+          "area": "lengua"
+        },
+        {
+          "kind": "orth-accent-write",
+          "title": "Escribir con tildes",
+          "prompt": "Leé la palabra sin acento escrito y redactá su forma correcta, colocando todas las tildes necesarias.",
+          "word": "fotografia",
+          "expected": "fotografía",
+          "context": "La fotografia quedó colgada en la pared.",
+          "skill": "LEN-ACENT",
+          "hints": [
+            "Pronunciá la palabra y localizá la sílaba tónica.",
+            "Aplicá la regla de las agudas, graves, esdrújulas o hiatos y escribila completa."
+          ],
+          "steps": [
+            "Partimos de «fotografia».",
+            "La escritura correcta es «fotografía».",
+            "«Fotografía» lleva tilde en la Í porque forma hiato con la A."
+          ],
+          "difficulty": 4,
+          "id": "MO26-A-D-06",
+          "orthographyBlock": "A",
+          "round": "D",
+          "school": "monserrat",
+          "area": "lengua"
+        },
+        {
+          "kind": "orth-accent-write",
+          "title": "Escribir con tildes",
+          "prompt": "Leé la palabra sin acento escrito y redactá su forma correcta, colocando todas las tildes necesarias.",
+          "word": "pajaro",
+          "expected": "pájaro",
+          "context": "Un pajaro construyó un nido en el árbol.",
+          "skill": "LEN-ACENT",
+          "hints": [
+            "Pronunciá la palabra y localizá la sílaba tónica.",
+            "Aplicá la regla de las agudas, graves, esdrújulas o hiatos y escribila completa."
+          ],
+          "steps": [
+            "Partimos de «pajaro».",
+            "La escritura correcta es «pájaro».",
+            "«Pájaro» es esdrújula: lleva tilde."
+          ],
+          "difficulty": 4,
+          "id": "MO26-A-D-07",
+          "orthographyBlock": "A",
+          "round": "D",
+          "school": "monserrat",
+          "area": "lengua"
+        }
       ]
     },
     "T": {
-      "label": "Tilde diacrítica",
+      "label": "Tilde diacrítica en monosílabos",
       "reference": "I.5, página 3",
       "A": [
         {
@@ -1845,6 +2574,367 @@
             "La opción correcta es «qué».",
             "«Qué» lleva tilde en preguntas indirectas."
           ]
+        }
+      ],
+      "C": [
+        {
+          "kind": "orth-diacritic",
+          "title": "¿Con tilde o sin tilde?",
+          "prompt": "Elegí la palabra que completa correctamente la oración.",
+          "context": "Quiero que me ___ una respuesta.",
+          "options": [
+            "de",
+            "dé"
+          ],
+          "expected": "dé",
+          "skill": "LEN-DIAC",
+          "hints": [
+            "Fijate si la palabra funciona como pronombre, artículo, verbo o posesivo.",
+            "Estas formas se pronuncian igual: elegí la que corresponde al significado de la oración."
+          ],
+          "steps": [
+            "La oración completa es: «Quiero que me dé una respuesta.».",
+            "La opción correcta es «dé».",
+            "«Dé» es del verbo dar y lleva tilde."
+          ],
+          "difficulty": 3,
+          "id": "MO26-T-C-01",
+          "orthographyBlock": "T",
+          "round": "C",
+          "school": "monserrat",
+          "area": "lengua"
+        },
+        {
+          "kind": "orth-diacritic",
+          "title": "¿Con tilde o sin tilde?",
+          "prompt": "Elegí la palabra que completa correctamente la oración.",
+          "context": "El regalo es ___ mi tío.",
+          "options": [
+            "dé",
+            "de"
+          ],
+          "expected": "de",
+          "skill": "LEN-DIAC",
+          "hints": [
+            "Fijate si la palabra funciona como pronombre, artículo, verbo o posesivo.",
+            "Estas formas se pronuncian igual: elegí la que corresponde al significado de la oración."
+          ],
+          "steps": [
+            "La oración completa es: «El regalo es de mi tío.».",
+            "La opción correcta es «de».",
+            "«De» es preposición y no lleva tilde."
+          ],
+          "difficulty": 3,
+          "id": "MO26-T-C-02",
+          "orthographyBlock": "T",
+          "round": "C",
+          "school": "monserrat",
+          "area": "lengua"
+        },
+        {
+          "kind": "orth-diacritic",
+          "title": "¿Con tilde o sin tilde?",
+          "prompt": "Elegí la palabra que completa correctamente la oración.",
+          "context": "Ya ___ cómo resolver este problema.",
+          "options": [
+            "sé",
+            "se"
+          ],
+          "expected": "sé",
+          "skill": "LEN-DIAC",
+          "hints": [
+            "Fijate si la palabra funciona como pronombre, artículo, verbo o posesivo.",
+            "Estas formas se pronuncian igual: elegí la que corresponde al significado de la oración."
+          ],
+          "steps": [
+            "La oración completa es: «Ya sé cómo resolver este problema.».",
+            "La opción correcta es «sé».",
+            "«Sé» es del verbo saber y lleva tilde."
+          ],
+          "difficulty": 3,
+          "id": "MO26-T-C-03",
+          "orthographyBlock": "T",
+          "round": "C",
+          "school": "monserrat",
+          "area": "lengua"
+        },
+        {
+          "kind": "orth-diacritic",
+          "title": "¿Con tilde o sin tilde?",
+          "prompt": "Elegí la palabra que completa correctamente la oración.",
+          "context": "___ terminó la actividad de Lengua.",
+          "options": [
+            "Se",
+            "Sé"
+          ],
+          "expected": "Se",
+          "skill": "LEN-DIAC",
+          "hints": [
+            "Fijate si la palabra funciona como pronombre, artículo, verbo o posesivo.",
+            "Estas formas se pronuncian igual: elegí la que corresponde al significado de la oración."
+          ],
+          "steps": [
+            "La oración completa es: «Se terminó la actividad de Lengua.».",
+            "La opción correcta es «Se».",
+            "«Se» es pronombre y no lleva tilde."
+          ],
+          "difficulty": 3,
+          "id": "MO26-T-C-04",
+          "orthographyBlock": "T",
+          "round": "C",
+          "school": "monserrat",
+          "area": "lengua"
+        },
+        {
+          "kind": "orth-diacritic",
+          "title": "¿Con tilde o sin tilde?",
+          "prompt": "Elegí la palabra que completa correctamente la oración.",
+          "context": "Prefiero una taza de ___ con leche.",
+          "options": [
+            "te",
+            "té"
+          ],
+          "expected": "té",
+          "skill": "LEN-DIAC",
+          "hints": [
+            "Fijate si la palabra funciona como pronombre, artículo, verbo o posesivo.",
+            "Estas formas se pronuncian igual: elegí la que corresponde al significado de la oración."
+          ],
+          "steps": [
+            "La oración completa es: «Prefiero una taza de té con leche.».",
+            "La opción correcta es «té».",
+            "«Té» nombra la infusión y lleva tilde."
+          ],
+          "difficulty": 3,
+          "id": "MO26-T-C-05",
+          "orthographyBlock": "T",
+          "round": "C",
+          "school": "monserrat",
+          "area": "lengua"
+        },
+        {
+          "kind": "orth-diacritic",
+          "title": "¿Con tilde o sin tilde?",
+          "prompt": "Elegí la palabra que completa correctamente la oración.",
+          "context": "Para ___, esta explicación fue clara.",
+          "options": [
+            "mí",
+            "mi"
+          ],
+          "expected": "mí",
+          "skill": "LEN-DIAC",
+          "hints": [
+            "Fijate si la palabra funciona como pronombre, artículo, verbo o posesivo.",
+            "Estas formas se pronuncian igual: elegí la que corresponde al significado de la oración."
+          ],
+          "steps": [
+            "La oración completa es: «Para mí, esta explicación fue clara.».",
+            "La opción correcta es «mí».",
+            "«Mí» es pronombre personal y lleva tilde."
+          ],
+          "difficulty": 3,
+          "id": "MO26-T-C-06",
+          "orthographyBlock": "T",
+          "round": "C",
+          "school": "monserrat",
+          "area": "lengua"
+        },
+        {
+          "kind": "orth-diacritic",
+          "title": "¿Con tilde o sin tilde?",
+          "prompt": "Elegí la palabra que completa correctamente la oración.",
+          "context": "¿___ vendrás mañana a la biblioteca?",
+          "options": [
+            "Tú",
+            "Tu"
+          ],
+          "expected": "Tú",
+          "skill": "LEN-DIAC",
+          "hints": [
+            "Fijate si la palabra funciona como pronombre, artículo, verbo o posesivo.",
+            "Estas formas se pronuncian igual: elegí la que corresponde al significado de la oración."
+          ],
+          "steps": [
+            "La oración completa es: «¿Tú vendrás mañana a la biblioteca?».",
+            "La opción correcta es «Tú».",
+            "«Tú» funciona como pronombre personal y lleva tilde."
+          ],
+          "difficulty": 3,
+          "id": "MO26-T-C-07",
+          "orthographyBlock": "T",
+          "round": "C",
+          "school": "monserrat",
+          "area": "lengua"
+        }
+      ],
+      "D": [
+        {
+          "kind": "orth-diacritic-write",
+          "title": "Escribir el monosílabo correcto",
+          "prompt": "Completá la oración escribiendo una sola palabra, con tilde o sin tilde según corresponda.",
+          "context": "¿Querés venir? ___, claro.",
+          "expected": "Sí",
+          "alternate": "Si",
+          "skill": "LEN-DIAC",
+          "hints": [
+            "Leé qué función cumple la palabra que falta.",
+            "Pensá la diferencia de significado entre «Sí» y «Si». Escribí solamente la palabra correcta."
+          ],
+          "steps": [
+            "En esta oración corresponde «Sí».",
+            "Queda: «¿Querés venir? Sí, claro.».",
+            "«Sí» afirmativo lleva tilde."
+          ],
+          "difficulty": 4,
+          "id": "MO26-T-D-01",
+          "orthographyBlock": "T",
+          "round": "D",
+          "school": "monserrat",
+          "area": "lengua"
+        },
+        {
+          "kind": "orth-diacritic-write",
+          "title": "Escribir el monosílabo correcto",
+          "prompt": "Completá la oración escribiendo una sola palabra, con tilde o sin tilde según corresponda.",
+          "context": "___ mamá llegó temprano.",
+          "expected": "Mi",
+          "alternate": "Mí",
+          "skill": "LEN-DIAC",
+          "hints": [
+            "Leé qué función cumple la palabra que falta.",
+            "Pensá la diferencia de significado entre «Mi» y «Mí». Escribí solamente la palabra correcta."
+          ],
+          "steps": [
+            "En esta oración corresponde «Mi».",
+            "Queda: «Mi mamá llegó temprano.».",
+            "«Mi» es posesivo y no lleva tilde."
+          ],
+          "difficulty": 4,
+          "id": "MO26-T-D-02",
+          "orthographyBlock": "T",
+          "round": "D",
+          "school": "monserrat",
+          "area": "lengua"
+        },
+        {
+          "kind": "orth-diacritic-write",
+          "title": "Escribir el monosílabo correcto",
+          "prompt": "Completá la oración escribiendo una sola palabra, con tilde o sin tilde según corresponda.",
+          "context": "Ese cuaderno es para ___.",
+          "expected": "mí",
+          "alternate": "mi",
+          "skill": "LEN-DIAC",
+          "hints": [
+            "Leé qué función cumple la palabra que falta.",
+            "Pensá la diferencia de significado entre «mí» y «mi». Escribí solamente la palabra correcta."
+          ],
+          "steps": [
+            "En esta oración corresponde «mí».",
+            "Queda: «Ese cuaderno es para mí.».",
+            "«Mí» es pronombre y lleva tilde."
+          ],
+          "difficulty": 4,
+          "id": "MO26-T-D-03",
+          "orthographyBlock": "T",
+          "round": "D",
+          "school": "monserrat",
+          "area": "lengua"
+        },
+        {
+          "kind": "orth-diacritic-write",
+          "title": "Escribir el monosílabo correcto",
+          "prompt": "Completá la oración escribiendo una sola palabra, con tilde o sin tilde según corresponda.",
+          "context": "Es importante que me ___ una oportunidad.",
+          "expected": "dé",
+          "alternate": "de",
+          "skill": "LEN-DIAC",
+          "hints": [
+            "Leé qué función cumple la palabra que falta.",
+            "Pensá la diferencia de significado entre «dé» y «de». Escribí solamente la palabra correcta."
+          ],
+          "steps": [
+            "En esta oración corresponde «dé».",
+            "Queda: «Es importante que me dé una oportunidad.».",
+            "«Dé» es una forma del verbo dar y lleva tilde."
+          ],
+          "difficulty": 4,
+          "id": "MO26-T-D-04",
+          "orthographyBlock": "T",
+          "round": "D",
+          "school": "monserrat",
+          "area": "lengua"
+        },
+        {
+          "kind": "orth-diacritic-write",
+          "title": "Escribir el monosílabo correcto",
+          "prompt": "Completá la oración escribiendo una sola palabra, con tilde o sin tilde según corresponda.",
+          "context": "Traé ___ carpeta de Lengua.",
+          "expected": "tu",
+          "alternate": "tú",
+          "skill": "LEN-DIAC",
+          "hints": [
+            "Leé qué función cumple la palabra que falta.",
+            "Pensá la diferencia de significado entre «tu» y «tú». Escribí solamente la palabra correcta."
+          ],
+          "steps": [
+            "En esta oración corresponde «tu».",
+            "Queda: «Traé tu carpeta de Lengua.».",
+            "«Tu» es posesivo y no lleva tilde."
+          ],
+          "difficulty": 4,
+          "id": "MO26-T-D-05",
+          "orthographyBlock": "T",
+          "round": "D",
+          "school": "monserrat",
+          "area": "lengua"
+        },
+        {
+          "kind": "orth-diacritic-write",
+          "title": "Escribir el monosílabo correcto",
+          "prompt": "Completá la oración escribiendo una sola palabra, con tilde o sin tilde según corresponda.",
+          "context": "No sé ___ ocurrió al final.",
+          "expected": "qué",
+          "alternate": "que",
+          "skill": "LEN-DIAC",
+          "hints": [
+            "Leé qué función cumple la palabra que falta.",
+            "Pensá la diferencia de significado entre «qué» y «que». Escribí solamente la palabra correcta."
+          ],
+          "steps": [
+            "En esta oración corresponde «qué».",
+            "Queda: «No sé qué ocurrió al final.».",
+            "«Qué» lleva tilde en la interrogación indirecta."
+          ],
+          "difficulty": 4,
+          "id": "MO26-T-D-06",
+          "orthographyBlock": "T",
+          "round": "D",
+          "school": "monserrat",
+          "area": "lengua"
+        },
+        {
+          "kind": "orth-diacritic-write",
+          "title": "Escribir el monosílabo correcto",
+          "prompt": "Completá la oración escribiendo una sola palabra, con tilde o sin tilde según corresponda.",
+          "context": "Quiso continuar, ___ estaba cansada.",
+          "expected": "mas",
+          "alternate": "más",
+          "skill": "LEN-DIAC",
+          "hints": [
+            "Leé qué función cumple la palabra que falta.",
+            "Pensá la diferencia de significado entre «mas» y «más». Escribí solamente la palabra correcta."
+          ],
+          "steps": [
+            "En esta oración corresponde «mas».",
+            "Queda: «Quiso continuar, mas estaba cansada.».",
+            "«Mas» equivale a «pero» y no lleva tilde."
+          ],
+          "difficulty": 4,
+          "id": "MO26-T-D-07",
+          "orthographyBlock": "T",
+          "round": "D",
+          "school": "monserrat",
+          "area": "lengua"
         }
       ]
     }
