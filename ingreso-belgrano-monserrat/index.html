@@ -5,13 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#173f6b">
   <meta name="description" content="Entrenamiento interactivo para los ingresos al Manuel Belgrano y al Colegio Nacional de Monserrat.">
-  <meta name="app-version" content="6.28.0">
+  <meta name="app-version" content="6.29.0">
   <title>Ingreso Belgrano · Monserrat</title>
   <link rel="manifest" href="./manifest.webmanifest">
-  <link rel="stylesheet" href="./styles.css?v=6.28.0">
-  <link rel="stylesheet" href="./styles-v6.css?v=6.28.0">
-  <link rel="stylesheet" href="./badges-v6-9.css?v=6.28.0">
-  <link rel="stylesheet" href="./desafios-fracciones.css?v=6.28.0">
+  <link rel="stylesheet" href="./styles.css?v=6.29.0">
+  <link rel="stylesheet" href="./styles-v6.css?v=6.29.0">
+  <link rel="stylesheet" href="./badges-v6-9.css?v=6.29.0">
+  <link rel="stylesheet" href="./desafios-fracciones.css?v=6.29.0">
   <style>
     .build-version{position:fixed;right:14px;bottom:14px;z-index:100000;padding:6px 9px;border:1px solid rgba(23,63,107,.16);border-radius:999px;background:rgba(255,255,255,.94);box-shadow:0 5px 16px rgba(23,63,107,.12);color:#526679;font:700 11px/1 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;letter-spacing:.02em;user-select:none}
     @media(max-width:700px){.build-version{right:10px;bottom:76px}}
@@ -19,7 +19,7 @@
 </head>
 <body class="security-pending">
   <a class="skip" href="#app-main">Saltar al contenido</a>
-  <div class="build-version" title="Versión instalada de la aplicación" aria-label="Versión instalada 6.28.0">Versión 6.28.0</div>
+  <div class="build-version" title="Versión instalada de la aplicación" aria-label="Versión instalada 6.29.0">Versión 6.29.0</div>
 
   <section id="profile-gate" class="gate" aria-labelledby="gate-title">
     <div class="gate-card">
@@ -104,6 +104,29 @@
             <button class="primary-button" type="button" data-start-fractions>Empezar desafíos</button>
           </section>
 
+
+          <section class="panel" aria-labelledby="modelo-home-heading">
+            <div class="panel-heading"><div><p class="eyebrow">Modelo de ingreso · Práctica especial</p>
+              <h3 id="modelo-home-heading">Entrenar por tipo de ejercicio</h3></div></div>
+            <p>La misma experiencia de los desafíos de fracciones: siete consignas por circuito, pistas graduales y explicaciones. Cada tipo de problema se repite con variantes para aprender el procedimiento.</p>
+            <div class="model-block-grid">
+              <article class="model-block-card">
+                <span aria-hidden="true" class="training-icon">◩</span>
+                <h4>Representaciones de fracciones</h4>
+                <p>Compará partes y enteros, leé figuras y coloreá superficies.</p>
+                <p class="fraction-entry-meta" data-model-status="R">Circuito A · 7 desafíos</p>
+                <button type="button" class="primary-button" data-start-model="R">Empezar representaciones</button>
+              </article>
+              <article class="model-block-card">
+                <span aria-hidden="true" class="training-icon">⬡</span>
+                <h4>Perímetros de figuras compuestas</h4>
+                <p>Marcá bordes exteriores y calculá longitudes sin sumar tramos interiores.</p>
+                <p class="fraction-entry-meta" data-model-status="P">Circuito A · 7 desafíos</p>
+                <button type="button" class="primary-button" data-start-model="P">Empezar perímetros</button>
+              </article>
+            </div>
+          </section>
+
           <div class="stats-grid">
             <article class="stat-card"><small>Matemática</small><strong id="stat-math">Sin evaluar</strong><span id="stat-math-note">Hacé el diagnóstico inicial</span></article>
             <article class="stat-card"><small>Lengua</small><strong id="stat-lang">Sin evaluar</strong><span id="stat-lang-note">Hacé el diagnóstico inicial</span></article>
@@ -141,6 +164,27 @@
               <p class="fraction-entry-meta" data-fraction-status>Tanda A · 7 desafíos nuevos</p>
             </div>
             <button class="primary-button" type="button" data-start-fractions>Practicar fracciones</button>
+          </section>
+
+
+          <section class="panel" aria-labelledby="modelo-training-heading">
+            <div class="panel-heading"><div><p class="eyebrow">Práctica específica · Modelo de ingreso</p>
+              <h3 id="modelo-training-heading">Desafíos interactivos por bloques</h3></div></div>
+            <p>Igual que los desafíos de fracciones: consigna visual, comprobar, pistas y explicación. Cada bloque tiene dos circuitos de siete actividades originales.</p>
+            <div class="model-block-grid">
+              <article class="model-block-card">
+                <h4>Figuras y relaciones de fracciones</h4>
+                <p>Interpretá qué representa una parte respecto de otra cantidad.</p>
+                <p class="fraction-entry-meta" data-model-status="R">Circuito A · 7 desafíos</p>
+                <button class="primary-button" type="button" data-start-model="R">Practicar representaciones</button>
+              </article>
+              <article class="model-block-card">
+                <h4>Geometría: perímetros</h4>
+                <p>Identificá los segmentos que cuentan y calculá el contorno exterior.</p>
+                <p class="fraction-entry-meta" data-model-status="P">Circuito A · 7 desafíos</p>
+                <button class="primary-button" type="button" data-start-model="P">Practicar perímetros</button>
+              </article>
+            </div>
           </section>
 
           <section class="panel exam-panel">
@@ -281,28 +325,28 @@
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="./config.js?v=6.28.0"></script>
-  <script src="./seguridad.js?v=6.28.0"></script>
-  <script src="./banco-v4.js?v=6.28.0"></script>
-  <script src="./banco-v5.js?v=6.28.0"></script>
-  <script src="./banco-v6.js?v=6.28.0"></script>
-  <script src="./banco-v6-10.js?v=6.28.0"></script>
-  <script src="./banco-v6-11.js?v=6.28.0"></script>
-  <script src="./banco-v6-16.js?v=6.28.0"></script>
-  <script src="./banco-v6-17-belgrano.js?v=6.28.0"></script>
-  <script src="./banco-v6-21.js?v=6.28.0"></script>
-  <script src="./banco-refuerzo-noviembre.js?v=6.28.0"></script>
-  <script src="./respuestas-v6-21.js?v=6.28.0"></script>
-  <script src="./pedagogy-v6-18.js?v=6.28.0"></script>
-  <script src="./app.js?v=6.28.0"></script>
-  <script src="./desafios-fracciones.js?v=6.28.0"></script>
-  <script src="./simulacros.js?v=6.28.0"></script>
-  <script src="./testeo.js?v=6.28.0"></script>
-  <script src="./reportes-ejercicios.js?v=6.28.0"></script>
-  <script src="./ui-v6.js?v=6.28.0"></script>
-  <script src="./ui-v6-4.js?v=6.28.0"></script>
-  <script src="./adaptive-v6-8.js?v=6.28.0"></script>
-  <script src="./choice-order-v6-8-2.js?v=6.28.0"></script>
-  <script src="./badges-v6-9.js?v=6.28.0"></script>
+  <script src="./config.js?v=6.29.0"></script>
+  <script src="./seguridad.js?v=6.29.0"></script>
+  <script src="./banco-v4.js?v=6.29.0"></script>
+  <script src="./banco-v5.js?v=6.29.0"></script>
+  <script src="./banco-v6.js?v=6.29.0"></script>
+  <script src="./banco-v6-10.js?v=6.29.0"></script>
+  <script src="./banco-v6-11.js?v=6.29.0"></script>
+  <script src="./banco-v6-16.js?v=6.29.0"></script>
+  <script src="./banco-v6-17-belgrano.js?v=6.29.0"></script>
+  <script src="./banco-v6-21.js?v=6.29.0"></script>
+  <script src="./banco-refuerzo-noviembre.js?v=6.29.0"></script>
+  <script src="./respuestas-v6-21.js?v=6.29.0"></script>
+  <script src="./pedagogy-v6-18.js?v=6.29.0"></script>
+  <script src="./app.js?v=6.29.0"></script>
+  <script src="./desafios-fracciones.js?v=6.29.0"></script>
+  <script src="./simulacros.js?v=6.29.0"></script>
+  <script src="./testeo.js?v=6.29.0"></script>
+  <script src="./reportes-ejercicios.js?v=6.29.0"></script>
+  <script src="./ui-v6.js?v=6.29.0"></script>
+  <script src="./ui-v6-4.js?v=6.29.0"></script>
+  <script src="./adaptive-v6-8.js?v=6.29.0"></script>
+  <script src="./choice-order-v6-8-2.js?v=6.29.0"></script>
+  <script src="./badges-v6-9.js?v=6.29.0"></script>
 </body>
 </html>

@@ -1,0 +1,737 @@
+{
+  "version": 1,
+  "source": "Ejercicios originales diseñados a partir de los tipos de resolución del modelo adjunto de prueba de nivel de Matemática de ingreso al Manuel Belgrano (2025/2026). No se transcriben las consignas originales.",
+  "blocks": {
+    "R": {
+      "label": "Representaciones de fracciones",
+      "reference": "preguntas 13-18 (pp. 5-6)",
+      "rounds": {
+        "A": [
+          {
+            "kind": "visual-read",
+            "title": "Reconocer lo sombreado",
+            "prompt": "Observá los ocho cuadrados. ¿Qué fracción de la figura está coloreada?",
+            "cells": 8,
+            "shaded": 3,
+            "expected": [
+              3,
+              8
+            ],
+            "hints": [
+              "Primero contá cuántas partes iguales tiene la figura.",
+              "El denominador es 8 y el numerador es la cantidad de cuadrados pintados."
+            ],
+            "steps": [
+              "La figura está dividida en 8 partes iguales.",
+              "Hay 3 partes coloreadas.",
+              "Representan 3/8."
+            ],
+            "id": "MB26-R-A-01",
+            "block": "R",
+            "round": "A",
+            "area": "matematica",
+            "school": "belgrano",
+            "difficulty": 2,
+            "skill": "MAT-FR-CON"
+          },
+          {
+            "kind": "visual-read",
+            "title": "Otra figura, el mismo procedimiento",
+            "prompt": "Ahora observá diez cuadrados. ¿Qué fracción está coloreada?",
+            "cells": 10,
+            "shaded": 6,
+            "expected": [
+              3,
+              5
+            ],
+            "hints": [
+              "El entero está formado por diez partes iguales.",
+              "Escribí 6/10 y fijate si se puede simplificar."
+            ],
+            "steps": [
+              "Hay 10 partes iguales y 6 están pintadas.",
+              "La fracción es 6/10.",
+              "Simplificando: 3/5."
+            ],
+            "difficulty": 2,
+            "id": "MB26-R-A-02",
+            "block": "R",
+            "round": "A",
+            "area": "matematica",
+            "school": "belgrano",
+            "skill": "MAT-FR-CON"
+          },
+          {
+            "kind": "visual-compare",
+            "title": "La unidad de referencia",
+            "prompt": "Las fichas de la fila A representan ¿qué fracción de las fichas de la fila B?",
+            "top": 3,
+            "bottom": 6,
+            "expected": [
+              1,
+              2
+            ],
+            "hints": [
+              "La pregunta dice «A respecto de B». La fila B es la referencia.",
+              "Contá 3 fichas arriba y 6 abajo: escribí 3/6."
+            ],
+            "steps": [
+              "La cantidad A tiene 3 fichas.",
+              "La cantidad de referencia B tiene 6 fichas.",
+              "3/6 equivale a 1/2."
+            ],
+            "difficulty": 3,
+            "id": "MB26-R-A-03",
+            "block": "R",
+            "round": "A",
+            "area": "matematica",
+            "school": "belgrano",
+            "skill": "MAT-FR-CON"
+          },
+          {
+            "kind": "visual-compare",
+            "title": "Cuando la parte supera el entero",
+            "prompt": "Las fichas de la fila A representan ¿qué fracción de las fichas de la fila B?",
+            "top": 9,
+            "bottom": 6,
+            "expected": [
+              3,
+              2
+            ],
+            "hints": [
+              "La fila B es la unidad de referencia: tiene seis fichas.",
+              "A tiene nueve: 9/6 es una fracción mayor que 1."
+            ],
+            "steps": [
+              "A tiene 9 fichas y B tiene 6.",
+              "La relación A respecto de B es 9/6.",
+              "9/6 = 3/2 = 1 entero y medio."
+            ],
+            "difficulty": 3,
+            "id": "MB26-R-A-04",
+            "block": "R",
+            "round": "A",
+            "area": "matematica",
+            "school": "belgrano",
+            "skill": "MAT-FR-CON"
+          },
+          {
+            "kind": "visual-half",
+            "title": "Cuadrados y medios cuadrados",
+            "prompt": "En la figura hay seis cuadrados iguales. Algunos están pintados por completo y otros por la mitad. ¿Qué fracción del total está pintada?",
+            "cells": 6,
+            "shadedHalves": 7,
+            "expected": [
+              7,
+              12
+            ],
+            "hints": [
+              "Cada cuadrado equivale a dos mitades iguales.",
+              "En total hay 12 mitades. Contá las mitades pintadas."
+            ],
+            "steps": [
+              "Seis cuadrados forman 12 mitades iguales.",
+              "Hay 7 mitades pintadas.",
+              "La fracción sombreada es 7/12."
+            ],
+            "difficulty": 3,
+            "id": "MB26-R-A-05",
+            "block": "R",
+            "round": "A",
+            "area": "matematica",
+            "school": "belgrano",
+            "skill": "MAT-FR-CON"
+          },
+          {
+            "kind": "visual-word",
+            "title": "Fracción en una palabra",
+            "prompt": "¿Qué fracción de las letras de PLANETA son vocales?",
+            "word": "PLANETA",
+            "expected": [
+              3,
+              7
+            ],
+            "hints": [
+              "Contá todas las letras: ese es el denominador.",
+              "Las vocales son A, E y A."
+            ],
+            "steps": [
+              "PLANETA tiene 7 letras.",
+              "Hay 3 vocales: A, E y A.",
+              "La fracción es 3/7."
+            ],
+            "difficulty": 2,
+            "id": "MB26-R-A-06",
+            "block": "R",
+            "round": "A",
+            "area": "matematica",
+            "school": "belgrano",
+            "skill": "MAT-FR-CON"
+          },
+          {
+            "kind": "visual-paint",
+            "title": "Ahora representalo vos",
+            "prompt": "La figura tiene 12 cuadrados iguales. Pintá 3/4 de la superficie.",
+            "cells": 12,
+            "paint": 9,
+            "hints": [
+              "Dividí 12 en cuatro grupos iguales.",
+              "3/4 de 12 son tres grupos de tres cuadrados."
+            ],
+            "steps": [
+              "12 ÷ 4 = 3 cuadrados por cuarto.",
+              "3 × 3 = 9 cuadrados.",
+              "Hay que pintar 9 cuadrados."
+            ],
+            "difficulty": 3,
+            "id": "MB26-R-A-07",
+            "block": "R",
+            "round": "A",
+            "area": "matematica",
+            "school": "belgrano",
+            "skill": "MAT-FR-CON"
+          }
+        ],
+        "B": [
+          {
+            "kind": "visual-read",
+            "title": "Reconocer partes coloreadas",
+            "prompt": "Esta figura tiene doce cuadrados iguales. ¿Qué fracción está coloreada?",
+            "cells": 12,
+            "shaded": 5,
+            "expected": [
+              5,
+              12
+            ],
+            "hints": [
+              "El entero es el conjunto de los doce cuadrados.",
+              "Contá los cinco pintados y escribí pintados/total."
+            ],
+            "steps": [
+              "El entero tiene 12 partes iguales.",
+              "Se colorearon 5.",
+              "La fracción es 5/12."
+            ],
+            "id": "MB26-R-B-01",
+            "block": "R",
+            "round": "B",
+            "area": "matematica",
+            "school": "belgrano",
+            "difficulty": 2,
+            "skill": "MAT-FR-CON"
+          },
+          {
+            "kind": "visual-read",
+            "title": "Identificar fracciones equivalentes",
+            "prompt": "Observá seis cuadrados iguales. ¿Qué fracción está pintada?",
+            "cells": 6,
+            "shaded": 4,
+            "expected": [
+              2,
+              3
+            ],
+            "hints": [
+              "Cuatro de seis partes están coloreadas.",
+              "4/6 se simplifica dividiendo numerador y denominador por 2."
+            ],
+            "steps": [
+              "Se pintaron 4 de 6 partes.",
+              "La fracción es 4/6.",
+              "La forma equivalente simplificada es 2/3."
+            ],
+            "difficulty": 2,
+            "id": "MB26-R-B-02",
+            "block": "R",
+            "round": "B",
+            "area": "matematica",
+            "school": "belgrano",
+            "skill": "MAT-FR-CON"
+          },
+          {
+            "kind": "visual-compare",
+            "title": "Comparar dos colecciones",
+            "prompt": "¿Qué fracción representa la cantidad de la fila A respecto de la fila B?",
+            "top": 5,
+            "bottom": 8,
+            "expected": [
+              5,
+              8
+            ],
+            "hints": [
+              "Tomá la fila B como totalidad de referencia.",
+              "Contá los objetos: A tiene 5 y B tiene 8."
+            ],
+            "steps": [
+              "La fila A tiene 5 fichas.",
+              "La fila B tiene 8 fichas.",
+              "La relación A/B es 5/8."
+            ],
+            "difficulty": 3,
+            "id": "MB26-R-B-03",
+            "block": "R",
+            "round": "B",
+            "area": "matematica",
+            "school": "belgrano",
+            "skill": "MAT-FR-CON"
+          },
+          {
+            "kind": "visual-compare",
+            "title": "Comparar con más de un entero",
+            "prompt": "¿Qué fracción representa la cantidad de la fila A respecto de la fila B?",
+            "top": 10,
+            "bottom": 4,
+            "expected": [
+              5,
+              2
+            ],
+            "hints": [
+              "La referencia es la fila B, de cuatro fichas.",
+              "A tiene diez fichas. La relación es 10/4, mayor que dos enteros."
+            ],
+            "steps": [
+              "La referencia B tiene 4 fichas.",
+              "A tiene 10 fichas, por eso A/B = 10/4.",
+              "10/4 = 5/2 = dos enteros y medio."
+            ],
+            "difficulty": 4,
+            "id": "MB26-R-B-04",
+            "block": "R",
+            "round": "B",
+            "area": "matematica",
+            "school": "belgrano",
+            "skill": "MAT-FR-CON"
+          },
+          {
+            "kind": "visual-half",
+            "title": "Reconocer una mitad coloreada",
+            "prompt": "La figura tiene cinco cuadrados iguales. Algunos están completos y uno pintado por la mitad. ¿Qué fracción del total quedó coloreada?",
+            "cells": 5,
+            "shadedHalves": 5,
+            "expected": [
+              1,
+              2
+            ],
+            "hints": [
+              "Cinco cuadrados equivalen a diez medios cuadrados.",
+              "Contá los medios cuadrados pintados y escribí la relación."
+            ],
+            "steps": [
+              "Hay 10 mitades en total.",
+              "Están coloreadas 5 mitades.",
+              "5/10 equivale a 1/2."
+            ],
+            "difficulty": 3,
+            "id": "MB26-R-B-05",
+            "block": "R",
+            "round": "B",
+            "area": "matematica",
+            "school": "belgrano",
+            "skill": "MAT-FR-CON"
+          },
+          {
+            "kind": "visual-word",
+            "title": "Letras y partes del total",
+            "prompt": "¿Qué fracción de las letras de HORIZONTE son vocales?",
+            "word": "HORIZONTE",
+            "expected": [
+              4,
+              9
+            ],
+            "hints": [
+              "La palabra contiene nueve letras.",
+              "Contá O, I, O y E como vocales."
+            ],
+            "steps": [
+              "HORIZONTE tiene 9 letras.",
+              "Hay 4 vocales.",
+              "La fracción es 4/9."
+            ],
+            "difficulty": 2,
+            "id": "MB26-R-B-06",
+            "block": "R",
+            "round": "B",
+            "area": "matematica",
+            "school": "belgrano",
+            "skill": "MAT-FR-CON"
+          },
+          {
+            "kind": "visual-paint",
+            "title": "Representación autónoma",
+            "prompt": "Pintá 5/8 de una figura formada por 16 cuadrados iguales.",
+            "cells": 16,
+            "paint": 10,
+            "hints": [
+              "Un octavo de 16 equivale a dos cuadrados.",
+              "Cinco octavos son cinco grupos de dos."
+            ],
+            "steps": [
+              "16 ÷ 8 = 2.",
+              "5 × 2 = 10.",
+              "Hay que pintar 10 cuadrados."
+            ],
+            "difficulty": 4,
+            "id": "MB26-R-B-07",
+            "block": "R",
+            "round": "B",
+            "area": "matematica",
+            "school": "belgrano",
+            "skill": "MAT-FR-CON"
+          }
+        ]
+      }
+    },
+    "P": {
+      "label": "Perímetros de figuras compuestas",
+      "reference": "preguntas 20-22 (pp. 7-8)",
+      "rounds": {
+        "A": [
+          {
+            "kind": "perimeter-select",
+            "figure": "joined",
+            "title": "Qué tramos forman el borde",
+            "prompt": "Dos cuadrados se unen por un lado. Tocá todos los segmentos del contorno EXTERIOR. No selecciones el tramo compartido.",
+            "hints": [
+              "El perímetro se recorre por fuera sin atravesar el interior.",
+              "El segmento que une las dos figuras queda adentro y no se suma."
+            ],
+            "steps": [
+              "Recorremos solo el borde visible desde afuera.",
+              "El tramo de unión queda dentro de la figura.",
+              "Seleccionamos los 7 segmentos exteriores."
+            ],
+            "difficulty": 2,
+            "id": "MB26-P-A-01",
+            "block": "P",
+            "round": "A",
+            "area": "matematica",
+            "school": "belgrano",
+            "skill": "MAT-PER"
+          },
+          {
+            "kind": "perimeter-select",
+            "figure": "square-hole",
+            "title": "El borde de la zona sombreada",
+            "prompt": "Un triángulo blanco se apoya sobre el lado inferior de un cuadrado. Tocá los segmentos que delimitan la zona SOMBREADA.",
+            "hints": [
+              "El perímetro de lo sombreado incluye los lados inclinados del triángulo.",
+              "La base inferior no toca la zona sombreada: no forma parte de su contorno."
+            ],
+            "steps": [
+              "La parte sombreada tiene los lados superior, izquierdo y derecho del cuadrado.",
+              "También tiene los dos lados inclinados del triángulo.",
+              "La base horizontal inferior no delimita la zona sombreada: seleccionamos 5 segmentos."
+            ],
+            "difficulty": 3,
+            "id": "MB26-P-A-02",
+            "block": "P",
+            "round": "A",
+            "area": "matematica",
+            "school": "belgrano",
+            "skill": "MAT-PER"
+          },
+          {
+            "kind": "perimeter-select",
+            "figure": "rectangle-join",
+            "title": "Dos rectángulos unidos",
+            "prompt": "Elegí los segmentos del contorno exterior de estos rectángulos unidos. El segmento compartido no cuenta.",
+            "hints": [
+              "Imaginá que dibujás una línea alrededor de toda la figura.",
+              "Cuando dos figuras comparten un borde, ese borde queda dentro de la figura compuesta."
+            ],
+            "steps": [
+              "Recorremos el contorno sin entrar por el lado compartido.",
+              "El segmento interior no forma parte del perímetro.",
+              "Seleccionamos los 8 tramos exteriores."
+            ],
+            "difficulty": 3,
+            "id": "MB26-P-A-03",
+            "block": "P",
+            "round": "A",
+            "area": "matematica",
+            "school": "belgrano",
+            "skill": "MAT-PER"
+          },
+          {
+            "kind": "perimeter-number",
+            "figure": "joined",
+            "title": "Primer cálculo del perímetro",
+            "prompt": "Un cuadrado tiene lado de 10 cm y otro, unido a él, lado de 5 cm. ¿Cuánto mide el perímetro exterior de la figura?",
+            "bigSide": 10,
+            "smallSide": 5,
+            "expected": 50,
+            "unit": "cm",
+            "hints": [
+              "Sumá los perímetros de los dos cuadrados y restá dos veces la longitud compartida.",
+              "4 × 10 + 4 × 5 − 2 × 5."
+            ],
+            "steps": [
+              "Cuadrado grande: 4 × 10 = 40 cm.",
+              "Cuadrado chico: 4 × 5 = 20 cm; lado compartido: 5 cm.",
+              "40 + 20 − 10 = 50 cm."
+            ],
+            "difficulty": 3,
+            "id": "MB26-P-A-04",
+            "block": "P",
+            "round": "A",
+            "area": "matematica",
+            "school": "belgrano",
+            "skill": "MAT-PER"
+          },
+          {
+            "kind": "perimeter-number",
+            "figure": "joined",
+            "title": "Repetimos con otras medidas",
+            "prompt": "El cuadrado grande tiene perímetro de 48 m. Su lado mide el triple del lado del cuadrado pequeño, unido al grande por uno de sus lados. ¿Cuál es el perímetro exterior?",
+            "bigSide": 12,
+            "smallSide": 4,
+            "expected": 56,
+            "unit": "m",
+            "hints": [
+              "Si el cuadrado grande tiene perímetro 48, cada lado mide 12 m.",
+              "El chico tiene lado 4 m. La unión cuenta dos veces si sumás ambos perímetros."
+            ],
+            "steps": [
+              "Lado del grande: 48 ÷ 4 = 12 m.",
+              "Lado del chico: 12 ÷ 3 = 4 m.",
+              "Perímetro exterior: 48 + 16 − 8 = 56 m."
+            ],
+            "difficulty": 4,
+            "id": "MB26-P-A-05",
+            "block": "P",
+            "round": "A",
+            "area": "matematica",
+            "school": "belgrano",
+            "skill": "MAT-PER"
+          },
+          {
+            "kind": "perimeter-number",
+            "figure": "square-hole",
+            "title": "Perímetro de una zona sombreada",
+            "prompt": "Un cuadrado de 8 cm de lado contiene un triángulo equilátero blanco cuya base coincide con el lado inferior del cuadrado. ¿Qué perímetro tiene la zona sombreada?",
+            "squareSide": 8,
+            "expected": 40,
+            "unit": "cm",
+            "hints": [
+              "El contorno sombreado tiene tres lados del cuadrado y dos lados inclinados del triángulo.",
+              "Como el triángulo es equilátero, sus lados inclinados miden también 8 cm."
+            ],
+            "steps": [
+              "Tres lados del cuadrado suman 3 × 8 = 24 cm.",
+              "Los lados inclinados suman 2 × 8 = 16 cm.",
+              "Perímetro sombreado: 24 + 16 = 40 cm."
+            ],
+            "difficulty": 4,
+            "id": "MB26-P-A-06",
+            "block": "P",
+            "round": "A",
+            "area": "matematica",
+            "school": "belgrano",
+            "skill": "MAT-PER"
+          },
+          {
+            "kind": "perimeter-number",
+            "figure": "hex-wings",
+            "title": "Hexágono con dos triángulos",
+            "prompt": "Un hexágono regular tiene lado de 6 cm. A dos lados se adosan triángulos isósceles, cuyos lados iguales miden 2 cm más que la base. ¿Cuál es el perímetro exterior?",
+            "hexSide": 6,
+            "extra": 2,
+            "expected": 56,
+            "unit": "cm",
+            "hints": [
+              "El hexágono tiene seis lados, pero dos quedan compartidos.",
+              "Quedan 4 lados del hexágono y aparecen 4 lados iguales de los triángulos."
+            ],
+            "steps": [
+              "Cuatro lados visibles del hexágono: 4 × 6 = 24 cm.",
+              "Cada lado congruente del triángulo mide 6 + 2 = 8 cm.",
+              "Cuatro lados inclinados: 4 × 8 = 32 cm; total 56 cm."
+            ],
+            "difficulty": 4,
+            "id": "MB26-P-A-07",
+            "block": "P",
+            "round": "A",
+            "area": "matematica",
+            "school": "belgrano",
+            "skill": "MAT-PER"
+          }
+        ],
+        "B": [
+          {
+            "kind": "perimeter-select",
+            "figure": "joined",
+            "title": "Reconocer nuevamente el borde exterior",
+            "prompt": "Otra figura de dos cuadrados unidos. Marcá todos los segmentos que forman su perímetro exterior.",
+            "hints": [
+              "No recorras la línea que queda entre los dos cuadrados.",
+              "Un borde interior no suma al perímetro exterior."
+            ],
+            "steps": [
+              "Se recorre toda la figura por fuera.",
+              "El tramo compartido no se suma.",
+              "El contorno tiene 7 tramos visibles."
+            ],
+            "difficulty": 2,
+            "id": "MB26-P-B-01",
+            "block": "P",
+            "round": "B",
+            "area": "matematica",
+            "school": "belgrano",
+            "skill": "MAT-PER"
+          },
+          {
+            "kind": "perimeter-select",
+            "figure": "rectangle-join",
+            "title": "Reconocer segmentos compartidos",
+            "prompt": "Seleccioná el contorno exterior de dos rectángulos unidos por una parte de sus lados.",
+            "hints": [
+              "Seguí el borde desde cualquier esquina y regresá al inicio.",
+              "El tramo donde se unen los rectángulos no forma parte del contorno."
+            ],
+            "steps": [
+              "El borde se recorre sin cruzar el interior.",
+              "El segmento compartido queda descartado.",
+              "Los 8 segmentos del exterior forman el perímetro."
+            ],
+            "difficulty": 3,
+            "id": "MB26-P-B-02",
+            "block": "P",
+            "round": "B",
+            "area": "matematica",
+            "school": "belgrano",
+            "skill": "MAT-PER"
+          },
+          {
+            "kind": "perimeter-select",
+            "figure": "square-hole",
+            "title": "Perímetro de una zona no rectangular",
+            "prompt": "El cuadrado tiene un triángulo blanco apoyado en la base. Marcá los tramos que limitan la superficie sombreada.",
+            "hints": [
+              "Incluí el contorno entre la región gris y el triángulo blanco.",
+              "No incluyas el borde inferior que coincide con la base del triángulo."
+            ],
+            "steps": [
+              "Tres lados externos del cuadrado bordean la región gris.",
+              "Los dos lados inclinados también bordean la región gris.",
+              "La base inferior no la bordea; hay 5 tramos."
+            ],
+            "difficulty": 3,
+            "id": "MB26-P-B-03",
+            "block": "P",
+            "round": "B",
+            "area": "matematica",
+            "school": "belgrano",
+            "skill": "MAT-PER"
+          },
+          {
+            "kind": "perimeter-number",
+            "figure": "joined",
+            "title": "Calcular sin sumar lados interiores",
+            "prompt": "El cuadrado grande tiene lado de 15 m. El pequeño, unido al costado, tiene lado de 5 m. Calculá el perímetro exterior.",
+            "bigSide": 15,
+            "smallSide": 5,
+            "expected": 70,
+            "unit": "m",
+            "hints": [
+              "El grande tiene perímetro 60 m y el chico 20 m.",
+              "Restá dos veces el tramo compartido de 5 m."
+            ],
+            "steps": [
+              "Grande: 4 × 15 = 60 m.",
+              "Chico: 4 × 5 = 20 m.",
+              "Exterior: 60 + 20 − 10 = 70 m."
+            ],
+            "difficulty": 3,
+            "id": "MB26-P-B-04",
+            "block": "P",
+            "round": "B",
+            "area": "matematica",
+            "school": "belgrano",
+            "skill": "MAT-PER"
+          },
+          {
+            "kind": "perimeter-number",
+            "figure": "square-hole",
+            "title": "Aplicar el procedimiento en otra figura",
+            "prompt": "Un cuadrado de lado de 11 cm contiene un triángulo equilátero blanco con base coincidente con el borde inferior. Calculá el perímetro sombreado.",
+            "squareSide": 11,
+            "expected": 55,
+            "unit": "cm",
+            "hints": [
+              "Contá tres lados del cuadrado y dos lados inclinados del triángulo.",
+              "Los cinco lados que delimitan la región sombreada miden 11 cm cada uno."
+            ],
+            "steps": [
+              "Tres lados exteriores: 3 × 11 = 33 cm.",
+              "Dos lados del triángulo: 2 × 11 = 22 cm.",
+              "33 + 22 = 55 cm."
+            ],
+            "difficulty": 4,
+            "id": "MB26-P-B-05",
+            "block": "P",
+            "round": "B",
+            "area": "matematica",
+            "school": "belgrano",
+            "skill": "MAT-PER"
+          },
+          {
+            "kind": "perimeter-number",
+            "figure": "hex-wings",
+            "title": "Revisar qué lados permanecen visibles",
+            "prompt": "Un hexágono regular de 7 cm de lado se une a dos triángulos isósceles con lados iguales de 10 cm. ¿Cuál es el perímetro exterior?",
+            "hexSide": 7,
+            "extra": 3,
+            "expected": 68,
+            "unit": "cm",
+            "hints": [
+              "Dos lados del hexágono quedan ocultos por la unión.",
+              "Sumá cuatro lados de 7 cm y cuatro lados de 10 cm."
+            ],
+            "steps": [
+              "Cuatro lados visibles del hexágono: 4 × 7 = 28 cm.",
+              "Cuatro lados inclinados: 4 × 10 = 40 cm.",
+              "Total: 28 + 40 = 68 cm."
+            ],
+            "difficulty": 4,
+            "id": "MB26-P-B-06",
+            "block": "P",
+            "round": "B",
+            "area": "matematica",
+            "school": "belgrano",
+            "skill": "MAT-PER"
+          },
+          {
+            "kind": "perimeter-pair",
+            "figure": "joined",
+            "title": "Reconstruir medidas y calcular",
+            "prompt": "El cuadrado grande tiene perímetro de 60 m; su lado es el triple del lado del cuadrado pequeño. Están unidos por un lado del pequeño. Escribí ambas respuestas.",
+            "bigSide": 15,
+            "smallSide": 5,
+            "expected": [
+              5,
+              70
+            ],
+            "unit": "m",
+            "question1": "¿Cuánto mide el lado del cuadrado chico (m)?",
+            "question2": "¿Cuánto mide el perímetro exterior total (m)?",
+            "hints": [
+              "Primero calculá el lado grande: 60 ÷ 4.",
+              "El lado chico es la tercera parte de 15; sumá los perímetros y restá dos veces el lado compartido."
+            ],
+            "steps": [
+              "Lado grande: 60 ÷ 4 = 15 m. Lado chico: 15 ÷ 3 = 5 m.",
+              "Perímetros: 60 m y 20 m.",
+              "Exterior: 60 + 20 − 2 × 5 = 70 m."
+            ],
+            "difficulty": 4,
+            "id": "MB26-P-B-07",
+            "block": "P",
+            "round": "B",
+            "area": "matematica",
+            "school": "belgrano",
+            "skill": "MAT-PER"
+          }
+        ]
+      }
+    }
+  }
+}

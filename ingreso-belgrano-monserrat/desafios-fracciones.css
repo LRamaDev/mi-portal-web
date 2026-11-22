@@ -93,3 +93,35 @@
   .fraction-numberline svg { width:580px; }
   .fraction-numberline::after { content:"Deslizá horizontalmente para ver todas las marcas."; display:block; color:#62758a; font-size:.78rem; padding-top:8px; }
 }
+
+/* Bloques de ingreso: usan las mismas tarjetas y el mismo diálogo de fracciones. */
+.model-block-grid {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:16px;}
+.model-block-card {min-width:0;display:flex;flex-direction:column;align-items:flex-start;gap:8px;
+  padding:18px;border:1px solid #d8e4ef;background:#f8fbfe;border-radius:14px;}
+.model-block-card h4 {font-size:1.06rem;color:#20394e;margin:0;}
+.model-block-card p {margin:0;line-height:1.45;color:#4e6074;}
+.model-block-card .primary-button {margin-top:auto;}
+.model-grid {display:flex;justify-content:center;align-items:center;width:100%;}
+.model-grid svg {width:min(340px,100%);height:auto;max-height:275px;}
+.model-chip-compare {display:grid;gap:18px;width:min(560px,100%);}
+.model-chip-group {text-align:left;background:#eef5fc;border-radius:12px;padding:14px 18px;}
+.model-chip-group strong {display:block;margin-bottom:8px;}
+.model-chips {display:flex;flex-wrap:wrap;gap:8px;}
+.model-chip {display:block;width:34px;height:34px;border-radius:50%;border:2px solid #3c6991;background:#8cc4ed;}
+.model-word {display:flex;justify-content:center;flex-wrap:wrap;gap:7px;padding:10px;}
+.model-word span {width:40px;height:49px;border:2px solid #8fb4d4;border-radius:9px;background:white;
+  display:grid;place-items:center;font-size:1.45rem;font-weight:750;color:#235177;}
+.model-perimeter-figure {width:min(570px,100%);text-align:center;}
+.model-perimeter-figure svg {width:min(450px,100%);margin:auto;display:block;overflow:visible;}
+.model-perimeter-figure p {font-size:.86rem;color:#526982;}
+.fraction-board .model-static-edge {stroke:#315878;stroke-width:3.2;stroke-linecap:round;fill:none;pointer-events:none;}
+.fraction-board .model-select-edge {stroke:#375e82;stroke-width:11;stroke-linecap:round;fill:none;cursor:pointer;touch-action:manipulation;}
+.fraction-board .model-select-edge:hover {stroke:#5c9acb;fill:none;}
+.fraction-board .model-select-edge.selected,.fraction-board .model-select-edge.selected:hover {stroke:#e89943;stroke-width:11;fill:none;}
+.fraction-board .model-select-edge[aria-disabled="true"] {cursor:default;}
+@media(max-width:660px){
+  .model-block-grid {grid-template-columns:1fr;}
+  .model-block-card {padding:14px;}
+  .model-word span {width:31px;height:41px;font-size:1.1rem;}
+  .model-chip {width:29px;height:29px;}
+}
