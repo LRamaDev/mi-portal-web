@@ -171,3 +171,25 @@ La V6.18 usa un caché versionado propio e incluye `pedagogy-v6-18.js`, `simulac
 - Los tipos `line`, `fractioninput` y `number` se corrigen localmente sin servicios externos. El tipo `cards` usa preguntas y categorías específicas de cada consigna, evitando respuestas genéricas de otros problemas.
 - Cada nueva tanda sigue usando 7 evidencias del motor existente y un cierre de sesión individual por perfil. No requiere nuevas migraciones SQL.
 - Verificación antes del uso: comprobar que A/B completadas lleven a C, que una recta pueda seleccionarse por toque o teclado, que una fracción equivalente se acepte, que la corrección con ayuda no figure como autónoma, y que la tanda siguiente avance sin mezclar historiales.
+
+
+## Prácticas interactivas por bloques del examen (V6.29)
+
+**Referencia didáctica:** modelo de prueba de Matemática entregado por la familia (portada «Ingreso 2026», páginas interiores con algunas marcas «Ingreso 2025»). Las nuevas consignas se inspiraron en **los tipos de resolución** de los ejercicios 13–18 (fracciones representadas por figuras, palabras, cantidades y unidades) y 20–22 (perímetros compuestos); **no se copiaron las consignas ni los dibujos del examen**.
+
+- **Bloque R — Representaciones de fracciones:** 2 circuitos A/B, siete desafíos por circuito. Leer figuras sombreadas, comparar una cantidad respecto de otra (incluyendo más de un entero), medios cuadrados, vocales en palabras y colorear fracciones de una figura.
+- **Bloque P — Perímetros de figuras compuestas:** 2 circuitos A/B, siete desafíos por circuito. Seleccionar segmentos del contorno exterior, excluir bordes compartidos, estudiar el contorno de un cuadrado con triángulo interior, dos cuadrados unidos, dos rectángulos unidos y hexágono con triángulos. Calcular perímetros a partir de medidas dadas.
+- **Misma experiencia del módulo original:** usa **el mismo motor** `IngresoFractionChallenges`, el mismo diálogo, estilos, botones, feedback inmediato, dos pistas, resolución guiada y resumen sin mastery visible. Los circuitos repiten **estructuras de problemas** con números y figuras diferentes; no son 28 ejercicios de tipos inconexos.
+- **Datos por perfil:** 28 IDs nuevos `MB26-[RP]-[AB]-0x`, evidencias individuales con el motor V6.18 y origen separado, progreso A→B independiente por bloque y por estudiante. Los circuitos antiguos de fracciones y su historial se conservan. Sin SQL nuevo ni cambios de permisos.
+- **Accesibilidad:** diagramas SVG con segmentos seleccionables por clic, toque o teclado; el cálculo debe realizarse en cuaderno, sin calculadora, siguiendo el formato del examen.
+- **Recursos:** banco `data/desafios-modelo.json` y mismo `desafios-fracciones.js`/`desafios-fracciones.css`; se incluyen en la caché PWA versión 6.29.0.
+
+### Pruebas de aceptación
+
+1. Elegir un perfil familiar; desde Inicio y desde Entrenar abrir cada bloque (circuito A), sin afectar las tandas antiguas de fracciones.
+2. Resolver una fracción equivalente (p. ej., 6/10 = 3/5), un error y una consulta de pista. Comprobar el resumen por autonomía.
+3. Seleccionar todos los tramos exteriores de una figura, dejando sin seleccionar el tramo interior, y luego calcular su perímetro.
+4. Interrumpir A, volver y verificar que retome ejercicios pendientes; al completar siete, habilitar B.
+5. Cambiar al otro perfil y al modo visitante; comprobar aislamiento y persistencia.
+6. Verificar en móvil la selección táctil de segmentos y que los recursos se carguen offline tras la primera visita.
+7. Revisar evidencias `origin='desafios_modelo_representaciones'` / `origin='desafios_modelo_perimetros'` en el panel adulto; las niñas nunca deben ver porcentajes de dominio.
