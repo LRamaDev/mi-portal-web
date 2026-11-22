@@ -5,13 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#173f6b">
   <meta name="description" content="Entrenamiento interactivo para los ingresos al Manuel Belgrano y al Colegio Nacional de Monserrat.">
-  <meta name="app-version" content="6.30.0">
+  <meta name="app-version" content="6.31.0">
   <title>Ingreso Belgrano · Monserrat</title>
   <link rel="manifest" href="./manifest.webmanifest">
-  <link rel="stylesheet" href="./styles.css?v=6.30.0">
-  <link rel="stylesheet" href="./styles-v6.css?v=6.30.0">
-  <link rel="stylesheet" href="./badges-v6-9.css?v=6.30.0">
-  <link rel="stylesheet" href="./desafios-fracciones.css?v=6.30.0">
+  <link rel="stylesheet" href="./styles.css?v=6.31.0">
+  <link rel="stylesheet" href="./styles-v6.css?v=6.31.0">
+  <link rel="stylesheet" href="./badges-v6-9.css?v=6.31.0">
+  <link rel="stylesheet" href="./desafios-fracciones.css?v=6.31.0">
   <style>
     .build-version{position:fixed;right:14px;bottom:14px;z-index:100000;padding:6px 9px;border:1px solid rgba(23,63,107,.16);border-radius:999px;background:rgba(255,255,255,.94);box-shadow:0 5px 16px rgba(23,63,107,.12);color:#526679;font:700 11px/1 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;letter-spacing:.02em;user-select:none}
     @media(max-width:700px){.build-version{right:10px;bottom:76px}}
@@ -19,7 +19,7 @@
 </head>
 <body class="security-pending">
   <a class="skip" href="#app-main">Saltar al contenido</a>
-  <div class="build-version" title="Versión instalada de la aplicación" aria-label="Versión instalada 6.30.0">Versión 6.30.0</div>
+  <div class="build-version" title="Versión instalada de la aplicación" aria-label="Versión instalada 6.31.0">Versión 6.31.0</div>
 
   <section id="profile-gate" class="gate" aria-labelledby="gate-title">
     <div class="gate-card">
@@ -129,7 +129,8 @@
             <h2>Desafíos de ingreso</h2>
             <p>Elegí un bloque y resolvé siete consignas. Vas a encontrar la misma pantalla, el botón Comprobar, pistas y explicación paso a paso. Cada circuito repite una forma de resolver con nuevas situaciones.</p>
           </div>
-          <section class="challenge-hub-grid" aria-label="Elegir bloque de desafíos">
+          <h3 class="challenge-section-title">Matemática</h3>
+          <section class="challenge-hub-grid" aria-label="Elegir bloque de desafíos de Matemática">
             <article class="model-block-card challenge-hub-card">
               <span class="challenge-hub-symbol" aria-hidden="true">⅔</span>
               <div class="challenge-hub-tag">Fracciones · 8 tandas</div>
@@ -153,6 +154,55 @@
               <p>Marcá los bordes exteriores y calculá perímetros sin sumar tramos interiores.</p>
               <p class="fraction-entry-meta" data-model-status="P" aria-live="polite">Circuito A · 7 desafíos</p>
               <button class="primary-button" type="button" data-start-model="P">Empezar perímetros</button>
+            </article>
+          </section>
+          <h3 class="challenge-section-title">Lengua · Ortografía</h3>
+          <p class="challenge-intro">Cinco bloques inspirados en las consignas del examen de ingreso al Monserrat. Vas a repetir cada procedimiento con palabras y oraciones diferentes, escribir respuestas y recibir pistas.</p>
+          <section class="challenge-hub-grid" aria-label="Elegir bloque de Ortografía de Lengua">
+
+            <article class="model-block-card challenge-hub-card orthography-hub-card">
+              <span class="challenge-hub-symbol" aria-hidden="true">◡</span>
+              <div class="challenge-hub-tag">Ortografía · 2 circuitos</div>
+              <h3>Diptongo e hiato</h3>
+              <p>Separá palabras en sílabas y clasificá cómo se encuentran las vocales.</p>
+              <p class="fraction-entry-meta" data-ortho-status="D" aria-live="polite">Circuito A · 7 desafíos</p>
+              <button class="primary-button" type="button" data-start-ortho="D">Clasificar palabras</button>
+            </article>
+
+            <article class="model-block-card challenge-hub-card orthography-hub-card">
+              <span class="challenge-hub-symbol" aria-hidden="true">G/J</span>
+              <div class="challenge-hub-tag">Ortografía · 2 circuitos</div>
+              <h3>Oraciones correctas e incorrectas</h3>
+              <p>Detectá errores de escritura y escribí correctamente la palabra.</p>
+              <p class="fraction-entry-meta" data-ortho-status="J" aria-live="polite">Circuito A · 7 desafíos</p>
+              <button class="primary-button" type="button" data-start-ortho="J">Detectar y corregir</button>
+            </article>
+
+            <article class="model-block-card challenge-hub-card orthography-hub-card">
+              <span class="challenge-hub-symbol" aria-hidden="true">B/V</span>
+              <div class="challenge-hub-tag">Ortografía · 2 circuitos</div>
+              <h3>Uso de B, V, C, S y Z</h3>
+              <p>Completá letras que faltan y escribí palabras enteras.</p>
+              <p class="fraction-entry-meta" data-ortho-status="B" aria-live="polite">Circuito A · 7 desafíos</p>
+              <button class="primary-button" type="button" data-start-ortho="B">Completar palabras</button>
+            </article>
+
+            <article class="model-block-card challenge-hub-card orthography-hub-card">
+              <span class="challenge-hub-symbol" aria-hidden="true">Á</span>
+              <div class="challenge-hub-tag">Ortografía · 2 circuitos</div>
+              <h3>Acentuación de palabras</h3>
+              <p>Identificá qué palabra necesita tilde y escribila correctamente.</p>
+              <p class="fraction-entry-meta" data-ortho-status="A" aria-live="polite">Circuito A · 7 desafíos</p>
+              <button class="primary-button" type="button" data-start-ortho="A">Practicar acentuación</button>
+            </article>
+
+            <article class="model-block-card challenge-hub-card orthography-hub-card">
+              <span class="challenge-hub-symbol" aria-hidden="true">TÉ</span>
+              <div class="challenge-hub-tag">Ortografía · 2 circuitos</div>
+              <h3>Tilde diacrítica</h3>
+              <p>Elegí la forma correcta según el sentido de cada oración.</p>
+              <p class="fraction-entry-meta" data-ortho-status="T" aria-live="polite">Circuito A · 7 desafíos</p>
+              <button class="primary-button" type="button" data-start-ortho="T">Practicar monosílabos</button>
             </article>
           </section>
           <p class="fraction-info">Cada perfil conserva su propio recorrido. Los ejercicios ya completados quedan registrados y no se ofrecen de nuevo como si fueran nuevos.</p>
@@ -269,7 +319,7 @@
 
   <dialog id="fraction-challenge-dialog" aria-labelledby="fraction-challenge-title">
     <header class="fraction-dialog-header">
-      <div><strong id="fraction-challenge-title">Desafíos de ingreso: Fracciones</strong><small>Matemática · práctica individual</small></div>
+      <div><strong id="fraction-challenge-title">Desafíos de ingreso: Fracciones</strong><small id="fraction-challenge-subtitle">Matemática · práctica individual</small></div>
       <button class="fraction-close" id="fraction-challenge-close" type="button" aria-label="Cerrar desafíos">×</button>
     </header>
     <section id="fraction-challenge-content" aria-live="polite"></section>
@@ -317,28 +367,28 @@
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="./config.js?v=6.30.0"></script>
-  <script src="./seguridad.js?v=6.30.0"></script>
-  <script src="./banco-v4.js?v=6.30.0"></script>
-  <script src="./banco-v5.js?v=6.30.0"></script>
-  <script src="./banco-v6.js?v=6.30.0"></script>
-  <script src="./banco-v6-10.js?v=6.30.0"></script>
-  <script src="./banco-v6-11.js?v=6.30.0"></script>
-  <script src="./banco-v6-16.js?v=6.30.0"></script>
-  <script src="./banco-v6-17-belgrano.js?v=6.30.0"></script>
-  <script src="./banco-v6-21.js?v=6.30.0"></script>
-  <script src="./banco-refuerzo-noviembre.js?v=6.30.0"></script>
-  <script src="./respuestas-v6-21.js?v=6.30.0"></script>
-  <script src="./pedagogy-v6-18.js?v=6.30.0"></script>
-  <script src="./app.js?v=6.30.0"></script>
-  <script src="./desafios-fracciones.js?v=6.30.0"></script>
-  <script src="./simulacros.js?v=6.30.0"></script>
-  <script src="./testeo.js?v=6.30.0"></script>
-  <script src="./reportes-ejercicios.js?v=6.30.0"></script>
-  <script src="./ui-v6.js?v=6.30.0"></script>
-  <script src="./ui-v6-4.js?v=6.30.0"></script>
-  <script src="./adaptive-v6-8.js?v=6.30.0"></script>
-  <script src="./choice-order-v6-8-2.js?v=6.30.0"></script>
-  <script src="./badges-v6-9.js?v=6.30.0"></script>
+  <script src="./config.js?v=6.31.0"></script>
+  <script src="./seguridad.js?v=6.31.0"></script>
+  <script src="./banco-v4.js?v=6.31.0"></script>
+  <script src="./banco-v5.js?v=6.31.0"></script>
+  <script src="./banco-v6.js?v=6.31.0"></script>
+  <script src="./banco-v6-10.js?v=6.31.0"></script>
+  <script src="./banco-v6-11.js?v=6.31.0"></script>
+  <script src="./banco-v6-16.js?v=6.31.0"></script>
+  <script src="./banco-v6-17-belgrano.js?v=6.31.0"></script>
+  <script src="./banco-v6-21.js?v=6.31.0"></script>
+  <script src="./banco-refuerzo-noviembre.js?v=6.31.0"></script>
+  <script src="./respuestas-v6-21.js?v=6.31.0"></script>
+  <script src="./pedagogy-v6-18.js?v=6.31.0"></script>
+  <script src="./app.js?v=6.31.0"></script>
+  <script src="./desafios-fracciones.js?v=6.31.0"></script>
+  <script src="./simulacros.js?v=6.31.0"></script>
+  <script src="./testeo.js?v=6.31.0"></script>
+  <script src="./reportes-ejercicios.js?v=6.31.0"></script>
+  <script src="./ui-v6.js?v=6.31.0"></script>
+  <script src="./ui-v6-4.js?v=6.31.0"></script>
+  <script src="./adaptive-v6-8.js?v=6.31.0"></script>
+  <script src="./choice-order-v6-8-2.js?v=6.31.0"></script>
+  <script src="./badges-v6-9.js?v=6.31.0"></script>
 </body>
 </html>
