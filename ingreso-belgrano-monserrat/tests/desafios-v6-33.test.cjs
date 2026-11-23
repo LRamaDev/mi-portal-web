@@ -150,7 +150,8 @@ test('versionado de PWA y tarjetas visibles, sin bloquear las anteriores',()=>{
   for(const block of ['R','P','C','F','D','E'])assert.match(html,new RegExp('data-start-model="'+block+'"'));
   assert.match(html,/data-start-ortho="P"/);
   const sw=read('sw.js');
-  assert.match(sw,/ingreso-bm-v6-33-secuencia-noviembre/);
+  assert.match(sw,/const CACHE='ingreso-bm-v\d+-\d+-[^']+';/);
+  assert.ok(sw.includes("const VERSION='"+appVersion+"'"));
   assert.ok(sw.includes('desafios-modelo.json?v='+appVersion));
   assert.ok(sw.includes('desafios-ortografia.json?v='+appVersion));
   new vm.Script(engine);new vm.Script(app);new vm.Script(sw);
