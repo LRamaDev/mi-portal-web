@@ -862,9 +862,12 @@
     active:'En curso',
     new:'Nuevos desafíos',
     pending:'Por hacer',
+    reinforce:'Para reforzar',
+    verification:'Comprobación pendiente',
+    waiting:'Comprobación programada',
     locked:'Elegí un perfil'
   };
-  function challengeVisualProgress(profile,rounds,completed,idPrefix){
+  function challengeVisualProgress(profile,rounds,completed,idPrefix,refuerzo=false){
     if(!profile)return {state:'locked',next:null,done:0,total:rounds.length};
     const done=rounds.filter(round=>completed.has(round)).length;
     const next=rounds.find(round=>!completed.has(round))||null;
@@ -873,7 +876,7 @@
       item=>String(item.exerciseId||'').startsWith(idPrefix+next+'-')
     );
     return {
-      state:partial?'active':done>0?'new':'pending',
+      state:partial?'active':done>0?(refuerzo?'reinforce':'new'):'pending',
       next,done,total:rounds.length
     };
   }
@@ -883,6 +886,7 @@
     if(progress.state==='completed')return '¡Listo! '+progress.total+' de '+progress.total+' '+kind+' completados.';
     if(progress.state==='active')return 'En curso: '+unit+' '+progress.next+' · '+progress.done+' de '+progress.total+' '+kind+' completados.';
     if(progress.state==='new')return '¡Hay nuevos desafíos! '+unit+' '+progress.next+' disponible · '+progress.done+' de '+progress.total+' '+kind+' completados.';
+    if(progress.state==='reinforce')return 'Para reforzar: ejercicios nuevos · '+unit+' '+progress.next+' · '+progress.done+' de '+progress.total+' '+kind+' ya trabajados.';
     return 'Por hacer: '+unit+' '+progress.next+' · 7 ejercicios.';
   }
   function updateChallengeCard(label,progress){
@@ -894,11 +898,14 @@
   }
   function updateChallengeButton(button,progress,unit){
     if(!button)return;
-    button.disabled=progress.state==='completed'||progress.state==='locked';
+    button.disabled=['completed','locked','waiting'].includes(progress.state);
     button.textContent=progress.state==='completed'?'Todo completado'
       :progress.state==='locked'?'Elegí un perfil'
       :progress.state==='active'?'Continuar '+unit.toLowerCase()+' '+progress.next
       :progress.state==='new'?'Hacer nuevos desafíos · '+progress.next
+      :progress.state==='reinforce'?'Practicar refuerzo · '+progress.next
+      :progress.state==='verification'?'Hacer comprobación'
+      :progress.state==='waiting'?'Todavía no disponible'
       :'Empezar '+unit.toLowerCase()+' '+progress.next;
     button.title=progress.state==='completed'?'Todos los circuitos disponibles están terminados.'
       :progress.state==='locked'?'Ingresá a un perfil individual.'
@@ -912,21 +919,24 @@
       return;
     }
     const cards=$$('.challenge-hub-card[data-challenge-state]');
-    const counts={completed:0,active:0,new:0,pending:0};
+    const counts={completed:0,active:0,new:0,pending:0,reinforce:0,verification:0,waiting:0};
     cards.forEach(card=>{
       const state=card.dataset.challengeState;
       if(Object.prototype.hasOwnProperty.call(counts,state))counts[state]++;
     });
-    const remaining=counts.active+counts.new+counts.pending;
+    const remaining=counts.active+counts.new+counts.pending+counts.reinforce+counts.verification;
     summary.textContent=remaining===0
       ? '¡Todos los bloques disponibles están completados!'
       :remaining+' bloques con ejercicios por hacer · '+counts.completed+' completados'+
-        (counts.new?' · '+counts.new+' con desafíos nuevos':'')+'.';
+        (counts.new?' · '+counts.new+' con desafíos nuevos':'')+
+        (counts.reinforce?' · '+counts.reinforce+' para reforzar':'')+
+        (counts.verification?' · '+counts.verification+' comprobaciones pendientes':'')+'.';
   }
   function refreshChallengeIndicators(){
     renderFractionEntry();
     renderModelEntries();
     renderOrthographyEntries();
+    renderCheckEntries();
     renderChallengeOverview();
   }
 
@@ -1078,7 +1088,7 @@
       if(!MODEL_BLOCKS[block])return;
       const rounds=modelRounds(block);
       const completed=individual?completedModelRounds(profile,block):new Set();
-      const progress=challengeVisualProgress(profile,rounds,completed,'MB26-'+block+'-');
+      const progress=challengeVisualProgress(profile,rounds,completed,'MB26-'+block+'-', ['D','E'].includes(block));
       byBlock.set(block,progress);
       element.textContent=challengeVisualCopy(progress,'Circuito');
       updateChallengeCard(element,progress);
@@ -1115,7 +1125,7 @@
       onComplete:({block:doneBlock,round:doneRound,results})=>{
         const current=state.profiles[pid];
         if(activeMode!==pid||!current||doneBlock!==block||doneRound!==round)return;
-        if(completedModelRounds(current,block).has(round)||results.length!==7)return;
+        if((current.history||[]).some(row=>row.type==='desafios_modelo'&&row.blockId===block&&row.roundId===round)||results.length!==7)return;
         const savedIds=new Set((current.evidence||[]).map(item=>item.exerciseId));
         if(results.some(item=>!savedIds.has(item.id)))return;
         const autonomous=results.filter(item=>item.status==='autonoma').length;
@@ -1201,7 +1211,7 @@
       if(!ORTHOGRAPHY_BLOCKS[block])return;
       const rounds=orthographyRounds(block);
       const completed=individual?completedOrthographyRounds(profile,block):new Set();
-      const progress=challengeVisualProgress(profile,rounds,completed,'MO26-'+block+'-');
+      const progress=challengeVisualProgress(profile,rounds,completed,'MO26-'+block+'-', ['J','A','T'].includes(block));
       byBlock.set(block,progress);
       label.textContent=challengeVisualCopy(progress,'Circuito');
       updateChallengeCard(label,progress);
@@ -1238,7 +1248,7 @@
       onComplete:({orthographyBlock:finishedBlock,round:finishedRound,results})=>{
         const current=state.profiles[pid];
         if(!current||activeMode!==pid||finishedBlock!==block||finishedRound!==round)return;
-        if(completedOrthographyRounds(current,block).has(round)||results.length!==7)return;
+        if((current.history||[]).some(row=>row.type==='desafios_ortografia'&&row.orthographyBlockId===block&&row.roundId===round)||results.length!==7)return;
         const recorded=new Set((current.evidence||[]).map(row=>row.exerciseId));
         if(results.some(row=>!recorded.has(row.id)))return;
         const autonomous=results.filter(row=>row.status==='autonoma').length;
