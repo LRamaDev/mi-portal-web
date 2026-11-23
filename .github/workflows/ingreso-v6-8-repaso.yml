@@ -79,5 +79,5 @@ jobs:
           node --test ingreso-belgrano-monserrat/tests/desafios-smoke.test.cjs
           node --test ingreso-belgrano-monserrat/tests/ortografia-smoke.test.cjs
           node --test ingreso-belgrano-monserrat/tests/ampliacion-desafios-v6-32.test.cjs
-      - name: Nuevos desafíos 6.33 (56 actividades)
+      - name: Nuevos desafíos 6.33 (70 actividades)
         run: node --test ingreso-belgrano-monserrat/tests/desafios-v6-33.test.cjs
