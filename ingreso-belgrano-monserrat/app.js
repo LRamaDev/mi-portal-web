@@ -1372,7 +1372,7 @@
     if(!activeMode)return;
     const profile=activeMode==='together'?null:state.profiles[primaryProfileId()];
     const states=new Map();
-    $('[data-check-status]').forEach(label=>{
+    $$('[data-check-status]').forEach(label=>{
       const [area,phase]=String(label.dataset.checkStatus||'').split(':');
       if(!CHECK_AREAS.includes(area)||!CHECK_PHASES.includes(phase))return;
       const progress=checkState(profile,area,phase);
@@ -1380,7 +1380,7 @@
       label.textContent=progress.message;
       updateChallengeCard(label,progress);
     });
-    $('[data-start-check]').forEach(button=>{
+    $$('[data-start-check]').forEach(button=>{
       const progress=states.get(button.dataset.startCheck);
       if(!progress){button.disabled=true;return;}
       button.disabled=!['verification','active'].includes(progress.state);
