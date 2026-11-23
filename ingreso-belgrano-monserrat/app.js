@@ -882,13 +882,14 @@
     if(progress.state==='new')return '¡Hay nuevos desafíos! '+unit+' '+progress.next+' disponible · '+progress.done+' de '+progress.total+' '+kind+' completados.';
     return 'Por hacer: '+unit+' '+progress.next+' · 7 ejercicios.';
   }
-  function updateChallengeCard(label,progress,unit){
+  function updateChallengeCard(label,progress){
     const card=label.closest?.('.challenge-hub-card');
     if(!card)return;
     card.dataset.challengeState=progress.state;
     const badge=card.querySelector('.challenge-status-label');
     if(badge)badge.textContent=CHALLENGE_VISUAL_LABELS[progress.state];
-    const button=card.querySelector('[data-start-fractions], [data-start-model], [data-start-ortho]');
+  }
+  function updateChallengeButton(button,progress,unit){
     if(!button)return;
     button.disabled=progress.state==='completed'||progress.state==='locked';
     button.textContent=progress.state==='completed'?'Todo completado'
@@ -941,8 +942,9 @@
     const progress=challengeVisualProgress(profile,FRACTION_ROUNDS,completed,'FR26-');
     $$('[data-fraction-status]').forEach(el=>{
       el.textContent=challengeVisualCopy(progress,'Tanda');
-      updateChallengeCard(el,progress,'Tanda');
+      updateChallengeCard(el,progress);
     });
+    $$('[data-start-fractions]').forEach(button=>updateChallengeButton(button,progress,'Tanda'));
   }
 
   function startFractionChallenges() {
@@ -1023,6 +1025,7 @@
     engine.applyAttempt(profile, exercise, event, { maxDifficulty: skillMaxDifficulty(exercise.habilidad) });
     markExerciseUsedToday(pid, exercise.id);
     saveState();
+    refreshChallengeIndicators();
   }
 
 
@@ -1050,14 +1053,21 @@
     if(!activeMode)return;
     const individual=activeMode!=='together';
     const profile=individual?state.profiles[primaryProfileId()]:null;
+    const byBlock=new Map();
     $$('[data-model-status]').forEach(element=>{
       const block=element.dataset.modelStatus;
       if(!MODEL_BLOCKS[block])return;
       const rounds=modelRounds(block);
       const completed=individual?completedModelRounds(profile,block):new Set();
       const progress=challengeVisualProgress(profile,rounds,completed,'MB26-'+block+'-');
+      byBlock.set(block,progress);
       element.textContent=challengeVisualCopy(progress,'Circuito');
-      updateChallengeCard(element,progress,'Circuito');
+      updateChallengeCard(element,progress);
+    });
+    $$('[data-start-model]').forEach(button=>{
+      const progress=byBlock.get(button.dataset.startModel);
+      if(progress)updateChallengeButton(button,progress,'Circuito');
+      else button.disabled=true;
     });
   }
   function startModelChallenges(block){
@@ -1129,6 +1139,7 @@
     engine.applyAttempt(profile,exercise,event,{maxDifficulty:skillMaxDifficulty(exercise.habilidad)});
     markExerciseUsedToday(pid,exercise.id);
     saveState();
+    refreshChallengeIndicators();
   }
 
 
@@ -1163,14 +1174,21 @@
     if(!activeMode)return;
     const individual=activeMode!=='together';
     const profile=individual?state.profiles[primaryProfileId()]:null;
+    const byBlock=new Map();
     $$('[data-ortho-status]').forEach(label=>{
       const block=label.dataset.orthoStatus;
       if(!ORTHOGRAPHY_BLOCKS[block])return;
       const rounds=orthographyRounds(block);
       const completed=individual?completedOrthographyRounds(profile,block):new Set();
       const progress=challengeVisualProgress(profile,rounds,completed,'MO26-'+block+'-');
+      byBlock.set(block,progress);
       label.textContent=challengeVisualCopy(progress,'Circuito');
-      updateChallengeCard(label,progress,'Circuito');
+      updateChallengeCard(label,progress);
+    });
+    $$('[data-start-ortho]').forEach(button=>{
+      const progress=byBlock.get(button.dataset.startOrtho);
+      if(progress)updateChallengeButton(button,progress,'Circuito');
+      else button.disabled=true;
     });
   }
   function startOrthographyChallenges(block){
@@ -1242,6 +1260,7 @@
     engine.applyAttempt(profile,exercise,event,{maxDifficulty:skillMaxDifficulty(exercise.habilidad)});
     markExerciseUsedToday(pid,exercise.id);
     saveState();
+    refreshChallengeIndicators();
   }
 
   function startRecommended() {
