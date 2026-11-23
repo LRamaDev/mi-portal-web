@@ -21,8 +21,8 @@ test('la ampliación tiene 28 ejercicios nuevos de Matemática y 42 adicionales 
   }
   const model=Object.values(bank.blocks).flatMap(b=>Object.values(b.rounds).flat());
   const language=Object.values(ortho.blocks).flatMap(b=>['A','B','C','D'].flatMap(k=>b[k]||[]));
-  assert.equal(model.length,56);assert.equal(language.length,112);
-  assert.equal(new Set([...model,...language].map(x=>x.id)).size,168);
+  assert.equal(model.length,98);assert.equal(language.length,126);
+  assert.equal(new Set([...model,...language].map(x=>x.id)).size,224);
   const skill={C:'MAT-CIRC',F:'MAT-FR-ORD'};
   for(const block of ['C','F'])for(const round of ['A','B'])for(const task of bank.blocks[block].rounds[round]){
     assert.equal(task.skill,skill[block],task.id);
@@ -60,7 +60,7 @@ function engineMock(){
   const document={
     getElementById:id=>id==='fraction-challenge-dialog'?dialog:
       id==='fraction-challenge-content'?surface:node(id),
-    querySelector:q=>q==='meta[name="app-version"]'?{content:'6.32.0'}:null
+    querySelector:q=>q==='meta[name="app-version"]'?{content:'6.33.0'}:null
   };
   const sources={'./data/desafios-modelo.json':bank,'./data/desafios-ortografia.json':ortho,
     './data/desafios-fracciones.json':JSON.parse(file('data/desafios-fracciones.json'))};
@@ -130,8 +130,8 @@ test('el motor abre y corrige 28 ejercicios nuevos, incluidos los decimales con 
 });
 
 test('versión, menú y datos en caché; mantienen los accesos previos',()=>{
-  assert.equal((html.match(/data-start-model=/g)||[]).length,4);
-  assert.equal((html.match(/data-start-ortho=/g)||[]).length,5);
+  assert.equal((html.match(/data-start-model=/g)||[]).length,6);
+  assert.equal((html.match(/data-start-ortho=/g)||[]).length,6);
   assert.equal((html.match(/data-start-fractions(?=[ >])/g)||[]).length,1);
   assert.match(html,/app-version" content="6\.32\.0"/);
   const sw=file('sw.js');
