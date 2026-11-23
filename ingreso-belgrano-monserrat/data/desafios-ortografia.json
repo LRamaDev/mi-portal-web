@@ -3679,7 +3679,7 @@
           "prompt": "Escribí solamente la palabra que falta, con o sin tilde, según su significado.",
           "context": "El trabajo fue realizado por ___ compañeros.",
           "expected": "mis",
-          "alternate": "mís",
+          "alternate": "mí",
           "skill": "LEN-DIAC",
           "difficulty": 4,
           "hints": [
@@ -4646,7 +4646,7 @@
             "Bimembre"
           ],
           "expected": "Bimembre",
-          "skill": "«Un grupo de estudiantes» es sujeto y «preparó el afiche» es predicado.",
+          "skill": "LEN-UNI-BI",
           "difficulty": 3,
           "hints": [
             "Leé el texto y pensá qué aporta cada alternativa.",
@@ -4655,7 +4655,7 @@
           "steps": [
             "En el contexto, la opción correcta es «Bimembre».",
             "Releemos: «Un grupo de estudiantes preparó el afiche.».",
-            "LEN-UNI-BI"
+            "«Un grupo de estudiantes» es sujeto y «preparó el afiche» es predicado."
           ],
           "id": "MO26-U-B-02",
           "orthographyBlock": "U",
