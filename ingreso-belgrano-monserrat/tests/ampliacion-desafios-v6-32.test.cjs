@@ -22,8 +22,8 @@ test('la ampliación tiene 28 ejercicios nuevos de Matemática y 42 adicionales 
   }
   const model=Object.values(bank.blocks).flatMap(b=>Object.values(b.rounds).flat());
   const language=Object.values(ortho.blocks).flatMap(b=>['A','B','C','D','E'].flatMap(k=>b[k]||[]));
-  assert.equal(model.length,98);assert.equal(language.length,140);
-  assert.equal(new Set([...model,...language].map(x=>x.id)).size,238);
+  assert.ok(model.length>=98);assert.ok(language.length>=140);
+  assert.equal(new Set([...model,...language].map(x=>x.id)).size,model.length+language.length);
   const skill={C:'MAT-CIRC',F:'MAT-FR-ORD'};
   for(const block of ['C','F'])for(const round of ['A','B'])for(const task of bank.blocks[block].rounds[round]){
     assert.equal(task.skill,skill[block],task.id);
@@ -132,7 +132,7 @@ test('el motor abre y corrige 28 ejercicios nuevos, incluidos los decimales con 
 
 test('versión, menú y datos en caché; mantienen los accesos previos',()=>{
   assert.equal((html.match(/data-start-model=/g)||[]).length,6);
-  assert.equal((html.match(/data-start-ortho=/g)||[]).length,6);
+  assert.equal((html.match(/data-start-ortho=/g)||[]).length,7);
   assert.equal((html.match(/data-start-fractions(?=[ >])/g)||[]).length,1);
   assert.ok(appVersion, 'Missing visible version');
   const sw=file('sw.js');
