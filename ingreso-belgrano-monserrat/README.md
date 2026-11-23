@@ -274,3 +274,46 @@ El indicador se actualiza al abrir Desafíos, al cambiar de perfil, al completar
 Los colores siempre están acompañados por palabras y los botones conservan texto legible. Se incluyen pruebas de regresión en `tests/estados-desafios-v6-34.test.cjs`, incorporadas al flujo CI de Desafíos: 13 tarjetas y leyenda, estados completado/nuevo/en curso/pendiente, reconocimiento de una ampliación A/B→C, continuidad y aislamiento entre perfiles.
 
 **Comprobación manual tras el merge:** abrir la versión 6.34.0, entrar a cada perfil y comprobar que las tarjetas finalizadas están verdes; las recién ampliadas violetas; iniciar una para que pase a naranja; terminar el último circuito disponible para que pase a verde. Probar también la navegación en celular.
+
+
+## Actualización pedagógica del 23 de noviembre (versión 6.35)
+
+**Punto de partida verificado:** ambos perfiles tienen 294 evidencias de resolución para los 42 circuitos de la versión anterior. Perfil A tiene 42 cierres en `history` y Perfil V, 40; los dos cierres faltantes de V se reconocen **a través de las siete evidencias individuales** de cada ronda, sin modificar, borrar ni reconstruir sus históricos en Supabase.
+
+### Contenidos y progresión
+
+La ampliación suma **119 consignas nuevas**, que se agregan a las 294 existentes:
+
+| Tipo | Circuitos | Nuevas consignas | Qué cambia |
+|---|---|---:|---|
+| Matemática guiada | E-C/D/E (conversión fracción-decimal) | 21 | Propias, impropias, denominadores 10/100/1000/10000, conversión a irreducibles y contextos |
+| Matemática guiada | D-C/D (operaciones decimales) | 14 | Dividir por 10/100/1000, reparto, medidas, dinero y operaciones combinadas |
+| Matemática de transferencia | C-D y F-D | 14 | Problemas compuestos de circunferencia y comparación/orden/intercalación de fracciones impropias |
+| Lengua guiada | J-F, A-E, T-F, P-C y U-A/B | 42 | Conjugación G/J, hiatos y tildes, escritura de monosílabos, puntuación, concordancia, conectores, unimembres/bimembres y revisión de oraciones |
+| Comprobaciones separadas | Transferencia Matemática y Lengua; Retención Matemática y Lengua | 28 | Cuatro recorridos mixtos de siete consignas originales |
+
+**Total: 413 consignas**, con 119 nuevas y el banco anterior inalterado. El motor `desafios-fracciones.js` sigue utilizando el mismo diálogo: siete consignas por circuito, «Comprobar», ayudas progresivas, «Siguiente desafío», explicación y resumen.
+
+### Distinción pedagógica y condiciones de acceso
+
+- **Práctica guiada:** repite el procedimiento con datos y problemas nuevos. Identificada como `practica_guiada` en el nuevo banco.
+- **Transferencia:** situaciones distintas que combinan habilidades; los circuitos de Matemática C-D, F-D y E-E contienen tareas de transferencia. Las nuevas comprobaciones separadas se identifican `CK26-M-T-01…07` y `CK26-L-T-01…07`.
+- **Retención:** comprobaciones `CK26-M-R-01…07` y `CK26-L-R-01…07`, disponibles a partir del **cuarto día después de la práctica prioritaria**, una vez finalizada la transferencia del área. Una espera mayor no las elimina.
+- Las comprobaciones **no ofrecen pistas antes de la primera respuesta válida**. Si la primera respuesta es incorrecta y luego se corrige, queda «con ayuda» y `firstAttemptCorrect=false`, nunca «autónoma». El historial distingue `desafios_comprobacion` con `phase: transferencia|retencion` y las evidencias con `origin`/`purpose` independientes.
+- Matemática: transferencia después de E-E y D-D. Lengua: después de J-F, A-E, T-F, P-C y U-B. Son condiciones explícitas que impiden que un acierto aislado dentro de la práctica guiada se considere dominio.
+- El acceso a retención se calcula desde la **fecha más reciente de los circuitos guiados requeridos**. No hay ejecución automática, tareas programadas ni envío de notificaciones. La fecha se muestra en la tarjeta y se reevalúa cuando se abre la pestaña.
+- Los estados visuales incluyen **«Para reforzar»** y **«Comprobación pendiente»** además de por hacer, en curso, nuevos y completados. El color siempre tiene su etiqueta; ningún porcentaje o diagnóstico adulto aparece en las tarjetas.
+
+### Evidencias, privacidad y corrección escrita
+
+Se mantienen el mismo `STORAGE_KEY`, los IDs originales, el perfil invitado aislado, las cuentas familiares y las tablas, políticas y permisos de Supabase **sin migraciones**. Las nuevas evidencias se almacenan por perfil mediante el mecanismo existente `IngresoPedagogy.createEvidence/applyAttempt` y su sincronización actual. La distinción práctica/transferencia/retención se conserva mediante `purpose`, `origin`, `context`, `hintUsed` y las sesiones de cierre; no se altera a mano ningún registro previo.
+
+La corrección de **producciones escritas** incorporada aquí está limitada intencionalmente a **oraciones breves con una solución objetivo** (por ejemplo, corrección de concordancia, tildes y signos) mediante `orth-rewrite` y `orth-rule`. La aplicación no califica redacciones abiertas de manera automática ni finge que una coincidencia literal mida coherencia, creatividad o calidad narrativa. Las producciones libres requieren evaluación humana o un corrector contextual distinto, a integrar por separado después de validar su seguridad y su rúbrica.
+
+### Pruebas
+
+`node --test ingreso-belgrano-monserrat/tests/desafios-smoke.test.cjs ingreso-belgrano-monserrat/tests/ortografia-smoke.test.cjs ingreso-belgrano-monserrat/tests/ampliacion-desafios-v6-32.test.cjs ingreso-belgrano-monserrat/tests/estados-desafios-v6-34.test.cjs ingreso-belgrano-monserrat/tests/transferencia-retencion-v6-35.test.cjs`
+
+Las comprobaciones nuevas verifican **119 respuestas correctas y 119 incorrectas**, id único para 413 consignas, continuidad y privacidad de perfiles, conservación de evidencias completas sin cierre, apertura del modal, ausencia de pistas en el primer intento, diferencia entre respuesta autónoma y corregida, habilitación a los cuatro días, y versionado de PWA. La suite anterior de la v6.33 sigue ejecutándose en el otro workflow.
+
+**Prueba manual imprescindible tras fusionar:** confirmar v6.35.0, abrir los circuitos E-C/D/E y D-C/D en ambos perfiles; resolver y cerrar uno; completar los requisitos de transferencia en un perfil de prueba; intentar una comprobación sin pista antes de responder; verificar que retención permanece bloqueada hasta el día indicado, y que el perfil opuesto y sus históricos no cambian.
