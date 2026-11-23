@@ -13,8 +13,9 @@ const html=read('index.html');
 const version=html.match(/app-version" content="(6\.\d+\.\d+)"/)?.[1];
 
 test('140 ejercicios de Lengua: puntuación, concordancia, tilde diacrítica y G/J',()=>{
-  const items=Object.values(bank.blocks).flatMap(b=>['A','B','C','D','E'].flatMap(round=>b[round]||[]));
-  assert.equal(Object.keys(bank.blocks).length,6);
+  const original={D:['A','B'],J:['A','B','C','D','E'],B:['A','B'],A:['A','B','C','D'],T:['A','B','C','D','E'],P:['A','B']};
+  const items=Object.entries(original).flatMap(([k,rs])=>rs.flatMap(round=>bank.blocks[k][round]));
+  assert.ok(Object.keys(bank.blocks).length>=6);
   assert.equal(items.length,140);
   assert.equal(new Set(items.map(t=>t.id)).size,140);
   assert.deepEqual([...new Set(items.map(t=>t.kind))].sort(),
@@ -37,8 +38,8 @@ test('140 ejercicios de Lengua: puntuación, concordancia, tilde diacrítica y G
 });
 
 test('los accesos nuevos están en Desafíos y versionados para la PWA',()=>{
-  assert.equal((html.match(/data-start-ortho=/g)||[]).length,6);
-  assert.equal((html.match(/data-ortho-status=/g)||[]).length,6);
+  assert.equal((html.match(/data-start-ortho=/g)||[]).length,7);
+  assert.equal((html.match(/data-ortho-status=/g)||[]).length,7);
   assert.equal((html.match(/data-start-fractions(?=[ >])/g)||[]).length,1);
   assert.equal((html.match(/data-start-model=/g)||[]).length,6);
   assert.ok(version,'no app version');
@@ -118,7 +119,9 @@ function samples(t){
 test('140 respuestas correctas y 140 errores comprobados por el motor',async()=>{
   const {window,dialog,surface}=makeEngine();
   let counter=0;
-  for(const [block,part] of Object.entries(bank.blocks))for(const round of ['A','B','C','D','E'].filter(x=>Array.isArray(part[x]))){
+  const originals={D:['A','B'],J:['A','B','C','D','E'],B:['A','B'],A:['A','B','C','D'],T:['A','B','C','D','E'],P:['A','B']};
+  for(const [block,rounds] of Object.entries(originals))for(const round of rounds){
+    const part=bank.blocks[block];
     await window.IngresoFractionChallenges.open({orthographyBlock:block,round});
     assert.equal(dialog.open,true);
     assert.match(surface.innerHTML,/Desafío 1 de 7/);
