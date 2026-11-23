@@ -244,3 +244,25 @@
  .challenge-guide-item {font-size:.8rem;}
  .challenge-hub-card {min-height:auto;}
 }
+
+/* V6.35 · Refuerzo y comprobación diferenciados de finalizar un circuito. */
+.challenge-guide-dot.is-reinforce {background:#f6c3bd;border-color:#a5463c;}
+.challenge-guide-dot.is-verification {background:#b9e7e7;border-color:#2c7a80;}
+.challenge-hub-card[data-challenge-state="reinforce"] {border-color:#b65f58;background:#fff2ef;}
+.challenge-hub-card[data-challenge-state="reinforce"] .challenge-status-label {background:#ffdfda;border:1px solid #b65f58;color:#823f37;}
+.challenge-hub-card[data-challenge-state="verification"] {border-color:#338b92;background:#f0fcfc;}
+.challenge-hub-card[data-challenge-state="verification"] .challenge-status-label {background:#c8eeee;border:1px solid #338b92;color:#205d62;}
+.challenge-hub-card[data-challenge-state="waiting"] {border-color:#9caab8;background:#f4f7f9;}
+.challenge-hub-card[data-challenge-state="waiting"] .challenge-status-label {background:#e3eaf0;border:1px solid #a6b6c5;color:#3e5668;}
+.challenge-hub-card[data-challenge-state="waiting"] .primary-button:disabled {opacity:1;background:#e4e9ee;color:#425466;border:1px solid #adbac7;cursor:not-allowed;}
+.challenge-check-card .challenge-hub-symbol {background:#dcf4f3;color:#17636d;}
+.challenge-check-card .fraction-entry-meta {font-size:.86rem;min-height:3em;}
+.orthography-fields textarea {display:block;width:100%;max-width:570px;min-height:112px;padding:12px 14px;border:1px solid #9fb5ca;border-radius:10px;background:#fff;color:#19324a;font:inherit;line-height:1.5;resize:vertical;}
+.orthography-fields textarea:focus-visible {outline:3px solid #d7aa63;outline-offset:2px;}
+.fraction-comparison-units {display:flex;flex-direction:column;gap:4px;}
+.fraction-comparison-units .fraction-comparison-bar {height:26px;flex-shrink:0;}
+@media(max-width:560px){
+  .challenge-check-card {min-height:auto;}
+  .challenge-check-card .challenge-hub-tag {font-size:.75rem;}
+  .orthography-fields textarea {min-height:100px;}
+}
