@@ -1042,6 +1042,183 @@
           "school": "monserrat",
           "area": "lengua"
         }
+      ],
+      "E": [
+        {
+          "id": "MO26-J-E-01",
+          "orthographyBlock": "J",
+          "round": "E",
+          "kind": "orth-fill",
+          "area": "lengua",
+          "school": "monserrat",
+          "skill": "LEN-GJ",
+          "difficulty": 4,
+          "title": "G/J: escribir la forma correcta",
+          "prompt": "Leé la oración y escribí la palabra completa con G o J.",
+          "masked": "prote_o",
+          "letter": "j",
+          "sentence": "Yo prote_o la huerta cuando hay heladas.",
+          "expected": "protejo",
+          "hints": [
+            "Identificá el infinitivo o la familia de palabras.",
+            "Recordá que algunas formas cambian la letra al conjugarse: proteger → protejo; elegir → elijo."
+          ],
+          "steps": [
+            "Identificamos el verbo o la palabra de origen.",
+            "En la primera persona de proteger se escribe «protejo» con j.",
+            "Escribimos «protejo»."
+          ]
+        },
+        {
+          "id": "MO26-J-E-02",
+          "orthographyBlock": "J",
+          "round": "E",
+          "kind": "orth-fill",
+          "area": "lengua",
+          "school": "monserrat",
+          "skill": "LEN-GJ",
+          "difficulty": 4,
+          "title": "G/J: escribir la forma correcta",
+          "prompt": "Leé la oración y escribí la palabra completa con G o J.",
+          "masked": "diri_e",
+          "letter": "g",
+          "sentence": "La directora diri_e un encuentro de lectura.",
+          "expected": "dirige",
+          "hints": [
+            "Identificá el infinitivo o la familia de palabras.",
+            "Recordá que algunas formas cambian la letra al conjugarse: proteger → protejo; elegir → elijo."
+          ],
+          "steps": [
+            "Identificamos el verbo o la palabra de origen.",
+            "Ante e, la forma «dirige» del verbo dirigir conserva g.",
+            "Escribimos «dirige»."
+          ]
+        },
+        {
+          "id": "MO26-J-E-03",
+          "orthographyBlock": "J",
+          "round": "E",
+          "kind": "orth-fill",
+          "area": "lengua",
+          "school": "monserrat",
+          "skill": "LEN-GJ",
+          "difficulty": 4,
+          "title": "G/J: escribir la forma correcta",
+          "prompt": "Leé la oración y escribí la palabra completa con G o J.",
+          "masked": "reco_o",
+          "letter": "j",
+          "sentence": "Cuando termina la clase, reco_o todos los materiales.",
+          "expected": "recojo",
+          "hints": [
+            "Identificá el infinitivo o la familia de palabras.",
+            "Recordá que algunas formas cambian la letra al conjugarse: proteger → protejo; elegir → elijo."
+          ],
+          "steps": [
+            "Identificamos el verbo o la palabra de origen.",
+            "En la primera persona del verbo recoger se escribe «recojo» con j.",
+            "Escribimos «recojo»."
+          ]
+        },
+        {
+          "id": "MO26-J-E-04",
+          "orthographyBlock": "J",
+          "round": "E",
+          "kind": "orth-fill",
+          "area": "lengua",
+          "school": "monserrat",
+          "skill": "LEN-GJ",
+          "difficulty": 4,
+          "title": "G/J: escribir la forma correcta",
+          "prompt": "Leé la oración y escribí la palabra completa con G o J.",
+          "masked": "exi_e",
+          "letter": "g",
+          "sentence": "La consigna exi_e una respuesta completa.",
+          "expected": "exige",
+          "hints": [
+            "Identificá el infinitivo o la familia de palabras.",
+            "Recordá que algunas formas cambian la letra al conjugarse: proteger → protejo; elegir → elijo."
+          ],
+          "steps": [
+            "Identificamos el verbo o la palabra de origen.",
+            "«Exige» es una forma de exigir con g ante e.",
+            "Escribimos «exige»."
+          ]
+        },
+        {
+          "id": "MO26-J-E-05",
+          "orthographyBlock": "J",
+          "round": "E",
+          "kind": "orth-fill",
+          "area": "lengua",
+          "school": "monserrat",
+          "skill": "LEN-GJ",
+          "difficulty": 4,
+          "title": "G/J: escribir la forma correcta",
+          "prompt": "Leé la oración y escribí la palabra completa con G o J.",
+          "masked": "te_e",
+          "letter": "j",
+          "sentence": "El artesano te_e una manta de lana.",
+          "expected": "teje",
+          "hints": [
+            "Identificá el infinitivo o la familia de palabras.",
+            "Recordá que algunas formas cambian la letra al conjugarse: proteger → protejo; elegir → elijo."
+          ],
+          "steps": [
+            "Identificamos el verbo o la palabra de origen.",
+            "El verbo tejer se escribe con j.",
+            "Escribimos «teje»."
+          ]
+        },
+        {
+          "id": "MO26-J-E-06",
+          "orthographyBlock": "J",
+          "round": "E",
+          "kind": "orth-fill",
+          "area": "lengua",
+          "school": "monserrat",
+          "skill": "LEN-GJ",
+          "difficulty": 4,
+          "title": "G/J: escribir la forma correcta",
+          "prompt": "Leé la oración y escribí la palabra completa con G o J.",
+          "masked": "corri_ió",
+          "letter": "g",
+          "sentence": "La profesora corri_ió los errores del borrador.",
+          "expected": "corrigió",
+          "hints": [
+            "Identificá el infinitivo o la familia de palabras.",
+            "Recordá que algunas formas cambian la letra al conjugarse: proteger → protejo; elegir → elijo."
+          ],
+          "steps": [
+            "Identificamos el verbo o la palabra de origen.",
+            "«Corrigió» conserva la g de corregir delante de i.",
+            "Escribimos «corrigió»."
+          ]
+        },
+        {
+          "id": "MO26-J-E-07",
+          "orthographyBlock": "J",
+          "round": "E",
+          "kind": "orth-fill",
+          "area": "lengua",
+          "school": "monserrat",
+          "skill": "LEN-GJ",
+          "difficulty": 4,
+          "title": "G/J: escribir la forma correcta",
+          "prompt": "Leé la oración y escribí la palabra completa con G o J.",
+          "masked": "eli_e",
+          "letter": "g",
+          "sentence": "El grupo eli_e un libro para leer.",
+          "expected": "elige",
+          "hints": [
+            "Identificá el infinitivo o la familia de palabras.",
+            "Recordá que algunas formas cambian la letra al conjugarse: proteger → protejo; elegir → elijo."
+          ],
+          "steps": [
+            "Identificamos el verbo o la palabra de origen.",
+            "«Elige» es una forma de elegir; ante e se escribe con g.",
+            "Escribimos «elige»."
+          ]
+        }
       ]
     },
     "B": {
@@ -2935,6 +3112,176 @@
           "round": "D",
           "school": "monserrat",
           "area": "lengua"
+        }
+      ],
+      "E": [
+        {
+          "id": "MO26-T-E-01",
+          "orthographyBlock": "T",
+          "round": "E",
+          "kind": "orth-diacritic-write",
+          "area": "lengua",
+          "school": "monserrat",
+          "skill": "LEN-DIAC",
+          "difficulty": 4,
+          "title": "Tilde diacrítica sin opciones",
+          "prompt": "Completá la oración escribiendo la palabra correcta, con tilde solo si corresponde.",
+          "context": "___ encontró la respuesta después de estudiar.",
+          "expected": "Él",
+          "alternate": "El",
+          "hints": [
+            "Pensá qué función tiene la palabra: pronombre, sustantivo, verbo, posesivo o conector.",
+            "Aunque suenen igual, algunas palabras cambian de significado con la tilde."
+          ],
+          "steps": [
+            "Leemos toda la oración para identificar el significado.",
+            "«Él» lleva tilde como pronombre personal; «el» es artículo.",
+            "La respuesta correcta es «Él»."
+          ]
+        },
+        {
+          "id": "MO26-T-E-02",
+          "orthographyBlock": "T",
+          "round": "E",
+          "kind": "orth-diacritic-write",
+          "area": "lengua",
+          "school": "monserrat",
+          "skill": "LEN-DIAC",
+          "difficulty": 4,
+          "title": "Tilde diacrítica sin opciones",
+          "prompt": "Completá la oración escribiendo la palabra correcta, con tilde solo si corresponde.",
+          "context": "El aula necesita ___ mapas para la clase.",
+          "expected": "más",
+          "alternate": "mas",
+          "hints": [
+            "Pensá qué función tiene la palabra: pronombre, sustantivo, verbo, posesivo o conector.",
+            "Aunque suenen igual, algunas palabras cambian de significado con la tilde."
+          ],
+          "steps": [
+            "Leemos toda la oración para identificar el significado.",
+            "«Más» expresa cantidad; «mas» significa pero.",
+            "La respuesta correcta es «más»."
+          ]
+        },
+        {
+          "id": "MO26-T-E-03",
+          "orthographyBlock": "T",
+          "round": "E",
+          "kind": "orth-diacritic-write",
+          "area": "lengua",
+          "school": "monserrat",
+          "skill": "LEN-DIAC",
+          "difficulty": 4,
+          "title": "Tilde diacrítica sin opciones",
+          "prompt": "Completá la oración escribiendo la palabra correcta, con tilde solo si corresponde.",
+          "context": "Espero que la docente me ___ otra oportunidad.",
+          "expected": "dé",
+          "alternate": "de",
+          "hints": [
+            "Pensá qué función tiene la palabra: pronombre, sustantivo, verbo, posesivo o conector.",
+            "Aunque suenen igual, algunas palabras cambian de significado con la tilde."
+          ],
+          "steps": [
+            "Leemos toda la oración para identificar el significado.",
+            "«Dé» es una forma del verbo dar; «de» es preposición.",
+            "La respuesta correcta es «dé»."
+          ]
+        },
+        {
+          "id": "MO26-T-E-04",
+          "orthographyBlock": "T",
+          "round": "E",
+          "kind": "orth-diacritic-write",
+          "area": "lengua",
+          "school": "monserrat",
+          "skill": "LEN-DIAC",
+          "difficulty": 4,
+          "title": "Tilde diacrítica sin opciones",
+          "prompt": "Completá la oración escribiendo la palabra correcta, con tilde solo si corresponde.",
+          "context": "___ tenés tiempo, revisá la última cuenta.",
+          "expected": "Si",
+          "alternate": "Sí",
+          "hints": [
+            "Pensá qué función tiene la palabra: pronombre, sustantivo, verbo, posesivo o conector.",
+            "Aunque suenen igual, algunas palabras cambian de significado con la tilde."
+          ],
+          "steps": [
+            "Leemos toda la oración para identificar el significado.",
+            "«Si» introduce una condición; «sí» es afirmación.",
+            "La respuesta correcta es «Si»."
+          ]
+        },
+        {
+          "id": "MO26-T-E-05",
+          "orthographyBlock": "T",
+          "round": "E",
+          "kind": "orth-diacritic-write",
+          "area": "lengua",
+          "school": "monserrat",
+          "skill": "LEN-DIAC",
+          "difficulty": 4,
+          "title": "Tilde diacrítica sin opciones",
+          "prompt": "Completá la oración escribiendo la palabra correcta, con tilde solo si corresponde.",
+          "context": "Yo ___ por qué cambió el resultado.",
+          "expected": "sé",
+          "alternate": "se",
+          "hints": [
+            "Pensá qué función tiene la palabra: pronombre, sustantivo, verbo, posesivo o conector.",
+            "Aunque suenen igual, algunas palabras cambian de significado con la tilde."
+          ],
+          "steps": [
+            "Leemos toda la oración para identificar el significado.",
+            "«Sé» es una forma del verbo saber; «se» es pronombre.",
+            "La respuesta correcta es «sé»."
+          ]
+        },
+        {
+          "id": "MO26-T-E-06",
+          "orthographyBlock": "T",
+          "round": "E",
+          "kind": "orth-diacritic-write",
+          "area": "lengua",
+          "school": "monserrat",
+          "skill": "LEN-DIAC",
+          "difficulty": 4,
+          "title": "Tilde diacrítica sin opciones",
+          "prompt": "Completá la oración escribiendo la palabra correcta, con tilde solo si corresponde.",
+          "context": "La explicación fue importante para ___.",
+          "expected": "mí",
+          "alternate": "mi",
+          "hints": [
+            "Pensá qué función tiene la palabra: pronombre, sustantivo, verbo, posesivo o conector.",
+            "Aunque suenen igual, algunas palabras cambian de significado con la tilde."
+          ],
+          "steps": [
+            "Leemos toda la oración para identificar el significado.",
+            "«Mí» es pronombre detrás de preposición; «mi» es posesivo.",
+            "La respuesta correcta es «mí»."
+          ]
+        },
+        {
+          "id": "MO26-T-E-07",
+          "orthographyBlock": "T",
+          "round": "E",
+          "kind": "orth-diacritic-write",
+          "area": "lengua",
+          "school": "monserrat",
+          "skill": "LEN-DIAC",
+          "difficulty": 4,
+          "title": "Tilde diacrítica sin opciones",
+          "prompt": "Completá la oración escribiendo la palabra correcta, con tilde solo si corresponde.",
+          "context": "Después del almuerzo ofrecieron ___ con limón.",
+          "expected": "té",
+          "alternate": "te",
+          "hints": [
+            "Pensá qué función tiene la palabra: pronombre, sustantivo, verbo, posesivo o conector.",
+            "Aunque suenen igual, algunas palabras cambian de significado con la tilde."
+          ],
+          "steps": [
+            "Leemos toda la oración para identificar el significado.",
+            "«Té» nombra una bebida; «te» es pronombre.",
+            "La respuesta correcta es «té»."
+          ]
         }
       ]
     },
