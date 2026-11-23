@@ -1321,7 +1321,8 @@
     if(!profile)return false;
     return (profile.history||[]).some(event=>
       event.type==='desafios_comprobacion'&&event.checkArea===area&&event.phase===phase
-    )||completedByEvidence(profile,checkPrefix(area,phase),'');
+    )||Array.from({length:7},(_,i)=>checkPrefix(area,phase)+String(i+1).padStart(2,'0'))
+      .every(id=>(profile.evidence||[]).some(row=>row.exerciseId===id));
   }
   function prerequisiteComplete(profile,kind,block,round){
     return kind==='model'
