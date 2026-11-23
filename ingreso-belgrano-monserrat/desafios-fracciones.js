@@ -644,7 +644,7 @@
     if(orthographyBlock!==null && !['D','J','B','A','T','P'].includes(orthographyBlock))return;
     if(block&&orthographyBlock)return;
     if(block && !(['A','B'].includes(round)||(['C','F'].includes(block)&&round==='C')))return;
-    if(orthographyBlock && !['A','B',...(['J','A','T'].includes(orthographyBlock)?['C','D']:[])].includes(round))return;
+    if(orthographyBlock && !['A','B',...(['J','A','T'].includes(orthographyBlock)?['C','D']:[]),...(['J','T'].includes(orthographyBlock)?['E']:[])].includes(round))return;
     loading=true;
     dialog.showModal();
     app.innerHTML='<p role="status">Cargando los desafíos…</p>';
