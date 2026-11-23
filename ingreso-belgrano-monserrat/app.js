@@ -1084,9 +1084,12 @@
     T: 'Tilde diacrítica en monosílabos',
     P: 'Puntuación y concordancia'
   };
-  const ORTHOGRAPHY_ROUNDS=['A','B','C','D'];
-  const extraOrthographyRounds=new Set(['J','A','T']);
-  function orthographyRounds(block){return extraOrthographyRounds.has(block)?ORTHOGRAPHY_ROUNDS:ORTHOGRAPHY_ROUNDS.slice(0,2);}
+  const ORTHOGRAPHY_ROUNDS=['A','B','C','D','E'];
+  function orthographyRounds(block){
+    if(['J','T'].includes(block))return ORTHOGRAPHY_ROUNDS;
+    if(block==='A')return ORTHOGRAPHY_ROUNDS.slice(0,4);
+    return ORTHOGRAPHY_ROUNDS.slice(0,2);
+  }
   const ORTHOGRAPHY_SKILLS=new Set(['LEN-DIP-HIA','LEN-GJ','LEN-BV','LEN-CSZ','LEN-ACENT','LEN-DIAC','LEN-PUNT','LEN-SUJ-PRED']);
   function completedOrthographyRounds(profile,block){
     return new Set((profile?.history||[])
@@ -1166,7 +1169,7 @@
     }).catch(error=>{console.error('[Desafíos ortografía]',error);toast('No se pudieron abrir los desafíos de ortografía.');});
   }
   function recordOrthographyAttempt(pid,result){
-    const match=/^MO26-([DJBATP])-([ABCD])-0[1-7]$/.exec(result.id||'');
+    const match=/^MO26-([DJBATP])-([ABCDE])-0[1-7]$/.exec(result.id||'');
     if(match&&!orthographyRounds(match[1]).includes(match[2]))return;
     if(!match||match[1]!==result.orthographyBlock||!ORTHOGRAPHY_SKILLS.has(result.skill))return;
     if(!['autonoma','ayuda','revisar'].includes(result.status))return;
