@@ -12,16 +12,16 @@ const app=read('app.js');
 const html=read('index.html');
 const version=html.match(/app-version" content="(6\.\d+\.\d+)"/)?.[1];
 
-test('126 ejercicios de Lengua con puntuación y concordancia nuevos',()=>{
-  const items=Object.values(bank.blocks).flatMap(b=>['A','B','C','D'].flatMap(round=>b[round]||[]));
+test('140 ejercicios de Lengua: puntuación, concordancia, tilde diacrítica y G/J',()=>{
+  const items=Object.values(bank.blocks).flatMap(b=>['A','B','C','D','E'].flatMap(round=>b[round]||[]));
   assert.equal(Object.keys(bank.blocks).length,6);
-  assert.equal(items.length,126);
-  assert.equal(new Set(items.map(t=>t.id)).size,126);
+  assert.equal(items.length,140);
+  assert.equal(new Set(items.map(t=>t.id)).size,140);
   assert.deepEqual([...new Set(items.map(t=>t.kind))].sort(),
     ['orth-accent','orth-accent-write','orth-choice','orth-classify','orth-diacritic','orth-diacritic-write','orth-fill','orth-sentence']);
   const skills=new Set(['LEN-DIP-HIA','LEN-GJ','LEN-BV','LEN-CSZ','LEN-ACENT','LEN-DIAC','LEN-PUNT','LEN-SUJ-PRED']);
   for(const task of items){
-    assert.match(task.id,/^MO26-[DJBATP]-[ABCD]-0[1-7]$/);
+    assert.match(task.id,/^MO26-[DJBATP]-[ABCDE]-0[1-7]$/);
     assert.equal(task.hints.length,2,task.id);
     assert.equal(task.steps.length,3,task.id);
     assert.ok(skills.has(task.skill),task.id);
@@ -115,10 +115,10 @@ function samples(t){
   }
 }
 
-test('126 respuestas correctas y 126 errores comprobados por el motor',async()=>{
+test('140 respuestas correctas y 140 errores comprobados por el motor',async()=>{
   const {window,dialog,surface}=makeEngine();
   let counter=0;
-  for(const [block,part] of Object.entries(bank.blocks))for(const round of ['A','B','C','D'].filter(x=>Array.isArray(part[x]))){
+  for(const [block,part] of Object.entries(bank.blocks))for(const round of ['A','B','C','D','E'].filter(x=>Array.isArray(part[x]))){
     await window.IngresoFractionChallenges.open({orthographyBlock:block,round});
     assert.equal(dialog.open,true);
     assert.match(surface.innerHTML,/Desafío 1 de 7/);
@@ -133,7 +133,7 @@ test('126 respuestas correctas y 126 errores comprobados por el motor',async()=>
     }
     window.IngresoFractionChallenges.close();
   }
-  assert.equal(counter,126);
+  assert.equal(counter,140);
 });
 
 test('misma experiencia: sin ayuda, con pistas, para revisar; Matemática intacta',async()=>{
