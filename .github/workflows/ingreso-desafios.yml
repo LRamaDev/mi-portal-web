@@ -25,4 +25,4 @@ jobs:
         with:
           node-version: '24'
       - name: Verificar acceso y corrección de Matemática y Ortografía
-        run: node --test ingreso-belgrano-monserrat/tests/desafios-smoke.test.cjs ingreso-belgrano-monserrat/tests/ortografia-smoke.test.cjs ingreso-belgrano-monserrat/tests/ampliacion-desafios-v6-32.test.cjs
+        run: node --test ingreso-belgrano-monserrat/tests/desafios-smoke.test.cjs ingreso-belgrano-monserrat/tests/ortografia-smoke.test.cjs ingreso-belgrano-monserrat/tests/ampliacion-desafios-v6-32.test.cjs ingreso-belgrano-monserrat/tests/estados-desafios-v6-34.test.cjs
