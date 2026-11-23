@@ -74,3 +74,10 @@ jobs:
         run: node --test tests/ingreso-v6-21-banco.test.cjs
       - name: Refuerzo pedagógico noviembre y videos por habilidad
         run: node --test tests/ingreso-refuerzo-noviembre.test.cjs
+      - name: Regresión de los desafíos (circuitos y ortografía)
+        run: |
+          node --test ingreso-belgrano-monserrat/tests/desafios-smoke.test.cjs
+          node --test ingreso-belgrano-monserrat/tests/ortografia-smoke.test.cjs
+          node --test ingreso-belgrano-monserrat/tests/ampliacion-desafios-v6-32.test.cjs
+      - name: Nuevos desafíos 6.33 (56 actividades)
+        run: node --test ingreso-belgrano-monserrat/tests/desafios-v6-33.test.cjs
