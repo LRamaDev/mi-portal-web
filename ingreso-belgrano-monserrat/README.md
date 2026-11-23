@@ -253,3 +253,24 @@ Se agregan **70 actividades originales** sin eliminar ni renumerar las 154 exist
 **Pruebas automáticas:** `node --test ingreso-belgrano-monserrat/tests/desafios-smoke.test.cjs ingreso-belgrano-monserrat/tests/ortografia-smoke.test.cjs ingreso-belgrano-monserrat/tests/ampliacion-desafios-v6-32.test.cjs`. El workflow `.github/workflows/ingreso-desafios.yml` las ejecuta en cada PR. La caché PWA avanza a 6.32.0.
 
 **Prueba manual recomendada antes de empezar el uso habitual:** entrar con ambos perfiles a Desafíos y abrir Circunferencia y Comparación; comprobar selección de dibujos, orden táctil y escritura fraccionaria; verificar una respuesta decimal «31,4» y una incorrecta; retomar las tandas C/D de Ortografía y escribir monosílabos con/sin tilde; probar en un celular y comprobar que ambos perfiles conservan su historial.
+
+
+## Estados visuales por perfil en la pestaña Desafíos (V6.34)
+
+La pestaña **Desafíos** marca cada una de sus 13 tarjetas mediante **color, texto visible y un botón contextual**. No utiliza puntuaciones ni porcentajes de dominio, y no compara a las estudiantes:
+
+| Color de tarjeta | Etiqueta | Cuándo aparece | Acción |
+|---|---|---|---|
+| Verde | Completado | Todos los circuitos/tandas actualmente disponibles figuran completados en el historial del perfil activo | Botón deshabilitado «Todo completado» |
+| Naranja | En curso | El siguiente circuito tiene al menos una evidencia registrada, pero todavía no está completo | «Continuar circuito/tanda X» |
+| Violeta | Nuevos desafíos | Hay circuitos anteriores completados y quedó otro disponible sin empezar; **esto incluye circuitos añadidos por una actualización posterior** | «Hacer nuevos desafíos · X» |
+| Azul | Por hacer | No tiene ningún circuito finalizado ni evidencia del siguiente | «Empezar circuito/tanda A» |
+| Gris | Elegí un perfil | Está activo el modo conjunto, que no registra recorridos individuales | Botón deshabilitado |
+
+El encabezado de la pestaña incluye una leyenda visual con los cuatro estados y un resumen de bloques con trabajo disponible, ya terminados y con nuevos circuitos. El estado se calcula usando **el historial y las evidencias existentes**: `FR26-*`, `MB26-<bloque>-<ronda>-*` y `MO26-<bloque>-<ronda>-*`. La identificación de los circuitos disponibles usa las listas de la **versión actual**, evitando que A/B completos oculten un C o E agregado posteriormente.
+
+El indicador se actualiza al abrir Desafíos, al cambiar de perfil, al completar un circuito y también luego de guardar una respuesta dentro de un circuito comenzado. No se alteran los IDs de ejercicios, registros históricos, contraseñas, permisos, tablas ni políticas de Supabase. El visitante recibe su propio indicador; el modo conjunto no muestra progreso de ninguno de los dos perfiles.
+
+Los colores siempre están acompañados por palabras y los botones conservan texto legible. Se incluyen pruebas de regresión en `tests/estados-desafios-v6-34.test.cjs`, incorporadas al flujo CI de Desafíos: 13 tarjetas y leyenda, estados completado/nuevo/en curso/pendiente, reconocimiento de una ampliación A/B→C, continuidad y aislamiento entre perfiles.
+
+**Comprobación manual tras el merge:** abrir la versión 6.34.0, entrar a cada perfil y comprobar que las tarjetas finalizadas están verdes; las recién ampliadas violetas; iniciar una para que pase a naranja; terminar el último circuito disponible para que pase a verde. Probar también la navegación en celular.
