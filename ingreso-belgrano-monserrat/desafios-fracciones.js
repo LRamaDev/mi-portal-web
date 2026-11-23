@@ -189,9 +189,15 @@
       ' ('+esc(task.unit)+')<input id="fraction-ans1" type="text" inputmode="decimal" autocomplete="off" placeholder="Escribí solo el número"></label></div>';
   }
   function fractionPanel(f,letter) {
-    return '<div class="fraction-comparison-panel"><strong>'+esc(letter)+': '+f[0]+'/'+f[1]+'</strong><div class="fraction-comparison-bar" style="grid-template-columns:repeat('+f[1]+',minmax(0,1fr))">'+
-      Array.from({length:f[1]},(_,i)=>'<span class="'+(i<f[0]?'colored':'')+'"></span>').join('')+
-      '</div></div>';
+    const n=Number(f[0]),d=Math.max(1,Number(f[1]));
+    const whole=Math.floor(n/d),rest=n%d;
+    const bars=Array.from({length:Math.min(whole,3)+(rest>0?1:0)},(_,unit)=>{
+      const count=unit<whole?d:rest;
+      return '<div class="fraction-comparison-bar" style="grid-template-columns:repeat('+d+',minmax(0,1fr))">'+
+        Array.from({length:d},(_,i)=>'<span class="'+(i<count?'colored':'')+'"></span>').join('')+'</div>';
+    }).join('');
+    return '<div class="fraction-comparison-panel"><strong>'+esc(letter)+': '+n+'/'+d+'</strong>'+
+      '<div class="fraction-comparison-units">'+(bars||'<div class="fraction-comparison-bar"></div>')+'</div></div>';
   }
   function comparisonBoard(task){
     if(task.kind==='circle-pick')return circlePick();
@@ -326,7 +332,11 @@
       esc(placeholder) + '"></label></div>';
   }
   function orthoBoard(task) {
-    if(task.kind==='orth-choice') return orthoButtons(task.options);
+    if(task.kind==='orth-choice') return (task.context?'<blockquote class="orthography-sentence" lang="es">'+esc(task.context)+'</blockquote>':'')+orthoButtons(task.options);
+    if(task.kind==='orth-rewrite')return '<blockquote class="orthography-sentence" lang="es">'+esc(task.sentence)+'</blockquote>'+
+      '<div class="fraction-fields orthography-fields"><label>Escribí toda la oración revisada<textarea id="fraction-ans1" rows="3" spellcheck="false" autocapitalize="off" maxlength="300" placeholder="Oración corregida"></textarea></label></div>';
+    if(task.kind==='orth-rule')return '<div class="orthography-keyword" lang="es">'+esc(task.word)+'</div>'+
+      orthoTextInput('Escribí el nombre de la regla que justifica la tilde.','Nombre de la regla');
     if(task.kind==='orth-classify') return '<div class="orthography-keyword" lang="es">' +
       esc(task.word) + '</div>' + orthoButtons(['Diptongo','Hiato']);
     if(task.kind==='orth-sentence') return '<blockquote class="orthography-sentence" lang="es">' +
@@ -348,6 +358,18 @@
   function orthoEvaluate(task) {
     const selected=session.choice;
     const word=spelling(app.querySelector('#fraction-ans1')?.value);
+    if(task.kind==='orth-rewrite'){
+      const given=spelling(app.querySelector('#fraction-ans1')?.value).replace(/\s+/g,' ');
+      const accepted=[task.expected,...(task.accepted||[])].map(v=>spelling(v).replace(/\s+/g,' '));
+      return {valid:Boolean(given),correct:accepted.includes(given),
+        reason:'Revisá todas las palabras, la concordancia, las tildes y la puntuación. Copiá la oración completa.'};
+    }
+    if(task.kind==='orth-rule'){
+      const given=word.replace(/\s+/g,' ');
+      const accepted=[task.expected,...(task.accepted||[])].map(x=>spelling(x).replace(/\s+/g,' '));
+      return {valid:Boolean(given),correct:accepted.includes(given),
+        reason:'Nombrá la regla de acentuación que corresponde, por ejemplo «esdrújula» o «hiato».'};
+    }
     if(task.kind==='orth-choice')return {valid:selected!==null,
       correct:selected!==null&&task.options[selected]===task.expected,
       reason:'Revisá dónde debe aparecer la coma o con qué número debe concordar el verbo.'};
@@ -465,20 +487,21 @@
     if (!task) return showSummary();
     session.selection=new Set(); session.choice=null; session.added=0; session.attempts=0; session.hints=0;
     session.locked=false; session.startedAt=Date.now();
-    app.innerHTML=`<div class="fraction-progress"><span>Desafío ${session.index+1} de ${session.tasks.length}</span><span>${(session.block||session.orthographyBlock)?'Circuito':'Tanda'} ${esc(session.round)}</span></div>
+    app.innerHTML=`<div class="fraction-progress"><span>Desafío ${session.index+1} de ${session.tasks.length}</span><span>${session.checkPhase?'Comprobación de '+(session.checkPhase==='retencion'?'retención':'transferencia'):(session.block||session.orthographyBlock)?'Circuito '+esc(session.round):'Tanda '+esc(session.round)}</span></div>
       <div class="fraction-track"><span style="width:${session.results.size/session.tasks.length*100}%"></span></div>
       <p class="eyebrow">${esc(task.title)}</p><h2>${esc(task.prompt)}</h2>
       <div id="fraction-board" class="fraction-board">${board(task)}</div>
       <p class="fraction-selected" id="fraction-selected-count" aria-live="polite"></p>
       <div id="fraction-feedback" aria-live="polite"></div>
       <div class="fraction-controls">${button('Comprobar','fraction-check')}${button('Dame una pista','fraction-hint',true)}${button('Siguiente desafío','fraction-next')}</div>
-      <p class="fraction-info">Podés corregir tu respuesta. Si pedís pistas o revisás un error, queda registrado como resolución con ayuda.</p>`;
+      <p class="fraction-info">${session.checkPhase?'Primero respondé sin pistas. Después de comprobar podrás revisar o pedir ayuda; solo el primer intento correcto contará como autónomo.':'Podés corregir tu respuesta. Si pedís pistas o revisás un error, queda registrado como resolución con ayuda.'}</p>`;
     const next=app.querySelector('#fraction-next');
     next.hidden=true;
     const count=app.querySelector('#fraction-selected-count');
     count.textContent=['discs','squares','mixed','triangles','line','visual-paint','perimeter-select','fraction-order'].includes(task.kind)?countLabel():'';
     app.querySelector('#fraction-check').onclick=check;
     app.querySelector('#fraction-hint').onclick=hint;
+    if(session.checkPhase)app.querySelector('#fraction-hint').disabled=true;
     next.onclick=advance;
     app.querySelectorAll('[data-fraction-cell]').forEach(el => {
       const id=Number(el.dataset.fractionCell);
@@ -560,6 +583,8 @@
   function feedback(html) { app.querySelector('#fraction-feedback').innerHTML=html; }
   function hint() {
     if(!session||session.locked)return;
+    if(session.checkPhase && session.attempts===0)
+      return feedback(notice('Primero comprobá tu respuesta','En esta modalidad las pistas se habilitan después de tu primer intento.'));
     const t=taskNow();
     if(session.hints>=2||session.attempts>=2) return showSolution();
     feedback(notice(`Pista ${session.hints+1}`,esc(t.hints[session.hints])));
@@ -569,7 +594,9 @@
   function steps(t) { return `<ol class="fraction-steps">${t.steps.map(s=>`<li>${esc(s)}</li>`).join('')}</ol>`; }
   function storeResult(status) {
     const task=taskNow();
-    const result={id:task.id,round:session.round,block:session.block||null,orthographyBlock:session.orthographyBlock||null,status,skill:task.skill,difficulty:task.difficulty,durationMs:Math.max(0,Date.now()-session.startedAt)};
+    const result={id:task.id,round:session.round,block:session.block||null,orthographyBlock:session.orthographyBlock||null,
+      checkArea:session.checkArea||null,checkPhase:session.checkPhase||null,firstAttemptCorrect:status==='autonoma',
+      status,skill:task.skill,difficulty:task.difficulty,durationMs:Math.max(0,Date.now()-session.startedAt)};
     session.results.set(task.id,result);
     try{session.onResult(result);}catch(err){console.error('[Desafíos] Error al guardar resultado',err);}
   }
@@ -579,7 +606,7 @@
     app.querySelector('#fraction-hint').hidden=true;
     app.querySelector('#fraction-next').hidden=false;
     app.querySelectorAll('[data-fraction-cell]').forEach(el=>{el.setAttribute('aria-disabled','true');el.tabIndex=-1;});
-    app.querySelectorAll('input').forEach(el=>el.disabled=true);
+    app.querySelectorAll('input, textarea').forEach(el=>el.disabled=true);
     app.querySelectorAll('[data-orth-option]').forEach(el=>el.disabled=true);
     app.querySelectorAll('#fraction-plus,#fraction-minus').forEach(el=>el.disabled=true);
   }
@@ -588,6 +615,7 @@
     const task=taskNow(), answer=evaluate(task);
     if(!answer.valid) return feedback(notice('Falta una respuesta','Elegí partes o completá todos los casilleros antes de comprobar.'));
     session.attempts++;
+    if(session.checkPhase)app.querySelector('#fraction-hint').disabled=false;
     if(answer.correct){
       const helped=session.hints>0||session.attempts>1;
       storeResult(helped?'ayuda':'autonoma');
@@ -615,16 +643,17 @@
     if(!session)return;
     const results=[...session.results.values()], count=status=>results.filter(r=>r.status===status).length;
     const names={autonoma:'✓ Sin ayuda',ayuda:'↗ Con ayuda',revisar:'↺ Para revisar'};
-    app.innerHTML=`<p class="eyebrow">${(session.block||session.orthographyBlock)?"Circuito":"Tanda"} ${esc(session.round)} completado</p><h2>¡Terminaste los desafíos!</h2>
-      <p>Este resumen es de la práctica realizada: no representa una calificación ni un porcentaje de dominio.</p>
+    app.innerHTML=`<p class="eyebrow">${session.checkPhase?'Comprobación de '+(session.checkPhase==='retencion'?'retención':'transferencia')+' completada':(session.block||session.orthographyBlock)?"Circuito "+esc(session.round)+" completado":"Tanda "+esc(session.round)+" completada"}</p><h2>¡Terminaste los desafíos!</h2>
+      <p>${session.checkPhase?'Esta comprobación registra qué pudiste resolver sin ayuda después de estudiar. No representa por sí sola un dominio consolidado.':'Este resumen es de la práctica realizada: no representa una calificación ni un porcentaje de dominio.'}</p>
       <div class="fraction-summary"><div><strong>${count('autonoma')}</strong><span>Sin ayuda</span></div><div><strong>${count('ayuda')}</strong><span>Con ayuda</span></div><div><strong>${count('revisar')}</strong><span>Para revisar</span></div></div>
       <ul class="fraction-summary-list">${session.tasks.map(t=>`<li><span>${esc(t.title)}</span><b>${names[session.results.get(t.id)?.status]||'Pendiente'}</b></li>`).join('')}</ul>
-      <p class="fraction-info">La app guardará estos intentos en tu perfil y sugerirá nuevas actividades según lo que necesitás practicar.</p>
+      <p class="fraction-info">La app conserva los intentos en tu perfil para el acompañamiento pedagógico.</p>
       <div class="fraction-controls">${button('Volver a la app','fraction-finish')}</div>`;
     app.querySelector('#fraction-finish').onclick=close;
     if(!session.completeNotified){
       session.completeNotified=true;
-      try{session.onComplete({round:session.round,block:session.block||null,orthographyBlock:session.orthographyBlock||null,results});}catch(err){console.error('[Desafíos] Error al registrar la sesión',err);}
+      try{session.onComplete({round:session.round,block:session.block||null,orthographyBlock:session.orthographyBlock||null,
+            checkArea:session.checkArea||null,checkPhase:session.checkPhase||null,results});}catch(err){console.error('[Desafíos] Error al registrar la sesión',err);}
     }
   }
   function close() {
@@ -638,34 +667,45 @@
     closeButton.addEventListener('click',close);
     dialog.addEventListener('cancel',event=>{event.preventDefault();close();});
   }
-  async function open({round='A',block=null,orthographyBlock=null,prior=[],onResult=()=>{},onComplete=()=>{}}={}) {
+  async function open({round='A',block=null,orthographyBlock=null,checkArea=null,checkPhase=null,prior=[],onResult=()=>{},onComplete=()=>{}}={}) {
     if(!dialog||!app||loading||dialog.open||!['A','B','C','D','E','F','G','H'].includes(round))return;
-    if(block!==null && !['R','P','C','F','D','E'].includes(block))return;
-    if(orthographyBlock!==null && !['D','J','B','A','T','P'].includes(orthographyBlock))return;
+    if(checkArea!==null && !['M','L'].includes(checkArea))return;
+    if(checkArea && (!['transferencia','retencion'].includes(checkPhase)||block||orthographyBlock||round!=='A'))return;
+    if(!checkArea && (checkPhase|| (block!==null && !['R','P','C','F','D','E'].includes(block))||
+        (orthographyBlock!==null && !['D','J','B','A','T','P','U'].includes(orthographyBlock))))return;
     if(block&&orthographyBlock)return;
-    if(block && !(['A','B'].includes(round)||(['C','F'].includes(block)&&round==='C')))return;
-    if(orthographyBlock && !['A','B',...(['J','A','T'].includes(orthographyBlock)?['C','D']:[]),...(['J','T'].includes(orthographyBlock)?['E']:[])].includes(round))return;
+    if(!checkArea && block && !(block==='R'||block==='P'?['A','B'].includes(round):
+       ['C','F'].includes(block)?['A','B','C','D'].includes(round):
+       block==='D'?['A','B','C','D'].includes(round):['A','B','C','D','E'].includes(round)))return;
+    if(!checkArea && orthographyBlock && !(
+       ['J','T'].includes(orthographyBlock)?['A','B','C','D','E','F'].includes(round):
+       orthographyBlock==='A'?['A','B','C','D','E'].includes(round):
+       orthographyBlock==='P'?['A','B','C'].includes(round):['A','B'].includes(round)))return;
     loading=true;
     dialog.showModal();
     app.innerHTML='<p role="status">Cargando los desafíos…</p>';
     try{
-      const version=document.querySelector('meta[name="app-version"]')?.content || '6.34.0';
-      const source=orthographyBlock?'./data/desafios-ortografia.json':block?'./data/desafios-modelo.json':'./data/desafios-fracciones.json';
+      const version=document.querySelector('meta[name="app-version"]')?.content || '6.35.0';
+      const source=checkArea?'./data/desafios-comprobacion.json':orthographyBlock?'./data/desafios-ortografia.json':block?'./data/desafios-modelo.json':'./data/desafios-fracciones.json';
       const response=await fetch(source+'?v='+encodeURIComponent(version));
       if(!response.ok)throw new Error('No se pudo cargar el banco de desafíos');
       const data=await response.json();
-      const tasks=orthographyBlock?data.blocks?.[orthographyBlock]?.[round]:block?data.blocks?.[block]?.rounds?.[round]:data.rounds?.[round];
-      document.getElementById('fraction-challenge-title').textContent=orthographyBlock
-        ? 'Desafíos de Lengua: '+(data.blocks?.[orthographyBlock]?.label||'Ortografía')
+      const tasks=checkArea?data.checks?.[checkPhase]?.[checkArea]:
+        orthographyBlock?data.blocks?.[orthographyBlock]?.[round]:block?data.blocks?.[block]?.rounds?.[round]:data.rounds?.[round];
+      document.getElementById('fraction-challenge-title').textContent=checkArea
+        ? 'Comprobación de '+(checkPhase==='retencion'?'retención':'transferencia')+' · '+(checkArea==='M'?'Matemática':'Lengua')
+        :orthographyBlock?'Desafíos de Lengua: '+(data.blocks?.[orthographyBlock]?.label||'Ortografía')
         :block?'Desafíos de ingreso: '+(data.blocks?.[block]?.label||'Práctica por bloques')
         :'Desafíos de ingreso: Fracciones';
       const subtitle=document.getElementById('fraction-challenge-subtitle');
-      if(subtitle)subtitle.textContent=orthographyBlock==='P'?'Lengua · Puntuación y gramática · práctica individual':orthographyBlock?'Lengua · Ortografía · práctica individual':'Matemática · práctica individual';
+      if(subtitle)subtitle.textContent=checkArea?'Primera respuesta sin pistas · '+(checkArea==='M'?'Matemática':'Lengua'):
+        orthographyBlock==='P'?'Lengua · Puntuación y gramática · práctica individual':
+        orthographyBlock?'Lengua · Ortografía · práctica individual':'Matemática · práctica individual';
       if(!Array.isArray(tasks)||tasks.length!==7||new Set(tasks.map(t=>t.id)).size!==7)throw new Error('Banco de desafíos incompleto');
       if(!dialog.open)return;
       const taskIds=new Set(tasks.map(t=>t.id));
       const results=new Map(prior.filter(r=>taskIds.has(r.id)&&['autonoma','ayuda','revisar'].includes(r.status)).map(r=>[r.id,r]));
-      session={round,block,orthographyBlock,tasks,index:0,results,onResult,onComplete,selection:new Set(),choice:null,added:0,attempts:0,hints:0,locked:false,completeNotified:false,startedAt:0};
+      session={round,block,orthographyBlock,checkArea,checkPhase,tasks,index:0,results,onResult,onComplete,selection:new Set(),choice:null,added:0,attempts:0,hints:0,locked:false,completeNotified:false,startedAt:0};
       while(session.index<tasks.length&&results.has(tasks[session.index].id))session.index++;
       if(session.index===tasks.length)showSummary();else showTask();
     }catch(error){
