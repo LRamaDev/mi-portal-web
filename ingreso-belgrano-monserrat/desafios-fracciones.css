@@ -211,3 +211,36 @@
   .fraction-comparison-panel strong {font-size:1.07rem;}
   .fraction-comparison-bar {height:27px;gap:1px;}
 }
+
+/* V6.34 · Estados visibles de los desafíos por perfil (sin calificaciones). */
+.challenge-state-guide {display:flex;flex-wrap:wrap;align-items:center;gap:9px 17px;margin:16px 0 8px;padding:13px 15px;background:#f3f6fa;border:1px solid #dfe8f0;border-radius:12px;}
+.challenge-guide-item {display:inline-flex;align-items:center;gap:8px;font-size:.86rem;font-weight:700;color:#294052;white-space:nowrap;}
+.challenge-guide-dot {display:inline-block;width:13px;height:13px;border:1.5px solid;border-radius:50%;flex:none;}
+.challenge-guide-dot.is-new {background:#d8b6ef;border-color:#743b9a;}
+.challenge-guide-dot.is-active {background:#ffdb8f;border-color:#966100;}
+.challenge-guide-dot.is-pending {background:#b9d9f4;border-color:#31669a;}
+.challenge-guide-dot.is-completed {background:#b6dfbf;border-color:#267144;}
+.challenge-overview {margin:0 0 13px;font-weight:750;color:#365572;font-size:.96rem;line-height:1.5;}
+.challenge-hub-card {border:2px solid #c2d2df;background:#f6f9fd;transition:background-color .15s,border-color .15s;position:relative;}
+.challenge-status-label {display:inline-flex;align-items:center;min-height:26px;border-radius:100px;padding:4px 11px;font-size:.78rem;font-weight:800;line-height:1.1;border:1px solid transparent;}
+.challenge-hub-card[data-challenge-state="pending"] {border-color:#6fa5d0;background:#f0f7ff;}
+.challenge-hub-card[data-challenge-state="pending"] .challenge-status-label {background:#d8eafa;border-color:#79a5cc;color:#184e79;}
+.challenge-hub-card[data-challenge-state="active"] {border-color:#c78c25;background:#fff8e9;}
+.challenge-hub-card[data-challenge-state="active"] .challenge-status-label {background:#ffe6ac;border-color:#bc8329;color:#67430a;}
+.challenge-hub-card[data-challenge-state="new"] {border-color:#9b6ac6;background:#f8f1ff;}
+.challenge-hub-card[data-challenge-state="new"] .challenge-status-label {background:#ead8f9;border-color:#9b6ac6;color:#563078;}
+.challenge-hub-card[data-challenge-state="completed"] {border-color:#5b9d75;background:#f0faf3;}
+.challenge-hub-card[data-challenge-state="completed"] .challenge-status-label {background:#d2efd9;border-color:#5b9d75;color:#205b37;}
+.challenge-hub-card[data-challenge-state="locked"] {border-color:#b7c2cc;background:#f4f6f8;}
+.challenge-hub-card[data-challenge-state="locked"] .challenge-status-label {background:#e4e8ec;border-color:#b7c2cc;color:#455563;}
+.challenge-hub-card[data-challenge-state="completed"]:has(button:disabled),
+.challenge-hub-card[data-challenge-state="locked"]:has(button:disabled) {opacity:1;}
+.challenge-hub-card[data-challenge-state="completed"] .primary-button:disabled,
+.challenge-hub-card[data-challenge-state="locked"] .primary-button:disabled {background:#e2e9e6;color:#315742;border:1px solid #8fbaa0;opacity:1;cursor:not-allowed;}
+.challenge-hub-card[data-challenge-state="locked"] .primary-button:disabled {background:#e4e8ec;color:#52616c;border-color:#b7c2cc;}
+.challenge-hub-card .fraction-entry-meta {font-size:.85rem;line-height:1.48;min-height:2.4em;}
+@media(max-width:560px){
+ .challenge-state-guide {gap:8px 12px;padding:10px 12px;}
+ .challenge-guide-item {font-size:.8rem;}
+ .challenge-hub-card {min-height:auto;}
+}
