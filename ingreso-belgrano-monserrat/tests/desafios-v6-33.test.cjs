@@ -11,6 +11,7 @@ const orth=JSON.parse(read('data/desafios-ortografia.json'));
 const engine=read('desafios-fracciones.js');
 const app=read('app.js');
 const html=read('index.html');
+const appVersion=html.match(/app-version" content="(6\.\d+\.\d+)"/)?.[1];
 const allMath=Object.values(model.blocks).flatMap(b=>Object.values(b.rounds).flat());
 const allLang=Object.values(orth.blocks).flatMap(b=>['A','B','C','D','E'].flatMap(r=>b[r]||[]));
 
@@ -73,7 +74,7 @@ function makeEngine(){
   const surface={innerHTML:'',querySelector:node,querySelectorAll(){return []}};
   const document={
     getElementById:id=>id==='fraction-challenge-dialog'?dialog:id==='fraction-challenge-content'?surface:node(id),
-    querySelector:sel=>sel==='meta[name="app-version"]'?{content:'6.33.0'}:null
+    querySelector:sel=>sel==='meta[name="app-version"]'?{content:appVersion}:null
   };
   const sources={
     './data/desafios-modelo.json':model,
@@ -143,14 +144,14 @@ test('el motor abre y corrige todos los 70 nuevos ejercicios',async()=>{
   assert.equal(count,70);
 });
 test('versionado de PWA y tarjetas visibles, sin bloquear las anteriores',()=>{
-  assert.match(html,/app-version" content="6\.33\.0"/);
+  assert.ok(appVersion,'app version missing');
   assert.equal((html.match(/data-start-model=/g)||[]).length,6);
   assert.equal((html.match(/data-start-ortho=/g)||[]).length,6);
   for(const block of ['R','P','C','F','D','E'])assert.match(html,new RegExp('data-start-model="'+block+'"'));
   assert.match(html,/data-start-ortho="P"/);
   const sw=read('sw.js');
   assert.match(sw,/ingreso-bm-v6-33-secuencia-noviembre/);
-  assert.match(sw,/desafios-modelo\.json\?v=6\.33\.0/);
-  assert.match(sw,/desafios-ortografia\.json\?v=6\.33\.0/);
+  assert.ok(sw.includes('desafios-modelo.json?v='+appVersion));
+  assert.ok(sw.includes('desafios-ortografia.json?v='+appVersion));
   new vm.Script(engine);new vm.Script(app);new vm.Script(sw);
 });
