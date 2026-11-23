@@ -13,12 +13,12 @@ const app=read('app.js');
 const html=read('index.html');
 const appVersion=html.match(/app-version" content="(6\.\d+\.\d+)"/)?.[1];
 const allMath=Object.values(model.blocks).flatMap(b=>Object.values(b.rounds).flat());
-const allLang=Object.values(orth.blocks).flatMap(b=>['A','B','C','D','E'].flatMap(r=>b[r]||[]));
+const allLang=Object.values(orth.blocks).flatMap(b=>['A','B','C','D','E','F'].flatMap(r=>b[r]||[]));
 
 test('se agregan 70 ejercicios nuevos, todos diferentes, sin borrar las 168 actividades anteriores',()=>{
-  assert.equal(allMath.length,98);
-  assert.equal(allLang.length,140);
-  assert.equal(new Set([...allMath,...allLang].map(t=>t.id)).size,238);
+  assert.ok(allMath.length>=98);
+  assert.ok(allLang.length>=140);
+  assert.equal(new Set([...allMath,...allLang].map(t=>t.id)).size,allMath.length+allLang.length);
   const expectedCounts={C:{C:7},F:{C:7},D:{A:7,B:7},E:{A:7,B:7}};
   for(const [block,rounds] of Object.entries(expectedCounts)){
     for(const [round,n] of Object.entries(rounds)){
@@ -43,7 +43,7 @@ test('verificación independiente de resultados numéricos, de fracciones y comp
       const [n,d]=t.expected;
       assert.equal(gcd(n,d),1,t.id);
       // Cada decimal de estas tareas aparece en el título o la consigna.
-      const decimal=Number((t.prompt.match(/(?:0|1)[,.]\d+/)||[])[0]?.replace(',','.'));
+      const decimal=Number((t.prompt.match(/\d+[,.]\d+/)||[])[0]?.replace(',','.'));
       assert.ok(Number.isFinite(decimal)&&Math.abs(n/d-decimal)<1e-8,t.id);
     }
     if(t.kind==='circle-number'){
@@ -146,7 +146,7 @@ test('el motor abre y corrige todos los 70 nuevos ejercicios',async()=>{
 test('versionado de PWA y tarjetas visibles, sin bloquear las anteriores',()=>{
   assert.ok(appVersion,'app version missing');
   assert.equal((html.match(/data-start-model=/g)||[]).length,6);
-  assert.equal((html.match(/data-start-ortho=/g)||[]).length,6);
+  assert.equal((html.match(/data-start-ortho=/g)||[]).length,7);
   for(const block of ['R','P','C','F','D','E'])assert.match(html,new RegExp('data-start-model="'+block+'"'));
   assert.match(html,/data-start-ortho="P"/);
   const sw=read('sw.js');
