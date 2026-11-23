@@ -50,7 +50,7 @@
     try {
       // La URL cambia con la versión: evita que un service worker anterior entregue
       // habilidades sin videos durante la primera visita tras una actualización.
-      const releaseVersion = document.querySelector('meta[name="app-version"]')?.content || '6.32.0';
+      const releaseVersion = document.querySelector('meta[name="app-version"]')?.content || '6.33.0';
       const [skillsData, exerciseData] = await Promise.all([
         fetch(`./data/habilidades.json?v=${encodeURIComponent(releaseVersion)}`, { cache: 'no-store' }).then(r => { if (!r.ok) throw new Error('habilidades'); return r.json(); }),
         fetch('./data/ejercicios.json').then(r => { if (!r.ok) throw new Error('ejercicios'); return r.json(); })
@@ -68,7 +68,7 @@
     refreshGateNames();
     restoreActiveContext();
     setupSupabase();
-    if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js?v=6.32.0').catch(() => {});
+    if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js?v=6.33.0').catch(() => {});
   }
 
   function bindUI() {
@@ -967,17 +967,20 @@
     R: {label:'Representaciones de fracciones',skill:'MAT-FR-CON',school:'belgrano'},
     P: {label:'Perímetros de figuras compuestas',skill:'MAT-PER',school:'belgrano'},
     C: {label:'Circunferencia y sus elementos',skill:'MAT-CIRC',school:'monserrat'},
-    F: {label:'Comparación y orden de fracciones',skill:'MAT-FR-ORD',school:null}
+    F: {label:'Comparación y orden de fracciones',skill:'MAT-FR-ORD',school:null},
+    D: {label:'Operaciones con decimales',skill:'MAT-DEC-OPS',school:null},
+    E: {label:'Conversión entre fracción y decimal',skill:'MAT-FR-DEC',school:null}
   };
-  const MODEL_ROUNDS = ['A','B'];
+  const MODEL_ROUNDS = ['A','B','C'];
+  function modelRounds(block){return ['C','F'].includes(block)?MODEL_ROUNDS:MODEL_ROUNDS.slice(0,2);}
   function completedModelRounds(profile,block){
     return new Set((profile?.history||[])
-      .filter(item=>item.type==='desafios_modelo'&&item.blockId===block&&MODEL_ROUNDS.includes(item.roundId))
+      .filter(item=>item.type==='desafios_modelo'&&item.blockId===block&&modelRounds(block).includes(item.roundId))
       .map(item=>item.roundId));
   }
   function nextModelRound(profile,block){
     const completed=completedModelRounds(profile,block);
-    return MODEL_ROUNDS.find(round=>!completed.has(round))||null;
+    return modelRounds(block).find(round=>!completed.has(round))||null;
   }
   function renderModelEntries(){
     if(!activeMode)return;
@@ -989,7 +992,7 @@
       const partial=next&&Boolean((profile?.evidence||[])
         .some(event=>String(event.exerciseId||'').startsWith('MB26-'+block+'-'+next+'-')));
       element.textContent=!individual?'Elegí un perfil individual para guardar el recorrido.'
-        :!next?'Completaste los dos circuitos de este bloque.'
+        :!next?'Completaste los '+modelRounds(block).length+' circuitos de este bloque.'
         :partial?'Retomá el circuito '+next+' desde donde lo dejaste.':'Circuito '+next+' · 7 desafíos diferentes.';
     });
     $$('[data-start-model]').forEach(button=>{
@@ -1043,7 +1046,8 @@
     }).catch(error=>{console.error('[Ingreso bloques]',error);toast('No se pudieron abrir estos desafíos.');});
   }
   function recordModelAttempt(pid,result){
-    if(!/^MB26-[RPCF]-[AB]-0[1-7]$/.test(result.id)||!MODEL_BLOCKS[result.block])return;
+    if(!/^MB26-[RPCFDE]-[ABC]-0[1-7]$/.test(result.id)||!MODEL_BLOCKS[result.block])return;
+    if(!modelRounds(result.block).includes(result.round))return;
     if(!['autonoma','ayuda','revisar'].includes(result.status))return;
     if(result.skill!==MODEL_BLOCKS[result.block].skill)return;
     const profile=state.profiles[pid],engine=window.IngresoPedagogy;
@@ -1060,7 +1064,7 @@
     const event=engine.createEvidence({
       profileId:pid,exercise,correct:result.status!=='revisar',
       hintUsed:result.status!=='autonoma',sessionType:'practica',
-      origin:'desafios_modelo_'+({R:'representaciones',P:'perimetros',C:'circunferencia',F:'comparacion'}[result.block]),
+      origin:'desafios_modelo_'+({R:'representaciones',P:'perimetros',C:'circunferencia',F:'comparacion',D:'decimales',E:'conversion'}[result.block]),
       purpose,durationMs:Math.max(0,Number(result.durationMs)||0),
       evaluationWeight:result.status==='ayuda'?0.75:1,school:MODEL_BLOCKS[result.block].school,at:now
     });
@@ -1077,12 +1081,16 @@
     J: 'Uso de G y J: detectar y escribir',
     B: 'Uso de B, V, C, S y Z',
     A: 'Acentuación general',
-    T: 'Tilde diacrítica en monosílabos'
+    T: 'Tilde diacrítica en monosílabos',
+    P: 'Puntuación y concordancia'
   };
-  const ORTHOGRAPHY_ROUNDS=['A','B','C','D'];
-  const extraOrthographyRounds=new Set(['J','A','T']);
-  function orthographyRounds(block){return extraOrthographyRounds.has(block)?ORTHOGRAPHY_ROUNDS:ORTHOGRAPHY_ROUNDS.slice(0,2);}
-  const ORTHOGRAPHY_SKILLS=new Set(['LEN-DIP-HIA','LEN-GJ','LEN-BV','LEN-CSZ','LEN-ACENT','LEN-DIAC']);
+  const ORTHOGRAPHY_ROUNDS=['A','B','C','D','E'];
+  function orthographyRounds(block){
+    if(['J','T'].includes(block))return ORTHOGRAPHY_ROUNDS;
+    if(block==='A')return ORTHOGRAPHY_ROUNDS.slice(0,4);
+    return ORTHOGRAPHY_ROUNDS.slice(0,2);
+  }
+  const ORTHOGRAPHY_SKILLS=new Set(['LEN-DIP-HIA','LEN-GJ','LEN-BV','LEN-CSZ','LEN-ACENT','LEN-DIAC','LEN-PUNT','LEN-SUJ-PRED']);
   function completedOrthographyRounds(profile,block){
     return new Set((profile?.history||[])
       .filter(event=>event.type==='desafios_ortografia' &&
@@ -1161,7 +1169,7 @@
     }).catch(error=>{console.error('[Desafíos ortografía]',error);toast('No se pudieron abrir los desafíos de ortografía.');});
   }
   function recordOrthographyAttempt(pid,result){
-    const match=/^MO26-([DJBAT])-([ABCD])-0[1-7]$/.exec(result.id||'');
+    const match=/^MO26-([DJBATP])-([ABCDE])-0[1-7]$/.exec(result.id||'');
     if(match&&!orthographyRounds(match[1]).includes(match[2]))return;
     if(!match||match[1]!==result.orthographyBlock||!ORTHOGRAPHY_SKILLS.has(result.skill))return;
     if(!['autonoma','ayuda','revisar'].includes(result.status))return;

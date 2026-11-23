@@ -1042,6 +1042,183 @@
           "school": "monserrat",
           "area": "lengua"
         }
+      ],
+      "E": [
+        {
+          "id": "MO26-J-E-01",
+          "orthographyBlock": "J",
+          "round": "E",
+          "kind": "orth-fill",
+          "area": "lengua",
+          "school": "monserrat",
+          "skill": "LEN-GJ",
+          "difficulty": 4,
+          "title": "G/J: escribir la forma correcta",
+          "prompt": "Leé la oración y escribí la palabra completa con G o J.",
+          "masked": "prote_o",
+          "letter": "j",
+          "sentence": "Yo prote_o la huerta cuando hay heladas.",
+          "expected": "protejo",
+          "hints": [
+            "Identificá el infinitivo o la familia de palabras.",
+            "Recordá que algunas formas cambian la letra al conjugarse: proteger → protejo; elegir → elijo."
+          ],
+          "steps": [
+            "Identificamos el verbo o la palabra de origen.",
+            "En la primera persona de proteger se escribe «protejo» con j.",
+            "Escribimos «protejo»."
+          ]
+        },
+        {
+          "id": "MO26-J-E-02",
+          "orthographyBlock": "J",
+          "round": "E",
+          "kind": "orth-fill",
+          "area": "lengua",
+          "school": "monserrat",
+          "skill": "LEN-GJ",
+          "difficulty": 4,
+          "title": "G/J: escribir la forma correcta",
+          "prompt": "Leé la oración y escribí la palabra completa con G o J.",
+          "masked": "diri_e",
+          "letter": "g",
+          "sentence": "La directora diri_e un encuentro de lectura.",
+          "expected": "dirige",
+          "hints": [
+            "Identificá el infinitivo o la familia de palabras.",
+            "Recordá que algunas formas cambian la letra al conjugarse: proteger → protejo; elegir → elijo."
+          ],
+          "steps": [
+            "Identificamos el verbo o la palabra de origen.",
+            "Ante e, la forma «dirige» del verbo dirigir conserva g.",
+            "Escribimos «dirige»."
+          ]
+        },
+        {
+          "id": "MO26-J-E-03",
+          "orthographyBlock": "J",
+          "round": "E",
+          "kind": "orth-fill",
+          "area": "lengua",
+          "school": "monserrat",
+          "skill": "LEN-GJ",
+          "difficulty": 4,
+          "title": "G/J: escribir la forma correcta",
+          "prompt": "Leé la oración y escribí la palabra completa con G o J.",
+          "masked": "reco_o",
+          "letter": "j",
+          "sentence": "Cuando termina la clase, reco_o todos los materiales.",
+          "expected": "recojo",
+          "hints": [
+            "Identificá el infinitivo o la familia de palabras.",
+            "Recordá que algunas formas cambian la letra al conjugarse: proteger → protejo; elegir → elijo."
+          ],
+          "steps": [
+            "Identificamos el verbo o la palabra de origen.",
+            "En la primera persona del verbo recoger se escribe «recojo» con j.",
+            "Escribimos «recojo»."
+          ]
+        },
+        {
+          "id": "MO26-J-E-04",
+          "orthographyBlock": "J",
+          "round": "E",
+          "kind": "orth-fill",
+          "area": "lengua",
+          "school": "monserrat",
+          "skill": "LEN-GJ",
+          "difficulty": 4,
+          "title": "G/J: escribir la forma correcta",
+          "prompt": "Leé la oración y escribí la palabra completa con G o J.",
+          "masked": "exi_e",
+          "letter": "g",
+          "sentence": "La consigna exi_e una respuesta completa.",
+          "expected": "exige",
+          "hints": [
+            "Identificá el infinitivo o la familia de palabras.",
+            "Recordá que algunas formas cambian la letra al conjugarse: proteger → protejo; elegir → elijo."
+          ],
+          "steps": [
+            "Identificamos el verbo o la palabra de origen.",
+            "«Exige» es una forma de exigir con g ante e.",
+            "Escribimos «exige»."
+          ]
+        },
+        {
+          "id": "MO26-J-E-05",
+          "orthographyBlock": "J",
+          "round": "E",
+          "kind": "orth-fill",
+          "area": "lengua",
+          "school": "monserrat",
+          "skill": "LEN-GJ",
+          "difficulty": 4,
+          "title": "G/J: escribir la forma correcta",
+          "prompt": "Leé la oración y escribí la palabra completa con G o J.",
+          "masked": "te_e",
+          "letter": "j",
+          "sentence": "El artesano te_e una manta de lana.",
+          "expected": "teje",
+          "hints": [
+            "Identificá el infinitivo o la familia de palabras.",
+            "Recordá que algunas formas cambian la letra al conjugarse: proteger → protejo; elegir → elijo."
+          ],
+          "steps": [
+            "Identificamos el verbo o la palabra de origen.",
+            "El verbo tejer se escribe con j.",
+            "Escribimos «teje»."
+          ]
+        },
+        {
+          "id": "MO26-J-E-06",
+          "orthographyBlock": "J",
+          "round": "E",
+          "kind": "orth-fill",
+          "area": "lengua",
+          "school": "monserrat",
+          "skill": "LEN-GJ",
+          "difficulty": 4,
+          "title": "G/J: escribir la forma correcta",
+          "prompt": "Leé la oración y escribí la palabra completa con G o J.",
+          "masked": "corri_ió",
+          "letter": "g",
+          "sentence": "La profesora corri_ió los errores del borrador.",
+          "expected": "corrigió",
+          "hints": [
+            "Identificá el infinitivo o la familia de palabras.",
+            "Recordá que algunas formas cambian la letra al conjugarse: proteger → protejo; elegir → elijo."
+          ],
+          "steps": [
+            "Identificamos el verbo o la palabra de origen.",
+            "«Corrigió» conserva la g de corregir delante de i.",
+            "Escribimos «corrigió»."
+          ]
+        },
+        {
+          "id": "MO26-J-E-07",
+          "orthographyBlock": "J",
+          "round": "E",
+          "kind": "orth-fill",
+          "area": "lengua",
+          "school": "monserrat",
+          "skill": "LEN-GJ",
+          "difficulty": 4,
+          "title": "G/J: escribir la forma correcta",
+          "prompt": "Leé la oración y escribí la palabra completa con G o J.",
+          "masked": "eli_e",
+          "letter": "g",
+          "sentence": "El grupo eli_e un libro para leer.",
+          "expected": "elige",
+          "hints": [
+            "Identificá el infinitivo o la familia de palabras.",
+            "Recordá que algunas formas cambian la letra al conjugarse: proteger → protejo; elegir → elijo."
+          ],
+          "steps": [
+            "Identificamos el verbo o la palabra de origen.",
+            "«Elige» es una forma de elegir; ante e se escribe con g.",
+            "Escribimos «elige»."
+          ]
+        }
       ]
     },
     "B": {
@@ -2935,6 +3112,575 @@
           "round": "D",
           "school": "monserrat",
           "area": "lengua"
+        }
+      ],
+      "E": [
+        {
+          "id": "MO26-T-E-01",
+          "orthographyBlock": "T",
+          "round": "E",
+          "kind": "orth-diacritic-write",
+          "area": "lengua",
+          "school": "monserrat",
+          "skill": "LEN-DIAC",
+          "difficulty": 4,
+          "title": "Tilde diacrítica sin opciones",
+          "prompt": "Completá la oración escribiendo la palabra correcta, con tilde solo si corresponde.",
+          "context": "___ encontró la respuesta después de estudiar.",
+          "expected": "Él",
+          "alternate": "El",
+          "hints": [
+            "Pensá qué función tiene la palabra: pronombre, sustantivo, verbo, posesivo o conector.",
+            "Aunque suenen igual, algunas palabras cambian de significado con la tilde."
+          ],
+          "steps": [
+            "Leemos toda la oración para identificar el significado.",
+            "«Él» lleva tilde como pronombre personal; «el» es artículo.",
+            "La respuesta correcta es «Él»."
+          ]
+        },
+        {
+          "id": "MO26-T-E-02",
+          "orthographyBlock": "T",
+          "round": "E",
+          "kind": "orth-diacritic-write",
+          "area": "lengua",
+          "school": "monserrat",
+          "skill": "LEN-DIAC",
+          "difficulty": 4,
+          "title": "Tilde diacrítica sin opciones",
+          "prompt": "Completá la oración escribiendo la palabra correcta, con tilde solo si corresponde.",
+          "context": "El aula necesita ___ mapas para la clase.",
+          "expected": "más",
+          "alternate": "mas",
+          "hints": [
+            "Pensá qué función tiene la palabra: pronombre, sustantivo, verbo, posesivo o conector.",
+            "Aunque suenen igual, algunas palabras cambian de significado con la tilde."
+          ],
+          "steps": [
+            "Leemos toda la oración para identificar el significado.",
+            "«Más» expresa cantidad; «mas» significa pero.",
+            "La respuesta correcta es «más»."
+          ]
+        },
+        {
+          "id": "MO26-T-E-03",
+          "orthographyBlock": "T",
+          "round": "E",
+          "kind": "orth-diacritic-write",
+          "area": "lengua",
+          "school": "monserrat",
+          "skill": "LEN-DIAC",
+          "difficulty": 4,
+          "title": "Tilde diacrítica sin opciones",
+          "prompt": "Completá la oración escribiendo la palabra correcta, con tilde solo si corresponde.",
+          "context": "Espero que la docente me ___ otra oportunidad.",
+          "expected": "dé",
+          "alternate": "de",
+          "hints": [
+            "Pensá qué función tiene la palabra: pronombre, sustantivo, verbo, posesivo o conector.",
+            "Aunque suenen igual, algunas palabras cambian de significado con la tilde."
+          ],
+          "steps": [
+            "Leemos toda la oración para identificar el significado.",
+            "«Dé» es una forma del verbo dar; «de» es preposición.",
+            "La respuesta correcta es «dé»."
+          ]
+        },
+        {
+          "id": "MO26-T-E-04",
+          "orthographyBlock": "T",
+          "round": "E",
+          "kind": "orth-diacritic-write",
+          "area": "lengua",
+          "school": "monserrat",
+          "skill": "LEN-DIAC",
+          "difficulty": 4,
+          "title": "Tilde diacrítica sin opciones",
+          "prompt": "Completá la oración escribiendo la palabra correcta, con tilde solo si corresponde.",
+          "context": "___ tenés tiempo, revisá la última cuenta.",
+          "expected": "Si",
+          "alternate": "Sí",
+          "hints": [
+            "Pensá qué función tiene la palabra: pronombre, sustantivo, verbo, posesivo o conector.",
+            "Aunque suenen igual, algunas palabras cambian de significado con la tilde."
+          ],
+          "steps": [
+            "Leemos toda la oración para identificar el significado.",
+            "«Si» introduce una condición; «sí» es afirmación.",
+            "La respuesta correcta es «Si»."
+          ]
+        },
+        {
+          "id": "MO26-T-E-05",
+          "orthographyBlock": "T",
+          "round": "E",
+          "kind": "orth-diacritic-write",
+          "area": "lengua",
+          "school": "monserrat",
+          "skill": "LEN-DIAC",
+          "difficulty": 4,
+          "title": "Tilde diacrítica sin opciones",
+          "prompt": "Completá la oración escribiendo la palabra correcta, con tilde solo si corresponde.",
+          "context": "Yo ___ por qué cambió el resultado.",
+          "expected": "sé",
+          "alternate": "se",
+          "hints": [
+            "Pensá qué función tiene la palabra: pronombre, sustantivo, verbo, posesivo o conector.",
+            "Aunque suenen igual, algunas palabras cambian de significado con la tilde."
+          ],
+          "steps": [
+            "Leemos toda la oración para identificar el significado.",
+            "«Sé» es una forma del verbo saber; «se» es pronombre.",
+            "La respuesta correcta es «sé»."
+          ]
+        },
+        {
+          "id": "MO26-T-E-06",
+          "orthographyBlock": "T",
+          "round": "E",
+          "kind": "orth-diacritic-write",
+          "area": "lengua",
+          "school": "monserrat",
+          "skill": "LEN-DIAC",
+          "difficulty": 4,
+          "title": "Tilde diacrítica sin opciones",
+          "prompt": "Completá la oración escribiendo la palabra correcta, con tilde solo si corresponde.",
+          "context": "La explicación fue importante para ___.",
+          "expected": "mí",
+          "alternate": "mi",
+          "hints": [
+            "Pensá qué función tiene la palabra: pronombre, sustantivo, verbo, posesivo o conector.",
+            "Aunque suenen igual, algunas palabras cambian de significado con la tilde."
+          ],
+          "steps": [
+            "Leemos toda la oración para identificar el significado.",
+            "«Mí» es pronombre detrás de preposición; «mi» es posesivo.",
+            "La respuesta correcta es «mí»."
+          ]
+        },
+        {
+          "id": "MO26-T-E-07",
+          "orthographyBlock": "T",
+          "round": "E",
+          "kind": "orth-diacritic-write",
+          "area": "lengua",
+          "school": "monserrat",
+          "skill": "LEN-DIAC",
+          "difficulty": 4,
+          "title": "Tilde diacrítica sin opciones",
+          "prompt": "Completá la oración escribiendo la palabra correcta, con tilde solo si corresponde.",
+          "context": "Después del almuerzo ofrecieron ___ con limón.",
+          "expected": "té",
+          "alternate": "te",
+          "hints": [
+            "Pensá qué función tiene la palabra: pronombre, sustantivo, verbo, posesivo o conector.",
+            "Aunque suenen igual, algunas palabras cambian de significado con la tilde."
+          ],
+          "steps": [
+            "Leemos toda la oración para identificar el significado.",
+            "«Té» nombra una bebida; «te» es pronombre.",
+            "La respuesta correcta es «té»."
+          ]
+        }
+      ]
+    },
+    "P": {
+      "label": "Puntuación y concordancia",
+      "A": [
+        {
+          "id": "MO26-P-A-01",
+          "orthographyBlock": "P",
+          "round": "A",
+          "kind": "orth-choice",
+          "area": "lengua",
+          "school": "monserrat",
+          "skill": "LEN-PUNT",
+          "title": "Coma entre sujeto y verbo",
+          "prompt": "¿Cuál oración evita la coma entre sujeto y verbo?",
+          "options": [
+            "Los estudiantes resolvieron el problema.",
+            "Los estudiantes, resolvieron el problema.",
+            "Los, estudiantes resolvieron el problema.",
+            "Los estudiantes resolvieron, el problema."
+          ],
+          "expected": "Los estudiantes resolvieron el problema.",
+          "difficulty": 3,
+          "hints": [
+            "Identificá primero el sujeto, el verbo o la expresión que necesita signos.",
+            "Volvé a leer la oración en voz alta y aplicá la regla de puntuación o concordancia."
+          ],
+          "steps": [
+            "El sujeto es «Los estudiantes» y el verbo es «resolvieron». No se separan con coma.",
+            "Compará la respuesta con las otras opciones para detectar el error.",
+            "La opción correcta es: Los estudiantes resolvieron el problema."
+          ]
+        },
+        {
+          "id": "MO26-P-A-02",
+          "orthographyBlock": "P",
+          "round": "A",
+          "kind": "orth-choice",
+          "area": "lengua",
+          "school": "monserrat",
+          "skill": "LEN-SUJ-PRED",
+          "title": "Concordancia en singular",
+          "prompt": "¿Cuál oración hace concordar «El equipo» con su verbo?",
+          "options": [
+            "El equipo de investigadores encontró un fósil.",
+            "El equipo de investigadores encontraron un fósil.",
+            "El equipo de investigadores, encontraron un fósil.",
+            "El equipo de investigadores encontraste un fósil."
+          ],
+          "expected": "El equipo de investigadores encontró un fósil.",
+          "difficulty": 3,
+          "hints": [
+            "Identificá primero el sujeto, el verbo o la expresión que necesita signos.",
+            "Volvé a leer la oración en voz alta y aplicá la regla de puntuación o concordancia."
+          ],
+          "steps": [
+            "«Equipo» es el núcleo singular del sujeto; corresponde «encontró».",
+            "Compará la respuesta con las otras opciones para detectar el error.",
+            "La opción correcta es: El equipo de investigadores encontró un fósil."
+          ]
+        },
+        {
+          "id": "MO26-P-A-03",
+          "orthographyBlock": "P",
+          "round": "A",
+          "kind": "orth-choice",
+          "area": "lengua",
+          "school": "monserrat",
+          "skill": "LEN-PUNT",
+          "title": "Enumeraciones",
+          "prompt": "¿Cuál oración separa correctamente los elementos de una enumeración?",
+          "options": [
+            "Compramos pan, leche y arroz.",
+            "Compramos pan leche y arroz.",
+            "Compramos, pan leche y arroz.",
+            "Compramos pan leche, y arroz."
+          ],
+          "expected": "Compramos pan, leche y arroz.",
+          "difficulty": 3,
+          "hints": [
+            "Identificá primero el sujeto, el verbo o la expresión que necesita signos.",
+            "Volvé a leer la oración en voz alta y aplicá la regla de puntuación o concordancia."
+          ],
+          "steps": [
+            "Los elementos se separan con coma; delante de «y» no se usa coma en esta enumeración simple.",
+            "Compará la respuesta con las otras opciones para detectar el error.",
+            "La opción correcta es: Compramos pan, leche y arroz."
+          ]
+        },
+        {
+          "id": "MO26-P-A-04",
+          "orthographyBlock": "P",
+          "round": "A",
+          "kind": "orth-choice",
+          "area": "lengua",
+          "school": "monserrat",
+          "skill": "LEN-PUNT",
+          "title": "Vocativo",
+          "prompt": "¿Cuál opción separa correctamente el vocativo «Profe»?",
+          "options": [
+            "Profe, ¿podemos empezar?",
+            "Profe ¿podemos, empezar?",
+            "Profe, ¿podemos, empezar?",
+            "Profe ¿podemos empezar,?"
+          ],
+          "expected": "Profe, ¿podemos empezar?",
+          "difficulty": 3,
+          "hints": [
+            "Identificá primero el sujeto, el verbo o la expresión que necesita signos.",
+            "Volvé a leer la oración en voz alta y aplicá la regla de puntuación o concordancia."
+          ],
+          "steps": [
+            "El vocativo inicial se separa con una coma.",
+            "Compará la respuesta con las otras opciones para detectar el error.",
+            "La opción correcta es: Profe, ¿podemos empezar?"
+          ]
+        },
+        {
+          "id": "MO26-P-A-05",
+          "orthographyBlock": "P",
+          "round": "A",
+          "kind": "orth-choice",
+          "area": "lengua",
+          "school": "monserrat",
+          "skill": "LEN-SUJ-PRED",
+          "title": "Concordancia en plural",
+          "prompt": "¿Cuál oración mantiene correctamente la concordancia?",
+          "options": [
+            "Los resultados de la encuesta muestran un cambio.",
+            "Los resultados de la encuesta muestra un cambio.",
+            "Los resultados de la encuesta muestro un cambio.",
+            "Los resultados de la encuesta mostrás un cambio."
+          ],
+          "expected": "Los resultados de la encuesta muestran un cambio.",
+          "difficulty": 3,
+          "hints": [
+            "Identificá primero el sujeto, el verbo o la expresión que necesita signos.",
+            "Volvé a leer la oración en voz alta y aplicá la regla de puntuación o concordancia."
+          ],
+          "steps": [
+            "El núcleo del sujeto es «resultados», por lo tanto el verbo debe ir en plural.",
+            "Compará la respuesta con las otras opciones para detectar el error.",
+            "La opción correcta es: Los resultados de la encuesta muestran un cambio."
+          ]
+        },
+        {
+          "id": "MO26-P-A-06",
+          "orthographyBlock": "P",
+          "round": "A",
+          "kind": "orth-choice",
+          "area": "lengua",
+          "school": "monserrat",
+          "skill": "LEN-PUNT",
+          "title": "Punto y coma",
+          "prompt": "¿Cuál opción puntúa adecuadamente «sin embargo»?",
+          "options": [
+            "Estudió mucho; sin embargo, se puso nervioso.",
+            "Estudió mucho sin embargo se puso nervioso.",
+            "Estudió mucho, sin embargo se puso nervioso.",
+            "Estudió mucho; sin embargo se puso nervioso."
+          ],
+          "expected": "Estudió mucho; sin embargo, se puso nervioso.",
+          "difficulty": 4,
+          "hints": [
+            "Identificá primero el sujeto, el verbo o la expresión que necesita signos.",
+            "Volvé a leer la oración en voz alta y aplicá la regla de puntuación o concordancia."
+          ],
+          "steps": [
+            "El punto y coma separa las ideas y la coma aparece después de «sin embargo».",
+            "Compará la respuesta con las otras opciones para detectar el error.",
+            "La opción correcta es: Estudió mucho; sin embargo, se puso nervioso."
+          ]
+        },
+        {
+          "id": "MO26-P-A-07",
+          "orthographyBlock": "P",
+          "round": "A",
+          "kind": "orth-choice",
+          "area": "lengua",
+          "school": "monserrat",
+          "skill": "LEN-PUNT",
+          "title": "Interrogación",
+          "prompt": "¿Cuál pregunta lleva los dos signos de interrogación?",
+          "options": [
+            "¿Cuándo empieza la clase?",
+            "Cuándo empieza la clase?",
+            "¿Cuándo empieza la clase.",
+            "¿Cuándo empieza la clase!"
+          ],
+          "expected": "¿Cuándo empieza la clase?",
+          "difficulty": 3,
+          "hints": [
+            "Identificá primero el sujeto, el verbo o la expresión que necesita signos.",
+            "Volvé a leer la oración en voz alta y aplicá la regla de puntuación o concordancia."
+          ],
+          "steps": [
+            "La interrogación en español empieza con «¿» y termina con «?».",
+            "Compará la respuesta con las otras opciones para detectar el error.",
+            "La opción correcta es: ¿Cuándo empieza la clase?"
+          ]
+        }
+      ],
+      "B": [
+        {
+          "id": "MO26-P-B-01",
+          "orthographyBlock": "P",
+          "round": "B",
+          "kind": "orth-choice",
+          "area": "lengua",
+          "school": "monserrat",
+          "skill": "LEN-SUJ-PRED",
+          "title": "Sujeto compuesto",
+          "prompt": "¿Cuál oración concuerda con el sujeto formado por dos grupos?",
+          "options": [
+            "Las niñas y los niños salieron al patio.",
+            "Las niñas y los niños salió al patio.",
+            "Las niñas y los niños saliste al patio.",
+            "Las niñas y los niños sale al patio."
+          ],
+          "expected": "Las niñas y los niños salieron al patio.",
+          "difficulty": 3,
+          "hints": [
+            "Identificá primero el sujeto, el verbo o la expresión que necesita signos.",
+            "Volvé a leer la oración en voz alta y aplicá la regla de puntuación o concordancia."
+          ],
+          "steps": [
+            "Dos núcleos coordinados por «y» forman un sujeto plural: «salieron».",
+            "Compará la respuesta con las otras opciones para detectar el error.",
+            "La opción correcta es: Las niñas y los niños salieron al patio."
+          ]
+        },
+        {
+          "id": "MO26-P-B-02",
+          "orthographyBlock": "P",
+          "round": "B",
+          "kind": "orth-choice",
+          "area": "lengua",
+          "school": "monserrat",
+          "skill": "LEN-PUNT",
+          "title": "Inciso entre comas",
+          "prompt": "¿Cuál opción aísla bien un inciso y respeta la concordancia?",
+          "options": [
+            "La maestra, junto con su grupo, organizó el encuentro.",
+            "La maestra junto con su grupo, organizaron el encuentro.",
+            "La maestra, junto con su grupo organizó, el encuentro.",
+            "La maestra junto con su grupo, organizó, el encuentro."
+          ],
+          "expected": "La maestra, junto con su grupo, organizó el encuentro.",
+          "difficulty": 4,
+          "hints": [
+            "Identificá primero el sujeto, el verbo o la expresión que necesita signos.",
+            "Volvé a leer la oración en voz alta y aplicá la regla de puntuación o concordancia."
+          ],
+          "steps": [
+            "«Junto con su grupo» queda entre dos comas; el núcleo del sujeto es «maestra».",
+            "Compará la respuesta con las otras opciones para detectar el error.",
+            "La opción correcta es: La maestra, junto con su grupo, organizó el encuentro."
+          ]
+        },
+        {
+          "id": "MO26-P-B-03",
+          "orthographyBlock": "P",
+          "round": "B",
+          "kind": "orth-choice",
+          "area": "lengua",
+          "school": "monserrat",
+          "skill": "LEN-PUNT",
+          "title": "Sujeto largo",
+          "prompt": "¿Dónde NO hay una coma indebida entre sujeto y predicado?",
+          "options": [
+            "El equipo de ciencias de la escuela encontró un fósil.",
+            "El equipo de ciencias de la escuela, encontró un fósil.",
+            "El equipo de ciencias, de la escuela encontró, un fósil.",
+            "El equipo, de ciencias de la escuela encontró un fósil."
+          ],
+          "expected": "El equipo de ciencias de la escuela encontró un fósil.",
+          "difficulty": 3,
+          "hints": [
+            "Identificá primero el sujeto, el verbo o la expresión que necesita signos.",
+            "Volvé a leer la oración en voz alta y aplicá la regla de puntuación o concordancia."
+          ],
+          "steps": [
+            "Un sujeto largo tampoco lleva coma antes del verbo principal «encontró».",
+            "Compará la respuesta con las otras opciones para detectar el error.",
+            "La opción correcta es: El equipo de ciencias de la escuela encontró un fósil."
+          ]
+        },
+        {
+          "id": "MO26-P-B-04",
+          "orthographyBlock": "P",
+          "round": "B",
+          "kind": "orth-choice",
+          "area": "lengua",
+          "school": "monserrat",
+          "skill": "LEN-SUJ-PRED",
+          "title": "Ni... ni...",
+          "prompt": "¿Cuál opción utiliza el verbo plural correcto?",
+          "options": [
+            "Ni el viento ni la lluvia detuvieron la carrera.",
+            "Ni el viento ni la lluvia detuvo la carrera.",
+            "Ni el viento ni la lluvia detuviste la carrera.",
+            "Ni el viento ni la lluvia detuve la carrera."
+          ],
+          "expected": "Ni el viento ni la lluvia detuvieron la carrera.",
+          "difficulty": 3,
+          "hints": [
+            "Identificá primero el sujeto, el verbo o la expresión que necesita signos.",
+            "Volvé a leer la oración en voz alta y aplicá la regla de puntuación o concordancia."
+          ],
+          "steps": [
+            "Dos sujetos antepuestos y coordinados con «ni» requieren aquí «detuvieron».",
+            "Compará la respuesta con las otras opciones para detectar el error.",
+            "La opción correcta es: Ni el viento ni la lluvia detuvieron la carrera."
+          ]
+        },
+        {
+          "id": "MO26-P-B-05",
+          "orthographyBlock": "P",
+          "round": "B",
+          "kind": "orth-choice",
+          "area": "lengua",
+          "school": "monserrat",
+          "skill": "LEN-PUNT",
+          "title": "Dos puntos",
+          "prompt": "¿Cuál oración introduce correctamente una lista mediante dos puntos?",
+          "options": [
+            "Traje estos materiales: tijeras, pegamento y papel.",
+            "Traje: estos materiales tijeras, pegamento y papel.",
+            "Traje estos: materiales tijeras, pegamento y papel.",
+            "Traje estos materiales tijeras: pegamento y papel."
+          ],
+          "expected": "Traje estos materiales: tijeras, pegamento y papel.",
+          "difficulty": 3,
+          "hints": [
+            "Identificá primero el sujeto, el verbo o la expresión que necesita signos.",
+            "Volvé a leer la oración en voz alta y aplicá la regla de puntuación o concordancia."
+          ],
+          "steps": [
+            "«Estos materiales» introduce una enumeración; los dos puntos se ubican después.",
+            "Compará la respuesta con las otras opciones para detectar el error.",
+            "La opción correcta es: Traje estos materiales: tijeras, pegamento y papel."
+          ]
+        },
+        {
+          "id": "MO26-P-B-06",
+          "orthographyBlock": "P",
+          "round": "B",
+          "kind": "orth-choice",
+          "area": "lengua",
+          "school": "monserrat",
+          "skill": "LEN-PUNT",
+          "title": "Coma antes de pero",
+          "prompt": "¿Cuál oración ubica correctamente la coma antes de «pero»?",
+          "options": [
+            "Tenían todo listo, pero faltó la autorización.",
+            "Tenían, todo listo pero faltó la autorización.",
+            "Tenían todo listo pero, faltó la autorización.",
+            "Tenían todo, listo pero faltó la autorización."
+          ],
+          "expected": "Tenían todo listo, pero faltó la autorización.",
+          "difficulty": 3,
+          "hints": [
+            "Identificá primero el sujeto, el verbo o la expresión que necesita signos.",
+            "Volvé a leer la oración en voz alta y aplicá la regla de puntuación o concordancia."
+          ],
+          "steps": [
+            "En este contraste entre dos oraciones, se escribe coma antes de «pero».",
+            "Compará la respuesta con las otras opciones para detectar el error.",
+            "La opción correcta es: Tenían todo listo, pero faltó la autorización."
+          ]
+        },
+        {
+          "id": "MO26-P-B-07",
+          "orthographyBlock": "P",
+          "round": "B",
+          "kind": "orth-choice",
+          "area": "lengua",
+          "school": "monserrat",
+          "skill": "LEN-SUJ-PRED",
+          "title": "Sustantivo colectivo",
+          "prompt": "¿Cuál oración concuerda correctamente con «El grupo»?",
+          "options": [
+            "El grupo de teatro presentó una obra.",
+            "El grupo de teatro presentaron una obra.",
+            "El grupo de teatro presentaste una obra.",
+            "El grupo de teatro presentamos una obra."
+          ],
+          "expected": "El grupo de teatro presentó una obra.",
+          "difficulty": 3,
+          "hints": [
+            "Identificá primero el sujeto, el verbo o la expresión que necesita signos.",
+            "Volvé a leer la oración en voz alta y aplicá la regla de puntuación o concordancia."
+          ],
+          "steps": [
+            "El núcleo «grupo» es singular y corresponde «presentó».",
+            "Compará la respuesta con las otras opciones para detectar el error.",
+            "La opción correcta es: El grupo de teatro presentó una obra."
+          ]
         }
       ]
     }

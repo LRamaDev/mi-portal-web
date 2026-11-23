@@ -1072,6 +1072,190 @@
             "school": "monserrat",
             "skill": "MAT-CIRC"
           }
+        ],
+        "C": [
+          {
+            "kind": "circle-number",
+            "title": "Hallá el radio",
+            "prompt": "Si el diámetro es 18 cm, ¿cuál es el radio?",
+            "givenKind": "diametro",
+            "given": 18,
+            "ask": "radio",
+            "unit": "cm",
+            "expected": 9,
+            "hints": [
+              "El diámetro contiene dos radios.",
+              "Dividí el diámetro por dos."
+            ],
+            "steps": [
+              "D = 18 cm.",
+              "r = D ÷ 2.",
+              "r = 9 cm."
+            ],
+            "difficulty": 3,
+            "id": "MB26-C-C-01",
+            "block": "C",
+            "round": "C",
+            "area": "matematica",
+            "school": null,
+            "skill": "MAT-CIRC"
+          },
+          {
+            "kind": "circle-number",
+            "title": "Hallá el diámetro",
+            "prompt": "Si el radio es 4,5 cm, ¿cuál es el diámetro?",
+            "givenKind": "radio",
+            "given": 4.5,
+            "ask": "diametro",
+            "unit": "cm",
+            "expected": 9,
+            "hints": [
+              "El diámetro mide el doble del radio.",
+              "Multiplicá 4,5 × 2."
+            ],
+            "steps": [
+              "r = 4,5 cm.",
+              "D = 2 × 4,5.",
+              "D = 9 cm."
+            ],
+            "difficulty": 3,
+            "id": "MB26-C-C-02",
+            "block": "C",
+            "round": "C",
+            "area": "matematica",
+            "school": null,
+            "skill": "MAT-CIRC"
+          },
+          {
+            "kind": "circle-number",
+            "title": "Calculá una longitud",
+            "prompt": "Una circunferencia tiene diámetro 12 cm. Calculá su longitud aproximada (π ≈ 3,14).",
+            "givenKind": "diametro",
+            "given": 12,
+            "ask": "longitud",
+            "unit": "cm",
+            "expected": 37.68,
+            "hints": [
+              "Longitud = diámetro × π.",
+              "Multiplicá 12 por 3,14."
+            ],
+            "steps": [
+              "D = 12 cm.",
+              "L = 12 × 3,14.",
+              "L ≈ 37,68 cm."
+            ],
+            "difficulty": 4,
+            "id": "MB26-C-C-03",
+            "block": "C",
+            "round": "C",
+            "area": "matematica",
+            "school": null,
+            "skill": "MAT-CIRC"
+          },
+          {
+            "kind": "circle-number",
+            "title": "Longitud con radio decimal",
+            "prompt": "Un círculo tiene radio de 3,5 cm. Calculá la longitud de su circunferencia (π ≈ 3,14).",
+            "givenKind": "radio",
+            "given": 3.5,
+            "ask": "longitud",
+            "unit": "cm",
+            "expected": 21.98,
+            "hints": [
+              "Primero obtené el diámetro: 2 × radio.",
+              "Luego multiplicá el diámetro por 3,14."
+            ],
+            "steps": [
+              "D = 2 × 3,5 = 7 cm.",
+              "L = 7 × 3,14.",
+              "L ≈ 21,98 cm."
+            ],
+            "difficulty": 4,
+            "id": "MB26-C-C-04",
+            "block": "C",
+            "round": "C",
+            "area": "matematica",
+            "school": null,
+            "skill": "MAT-CIRC"
+          },
+          {
+            "kind": "circle-number",
+            "title": "Mitad del diámetro",
+            "prompt": "Un aro tiene diámetro de 14 cm. ¿Cuál es su radio?",
+            "givenKind": "diametro",
+            "given": 14,
+            "ask": "radio",
+            "unit": "cm",
+            "expected": 7,
+            "hints": [
+              "El radio mide la mitad del diámetro.",
+              "Calculá 14 ÷ 2."
+            ],
+            "steps": [
+              "D = 14 cm.",
+              "r = D ÷ 2.",
+              "r = 7 cm."
+            ],
+            "difficulty": 3,
+            "id": "MB26-C-C-05",
+            "block": "C",
+            "round": "C",
+            "area": "matematica",
+            "school": null,
+            "skill": "MAT-CIRC"
+          },
+          {
+            "kind": "circle-number",
+            "title": "Longitud a partir del radio",
+            "prompt": "Una rueda de juguete tiene radio de 5 cm. ¿Cuánto mide una vuelta del borde (π ≈ 3,14)?",
+            "givenKind": "radio",
+            "given": 5,
+            "ask": "longitud",
+            "unit": "cm",
+            "expected": 31.4,
+            "hints": [
+              "Una vuelta completa corresponde a la longitud de la circunferencia.",
+              "Longitud = 2 × radio × π."
+            ],
+            "steps": [
+              "r = 5 cm, por lo tanto D = 10 cm.",
+              "L = 10 × 3,14.",
+              "L ≈ 31,40 cm."
+            ],
+            "difficulty": 4,
+            "id": "MB26-C-C-06",
+            "block": "C",
+            "round": "C",
+            "area": "matematica",
+            "school": null,
+            "skill": "MAT-CIRC"
+          },
+          {
+            "kind": "circle-number",
+            "title": "Otra longitud",
+            "prompt": "Una circunferencia tiene diámetro 25 cm. Hallá su longitud aproximada (π ≈ 3,14).",
+            "givenKind": "diametro",
+            "given": 25,
+            "ask": "longitud",
+            "unit": "cm",
+            "expected": 78.5,
+            "hints": [
+              "Usá L = π × diámetro.",
+              "Multiplicá 25 × 3,14."
+            ],
+            "steps": [
+              "D = 25 cm.",
+              "L = 25 × 3,14.",
+              "L ≈ 78,50 cm."
+            ],
+            "difficulty": 4,
+            "id": "MB26-C-C-07",
+            "block": "C",
+            "round": "C",
+            "area": "matematica",
+            "school": null,
+            "skill": "MAT-CIRC"
+          }
         ]
       }
     },
@@ -1519,6 +1703,900 @@
             "area": "matematica",
             "school": null,
             "skill": "MAT-FR-ORD"
+          }
+        ],
+        "C": [
+          {
+            "kind": "fraction-compare",
+            "title": "Sin mirar solo denominadores",
+            "prompt": "Compará 7/12 y 5/9.",
+            "left": [
+              7,
+              12
+            ],
+            "right": [
+              5,
+              9
+            ],
+            "expected": ">",
+            "hints": [
+              "Podés multiplicar en cruz.",
+              "7 × 9 = 63 y 5 × 12 = 60."
+            ],
+            "steps": [
+              "Convertimos a un denominador común.",
+              "7/12 = 63/108, 5/9 = 60/108.",
+              "7/12 > 5/9."
+            ],
+            "difficulty": 4,
+            "id": "MB26-F-C-01",
+            "block": "F",
+            "round": "C",
+            "area": "matematica",
+            "school": null,
+            "skill": "MAT-FR-ORD"
+          },
+          {
+            "kind": "fraction-compare",
+            "title": "Denominadores diferentes",
+            "prompt": "Compará 5/8 y 3/5.",
+            "left": [
+              5,
+              8
+            ],
+            "right": [
+              3,
+              5
+            ],
+            "expected": ">",
+            "hints": [
+              "Multiplicá 5 × 5 y 3 × 8.",
+              "25 es mayor que 24."
+            ],
+            "steps": [
+              "5/8 = 25/40.",
+              "3/5 = 24/40.",
+              "5/8 > 3/5."
+            ],
+            "difficulty": 3,
+            "id": "MB26-F-C-02",
+            "block": "F",
+            "round": "C",
+            "area": "matematica",
+            "school": null,
+            "skill": "MAT-FR-ORD"
+          },
+          {
+            "kind": "fraction-compare",
+            "title": "Cerca de tres cuartos",
+            "prompt": "Compará 11/15 y 3/4.",
+            "left": [
+              11,
+              15
+            ],
+            "right": [
+              3,
+              4
+            ],
+            "expected": "<",
+            "hints": [
+              "Compará 11 × 4 con 3 × 15.",
+              "44 es menor que 45."
+            ],
+            "steps": [
+              "11/15 = 44/60.",
+              "3/4 = 45/60.",
+              "11/15 < 3/4."
+            ],
+            "difficulty": 4,
+            "id": "MB26-F-C-03",
+            "block": "F",
+            "round": "C",
+            "area": "matematica",
+            "school": null,
+            "skill": "MAT-FR-ORD"
+          },
+          {
+            "kind": "fraction-order",
+            "title": "Orden por complementos",
+            "prompt": "Ordená de mayor a menor 5/6, 7/8 y 11/12.",
+            "fractions": [
+              [
+                5,
+                6
+              ],
+              [
+                7,
+                8
+              ],
+              [
+                11,
+                12
+              ]
+            ],
+            "expected": [
+              2,
+              1,
+              0
+            ],
+            "hints": [
+              "Todas están cerca de la unidad: mirá cuánto les falta.",
+              "Los complementos son 1/6, 1/8 y 1/12."
+            ],
+            "steps": [
+              "A 11/12 le falta 1/12.",
+              "A 7/8 le falta 1/8, a 5/6 le falta 1/6.",
+              "11/12 > 7/8 > 5/6."
+            ],
+            "difficulty": 4,
+            "id": "MB26-F-C-04",
+            "block": "F",
+            "round": "C",
+            "area": "matematica",
+            "school": null,
+            "skill": "MAT-FR-ORD"
+          },
+          {
+            "kind": "fraction-order",
+            "title": "Tres valores cercanos",
+            "prompt": "Ordená de mayor a menor 9/10, 4/5 y 7/8.",
+            "fractions": [
+              [
+                9,
+                10
+              ],
+              [
+                4,
+                5
+              ],
+              [
+                7,
+                8
+              ]
+            ],
+            "expected": [
+              0,
+              2,
+              1
+            ],
+            "hints": [
+              "Compará con 1: sus complementos son 1/10, 1/5 y 1/8.",
+              "Cuanto menor sea lo que falta, mayor es la fracción."
+            ],
+            "steps": [
+              "A 9/10 le falta 1/10.",
+              "A 7/8 le falta 1/8 y a 4/5 le falta 1/5.",
+              "9/10 > 7/8 > 4/5."
+            ],
+            "difficulty": 4,
+            "id": "MB26-F-C-05",
+            "block": "F",
+            "round": "C",
+            "area": "matematica",
+            "school": null,
+            "skill": "MAT-FR-ORD"
+          },
+          {
+            "kind": "fraction-between",
+            "title": "Entre dos fracciones",
+            "prompt": "Escribí una fracción estrictamente mayor que 2/5 y menor que 1/2.",
+            "lower": [
+              2,
+              5
+            ],
+            "upper": [
+              1,
+              2
+            ],
+            "expected": null,
+            "hints": [
+              "Convertí ambos extremos a veinteavos.",
+              "2/5 = 8/20 y 1/2 = 10/20."
+            ],
+            "steps": [
+              "8/20 < ? < 10/20.",
+              "9/20 está entre 8/20 y 10/20.",
+              "Por ejemplo, 9/20."
+            ],
+            "difficulty": 4,
+            "id": "MB26-F-C-06",
+            "block": "F",
+            "round": "C",
+            "area": "matematica",
+            "school": null,
+            "skill": "MAT-FR-ORD"
+          },
+          {
+            "kind": "fraction-between",
+            "title": "Intercalar una fracción",
+            "prompt": "Escribí una fracción estrictamente mayor que 3/4 y menor que 5/6.",
+            "lower": [
+              3,
+              4
+            ],
+            "upper": [
+              5,
+              6
+            ],
+            "expected": null,
+            "hints": [
+              "Convertí a sesentavos o buscá un número con decimal intermedio.",
+              "4/5 = 0,8, que queda entre 0,75 y 0,833…"
+            ],
+            "steps": [
+              "3/4 = 0,75.",
+              "5/6 ≈ 0,833.",
+              "Por ejemplo, 4/5 = 0,8."
+            ],
+            "difficulty": 4,
+            "id": "MB26-F-C-07",
+            "block": "F",
+            "round": "C",
+            "area": "matematica",
+            "school": null,
+            "skill": "MAT-FR-ORD"
+          }
+        ]
+      }
+    },
+    "D": {
+      "label": "Operaciones con decimales",
+      "rounds": {
+        "A": [
+          {
+            "kind": "model-decimal",
+            "title": "Alinear las comas",
+            "prompt": "Calculá 1,75 + 2,4.",
+            "expected": 4.15,
+            "hints": [
+              "Escribí 2,4 como 2,40.",
+              "Sumá las centésimas en la misma columna."
+            ],
+            "steps": [
+              "1,75 + 2,40.",
+              "Las partes enteras y decimales quedan alineadas.",
+              "Resultado: 4,15."
+            ],
+            "difficulty": 2,
+            "id": "MB26-D-A-01",
+            "block": "D",
+            "round": "A",
+            "area": "matematica",
+            "school": null,
+            "skill": "MAT-DEC-OPS"
+          },
+          {
+            "kind": "model-decimal",
+            "title": "Restar con centésimos",
+            "prompt": "Calculá 12,6 − 8,75.",
+            "expected": 3.85,
+            "hints": [
+              "Escribí 12,6 como 12,60.",
+              "Restá 8,75 de 12,60."
+            ],
+            "steps": [
+              "Alineamos 12,60 y 8,75.",
+              "Restamos cada valor posicional.",
+              "Resultado: 3,85."
+            ],
+            "difficulty": 3,
+            "id": "MB26-D-A-02",
+            "block": "D",
+            "round": "A",
+            "area": "matematica",
+            "school": null,
+            "skill": "MAT-DEC-OPS"
+          },
+          {
+            "kind": "model-decimal",
+            "title": "Completar una unidad",
+            "prompt": "Calculá 3,08 + 0,92.",
+            "expected": 4,
+            "hints": [
+              "Pensá qué le falta a 0,92 para llegar a 1.",
+              "Sumá las centésimas."
+            ],
+            "steps": [
+              "3,08 + 0,92.",
+              "0,08 + 0,92 = 1,00.",
+              "El total es 4,00."
+            ],
+            "difficulty": 2,
+            "id": "MB26-D-A-03",
+            "block": "D",
+            "round": "A",
+            "area": "matematica",
+            "school": null,
+            "skill": "MAT-DEC-OPS"
+          },
+          {
+            "kind": "model-decimal",
+            "title": "Diferencia de medidas",
+            "prompt": "Una cinta mide 30,5 m y cortan 12,85 m. ¿Cuántos metros quedan?",
+            "expected": 17.65,
+            "hints": [
+              "Alineá las comas: 30,50 − 12,85.",
+              "Primero restá las centésimas."
+            ],
+            "steps": [
+              "30,50 − 12,85.",
+              "Hacemos la resta respetando la posición de la coma.",
+              "Quedan 17,65 m."
+            ],
+            "difficulty": 3,
+            "id": "MB26-D-A-04",
+            "block": "D",
+            "round": "A",
+            "area": "matematica",
+            "school": null,
+            "skill": "MAT-DEC-OPS"
+          },
+          {
+            "kind": "model-decimal",
+            "title": "Duplicar un decimal",
+            "prompt": "Calculá 4,5 × 2.",
+            "expected": 9,
+            "hints": [
+              "Dos veces 4,5 es sumarlo dos veces.",
+              "4,5 + 4,5."
+            ],
+            "steps": [
+              "4,5 × 2 = 4,5 + 4,5.",
+              "Sumando las dos partes obtenemos 9.",
+              "Resultado: 9."
+            ],
+            "difficulty": 2,
+            "id": "MB26-D-A-05",
+            "block": "D",
+            "round": "A",
+            "area": "matematica",
+            "school": null,
+            "skill": "MAT-DEC-OPS"
+          },
+          {
+            "kind": "model-decimal",
+            "title": "Cuatro partes iguales",
+            "prompt": "Calculá 0,75 × 4.",
+            "expected": 3,
+            "hints": [
+              "Pensá en cuatro grupos de 75 centésimas.",
+              "100 centésimas equivalen a una unidad."
+            ],
+            "steps": [
+              "0,75 × 4 = 300 centésimas.",
+              "300 centésimas son 3 unidades.",
+              "Resultado: 3."
+            ],
+            "difficulty": 3,
+            "id": "MB26-D-A-06",
+            "block": "D",
+            "round": "A",
+            "area": "matematica",
+            "school": null,
+            "skill": "MAT-DEC-OPS"
+          },
+          {
+            "kind": "model-decimal",
+            "title": "Compra con dos productos",
+            "prompt": "Compraron dos cuadernos de $3,25 cada uno y un lápiz de $1,40. ¿Cuánto gastaron?",
+            "expected": 7.9,
+            "hints": [
+              "Primero calculá 2 × 3,25.",
+              "Después sumá 1,40."
+            ],
+            "steps": [
+              "Dos cuadernos cuestan 6,50.",
+              "6,50 + 1,40 = 7,90.",
+              "El total gastado es $7,90."
+            ],
+            "difficulty": 3,
+            "id": "MB26-D-A-07",
+            "block": "D",
+            "round": "A",
+            "area": "matematica",
+            "school": null,
+            "skill": "MAT-DEC-OPS"
+          }
+        ],
+        "B": [
+          {
+            "kind": "model-decimal",
+            "title": "División por 100",
+            "prompt": "Calculá 145,6 ÷ 100.",
+            "expected": 1.456,
+            "hints": [
+              "Cada división por 10 mueve una posición decimal hacia la izquierda.",
+              "Dividir entre 100 equivale a hacerlo dos veces por 10."
+            ],
+            "steps": [
+              "145,6 ÷ 10 = 14,56.",
+              "14,56 ÷ 10 = 1,456.",
+              "Resultado: 1,456."
+            ],
+            "difficulty": 3,
+            "id": "MB26-D-B-01",
+            "block": "D",
+            "round": "B",
+            "area": "matematica",
+            "school": null,
+            "skill": "MAT-DEC-OPS"
+          },
+          {
+            "kind": "model-decimal",
+            "title": "Multiplicación por 100",
+            "prompt": "Calculá 0,48 × 100.",
+            "expected": 48,
+            "hints": [
+              "Multiplicar por cien aumenta cien veces el número.",
+              "Desplazá dos posiciones la coma a la derecha."
+            ],
+            "steps": [
+              "0,48 × 10 = 4,8.",
+              "4,8 × 10 = 48.",
+              "Resultado: 48."
+            ],
+            "difficulty": 2,
+            "id": "MB26-D-B-02",
+            "block": "D",
+            "round": "B",
+            "area": "matematica",
+            "school": null,
+            "skill": "MAT-DEC-OPS"
+          },
+          {
+            "kind": "model-decimal",
+            "title": "Multiplicación por 10",
+            "prompt": "Calculá 2,75 × 10.",
+            "expected": 27.5,
+            "hints": [
+              "Cada décima pasa a valer una unidad.",
+              "Multiplicá el valor por diez."
+            ],
+            "steps": [
+              "2,75 × 10.",
+              "La coma se desplaza un lugar a la derecha.",
+              "Resultado: 27,5."
+            ],
+            "difficulty": 2,
+            "id": "MB26-D-B-03",
+            "block": "D",
+            "round": "B",
+            "area": "matematica",
+            "school": null,
+            "skill": "MAT-DEC-OPS"
+          },
+          {
+            "kind": "model-decimal",
+            "title": "División por 10",
+            "prompt": "Calculá 36,5 ÷ 10.",
+            "expected": 3.65,
+            "hints": [
+              "El resultado es diez veces menor.",
+              "Corré la coma un lugar hacia la izquierda."
+            ],
+            "steps": [
+              "36,5 ÷ 10.",
+              "Las decenas pasan a unidades.",
+              "Resultado: 3,65."
+            ],
+            "difficulty": 2,
+            "id": "MB26-D-B-04",
+            "block": "D",
+            "round": "B",
+            "area": "matematica",
+            "school": null,
+            "skill": "MAT-DEC-OPS"
+          },
+          {
+            "kind": "model-decimal",
+            "title": "Medio de una cantidad",
+            "prompt": "Calculá 0,6 × 0,5.",
+            "expected": 0.3,
+            "hints": [
+              "Multiplicar por 0,5 significa tomar la mitad.",
+              "La mitad de seis décimas son tres décimas."
+            ],
+            "steps": [
+              "0,5 = 1/2.",
+              "La mitad de 0,6 es 0,3.",
+              "Resultado: 0,3."
+            ],
+            "difficulty": 3,
+            "id": "MB26-D-B-05",
+            "block": "D",
+            "round": "B",
+            "area": "matematica",
+            "school": null,
+            "skill": "MAT-DEC-OPS"
+          },
+          {
+            "kind": "model-decimal",
+            "title": "Repartir en cinco partes",
+            "prompt": "12,75 litros se reparten en cinco botellas iguales. ¿Cuánto contiene cada botella?",
+            "expected": 2.55,
+            "hints": [
+              "Dividí la cantidad total entre cinco.",
+              "Verificá con multiplicación: 2,55 × 5."
+            ],
+            "steps": [
+              "12,75 ÷ 5.",
+              "2,55 × 5 = 12,75.",
+              "Cada botella contiene 2,55 litros."
+            ],
+            "difficulty": 3,
+            "id": "MB26-D-B-06",
+            "block": "D",
+            "round": "B",
+            "area": "matematica",
+            "school": null,
+            "skill": "MAT-DEC-OPS"
+          },
+          {
+            "kind": "model-decimal",
+            "title": "Producto decimal",
+            "prompt": "Calculá 8,4 × 1,5.",
+            "expected": 12.6,
+            "hints": [
+              "1,5 equivale a 1 + 0,5.",
+              "Sumá 8,4 y su mitad."
+            ],
+            "steps": [
+              "La mitad de 8,4 es 4,2.",
+              "8,4 + 4,2 = 12,6.",
+              "Resultado: 12,6."
+            ],
+            "difficulty": 4,
+            "id": "MB26-D-B-07",
+            "block": "D",
+            "round": "B",
+            "area": "matematica",
+            "school": null,
+            "skill": "MAT-DEC-OPS"
+          }
+        ]
+      }
+    },
+    "E": {
+      "label": "Conversión entre fracciones y decimales",
+      "rounds": {
+        "A": [
+          {
+            "kind": "model-fraction",
+            "title": "De decimal a fracción",
+            "prompt": "Expresá 0,75 como fracción irreducible.",
+            "irreducible": true,
+            "expected": [
+              3,
+              4
+            ],
+            "hints": [
+              "Escribí 75/100.",
+              "Simplificá numerador y denominador por 25."
+            ],
+            "steps": [
+              "0,75 son 75 centésimos.",
+              "75/100 se reduce dividiendo por 25.",
+              "Resultado irreducible: 3/4."
+            ],
+            "difficulty": 2,
+            "id": "MB26-E-A-01",
+            "block": "E",
+            "round": "A",
+            "area": "matematica",
+            "school": null,
+            "skill": "MAT-FR-DEC"
+          },
+          {
+            "kind": "model-fraction",
+            "title": "Octavos y milésimos",
+            "prompt": "Expresá 0,125 como fracción irreducible.",
+            "irreducible": true,
+            "expected": [
+              1,
+              8
+            ],
+            "hints": [
+              "0,125 = 125/1000.",
+              "Dividí ambos números por 125."
+            ],
+            "steps": [
+              "0,125 representa 125 milésimos.",
+              "125/1000 dividido por 125.",
+              "Resultado: 1/8."
+            ],
+            "difficulty": 3,
+            "id": "MB26-E-A-02",
+            "block": "E",
+            "round": "A",
+            "area": "matematica",
+            "school": null,
+            "skill": "MAT-FR-DEC"
+          },
+          {
+            "kind": "model-fraction",
+            "title": "Décimos simplificados",
+            "prompt": "Expresá 0,6 como fracción irreducible.",
+            "irreducible": true,
+            "expected": [
+              3,
+              5
+            ],
+            "hints": [
+              "0,6 = 6/10.",
+              "Simplificá por 2."
+            ],
+            "steps": [
+              "Son seis décimos.",
+              "6/10 dividido por dos da 3/5.",
+              "Resultado: 3/5."
+            ],
+            "difficulty": 2,
+            "id": "MB26-E-A-03",
+            "block": "E",
+            "round": "A",
+            "area": "matematica",
+            "school": null,
+            "skill": "MAT-FR-DEC"
+          },
+          {
+            "kind": "model-fraction",
+            "title": "Número mayor que uno",
+            "prompt": "Expresá 1,25 como fracción impropia irreducible.",
+            "irreducible": true,
+            "expected": [
+              5,
+              4
+            ],
+            "hints": [
+              "1,25 equivale a 125 centésimos.",
+              "Simplificá 125/100."
+            ],
+            "steps": [
+              "1,25 = 125/100.",
+              "Dividimos ambos términos por 25.",
+              "Resultado: 5/4."
+            ],
+            "difficulty": 3,
+            "id": "MB26-E-A-04",
+            "block": "E",
+            "round": "A",
+            "area": "matematica",
+            "school": null,
+            "skill": "MAT-FR-DEC"
+          },
+          {
+            "kind": "model-fraction",
+            "title": "Tres cifras decimales",
+            "prompt": "Expresá 0,375 como fracción irreducible.",
+            "irreducible": true,
+            "expected": [
+              3,
+              8
+            ],
+            "hints": [
+              "0,375 = 375/1000.",
+              "Probá simplificar por 125."
+            ],
+            "steps": [
+              "Escribimos 375/1000.",
+              "Dividimos por 125.",
+              "Resultado: 3/8."
+            ],
+            "difficulty": 3,
+            "id": "MB26-E-A-05",
+            "block": "E",
+            "round": "A",
+            "area": "matematica",
+            "school": null,
+            "skill": "MAT-FR-DEC"
+          },
+          {
+            "kind": "model-fraction",
+            "title": "De centésimos a veinteavos",
+            "prompt": "Expresá 0,45 como fracción irreducible.",
+            "irreducible": true,
+            "expected": [
+              9,
+              20
+            ],
+            "hints": [
+              "0,45 es 45/100.",
+              "Simplificá por 5."
+            ],
+            "steps": [
+              "45/100 representa la cantidad.",
+              "Dividimos ambos términos por 5.",
+              "Resultado: 9/20."
+            ],
+            "difficulty": 3,
+            "id": "MB26-E-A-06",
+            "block": "E",
+            "round": "A",
+            "area": "matematica",
+            "school": null,
+            "skill": "MAT-FR-DEC"
+          },
+          {
+            "kind": "model-fraction",
+            "title": "Uno y medio",
+            "prompt": "Expresá 1,5 como fracción impropia irreducible.",
+            "irreducible": true,
+            "expected": [
+              3,
+              2
+            ],
+            "hints": [
+              "1,5 = 15/10.",
+              "Simplificá numerador y denominador por 5."
+            ],
+            "steps": [
+              "1,5 = 15/10.",
+              "15/10 ÷ 5/5.",
+              "Resultado: 3/2."
+            ],
+            "difficulty": 3,
+            "id": "MB26-E-A-07",
+            "block": "E",
+            "round": "A",
+            "area": "matematica",
+            "school": null,
+            "skill": "MAT-FR-DEC"
+          }
+        ],
+        "B": [
+          {
+            "kind": "model-decimal",
+            "title": "De fracción a decimal",
+            "prompt": "Escribí 1/4 como número decimal.",
+            "expected": 0.25,
+            "hints": [
+              "Pensá cuántos centésimos son un cuarto.",
+              "Un cuarto es 25 de 100."
+            ],
+            "steps": [
+              "1/4 = 25/100.",
+              "25/100 = 0,25.",
+              "Resultado: 0,25."
+            ],
+            "difficulty": 2,
+            "id": "MB26-E-B-01",
+            "block": "E",
+            "round": "B",
+            "area": "matematica",
+            "school": null,
+            "skill": "MAT-FR-DEC"
+          },
+          {
+            "kind": "model-decimal",
+            "title": "Octavos y milésimos",
+            "prompt": "Escribí 3/8 como número decimal.",
+            "expected": 0.375,
+            "hints": [
+              "Buscá convertir el denominador a 1000.",
+              "8 × 125 = 1000."
+            ],
+            "steps": [
+              "3/8 = 375/1000.",
+              "375/1000 es 0,375.",
+              "Resultado: 0,375."
+            ],
+            "difficulty": 3,
+            "id": "MB26-E-B-02",
+            "block": "E",
+            "round": "B",
+            "area": "matematica",
+            "school": null,
+            "skill": "MAT-FR-DEC"
+          },
+          {
+            "kind": "model-decimal",
+            "title": "Veinteavos y centésimos",
+            "prompt": "Escribí 7/20 como número decimal.",
+            "expected": 0.35,
+            "hints": [
+              "20 × 5 = 100.",
+              "Multiplicá también el numerador por 5."
+            ],
+            "steps": [
+              "7/20 = 35/100.",
+              "35/100 = 0,35.",
+              "Resultado: 0,35."
+            ],
+            "difficulty": 3,
+            "id": "MB26-E-B-03",
+            "block": "E",
+            "round": "B",
+            "area": "matematica",
+            "school": null,
+            "skill": "MAT-FR-DEC"
+          },
+          {
+            "kind": "model-decimal",
+            "title": "Fracción impropia",
+            "prompt": "Escribí 9/4 como número decimal.",
+            "expected": 2.25,
+            "hints": [
+              "9/4 son dos enteros y un cuarto.",
+              "Un cuarto vale 0,25."
+            ],
+            "steps": [
+              "9/4 = 2 + 1/4.",
+              "2 + 0,25 = 2,25.",
+              "Resultado: 2,25."
+            ],
+            "difficulty": 3,
+            "id": "MB26-E-B-04",
+            "block": "E",
+            "round": "B",
+            "area": "matematica",
+            "school": null,
+            "skill": "MAT-FR-DEC"
+          },
+          {
+            "kind": "model-decimal",
+            "title": "Veinticincoavos",
+            "prompt": "Escribí 11/25 como número decimal.",
+            "expected": 0.44,
+            "hints": [
+              "25 × 4 = 100.",
+              "Multiplicá ambos términos por 4."
+            ],
+            "steps": [
+              "11/25 = 44/100.",
+              "44/100 es 0,44.",
+              "Resultado: 0,44."
+            ],
+            "difficulty": 3,
+            "id": "MB26-E-B-05",
+            "block": "E",
+            "round": "B",
+            "area": "matematica",
+            "school": null,
+            "skill": "MAT-FR-DEC"
+          },
+          {
+            "kind": "model-decimal",
+            "title": "Dieciseisavos",
+            "prompt": "Escribí 5/16 como número decimal.",
+            "expected": 0.3125,
+            "hints": [
+              "16 × 625 = 10000.",
+              "Podés dividir 5 entre 16."
+            ],
+            "steps": [
+              "5/16 = 3125/10000.",
+              "3125 diezmilésimos son 0,3125.",
+              "Resultado: 0,3125."
+            ],
+            "difficulty": 4,
+            "id": "MB26-E-B-06",
+            "block": "E",
+            "round": "B",
+            "area": "matematica",
+            "school": null,
+            "skill": "MAT-FR-DEC"
+          },
+          {
+            "kind": "model-decimal",
+            "title": "Siete octavos",
+            "prompt": "Escribí 7/8 como número decimal.",
+            "expected": 0.875,
+            "hints": [
+              "8 × 125 = 1000.",
+              "Expresá 7/8 como milésimos."
+            ],
+            "steps": [
+              "7/8 = 875/1000.",
+              "875/1000 es 0,875.",
+              "Resultado: 0,875."
+            ],
+            "difficulty": 3,
+            "id": "MB26-E-B-07",
+            "block": "E",
+            "round": "B",
+            "area": "matematica",
+            "school": null,
+            "skill": "MAT-FR-DEC"
           }
         ]
       }
