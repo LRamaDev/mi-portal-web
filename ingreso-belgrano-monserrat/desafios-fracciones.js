@@ -209,7 +209,7 @@
   }
   function readDecimalAnswer(){
     const value=app.querySelector('#fraction-ans1')?.value.trim()||'';
-    if(!/^\d{1,8}(?:[,.]\d{1,2})?$/.test(value))return null;
+    if(!/^\d{1,8}(?:[,.]\d{1,4})?$/.test(value))return null;
     const num=Number(value.replace(',','.'));
     return Number.isFinite(num)?num:null;
   }
@@ -244,6 +244,8 @@
 
   function modelBoard(task) {
     if(['circle-pick','circle-number','fraction-compare','fraction-order','fraction-between'].includes(task.kind))return comparisonBoard(task);
+    if(task.kind==='model-decimal') return '<div class="fraction-fields"><label>Resultado numérico (podés usar coma decimal)<input id="fraction-ans1" type="text" inputmode="decimal" autocomplete="off" placeholder="Ejemplo: 1,25"></label></div>';
+    if(task.kind==='model-fraction') return '<div class="fraction-fields"><label>Fracción irreducible<input id="fraction-ans1" type="text" inputmode="text" autocomplete="off" placeholder="Ejemplo: 3/4"></label></div>';
     if(['visual-read','visual-half'].includes(task.kind))return modelGrid(task) + modelFractionInput();
     if(task.kind==='visual-compare')return modelChips(task) + modelFractionInput();
     if(task.kind==='visual-word')return modelWord(task) + modelFractionInput();
@@ -260,6 +262,21 @@
     return '<div class="fraction-fields"><label>Escribí la fracción que corresponde<input id="fraction-ans1" type="text" inputmode="text" placeholder="Por ejemplo: 3/4" autocomplete="off"></label></div>';
   }
   function modelEvaluate(task) {
+    if(task.kind==='model-decimal'){
+      const answer=readDecimalAnswer();
+      return {valid:answer!==null,correct:answer!==null&&Math.abs(answer-task.expected)<0.00001,
+        reason:'Revisá el valor de cada cifra decimal y comprobá la operación con un cálculo inverso.'};
+    }
+    if(task.kind==='model-fraction'){
+      const answer=readFraction();
+      if(!answer)return {valid:false};
+      const gcd=(a,b)=>b?gcd(b,a%b):a;
+      const equivalent=answer[0]*task.expected[1]===answer[1]*task.expected[0];
+      const reduced=!task.irreducible||gcd(answer[0],answer[1])===1;
+      return {valid:true,correct:equivalent&&reduced,
+        reason:equivalent&&!reduced?'La fracción es equivalente, pero todavía se puede simplificar.':
+          'Convertí el decimal a centésimos o milésimos y simplificá numerador y denominador.'};
+    }
     if(['circle-pick','circle-number','fraction-compare','fraction-order','fraction-between'].includes(task.kind))return mathExtraEvaluate(task);
     if(['visual-read','visual-half','visual-compare','visual-word'].includes(task.kind)){
       const f=readFraction();
@@ -309,6 +326,7 @@
       esc(placeholder) + '"></label></div>';
   }
   function orthoBoard(task) {
+    if(task.kind==='orth-choice') return orthoButtons(task.options);
     if(task.kind==='orth-classify') return '<div class="orthography-keyword" lang="es">' +
       esc(task.word) + '</div>' + orthoButtons(['Diptongo','Hiato']);
     if(task.kind==='orth-sentence') return '<blockquote class="orthography-sentence" lang="es">' +
@@ -330,6 +348,9 @@
   function orthoEvaluate(task) {
     const selected=session.choice;
     const word=spelling(app.querySelector('#fraction-ans1')?.value);
+    if(task.kind==='orth-choice')return {valid:selected!==null,
+      correct:selected!==null&&task.options[selected]===task.expected,
+      reason:'Revisá dónde debe aparecer la coma o con qué número debe concordar el verbo.'};
     if(task.kind==='orth-classify'){
       const values=['diptongo','hiato'];
       return {valid:selected!==null,correct:selected!==null&&values[selected]===task.expected,
@@ -619,16 +640,16 @@
   }
   async function open({round='A',block=null,orthographyBlock=null,prior=[],onResult=()=>{},onComplete=()=>{}}={}) {
     if(!dialog||!app||loading||dialog.open||!['A','B','C','D','E','F','G','H'].includes(round))return;
-    if(block!==null && !['R','P','C','F'].includes(block))return;
-    if(orthographyBlock!==null && !['D','J','B','A','T'].includes(orthographyBlock))return;
+    if(block!==null && !['R','P','C','F','D','E'].includes(block))return;
+    if(orthographyBlock!==null && !['D','J','B','A','T','P'].includes(orthographyBlock))return;
     if(block&&orthographyBlock)return;
-    if(block && !['A','B'].includes(round))return;
+    if(block && !(['A','B'].includes(round)||(['C','F'].includes(block)&&round==='C')))return;
     if(orthographyBlock && !['A','B',...(['J','A','T'].includes(orthographyBlock)?['C','D']:[])].includes(round))return;
     loading=true;
     dialog.showModal();
     app.innerHTML='<p role="status">Cargando los desafíos…</p>';
     try{
-      const version=document.querySelector('meta[name="app-version"]')?.content || '6.32.0';
+      const version=document.querySelector('meta[name="app-version"]')?.content || '6.33.0';
       const source=orthographyBlock?'./data/desafios-ortografia.json':block?'./data/desafios-modelo.json':'./data/desafios-fracciones.json';
       const response=await fetch(source+'?v='+encodeURIComponent(version));
       if(!response.ok)throw new Error('No se pudo cargar el banco de desafíos');
@@ -639,7 +660,7 @@
         :block?'Desafíos de ingreso: '+(data.blocks?.[block]?.label||'Práctica por bloques')
         :'Desafíos de ingreso: Fracciones';
       const subtitle=document.getElementById('fraction-challenge-subtitle');
-      if(subtitle)subtitle.textContent=orthographyBlock?'Lengua · Ortografía · práctica individual':'Matemática · práctica individual';
+      if(subtitle)subtitle.textContent=orthographyBlock==='P'?'Lengua · Puntuación y gramática · práctica individual':orthographyBlock?'Lengua · Ortografía · práctica individual':'Matemática · práctica individual';
       if(!Array.isArray(tasks)||tasks.length!==7||new Set(tasks.map(t=>t.id)).size!==7)throw new Error('Banco de desafíos incompleto');
       if(!dialog.open)return;
       const taskIds=new Set(tasks.map(t=>t.id));
