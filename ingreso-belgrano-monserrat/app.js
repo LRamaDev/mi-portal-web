@@ -36,12 +36,15 @@
   // Delegación permanente: evita que un selector de un solo elemento rompa todos
   // los accesos a desafíos, aunque cambie la ubicación de los botones.
   document.addEventListener('click', event => {
-    const button = event.target?.closest?.('[data-start-fractions], [data-start-model], [data-start-ortho]');
+    const button = event.target?.closest?.('[data-start-fractions], [data-start-model], [data-start-ortho], [data-start-check]');
     if (!button || button.disabled) return;
     event.preventDefault();
     if (button.hasAttribute('data-start-fractions')) startFractionChallenges();
     else if (button.hasAttribute('data-start-ortho')) startOrthographyChallenges(button.dataset.startOrtho);
-    else startModelChallenges(button.dataset.startModel);
+    else if (button.hasAttribute('data-start-check')) {
+      const [area,phase]=String(button.dataset.startCheck||'').split(':');
+      startCheckChallenges(area,phase);
+    } else startModelChallenges(button.dataset.startModel);
   });
 
   document.addEventListener('DOMContentLoaded', init);
@@ -50,7 +53,7 @@
     try {
       // La URL cambia con la versión: evita que un service worker anterior entregue
       // habilidades sin videos durante la primera visita tras una actualización.
-      const releaseVersion = document.querySelector('meta[name="app-version"]')?.content || '6.34.0';
+      const releaseVersion = document.querySelector('meta[name="app-version"]')?.content || '6.35.0';
       const [skillsData, exerciseData] = await Promise.all([
         fetch(`./data/habilidades.json?v=${encodeURIComponent(releaseVersion)}`, { cache: 'no-store' }).then(r => { if (!r.ok) throw new Error('habilidades'); return r.json(); }),
         fetch('./data/ejercicios.json').then(r => { if (!r.ok) throw new Error('ejercicios'); return r.json(); })
@@ -68,7 +71,7 @@
     refreshGateNames();
     restoreActiveContext();
     setupSupabase();
-    if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js?v=6.34.0').catch(() => {});
+    if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js?v=6.35.0').catch(() => {});
   }
 
   function bindUI() {
@@ -1038,12 +1041,28 @@
     D: {label:'Operaciones con decimales',skill:'MAT-DEC-OPS',school:null},
     E: {label:'Conversión entre fracción y decimal',skill:'MAT-FR-DEC',school:null}
   };
-  const MODEL_ROUNDS = ['A','B','C'];
-  function modelRounds(block){return ['C','F'].includes(block)?MODEL_ROUNDS:MODEL_ROUNDS.slice(0,2);}
+  const MODEL_ROUNDS=['A','B','C','D','E'];
+  function modelRounds(block){
+    if(['C','F','D'].includes(block))return MODEL_ROUNDS.slice(0,4);
+    if(block==='E')return MODEL_ROUNDS;
+    return MODEL_ROUNDS.slice(0,2);
+  }
+  // Los 7 ejercicios guardados acreditan que se trabajó el circuito, aunque
+  // el evento de cierre formal haya fallado (dos casos en el perfil V).
+  // No se fabrica ni se reescribe una sesión histórica.
+  function completedByEvidence(profile,prefix,round){
+    if(!profile)return false;
+    const ids=new Set((profile.evidence||[]).map(item=>String(item.exerciseId||'')));
+    return Array.from({length:7},(_,i)=>prefix+round+'-'+String(i+1).padStart(2,'0'))
+      .every(id=>ids.has(id));
+  }
   function completedModelRounds(profile,block){
-    return new Set((profile?.history||[])
-      .filter(item=>item.type==='desafios_modelo'&&item.blockId===block&&modelRounds(block).includes(item.roundId))
+    const rounds=modelRounds(block);
+    const completed=new Set((profile?.history||[])
+      .filter(item=>item.type==='desafios_modelo'&&item.blockId===block&&rounds.includes(item.roundId))
       .map(item=>item.roundId));
+    for(const round of rounds)if(completedByEvidence(profile,'MB26-'+block+'-',round))completed.add(round);
+    return completed;
   }
   function nextModelRound(profile,block){
     const completed=completedModelRounds(profile,block);
@@ -1114,7 +1133,7 @@
     }).catch(error=>{console.error('[Ingreso bloques]',error);toast('No se pudieron abrir estos desafíos.');});
   }
   function recordModelAttempt(pid,result){
-    if(!/^MB26-[RPCFDE]-[ABC]-0[1-7]$/.test(result.id)||!MODEL_BLOCKS[result.block])return;
+    if(!/^MB26-[RPCFDE]-[ABCDE]-0[1-7]$/.test(result.id)||!MODEL_BLOCKS[result.block])return;
     if(!modelRounds(result.block).includes(result.round))return;
     if(!['autonoma','ayuda','revisar'].includes(result.status))return;
     if(result.skill!==MODEL_BLOCKS[result.block].skill)return;
@@ -1145,26 +1164,28 @@
 
   // Ortografía Monserrat: cinco estructuras de resolución con repetición A/B.
   // Toda la práctica reutiliza el motor de fracciones, su devolución y guardado.
-  const ORTHOGRAPHY_BLOCKS = {
-    D: 'Diptongo e hiato',
-    J: 'Uso de G y J: detectar y escribir',
-    B: 'Uso de B, V, C, S y Z',
-    A: 'Acentuación general',
-    T: 'Tilde diacrítica en monosílabos',
-    P: 'Puntuación y concordancia'
+  const ORTHOGRAPHY_BLOCKS={
+    D:'Diptongo e hiato',J:'Uso de G y J: detectar y escribir',
+    B:'Uso de B, V, C, S y Z',A:'Acentuación general',
+    T:'Tilde diacrítica en monosílabos',P:'Puntuación y concordancia',
+    U:'Oraciones, conectores y revisión de textos'
   };
-  const ORTHOGRAPHY_ROUNDS=['A','B','C','D','E'];
+  const ORTHOGRAPHY_ROUNDS=['A','B','C','D','E','F'];
   function orthographyRounds(block){
     if(['J','T'].includes(block))return ORTHOGRAPHY_ROUNDS;
-    if(block==='A')return ORTHOGRAPHY_ROUNDS.slice(0,4);
+    if(block==='A')return ORTHOGRAPHY_ROUNDS.slice(0,5);
+    if(block==='P')return ORTHOGRAPHY_ROUNDS.slice(0,3);
     return ORTHOGRAPHY_ROUNDS.slice(0,2);
   }
-  const ORTHOGRAPHY_SKILLS=new Set(['LEN-DIP-HIA','LEN-GJ','LEN-BV','LEN-CSZ','LEN-ACENT','LEN-DIAC','LEN-PUNT','LEN-SUJ-PRED']);
+  const ORTHOGRAPHY_SKILLS=new Set(['LEN-DIP-HIA','LEN-GJ','LEN-BV','LEN-CSZ','LEN-ACENT','LEN-DIAC','LEN-PUNT','LEN-SUJ-PRED','LEN-CON','LEN-UNI-BI','LEN-REV','LEN-PROD']);
   function completedOrthographyRounds(profile,block){
-    return new Set((profile?.history||[])
+    const rounds=orthographyRounds(block);
+    const completed=new Set((profile?.history||[])
       .filter(event=>event.type==='desafios_ortografia' &&
-        event.orthographyBlockId===block && orthographyRounds(block).includes(event.roundId))
+        event.orthographyBlockId===block && rounds.includes(event.roundId))
       .map(event=>event.roundId));
+    for(const round of rounds)if(completedByEvidence(profile,'MO26-'+block+'-',round))completed.add(round);
+    return completed;
   }
   function nextOrthographyRound(profile,block){
     const completed=completedOrthographyRounds(profile,block);
@@ -1236,7 +1257,7 @@
     }).catch(error=>{console.error('[Desafíos ortografía]',error);toast('No se pudieron abrir los desafíos de ortografía.');});
   }
   function recordOrthographyAttempt(pid,result){
-    const match=/^MO26-([DJBATP])-([ABCDE])-0[1-7]$/.exec(result.id||'');
+    const match=/^MO26-([DJBATPU])-([ABCDEF])-0[1-7]$/.exec(result.id||'');
     if(match&&!orthographyRounds(match[1]).includes(match[2]))return;
     if(!match||match[1]!==result.orthographyBlock||!ORTHOGRAPHY_SKILLS.has(result.skill))return;
     if(!['autonoma','ayuda','revisar'].includes(result.status))return;
