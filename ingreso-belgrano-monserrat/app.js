@@ -1294,6 +1294,177 @@
     refreshChallengeIndicators();
   }
 
+
+  // Comprobaciones: ejercicio autónomo inicial, transferencia inmediata tras
+  // los circuitos relevantes y retención desde el cuarto día de la práctica.
+  const CHECK_PHASES=['transferencia','retencion'];
+  const CHECK_AREAS=['M','L'];
+  const CHECK_WAIT_MS=4*DAY_MS;
+  const CHECK_PREREQUISITES={
+    M:[['model','E','E'],['model','D','D']],
+    L:[['ortho','J','F'],['ortho','A','E'],['ortho','T','F'],['ortho','P','C'],['ortho','U','B']]
+  };
+  const CHECK_SKILLS=new Set([
+    'MAT-FR-DEC','MAT-DEC-OPS','MAT-FR-ORD','MAT-CIRC',
+    'LEN-GJ','LEN-ACENT','LEN-DIAC','LEN-PUNT',
+    'LEN-SUJ-PRED','LEN-CON','LEN-UNI-BI','LEN-REV'
+  ]);
+  function evidenceTime(value){
+    const raw=typeof value==='number'?value:typeof value==='string'
+      ?(/^\d+$/.test(value)?Number(value):Date.parse(value)):0;
+    return Number.isFinite(raw)&&raw>0?raw:0;
+  }
+  function checkPrefix(area,phase){
+    return 'CK26-'+area+'-'+(phase==='transferencia'?'T':'R')+'-';
+  }
+  function checkFinished(profile,area,phase){
+    if(!profile)return false;
+    return (profile.history||[]).some(event=>
+      event.type==='desafios_comprobacion'&&event.checkArea===area&&event.phase===phase
+    )||completedByEvidence(profile,checkPrefix(area,phase),'');
+  }
+  function prerequisiteComplete(profile,kind,block,round){
+    return kind==='model'
+      ?completedModelRounds(profile,block).has(round)
+      :completedOrthographyRounds(profile,block).has(round);
+  }
+  function lastPrerequisiteAt(profile,area){
+    if(!profile)return 0;
+    const times=[];
+    for(const [kind,block,round] of CHECK_PREREQUISITES[area]){
+      const historyType=kind==='model'?'desafios_modelo':'desafios_ortografia';
+      for(const event of profile.history||[]){
+        if(event.type!==historyType||event.roundId!==round)continue;
+        if(kind==='model'&&event.blockId!==block)continue;
+        if(kind==='ortho'&&event.orthographyBlockId!==block)continue;
+        times.push(evidenceTime(event.at));
+      }
+      const prefix=(kind==='model'?'MB26-':'MO26-')+block+'-'+round+'-';
+      for(const event of profile.evidence||[]){
+        if(String(event.exerciseId||'').startsWith(prefix))times.push(evidenceTime(event.at));
+      }
+    }
+    return Math.max(0,...times);
+  }
+  function checkState(profile,area,phase,now=Date.now()){
+    if(!profile)return {state:'locked',message:'Elegí un perfil individual.',dueAt:0};
+    if(checkFinished(profile,area,phase))
+      return {state:'completed',message:'Comprobación finalizada; sus resultados se guardaron por separado.',dueAt:0};
+    const prefix=checkPrefix(area,phase);
+    const partial=(profile.evidence||[]).some(event=>String(event.exerciseId||'').startsWith(prefix));
+    if(partial)return {state:'active',message:'En curso: continuá las consignas que faltan.',dueAt:0};
+    const ready=CHECK_PREREQUISITES[area].every(([kind,block,round])=>prerequisiteComplete(profile,kind,block,round));
+    if(!ready)return {state:'waiting',message:'Primero terminá los nuevos circuitos guiados de este contenido.',dueAt:0};
+    if(phase==='transferencia')
+      return {state:'verification',message:'Comprobación pendiente: situaciones nuevas sin pistas en el primer intento.',dueAt:0};
+    if(!checkFinished(profile,area,'transferencia'))
+      return {state:'waiting',message:'Primero completá la comprobación de transferencia.',dueAt:0};
+    const last=lastPrerequisiteAt(profile,area);
+    const dueAt=last?last+CHECK_WAIT_MS:0;
+    if(!dueAt||now<dueAt){
+      const date=dueAt?new Date(dueAt).toLocaleDateString('es-AR',{day:'2-digit',month:'2-digit',year:'numeric'}):'más adelante';
+      return {state:'waiting',message:'Comprobación de retención disponible desde el '+date+' (cuatro días después de la práctica).',dueAt};
+    }
+    return {state:'verification',message:'Comprobación de retención pendiente: ya pasaron al menos cuatro días.',dueAt};
+  }
+  function renderCheckEntries(){
+    if(!activeMode)return;
+    const profile=activeMode==='together'?null:state.profiles[primaryProfileId()];
+    const states=new Map();
+    $('[data-check-status]').forEach(label=>{
+      const [area,phase]=String(label.dataset.checkStatus||'').split(':');
+      if(!CHECK_AREAS.includes(area)||!CHECK_PHASES.includes(phase))return;
+      const progress=checkState(profile,area,phase);
+      states.set(area+':'+phase,progress);
+      label.textContent=progress.message;
+      updateChallengeCard(label,progress);
+    });
+    $('[data-start-check]').forEach(button=>{
+      const progress=states.get(button.dataset.startCheck);
+      if(!progress){button.disabled=true;return;}
+      button.disabled=!['verification','active'].includes(progress.state);
+      button.textContent=progress.state==='completed'?'Comprobación completada':
+        progress.state==='active'?'Continuar comprobación':
+        progress.state==='verification'?'Empezar comprobación':'Todavía no disponible';
+      button.title=progress.state==='waiting'?progress.message:'';
+    });
+  }
+  function startCheckChallenges(area,phase){
+    if(!CHECK_AREAS.includes(area)||!CHECK_PHASES.includes(phase))return;
+    if(!activeMode||activeMode==='together')return toast('Estas comprobaciones se realizan de manera individual.');
+    if(session)return toast('Primero terminá el entrenamiento abierto.');
+    const engine=window.IngresoFractionChallenges;
+    if(!engine)return toast('No se pudo cargar el motor de desafíos.');
+    const pid=primaryProfileId(),profile=state.profiles[pid],progress=checkState(profile,area,phase);
+    if(!['verification','active'].includes(progress.state))
+      return toast(progress.message||'Todavía no corresponde esta comprobación.');
+    const prefix=checkPrefix(area,phase),priorById=new Map();
+    for(const event of profile.evidence||[]){
+      if(!String(event.exerciseId||'').startsWith(prefix))continue;
+      priorById.set(event.exerciseId,{
+        id:event.exerciseId,round:'A',
+        status:!event.correct?'revisar':event.hintUsed?'ayuda':'autonoma'
+      });
+    }
+    engine.open({
+      checkArea:area,checkPhase:phase,round:'A',prior:[...priorById.values()],
+      onResult:result=>{
+        if(activeMode!==pid||result.checkArea!==area||result.checkPhase!==phase)return;
+        recordCheckAttempt(pid,result);
+      },
+      onComplete:({checkArea:doneArea,checkPhase:donePhase,results})=>{
+        const current=state.profiles[pid];
+        if(!current||activeMode!==pid||doneArea!==area||donePhase!==phase||results.length!==7)return;
+        // El cierre formal y la evidencia completa son distintos: no se eliminan
+        // ni reescriben registros antiguos, y no se duplica un cierre existente.
+        if((current.history||[]).some(ev=>ev.type==='desafios_comprobacion'&&ev.checkArea===area&&ev.phase===phase))return;
+        const recorded=new Set((current.evidence||[]).map(ev=>ev.exerciseId));
+        if(results.some(row=>!recorded.has(row.id)))return;
+        const autonomous=results.filter(row=>row.status==='autonoma').length;
+        const helped=results.filter(row=>row.status==='ayuda').length;
+        current.sessions=(current.sessions||0)+1;
+        current.history=[...(current.history||[]),{
+          at:Date.now(),type:'desafios_comprobacion',
+          phase,checkArea:area,area:area==='M'?'matematica':'lengua',
+          roundId:'A',total:7,autonomous,withHelp:helped,
+          toReview:7-autonomous-helped,score:autonomous+helped,
+          note:'Evidencia de comprobación; no equivale a dominio consolidado.'
+        }];
+        saveState();renderAll();
+      }
+    }).catch(error=>{console.error('[Comprobaciones]',error);toast('No se pudo abrir la comprobación.');});
+  }
+  function recordCheckAttempt(pid,result){
+    const match=/^CK26-([ML])-([TR])-0[1-7]$/.exec(result.id||'');
+    if(!match||match[1]!==result.checkArea||
+      (match[2]==='T'?'transferencia':'retencion')!==result.checkPhase||
+      !CHECK_SKILLS.has(result.skill)||!['autonoma','ayuda','revisar'].includes(result.status))return;
+    const profile=state.profiles[pid],engine=window.IngresoPedagogy;
+    if(!profile||!engine||(profile.evidence||[]).some(ev=>ev.exerciseId===result.id))return;
+    const exercise={
+      id:result.id,habilidad:result.skill,
+      area:match[1]==='M'?'matematica':'lengua',
+      dificultad:Math.min(4,Math.max(1,Number(result.difficulty)||4)),
+      colegios:['comun']
+    };
+    const event=engine.createEvidence({
+      profileId:pid,exercise,
+      correct:result.status!=='revisar',hintUsed:result.status!=='autonoma',
+      sessionType:'comprobacion',
+      origin:'desafios_comprobacion_'+result.checkPhase,
+      purpose:result.checkPhase,
+      durationMs:Math.max(0,Number(result.durationMs)||0),
+      evaluationWeight:result.status==='autonoma'?1:result.status==='ayuda'?0.65:0.5,
+      at:Date.now()
+    });
+    // Conserva explícitamente el dato del primer intento: corregir después de
+    // una equivocación no transforma la comprobación en autónoma.
+    event.firstAttemptCorrect=result.firstAttemptCorrect===true;
+    engine.applyAttempt(profile,exercise,event,{maxDifficulty:skillMaxDifficulty(exercise.habilidad)});
+    markExerciseUsedToday(pid,exercise.id);
+    saveState();refreshChallengeIndicators();
+  }
+
   function startRecommended() {
     const ids = activeProfileIds();
     if (ids.some(id => !hasCompletedDiagnostic(id))) startSession({ type: 'diagnostico', area: 'all', origin: 'recomendacion' });
