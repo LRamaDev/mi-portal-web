@@ -20,9 +20,9 @@ test('la ampliación tiene 28 ejercicios nuevos de Matemática y 42 adicionales 
     assert.equal(ortho.blocks[block][round].length,7,block+round);
   }
   const model=Object.values(bank.blocks).flatMap(b=>Object.values(b.rounds).flat());
-  const language=Object.values(ortho.blocks).flatMap(b=>['A','B','C','D'].flatMap(k=>b[k]||[]));
-  assert.equal(model.length,98);assert.equal(language.length,126);
-  assert.equal(new Set([...model,...language].map(x=>x.id)).size,224);
+  const language=Object.values(ortho.blocks).flatMap(b=>['A','B','C','D','E'].flatMap(k=>b[k]||[]));
+  assert.equal(model.length,98);assert.equal(language.length,140);
+  assert.equal(new Set([...model,...language].map(x=>x.id)).size,238);
   const skill={C:'MAT-CIRC',F:'MAT-FR-ORD'};
   for(const block of ['C','F'])for(const round of ['A','B'])for(const task of bank.blocks[block].rounds[round]){
     assert.equal(task.skill,skill[block],task.id);
