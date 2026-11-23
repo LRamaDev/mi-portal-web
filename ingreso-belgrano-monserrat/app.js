@@ -50,7 +50,7 @@
     try {
       // La URL cambia con la versión: evita que un service worker anterior entregue
       // habilidades sin videos durante la primera visita tras una actualización.
-      const releaseVersion = document.querySelector('meta[name="app-version"]')?.content || '6.33.0';
+      const releaseVersion = document.querySelector('meta[name="app-version"]')?.content || '6.34.0';
       const [skillsData, exerciseData] = await Promise.all([
         fetch(`./data/habilidades.json?v=${encodeURIComponent(releaseVersion)}`, { cache: 'no-store' }).then(r => { if (!r.ok) throw new Error('habilidades'); return r.json(); }),
         fetch('./data/ejercicios.json').then(r => { if (!r.ok) throw new Error('ejercicios'); return r.json(); })
@@ -68,7 +68,7 @@
     refreshGateNames();
     restoreActiveContext();
     setupSupabase();
-    if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js?v=6.33.0').catch(() => {});
+    if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js?v=6.34.0').catch(() => {});
   }
 
   function bindUI() {
@@ -341,7 +341,7 @@
     $$('.view').forEach(v => v.classList.toggle('active', v.dataset.view === view));
     $$('.nav-button, .mobile-nav button').forEach(b => b.classList.toggle('active', b.dataset.nav === view));
     if (view === 'contenidos') renderSkills($('.chip.active')?.dataset.skillFilter || 'all');
-    if (view === 'desafios' && activeMode) { renderFractionEntry(); renderModelEntries(); renderOrthographyEntries(); }
+    if (view === 'desafios' && activeMode) refreshChallengeIndicators();
     if (view === 'progreso') renderProgress();
     if (view === 'videos') renderVideos();
     if (view === 'familia') renderFamily();
@@ -375,9 +375,7 @@
     renderNextStep(ids, needsDiagnostic);
     renderWeeklyMission(ids);
     renderBalanceCoach(needsDiagnostic ? null : balanceRecommendation());
-    renderFractionEntry();
-    renderModelEntries();
-    renderOrthographyEntries();
+    refreshChallengeIndicators();
   }
 
   function renderNextStep(ids, needsDiagnostic) {
@@ -854,6 +852,81 @@
 
   // Desafíos de fracciones · módulo separado de los entrenamientos adaptativos.
   // El historial se conserva por perfil y no exige migraciones de Supabase.
+  // Estado visual de cada tarjeta: solo avance en circuitos, nunca porcentajes
+  // de dominio, calificaciones o comparaciones entre estudiantes.
+  const CHALLENGE_VISUAL_LABELS={
+    completed:'Completado',
+    active:'En curso',
+    new:'Nuevos desafíos',
+    pending:'Por hacer',
+    locked:'Elegí un perfil'
+  };
+  function challengeVisualProgress(profile,rounds,completed,idPrefix){
+    if(!profile)return {state:'locked',next:null,done:0,total:rounds.length};
+    const done=rounds.filter(round=>completed.has(round)).length;
+    const next=rounds.find(round=>!completed.has(round))||null;
+    if(!next)return {state:'completed',next:null,done,total:rounds.length};
+    const partial=(profile.evidence||[]).some(
+      item=>String(item.exerciseId||'').startsWith(idPrefix+next+'-')
+    );
+    return {
+      state:partial?'active':done>0?'new':'pending',
+      next,done,total:rounds.length
+    };
+  }
+  function challengeVisualCopy(progress,unit){
+    const kind=unit==='Tanda'?'tandas':'circuitos';
+    if(progress.state==='locked')return 'Elegí un perfil individual para ver sus desafíos.';
+    if(progress.state==='completed')return '¡Listo! '+progress.total+' de '+progress.total+' '+kind+' completados.';
+    if(progress.state==='active')return 'En curso: '+unit+' '+progress.next+' · '+progress.done+' de '+progress.total+' '+kind+' completados.';
+    if(progress.state==='new')return '¡Hay nuevos desafíos! '+unit+' '+progress.next+' disponible · '+progress.done+' de '+progress.total+' '+kind+' completados.';
+    return 'Por hacer: '+unit+' '+progress.next+' · 7 ejercicios.';
+  }
+  function updateChallengeCard(label,progress){
+    const card=label.closest?.('.challenge-hub-card');
+    if(!card)return;
+    card.dataset.challengeState=progress.state;
+    const badge=card.querySelector('.challenge-status-label');
+    if(badge)badge.textContent=CHALLENGE_VISUAL_LABELS[progress.state];
+  }
+  function updateChallengeButton(button,progress,unit){
+    if(!button)return;
+    button.disabled=progress.state==='completed'||progress.state==='locked';
+    button.textContent=progress.state==='completed'?'Todo completado'
+      :progress.state==='locked'?'Elegí un perfil'
+      :progress.state==='active'?'Continuar '+unit.toLowerCase()+' '+progress.next
+      :progress.state==='new'?'Hacer nuevos desafíos · '+progress.next
+      :'Empezar '+unit.toLowerCase()+' '+progress.next;
+    button.title=progress.state==='completed'?'Todos los circuitos disponibles están terminados.'
+      :progress.state==='locked'?'Ingresá a un perfil individual.'
+      :'';
+  }
+  function renderChallengeOverview(){
+    const summary=$('#challenge-overview');
+    if(!summary)return;
+    if(!activeMode||activeMode==='together'){
+      summary.textContent='Entrá a un perfil individual para distinguir lo terminado de lo pendiente.';
+      return;
+    }
+    const cards=$$('.challenge-hub-card[data-challenge-state]');
+    const counts={completed:0,active:0,new:0,pending:0};
+    cards.forEach(card=>{
+      const state=card.dataset.challengeState;
+      if(Object.prototype.hasOwnProperty.call(counts,state))counts[state]++;
+    });
+    const remaining=counts.active+counts.new+counts.pending;
+    summary.textContent=remaining===0
+      ? '¡Todos los bloques disponibles están completados!'
+      :remaining+' bloques con ejercicios por hacer · '+counts.completed+' completados'+
+        (counts.new?' · '+counts.new+' con desafíos nuevos':'')+'.';
+  }
+  function refreshChallengeIndicators(){
+    renderFractionEntry();
+    renderModelEntries();
+    renderOrthographyEntries();
+    renderChallengeOverview();
+  }
+
   const FRACTION_ROUNDS = ['A','B','C','D','E','F','G','H'];
   function fractionCompletedRounds(profile) {
     return new Set((profile?.history || [])
@@ -866,19 +939,12 @@
     const both = activeMode === 'together';
     const profile = both ? null : state.profiles[primaryProfileId()];
     const completed = fractionCompletedRounds(profile);
-    const next = FRACTION_ROUNDS.find(round => !completed.has(round)) || null;
-    const partial = next && (profile?.evidence || []).some(event => String(event.exerciseId || '').startsWith('FR26-' + next + '-'));
-    $$('[data-fraction-status]').forEach(el => {
-      el.textContent = both
-        ? 'Disponible por separado para cada perfil.'
-        : next
-          ? (partial ? 'Retomá la tanda ' + next + ' desde el desafío pendiente.' : 'Tanda ' + next + ' · 7 ejercicios diferentes.')
-          : 'Completaste las ocho tandas disponibles. ¡Seguí con tus entrenamientos habituales!';
+    const progress=challengeVisualProgress(profile,FRACTION_ROUNDS,completed,'FR26-');
+    $$('[data-fraction-status]').forEach(el=>{
+      el.textContent=challengeVisualCopy(progress,'Tanda');
+      updateChallengeCard(el,progress);
     });
-    $$('[data-start-fractions]').forEach(button => {
-      button.disabled = both || !next;
-      button.title = both ? 'Elegí un perfil individual para guardar sus respuestas.' : !next ? 'Las ocho tandas ya fueron completadas.' : '';
-    });
+    $$('[data-start-fractions]').forEach(button=>updateChallengeButton(button,progress,'Tanda'));
   }
 
   function startFractionChallenges() {
@@ -959,6 +1025,7 @@
     engine.applyAttempt(profile, exercise, event, { maxDifficulty: skillMaxDifficulty(exercise.habilidad) });
     markExerciseUsedToday(pid, exercise.id);
     saveState();
+    refreshChallengeIndicators();
   }
 
 
@@ -986,20 +1053,21 @@
     if(!activeMode)return;
     const individual=activeMode!=='together';
     const profile=individual?state.profiles[primaryProfileId()]:null;
+    const byBlock=new Map();
     $$('[data-model-status]').forEach(element=>{
       const block=element.dataset.modelStatus;
-      const next=individual?nextModelRound(profile,block):null;
-      const partial=next&&Boolean((profile?.evidence||[])
-        .some(event=>String(event.exerciseId||'').startsWith('MB26-'+block+'-'+next+'-')));
-      element.textContent=!individual?'Elegí un perfil individual para guardar el recorrido.'
-        :!next?'Completaste los '+modelRounds(block).length+' circuitos de este bloque.'
-        :partial?'Retomá el circuito '+next+' desde donde lo dejaste.':'Circuito '+next+' · 7 desafíos diferentes.';
+      if(!MODEL_BLOCKS[block])return;
+      const rounds=modelRounds(block);
+      const completed=individual?completedModelRounds(profile,block):new Set();
+      const progress=challengeVisualProgress(profile,rounds,completed,'MB26-'+block+'-');
+      byBlock.set(block,progress);
+      element.textContent=challengeVisualCopy(progress,'Circuito');
+      updateChallengeCard(element,progress);
     });
     $$('[data-start-model]').forEach(button=>{
-      const block=button.dataset.startModel;
-      const next=individual?nextModelRound(profile,block):null;
-      button.disabled=!MODEL_BLOCKS[block]||!next;
-      button.title=!individual?'Este entrenamiento es individual.':!next?'Circuitos completos.':'';
+      const progress=byBlock.get(button.dataset.startModel);
+      if(progress)updateChallengeButton(button,progress,'Circuito');
+      else button.disabled=true;
     });
   }
   function startModelChallenges(block){
@@ -1071,6 +1139,7 @@
     engine.applyAttempt(profile,exercise,event,{maxDifficulty:skillMaxDifficulty(exercise.habilidad)});
     markExerciseUsedToday(pid,exercise.id);
     saveState();
+    refreshChallengeIndicators();
   }
 
 
@@ -1105,23 +1174,21 @@
     if(!activeMode)return;
     const individual=activeMode!=='together';
     const profile=individual?state.profiles[primaryProfileId()]:null;
+    const byBlock=new Map();
     $$('[data-ortho-status]').forEach(label=>{
       const block=label.dataset.orthoStatus;
       if(!ORTHOGRAPHY_BLOCKS[block])return;
-      const round=individual?nextOrthographyRound(profile,block):null;
-      const prefix='MO26-'+block+'-'+round+'-';
-      const hasPartial=round&&(profile?.evidence||[])
-        .some(event=>String(event.exerciseId||'').startsWith(prefix));
-      label.textContent=!individual?'Elegí un perfil individual para guardar el recorrido.'
-        :!round?'Completaste los '+orthographyRounds(block).length+' circuitos de este bloque.'
-        :hasPartial?'Retomá el circuito '+round+' desde el desafío pendiente.'
-        :'Circuito '+round+' · 7 ejercicios originales.';
+      const rounds=orthographyRounds(block);
+      const completed=individual?completedOrthographyRounds(profile,block):new Set();
+      const progress=challengeVisualProgress(profile,rounds,completed,'MO26-'+block+'-');
+      byBlock.set(block,progress);
+      label.textContent=challengeVisualCopy(progress,'Circuito');
+      updateChallengeCard(label,progress);
     });
-    $$('[data-start-ortho]').forEach(btn=>{
-      const block=btn.dataset.startOrtho;
-      const round=individual?nextOrthographyRound(profile,block):null;
-      btn.disabled=!ORTHOGRAPHY_BLOCKS[block]||!round;
-      btn.title=!individual?'Este entrenamiento es individual.':!round?'Los circuitos están completos.':'';
+    $$('[data-start-ortho]').forEach(button=>{
+      const progress=byBlock.get(button.dataset.startOrtho);
+      if(progress)updateChallengeButton(button,progress,'Circuito');
+      else button.disabled=true;
     });
   }
   function startOrthographyChallenges(block){
@@ -1193,6 +1260,7 @@
     engine.applyAttempt(profile,exercise,event,{maxDifficulty:skillMaxDifficulty(exercise.habilidad)});
     markExerciseUsedToday(pid,exercise.id);
     saveState();
+    refreshChallengeIndicators();
   }
 
   function startRecommended() {

@@ -11,6 +11,7 @@ const ortho=JSON.parse(file('data/desafios-ortografia.json'));
 const engine=file('desafios-fracciones.js');
 const app=file('app.js');
 const html=file('index.html');
+const appVersion=html.match(/app-version" content="(6\.\d+\.\d+)"/)?.[1];
 
 test('la ampliación tiene 28 ejercicios nuevos de Matemática y 42 adicionales de Ortografía',()=>{
   for(const block of ['C','F'])for(const round of ['A','B']){
@@ -60,7 +61,7 @@ function engineMock(){
   const document={
     getElementById:id=>id==='fraction-challenge-dialog'?dialog:
       id==='fraction-challenge-content'?surface:node(id),
-    querySelector:q=>q==='meta[name="app-version"]'?{content:'6.33.0'}:null
+    querySelector:q=>q==='meta[name="app-version"]'?{content:appVersion}:null
   };
   const sources={'./data/desafios-modelo.json':bank,'./data/desafios-ortografia.json':ortho,
     './data/desafios-fracciones.json':JSON.parse(file('data/desafios-fracciones.json'))};
@@ -133,10 +134,10 @@ test('versión, menú y datos en caché; mantienen los accesos previos',()=>{
   assert.equal((html.match(/data-start-model=/g)||[]).length,6);
   assert.equal((html.match(/data-start-ortho=/g)||[]).length,6);
   assert.equal((html.match(/data-start-fractions(?=[ >])/g)||[]).length,1);
-  assert.match(html,/app-version" content="6\.33\.0"/);
+  assert.ok(appVersion, 'Missing visible version');
   const sw=file('sw.js');
-  assert.match(sw,/desafios-modelo\.json\?v=6\.33\.0/);
-  assert.match(sw,/desafios-ortografia\.json\?v=6\.33\.0/);
+  assert.ok(sw.includes('desafios-modelo.json?v='+appVersion));
+  assert.ok(sw.includes('desafios-ortografia.json?v='+appVersion));
   new vm.Script(engine);new vm.Script(app);new vm.Script(sw);
 });
 
