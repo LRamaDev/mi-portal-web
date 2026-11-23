@@ -133,10 +133,10 @@ test('versión, menú y datos en caché; mantienen los accesos previos',()=>{
   assert.equal((html.match(/data-start-model=/g)||[]).length,6);
   assert.equal((html.match(/data-start-ortho=/g)||[]).length,6);
   assert.equal((html.match(/data-start-fractions(?=[ >])/g)||[]).length,1);
-  assert.match(html,/app-version" content="6\.32\.0"/);
+  assert.match(html,/app-version" content="6\.33\.0"/);
   const sw=file('sw.js');
-  assert.match(sw,/desafios-modelo\.json\?v=6\.32\.0/);
-  assert.match(sw,/desafios-ortografia\.json\?v=6\.32\.0/);
+  assert.match(sw,/desafios-modelo\.json\?v=6\.33\.0/);
+  assert.match(sw,/desafios-ortografia\.json\?v=6\.33\.0/);
   new vm.Script(engine);new vm.Script(app);new vm.Script(sw);
 });
 
