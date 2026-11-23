@@ -12,12 +12,12 @@ const engine=read('desafios-fracciones.js');
 const app=read('app.js');
 const html=read('index.html');
 const allMath=Object.values(model.blocks).flatMap(b=>Object.values(b.rounds).flat());
-const allLang=Object.values(orth.blocks).flatMap(b=>['A','B','C','D'].flatMap(r=>b[r]||[]));
+const allLang=Object.values(orth.blocks).flatMap(b=>['A','B','C','D','E'].flatMap(r=>b[r]||[]));
 
-test('se agregan 56 ejercicios nuevos, todos diferentes, sin borrar las 168 actividades anteriores',()=>{
+test('se agregan 70 ejercicios nuevos, todos diferentes, sin borrar las 168 actividades anteriores',()=>{
   assert.equal(allMath.length,98);
-  assert.equal(allLang.length,126);
-  assert.equal(new Set([...allMath,...allLang].map(t=>t.id)).size,224);
+  assert.equal(allLang.length,140);
+  assert.equal(new Set([...allMath,...allLang].map(t=>t.id)).size,238);
   const expectedCounts={C:{C:7},F:{C:7},D:{A:7,B:7},E:{A:7,B:7}};
   for(const [block,rounds] of Object.entries(expectedCounts)){
     for(const [round,n] of Object.entries(rounds)){
@@ -103,10 +103,12 @@ function inputs(t){
     case 'fraction-order':return [[null,t.expected,null],[null,[...t.expected].reverse(),null]];
     case 'fraction-between':return [[null,[],t.lower[0]===2?'9/20':'4/5'],[null,[],t.lower.join('/')]];
     case 'orth-choice':return [[t.options.indexOf(t.expected),[],null],[(t.options.indexOf(t.expected)+1)%4,[],null]];
+    case 'orth-fill':return [[null,[],t.expected],[null,[],'x']];
+    case 'orth-diacritic-write':return [[null,[],t.expected],[null,[],t.alternate]];
     default:throw new Error('no sample for '+t.kind);
   }
 }
-test('el motor abre y corrige todos los 56 nuevos ejercicios',async()=>{
+test('el motor abre y corrige todos los 70 nuevos ejercicios',async()=>{
   const {window,dialog,surface}=makeEngine();let count=0;
   for(const [block,rounds] of [['C',['C']],['F',['C']],['D',['A','B']],['E',['A','B']]]){
     for(const round of rounds){
@@ -126,19 +128,19 @@ test('el motor abre y corrige todos los 56 nuevos ejercicios',async()=>{
       window.IngresoFractionChallenges.close();
     }
   }
-  for(const round of ['A','B']){
-    await window.IngresoFractionChallenges.open({orthographyBlock:'P',round});
-    assert.equal(dialog.open,true,'P'+round);
+  for(const [orthographyBlock,rounds] of [['P',['A','B']],['J',['E']],['T',['E']]])for(const round of rounds){
+    await window.IngresoFractionChallenges.open({orthographyBlock,round});
+    assert.equal(dialog.open,true,orthographyBlock+round);
     for(let i=0;i<7;i++){
-      const task=orth.blocks.P[round][i],[right,wrong]=inputs(task);
+      const task=orth.blocks[orthographyBlock][round][i],[right,wrong]=inputs(task);
       assert.equal(window.__testing.evaluate(i,...right).correct,true,task.id);
       assert.notEqual(window.__testing.evaluate(i,...wrong).correct,true,task.id);
-      assert.match(window.__testing.render(i),/orthography-option/);
+      assert.match(window.__testing.render(i),orthographyBlock==='P'?/orthography-option/:/fraction-ans1/);
       count++;
     }
     window.IngresoFractionChallenges.close();
   }
-  assert.equal(count,56);
+  assert.equal(count,70);
 });
 test('versionado de PWA y tarjetas visibles, sin bloquear las anteriores',()=>{
   assert.match(html,/app-version" content="6\.33\.0"/);
