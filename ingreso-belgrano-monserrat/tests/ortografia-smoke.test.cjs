@@ -12,16 +12,16 @@ const app=read('app.js');
 const html=read('index.html');
 const version=html.match(/app-version" content="(6\.\d+\.\d+)"/)?.[1];
 
-test('112 ejercicios de ortografía con circuitos C/D en G/J y tildes',()=>{
+test('126 ejercicios de Lengua con puntuación y concordancia nuevos',()=>{
   const items=Object.values(bank.blocks).flatMap(b=>['A','B','C','D'].flatMap(round=>b[round]||[]));
-  assert.equal(Object.keys(bank.blocks).length,5);
-  assert.equal(items.length,112);
-  assert.equal(new Set(items.map(t=>t.id)).size,112);
+  assert.equal(Object.keys(bank.blocks).length,6);
+  assert.equal(items.length,126);
+  assert.equal(new Set(items.map(t=>t.id)).size,126);
   assert.deepEqual([...new Set(items.map(t=>t.kind))].sort(),
-    ['orth-accent','orth-accent-write','orth-classify','orth-diacritic','orth-diacritic-write','orth-fill','orth-sentence']);
-  const skills=new Set(['LEN-DIP-HIA','LEN-GJ','LEN-BV','LEN-CSZ','LEN-ACENT','LEN-DIAC']);
+    ['orth-accent','orth-accent-write','orth-choice','orth-classify','orth-diacritic','orth-diacritic-write','orth-fill','orth-sentence']);
+  const skills=new Set(['LEN-DIP-HIA','LEN-GJ','LEN-BV','LEN-CSZ','LEN-ACENT','LEN-DIAC','LEN-PUNT','LEN-SUJ-PRED']);
   for(const task of items){
-    assert.match(task.id,/^MO26-[DJBAT]-[ABCD]-0[1-7]$/);
+    assert.match(task.id,/^MO26-[DJBATP]-[ABCD]-0[1-7]$/);
     assert.equal(task.hints.length,2,task.id);
     assert.equal(task.steps.length,3,task.id);
     assert.ok(skills.has(task.skill),task.id);
@@ -37,10 +37,10 @@ test('112 ejercicios de ortografía con circuitos C/D en G/J y tildes',()=>{
 });
 
 test('los accesos nuevos están en Desafíos y versionados para la PWA',()=>{
-  assert.equal((html.match(/data-start-ortho=/g)||[]).length,5);
-  assert.equal((html.match(/data-ortho-status=/g)||[]).length,5);
+  assert.equal((html.match(/data-start-ortho=/g)||[]).length,6);
+  assert.equal((html.match(/data-ortho-status=/g)||[]).length,6);
   assert.equal((html.match(/data-start-fractions(?=[ >])/g)||[]).length,1);
-  assert.equal((html.match(/data-start-model=/g)||[]).length,4);
+  assert.equal((html.match(/data-start-model=/g)||[]).length,6);
   assert.ok(version,'no app version');
   assert.ok(read('sw.js').includes('desafios-ortografia.json?v='+version));
   new vm.Script(engine);
@@ -93,6 +93,7 @@ function makeEngine(){
 
 function samples(t){
   switch(t.kind){
+    case 'orth-choice':return [[t.options.indexOf(t.expected),''],[t.options.indexOf(t.expected)===0?1:0,'']];
     case 'orth-classify':{
       const i=t.expected==='diptongo'?0:1;return [[i,''],[i?0:1,'']];
     }
@@ -114,7 +115,7 @@ function samples(t){
   }
 }
 
-test('112 respuestas correctas y 112 errores comprobados por el motor',async()=>{
+test('126 respuestas correctas y 126 errores comprobados por el motor',async()=>{
   const {window,dialog,surface}=makeEngine();
   let counter=0;
   for(const [block,part] of Object.entries(bank.blocks))for(const round of ['A','B','C','D'].filter(x=>Array.isArray(part[x]))){
@@ -132,7 +133,7 @@ test('112 respuestas correctas y 112 errores comprobados por el motor',async()=>
     }
     window.IngresoFractionChallenges.close();
   }
-  assert.equal(counter,112);
+  assert.equal(counter,126);
 });
 
 test('misma experiencia: sin ayuda, con pistas, para revisar; Matemática intacta',async()=>{
