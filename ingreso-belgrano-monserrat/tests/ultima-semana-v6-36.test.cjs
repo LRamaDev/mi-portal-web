@@ -86,14 +86,18 @@ function harness(){
 
 test('la agenda selecciona tareas distintas para cada perfil y nunca bloquea el día siguiente',()=>{
   const {test:t,node}=harness();
-  t.mode('p1');t.date('2026-11-25');t.render();
-  assert.match(node('#week-plan-content').innerHTML,/Conversión de fracciones y capacidad/);
-  assert.match(node('#week-plan-content').innerHTML,/Verbos con G y J/);
-  assert.doesNotMatch(node('#week-plan-content').innerHTML,/Divisiones y valor posicional/);
+  t.mode('p1');t.date('2026-11-24');t.render();
+  assert.match(node('#week-plan-content').innerHTML,/Refuerzo personal: fracciones y capacidad/);
+  assert.doesNotMatch(node('#week-plan-content').innerHTML,/Refuerzo personal: divisiones y valor posicional/);
   t.mode('p2');t.render();
-  assert.match(node('#week-plan-content').innerHTML,/Divisiones y valor posicional/);
+  assert.match(node('#week-plan-content').innerHTML,/Refuerzo personal: divisiones y valor posicional/);
+  assert.doesNotMatch(node('#week-plan-content').innerHTML,/Refuerzo personal: fracciones y capacidad/);
+  t.mode('p1');t.date('2026-11-25');t.render();
+  assert.match(node('#week-plan-content').innerHTML,/Más conversiones en contextos/);
+  assert.match(node('#week-plan-content').innerHTML,/Verbos con G y J/);
+  t.mode('p2');t.render();
+  assert.match(node('#week-plan-content').innerHTML,/Divisiones decimales en problemas/);
   assert.match(node('#week-plan-content').innerHTML,/Acentuación e hiatos/);
-  assert.doesNotMatch(node('#week-plan-content').innerHTML,/Verbos con G y J/);
   t.date('2026-11-26');t.render();
   assert.match(node('#week-plan-content').innerHTML,/Primos, masa, capacidad/);
   assert.match(node('#week-plan-content').innerHTML,/Guardar borrador/);
