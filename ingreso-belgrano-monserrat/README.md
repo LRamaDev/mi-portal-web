@@ -368,3 +368,19 @@ En **Familia** se agrega un resumen de actividades semanales **solo del perfil s
 Prueba nueva: `tests/ultima-semana-v6-36.test.cjs`, incluida en `.github/workflows/ingreso-desafios.yml`. Comprueba calendario y aislamiento de los perfiles, navegación directa a S-B, modelos imprimibles de 100 puntos, retención a cuatro días, 14 respuestas correctas y 14 incorrectas, disponibilidad de transferencia inicial y versión. Se mantiene intacto el `STORAGE_KEY`, sin cambios SQL, RLS, permisos ni pérdida de historiales.
 
 **Control manual:** después de fusionar, confirmar v6.36.0, probar el botón Mi actividad de hoy en cada perfil, resolver una consigna guiada y otra sin pistas, cambiar de día y de perfil, guardar una narración y verla desde el mismo perfil en otro dispositivo con la cuenta sincronizada, imprimir ambos modelos y confirmar que lo realizado en papel figura *sin corregir*.
+
+
+## Refuerzos diferenciados del martes 24 (v6.37.0)
+
+Tras consultar directamente las evidencias de la comprobación inicial en Supabase el 24/11/2026, se confirmó que el perfil p1 registró las siete consignas de `CK26-M-T` (seis autónomas y una con ayuda), mientras p2 registró seis consignas (cuatro autónomas y dos con ayuda). **La comprobación común no se reinicia ni se modifica.** El martes se añaden siete ejercicios originales por perfil, para quienes hayan terminado pronto:
+
+- **Perfil A / p1 — `MB26-X-A-01…07`:** conversión fracción-decimal (denominadores 4, 8, 16, 25; propias e impropias), decimal a fracción irreducible, medida de capacidad y división por 100. Se accede mediante el botón «Refuerzo personal: fracciones y capacidad» de `Mi actividad de hoy`.
+- **Perfil V / p2 — `MB26-Y-A-01…07`:** división entre 100 y 1.000, repartos con decimales entre naturales, decimal de fracción impropia y medidas de masa. Se accede mediante «Refuerzo personal: divisiones y valor posicional».
+
+Los **dos circuitos tienen siete ejercicios diferentes**, dos pistas y explicación paso a paso. Cada uno tiene IDs nuevos, sin repetir consignas ni registros anteriores. Los avances se registran en el mismo historial/evidencias por perfil, sin migraciones ni cambios de Supabase. El motor valida que el circuito X solamente se pueda abrir y registrar desde p1, y el Y solamente desde p2.
+
+El plan del **miércoles 25** deja ejercicios *diferentes* a los añadidos el martes: A trabaja conversiones `E-C` y verbos G/J `J-F`; V trabaja divisiones `D-C` y acentuación `A-E`. No se exige terminar el martes para iniciar el miércoles.
+
+El banco pasa a **441 consignas originales registradas en archivos**: las 427 anteriores + 14 refuerzos personalizados nuevos. Visible y caché PWA: **v6.37.0**.
+
+La suite `tests/refuerzo-perfil-v6-37.test.cjs` comprueba la ausencia de IDs/enunciados repetidos, las 14 respuestas correctas/14 incorrectas, que el martes se muestran ejercicios diferenciados y que los botones no permiten ejecutar el circuito del otro perfil. En ejecución simulada, **38 pruebas de todas las suites pasaron**. Control manual tras fusionar: confirmar versión 6.37, comprobar que el martes aparecen dos tarjetas (comprobación inicial y refuerzo nuevo) en cada perfil, terminar el circuito y verificar que quede completado sin afectar el perfil opuesto.

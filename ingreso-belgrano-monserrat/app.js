@@ -53,7 +53,7 @@
     try {
       // La URL cambia con la versión: evita que un service worker anterior entregue
       // habilidades sin videos durante la primera visita tras una actualización.
-      const releaseVersion = document.querySelector('meta[name="app-version"]')?.content || '6.36.0';
+      const releaseVersion = document.querySelector('meta[name="app-version"]')?.content || '6.37.0';
       const [skillsData, exerciseData] = await Promise.all([
         fetch(`./data/habilidades.json?v=${encodeURIComponent(releaseVersion)}`, { cache: 'no-store' }).then(r => { if (!r.ok) throw new Error('habilidades'); return r.json(); }),
         fetch('./data/ejercicios.json').then(r => { if (!r.ok) throw new Error('ejercicios'); return r.json(); })
@@ -71,7 +71,7 @@
     refreshGateNames();
     restoreActiveContext();
     setupSupabase();
-    if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js?v=6.36.0').catch(() => {});
+    if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js?v=6.37.0').catch(() => {});
   }
 
   function bindUI() {
@@ -1054,10 +1054,13 @@
     F: {label:'Comparación y orden de fracciones',skill:'MAT-FR-ORD',school:null},
     D: {label:'Operaciones con decimales',skill:'MAT-DEC-OPS',school:null},
     E: {label:'Conversión entre fracción y decimal',skill:'MAT-FR-DEC',school:null},
-    S: {label:'Medidas y divisibilidad',skill:null,school:'monserrat'}
+    S: {label:'Medidas y divisibilidad',skill:null,school:'monserrat'},
+    X: {label:'Conversión y capacidad · Refuerzo específico',skill:null,school:'monserrat',profile:'p1'},
+    Y: {label:'Divisiones y medidas · Refuerzo específico',skill:null,school:'monserrat',profile:'p2'}
   };
   const MODEL_ROUNDS=['A','B','C','D','E'];
   function modelRounds(block){
+    if(['X','Y'].includes(block))return MODEL_ROUNDS.slice(0,1);
     if(['C','F','D'].includes(block))return MODEL_ROUNDS.slice(0,4);
     if(block==='E')return MODEL_ROUNDS;
     return MODEL_ROUNDS.slice(0,2);
@@ -1107,6 +1110,8 @@
   function startModelChallenges(block,forcedRound=null){
     if(!MODEL_BLOCKS[block])return;
     if(!activeMode||activeMode==='together')return toast('Elegí uno de los perfiles individuales para este circuito.');
+    if(MODEL_BLOCKS[block].profile&&activeMode!==MODEL_BLOCKS[block].profile)
+      return toast('Este refuerzo corresponde al otro perfil.');
     if(session)return toast('Terminá primero el entrenamiento abierto.');
     const engine=window.IngresoFractionChallenges;
     if(!engine)return toast('No se pudo cargar el motor interactivo. Recargá la aplicación.');
@@ -1149,10 +1154,18 @@
     }).catch(error=>{console.error('[Ingreso bloques]',error);toast('No se pudieron abrir estos desafíos.');});
   }
   function recordModelAttempt(pid,result){
-    if(!/^MB26-[RPCFDES]-[ABCDE]-0[1-7]$/.test(result.id)||!MODEL_BLOCKS[result.block])return;
+    if(!/^MB26-[RPCFDESXY]-[ABCDE]-0[1-7]$/.test(result.id)||!MODEL_BLOCKS[result.block])return;
+    if(MODEL_BLOCKS[result.block].profile&&pid!==MODEL_BLOCKS[result.block].profile)return;
     if(!modelRounds(result.block).includes(result.round))return;
     if(!['autonoma','ayuda','revisar'].includes(result.status))return;
-    if(result.block==='S'? !['MAT-MED-CAP','MAT-MED-MASA','MAT-MED-TIEMPO','MAT-MCM','MAT-MULT','MAT-ANG-CS','MAT-PRIM','MAT-COMB'].includes(result.skill) : result.skill!==MODEL_BLOCKS[result.block].skill)return;
+    const multipleSkills={
+      S:['MAT-MED-CAP','MAT-MED-MASA','MAT-MED-TIEMPO','MAT-MCM','MAT-MULT','MAT-ANG-CS','MAT-PRIM','MAT-COMB'],
+      X:['MAT-FR-DEC','MAT-MED-CAP','MAT-DEC-OPS'],
+      Y:['MAT-DEC-OPS','MAT-FR-DEC','MAT-MED-MASA']
+    };
+    if(multipleSkills[result.block]
+       ? !multipleSkills[result.block].includes(result.skill)
+       : result.skill!==MODEL_BLOCKS[result.block].skill)return;
     const profile=state.profiles[pid],engine=window.IngresoPedagogy;
     if(!profile||!engine||(profile.evidence||[]).some(item=>item.exerciseId===result.id))return;
     const exercise={
@@ -1167,7 +1180,7 @@
     const event=engine.createEvidence({
       profileId:pid,exercise,correct:result.status!=='revisar',
       hintUsed:result.status!=='autonoma',sessionType:'practica',
-      origin:'desafios_modelo_'+({R:'representaciones',P:'perimetros',C:'circunferencia',F:'comparacion',D:'decimales',E:'conversion'}[result.block]),
+      origin:'desafios_modelo_'+({R:'representaciones',P:'perimetros',C:'circunferencia',F:'comparacion',D:'decimales',E:'conversion',S:'medidas',X:'refuerzo_conversion_p1',Y:'refuerzo_division_p2'}[result.block]),
       purpose,durationMs:Math.max(0,Number(result.durationMs)||0),
       evaluationWeight:result.status==='ayuda'?0.75:1,school:MODEL_BLOCKS[result.block].school,at:now
     });
@@ -1492,20 +1505,22 @@
   const WEEK_LABELS=['Mar 24','Mié 25','Jue 26','Vie 27','Sáb 28','Dom 29','Lun 30'];
   const WEEK_PLAN={
     '2026-11-24':{
-      p1:{heading:'Comprobación inicial · Matemática',
-        intro:'Hoy, con acompañamiento adulto: comprobá tus conversiones sin pistas antes de responder.',
-        tasks:[{id:'comprobacion-m',label:'Siete problemas nuevos de Matemática',detail:'Primera respuesta sin pistas. Después podés corregir.',action:'check:M:transferencia'}]},
-      p2:{heading:'Comprobación inicial · Matemática',
-        intro:'Hoy, con acompañamiento adulto: prestá atención a divisiones y conversiones.',
-        tasks:[{id:'comprobacion-m',label:'Siete problemas nuevos de Matemática',detail:'Primera respuesta sin pistas. Después podés corregir.',action:'check:M:transferencia'}]}
+      p1:{heading:'Comprobación y refuerzo de conversión · Matemática',
+        intro:'Ya resolviste la comprobación inicial. Si terminaste, seguí con siete problemas diferentes de conversión y capacidad, con pistas disponibles.',
+        tasks:[{id:'comprobacion-m',label:'Comprobación inicial de Matemática',detail:'Siete problemas compartidos, sin pistas al primer intento. Si ya los resolviste, no tenés que repetirlos.',action:'check:M:transferencia'},
+          {id:'conversion-personal',label:'Refuerzo personal: fracciones y capacidad',detail:'Siete problemas originales de conversión fracción-decimal y medidas de capacidad.',action:'model:X:A'}]},
+      p2:{heading:'Comprobación y refuerzo de divisiones · Matemática',
+        intro:'Ya comenzaste la comprobación inicial. Al terminar, tenés siete problemas nuevos de división y valor posicional, con pistas disponibles.',
+        tasks:[{id:'comprobacion-m',label:'Comprobación inicial de Matemática',detail:'Siete problemas compartidos, sin pistas al primer intento. Continuá únicamente si te falta alguno.',action:'check:M:transferencia'},
+          {id:'division-personal',label:'Refuerzo personal: divisiones y valor posicional',detail:'Siete problemas originales de divisiones con decimales, repartos y medidas de masa.',action:'model:Y:A'}]}
     },
     '2026-11-25':{
-      p1:{heading:'Conversión y G/J',intro:'Trabajá por tu cuenta. Podés pedir pistas y volver a intentar.',
-        tasks:[{id:'conversion',label:'Fracciones y decimales',detail:'Circuito C · equivalencias y escritura decimal.',action:'model:E:C'},
+      p1:{heading:'Conversión y G/J · refuerzo autónomo',intro:'Hoy trabajá en el cuaderno y usá las pistas si hace falta. Estos ejercicios son distintos de los del martes.',
+        tasks:[{id:'conversion-avanzada',label:'Más conversiones en contextos',detail:'Circuito C · equivalencias, octavos y dieciseisavos.',action:'model:E:C'},
           {id:'gj',label:'Verbos con G y J',detail:'Circuito F · escribir palabras completas.',action:'ortho:J:F'}]},
-      p2:{heading:'Divisiones y acentuación',intro:'Primero resolvé en el cuaderno; después comprobá.',
-        tasks:[{id:'division',label:'Dividir números decimales',detail:'Circuito C · valor posicional y repartos.',action:'model:D:C'},
-          {id:'acentos',label:'Acentuación e hiatos',detail:'Circuito E · sin depender de las opciones.',action:'ortho:A:E'}]}
+      p2:{heading:'División y acentuación · refuerzo autónomo',intro:'Hoy repasá estrategias con ejemplos diferentes de los del martes y reservá tiempo para Lengua.',
+        tasks:[{id:'division-avanzada',label:'Divisiones decimales en problemas',detail:'Circuito C · valor posicional, repartos y medidas.',action:'model:D:C'},
+          {id:'acentos',label:'Acentuación e hiatos',detail:'Circuito E · escribir sin depender de las opciones.',action:'ortho:A:E'}]}
     },
     '2026-11-26':{
       p1:{heading:'Medidas, divisibilidad y narración',intro:'Hacé una tanda de Matemática y después escribí una historia breve.',
