@@ -19,7 +19,7 @@ const modelNew=[...model.blocks.D.rounds.C,...model.blocks.D.rounds.D,
 const languageNew=[...orth.blocks.J.F,...orth.blocks.A.E,...orth.blocks.T.F,
   ...orth.blocks.P.C,...orth.blocks.U.A,...orth.blocks.U.B];
 const checkTasks=Object.values(checks.checks).flatMap(c=>Object.values(c).flat());
-const priorMath=Object.entries(model.blocks).flatMap(([b,v])=>Object.entries(v.rounds)
+const priorMath=Object.entries(model.blocks).filter(([b])=>b!=='S').flatMap(([b,v])=>Object.entries(v.rounds)
   .filter(([r])=>!({D:['C','D'],E:['C','D','E'],C:['D'],F:['D']}[b]||[]).includes(r))
   .flatMap(([r,ts])=>ts));
 const priorLang=Object.entries(orth.blocks).flatMap(([b,v])=>['A','B','C','D','E','F']
@@ -31,10 +31,12 @@ test('119 actividades nuevas: 49 Matemática, 42 Lengua y 28 comprobaciones inde
   assert.equal(languageNew.length,42);
   assert.equal(checkTasks.length,28);
   assert.equal(priorMath.length+priorLang.length+Object.values(frac.rounds).flat().length,294);
+  const weekMath=[...model.blocks.S.rounds.A,...model.blocks.S.rounds.B];
+  assert.equal(weekMath.length,14);
   const combined=[...priorMath,...priorLang,...Object.values(frac.rounds).flat(),
-    ...modelNew,...languageNew,...checkTasks];
-  assert.equal(combined.length,413);
-  assert.equal(new Set(combined.map(t=>t.id)).size,413);
+    ...modelNew,...languageNew,...checkTasks,...weekMath];
+  assert.equal(combined.length,427);
+  assert.equal(new Set(combined.map(t=>t.id)).size,427);
   for(const task of [...modelNew,...languageNew,...checkTasks]){
     assert.equal(task.hints.length,2,task.id);
     assert.equal(task.steps.length,3,task.id);
@@ -62,7 +64,7 @@ function mockEngine(){
   const document={
     getElementById:key=>key==='fraction-challenge-dialog'?dialog:
       key==='fraction-challenge-content'?surface:node(key),
-    querySelector:selector=>selector==='meta[name="app-version"]'?{content:'6.35.0'}:null
+    querySelector:selector=>selector==='meta[name="app-version"]'?{content:'6.36.0'}:null
   };
   const sources={
     './data/desafios-fracciones.json':frac,
@@ -232,7 +234,7 @@ test('transferencia tras práctica; retención recién cuatro días después y p
     orthographyBlockId:type==='desafios_ortografia'?block:undefined,
     roundId:round,at:old
   });
-  assert.equal(t.state(other,'M','transferencia',now).state,'waiting');
+  assert.equal(t.state(other,'M','transferencia',now).state,'verification');
   assert.equal(t.state(p,'M','transferencia',now).state,'verification');
   assert.equal(t.state(p,'L','transferencia',now).state,'verification');
   assert.equal(t.state(p,'M','retencion',now).state,'waiting');
@@ -240,7 +242,7 @@ test('transferencia tras práctica; retención recién cuatro días después y p
   p.history.push({type:'desafios_comprobacion',checkArea:'L',phase:'transferencia',at:old});
   assert.equal(t.state(p,'M','retencion',now).state,'verification');
   assert.equal(t.state(p,'L','retencion',now).state,'verification');
-  p.history.find(x=>x.type==='desafios_modelo'&&x.blockId==='E').at=recent;
+  p.history.find(x=>x.type==='desafios_comprobacion'&&x.checkArea==='M').at=recent;
   assert.equal(t.state(p,'M','retencion',now).state,'waiting');
   assert.ok(t.state(p,'M','retencion',now).dueAt>now);
   assert.equal(t.state(p,'L','retencion',now).state,'verification');
@@ -253,7 +255,7 @@ test('versión, privacidad y estados diferenciados sin cambios en la base',()=>{
   assert.equal((html.match(/data-start-ortho=/g)||[]).length,7);
   assert.equal((html.match(/data-start-check=/g)||[]).length,4);
   assert.equal((html.match(/class="challenge-status-label"/g)||[]).length,18);
-  assert.ok(read('sw.js').includes('desafios-comprobacion.json?v=6.35.0'));
+  assert.ok(read('sw.js').includes('desafios-comprobacion.json?v=6.36.0'));
   assert.ok(app.includes("purpose:result.checkPhase"));
   assert.ok(!app.includes("MASTERED_FROM_SINGLE_ATTEMPT"));
   new vm.Script(engine);new vm.Script(app);
