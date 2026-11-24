@@ -1,5 +1,5 @@
 {
-  "version": 3,
+  "version": 4,
   "source": "Ejercicios originales diseñados a partir de los tipos de resolución del modelo adjunto de prueba de nivel de Matemática de ingreso al Manuel Belgrano (2025/2026). No se transcriben las consignas originales.",
   "blocks": {
     "R": {
@@ -4172,6 +4172,350 @@
             "area": "matematica",
             "school": "monserrat",
             "challengePurpose": "refuerzo_selectivo"
+          }
+        ]
+      }
+    },
+    "X": {
+      "label": "Conversión y capacidad · Refuerzo personalizado",
+      "reference": "Plan de refuerzo personalizado de última semana, tras comprobación del 24 de noviembre",
+      "profile": "p1",
+      "rounds": {
+        "A": [
+          {
+            "kind": "model-decimal",
+            "title": "Resolver y comprobar",
+            "prompt": "Para una receta se necesitan 13/16 de litro de leche. ¿Cuántos litros representa esta cantidad en decimal?",
+            "expected": 0.8125,
+            "skill": "MAT-FR-DEC",
+            "difficulty": 4,
+            "hints": [
+              "Buscá una potencia de diez que sea múltiplo de 16.",
+              "16 × 625 = 10.000, por eso también multiplicás 13 por 625."
+            ],
+            "steps": [
+              "13/16 = 8.125/10.000.",
+              "8.125 diezmilésimos son 0,8125.",
+              "La receta necesita 0,8125 litros."
+            ],
+            "id": "MB26-X-A-01",
+            "block": "X",
+            "round": "A",
+            "area": "matematica",
+            "school": "monserrat",
+            "challengePurpose": "refuerzo_personalizado"
+          },
+          {
+            "kind": "model-decimal",
+            "title": "Resolver y comprobar",
+            "prompt": "Un paquete contiene 21/25 de kilogramo de harina. Expresá el peso como número decimal.",
+            "expected": 0.84,
+            "skill": "MAT-FR-DEC",
+            "difficulty": 3,
+            "hints": [
+              "El denominador 25 puede convertirse en 100.",
+              "Multiplicá los dos términos de la fracción por cuatro."
+            ],
+            "steps": [
+              "21/25 = 84/100.",
+              "84 centésimos son 0,84.",
+              "El paquete contiene 0,84 kilogramos."
+            ],
+            "id": "MB26-X-A-02",
+            "block": "X",
+            "round": "A",
+            "area": "matematica",
+            "school": "monserrat",
+            "challengePurpose": "refuerzo_personalizado"
+          },
+          {
+            "kind": "model-decimal",
+            "title": "Resolver y comprobar",
+            "prompt": "Una cinta mide 17/4 metros. Escribí su longitud como número decimal.",
+            "expected": 4.25,
+            "skill": "MAT-FR-DEC",
+            "difficulty": 4,
+            "hints": [
+              "Es una fracción impropia: la longitud es mayor que cuatro metros.",
+              "Separá 16/4 más 1/4."
+            ],
+            "steps": [
+              "17/4 = 16/4 + 1/4.",
+              "16/4 = 4 y 1/4 = 0,25.",
+              "La cinta mide 4,25 metros."
+            ],
+            "id": "MB26-X-A-03",
+            "block": "X",
+            "round": "A",
+            "area": "matematica",
+            "school": "monserrat",
+            "challengePurpose": "refuerzo_personalizado"
+          },
+          {
+            "kind": "model-decimal",
+            "title": "Resolver y comprobar",
+            "prompt": "En una botella quedó 7/8 de su contenido original. Escribí esa parte como número decimal.",
+            "expected": 0.875,
+            "skill": "MAT-FR-DEC",
+            "difficulty": 3,
+            "hints": [
+              "Pensá en un denominador 1.000.",
+              "8 × 125 = 1.000; multiplicá 7 por 125."
+            ],
+            "steps": [
+              "7/8 = 875/1.000.",
+              "875 milésimos son 0,875.",
+              "Quedó 0,875 del contenido."
+            ],
+            "id": "MB26-X-A-04",
+            "block": "X",
+            "round": "A",
+            "area": "matematica",
+            "school": "monserrat",
+            "challengePurpose": "refuerzo_personalizado"
+          },
+          {
+            "kind": "model-fraction",
+            "title": "De decimal a fracción irreducible",
+            "prompt": "Una etiqueta indica 0,56 kg de semillas. Escribí la cantidad como fracción irreducible.",
+            "expected": [
+              14,
+              25
+            ],
+            "irreducible": true,
+            "skill": "MAT-FR-DEC",
+            "difficulty": 4,
+            "hints": [
+              "Tiene dos cifras decimales: primero escribí 56/100.",
+              "Numerador y denominador pueden dividirse entre cuatro."
+            ],
+            "steps": [
+              "0,56 = 56/100.",
+              "Simplificamos 56/100 por 4.",
+              "El resultado irreducible es 14/25."
+            ],
+            "id": "MB26-X-A-05",
+            "block": "X",
+            "round": "A",
+            "area": "matematica",
+            "school": "monserrat",
+            "challengePurpose": "refuerzo_personalizado"
+          },
+          {
+            "kind": "model-decimal",
+            "title": "Resolver y comprobar",
+            "prompt": "Una jarra contiene 2,4 litros de agua y se agregan 375 mililitros. ¿Cuántos litros hay en total?",
+            "expected": 2.775,
+            "skill": "MAT-MED-CAP",
+            "difficulty": 4,
+            "hints": [
+              "Antes de sumar, expresá ambas medidas en litros.",
+              "375 mL equivalen a 0,375 L."
+            ],
+            "steps": [
+              "375 mL = 0,375 L.",
+              "2,4 L + 0,375 L = 2,775 L.",
+              "El total es 2,775 litros."
+            ],
+            "id": "MB26-X-A-06",
+            "block": "X",
+            "round": "A",
+            "area": "matematica",
+            "school": "monserrat",
+            "challengePurpose": "refuerzo_personalizado"
+          },
+          {
+            "kind": "model-decimal",
+            "title": "Resolver y comprobar",
+            "prompt": "Para expresar una distancia en otra escala, se divide 365,4 entre 100. ¿Cuál es el cociente?",
+            "expected": 3.654,
+            "skill": "MAT-DEC-OPS",
+            "difficulty": 3,
+            "hints": [
+              "Dividir por 100 hace que cada cifra valga cien veces menos.",
+              "365,4 ÷ 10 = 36,54; dividí otra vez por 10."
+            ],
+            "steps": [
+              "365,4 ÷ 10 = 36,54.",
+              "36,54 ÷ 10 = 3,654.",
+              "El cociente es 3,654."
+            ],
+            "id": "MB26-X-A-07",
+            "block": "X",
+            "round": "A",
+            "area": "matematica",
+            "school": "monserrat",
+            "challengePurpose": "refuerzo_personalizado"
+          }
+        ]
+      }
+    },
+    "Y": {
+      "label": "Divisiones y medidas · Refuerzo personalizado",
+      "reference": "Plan de refuerzo personalizado de última semana, tras comprobación del 24 de noviembre",
+      "profile": "p2",
+      "rounds": {
+        "A": [
+          {
+            "kind": "model-decimal",
+            "title": "Resolver y comprobar",
+            "prompt": "Calculá 132,4 ÷ 100. Escribí el resultado con la coma decimal en el lugar correcto.",
+            "expected": 1.324,
+            "skill": "MAT-DEC-OPS",
+            "difficulty": 3,
+            "hints": [
+              "Al dividir por cien, cada cifra pasa a valer una centésima parte.",
+              "132,4 ÷ 10 = 13,24; volvé a dividir entre 10."
+            ],
+            "steps": [
+              "132,4 ÷ 10 = 13,24.",
+              "13,24 ÷ 10 = 1,324.",
+              "Resultado: 1,324."
+            ],
+            "id": "MB26-Y-A-01",
+            "block": "Y",
+            "round": "A",
+            "area": "matematica",
+            "school": "monserrat",
+            "challengePurpose": "refuerzo_personalizado"
+          },
+          {
+            "kind": "model-decimal",
+            "title": "Resolver y comprobar",
+            "prompt": "Cinco personas comparten por igual un gasto de $16,35. ¿Cuánto paga cada una?",
+            "expected": 3.27,
+            "skill": "MAT-DEC-OPS",
+            "difficulty": 3,
+            "hints": [
+              "Para un reparto igualitario dividimos entre 5.",
+              "Comprobá multiplicando 3,27 × 5."
+            ],
+            "steps": [
+              "16,35 ÷ 5 = 3,27.",
+              "3,27 × 5 = 16,35.",
+              "Cada una paga $3,27."
+            ],
+            "id": "MB26-Y-A-02",
+            "block": "Y",
+            "round": "A",
+            "area": "matematica",
+            "school": "monserrat",
+            "challengePurpose": "refuerzo_personalizado"
+          },
+          {
+            "kind": "model-decimal",
+            "title": "Resolver y comprobar",
+            "prompt": "Se distribuyen 9,6 litros de jugo en ocho botellas iguales. ¿Cuántos litros recibe cada botella?",
+            "expected": 1.2,
+            "skill": "MAT-DEC-OPS",
+            "difficulty": 3,
+            "hints": [
+              "Separá ocho litros y 1,6 litros antes de dividir.",
+              "8 ÷ 8 = 1 y 1,6 ÷ 8 = 0,2."
+            ],
+            "steps": [
+              "9,6 ÷ 8.",
+              "8 ÷ 8 = 1; 1,6 ÷ 8 = 0,2.",
+              "Cada botella recibe 1,2 litros."
+            ],
+            "id": "MB26-Y-A-03",
+            "block": "Y",
+            "round": "A",
+            "area": "matematica",
+            "school": "monserrat",
+            "challengePurpose": "refuerzo_personalizado"
+          },
+          {
+            "kind": "model-decimal",
+            "title": "Resolver y comprobar",
+            "prompt": "Nueve cintas iguales suman 4,86 metros. ¿Cuántos metros mide cada cinta?",
+            "expected": 0.54,
+            "skill": "MAT-DEC-OPS",
+            "difficulty": 4,
+            "hints": [
+              "Para conocer una cinta, calculá 4,86 ÷ 9.",
+              "486 centésimos divididos por 9 son 54 centésimos."
+            ],
+            "steps": [
+              "4,86 ÷ 9 = 0,54.",
+              "Comprobación: 0,54 × 9 = 4,86.",
+              "Cada cinta mide 0,54 metros."
+            ],
+            "id": "MB26-Y-A-04",
+            "block": "Y",
+            "round": "A",
+            "area": "matematica",
+            "school": "monserrat",
+            "challengePurpose": "refuerzo_personalizado"
+          },
+          {
+            "kind": "model-decimal",
+            "title": "Resolver y comprobar",
+            "prompt": "Calculá 47,2 ÷ 1.000. Prestá atención a los ceros que aparecen después de la coma.",
+            "expected": 0.0472,
+            "skill": "MAT-DEC-OPS",
+            "difficulty": 4,
+            "hints": [
+              "Dividir por mil hace que cada cifra tenga un valor mil veces menor.",
+              "En 47,2 faltan posiciones: el resultado empieza con 0,0."
+            ],
+            "steps": [
+              "47,2 ÷ 10 = 4,72.",
+              "4,72 ÷ 100 = 0,0472.",
+              "Resultado: 0,0472."
+            ],
+            "id": "MB26-Y-A-05",
+            "block": "Y",
+            "round": "A",
+            "area": "matematica",
+            "school": "monserrat",
+            "challengePurpose": "refuerzo_personalizado"
+          },
+          {
+            "kind": "model-decimal",
+            "title": "Resolver y comprobar",
+            "prompt": "En un recorrido se avanzaron 13/8 de kilómetro. ¿Qué distancia representa en decimal?",
+            "expected": 1.625,
+            "skill": "MAT-FR-DEC",
+            "difficulty": 4,
+            "hints": [
+              "La fracción supera la unidad: 13/8 = 1 + 5/8.",
+              "5/8 equivale a 625/1.000."
+            ],
+            "steps": [
+              "13/8 = 8/8 + 5/8.",
+              "5/8 = 0,625.",
+              "La distancia es 1,625 km."
+            ],
+            "id": "MB26-Y-A-06",
+            "block": "Y",
+            "round": "A",
+            "area": "matematica",
+            "school": "monserrat",
+            "challengePurpose": "refuerzo_personalizado"
+          },
+          {
+            "kind": "model-decimal",
+            "title": "Resolver y comprobar",
+            "prompt": "Una bolsa pesa 2,75 kg y se agregan 480 gramos. ¿Cuántos kilogramos pesa ahora?",
+            "expected": 3.23,
+            "skill": "MAT-MED-MASA",
+            "difficulty": 4,
+            "hints": [
+              "Primero convertí 480 gramos a kilogramos.",
+              "480 g equivalen a 0,480 kg."
+            ],
+            "steps": [
+              "480 g = 0,48 kg.",
+              "2,75 + 0,48 = 3,23.",
+              "La bolsa pesa ahora 3,23 kg."
+            ],
+            "id": "MB26-Y-A-07",
+            "block": "Y",
+            "round": "A",
+            "area": "matematica",
+            "school": "monserrat",
+            "challengePurpose": "refuerzo_personalizado"
           }
         ]
       }
