@@ -671,10 +671,10 @@
     if(!dialog||!app||loading||dialog.open||!['A','B','C','D','E','F','G','H'].includes(round))return;
     if(checkArea!==null && !['M','L'].includes(checkArea))return;
     if(checkArea && (!['transferencia','retencion'].includes(checkPhase)||block||orthographyBlock||round!=='A'))return;
-    if(!checkArea && (checkPhase|| (block!==null && !['R','P','C','F','D','E'].includes(block))||
+    if(!checkArea && (checkPhase|| (block!==null && !['R','P','C','F','D','E','S'].includes(block))||
         (orthographyBlock!==null && !['D','J','B','A','T','P','U'].includes(orthographyBlock))))return;
     if(block&&orthographyBlock)return;
-    if(!checkArea && block && !(block==='R'||block==='P'?['A','B'].includes(round):
+    if(!checkArea && block && !(block==='R'||block==='P'||block==='S'?['A','B'].includes(round):
        ['C','F'].includes(block)?['A','B','C','D'].includes(round):
        block==='D'?['A','B','C','D'].includes(round):['A','B','C','D','E'].includes(round)))return;
     if(!checkArea && orthographyBlock && !(
