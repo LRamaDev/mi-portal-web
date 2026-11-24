@@ -266,3 +266,44 @@
   .challenge-check-card .challenge-hub-tag {font-size:.75rem;}
   .orthography-fields textarea {min-height:100px;}
 }
+
+/* Última semana Monserrat: actividades cortas, accesibles y diferenciadas por perfil. */
+.week-plan-panel {margin:14px 0 22px;padding:18px;border:2px solid #7796b3;background:#f6f9fd;border-radius:18px;}
+.week-plan-top {display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap;}
+.week-plan-top h3 {font-size:1.35rem;margin:4px 0 6px;color:#234562;}
+.week-plan-top p {margin:3px 0 14px;line-height:1.5;}
+.week-date-picker {display:flex;flex-direction:column;gap:6px;font-size:.86rem;font-weight:700;color:#294a64;}
+.week-date-picker select {min-height:44px;min-width:165px;border:1px solid #96b0c4;border-radius:10px;background:#fff;color:#163b54;padding:8px;font:inherit;}
+.week-plan-heading {margin:6px 0 16px;border-bottom:1px solid #cedbe7;padding-bottom:12px;}
+.week-plan-heading h3 {font-size:1.15rem;margin:0 0 7px;color:#174a72;}
+.week-plan-heading p {margin:0 0 7px;line-height:1.5;}
+.week-plan-heading small {color:#52667a;}
+.week-task-grid {display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,265px),1fr));gap:12px;}
+.week-task {background:#fff;border:2px solid #94b4ce;border-radius:14px;padding:15px;display:flex;flex-direction:column;gap:10px;}
+.week-task[data-week-status="completed"] {border-color:#76ab87;background:#f3fbf4;}
+.week-task[data-week-status="active"] {border-color:#d1a44d;background:#fff8ec;}
+.week-task[data-week-status="waiting"] {border-color:#acb3bb;background:#f5f6f8;}
+.week-task-heading {display:flex;justify-content:space-between;align-items:flex-start;gap:8px;flex-wrap:wrap;}
+.week-task-heading h4 {font-size:1rem;margin:0;flex:1;color:#214867;}
+.week-task-state {display:inline-block;font-size:.77rem;font-weight:800;border-radius:99px;padding:5px 9px;background:#dbeaf8;color:#245278;}
+.week-task[data-week-status="completed"] .week-task-state {background:#d2f0d9;color:#225d39;}
+.week-task[data-week-status="active"] .week-task-state {background:#ffe1a5;color:#6e4b13;}
+.week-task[data-week-status="waiting"] .week-task-state {background:#e4e7eb;color:#475566;}
+.week-task p {margin:0;line-height:1.5;color:#405a71;}
+.week-task small {color:#52677a;line-height:1.4;}
+.week-task button,.week-task .week-print-link {width:100%;text-align:center;display:inline-flex;align-items:center;justify-content:center;min-height:43px;}
+.week-task button:disabled {opacity:.85;}
+.week-task .week-actions {display:flex;flex-direction:column;gap:8px;}
+.week-task a.week-print-link {text-decoration:none;}
+.week-task textarea {display:block;box-sizing:border-box;width:100%;min-height:115px;padding:12px;border:1px solid #92adc5;border-radius:9px;resize:vertical;background:#fff;color:#1c364b;font:inherit;line-height:1.5;}
+.week-write-label {font-weight:750;color:#294a66;font-size:.88rem;}
+.week-plan-notice {margin:13px 2px 0;color:#4d6780;font-size:.86rem;line-height:1.5;}
+.week-family-status h3 {margin:0 0 8px;}
+.week-family-status ul {padding-left:20px;margin:10px 0;}
+.week-family-status li {margin:6px 0;line-height:1.4;}
+@media (max-width:580px){
+ .week-plan-panel {padding:13px;}
+ .week-plan-top {gap:5px;}
+ .week-date-picker,.week-date-picker select {width:100%;}
+ .week-task-grid {grid-template-columns:1fr;}
+}
