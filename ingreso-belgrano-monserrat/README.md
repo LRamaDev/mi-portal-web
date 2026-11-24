@@ -317,3 +317,54 @@ La corrección de **producciones escritas** incorporada aquí está limitada int
 Las comprobaciones nuevas verifican **119 respuestas correctas y 119 incorrectas**, id único para 413 consignas, continuidad y privacidad de perfiles, conservación de evidencias completas sin cierre, apertura del modal, ausencia de pistas en el primer intento, diferencia entre respuesta autónoma y corregida, habilitación a los cuatro días, y versionado de PWA. La suite anterior de la v6.33 sigue ejecutándose en el otro workflow.
 
 **Prueba manual imprescindible tras fusionar:** confirmar v6.35.0, abrir los circuitos E-C/D/E y D-C/D en ambos perfiles; resolver y cerrar uno; completar los requisitos de transferencia en un perfil de prueba; intentar una comprobación sin pista antes de responder; verificar que retención permanece bloqueada hasta el día indicado, y que el perfil opuesto y sus históricos no cambian.
+
+
+## Última semana Monserrat: estudio autónomo y seguimiento remoto (V6.36)
+
+Se amplía la PR v6.35 antes de su fusión para responder al relevamiento del 24 de noviembre y a la disponibilidad familiar: acompañamiento presencial el martes 24 y trabajo autónomo por la mañana los días 25, 26 y 27, con revisión remota por la cuenta familiar.
+
+### Mi actividad de hoy
+
+La primera sección de **Desafíos** muestra una guía fechada del 24 al 30 de noviembre de 2026. Usa la fecha local de Córdoba para el día sugerido; permite elegir cualquier otro día y **no impone cierres ni bloqueos de jornada**. Todo se resuelve en el perfil individual y el día siguiente no depende de terminar el anterior:
+
+| Día | Perfil 1 (A) | Perfil 2 (V) |
+|---|---|---|
+| Mar 24 | Comprobación inicial de Matemática sin pistas | Comprobación inicial de Matemática sin pistas |
+| Mié 25 | Conversión fracción-decimal E-C y G/J J-F | División decimal D-C y Acentuación A-E |
+| Jue 26 | Medidas y divisibilidad S-A; narración breve | Primos y magnitudes S-B; narración breve |
+| Vie 27 | Simulacro de Matemática en papel, 60 minutos | Ídem |
+| Sáb 28 | Revisión de 2–3 errores y retención si ya corresponde | Ídem |
+| Dom 29 | Simulacro de Lengua en papel, 60 minutos | Ídem |
+| Lun 30 | Repaso liviano y descanso | Ídem |
+
+Los accesos de las tandas programadas **abren directamente** el circuito asignado, sin exigir que el otro perfil termine un circuito anterior. Antes de iniciar se comprueba que ese circuito no figure completado. Las tandas guardan intentos, ayudas y cierres mediante el motor y la sincronización anteriores.
+
+### Contenidos complementarios
+
+Se crea el bloque S de Matemática con **14 consignas originales**: S-A sobre capacidad, tiempo, múltiplos, MCM y ángulos; S-B sobre primos/compuestos, masa, capacidad y operaciones combinadas. Cada tarea se registra bajo su habilidad del catálogo. No se fuerza a ambos perfiles a hacer las dos tandas.
+
+**Banco acumulado:** 294 ejercicios anteriores + 119 de v6.35 + 14 de este bloque = **427 consignas únicas**.
+
+### Comprobación inicial y retención
+
+La transferencia de Matemática y Lengua se habilita directamente como **comprobación inicial**, sin necesitar completar primero 35 o 42 ejercicios guiados. Sigue impidiendo pistas antes del primer intento válido; resolver tras equivocarse queda etiquetado como «con ayuda».
+
+La retención se habilita **cuatro días después de finalizar la comprobación inicial de la materia**, con fecha explícita. No afecta los otros días del calendario ni bloquea el simulacro; puede realizarse después de esa fecha. Las evidencias siguen registradas individualmente con propósito y origen propio; ningún acierto aislado implica dominio consolidado.
+
+### Simulacros imprimibles y producción escrita
+
+- `simulacro-final-matematica.html`: **16 consignas originales**, 100 puntos orientativos, 60 minutos. Incluye fracciones, decimales, divisibilidad, medidas, geometría y problemas integrados.
+- `simulacro-final-lengua.html`: relato original, **12 consignas**, 100 puntos orientativos, 60 minutos. Incluye lectura, comprensión, ortografía, gramática, puntuación y producción narrativa.
+- Son **modelos propios no oficiales**: se abren en una pestaña y pueden imprimirse desde el navegador. Se cachean para uso sin conexión.
+- El botón **«Lo realicé en papel»** registra únicamente una declaración de realización en `profile.weekLog[fecha][id]`, con `reviewed:false`. **No equivale a corregir, aprobar ni completar un simulacro digital**.
+- El borrador narrativo del jueves se guarda en `profile.weekWriting[fecha]` con fecha y `reviewed:false`. El sistema no asigna puntajes automáticos a textos abiertos ni los compara con respuestas modelo. El sábado y lunes pueden guardarse notas breves en `profile.weekNotes` y un registro de la actividad en `weekLog`.
+
+### Consulta remota sin confundir alumnos
+
+En **Familia** se agrega un resumen de actividades semanales **solo del perfil seleccionado**, sin mostrar las evidencias del otro perfil, estadísticas comparativas ni diagnósticos en modo «Estudiar juntas». Cuando la sesión familiar está autenticada, el estado y los borradores usan el guardado y la sincronización existentes; sin autenticación quedan en el dispositivo. Es un resumen por perfil, **no un panel de supervisión adulto autenticado en tiempo real**; la consulta remota necesita que se sincronicen los dispositivos.
+
+### Pruebas y compatibilidad
+
+Prueba nueva: `tests/ultima-semana-v6-36.test.cjs`, incluida en `.github/workflows/ingreso-desafios.yml`. Comprueba calendario y aislamiento de los perfiles, navegación directa a S-B, modelos imprimibles de 100 puntos, retención a cuatro días, 14 respuestas correctas y 14 incorrectas, disponibilidad de transferencia inicial y versión. Se mantiene intacto el `STORAGE_KEY`, sin cambios SQL, RLS, permisos ni pérdida de historiales.
+
+**Control manual:** después de fusionar, confirmar v6.36.0, probar el botón Mi actividad de hoy en cada perfil, resolver una consigna guiada y otra sin pistas, cambiar de día y de perfil, guardar una narración y verla desde el mismo perfil en otro dispositivo con la cuenta sincronizada, imprimir ambos modelos y confirmar que lo realizado en papel figura *sin corregir*.
