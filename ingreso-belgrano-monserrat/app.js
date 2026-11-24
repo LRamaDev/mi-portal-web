@@ -1505,20 +1505,22 @@
   const WEEK_LABELS=['Mar 24','Mié 25','Jue 26','Vie 27','Sáb 28','Dom 29','Lun 30'];
   const WEEK_PLAN={
     '2026-11-24':{
-      p1:{heading:'Comprobación inicial · Matemática',
-        intro:'Hoy, con acompañamiento adulto: comprobá tus conversiones sin pistas antes de responder.',
-        tasks:[{id:'comprobacion-m',label:'Siete problemas nuevos de Matemática',detail:'Primera respuesta sin pistas. Después podés corregir.',action:'check:M:transferencia'}]},
-      p2:{heading:'Comprobación inicial · Matemática',
-        intro:'Hoy, con acompañamiento adulto: prestá atención a divisiones y conversiones.',
-        tasks:[{id:'comprobacion-m',label:'Siete problemas nuevos de Matemática',detail:'Primera respuesta sin pistas. Después podés corregir.',action:'check:M:transferencia'}]}
+      p1:{heading:'Comprobación y refuerzo de conversión · Matemática',
+        intro:'Ya resolviste la comprobación inicial. Si terminaste, seguí con siete problemas diferentes de conversión y capacidad, con pistas disponibles.',
+        tasks:[{id:'comprobacion-m',label:'Comprobación inicial de Matemática',detail:'Siete problemas compartidos, sin pistas al primer intento. Si ya los resolviste, no tenés que repetirlos.',action:'check:M:transferencia'},
+          {id:'conversion-personal',label:'Refuerzo personal: fracciones y capacidad',detail:'Siete problemas originales de conversión fracción-decimal y medidas de capacidad.',action:'model:X:A'}]},
+      p2:{heading:'Comprobación y refuerzo de divisiones · Matemática',
+        intro:'Ya comenzaste la comprobación inicial. Al terminar, tenés siete problemas nuevos de división y valor posicional, con pistas disponibles.',
+        tasks:[{id:'comprobacion-m',label:'Comprobación inicial de Matemática',detail:'Siete problemas compartidos, sin pistas al primer intento. Continuá únicamente si te falta alguno.',action:'check:M:transferencia'},
+          {id:'division-personal',label:'Refuerzo personal: divisiones y valor posicional',detail:'Siete problemas originales de divisiones con decimales, repartos y medidas de masa.',action:'model:Y:A'}]}
     },
     '2026-11-25':{
-      p1:{heading:'Refuerzo personal de conversión y G/J',intro:'Estas consignas son nuevas y se eligieron para tu recorrido. Podés pedir pistas y volver a intentar.',
-        tasks:[{id:'conversion-personal',label:'Conversión de fracciones y capacidad',detail:'Siete problemas nuevos: fracciones propias e impropias, decimales y litros.',action:'model:X:A'},
+      p1:{heading:'Conversión y G/J · refuerzo autónomo',intro:'Hoy trabajá en el cuaderno y usá las pistas si hace falta. Estos ejercicios son distintos de los del martes.',
+        tasks:[{id:'conversion-avanzada',label:'Más conversiones en contextos',detail:'Circuito C · equivalencias, octavos y dieciseisavos.',action:'model:E:C'},
           {id:'gj',label:'Verbos con G y J',detail:'Circuito F · escribir palabras completas.',action:'ortho:J:F'}]},
-      p2:{heading:'Refuerzo personal de división y acentuación',intro:'Estas consignas son nuevas y se eligieron para tu recorrido. Resolvé en el cuaderno y después comprobá.',
-        tasks:[{id:'division-personal',label:'Divisiones y valor posicional',detail:'Siete problemas nuevos: ÷10, ÷100, ÷1.000, repartos, fracción y masa.',action:'model:Y:A'},
-          {id:'acentos',label:'Acentuación e hiatos',detail:'Circuito E · sin depender de las opciones.',action:'ortho:A:E'}]}
+      p2:{heading:'División y acentuación · refuerzo autónomo',intro:'Hoy repasá estrategias con ejemplos diferentes de los del martes y reservá tiempo para Lengua.',
+        tasks:[{id:'division-avanzada',label:'Divisiones decimales en problemas',detail:'Circuito C · valor posicional, repartos y medidas.',action:'model:D:C'},
+          {id:'acentos',label:'Acentuación e hiatos',detail:'Circuito E · escribir sin depender de las opciones.',action:'ortho:A:E'}]}
     },
     '2026-11-26':{
       p1:{heading:'Medidas, divisibilidad y narración',intro:'Hacé una tanda de Matemática y después escribí una historia breve.',
