@@ -274,3 +274,97 @@ El indicador se actualiza al abrir Desafíos, al cambiar de perfil, al completar
 Los colores siempre están acompañados por palabras y los botones conservan texto legible. Se incluyen pruebas de regresión en `tests/estados-desafios-v6-34.test.cjs`, incorporadas al flujo CI de Desafíos: 13 tarjetas y leyenda, estados completado/nuevo/en curso/pendiente, reconocimiento de una ampliación A/B→C, continuidad y aislamiento entre perfiles.
 
 **Comprobación manual tras el merge:** abrir la versión 6.34.0, entrar a cada perfil y comprobar que las tarjetas finalizadas están verdes; las recién ampliadas violetas; iniciar una para que pase a naranja; terminar el último circuito disponible para que pase a verde. Probar también la navegación en celular.
+
+
+## Actualización pedagógica del 23 de noviembre (versión 6.35)
+
+**Punto de partida verificado:** ambos perfiles tienen 294 evidencias de resolución para los 42 circuitos de la versión anterior. Perfil A tiene 42 cierres en `history` y Perfil V, 40; los dos cierres faltantes de V se reconocen **a través de las siete evidencias individuales** de cada ronda, sin modificar, borrar ni reconstruir sus históricos en Supabase.
+
+### Contenidos y progresión
+
+La ampliación suma **119 consignas nuevas**, que se agregan a las 294 existentes:
+
+| Tipo | Circuitos | Nuevas consignas | Qué cambia |
+|---|---|---:|---|
+| Matemática guiada | E-C/D/E (conversión fracción-decimal) | 21 | Propias, impropias, denominadores 10/100/1000/10000, conversión a irreducibles y contextos |
+| Matemática guiada | D-C/D (operaciones decimales) | 14 | Dividir por 10/100/1000, reparto, medidas, dinero y operaciones combinadas |
+| Matemática de transferencia | C-D y F-D | 14 | Problemas compuestos de circunferencia y comparación/orden/intercalación de fracciones impropias |
+| Lengua guiada | J-F, A-E, T-F, P-C y U-A/B | 42 | Conjugación G/J, hiatos y tildes, escritura de monosílabos, puntuación, concordancia, conectores, unimembres/bimembres y revisión de oraciones |
+| Comprobaciones separadas | Transferencia Matemática y Lengua; Retención Matemática y Lengua | 28 | Cuatro recorridos mixtos de siete consignas originales |
+
+**Total: 413 consignas**, con 119 nuevas y el banco anterior inalterado. El motor `desafios-fracciones.js` sigue utilizando el mismo diálogo: siete consignas por circuito, «Comprobar», ayudas progresivas, «Siguiente desafío», explicación y resumen.
+
+### Distinción pedagógica y condiciones de acceso
+
+- **Práctica guiada:** repite el procedimiento con datos y problemas nuevos. Identificada como `practica_guiada` en el nuevo banco.
+- **Transferencia:** situaciones distintas que combinan habilidades; los circuitos de Matemática C-D, F-D y E-E contienen tareas de transferencia. Las nuevas comprobaciones separadas se identifican `CK26-M-T-01…07` y `CK26-L-T-01…07`.
+- **Retención:** comprobaciones `CK26-M-R-01…07` y `CK26-L-R-01…07`, disponibles a partir del **cuarto día después de la práctica prioritaria**, una vez finalizada la transferencia del área. Una espera mayor no las elimina.
+- Las comprobaciones **no ofrecen pistas antes de la primera respuesta válida**. Si la primera respuesta es incorrecta y luego se corrige, queda «con ayuda» y `firstAttemptCorrect=false`, nunca «autónoma». El historial distingue `desafios_comprobacion` con `phase: transferencia|retencion` y las evidencias con `origin`/`purpose` independientes.
+- Matemática: transferencia después de E-E y D-D. Lengua: después de J-F, A-E, T-F, P-C y U-B. Son condiciones explícitas que impiden que un acierto aislado dentro de la práctica guiada se considere dominio.
+- El acceso a retención se calcula desde la **fecha más reciente de los circuitos guiados requeridos**. No hay ejecución automática, tareas programadas ni envío de notificaciones. La fecha se muestra en la tarjeta y se reevalúa cuando se abre la pestaña.
+- Los estados visuales incluyen **«Para reforzar»** y **«Comprobación pendiente»** además de por hacer, en curso, nuevos y completados. El color siempre tiene su etiqueta; ningún porcentaje o diagnóstico adulto aparece en las tarjetas.
+
+### Evidencias, privacidad y corrección escrita
+
+Se mantienen el mismo `STORAGE_KEY`, los IDs originales, el perfil invitado aislado, las cuentas familiares y las tablas, políticas y permisos de Supabase **sin migraciones**. Las nuevas evidencias se almacenan por perfil mediante el mecanismo existente `IngresoPedagogy.createEvidence/applyAttempt` y su sincronización actual. La distinción práctica/transferencia/retención se conserva mediante `purpose`, `origin`, `context`, `hintUsed` y las sesiones de cierre; no se altera a mano ningún registro previo.
+
+La corrección de **producciones escritas** incorporada aquí está limitada intencionalmente a **oraciones breves con una solución objetivo** (por ejemplo, corrección de concordancia, tildes y signos) mediante `orth-rewrite` y `orth-rule`. La aplicación no califica redacciones abiertas de manera automática ni finge que una coincidencia literal mida coherencia, creatividad o calidad narrativa. Las producciones libres requieren evaluación humana o un corrector contextual distinto, a integrar por separado después de validar su seguridad y su rúbrica.
+
+### Pruebas
+
+`node --test ingreso-belgrano-monserrat/tests/desafios-smoke.test.cjs ingreso-belgrano-monserrat/tests/ortografia-smoke.test.cjs ingreso-belgrano-monserrat/tests/ampliacion-desafios-v6-32.test.cjs ingreso-belgrano-monserrat/tests/estados-desafios-v6-34.test.cjs ingreso-belgrano-monserrat/tests/transferencia-retencion-v6-35.test.cjs`
+
+Las comprobaciones nuevas verifican **119 respuestas correctas y 119 incorrectas**, id único para 413 consignas, continuidad y privacidad de perfiles, conservación de evidencias completas sin cierre, apertura del modal, ausencia de pistas en el primer intento, diferencia entre respuesta autónoma y corregida, habilitación a los cuatro días, y versionado de PWA. La suite anterior de la v6.33 sigue ejecutándose en el otro workflow.
+
+**Prueba manual imprescindible tras fusionar:** confirmar v6.35.0, abrir los circuitos E-C/D/E y D-C/D en ambos perfiles; resolver y cerrar uno; completar los requisitos de transferencia en un perfil de prueba; intentar una comprobación sin pista antes de responder; verificar que retención permanece bloqueada hasta el día indicado, y que el perfil opuesto y sus históricos no cambian.
+
+
+## Última semana Monserrat: estudio autónomo y seguimiento remoto (V6.36)
+
+Se amplía la PR v6.35 antes de su fusión para responder al relevamiento del 24 de noviembre y a la disponibilidad familiar: acompañamiento presencial el martes 24 y trabajo autónomo por la mañana los días 25, 26 y 27, con revisión remota por la cuenta familiar.
+
+### Mi actividad de hoy
+
+La primera sección de **Desafíos** muestra una guía fechada del 24 al 30 de noviembre de 2026. Usa la fecha local de Córdoba para el día sugerido; permite elegir cualquier otro día y **no impone cierres ni bloqueos de jornada**. Todo se resuelve en el perfil individual y el día siguiente no depende de terminar el anterior:
+
+| Día | Perfil 1 (A) | Perfil 2 (V) |
+|---|---|---|
+| Mar 24 | Comprobación inicial de Matemática sin pistas | Comprobación inicial de Matemática sin pistas |
+| Mié 25 | Conversión fracción-decimal E-C y G/J J-F | División decimal D-C y Acentuación A-E |
+| Jue 26 | Medidas y divisibilidad S-A; narración breve | Primos y magnitudes S-B; narración breve |
+| Vie 27 | Simulacro de Matemática en papel, 60 minutos | Ídem |
+| Sáb 28 | Revisión de 2–3 errores y retención si ya corresponde | Ídem |
+| Dom 29 | Simulacro de Lengua en papel, 60 minutos | Ídem |
+| Lun 30 | Repaso liviano y descanso | Ídem |
+
+Los accesos de las tandas programadas **abren directamente** el circuito asignado, sin exigir que el otro perfil termine un circuito anterior. Antes de iniciar se comprueba que ese circuito no figure completado. Las tandas guardan intentos, ayudas y cierres mediante el motor y la sincronización anteriores.
+
+### Contenidos complementarios
+
+Se crea el bloque S de Matemática con **14 consignas originales**: S-A sobre capacidad, tiempo, múltiplos, MCM y ángulos; S-B sobre primos/compuestos, masa, capacidad y operaciones combinadas. Cada tarea se registra bajo su habilidad del catálogo. No se fuerza a ambos perfiles a hacer las dos tandas.
+
+**Banco acumulado:** 294 ejercicios anteriores + 119 de v6.35 + 14 de este bloque = **427 consignas únicas**.
+
+### Comprobación inicial y retención
+
+La transferencia de Matemática y Lengua se habilita directamente como **comprobación inicial**, sin necesitar completar primero 35 o 42 ejercicios guiados. Sigue impidiendo pistas antes del primer intento válido; resolver tras equivocarse queda etiquetado como «con ayuda».
+
+La retención se habilita **cuatro días después de finalizar la comprobación inicial de la materia**, con fecha explícita. No afecta los otros días del calendario ni bloquea el simulacro; puede realizarse después de esa fecha. Las evidencias siguen registradas individualmente con propósito y origen propio; ningún acierto aislado implica dominio consolidado.
+
+### Simulacros imprimibles y producción escrita
+
+- `simulacro-final-matematica.html`: **16 consignas originales**, 100 puntos orientativos, 60 minutos. Incluye fracciones, decimales, divisibilidad, medidas, geometría y problemas integrados.
+- `simulacro-final-lengua.html`: relato original, **12 consignas**, 100 puntos orientativos, 60 minutos. Incluye lectura, comprensión, ortografía, gramática, puntuación y producción narrativa.
+- Son **modelos propios no oficiales**: se abren en una pestaña y pueden imprimirse desde el navegador. Se cachean para uso sin conexión.
+- El botón **«Lo realicé en papel»** registra únicamente una declaración de realización en `profile.weekLog[fecha][id]`, con `reviewed:false`. **No equivale a corregir, aprobar ni completar un simulacro digital**.
+- El borrador narrativo del jueves se guarda en `profile.weekWriting[fecha]` con fecha y `reviewed:false`. El sistema no asigna puntajes automáticos a textos abiertos ni los compara con respuestas modelo. El sábado y lunes pueden guardarse notas breves en `profile.weekNotes` y un registro de la actividad en `weekLog`.
+
+### Consulta remota sin confundir alumnos
+
+En **Familia** se agrega un resumen de actividades semanales **solo del perfil seleccionado**, sin mostrar las evidencias del otro perfil, estadísticas comparativas ni diagnósticos en modo «Estudiar juntas». Cuando la sesión familiar está autenticada, el estado y los borradores usan el guardado y la sincronización existentes; sin autenticación quedan en el dispositivo. Es un resumen por perfil, **no un panel de supervisión adulto autenticado en tiempo real**; la consulta remota necesita que se sincronicen los dispositivos.
+
+### Pruebas y compatibilidad
+
+Prueba nueva: `tests/ultima-semana-v6-36.test.cjs`, incluida en `.github/workflows/ingreso-desafios.yml`. Comprueba calendario y aislamiento de los perfiles, navegación directa a S-B, modelos imprimibles de 100 puntos, retención a cuatro días, 14 respuestas correctas y 14 incorrectas, disponibilidad de transferencia inicial y versión. Se mantiene intacto el `STORAGE_KEY`, sin cambios SQL, RLS, permisos ni pérdida de historiales.
+
+**Control manual:** después de fusionar, confirmar v6.36.0, probar el botón Mi actividad de hoy en cada perfil, resolver una consigna guiada y otra sin pistas, cambiar de día y de perfil, guardar una narración y verla desde el mismo perfil en otro dispositivo con la cuenta sincronizada, imprimir ambos modelos y confirmar que lo realizado en papel figura *sin corregir*.

@@ -12,15 +12,16 @@ const css=read('desafios-fracciones.css');
 const sw=read('sw.js');
 
 test('13 tarjetas muestran badge textual y colores contrastados para todos los estados',()=>{
-  assert.equal((html.match(/class="challenge-status-label"/g)||[]).length,13);
+  assert.equal((html.match(/class="challenge-status-label"/g)||[]).length,18);
   assert.ok(html.includes('id="challenge-overview"'));
   for(const name of ['Nuevos desafíos','En curso','Por hacer','Completado'])
     assert.ok(html.includes(name),name);
   for(const key of ['new','active','pending','completed','locked'])
     assert.ok(css.includes('[data-challenge-state="'+key+'"]'),key);
-  assert.match(html,/app-version" content="6\.34\.0"/);
-  assert.match(sw,/const VERSION='6\.34\.0'/);
-  assert.match(sw,/v6-34-estados-desafios/);
+  const version=html.match(/app-version" content="(6\.\d+\.\d+)"/)?.[1];
+  assert.ok(version);
+  assert.ok(sw.includes("const VERSION='"+version+"'"));
+  assert.match(sw,/const CACHE='ingreso-bm-v\d+-\d+-[^']+';/);
   new vm.Script(app,{filename:'app.js'});
   new vm.Script(read('desafios-fracciones.js'),{filename:'desafios-fracciones.js'});
 });
@@ -120,15 +121,15 @@ test('completado, nuevo, en curso y pendiente se distinguen en un mismo perfil',
   const newCircle=get(t,'model','C');
   assert.equal(newCircle.card.dataset.challengeState,'new');
   assert.equal(newCircle.badge.textContent,'Nuevos desafíos');
-  assert.match(newCircle.label.textContent,/2 de 3 circuitos completados/);
+  assert.match(newCircle.label.textContent,/2 de 4 circuitos completados/);
   assert.match(newCircle.button.textContent,/Hacer nuevos desafíos/);
   assert.equal(newCircle.button.disabled,false);
   const active=get(t,'model','P');
   assert.equal(active.card.dataset.challengeState,'active');
   assert.match(active.button.textContent,/Continuar circuito B/);
   assert.equal(get(t,'model','R').card.dataset.challengeState,'pending');
-  assert.equal(get(t,'ortho','J').card.dataset.challengeState,'completed');
-  assert.equal(get(t,'ortho','A').card.dataset.challengeState,'new');
+  assert.equal(get(t,'ortho','J').card.dataset.challengeState,'reinforce');
+  assert.equal(get(t,'ortho','A').card.dataset.challengeState,'reinforce');
   assert.match(t.overview.textContent,/con desafíos nuevos/);
 });
 
@@ -138,6 +139,7 @@ test('al sumar un ejercicio pendiente pasa a en curso; al terminar el nuevo circ
   t.tool.refresh();
   assert.equal(get(t,'model','C').card.dataset.challengeState,'active');
   t.tool.profiles().p1.history.push({type:'desafios_modelo',blockId:'C',roundId:'C'});
+  t.tool.profiles().p1.history.push({type:'desafios_modelo',blockId:'C',roundId:'D'});
   t.tool.refresh();
   assert.equal(get(t,'model','C').card.dataset.challengeState,'completed');
   assert.equal(get(t,'model','C').button.disabled,true);
@@ -145,7 +147,7 @@ test('al sumar un ejercicio pendiente pasa a en curso; al terminar el nuevo circ
 
 test('los estados son individuales y el modo juntas no revela historiales',()=>{
   const t=setup();t.tool.mode('p1');t.tool.refresh();
-  assert.equal(get(t,'ortho','A').card.dataset.challengeState,'new');
+  assert.equal(get(t,'ortho','A').card.dataset.challengeState,'reinforce');
   t.tool.mode('p2');t.tool.refresh();
   assert.equal(get(t,'ortho','A').card.dataset.challengeState,'pending');
   assert.equal(get(t,'fraction').card.dataset.challengeState,'pending');

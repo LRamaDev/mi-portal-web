@@ -1,5 +1,5 @@
 {
-  "version": 2,
+  "version": 3,
   "source": "Ejercicios originales diseñados a partir de los tipos de resolución del modelo adjunto de prueba de nivel de Matemática de ingreso al Manuel Belgrano (2025/2026). No se transcriben las consignas originales.",
   "blocks": {
     "R": {
@@ -1256,6 +1256,169 @@
             "school": null,
             "skill": "MAT-CIRC"
           }
+        ],
+        "D": [
+          {
+            "kind": "model-decimal",
+            "title": "Perímetro circular por comparación",
+            "prompt": "Dos canteros circulares tienen radios de 4 m y 7 m. ¿Cuántos metros más de borde tiene el segundo? Usá π ≈ 3,14.",
+            "expected": 18.84,
+            "hints": [
+              "La longitud es 2 × π × radio.",
+              "Restá las longitudes o calculá 2 × 3,14 × (7 − 4)."
+            ],
+            "steps": [
+              "Diferencia de radios = 3 m.",
+              "Diferencia de longitudes = 2 × 3,14 × 3.",
+              "Resultado: 18,84 m."
+            ],
+            "difficulty": 4,
+            "id": "MB26-C-D-01",
+            "block": "C",
+            "round": "D",
+            "area": "matematica",
+            "school": null,
+            "skill": "MAT-CIRC",
+            "challengePurpose": "transferencia"
+          },
+          {
+            "kind": "model-decimal",
+            "title": "Medio contorno de una rotonda",
+            "prompt": "El diámetro de una rotonda es 30 m. ¿Qué distancia mide una semicircunferencia? Usá π ≈ 3,14.",
+            "expected": 47.1,
+            "hints": [
+              "Primero buscá la longitud completa.",
+              "La mitad de 3,14 × 30."
+            ],
+            "steps": [
+              "Longitud completa: 3,14 × 30 = 94,2.",
+              "Semicircunferencia = 94,2 ÷ 2.",
+              "Resultado: 47,1 m."
+            ],
+            "difficulty": 4,
+            "id": "MB26-C-D-02",
+            "block": "C",
+            "round": "D",
+            "area": "matematica",
+            "school": null,
+            "skill": "MAT-CIRC",
+            "challengePurpose": "transferencia"
+          },
+          {
+            "kind": "model-decimal",
+            "title": "Una vuelta y media",
+            "prompt": "Una bicicleta tiene rueda de diámetro 80 cm. ¿Cuántos centímetros recorre el borde en una vuelta y media? Usá π ≈ 3,14.",
+            "expected": 376.8,
+            "hints": [
+              "Cada vuelta recorre una circunferencia.",
+              "Longitud de una vuelta × 1,5."
+            ],
+            "steps": [
+              "Longitud: 3,14 × 80 = 251,2 cm.",
+              "Una vuelta y media = 251,2 × 1,5.",
+              "Resultado: 376,8 cm."
+            ],
+            "difficulty": 4,
+            "id": "MB26-C-D-03",
+            "block": "C",
+            "round": "D",
+            "area": "matematica",
+            "school": null,
+            "skill": "MAT-CIRC",
+            "challengePurpose": "transferencia"
+          },
+          {
+            "kind": "model-decimal",
+            "title": "Radio desde el perímetro",
+            "prompt": "Un aro tiene un contorno de 62,8 cm. ¿Cuál es su radio? Usá π ≈ 3,14.",
+            "expected": 10,
+            "hints": [
+              "Primero calculá el diámetro dividiendo la longitud por π.",
+              "Diámetro = 62,8 ÷ 3,14."
+            ],
+            "steps": [
+              "D = 62,8 ÷ 3,14 = 20 cm.",
+              "Radio = 20 ÷ 2.",
+              "Resultado: 10 cm."
+            ],
+            "difficulty": 4,
+            "id": "MB26-C-D-04",
+            "block": "C",
+            "round": "D",
+            "area": "matematica",
+            "school": null,
+            "skill": "MAT-CIRC",
+            "challengePurpose": "transferencia"
+          },
+          {
+            "kind": "model-decimal",
+            "title": "Comparar longitudes de dos ruedas",
+            "prompt": "Una rueda tiene 12 cm de radio y otra 20 cm de diámetro. ¿Cuál es la diferencia de sus longitudes de circunferencia? Usá π ≈ 3,14.",
+            "expected": 12.56,
+            "hints": [
+              "Convertí el radio de la primera rueda a diámetro.",
+              "Compara diámetro 24 cm con diámetro 20 cm."
+            ],
+            "steps": [
+              "Diferencia de diámetros = 4 cm.",
+              "Diferencia de longitudes = 3,14 × 4.",
+              "Resultado: 12,56 cm."
+            ],
+            "difficulty": 4,
+            "id": "MB26-C-D-05",
+            "block": "C",
+            "round": "D",
+            "area": "matematica",
+            "school": null,
+            "skill": "MAT-CIRC",
+            "challengePurpose": "transferencia"
+          },
+          {
+            "kind": "model-decimal",
+            "title": "Arcos y costos",
+            "prompt": "Una plaza tiene contorno circular de radio 6 m. Se coloca una cerca en un cuarto de su borde. ¿Cuántos metros ocupa la cerca? Usá π ≈ 3,14.",
+            "expected": 9.42,
+            "hints": [
+              "Calculá el borde completo y tomá la cuarta parte.",
+              "2 × 3,14 × 6 ÷ 4."
+            ],
+            "steps": [
+              "Longitud completa: 37,68 m.",
+              "Cuarta parte: 37,68 ÷ 4.",
+              "Se cercan 9,42 m."
+            ],
+            "difficulty": 4,
+            "id": "MB26-C-D-06",
+            "block": "C",
+            "round": "D",
+            "area": "matematica",
+            "school": null,
+            "skill": "MAT-CIRC",
+            "challengePurpose": "transferencia"
+          },
+          {
+            "kind": "model-decimal",
+            "title": "Dos circunferencias para un jardín",
+            "prompt": "Un jardín tiene dos bordes circulares de diámetro 8 m y 13 m. ¿Cuántos metros de cerco se necesitan en total? Usá π ≈ 3,14.",
+            "expected": 65.94,
+            "hints": [
+              "Calculá el borde de cada jardín por separado.",
+              "Podés sumar los diámetros y multiplicar por 3,14."
+            ],
+            "steps": [
+              "Diámetros sumados: 8 + 13 = 21 m.",
+              "Longitudes sumadas: 3,14 × 21.",
+              "Total: 65,94 m."
+            ],
+            "difficulty": 4,
+            "id": "MB26-C-D-07",
+            "block": "C",
+            "round": "D",
+            "area": "matematica",
+            "school": null,
+            "skill": "MAT-CIRC",
+            "challengePurpose": "transferencia"
+          }
         ]
       }
     },
@@ -1936,6 +2099,243 @@
             "school": null,
             "skill": "MAT-FR-ORD"
           }
+        ],
+        "D": [
+          {
+            "kind": "fraction-compare",
+            "title": "Fracciones impropias en dos recetas",
+            "prompt": "Una receta necesita 7/4 de taza y otra 11/6. Compará las cantidades: ¿cuál es mayor?",
+            "left": [
+              7,
+              4
+            ],
+            "right": [
+              11,
+              6
+            ],
+            "expected": "<",
+            "hints": [
+              "Las dos son mayores que uno.",
+              "Compará 7 × 6 con 11 × 4."
+            ],
+            "steps": [
+              "7/4 = 42/24.",
+              "11/6 = 44/24.",
+              "7/4 < 11/6."
+            ],
+            "difficulty": 4,
+            "id": "MB26-F-D-01",
+            "block": "F",
+            "round": "D",
+            "area": "matematica",
+            "school": null,
+            "skill": "MAT-FR-ORD",
+            "challengePurpose": "transferencia"
+          },
+          {
+            "kind": "fraction-compare",
+            "title": "Comparar trayectos",
+            "prompt": "Un recorrido representa 13/8 del circuito; otro 8/5. Compará las distancias.",
+            "left": [
+              13,
+              8
+            ],
+            "right": [
+              8,
+              5
+            ],
+            "expected": ">",
+            "hints": [
+              "Multiplicá cruzado numeradores y denominadores.",
+              "13 × 5 = 65; 8 × 8 = 64."
+            ],
+            "steps": [
+              "13/8 = 65/40.",
+              "8/5 = 64/40.",
+              "13/8 > 8/5."
+            ],
+            "difficulty": 4,
+            "id": "MB26-F-D-02",
+            "block": "F",
+            "round": "D",
+            "area": "matematica",
+            "school": null,
+            "skill": "MAT-FR-ORD",
+            "challengePurpose": "transferencia"
+          },
+          {
+            "kind": "fraction-order",
+            "title": "Ordenar porciones mayores que la unidad",
+            "prompt": "Tres paquetes pesan 5/4, 7/6 y 9/8 kg. Tocá las tarjetas de mayor a menor.",
+            "fractions": [
+              [
+                5,
+                4
+              ],
+              [
+                7,
+                6
+              ],
+              [
+                9,
+                8
+              ]
+            ],
+            "expected": [
+              0,
+              1,
+              2
+            ],
+            "hints": [
+              "Las fracciones valen 1,25; aproximadamente 1,167; y 1,125.",
+              "Podés usar denominador común 24."
+            ],
+            "steps": [
+              "5/4 = 30/24.",
+              "7/6 = 28/24 y 9/8 = 27/24.",
+              "Orden: 5/4 > 7/6 > 9/8."
+            ],
+            "difficulty": 4,
+            "id": "MB26-F-D-03",
+            "block": "F",
+            "round": "D",
+            "area": "matematica",
+            "school": null,
+            "skill": "MAT-FR-ORD",
+            "challengePurpose": "transferencia"
+          },
+          {
+            "kind": "fraction-between",
+            "title": "Entre dos recorridos impropios",
+            "prompt": "Escribí una fracción que quede estrictamente entre 5/4 y 3/2.",
+            "lower": [
+              5,
+              4
+            ],
+            "upper": [
+              3,
+              2
+            ],
+            "hints": [
+              "Usá denominador 8 para ambos extremos.",
+              "5/4 = 10/8 y 3/2 = 12/8: existe una entre ambas."
+            ],
+            "steps": [
+              "Los extremos son 10/8 y 12/8.",
+              "11/8 queda en el medio.",
+              "Se acepta cualquier fracción estrictamente intermedia."
+            ],
+            "difficulty": 4,
+            "id": "MB26-F-D-04",
+            "block": "F",
+            "round": "D",
+            "area": "matematica",
+            "school": null,
+            "skill": "MAT-FR-ORD",
+            "challengePurpose": "transferencia"
+          },
+          {
+            "kind": "fraction-compare",
+            "title": "Un mismo tiempo con fracciones distintas",
+            "prompt": "Se registran 12/8 y 3/2 de hora. Compará ambas representaciones.",
+            "left": [
+              12,
+              8
+            ],
+            "right": [
+              3,
+              2
+            ],
+            "expected": "=",
+            "hints": [
+              "Simplificá 12/8 dividiendo numerador y denominador por 4.",
+              "12/8 se transforma en 3/2."
+            ],
+            "steps": [
+              "12/8 ÷ 4/4 = 3/2.",
+              "Las dos representan una hora y media.",
+              "12/8 = 3/2."
+            ],
+            "difficulty": 4,
+            "id": "MB26-F-D-05",
+            "block": "F",
+            "round": "D",
+            "area": "matematica",
+            "school": null,
+            "skill": "MAT-FR-ORD",
+            "challengePurpose": "transferencia"
+          },
+          {
+            "kind": "fraction-order",
+            "title": "Tres cantidades expresadas como fracciones",
+            "prompt": "Tres recorridos representan 11/9, 4/3 y 5/4 km. Tocá las tarjetas de mayor a menor.",
+            "fractions": [
+              [
+                11,
+                9
+              ],
+              [
+                4,
+                3
+              ],
+              [
+                5,
+                4
+              ]
+            ],
+            "expected": [
+              1,
+              2,
+              0
+            ],
+            "hints": [
+              "La consigna del tablero es de mayor a menor.",
+              "Denominador común 36: 44/36, 48/36, 45/36."
+            ],
+            "steps": [
+              "11/9 = 44/36.",
+              "4/3 = 48/36; 5/4 = 45/36.",
+              "Orden de mayor a menor: 4/3, 5/4, 11/9."
+            ],
+            "difficulty": 4,
+            "id": "MB26-F-D-06",
+            "block": "F",
+            "round": "D",
+            "area": "matematica",
+            "school": null,
+            "skill": "MAT-FR-ORD",
+            "challengePurpose": "transferencia"
+          },
+          {
+            "kind": "fraction-between",
+            "title": "Intercalar sin redondear",
+            "prompt": "Escribí una fracción estrictamente entre 7/6 y 5/4.",
+            "lower": [
+              7,
+              6
+            ],
+            "upper": [
+              5,
+              4
+            ],
+            "hints": [
+              "El denominador común 24 deja 28/24 y 30/24.",
+              "29/24 queda estrictamente entre ambas."
+            ],
+            "steps": [
+              "7/6 = 28/24.",
+              "5/4 = 30/24.",
+              "29/24 es un ejemplo válido, aunque hay otros."
+            ],
+            "difficulty": 4,
+            "id": "MB26-F-D-07",
+            "block": "F",
+            "round": "D",
+            "area": "matematica",
+            "school": null,
+            "skill": "MAT-FR-ORD",
+            "challengePurpose": "transferencia"
+          }
         ]
       }
     },
@@ -2252,6 +2652,332 @@
             "area": "matematica",
             "school": null,
             "skill": "MAT-DEC-OPS"
+          }
+        ],
+        "C": [
+          {
+            "kind": "model-decimal",
+            "title": "Dividir entre diez",
+            "prompt": "Un depósito tiene 42,85 kg en diez bolsas iguales. ¿Cuántos kilogramos hay por bolsa?",
+            "expected": 4.285,
+            "hints": [
+              "Repartir en diez partes reduce cada posición decimal.",
+              "42,85 ÷ 10 = 4,285."
+            ],
+            "steps": [
+              "Dividimos 42,85 entre 10.",
+              "Cada cifra ocupa un lugar de menor valor.",
+              "Cada bolsa tiene 4,285 kg."
+            ],
+            "difficulty": 3,
+            "id": "MB26-D-C-01",
+            "block": "D",
+            "round": "C",
+            "area": "matematica",
+            "school": null,
+            "skill": "MAT-DEC-OPS",
+            "challengePurpose": "practica_guiada"
+          },
+          {
+            "kind": "model-decimal",
+            "title": "Desplazamiento posicional",
+            "prompt": "Calculá 376,4 ÷ 100 y escribí el resultado.",
+            "expected": 3.764,
+            "hints": [
+              "Dividir por cien hace que cada cifra valga cien veces menos.",
+              "376,4 ÷ 10 = 37,64; dividí nuevamente por 10."
+            ],
+            "steps": [
+              "376,4 ÷ 10 = 37,64.",
+              "37,64 ÷ 10 = 3,764.",
+              "Resultado: 3,764."
+            ],
+            "difficulty": 3,
+            "id": "MB26-D-C-02",
+            "block": "D",
+            "round": "C",
+            "area": "matematica",
+            "school": null,
+            "skill": "MAT-DEC-OPS",
+            "challengePurpose": "practica_guiada"
+          },
+          {
+            "kind": "model-decimal",
+            "title": "Tres lugares hacia la izquierda",
+            "prompt": "Una cantidad de 9.450,0 unidades se divide entre 1.000. ¿Cuál es el cociente?",
+            "expected": 9.45,
+            "hints": [
+              "Dividir entre 1.000 desplaza el valor posicional tres lugares.",
+              "9.450 ÷ 100 = 94,5; luego dividí por 10."
+            ],
+            "steps": [
+              "9.450 ÷ 1.000.",
+              "En la división, cada cifra vale mil veces menos.",
+              "Resultado: 9,45."
+            ],
+            "difficulty": 3,
+            "id": "MB26-D-C-03",
+            "block": "D",
+            "round": "C",
+            "area": "matematica",
+            "school": null,
+            "skill": "MAT-DEC-OPS",
+            "challengePurpose": "practica_guiada"
+          },
+          {
+            "kind": "model-decimal",
+            "title": "Decimales con ceros",
+            "prompt": "Calculá 0,96 ÷ 8.",
+            "expected": 0.12,
+            "hints": [
+              "96 centésimos repartidos en 8 partes.",
+              "96 ÷ 8 = 12, por eso son 12 centésimos."
+            ],
+            "steps": [
+              "0,96 = 96/100.",
+              "(96 ÷ 8)/100 = 12/100.",
+              "Resultado: 0,12."
+            ],
+            "difficulty": 3,
+            "id": "MB26-D-C-04",
+            "block": "D",
+            "round": "C",
+            "area": "matematica",
+            "school": null,
+            "skill": "MAT-DEC-OPS",
+            "challengePurpose": "practica_guiada"
+          },
+          {
+            "kind": "model-decimal",
+            "title": "Repartir un líquido",
+            "prompt": "18,36 litros se distribuyen por igual en 6 bidones. ¿Cuántos litros recibe cada uno?",
+            "expected": 3.06,
+            "hints": [
+              "Primero pensá 18 ÷ 6.",
+              "Las 36 centésimas se reparten en seis partes de 6 centésimas."
+            ],
+            "steps": [
+              "18,36 ÷ 6.",
+              "18 ÷ 6 = 3 y 0,36 ÷ 6 = 0,06.",
+              "Cada bidón recibe 3,06 litros."
+            ],
+            "difficulty": 3,
+            "id": "MB26-D-C-05",
+            "block": "D",
+            "round": "C",
+            "area": "matematica",
+            "school": null,
+            "skill": "MAT-DEC-OPS",
+            "challengePurpose": "practica_guiada"
+          },
+          {
+            "kind": "model-decimal",
+            "title": "Dinero por producto",
+            "prompt": "Cinco entradas iguales cuestan $ 78,75. ¿Cuál es el precio de una entrada?",
+            "expected": 15.75,
+            "hints": [
+              "Hay que hacer una división, no una multiplicación.",
+              "Dividí 78,75 por 5: 75 ÷ 5 y 3,75 ÷ 5."
+            ],
+            "steps": [
+              "78,75 ÷ 5.",
+              "75 ÷ 5 = 15; 3,75 ÷ 5 = 0,75.",
+              "Cada entrada cuesta $ 15,75."
+            ],
+            "difficulty": 4,
+            "id": "MB26-D-C-06",
+            "block": "D",
+            "round": "C",
+            "area": "matematica",
+            "school": null,
+            "skill": "MAT-DEC-OPS",
+            "challengePurpose": "practica_guiada"
+          },
+          {
+            "kind": "model-decimal",
+            "title": "Repartir metros",
+            "prompt": "Se reparten 6,125 m de cuerda en cinco partes iguales. ¿Cuánto mide cada parte?",
+            "expected": 1.225,
+            "hints": [
+              "Dividir 6,125 entre 5.",
+              "Podés separar 5 y 1,125, o hacer la cuenta de dividir."
+            ],
+            "steps": [
+              "6,125 ÷ 5.",
+              "5 ÷ 5 = 1 y 1,125 ÷ 5 = 0,225.",
+              "Cada parte mide 1,225 m."
+            ],
+            "difficulty": 4,
+            "id": "MB26-D-C-07",
+            "block": "D",
+            "round": "C",
+            "area": "matematica",
+            "school": null,
+            "skill": "MAT-DEC-OPS",
+            "challengePurpose": "practica_guiada"
+          }
+        ],
+        "D": [
+          {
+            "kind": "model-decimal",
+            "title": "Dos operaciones en una compra",
+            "prompt": "En una librería se compran 3 carpetas de $ 12,45 y un lápiz de $ 2,65. ¿Cuál es el gasto total?",
+            "expected": 40,
+            "hints": [
+              "Primero multiplicá el precio por la cantidad de carpetas.",
+              "3 × 12,45 = 37,35; luego sumá 2,65."
+            ],
+            "steps": [
+              "3 × 12,45 = 37,35.",
+              "37,35 + 2,65 = 40.",
+              "Se gastaron $ 40."
+            ],
+            "difficulty": 4,
+            "id": "MB26-D-D-01",
+            "block": "D",
+            "round": "D",
+            "area": "matematica",
+            "school": null,
+            "skill": "MAT-DEC-OPS",
+            "challengePurpose": "practica_guiada"
+          },
+          {
+            "kind": "model-decimal",
+            "title": "División y suma",
+            "prompt": "En un recorrido se distribuyen 23,4 km en seis tramos iguales. Después se agregan 1,2 km. ¿Cuántos kilómetros mide el recorrido realizado?",
+            "expected": 5.1,
+            "hints": [
+              "Primero resolvé 23,4 ÷ 6.",
+              "3,9 + 1,2."
+            ],
+            "steps": [
+              "23,4 ÷ 6 = 3,9.",
+              "3,9 + 1,2 = 5,1.",
+              "Recorrido realizado: 5,1 km."
+            ],
+            "difficulty": 4,
+            "id": "MB26-D-D-02",
+            "block": "D",
+            "round": "D",
+            "area": "matematica",
+            "school": null,
+            "skill": "MAT-DEC-OPS",
+            "challengePurpose": "practica_guiada"
+          },
+          {
+            "kind": "model-decimal",
+            "title": "Fondo de compras",
+            "prompt": "De $ 120 se gastaron cuatro veces $ 18,75. ¿Cuánto dinero queda?",
+            "expected": 45,
+            "hints": [
+              "Multiplicá 18,75 por 4.",
+              "Luego restá el total a 120."
+            ],
+            "steps": [
+              "18,75 × 4 = 75.",
+              "120 − 75 = 45.",
+              "Quedan $ 45."
+            ],
+            "difficulty": 4,
+            "id": "MB26-D-D-03",
+            "block": "D",
+            "round": "D",
+            "area": "matematica",
+            "school": null,
+            "skill": "MAT-DEC-OPS",
+            "challengePurpose": "practica_guiada"
+          },
+          {
+            "kind": "model-decimal",
+            "title": "Dos repartos",
+            "prompt": "Se distribuyen 8,4 litros entre 4 frascos. ¿Cuánto hay en cada frasco después de agregar 0,35 litros?",
+            "expected": 2.45,
+            "hints": [
+              "El primer paso es 8,4 ÷ 4.",
+              "2,1 + 0,35."
+            ],
+            "steps": [
+              "8,4 ÷ 4 = 2,1.",
+              "2,1 + 0,35 = 2,45.",
+              "Cada frasco queda con 2,45 L."
+            ],
+            "difficulty": 4,
+            "id": "MB26-D-D-04",
+            "block": "D",
+            "round": "D",
+            "area": "matematica",
+            "school": null,
+            "skill": "MAT-DEC-OPS",
+            "challengePurpose": "practica_guiada"
+          },
+          {
+            "kind": "model-decimal",
+            "title": "Divisiones de medida",
+            "prompt": "De una cinta de 13,44 m se cortan 7 partes iguales. ¿Cuánto mide cada una si la cinta se divide en siete?",
+            "expected": 1.92,
+            "hints": [
+              "Planteá 13,44 ÷ 7.",
+              "Pensá en 1,92 × 7 = 13,44."
+            ],
+            "steps": [
+              "13,44 ÷ 7.",
+              "Comprobación: 1,92 × 7 = 13,44.",
+              "Cada parte mide 1,92 m."
+            ],
+            "difficulty": 4,
+            "id": "MB26-D-D-05",
+            "block": "D",
+            "round": "D",
+            "area": "matematica",
+            "school": null,
+            "skill": "MAT-DEC-OPS",
+            "challengePurpose": "practica_guiada"
+          },
+          {
+            "kind": "model-decimal",
+            "title": "Escala y medida",
+            "prompt": "Una medida de 257,5 cm se expresa dividiéndola entre 100. ¿Cuál es su valor en metros?",
+            "expected": 2.575,
+            "hints": [
+              "100 cm equivalen a 1 m.",
+              "Dividí 257,5 por 100."
+            ],
+            "steps": [
+              "257,5 cm ÷ 100.",
+              "La coma se desplaza dos posiciones de valor.",
+              "Resultado: 2,575 m."
+            ],
+            "difficulty": 4,
+            "id": "MB26-D-D-06",
+            "block": "D",
+            "round": "D",
+            "area": "matematica",
+            "school": null,
+            "skill": "MAT-DEC-OPS",
+            "challengePurpose": "practica_guiada"
+          },
+          {
+            "kind": "model-decimal",
+            "title": "Reparto más descuento",
+            "prompt": "Cuatro personas comparten un costo de $ 96,80 por partes iguales. Cada una recibe luego $ 1,70 de descuento. ¿Cuánto paga cada una?",
+            "expected": 22.5,
+            "hints": [
+              "Primero calculá 96,80 ÷ 4.",
+              "Después restá 1,70."
+            ],
+            "steps": [
+              "96,80 ÷ 4 = 24,20.",
+              "24,20 − 1,70 = 22,50.",
+              "Cada una paga $ 22,50."
+            ],
+            "difficulty": 4,
+            "id": "MB26-D-D-07",
+            "block": "D",
+            "round": "D",
+            "area": "matematica",
+            "school": null,
+            "skill": "MAT-DEC-OPS",
+            "challengePurpose": "practica_guiada"
           }
         ]
       }
@@ -2597,6 +3323,855 @@
             "area": "matematica",
             "school": null,
             "skill": "MAT-FR-DEC"
+          }
+        ],
+        "C": [
+          {
+            "kind": "model-decimal",
+            "title": "Centésimos de un kilo",
+            "prompt": "Una receta requiere 63/100 de kilogramo. ¿Cuántos kilogramos representa?",
+            "expected": 0.63,
+            "hints": [
+              "El denominador ya es una potencia de diez.",
+              "63 centésimos se escriben con dos cifras decimales."
+            ],
+            "steps": [
+              "63/100 son 63 centésimos.",
+              "La coma separa unidades de centésimos.",
+              "Resultado: 0,63 kg."
+            ],
+            "difficulty": 2,
+            "id": "MB26-E-C-01",
+            "block": "E",
+            "round": "C",
+            "area": "matematica",
+            "school": null,
+            "skill": "MAT-FR-DEC",
+            "challengePurpose": "practica_guiada"
+          },
+          {
+            "kind": "model-decimal",
+            "title": "Quintos en un contexto",
+            "prompt": "Quedaron 4/5 de una caja de tizas. ¿Qué número decimal representa?",
+            "expected": 0.8,
+            "hints": [
+              "Llevá el denominador a diez.",
+              "4/5 = 8/10."
+            ],
+            "steps": [
+              "4/5 = 8/10.",
+              "Ocho décimos se escriben 0,8.",
+              "Resultado: 0,8."
+            ],
+            "difficulty": 2,
+            "id": "MB26-E-C-02",
+            "block": "E",
+            "round": "C",
+            "area": "matematica",
+            "school": null,
+            "skill": "MAT-FR-DEC",
+            "challengePurpose": "practica_guiada"
+          },
+          {
+            "kind": "model-decimal",
+            "title": "Diezavos y centésimos",
+            "prompt": "De una tela se usaron 9/10. Expresá esa cantidad como número decimal.",
+            "expected": 0.9,
+            "hints": [
+              "Diezavos se escriben con un decimal.",
+              "El numerador es nueve."
+            ],
+            "steps": [
+              "9/10 son nueve décimos.",
+              "La décima cifra ocupa el primer lugar después de la coma.",
+              "Resultado: 0,9."
+            ],
+            "difficulty": 2,
+            "id": "MB26-E-C-03",
+            "block": "E",
+            "round": "C",
+            "area": "matematica",
+            "school": null,
+            "skill": "MAT-FR-DEC",
+            "challengePurpose": "practica_guiada"
+          },
+          {
+            "kind": "model-decimal",
+            "title": "Decidir el procedimiento",
+            "prompt": "Una jarra contiene 7/20 de litro. ¿Cuántos litros son en decimal?",
+            "expected": 0.35,
+            "hints": [
+              "Podés transformar veinteavos en centésimos.",
+              "Multiplicá numerador y denominador por 5."
+            ],
+            "steps": [
+              "7/20 = 35/100.",
+              "Cada centésimo equivale a 0,01.",
+              "La jarra contiene 0,35 litros."
+            ],
+            "difficulty": 3,
+            "id": "MB26-E-C-04",
+            "block": "E",
+            "round": "C",
+            "area": "matematica",
+            "school": null,
+            "skill": "MAT-FR-DEC",
+            "challengePurpose": "practica_guiada"
+          },
+          {
+            "kind": "model-decimal",
+            "title": "Parte de un recorrido",
+            "prompt": "En un mapa el tramo señalado ocupa 13/25 del recorrido. Expresalo como decimal.",
+            "expected": 0.52,
+            "hints": [
+              "Un veinticincoavo equivale a cuatro centésimos.",
+              "Convertí 13/25 a una fracción con denominador 100."
+            ],
+            "steps": [
+              "13/25 = 52/100.",
+              "52 centésimos son 0,52.",
+              "El tramo es 0,52 del recorrido."
+            ],
+            "difficulty": 3,
+            "id": "MB26-E-C-05",
+            "block": "E",
+            "round": "C",
+            "area": "matematica",
+            "school": null,
+            "skill": "MAT-FR-DEC",
+            "challengePurpose": "practica_guiada"
+          },
+          {
+            "kind": "model-decimal",
+            "title": "De octavos a decimal",
+            "prompt": "Una cinta usa 5/8 de metro. Escribí esa longitud en decimal.",
+            "expected": 0.625,
+            "hints": [
+              "Para pasar a milésimos, buscá por cuánto multiplicar 8.",
+              "8 × 125 = 1.000; hacé lo mismo con 5."
+            ],
+            "steps": [
+              "5/8 = 625/1.000.",
+              "625 milésimos representan 0,625.",
+              "La cinta mide 0,625 m."
+            ],
+            "difficulty": 3,
+            "id": "MB26-E-C-06",
+            "block": "E",
+            "round": "C",
+            "area": "matematica",
+            "school": null,
+            "skill": "MAT-FR-DEC",
+            "challengePurpose": "practica_guiada"
+          },
+          {
+            "kind": "model-decimal",
+            "title": "Fracción con denominador 16",
+            "prompt": "Una pieza ocupa 7/16 de una tabla. Escribí la parte como decimal.",
+            "expected": 0.4375,
+            "hints": [
+              "Cuando no es fácil llevar a 100, probá con 10.000.",
+              "16 × 625 = 10.000."
+            ],
+            "steps": [
+              "7/16 = 4.375/10.000.",
+              "Cuatro mil trescientos setenta y cinco diezmilésimos.",
+              "Resultado: 0,4375."
+            ],
+            "difficulty": 4,
+            "id": "MB26-E-C-07",
+            "block": "E",
+            "round": "C",
+            "area": "matematica",
+            "school": null,
+            "skill": "MAT-FR-DEC",
+            "challengePurpose": "practica_guiada"
+          }
+        ],
+        "D": [
+          {
+            "kind": "model-decimal",
+            "title": "Entre 1 y 2",
+            "prompt": "Una cuerda de 23/20 m debe registrarse con decimal. ¿Cuál es la medida?",
+            "expected": 1.15,
+            "hints": [
+              "23/20 = 20/20 + 3/20.",
+              "3/20 = 15/100."
+            ],
+            "steps": [
+              "23/20 = 1 + 3/20.",
+              "3/20 = 0,15.",
+              "La longitud es 1,15 m."
+            ],
+            "difficulty": 3,
+            "id": "MB26-E-D-01",
+            "block": "E",
+            "round": "D",
+            "area": "matematica",
+            "school": null,
+            "skill": "MAT-FR-DEC",
+            "challengePurpose": "practica_guiada"
+          },
+          {
+            "kind": "model-decimal",
+            "title": "Una medida mayor que la unidad",
+            "prompt": "Para pintar un mural se usaron 13/4 litros de pintura. Escribí esa cantidad como decimal.",
+            "expected": 3.25,
+            "hints": [
+              "Separá 12/4 y 1/4.",
+              "13 ÷ 4 = 3 unidades y 1/4 más."
+            ],
+            "steps": [
+              "13/4 = 3 + 1/4.",
+              "1/4 = 0,25.",
+              "Se usaron 3,25 litros."
+            ],
+            "difficulty": 4,
+            "id": "MB26-E-D-02",
+            "block": "E",
+            "round": "D",
+            "area": "matematica",
+            "school": null,
+            "skill": "MAT-FR-DEC",
+            "challengePurpose": "practica_guiada"
+          },
+          {
+            "kind": "model-decimal",
+            "title": "Del cociente al decimal",
+            "prompt": "Un paquete contiene 17/25 de kilogramo de harina. Expresalo en decimal.",
+            "expected": 0.68,
+            "hints": [
+              "Llevá la fracción a denominador 100.",
+              "17 × 4 = 68."
+            ],
+            "steps": [
+              "17/25 = 68/100.",
+              "68 centésimos representan 0,68.",
+              "Resultado: 0,68 kg."
+            ],
+            "difficulty": 4,
+            "id": "MB26-E-D-03",
+            "block": "E",
+            "round": "D",
+            "area": "matematica",
+            "school": null,
+            "skill": "MAT-FR-DEC",
+            "challengePurpose": "practica_guiada"
+          },
+          {
+            "kind": "model-decimal",
+            "title": "Impropiar y dividir",
+            "prompt": "Un recipiente contiene 19/8 litros. Convertí a decimal.",
+            "expected": 2.375,
+            "hints": [
+              "19 ÷ 8 tiene dos unidades completas.",
+              "Quedan tres octavos, que equivalen a 0,375."
+            ],
+            "steps": [
+              "19/8 = 2 + 3/8.",
+              "3/8 = 0,375.",
+              "Resultado: 2,375 litros."
+            ],
+            "difficulty": 4,
+            "id": "MB26-E-D-04",
+            "block": "E",
+            "round": "D",
+            "area": "matematica",
+            "school": null,
+            "skill": "MAT-FR-DEC",
+            "challengePurpose": "practica_guiada"
+          },
+          {
+            "kind": "model-decimal",
+            "title": "Cuatro cifras decimales",
+            "prompt": "Un sensor marcó 3/16 de un metro. Registralo en decimal.",
+            "expected": 0.1875,
+            "hints": [
+              "Multiplicá numerador y denominador por 625.",
+              "3/16 = 1.875/10.000."
+            ],
+            "steps": [
+              "3/16 = 1.875/10.000.",
+              "Se necesitan cuatro cifras luego de la coma.",
+              "Marca 0,1875 m."
+            ],
+            "difficulty": 4,
+            "id": "MB26-E-D-05",
+            "block": "E",
+            "round": "D",
+            "area": "matematica",
+            "school": null,
+            "skill": "MAT-FR-DEC",
+            "challengePurpose": "practica_guiada"
+          },
+          {
+            "kind": "model-decimal",
+            "title": "Nueva fracción de dieciseisavos",
+            "prompt": "Una rueda avanzó 27/16 de una vuelta. Expresá las vueltas como decimal.",
+            "expected": 1.6875,
+            "hints": [
+              "27/16 = 1 + 11/16.",
+              "11/16 son 6.875 diezmilésimos."
+            ],
+            "steps": [
+              "27/16 = 1 + 11/16.",
+              "11/16 = 0,6875.",
+              "Avanzó 1,6875 vueltas."
+            ],
+            "difficulty": 4,
+            "id": "MB26-E-D-06",
+            "block": "E",
+            "round": "D",
+            "area": "matematica",
+            "school": null,
+            "skill": "MAT-FR-DEC",
+            "challengePurpose": "practica_guiada"
+          },
+          {
+            "kind": "model-decimal",
+            "title": "División escrita",
+            "prompt": "Al dividir 29 unidades en 8 partes iguales, ¿cuánto recibe cada parte en decimal?",
+            "expected": 3.625,
+            "hints": [
+              "29 ÷ 8 = 3 y quedan 5.",
+              "5/8 = 0,625."
+            ],
+            "steps": [
+              "29/8 = 3 + 5/8.",
+              "5/8 = 625/1.000.",
+              "Cada parte es 3,625."
+            ],
+            "difficulty": 4,
+            "id": "MB26-E-D-07",
+            "block": "E",
+            "round": "D",
+            "area": "matematica",
+            "school": null,
+            "skill": "MAT-FR-DEC",
+            "challengePurpose": "practica_guiada"
+          }
+        ],
+        "E": [
+          {
+            "kind": "model-fraction",
+            "title": "De decimal a irreducible",
+            "prompt": "Una etiqueta dice 0,24 kg. Escribí esa cantidad como fracción irreducible.",
+            "expected": [
+              6,
+              25
+            ],
+            "irreducible": true,
+            "hints": [
+              "24 centésimos son 24/100.",
+              "Simplificá numerador y denominador por 4."
+            ],
+            "steps": [
+              "0,24 = 24/100.",
+              "24/100 simplificada por 4.",
+              "Resultado: 6/25."
+            ],
+            "difficulty": 3,
+            "id": "MB26-E-E-01",
+            "block": "E",
+            "round": "E",
+            "area": "matematica",
+            "school": null,
+            "skill": "MAT-FR-DEC",
+            "challengePurpose": "transferencia"
+          },
+          {
+            "kind": "model-fraction",
+            "title": "Más de una unidad",
+            "prompt": "Un rollo mide 1,125 m. Escribí la medida como fracción impropia irreducible.",
+            "expected": [
+              9,
+              8
+            ],
+            "irreducible": true,
+            "hints": [
+              "1,125 = 1.125/1.000.",
+              "Buscá un divisor común entre numerador y denominador."
+            ],
+            "steps": [
+              "1,125 = 1125/1000.",
+              "Simplificamos por 125.",
+              "Resultado: 9/8."
+            ],
+            "difficulty": 4,
+            "id": "MB26-E-E-02",
+            "block": "E",
+            "round": "E",
+            "area": "matematica",
+            "school": null,
+            "skill": "MAT-FR-DEC",
+            "challengePurpose": "transferencia"
+          },
+          {
+            "kind": "model-fraction",
+            "title": "Décimas en una receta",
+            "prompt": "Se utilizaron 0,7 litros de caldo. Expresá esa cantidad como fracción irreducible.",
+            "expected": [
+              7,
+              10
+            ],
+            "irreducible": true,
+            "hints": [
+              "Tiene una sola cifra después de la coma.",
+              "Usá denominador 10 y verificá si se puede simplificar."
+            ],
+            "steps": [
+              "0,7 = 7/10.",
+              "7 y 10 no tienen divisores comunes mayores que 1.",
+              "Resultado: 7/10."
+            ],
+            "difficulty": 2,
+            "id": "MB26-E-E-03",
+            "block": "E",
+            "round": "E",
+            "area": "matematica",
+            "school": null,
+            "skill": "MAT-FR-DEC",
+            "challengePurpose": "transferencia"
+          },
+          {
+            "kind": "model-fraction",
+            "title": "Milésimos en una medición",
+            "prompt": "Un instrumento señala 0,024 m. Pasá esa medida a fracción irreducible.",
+            "expected": [
+              3,
+              125
+            ],
+            "irreducible": true,
+            "hints": [
+              "Escribí 24/1.000.",
+              "Dividí ambos términos por 8."
+            ],
+            "steps": [
+              "0,024 = 24/1000.",
+              "24/1000 ÷ 8/8.",
+              "Resultado irreducible: 3/125."
+            ],
+            "difficulty": 4,
+            "id": "MB26-E-E-04",
+            "block": "E",
+            "round": "E",
+            "area": "matematica",
+            "school": null,
+            "skill": "MAT-FR-DEC",
+            "challengePurpose": "transferencia"
+          },
+          {
+            "kind": "model-fraction",
+            "title": "Escribir fracción desde una etiqueta",
+            "prompt": "Un frasco contiene 2,05 litros. Expresá su contenido como fracción irreducible.",
+            "expected": [
+              41,
+              20
+            ],
+            "irreducible": true,
+            "hints": [
+              "2,05 = 205/100.",
+              "Dividí 205 y 100 por 5."
+            ],
+            "steps": [
+              "2,05 = 205/100.",
+              "205/100 = 41/20.",
+              "Es impropia porque el número supera la unidad."
+            ],
+            "difficulty": 4,
+            "id": "MB26-E-E-05",
+            "block": "E",
+            "round": "E",
+            "area": "matematica",
+            "school": null,
+            "skill": "MAT-FR-DEC",
+            "challengePurpose": "transferencia"
+          },
+          {
+            "kind": "model-fraction",
+            "title": "Decimales exactos con cuatro cifras",
+            "prompt": "Una muestra tiene 0,0625 m. Escribí la medida como fracción irreducible.",
+            "expected": [
+              1,
+              16
+            ],
+            "irreducible": true,
+            "hints": [
+              "0,0625 = 625/10.000.",
+              "Simplificá por 625."
+            ],
+            "steps": [
+              "625/10000 se simplifica por 625.",
+              "Queda 1/16.",
+              "Resultado: 1/16."
+            ],
+            "difficulty": 4,
+            "id": "MB26-E-E-06",
+            "block": "E",
+            "round": "E",
+            "area": "matematica",
+            "school": null,
+            "skill": "MAT-FR-DEC",
+            "challengePurpose": "transferencia"
+          },
+          {
+            "kind": "model-fraction",
+            "title": "De gramos a una fracción",
+            "prompt": "Una bolsa contiene 1,32 kg de semillas. Expresá esa masa como fracción irreducible.",
+            "expected": [
+              33,
+              25
+            ],
+            "irreducible": true,
+            "hints": [
+              "1,32 son 132 centésimos.",
+              "Dividí 132 y 100 por 4."
+            ],
+            "steps": [
+              "1,32 = 132/100.",
+              "132/100 = 33/25.",
+              "La fracción irreducible es 33/25."
+            ],
+            "difficulty": 4,
+            "id": "MB26-E-E-07",
+            "block": "E",
+            "round": "E",
+            "area": "matematica",
+            "school": null,
+            "skill": "MAT-FR-DEC",
+            "challengePurpose": "transferencia"
+          }
+        ]
+      }
+    },
+    "S": {
+      "label": "Medidas y divisibilidad · Última semana",
+      "reference": "Refuerzo selectivo para la última semana Monserrat; propuestas distintas por perfil",
+      "rounds": {
+        "A": [
+          {
+            "kind": "model-decimal",
+            "title": "Medidas y divisibilidad",
+            "prompt": "Un bidón tiene 3,45 litros. ¿Cuántos mililitros contiene?",
+            "expected": 3450,
+            "skill": "MAT-MED-CAP",
+            "hints": [
+              "Cada litro equivale a 1.000 mililitros.",
+              "Multiplicá 3,45 por 1.000."
+            ],
+            "steps": [
+              "1 L = 1.000 mL.",
+              "3,45 × 1.000 = 3.450.",
+              "Resultado: 3.450 mL."
+            ],
+            "difficulty": 3,
+            "id": "MB26-S-A-01",
+            "block": "S",
+            "round": "A",
+            "area": "matematica",
+            "school": "monserrat",
+            "challengePurpose": "refuerzo_selectivo"
+          },
+          {
+            "kind": "model-decimal",
+            "title": "Medidas y divisibilidad",
+            "prompt": "Se juntan 750 mL de jugo y 1,25 litros de agua. ¿Cuántos mililitros hay en total?",
+            "expected": 2000,
+            "skill": "MAT-MED-CAP",
+            "hints": [
+              "Convertí ambas cantidades a mililitros.",
+              "1,25 L = 1.250 mL."
+            ],
+            "steps": [
+              "1,25 L = 1.250 mL.",
+              "750 + 1.250 = 2.000.",
+              "Hay 2.000 mL."
+            ],
+            "difficulty": 3,
+            "id": "MB26-S-A-02",
+            "block": "S",
+            "round": "A",
+            "area": "matematica",
+            "school": "monserrat",
+            "challengePurpose": "refuerzo_selectivo"
+          },
+          {
+            "kind": "model-decimal",
+            "title": "Medidas y divisibilidad",
+            "prompt": "Una actividad dura 2 horas y 35 minutos. ¿Cuántos minutos dura?",
+            "expected": 155,
+            "skill": "MAT-MED-TIEMPO",
+            "hints": [
+              "Una hora tiene 60 minutos.",
+              "Dos horas son 120 minutos."
+            ],
+            "steps": [
+              "2 × 60 = 120.",
+              "120 + 35 = 155.",
+              "Dura 155 minutos."
+            ],
+            "difficulty": 3,
+            "id": "MB26-S-A-03",
+            "block": "S",
+            "round": "A",
+            "area": "matematica",
+            "school": "monserrat",
+            "challengePurpose": "refuerzo_selectivo"
+          },
+          {
+            "kind": "model-decimal",
+            "title": "Medidas y divisibilidad",
+            "prompt": "Una lectura dura tres cuartos de hora. ¿Cuántos minutos son?",
+            "expected": 45,
+            "skill": "MAT-MED-TIEMPO",
+            "hints": [
+              "Una hora son 60 minutos.",
+              "Calculá tres cuartos de 60."
+            ],
+            "steps": [
+              "60 ÷ 4 = 15.",
+              "15 × 3 = 45.",
+              "Tres cuartos de hora son 45 minutos."
+            ],
+            "difficulty": 3,
+            "id": "MB26-S-A-04",
+            "block": "S",
+            "round": "A",
+            "area": "matematica",
+            "school": "monserrat",
+            "challengePurpose": "refuerzo_selectivo"
+          },
+          {
+            "kind": "model-decimal",
+            "title": "Medidas y divisibilidad",
+            "prompt": "Dos luces se encienden cada 12 y 18 minutos. Si coinciden ahora, ¿en cuántos minutos vuelven a coincidir?",
+            "expected": 36,
+            "skill": "MAT-MCM",
+            "hints": [
+              "Buscá el mínimo común múltiplo.",
+              "Múltiplos de 12: 12,24,36; de 18: 18,36."
+            ],
+            "steps": [
+              "12: 12,24,36.",
+              "18: 18,36.",
+              "El primer múltiplo común positivo es 36."
+            ],
+            "difficulty": 3,
+            "id": "MB26-S-A-05",
+            "block": "S",
+            "round": "A",
+            "area": "matematica",
+            "school": "monserrat",
+            "challengePurpose": "refuerzo_selectivo"
+          },
+          {
+            "kind": "model-decimal",
+            "title": "Medidas y divisibilidad",
+            "prompt": "Dos actividades se repiten cada 8 y 12 días. ¿Cuántos días pasarán hasta volver a coincidir?",
+            "expected": 24,
+            "skill": "MAT-MULT",
+            "hints": [
+              "Buscá el primer múltiplo común positivo.",
+              "8: 8,16,24; 12: 12,24."
+            ],
+            "steps": [
+              "Múltiplos de 8: 8,16,24.",
+              "Múltiplos de 12: 12,24.",
+              "Coinciden después de 24 días."
+            ],
+            "difficulty": 3,
+            "id": "MB26-S-A-06",
+            "block": "S",
+            "round": "A",
+            "area": "matematica",
+            "school": "monserrat",
+            "challengePurpose": "refuerzo_selectivo"
+          },
+          {
+            "kind": "model-decimal",
+            "title": "Medidas y divisibilidad",
+            "prompt": "Un ángulo mide 135°. ¿Cuántos grados mide su suplementario?",
+            "expected": 45,
+            "skill": "MAT-ANG-CS",
+            "hints": [
+              "Los ángulos suplementarios suman 180°.",
+              "Restá 135 a 180."
+            ],
+            "steps": [
+              "Suplementarios suman 180°.",
+              "180° − 135° = 45°.",
+              "El otro ángulo mide 45°."
+            ],
+            "difficulty": 3,
+            "id": "MB26-S-A-07",
+            "block": "S",
+            "round": "A",
+            "area": "matematica",
+            "school": "monserrat",
+            "challengePurpose": "refuerzo_selectivo"
+          }
+        ],
+        "B": [
+          {
+            "kind": "model-decimal",
+            "title": "Medidas y divisibilidad",
+            "prompt": "¿Cuál es el mayor número primo menor que 30?",
+            "expected": 29,
+            "skill": "MAT-PRIM",
+            "hints": [
+              "Un número primo tiene exactamente dos divisores positivos.",
+              "Probá 29: solo es divisible por 1 y por 29."
+            ],
+            "steps": [
+              "29 no se divide exactamente por 2, 3 ni 5.",
+              "Sus divisores son 1 y 29.",
+              "El número es 29."
+            ],
+            "difficulty": 3,
+            "id": "MB26-S-B-01",
+            "block": "S",
+            "round": "B",
+            "area": "matematica",
+            "school": "monserrat",
+            "challengePurpose": "refuerzo_selectivo"
+          },
+          {
+            "kind": "model-decimal",
+            "title": "Medidas y divisibilidad",
+            "prompt": "¿Cuál es el menor número compuesto de dos cifras?",
+            "expected": 10,
+            "skill": "MAT-PRIM",
+            "hints": [
+              "Compuesto significa que tiene más de dos divisores.",
+              "10 es divisible por 1, 2, 5 y 10."
+            ],
+            "steps": [
+              "El menor número de dos cifras es 10.",
+              "Tiene divisores 1,2,5,10.",
+              "Por eso es compuesto."
+            ],
+            "difficulty": 3,
+            "id": "MB26-S-B-02",
+            "block": "S",
+            "round": "B",
+            "area": "matematica",
+            "school": "monserrat",
+            "challengePurpose": "refuerzo_selectivo"
+          },
+          {
+            "kind": "model-decimal",
+            "title": "Medidas y divisibilidad",
+            "prompt": "Una bolsa pesa 4.500 gramos. ¿Cuántos kilogramos son?",
+            "expected": 4.5,
+            "skill": "MAT-MED-MASA",
+            "hints": [
+              "1 kg equivale a 1.000 g.",
+              "Dividí 4.500 por 1.000."
+            ],
+            "steps": [
+              "1 kg = 1.000 g.",
+              "4.500 ÷ 1.000 = 4,5.",
+              "La bolsa pesa 4,5 kg."
+            ],
+            "difficulty": 3,
+            "id": "MB26-S-B-03",
+            "block": "S",
+            "round": "B",
+            "area": "matematica",
+            "school": "monserrat",
+            "challengePurpose": "refuerzo_selectivo"
+          },
+          {
+            "kind": "model-decimal",
+            "title": "Medidas y divisibilidad",
+            "prompt": "Una caja de frutas pesa 2,75 kg. ¿Cuántos gramos son?",
+            "expected": 2750,
+            "skill": "MAT-MED-MASA",
+            "hints": [
+              "1 kg equivale a 1.000 g.",
+              "Multiplicá 2,75 por 1.000."
+            ],
+            "steps": [
+              "1 kg = 1.000 g.",
+              "2,75 × 1.000 = 2.750.",
+              "La caja pesa 2.750 g."
+            ],
+            "difficulty": 3,
+            "id": "MB26-S-B-04",
+            "block": "S",
+            "round": "B",
+            "area": "matematica",
+            "school": "monserrat",
+            "challengePurpose": "refuerzo_selectivo"
+          },
+          {
+            "kind": "model-decimal",
+            "title": "Medidas y divisibilidad",
+            "prompt": "Una jarra contiene 1,35 litros. Se agregan 650 mL. ¿Cuántos litros hay ahora?",
+            "expected": 2,
+            "skill": "MAT-MED-CAP",
+            "hints": [
+              "Convertí 650 mL a litros.",
+              "650 mL son 0,65 L."
+            ],
+            "steps": [
+              "650 mL = 0,65 L.",
+              "1,35 + 0,65 = 2.",
+              "Hay 2 litros."
+            ],
+            "difficulty": 3,
+            "id": "MB26-S-B-05",
+            "block": "S",
+            "round": "B",
+            "area": "matematica",
+            "school": "monserrat",
+            "challengePurpose": "refuerzo_selectivo"
+          },
+          {
+            "kind": "model-decimal",
+            "title": "Medidas y divisibilidad",
+            "prompt": "Se distribuyen 720 mL de jugo en seis vasos iguales. ¿Cuántos mililitros hay en cada vaso?",
+            "expected": 120,
+            "skill": "MAT-MED-CAP",
+            "hints": [
+              "Dividí la cantidad total por seis.",
+              "720 ÷ 6 es una división exacta."
+            ],
+            "steps": [
+              "Cantidad total: 720 mL.",
+              "720 ÷ 6 = 120.",
+              "Cada vaso contiene 120 mL."
+            ],
+            "difficulty": 3,
+            "id": "MB26-S-B-06",
+            "block": "S",
+            "round": "B",
+            "area": "matematica",
+            "school": "monserrat",
+            "challengePurpose": "refuerzo_selectivo"
+          },
+          {
+            "kind": "model-decimal",
+            "title": "Medidas y divisibilidad",
+            "prompt": "Calculá (18 − 6) ÷ 3 + 2,5. Respetá el orden de las operaciones.",
+            "expected": 6.5,
+            "skill": "MAT-COMB",
+            "hints": [
+              "Primero el paréntesis.",
+              "Después la división y finalmente la suma."
+            ],
+            "steps": [
+              "18 − 6 = 12.",
+              "12 ÷ 3 = 4.",
+              "4 + 2,5 = 6,5."
+            ],
+            "difficulty": 3,
+            "id": "MB26-S-B-07",
+            "block": "S",
+            "round": "B",
+            "area": "matematica",
+            "school": "monserrat",
+            "challengePurpose": "refuerzo_selectivo"
           }
         ]
       }

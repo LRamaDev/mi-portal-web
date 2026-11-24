@@ -1,5 +1,5 @@
 {
-  "version": 2,
+  "version": 3,
   "reference": "Examen de Lengua del Colegio Nacional de Monserrat, Ingreso 2026, apartado I. Ortografía, ejercicios I.1–I.5, pp. 2-3. Todas las consignas nuevas son originales.",
   "blocks": {
     "D": {
@@ -333,7 +333,7 @@
       ]
     },
     "J": {
-      "label": "Uso de G y J: detectar y corregir",
+      "label": "Uso de G y J: conjugación y revisión",
       "reference": "I.2, página 2",
       "A": [
         {
@@ -1219,6 +1219,190 @@
             "Escribimos «elige»."
           ]
         }
+      ],
+      "F": [
+        {
+          "kind": "orth-fill",
+          "title": "Verbo conjugado: elegí G o J",
+          "prompt": "Completá la palabra entera en esta oración, no solamente la letra.",
+          "sentence": "Cuando hay viento, yo prote_o las hojas con una carpeta.",
+          "masked": "prote_o",
+          "expected": "protejo",
+          "letter": "j",
+          "skill": "LEN-GJ",
+          "difficulty": 4,
+          "hints": [
+            "Buscá el infinitivo del verbo y observá la vocal que sigue.",
+            "La conjugación puede cambiar la grafía para conservar el sonido."
+          ],
+          "steps": [
+            "La forma incompleta es «prote_o».",
+            "La forma correcta es «protejo».",
+            "El verbo proteger cambia G por J delante de O para conservar su pronunciación."
+          ],
+          "id": "MO26-J-F-01",
+          "orthographyBlock": "J",
+          "round": "F",
+          "school": "monserrat",
+          "area": "lengua",
+          "challengePurpose": "practica_guiada"
+        },
+        {
+          "kind": "orth-fill",
+          "title": "Verbo conjugado: elegí G o J",
+          "prompt": "Completá la palabra entera en esta oración, no solamente la letra.",
+          "sentence": "La representante diri_e el debate de la asamblea.",
+          "masked": "diri_e",
+          "expected": "dirige",
+          "letter": "g",
+          "skill": "LEN-GJ",
+          "difficulty": 4,
+          "hints": [
+            "Buscá el infinitivo del verbo y observá la vocal que sigue.",
+            "La conjugación puede cambiar la grafía para conservar el sonido."
+          ],
+          "steps": [
+            "La forma incompleta es «diri_e».",
+            "La forma correcta es «dirige».",
+            "Dirigir lleva G ante E e I en formas como dirige."
+          ],
+          "id": "MO26-J-F-02",
+          "orthographyBlock": "J",
+          "round": "F",
+          "school": "monserrat",
+          "area": "lengua",
+          "challengePurpose": "practica_guiada"
+        },
+        {
+          "kind": "orth-fill",
+          "title": "Verbo conjugado: elegí G o J",
+          "prompt": "Completá la palabra entera en esta oración, no solamente la letra.",
+          "sentence": "La docente exi_ió que entregáramos el trabajo.",
+          "masked": "exi_ió",
+          "expected": "exigió",
+          "letter": "g",
+          "skill": "LEN-GJ",
+          "difficulty": 4,
+          "hints": [
+            "Buscá el infinitivo del verbo y observá la vocal que sigue.",
+            "La conjugación puede cambiar la grafía para conservar el sonido."
+          ],
+          "steps": [
+            "La forma incompleta es «exi_ió».",
+            "La forma correcta es «exigió».",
+            "Exigir conserva G delante de I."
+          ],
+          "id": "MO26-J-F-03",
+          "orthographyBlock": "J",
+          "round": "F",
+          "school": "monserrat",
+          "area": "lengua",
+          "challengePurpose": "practica_guiada"
+        },
+        {
+          "kind": "orth-fill",
+          "title": "Verbo conjugado: elegí G o J",
+          "prompt": "Completá la palabra entera en esta oración, no solamente la letra.",
+          "sentence": "Si veo un error, lo corri_o antes de entregar.",
+          "masked": "corri_o",
+          "expected": "corrijo",
+          "letter": "j",
+          "skill": "LEN-GJ",
+          "difficulty": 4,
+          "hints": [
+            "Buscá el infinitivo del verbo y observá la vocal que sigue.",
+            "La conjugación puede cambiar la grafía para conservar el sonido."
+          ],
+          "steps": [
+            "La forma incompleta es «corri_o».",
+            "La forma correcta es «corrijo».",
+            "Corregir cambia G por J ante O: yo corrijo."
+          ],
+          "id": "MO26-J-F-04",
+          "orthographyBlock": "J",
+          "round": "F",
+          "school": "monserrat",
+          "area": "lengua",
+          "challengePurpose": "practica_guiada"
+        },
+        {
+          "kind": "orth-fill",
+          "title": "Verbo conjugado: elegí G o J",
+          "prompt": "Completá la palabra entera en esta oración, no solamente la letra.",
+          "sentence": "Los vecinos via_aron en tren hasta la estación.",
+          "masked": "via_aron",
+          "expected": "viajaron",
+          "letter": "j",
+          "skill": "LEN-GJ",
+          "difficulty": 4,
+          "hints": [
+            "Buscá el infinitivo del verbo y observá la vocal que sigue.",
+            "La conjugación puede cambiar la grafía para conservar el sonido."
+          ],
+          "steps": [
+            "La forma incompleta es «via_aron».",
+            "La forma correcta es «viajaron».",
+            "Viajar termina en -jar y conserva J en sus conjugaciones."
+          ],
+          "id": "MO26-J-F-05",
+          "orthographyBlock": "J",
+          "round": "F",
+          "school": "monserrat",
+          "area": "lengua",
+          "challengePurpose": "practica_guiada"
+        },
+        {
+          "kind": "orth-fill",
+          "title": "Verbo conjugado: elegí G o J",
+          "prompt": "Completá la palabra entera en esta oración, no solamente la letra.",
+          "sentence": "Los equipos eli_en el orden de exposición.",
+          "masked": "eli_en",
+          "expected": "eligen",
+          "letter": "g",
+          "skill": "LEN-GJ",
+          "difficulty": 4,
+          "hints": [
+            "Buscá el infinitivo del verbo y observá la vocal que sigue.",
+            "La conjugación puede cambiar la grafía para conservar el sonido."
+          ],
+          "steps": [
+            "La forma incompleta es «eli_en».",
+            "La forma correcta es «eligen».",
+            "Elegir mantiene G delante de E: ellos eligen."
+          ],
+          "id": "MO26-J-F-06",
+          "orthographyBlock": "J",
+          "round": "F",
+          "school": "monserrat",
+          "area": "lengua",
+          "challengePurpose": "practica_guiada"
+        },
+        {
+          "kind": "orth-fill",
+          "title": "Verbo conjugado: elegí G o J",
+          "prompt": "Completá la palabra entera en esta oración, no solamente la letra.",
+          "sentence": "Durante el ensayo, la actriz fin_ió estar sorprendida.",
+          "masked": "fin_ió",
+          "expected": "fingió",
+          "letter": "g",
+          "skill": "LEN-GJ",
+          "difficulty": 4,
+          "hints": [
+            "Buscá el infinitivo del verbo y observá la vocal que sigue.",
+            "La conjugación puede cambiar la grafía para conservar el sonido."
+          ],
+          "steps": [
+            "La forma incompleta es «fin_ió».",
+            "La forma correcta es «fingió».",
+            "Fingir mantiene G ante I en fingió."
+          ],
+          "id": "MO26-J-F-07",
+          "orthographyBlock": "J",
+          "round": "F",
+          "school": "monserrat",
+          "area": "lengua",
+          "challengePurpose": "practica_guiada"
+        }
       ]
     },
     "B": {
@@ -1580,7 +1764,7 @@
       ]
     },
     "A": {
-      "label": "Acentuación general",
+      "label": "Acentuación, hiatos y revisión",
       "reference": "I.4, página 3",
       "A": [
         {
@@ -2366,10 +2550,189 @@
           "school": "monserrat",
           "area": "lengua"
         }
+      ],
+      "E": [
+        {
+          "kind": "orth-accent-write",
+          "title": "Acentuación razonada",
+          "prompt": "Escribí la palabra correctamente, con todas las tildes que correspondan.",
+          "word": "raices",
+          "expected": "raíces",
+          "context": "Las raices crecieron debajo de la vereda.",
+          "skill": "LEN-ACENT",
+          "difficulty": 4,
+          "hints": [
+            "Localizá la sílaba que se pronuncia con más fuerza.",
+            "Comprobá la regla de acentuación y si hay vocal cerrada tónica en hiato."
+          ],
+          "steps": [
+            "Observamos la forma sin tilde «raices».",
+            "Escribimos «raíces».",
+            "La Í tónica se separa de la A: hay hiato acentual."
+          ],
+          "id": "MO26-A-E-01",
+          "orthographyBlock": "A",
+          "round": "E",
+          "school": "monserrat",
+          "area": "lengua",
+          "challengePurpose": "transferencia"
+        },
+        {
+          "kind": "orth-accent-write",
+          "title": "Acentuación razonada",
+          "prompt": "Escribí la palabra correctamente, con todas las tildes que correspondan.",
+          "word": "oido",
+          "expected": "oído",
+          "context": "Alguien había oido un ruido suave.",
+          "skill": "LEN-ACENT",
+          "difficulty": 4,
+          "hints": [
+            "Localizá la sílaba que se pronuncia con más fuerza.",
+            "Comprobá la regla de acentuación y si hay vocal cerrada tónica en hiato."
+          ],
+          "steps": [
+            "Observamos la forma sin tilde «oido».",
+            "Escribimos «oído».",
+            "La Í tónica lleva tilde para marcar el hiato."
+          ],
+          "id": "MO26-A-E-02",
+          "orthographyBlock": "A",
+          "round": "E",
+          "school": "monserrat",
+          "area": "lengua",
+          "challengePurpose": "transferencia"
+        },
+        {
+          "kind": "orth-accent-write",
+          "title": "Acentuación razonada",
+          "prompt": "Escribí la palabra correctamente, con todas las tildes que correspondan.",
+          "word": "camion",
+          "expected": "camión",
+          "context": "El camion se detuvo frente al puente.",
+          "skill": "LEN-ACENT",
+          "difficulty": 4,
+          "hints": [
+            "Localizá la sílaba que se pronuncia con más fuerza.",
+            "Comprobá la regla de acentuación y si hay vocal cerrada tónica en hiato."
+          ],
+          "steps": [
+            "Observamos la forma sin tilde «camion».",
+            "Escribimos «camión».",
+            "Camión es aguda terminada en N."
+          ],
+          "id": "MO26-A-E-03",
+          "orthographyBlock": "A",
+          "round": "E",
+          "school": "monserrat",
+          "area": "lengua",
+          "challengePurpose": "transferencia"
+        },
+        {
+          "kind": "orth-accent-write",
+          "title": "Acentuación razonada",
+          "prompt": "Escribí la palabra correctamente, con todas las tildes que correspondan.",
+          "word": "album",
+          "expected": "álbum",
+          "context": "Miramos un album familiar en la mesa.",
+          "skill": "LEN-ACENT",
+          "difficulty": 4,
+          "hints": [
+            "Localizá la sílaba que se pronuncia con más fuerza.",
+            "Comprobá la regla de acentuación y si hay vocal cerrada tónica en hiato."
+          ],
+          "steps": [
+            "Observamos la forma sin tilde «album».",
+            "Escribimos «álbum».",
+            "Álbum es grave terminada en M, por eso lleva tilde."
+          ],
+          "id": "MO26-A-E-04",
+          "orthographyBlock": "A",
+          "round": "E",
+          "school": "monserrat",
+          "area": "lengua",
+          "challengePurpose": "transferencia"
+        },
+        {
+          "kind": "orth-accent-write",
+          "title": "Acentuación razonada",
+          "prompt": "Escribí la palabra correctamente, con todas las tildes que correspondan.",
+          "word": "maiz",
+          "expected": "maíz",
+          "context": "Cosecharon maiz durante la mañana.",
+          "skill": "LEN-ACENT",
+          "difficulty": 4,
+          "hints": [
+            "Localizá la sílaba que se pronuncia con más fuerza.",
+            "Comprobá la regla de acentuación y si hay vocal cerrada tónica en hiato."
+          ],
+          "steps": [
+            "Observamos la forma sin tilde «maiz».",
+            "Escribimos «maíz».",
+            "La Í tónica junto a A forma hiato y lleva tilde."
+          ],
+          "id": "MO26-A-E-05",
+          "orthographyBlock": "A",
+          "round": "E",
+          "school": "monserrat",
+          "area": "lengua",
+          "challengePurpose": "transferencia"
+        },
+        {
+          "kind": "orth-rule",
+          "title": "Explicá la acentuación",
+          "prompt": "Escribí brevemente qué regla explica la tilde de esta palabra. Usá una sola expresión (por ejemplo, «esdrújula» o «hiato»).",
+          "word": "sábana",
+          "expected": "esdrújula",
+          "accepted": [
+            "esdrújula",
+            "palabra esdrújula"
+          ],
+          "skill": "LEN-ACENT",
+          "difficulty": 4,
+          "hints": [
+            "Ubicá la sílaba tónica y la terminación de la palabra.",
+            "Pensá si se trata de una esdrújula, una aguda con la terminación indicada o un hiato acentual."
+          ],
+          "steps": [
+            "La palabra es «sábana».",
+            "La regla que se busca nombrar es «esdrújula».",
+            "La sílaba tónica sá es la antepenúltima; todas las esdrújulas llevan tilde."
+          ],
+          "id": "MO26-A-E-06",
+          "orthographyBlock": "A",
+          "round": "E",
+          "school": "monserrat",
+          "area": "lengua",
+          "challengePurpose": "transferencia"
+        },
+        {
+          "kind": "orth-rewrite",
+          "title": "Revisar un texto breve",
+          "prompt": "Corregí el error del texto. Escribí la oración completa con sus tildes, concordancia y puntuación.",
+          "sentence": "Mi tio encontro un baul viejo.",
+          "expected": "Mi tío encontró un baúl viejo.",
+          "skill": "LEN-REV",
+          "difficulty": 4,
+          "hints": [
+            "Leé en voz alta y revisá si la oración tiene un error.",
+            "Buscá el verbo, las tildes o los signos que deberían cambiar; mantené el sentido original."
+          ],
+          "steps": [
+            "Releemos la oración sin cambiar su significado.",
+            "La escritura revisada es: «Mi tío encontró un baúl viejo.».",
+            "«Tío» y «baúl» tienen hiato acentual, y «encontró» es aguda terminada en vocal."
+          ],
+          "id": "MO26-A-E-07",
+          "orthographyBlock": "A",
+          "round": "E",
+          "school": "monserrat",
+          "area": "lengua",
+          "challengePurpose": "transferencia"
+        }
       ]
     },
     "T": {
-      "label": "Tilde diacrítica en monosílabos",
+      "label": "Tilde diacrítica: producción en contexto",
       "reference": "I.5, página 3",
       "A": [
         {
@@ -3283,10 +3646,186 @@
             "La respuesta correcta es «té»."
           ]
         }
+      ],
+      "F": [
+        {
+          "kind": "orth-diacritic-write",
+          "title": "Monosílabo en contexto",
+          "prompt": "Escribí solamente la palabra que falta, con o sin tilde, según su significado.",
+          "context": "Quiero que me ___ la razón de su decisión.",
+          "expected": "dé",
+          "alternate": "de",
+          "skill": "LEN-DIAC",
+          "difficulty": 4,
+          "hints": [
+            "Identificá si funciona como verbo, pronombre, determinante o conjunción.",
+            "Pronunciarla no alcanza: la tilde separa funciones y significados."
+          ],
+          "steps": [
+            "La frase se completa con «dé».",
+            "Quiero que me dé la razón de su decisión.",
+            "«Dé» es forma del verbo dar."
+          ],
+          "id": "MO26-T-F-01",
+          "orthographyBlock": "T",
+          "round": "F",
+          "school": "monserrat",
+          "area": "lengua",
+          "challengePurpose": "practica_guiada"
+        },
+        {
+          "kind": "orth-diacritic-write",
+          "title": "Monosílabo en contexto",
+          "prompt": "Escribí solamente la palabra que falta, con o sin tilde, según su significado.",
+          "context": "El trabajo fue realizado por ___ compañeros.",
+          "expected": "mis",
+          "alternate": "mí",
+          "skill": "LEN-DIAC",
+          "difficulty": 4,
+          "hints": [
+            "Identificá si funciona como verbo, pronombre, determinante o conjunción.",
+            "Pronunciarla no alcanza: la tilde separa funciones y significados."
+          ],
+          "steps": [
+            "La frase se completa con «mis».",
+            "El trabajo fue realizado por mis compañeros.",
+            "«Mis» es posesivo y no lleva tilde."
+          ],
+          "id": "MO26-T-F-02",
+          "orthographyBlock": "T",
+          "round": "F",
+          "school": "monserrat",
+          "area": "lengua",
+          "challengePurpose": "practica_guiada"
+        },
+        {
+          "kind": "orth-diacritic-write",
+          "title": "Monosílabo en contexto",
+          "prompt": "Escribí solamente la palabra que falta, con o sin tilde, según su significado.",
+          "context": "___ llegaste temprano, podremos comenzar.",
+          "expected": "Si",
+          "alternate": "Sí",
+          "skill": "LEN-DIAC",
+          "difficulty": 4,
+          "hints": [
+            "Identificá si funciona como verbo, pronombre, determinante o conjunción.",
+            "Pronunciarla no alcanza: la tilde separa funciones y significados."
+          ],
+          "steps": [
+            "La frase se completa con «Si».",
+            "Si llegaste temprano, podremos comenzar.",
+            "«Si» condicional no lleva tilde."
+          ],
+          "id": "MO26-T-F-03",
+          "orthographyBlock": "T",
+          "round": "F",
+          "school": "monserrat",
+          "area": "lengua",
+          "challengePurpose": "practica_guiada"
+        },
+        {
+          "kind": "orth-diacritic-write",
+          "title": "Monosílabo en contexto",
+          "prompt": "Escribí solamente la palabra que falta, con o sin tilde, según su significado.",
+          "context": "Necesito un poco de ___ para preparar la infusión.",
+          "expected": "té",
+          "alternate": "te",
+          "skill": "LEN-DIAC",
+          "difficulty": 4,
+          "hints": [
+            "Identificá si funciona como verbo, pronombre, determinante o conjunción.",
+            "Pronunciarla no alcanza: la tilde separa funciones y significados."
+          ],
+          "steps": [
+            "La frase se completa con «té».",
+            "Necesito un poco de té para preparar la infusión.",
+            "«Té» nombra la bebida."
+          ],
+          "id": "MO26-T-F-04",
+          "orthographyBlock": "T",
+          "round": "F",
+          "school": "monserrat",
+          "area": "lengua",
+          "challengePurpose": "practica_guiada"
+        },
+        {
+          "kind": "orth-diacritic-write",
+          "title": "Monosílabo en contexto",
+          "prompt": "Escribí solamente la palabra que falta, con o sin tilde, según su significado.",
+          "context": "Para ___, la tarea estuvo bien organizada.",
+          "expected": "mí",
+          "alternate": "mi",
+          "skill": "LEN-DIAC",
+          "difficulty": 4,
+          "hints": [
+            "Identificá si funciona como verbo, pronombre, determinante o conjunción.",
+            "Pronunciarla no alcanza: la tilde separa funciones y significados."
+          ],
+          "steps": [
+            "La frase se completa con «mí».",
+            "Para mí, la tarea estuvo bien organizada.",
+            "«Mí» es pronombre."
+          ],
+          "id": "MO26-T-F-05",
+          "orthographyBlock": "T",
+          "round": "F",
+          "school": "monserrat",
+          "area": "lengua",
+          "challengePurpose": "practica_guiada"
+        },
+        {
+          "kind": "orth-diacritic-write",
+          "title": "Monosílabo en contexto",
+          "prompt": "Escribí solamente la palabra que falta, con o sin tilde, según su significado.",
+          "context": "No ___ cómo llegó ese libro a la escuela.",
+          "expected": "sé",
+          "alternate": "se",
+          "skill": "LEN-DIAC",
+          "difficulty": 4,
+          "hints": [
+            "Identificá si funciona como verbo, pronombre, determinante o conjunción.",
+            "Pronunciarla no alcanza: la tilde separa funciones y significados."
+          ],
+          "steps": [
+            "La frase se completa con «sé».",
+            "No sé cómo llegó ese libro a la escuela.",
+            "«Sé» es una forma del verbo saber."
+          ],
+          "id": "MO26-T-F-06",
+          "orthographyBlock": "T",
+          "round": "F",
+          "school": "monserrat",
+          "area": "lengua",
+          "challengePurpose": "practica_guiada"
+        },
+        {
+          "kind": "orth-rewrite",
+          "title": "Revisar un texto breve",
+          "prompt": "Corregí el error del texto. Escribí la oración completa con sus tildes, concordancia y puntuación.",
+          "sentence": "El me dijo que si, mas no supe por que.",
+          "expected": "Él me dijo que sí, mas no supe por qué.",
+          "skill": "LEN-DIAC",
+          "difficulty": 4,
+          "hints": [
+            "Leé en voz alta y revisá si la oración tiene un error.",
+            "Buscá el verbo, las tildes o los signos que deberían cambiar; mantené el sentido original."
+          ],
+          "steps": [
+            "Releemos la oración sin cambiar su significado.",
+            "La escritura revisada es: «Él me dijo que sí, mas no supe por qué.».",
+            "Él es pronombre, sí expresa afirmación, mas equivale a pero y por qué es interrogación indirecta."
+          ],
+          "id": "MO26-T-F-07",
+          "orthographyBlock": "T",
+          "round": "F",
+          "school": "monserrat",
+          "area": "lengua",
+          "challengePurpose": "practica_guiada"
+        }
       ]
     },
     "P": {
-      "label": "Puntuación y concordancia",
+      "label": "Puntuación, concordancia y corrección",
       "A": [
         {
           "id": "MO26-P-A-01",
@@ -3681,6 +4220,579 @@
             "Compará la respuesta con las otras opciones para detectar el error.",
             "La opción correcta es: El grupo de teatro presentó una obra."
           ]
+        }
+      ],
+      "C": [
+        {
+          "kind": "orth-rewrite",
+          "title": "Revisar un texto breve",
+          "prompt": "Corregí el error del texto. Escribí la oración completa con sus tildes, concordancia y puntuación.",
+          "sentence": "Los arboles del parque crece muy rapido.",
+          "expected": "Los árboles del parque crecen muy rápido.",
+          "skill": "LEN-SUJ-PRED",
+          "difficulty": 4,
+          "hints": [
+            "Leé en voz alta y revisá si la oración tiene un error.",
+            "Buscá el verbo, las tildes o los signos que deberían cambiar; mantené el sentido original."
+          ],
+          "steps": [
+            "Releemos la oración sin cambiar su significado.",
+            "La escritura revisada es: «Los árboles del parque crecen muy rápido.».",
+            "El sujeto plural exige «crecen» y las palabras «árboles» y «rápido» llevan tilde."
+          ],
+          "id": "MO26-P-C-01",
+          "orthographyBlock": "P",
+          "round": "C",
+          "school": "monserrat",
+          "area": "lengua",
+          "challengePurpose": "practica_guiada"
+        },
+        {
+          "kind": "orth-choice",
+          "title": "Comprender antes de elegir",
+          "prompt": "¿Qué oración tiene concordancia entre sujeto y verbo?",
+          "context": "Una encuesta escolar.",
+          "options": [
+            "Los grupos presentó las propuestas.",
+            "El grupo presentó las propuestas.",
+            "El grupo presentaron las propuestas."
+          ],
+          "expected": "El grupo presentó las propuestas.",
+          "skill": "LEN-SUJ-PRED",
+          "difficulty": 3,
+          "hints": [
+            "Leé el texto y pensá qué aporta cada alternativa.",
+            "No elijas solamente por cómo suena: identificá la relación entre las ideas o el tipo de oración."
+          ],
+          "steps": [
+            "En el contexto, la opción correcta es «El grupo presentó las propuestas.».",
+            "Releemos: «Una encuesta escolar.».",
+            "El núcleo del sujeto «grupo» es singular: presentó."
+          ],
+          "id": "MO26-P-C-02",
+          "orthographyBlock": "P",
+          "round": "C",
+          "school": "monserrat",
+          "area": "lengua",
+          "challengePurpose": "practica_guiada"
+        },
+        {
+          "kind": "orth-rewrite",
+          "title": "Revisar un texto breve",
+          "prompt": "Corregí el error del texto. Escribí la oración completa con sus tildes, concordancia y puntuación.",
+          "sentence": "Ayer compramos lapices borradores y cuadernos.",
+          "expected": "Ayer compramos lápices, borradores y cuadernos.",
+          "skill": "LEN-PUNT",
+          "difficulty": 4,
+          "hints": [
+            "Leé en voz alta y revisá si la oración tiene un error.",
+            "Buscá el verbo, las tildes o los signos que deberían cambiar; mantené el sentido original."
+          ],
+          "steps": [
+            "Releemos la oración sin cambiar su significado.",
+            "La escritura revisada es: «Ayer compramos lápices, borradores y cuadernos.».",
+            "«Lápices» lleva tilde y una enumeración separa sus elementos con comas."
+          ],
+          "id": "MO26-P-C-03",
+          "orthographyBlock": "P",
+          "round": "C",
+          "school": "monserrat",
+          "area": "lengua",
+          "challengePurpose": "practica_guiada"
+        },
+        {
+          "kind": "orth-choice",
+          "title": "Comprender antes de elegir",
+          "prompt": "Elegí el uso correcto de la coma en un vocativo.",
+          "context": "Una conversación en el aula.",
+          "options": [
+            "Vamos a estudiar, chicos.",
+            "Vamos, a estudiar chicos.",
+            "Vamos a, estudiar chicos."
+          ],
+          "expected": "Vamos a estudiar, chicos.",
+          "skill": "LEN-PUNT",
+          "difficulty": 3,
+          "hints": [
+            "Leé el texto y pensá qué aporta cada alternativa.",
+            "No elijas solamente por cómo suena: identificá la relación entre las ideas o el tipo de oración."
+          ],
+          "steps": [
+            "En el contexto, la opción correcta es «Vamos a estudiar, chicos.».",
+            "Releemos: «Una conversación en el aula.».",
+            "«Chicos» es vocativo y se separa con coma."
+          ],
+          "id": "MO26-P-C-04",
+          "orthographyBlock": "P",
+          "round": "C",
+          "school": "monserrat",
+          "area": "lengua",
+          "challengePurpose": "practica_guiada"
+        },
+        {
+          "kind": "orth-rewrite",
+          "title": "Revisar un texto breve",
+          "prompt": "Corregí el error del texto. Escribí la oración completa con sus tildes, concordancia y puntuación.",
+          "sentence": "En el recreo, las chicas conversa en el patio.",
+          "expected": "En el recreo, las chicas conversan en el patio.",
+          "skill": "LEN-SUJ-PRED",
+          "difficulty": 4,
+          "hints": [
+            "Leé en voz alta y revisá si la oración tiene un error.",
+            "Buscá el verbo, las tildes o los signos que deberían cambiar; mantené el sentido original."
+          ],
+          "steps": [
+            "Releemos la oración sin cambiar su significado.",
+            "La escritura revisada es: «En el recreo, las chicas conversan en el patio.».",
+            "El sujeto plural «las chicas» exige el verbo plural «conversan»."
+          ],
+          "id": "MO26-P-C-05",
+          "orthographyBlock": "P",
+          "round": "C",
+          "school": "monserrat",
+          "area": "lengua",
+          "challengePurpose": "practica_guiada"
+        },
+        {
+          "kind": "orth-rewrite",
+          "title": "Revisar un texto breve",
+          "prompt": "Corregí el error del texto. Escribí la oración completa con sus tildes, concordancia y puntuación.",
+          "sentence": "Llevamos frutas verduras panes y agua.",
+          "expected": "Llevamos frutas, verduras, panes y agua.",
+          "skill": "LEN-PUNT",
+          "difficulty": 4,
+          "hints": [
+            "Leé en voz alta y revisá si la oración tiene un error.",
+            "Buscá el verbo, las tildes o los signos que deberían cambiar; mantené el sentido original."
+          ],
+          "steps": [
+            "Releemos la oración sin cambiar su significado.",
+            "La escritura revisada es: «Llevamos frutas, verduras, panes y agua.».",
+            "Separamos los elementos de una enumeración con comas."
+          ],
+          "id": "MO26-P-C-06",
+          "orthographyBlock": "P",
+          "round": "C",
+          "school": "monserrat",
+          "area": "lengua",
+          "challengePurpose": "practica_guiada"
+        },
+        {
+          "kind": "orth-choice",
+          "title": "Comprender antes de elegir",
+          "prompt": "¿Qué oración usa correctamente los signos para una pregunta?",
+          "context": "Una entrevista breve.",
+          "options": [
+            "¿Cuándo comienza la visita?",
+            "¿Cuándo comienza la visita.",
+            "Cuándo comienza la visita?"
+          ],
+          "expected": "¿Cuándo comienza la visita?",
+          "skill": "LEN-PUNT",
+          "difficulty": 3,
+          "hints": [
+            "Leé el texto y pensá qué aporta cada alternativa.",
+            "No elijas solamente por cómo suena: identificá la relación entre las ideas o el tipo de oración."
+          ],
+          "steps": [
+            "En el contexto, la opción correcta es «¿Cuándo comienza la visita?».",
+            "Releemos: «Una entrevista breve.».",
+            "En español se usan el signo de apertura y el de cierre."
+          ],
+          "id": "MO26-P-C-07",
+          "orthographyBlock": "P",
+          "round": "C",
+          "school": "monserrat",
+          "area": "lengua",
+          "challengePurpose": "practica_guiada"
+        }
+      ]
+    },
+    "U": {
+      "label": "Oraciones, conectores y revisión textual",
+      "reference": "Consolidación y transferencia de contenidos de Lengua",
+      "A": [
+        {
+          "kind": "orth-choice",
+          "title": "Comprender antes de elegir",
+          "prompt": "Elegí qué tipo de oración es «¡Qué alegría!».",
+          "context": "¡Qué alegría!",
+          "options": [
+            "Unimembre",
+            "Bimembre"
+          ],
+          "expected": "Unimembre",
+          "skill": "LEN-UNI-BI",
+          "difficulty": 3,
+          "hints": [
+            "Leé el texto y pensá qué aporta cada alternativa.",
+            "No elijas solamente por cómo suena: identificá la relación entre las ideas o el tipo de oración."
+          ],
+          "steps": [
+            "En el contexto, la opción correcta es «Unimembre».",
+            "Releemos: «¡Qué alegría!».",
+            "No tiene estructura de sujeto y predicado."
+          ],
+          "id": "MO26-U-A-01",
+          "orthographyBlock": "U",
+          "round": "A",
+          "school": "monserrat",
+          "area": "lengua",
+          "challengePurpose": "practica_guiada"
+        },
+        {
+          "kind": "orth-choice",
+          "title": "Comprender antes de elegir",
+          "prompt": "Clasificá la oración «Las vecinas plantan tomates».",
+          "context": "Las vecinas plantan tomates.",
+          "options": [
+            "Unimembre",
+            "Bimembre"
+          ],
+          "expected": "Bimembre",
+          "skill": "LEN-UNI-BI",
+          "difficulty": 3,
+          "hints": [
+            "Leé el texto y pensá qué aporta cada alternativa.",
+            "No elijas solamente por cómo suena: identificá la relación entre las ideas o el tipo de oración."
+          ],
+          "steps": [
+            "En el contexto, la opción correcta es «Bimembre».",
+            "Releemos: «Las vecinas plantan tomates.».",
+            "Tiene sujeto «Las vecinas» y predicado «plantan tomates»."
+          ],
+          "id": "MO26-U-A-02",
+          "orthographyBlock": "U",
+          "round": "A",
+          "school": "monserrat",
+          "area": "lengua",
+          "challengePurpose": "practica_guiada"
+        },
+        {
+          "kind": "orth-choice",
+          "title": "Comprender antes de elegir",
+          "prompt": "Clasificá la expresión «Llueve desde temprano».",
+          "context": "Llueve desde temprano.",
+          "options": [
+            "Unimembre",
+            "Bimembre"
+          ],
+          "expected": "Unimembre",
+          "skill": "LEN-UNI-BI",
+          "difficulty": 3,
+          "hints": [
+            "Leé el texto y pensá qué aporta cada alternativa.",
+            "No elijas solamente por cómo suena: identificá la relación entre las ideas o el tipo de oración."
+          ],
+          "steps": [
+            "En el contexto, la opción correcta es «Unimembre».",
+            "Releemos: «Llueve desde temprano.».",
+            "El verbo impersonal «llueve» no tiene sujeto."
+          ],
+          "id": "MO26-U-A-03",
+          "orthographyBlock": "U",
+          "round": "A",
+          "school": "monserrat",
+          "area": "lengua",
+          "challengePurpose": "practica_guiada"
+        },
+        {
+          "kind": "orth-choice",
+          "title": "Comprender antes de elegir",
+          "prompt": "Elegí la oración bimembre.",
+          "context": "Dos opciones de un aviso.",
+          "options": [
+            "Mucho frío esta mañana.",
+            "El colectivo salió temprano."
+          ],
+          "expected": "El colectivo salió temprano.",
+          "skill": "LEN-UNI-BI",
+          "difficulty": 3,
+          "hints": [
+            "Leé el texto y pensá qué aporta cada alternativa.",
+            "No elijas solamente por cómo suena: identificá la relación entre las ideas o el tipo de oración."
+          ],
+          "steps": [
+            "En el contexto, la opción correcta es «El colectivo salió temprano.».",
+            "Releemos: «Dos opciones de un aviso.».",
+            "Podemos distinguir «El colectivo» como sujeto y «salió temprano» como predicado."
+          ],
+          "id": "MO26-U-A-04",
+          "orthographyBlock": "U",
+          "round": "A",
+          "school": "monserrat",
+          "area": "lengua",
+          "challengePurpose": "practica_guiada"
+        },
+        {
+          "kind": "orth-choice",
+          "title": "Comprender antes de elegir",
+          "prompt": "¿Qué conector expresa oposición?",
+          "context": "Quería salir, ___ empezó a llover.",
+          "options": [
+            "porque",
+            "pero",
+            "por eso"
+          ],
+          "expected": "pero",
+          "skill": "LEN-CON",
+          "difficulty": 3,
+          "hints": [
+            "Leé el texto y pensá qué aporta cada alternativa.",
+            "No elijas solamente por cómo suena: identificá la relación entre las ideas o el tipo de oración."
+          ],
+          "steps": [
+            "En el contexto, la opción correcta es «pero».",
+            "Releemos: «Quería salir, ___ empezó a llover.».",
+            "Pero establece una oposición entre la intención de salir y la lluvia."
+          ],
+          "id": "MO26-U-A-05",
+          "orthographyBlock": "U",
+          "round": "A",
+          "school": "monserrat",
+          "area": "lengua",
+          "challengePurpose": "practica_guiada"
+        },
+        {
+          "kind": "orth-choice",
+          "title": "Comprender antes de elegir",
+          "prompt": "¿Qué conector expresa una causa?",
+          "context": "La plaza estaba vacía ___ hacía frío.",
+          "options": [
+            "aunque",
+            "porque",
+            "además"
+          ],
+          "expected": "porque",
+          "skill": "LEN-CON",
+          "difficulty": 3,
+          "hints": [
+            "Leé el texto y pensá qué aporta cada alternativa.",
+            "No elijas solamente por cómo suena: identificá la relación entre las ideas o el tipo de oración."
+          ],
+          "steps": [
+            "En el contexto, la opción correcta es «porque».",
+            "Releemos: «La plaza estaba vacía ___ hacía frío.».",
+            "Porque introduce la causa."
+          ],
+          "id": "MO26-U-A-06",
+          "orthographyBlock": "U",
+          "round": "A",
+          "school": "monserrat",
+          "area": "lengua",
+          "challengePurpose": "practica_guiada"
+        },
+        {
+          "kind": "orth-rewrite",
+          "title": "Revisar un texto breve",
+          "prompt": "Corregí el error del texto. Escribí la oración completa con sus tildes, concordancia y puntuación.",
+          "sentence": "Las compañeras eligieron el cuento porque estaban muy contento.",
+          "expected": "Las compañeras eligieron el cuento porque estaban muy contentas.",
+          "skill": "LEN-REV",
+          "difficulty": 4,
+          "hints": [
+            "Leé en voz alta y revisá si la oración tiene un error.",
+            "Buscá el verbo, las tildes o los signos que deberían cambiar; mantené el sentido original."
+          ],
+          "steps": [
+            "Releemos la oración sin cambiar su significado.",
+            "La escritura revisada es: «Las compañeras eligieron el cuento porque estaban muy contentas.».",
+            "El adjetivo concuerda en género y número con «Las compañeras»."
+          ],
+          "id": "MO26-U-A-07",
+          "orthographyBlock": "U",
+          "round": "A",
+          "school": "monserrat",
+          "area": "lengua",
+          "challengePurpose": "practica_guiada"
+        }
+      ],
+      "B": [
+        {
+          "kind": "orth-choice",
+          "title": "Comprender antes de elegir",
+          "prompt": "Identificá la oración «Hay muchas personas en la biblioteca».",
+          "context": "Hay muchas personas en la biblioteca.",
+          "options": [
+            "Unimembre",
+            "Bimembre"
+          ],
+          "expected": "Unimembre",
+          "skill": "LEN-UNI-BI",
+          "difficulty": 3,
+          "hints": [
+            "Leé el texto y pensá qué aporta cada alternativa.",
+            "No elijas solamente por cómo suena: identificá la relación entre las ideas o el tipo de oración."
+          ],
+          "steps": [
+            "En el contexto, la opción correcta es «Unimembre».",
+            "Releemos: «Hay muchas personas en la biblioteca.».",
+            "LEN-UNI-BI"
+          ],
+          "id": "MO26-U-B-01",
+          "orthographyBlock": "U",
+          "round": "B",
+          "school": "monserrat",
+          "area": "lengua",
+          "challengePurpose": "transferencia"
+        },
+        {
+          "kind": "orth-choice",
+          "title": "Comprender antes de elegir",
+          "prompt": "Clasificá «Un grupo de estudiantes preparó el afiche».",
+          "context": "Un grupo de estudiantes preparó el afiche.",
+          "options": [
+            "Unimembre",
+            "Bimembre"
+          ],
+          "expected": "Bimembre",
+          "skill": "LEN-UNI-BI",
+          "difficulty": 3,
+          "hints": [
+            "Leé el texto y pensá qué aporta cada alternativa.",
+            "No elijas solamente por cómo suena: identificá la relación entre las ideas o el tipo de oración."
+          ],
+          "steps": [
+            "En el contexto, la opción correcta es «Bimembre».",
+            "Releemos: «Un grupo de estudiantes preparó el afiche.».",
+            "«Un grupo de estudiantes» es sujeto y «preparó el afiche» es predicado."
+          ],
+          "id": "MO26-U-B-02",
+          "orthographyBlock": "U",
+          "round": "B",
+          "school": "monserrat",
+          "area": "lengua",
+          "challengePurpose": "transferencia"
+        },
+        {
+          "kind": "orth-choice",
+          "title": "Comprender antes de elegir",
+          "prompt": "¿Qué conector organiza una secuencia temporal?",
+          "context": "___ revisamos las consignas; después empezamos.",
+          "options": [
+            "Sin embargo",
+            "Primero",
+            "Porque"
+          ],
+          "expected": "Primero",
+          "skill": "LEN-CON",
+          "difficulty": 3,
+          "hints": [
+            "Leé el texto y pensá qué aporta cada alternativa.",
+            "No elijas solamente por cómo suena: identificá la relación entre las ideas o el tipo de oración."
+          ],
+          "steps": [
+            "En el contexto, la opción correcta es «Primero».",
+            "Releemos: «___ revisamos las consignas; después empezamos.».",
+            "Primero ordena temporalmente una acción anterior a otra."
+          ],
+          "id": "MO26-U-B-03",
+          "orthographyBlock": "U",
+          "round": "B",
+          "school": "monserrat",
+          "area": "lengua",
+          "challengePurpose": "transferencia"
+        },
+        {
+          "kind": "orth-choice",
+          "title": "Comprender antes de elegir",
+          "prompt": "Elegí cómo expresar consecuencia.",
+          "context": "Se cortó la luz; ___ suspendieron la función.",
+          "options": [
+            "por eso",
+            "aunque",
+            "pero"
+          ],
+          "expected": "por eso",
+          "skill": "LEN-CON",
+          "difficulty": 3,
+          "hints": [
+            "Leé el texto y pensá qué aporta cada alternativa.",
+            "No elijas solamente por cómo suena: identificá la relación entre las ideas o el tipo de oración."
+          ],
+          "steps": [
+            "En el contexto, la opción correcta es «por eso».",
+            "Releemos: «Se cortó la luz; ___ suspendieron la función.».",
+            "Por eso presenta la consecuencia de la falta de luz."
+          ],
+          "id": "MO26-U-B-04",
+          "orthographyBlock": "U",
+          "round": "B",
+          "school": "monserrat",
+          "area": "lengua",
+          "challengePurpose": "transferencia"
+        },
+        {
+          "kind": "orth-rewrite",
+          "title": "Revisar un texto breve",
+          "prompt": "Corregí el error del texto. Escribí la oración completa con sus tildes, concordancia y puntuación.",
+          "sentence": "Primero caminamos al museo. Primero miramos los cuadros.",
+          "expected": "Primero caminamos al museo. Después miramos los cuadros.",
+          "skill": "LEN-REV",
+          "difficulty": 4,
+          "hints": [
+            "Leé en voz alta y revisá si la oración tiene un error.",
+            "Buscá el verbo, las tildes o los signos que deberían cambiar; mantené el sentido original."
+          ],
+          "steps": [
+            "Releemos la oración sin cambiar su significado.",
+            "La escritura revisada es: «Primero caminamos al museo. Después miramos los cuadros.».",
+            "Reemplazar la repetición por «Después» mejora la secuencia y la coherencia."
+          ],
+          "id": "MO26-U-B-05",
+          "orthographyBlock": "U",
+          "round": "B",
+          "school": "monserrat",
+          "area": "lengua",
+          "challengePurpose": "transferencia"
+        },
+        {
+          "kind": "orth-rewrite",
+          "title": "Revisar un texto breve",
+          "prompt": "Corregí el error del texto. Escribí la oración completa con sus tildes, concordancia y puntuación.",
+          "sentence": "El grupo hicieron una visita y luego escribieron sus notas.",
+          "expected": "El grupo hizo una visita y luego escribió sus notas.",
+          "skill": "LEN-SUJ-PRED",
+          "difficulty": 4,
+          "hints": [
+            "Leé en voz alta y revisá si la oración tiene un error.",
+            "Buscá el verbo, las tildes o los signos que deberían cambiar; mantené el sentido original."
+          ],
+          "steps": [
+            "Releemos la oración sin cambiar su significado.",
+            "La escritura revisada es: «El grupo hizo una visita y luego escribió sus notas.».",
+            "El núcleo «grupo» es singular: ambos verbos concuerdan con él."
+          ],
+          "id": "MO26-U-B-06",
+          "orthographyBlock": "U",
+          "round": "B",
+          "school": "monserrat",
+          "area": "lengua",
+          "challengePurpose": "transferencia"
+        },
+        {
+          "kind": "orth-rewrite",
+          "title": "Revisar un texto breve",
+          "prompt": "Corregí el error del texto. Escribí la oración completa con sus tildes, concordancia y puntuación.",
+          "sentence": "El sabado leimos una historia despues escribimos una reseña.",
+          "expected": "El sábado leímos una historia. Después escribimos una reseña.",
+          "skill": "LEN-REV",
+          "difficulty": 4,
+          "hints": [
+            "Leé en voz alta y revisá si la oración tiene un error.",
+            "Buscá el verbo, las tildes o los signos que deberían cambiar; mantené el sentido original."
+          ],
+          "steps": [
+            "Releemos la oración sin cambiar su significado.",
+            "La escritura revisada es: «El sábado leímos una historia. Después escribimos una reseña.».",
+            "Se corrigen las tildes y se separan dos acciones con punto; el conector ordena la secuencia."
+          ],
+          "id": "MO26-U-B-07",
+          "orthographyBlock": "U",
+          "round": "B",
+          "school": "monserrat",
+          "area": "lengua",
+          "challengePurpose": "transferencia"
         }
       ]
     }

@@ -1,0 +1,734 @@
+{
+  "version": 1,
+  "description": "Comprobaciones diferenciadas de transferencia y retención: sin pista antes del primer intento válido, 7 ítems originales por área y fase; retención a partir del cuarto día.",
+  "checks": {
+    "transferencia": {
+      "M": [
+        {
+          "kind": "model-decimal",
+          "prompt": "Un depósito contiene 19/25 de litro por envase. ¿Qué cantidad decimal indica la etiqueta?",
+          "expected": 0.76,
+          "block": "E",
+          "skill": "MAT-FR-DEC",
+          "title": "Resolver sin pistas",
+          "difficulty": 4,
+          "steps": [
+            "19/25 = 76/100.",
+            "76 centésimos son 0,76.",
+            "La etiqueta indica 0,76 litro."
+          ],
+          "hints": [
+            "Llevá el denominador a 100.",
+            "19 × 4 = 76."
+          ],
+          "area": "matematica",
+          "checkArea": "M",
+          "checkPhase": "transferencia",
+          "id": "CK26-M-T-01",
+          "round": "A"
+        },
+        {
+          "kind": "model-decimal",
+          "prompt": "Un paquete cuesta $ 34,56 y su precio se reparte entre 8 personas. ¿Cuánto paga cada una?",
+          "expected": 4.32,
+          "block": "D",
+          "skill": "MAT-DEC-OPS",
+          "title": "Resolver sin pistas",
+          "difficulty": 4,
+          "steps": [
+            "Se divide 34,56 entre 8.",
+            "Comprobamos que 4,32 × 8 = 34,56.",
+            "Cada persona paga $ 4,32."
+          ],
+          "hints": [
+            "Repartir en partes iguales indica división.",
+            "Buscá un decimal que multiplicado por 8 dé 34,56."
+          ],
+          "area": "matematica",
+          "checkArea": "M",
+          "checkPhase": "transferencia",
+          "id": "CK26-M-T-02",
+          "round": "A"
+        },
+        {
+          "kind": "model-fraction",
+          "prompt": "Una distancia mide 1,44 km. Expresala como fracción impropia irreducible.",
+          "expected": [
+            36,
+            25
+          ],
+          "irreducible": true,
+          "block": "E",
+          "skill": "MAT-FR-DEC",
+          "title": "Interpretar y convertir",
+          "difficulty": 4,
+          "steps": [
+            "1,44 = 144/100.",
+            "Reducimos por 4.",
+            "Resultado: 36/25."
+          ],
+          "hints": [
+            "Escribí 144/100.",
+            "Simplificá por 4."
+          ],
+          "area": "matematica",
+          "checkArea": "M",
+          "checkPhase": "transferencia",
+          "id": "CK26-M-T-03",
+          "round": "A"
+        },
+        {
+          "kind": "fraction-compare",
+          "prompt": "Un recorrido es de 17/12 de km y otro 11/8. Compará sus longitudes.",
+          "left": [
+            17,
+            12
+          ],
+          "right": [
+            11,
+            8
+          ],
+          "expected": ">",
+          "block": "F",
+          "skill": "MAT-FR-ORD",
+          "title": "Comparación contextual",
+          "difficulty": 4,
+          "steps": [
+            "17/12 = 34/24.",
+            "11/8 = 33/24.",
+            "17/12 > 11/8."
+          ],
+          "hints": [
+            "Buscá un denominador común.",
+            "24 es múltiplo de 12 y 8."
+          ],
+          "area": "matematica",
+          "checkArea": "M",
+          "checkPhase": "transferencia",
+          "id": "CK26-M-T-04",
+          "round": "A"
+        },
+        {
+          "kind": "model-decimal",
+          "prompt": "En un jardín hay un borde circular de diámetro 18 m. ¿Cuánto mide su semicircunferencia? Usá π ≈ 3,14.",
+          "expected": 28.26,
+          "block": "C",
+          "skill": "MAT-CIRC",
+          "title": "Resolver sin pistas",
+          "difficulty": 4,
+          "steps": [
+            "18 × 3,14 = 56,52 m.",
+            "Dividimos entre 2.",
+            "La mitad del borde mide 28,26 m."
+          ],
+          "hints": [
+            "Calculá primero el borde completo.",
+            "Una semicircunferencia es la mitad."
+          ],
+          "area": "matematica",
+          "checkArea": "M",
+          "checkPhase": "transferencia",
+          "id": "CK26-M-T-05",
+          "round": "A"
+        },
+        {
+          "kind": "model-decimal",
+          "prompt": "Una compra de 3 artículos de $ 14,25 y otro de $ 2,25, ¿cuánto suma?",
+          "expected": 45,
+          "block": "D",
+          "skill": "MAT-DEC-OPS",
+          "title": "Resolver sin pistas",
+          "difficulty": 4,
+          "steps": [
+            "3 × 14,25 = 42,75.",
+            "42,75 + 2,25 = 45.",
+            "Total $ 45."
+          ],
+          "hints": [
+            "Multiplicá antes de sumar.",
+            "42,75 + 2,25."
+          ],
+          "area": "matematica",
+          "checkArea": "M",
+          "checkPhase": "transferencia",
+          "id": "CK26-M-T-06",
+          "round": "A"
+        },
+        {
+          "kind": "model-fraction",
+          "prompt": "Una medición registra 0,048 m. Escribila como fracción irreducible.",
+          "expected": [
+            6,
+            125
+          ],
+          "irreducible": true,
+          "block": "E",
+          "skill": "MAT-FR-DEC",
+          "title": "Interpretar y convertir",
+          "difficulty": 4,
+          "steps": [
+            "0,048 = 48/1000.",
+            "Simplificamos por 8.",
+            "Resultado: 6/125."
+          ],
+          "hints": [
+            "48 milésimos son 48/1000.",
+            "Dividí ambos términos por 8."
+          ],
+          "area": "matematica",
+          "checkArea": "M",
+          "checkPhase": "transferencia",
+          "id": "CK26-M-T-07",
+          "round": "A"
+        }
+      ],
+      "L": [
+        {
+          "kind": "orth-fill",
+          "prompt": "Cuando tengo tiempo, corri_o la escritura antes de enviarla.",
+          "sentence": "Cuando tengo tiempo, corri_o la escritura antes de enviarla.",
+          "masked": "corri_o",
+          "expected": "corrijo",
+          "letter": "j",
+          "orthographyBlock": "J",
+          "skill": "LEN-GJ",
+          "title": "Comprobación autónoma",
+          "difficulty": 4,
+          "steps": [
+            "El verbo es corregir.",
+            "En primera persona se escribe «corrijo».",
+            "G cambia por J delante de O."
+          ],
+          "hints": [
+            "Pensá en el infinitivo corregir.",
+            "La primera persona singular se escribe con J."
+          ],
+          "area": "lengua",
+          "checkArea": "L",
+          "checkPhase": "transferencia",
+          "id": "CK26-L-T-01",
+          "round": "A"
+        },
+        {
+          "kind": "orth-accent-write",
+          "prompt": "Escribí esta palabra con la tilde correcta.",
+          "word": "rio",
+          "expected": "río",
+          "context": "El rio cruzaba la ciudad.",
+          "orthographyBlock": "A",
+          "skill": "LEN-ACENT",
+          "title": "Comprobación autónoma",
+          "difficulty": 4,
+          "steps": [
+            "La Í es vocal cerrada tónica.",
+            "Se marca el hiato.",
+            "Escribimos «río»."
+          ],
+          "hints": [
+            "La palabra tiene hiato.",
+            "La Í es tónica."
+          ],
+          "area": "lengua",
+          "checkArea": "L",
+          "checkPhase": "transferencia",
+          "id": "CK26-L-T-02",
+          "round": "A"
+        },
+        {
+          "kind": "orth-diacritic-write",
+          "prompt": "Completá la frase con la palabra correcta.",
+          "context": "___ dijo que no sabía la respuesta.",
+          "expected": "Él",
+          "alternate": "El",
+          "orthographyBlock": "T",
+          "skill": "LEN-DIAC",
+          "title": "Comprobación autónoma",
+          "difficulty": 4,
+          "steps": [
+            "Funciona como pronombre.",
+            "«Él» lleva tilde.",
+            "Escribimos «Él dijo...»"
+          ],
+          "hints": [
+            "Es pronombre personal.",
+            "La forma con tilde se usa para personas."
+          ],
+          "area": "lengua",
+          "checkArea": "L",
+          "checkPhase": "transferencia",
+          "id": "CK26-L-T-03",
+          "round": "A"
+        },
+        {
+          "kind": "orth-choice",
+          "prompt": "Elegí el conector que expresa una consecuencia.",
+          "context": "Se suspendió la salida por lluvia.",
+          "options": [
+            "aunque",
+            "por eso",
+            "sin embargo"
+          ],
+          "expected": "por eso",
+          "orthographyBlock": "U",
+          "skill": "LEN-CON",
+          "title": "Comprobación autónoma",
+          "difficulty": 4,
+          "steps": [
+            "Una causa provoca una consecuencia.",
+            "Por eso anuncia el efecto.",
+            "La expresión adecuada es «por eso»."
+          ],
+          "hints": [
+            "Pensá en el efecto de una causa.",
+            "Por eso expresa consecuencia."
+          ],
+          "area": "lengua",
+          "checkArea": "L",
+          "checkPhase": "transferencia",
+          "id": "CK26-L-T-04",
+          "round": "A"
+        },
+        {
+          "kind": "orth-rewrite",
+          "prompt": "Reescribí la oración corrigiendo los errores.",
+          "sentence": "Los vecinos preparo un cartel y lo pegaron ayer.",
+          "expected": "Los vecinos prepararon un cartel y lo pegaron ayer.",
+          "orthographyBlock": "P",
+          "skill": "LEN-SUJ-PRED",
+          "title": "Comprobación autónoma",
+          "difficulty": 4,
+          "steps": [
+            "El sujeto es plural.",
+            "El verbo debe estar en plural.",
+            "«Los vecinos prepararon...»"
+          ],
+          "hints": [
+            "Ubicá el sujeto y el verbo.",
+            "Los vecinos son varias personas; prepararon."
+          ],
+          "area": "lengua",
+          "checkArea": "L",
+          "checkPhase": "transferencia",
+          "id": "CK26-L-T-05",
+          "round": "A"
+        },
+        {
+          "kind": "orth-choice",
+          "prompt": "¿Qué tipo de oración es «Hay mucho viento hoy»?",
+          "context": "Hay mucho viento hoy.",
+          "options": [
+            "Bimembre",
+            "Unimembre"
+          ],
+          "expected": "Unimembre",
+          "orthographyBlock": "U",
+          "skill": "LEN-UNI-BI",
+          "title": "Comprobación autónoma",
+          "difficulty": 4,
+          "steps": [
+            "Hay es impersonal.",
+            "No posee sujeto.",
+            "Es unimembre."
+          ],
+          "hints": [
+            "No todo verbo tiene sujeto.",
+            "Hay es impersonal."
+          ],
+          "area": "lengua",
+          "checkArea": "L",
+          "checkPhase": "transferencia",
+          "id": "CK26-L-T-06",
+          "round": "A"
+        },
+        {
+          "kind": "orth-rewrite",
+          "prompt": "Revisá los signos y tildes de esta oración.",
+          "sentence": "Cuando llego la directora todos saludaron.",
+          "expected": "Cuando llegó la directora, todos saludaron.",
+          "orthographyBlock": "U",
+          "skill": "LEN-REV",
+          "title": "Comprobación autónoma",
+          "difficulty": 4,
+          "steps": [
+            "Llegó es aguda terminada en vocal.",
+            "Después del complemento inicial se coloca la coma.",
+            "«Cuando llegó la directora, todos saludaron.»"
+          ],
+          "hints": [
+            "Revisá llegó.",
+            "Separá con coma la introducción temporal."
+          ],
+          "area": "lengua",
+          "checkArea": "L",
+          "checkPhase": "transferencia",
+          "id": "CK26-L-T-07",
+          "round": "A"
+        }
+      ]
+    },
+    "retencion": {
+      "M": [
+        {
+          "kind": "model-decimal",
+          "prompt": "Una regla mide 31/16 m en una construcción a escala. ¿Cuánto representa en decimal?",
+          "expected": 1.9375,
+          "block": "E",
+          "skill": "MAT-FR-DEC",
+          "title": "Resolver sin pistas",
+          "difficulty": 4,
+          "steps": [
+            "31/16 = 1 + 15/16.",
+            "15/16 = 0,9375.",
+            "Resultado: 1,9375."
+          ],
+          "hints": [
+            "Separá una unidad completa.",
+            "Buscá una equivalencia con 10.000."
+          ],
+          "area": "matematica",
+          "checkArea": "M",
+          "checkPhase": "retencion",
+          "id": "CK26-M-R-01",
+          "round": "A"
+        },
+        {
+          "kind": "model-decimal",
+          "prompt": "Reparten 45,72 kg de arena en 6 paquetes iguales. ¿Cuánto pesa cada paquete?",
+          "expected": 7.62,
+          "block": "D",
+          "skill": "MAT-DEC-OPS",
+          "title": "Resolver sin pistas",
+          "difficulty": 4,
+          "steps": [
+            "45,72 ÷ 6.",
+            "7,62 × 6 = 45,72.",
+            "Cada paquete pesa 7,62 kg."
+          ],
+          "hints": [
+            "La operación es una división.",
+            "Comprobá multiplicando por 6."
+          ],
+          "area": "matematica",
+          "checkArea": "M",
+          "checkPhase": "retencion",
+          "id": "CK26-M-R-02",
+          "round": "A"
+        },
+        {
+          "kind": "model-fraction",
+          "prompt": "Un marcador de longitud muestra 0,028 km. Escribilo como fracción irreducible.",
+          "expected": [
+            7,
+            250
+          ],
+          "irreducible": true,
+          "block": "E",
+          "skill": "MAT-FR-DEC",
+          "title": "Interpretar y convertir",
+          "difficulty": 4,
+          "steps": [
+            "0,028 = 28/1000.",
+            "Dividimos ambos por 4.",
+            "Resultado 7/250."
+          ],
+          "hints": [
+            "Son 28 milésimos.",
+            "Simplificá por 4."
+          ],
+          "area": "matematica",
+          "checkArea": "M",
+          "checkPhase": "retencion",
+          "id": "CK26-M-R-03",
+          "round": "A"
+        },
+        {
+          "kind": "fraction-compare",
+          "prompt": "Una jarra conserva 19/12 de litro y otra 8/5. Compará sus contenidos.",
+          "left": [
+            19,
+            12
+          ],
+          "right": [
+            8,
+            5
+          ],
+          "expected": "<",
+          "block": "F",
+          "skill": "MAT-FR-ORD",
+          "title": "Comparación contextual",
+          "difficulty": 4,
+          "steps": [
+            "19/12 = 95/60.",
+            "8/5 = 96/60.",
+            "La primera contiene menos."
+          ],
+          "hints": [
+            "Buscá un denominador común.",
+            "Multiplicá en cruz."
+          ],
+          "area": "matematica",
+          "checkArea": "M",
+          "checkPhase": "retencion",
+          "id": "CK26-M-R-04",
+          "round": "A"
+        },
+        {
+          "kind": "model-decimal",
+          "prompt": "Una rueda de diámetro 25 cm da dos vueltas completas. ¿Cuántos centímetros recorre el borde? Usá π ≈ 3,14.",
+          "expected": 157,
+          "block": "C",
+          "skill": "MAT-CIRC",
+          "title": "Resolver sin pistas",
+          "difficulty": 4,
+          "steps": [
+            "Longitud de una vuelta: 25 × 3,14 = 78,5.",
+            "Dos vueltas: 78,5 × 2.",
+            "Resultado: 157 cm."
+          ],
+          "hints": [
+            "Calculá una circunferencia.",
+            "Multiplicá por dos."
+          ],
+          "area": "matematica",
+          "checkArea": "M",
+          "checkPhase": "retencion",
+          "id": "CK26-M-R-05",
+          "round": "A"
+        },
+        {
+          "kind": "model-decimal",
+          "prompt": "Cuatro cuadernos iguales cuestan $ 37,80 en total. ¿Cuánto cuestan tres cuadernos?",
+          "expected": 28.35,
+          "block": "D",
+          "skill": "MAT-DEC-OPS",
+          "title": "Resolver sin pistas",
+          "difficulty": 4,
+          "steps": [
+            "Cada cuaderno: 37,80 ÷ 4 = 9,45.",
+            "Tres cuestan 3 × 9,45.",
+            "Resultado: $ 28,35."
+          ],
+          "hints": [
+            "Primero hallá el precio unitario.",
+            "Después multiplicá por tres."
+          ],
+          "area": "matematica",
+          "checkArea": "M",
+          "checkPhase": "retencion",
+          "id": "CK26-M-R-06",
+          "round": "A"
+        },
+        {
+          "kind": "model-fraction",
+          "prompt": "Una medida de 2,375 km necesita anotarse como fracción impropia irreducible.",
+          "expected": [
+            19,
+            8
+          ],
+          "irreducible": true,
+          "block": "E",
+          "skill": "MAT-FR-DEC",
+          "title": "Interpretar y convertir",
+          "difficulty": 4,
+          "steps": [
+            "2,375 = 2375/1000.",
+            "Simplificá entre 125.",
+            "Resultado: 19/8."
+          ],
+          "hints": [
+            "Escribí 2375/1000.",
+            "Simplificá por 125."
+          ],
+          "area": "matematica",
+          "checkArea": "M",
+          "checkPhase": "retencion",
+          "id": "CK26-M-R-07",
+          "round": "A"
+        }
+      ],
+      "L": [
+        {
+          "kind": "orth-fill",
+          "prompt": "En su cuaderno, la alumna esco_e un título.",
+          "sentence": "En su cuaderno, la alumna esco_e un título.",
+          "masked": "esco_e",
+          "expected": "escoge",
+          "letter": "g",
+          "orthographyBlock": "J",
+          "skill": "LEN-GJ",
+          "title": "Comprobación autónoma",
+          "difficulty": 4,
+          "steps": [
+            "El infinitivo es escoger.",
+            "Antes de E se escribe G.",
+            "La forma correcta es «escoge»."
+          ],
+          "hints": [
+            "Pensá en el verbo escoger.",
+            "Ante E va G."
+          ],
+          "area": "lengua",
+          "checkArea": "L",
+          "checkPhase": "retencion",
+          "id": "CK26-L-R-01",
+          "round": "A"
+        },
+        {
+          "kind": "orth-accent-write",
+          "prompt": "Corregí esta palabra.",
+          "word": "grua",
+          "expected": "grúa",
+          "context": "La grua levantó una carga.",
+          "orthographyBlock": "A",
+          "skill": "LEN-ACENT",
+          "title": "Comprobación autónoma",
+          "difficulty": 4,
+          "steps": [
+            "La U es vocal cerrada tónica.",
+            "Se marca el hiato con tilde.",
+            "Resultado: «grúa»."
+          ],
+          "hints": [
+            "Hay un hiato.",
+            "La U tónica lleva tilde."
+          ],
+          "area": "lengua",
+          "checkArea": "L",
+          "checkPhase": "retencion",
+          "id": "CK26-L-R-02",
+          "round": "A"
+        },
+        {
+          "kind": "orth-diacritic-write",
+          "prompt": "Escribí el monosílabo correcto según el contexto.",
+          "context": "Este cuaderno es para ___.",
+          "expected": "ti",
+          "alternate": "tí",
+          "orthographyBlock": "T",
+          "skill": "LEN-DIAC",
+          "title": "Comprobación autónoma",
+          "difficulty": 4,
+          "steps": [
+            "«Ti» es pronombre personal.",
+            "Nunca lleva tilde diacrítica.",
+            "Se escribe «ti»."
+          ],
+          "hints": [
+            "No todos los pronombres llevan tilde.",
+            "Ti nunca se acentúa."
+          ],
+          "area": "lengua",
+          "checkArea": "L",
+          "checkPhase": "retencion",
+          "id": "CK26-L-R-03",
+          "round": "A"
+        },
+        {
+          "kind": "orth-choice",
+          "prompt": "Elegí el conector que introduce una oposición.",
+          "context": "Quería jugar afuera; se largó a llover.",
+          "options": [
+            "además",
+            "sin embargo",
+            "por eso"
+          ],
+          "expected": "sin embargo",
+          "orthographyBlock": "U",
+          "skill": "LEN-CON",
+          "title": "Comprobación autónoma",
+          "difficulty": 4,
+          "steps": [
+            "Las ideas se oponen.",
+            "Sin embargo marca contraste.",
+            "No indica causa ni consecuencia."
+          ],
+          "hints": [
+            "Las dos ideas se contraponen.",
+            "Sin embargo introduce oposición."
+          ],
+          "area": "lengua",
+          "checkArea": "L",
+          "checkPhase": "retencion",
+          "id": "CK26-L-R-04",
+          "round": "A"
+        },
+        {
+          "kind": "orth-rewrite",
+          "prompt": "Corregí el texto para que haya concordancia.",
+          "sentence": "Las vecinas organizó la feria y vende sus productos.",
+          "expected": "Las vecinas organizaron la feria y vendieron sus productos.",
+          "orthographyBlock": "P",
+          "skill": "LEN-SUJ-PRED",
+          "title": "Comprobación autónoma",
+          "difficulty": 4,
+          "steps": [
+            "El sujeto plural exige dos verbos en plural.",
+            "Cambian organizó y vende.",
+            "Organizaron y vendieron."
+          ],
+          "hints": [
+            "Revisá ambos verbos.",
+            "Los dos deben concordar con «Las vecinas»."
+          ],
+          "area": "lengua",
+          "checkArea": "L",
+          "checkPhase": "retencion",
+          "id": "CK26-L-R-05",
+          "round": "A"
+        },
+        {
+          "kind": "orth-choice",
+          "prompt": "¿La expresión «Buenas tardes» es unimembre o bimembre?",
+          "context": "Buenas tardes.",
+          "options": [
+            "Bimembre",
+            "Unimembre"
+          ],
+          "expected": "Unimembre",
+          "orthographyBlock": "U",
+          "skill": "LEN-UNI-BI",
+          "title": "Comprobación autónoma",
+          "difficulty": 4,
+          "steps": [
+            "Es una fórmula de saludo.",
+            "No presenta sujeto y predicado.",
+            "Es unimembre."
+          ],
+          "hints": [
+            "Se trata de un saludo.",
+            "No tiene sujeto y predicado."
+          ],
+          "area": "lengua",
+          "checkArea": "L",
+          "checkPhase": "retencion",
+          "id": "CK26-L-R-06",
+          "round": "A"
+        },
+        {
+          "kind": "orth-rewrite",
+          "prompt": "Corregí las tildes y separá las dos acciones.",
+          "sentence": "El miercoles llegamos temprano luego hicimos la actividad.",
+          "expected": "El miércoles llegamos temprano. Luego hicimos la actividad.",
+          "orthographyBlock": "U",
+          "skill": "LEN-REV",
+          "title": "Comprobación autónoma",
+          "difficulty": 4,
+          "steps": [
+            "Miércoles es esdrújula.",
+            "Se separan las dos acciones con punto.",
+            "«El miércoles llegamos temprano. Luego hicimos la actividad.»"
+          ],
+          "hints": [
+            "Miércoles lleva tilde.",
+            "Podés usar un punto antes de Luego."
+          ],
+          "area": "lengua",
+          "checkArea": "L",
+          "checkPhase": "retencion",
+          "id": "CK26-L-R-07",
+          "round": "A"
+        }
+      ]
+    }
+  }
+}

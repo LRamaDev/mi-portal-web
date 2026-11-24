@@ -36,12 +36,15 @@
   // Delegación permanente: evita que un selector de un solo elemento rompa todos
   // los accesos a desafíos, aunque cambie la ubicación de los botones.
   document.addEventListener('click', event => {
-    const button = event.target?.closest?.('[data-start-fractions], [data-start-model], [data-start-ortho]');
+    const button = event.target?.closest?.('[data-start-fractions], [data-start-model], [data-start-ortho], [data-start-check]');
     if (!button || button.disabled) return;
     event.preventDefault();
     if (button.hasAttribute('data-start-fractions')) startFractionChallenges();
     else if (button.hasAttribute('data-start-ortho')) startOrthographyChallenges(button.dataset.startOrtho);
-    else startModelChallenges(button.dataset.startModel);
+    else if (button.hasAttribute('data-start-check')) {
+      const [area,phase]=String(button.dataset.startCheck||'').split(':');
+      startCheckChallenges(area,phase);
+    } else startModelChallenges(button.dataset.startModel);
   });
 
   document.addEventListener('DOMContentLoaded', init);
@@ -50,7 +53,7 @@
     try {
       // La URL cambia con la versión: evita que un service worker anterior entregue
       // habilidades sin videos durante la primera visita tras una actualización.
-      const releaseVersion = document.querySelector('meta[name="app-version"]')?.content || '6.34.0';
+      const releaseVersion = document.querySelector('meta[name="app-version"]')?.content || '6.36.0';
       const [skillsData, exerciseData] = await Promise.all([
         fetch(`./data/habilidades.json?v=${encodeURIComponent(releaseVersion)}`, { cache: 'no-store' }).then(r => { if (!r.ok) throw new Error('habilidades'); return r.json(); }),
         fetch('./data/ejercicios.json').then(r => { if (!r.ok) throw new Error('ejercicios'); return r.json(); })
@@ -68,7 +71,7 @@
     refreshGateNames();
     restoreActiveContext();
     setupSupabase();
-    if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js?v=6.34.0').catch(() => {});
+    if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js?v=6.36.0').catch(() => {});
   }
 
   function bindUI() {
@@ -77,6 +80,8 @@
     $('#active-profile').addEventListener('click', leaveProfile);
     $$('[data-nav]').forEach(btn => btn.addEventListener('click', e => { e.preventDefault(); navigate(btn.dataset.nav); }));
     $('#start-recommended').addEventListener('click', startRecommended);
+    document.addEventListener('click',handleWeekClick);
+    $('#week-day-select')?.addEventListener('change',event=>{selectedWeekDate=event.target.value;renderWeekPlan();});
     // Los accesos a Desafíos se atienden por delegación en document:
     // no dependen de la ubicación de las tarjetas ni de que bindUI llegue hasta aquí.
     $('#start-diagnostic').addEventListener('click', () => startSession({ type: 'diagnostico', area: 'all', origin: 'manual' }));
@@ -720,6 +725,7 @@
   function renderFamily() {
     refreshGateNames();
     renderFamilyActivity();
+    renderWeekFamily();
     renderTutoringPlan();
     renderVisitMetrics();
     if (!supa) {
@@ -859,9 +865,12 @@
     active:'En curso',
     new:'Nuevos desafíos',
     pending:'Por hacer',
+    reinforce:'Para reforzar',
+    verification:'Comprobación pendiente',
+    waiting:'Comprobación programada',
     locked:'Elegí un perfil'
   };
-  function challengeVisualProgress(profile,rounds,completed,idPrefix){
+  function challengeVisualProgress(profile,rounds,completed,idPrefix,refuerzo=false){
     if(!profile)return {state:'locked',next:null,done:0,total:rounds.length};
     const done=rounds.filter(round=>completed.has(round)).length;
     const next=rounds.find(round=>!completed.has(round))||null;
@@ -870,7 +879,7 @@
       item=>String(item.exerciseId||'').startsWith(idPrefix+next+'-')
     );
     return {
-      state:partial?'active':done>0?'new':'pending',
+      state:partial?'active':done>0?(refuerzo?'reinforce':'new'):'pending',
       next,done,total:rounds.length
     };
   }
@@ -880,6 +889,7 @@
     if(progress.state==='completed')return '¡Listo! '+progress.total+' de '+progress.total+' '+kind+' completados.';
     if(progress.state==='active')return 'En curso: '+unit+' '+progress.next+' · '+progress.done+' de '+progress.total+' '+kind+' completados.';
     if(progress.state==='new')return '¡Hay nuevos desafíos! '+unit+' '+progress.next+' disponible · '+progress.done+' de '+progress.total+' '+kind+' completados.';
+    if(progress.state==='reinforce')return 'Para reforzar: ejercicios nuevos · '+unit+' '+progress.next+' · '+progress.done+' de '+progress.total+' '+kind+' ya trabajados.';
     return 'Por hacer: '+unit+' '+progress.next+' · 7 ejercicios.';
   }
   function updateChallengeCard(label,progress){
@@ -891,11 +901,14 @@
   }
   function updateChallengeButton(button,progress,unit){
     if(!button)return;
-    button.disabled=progress.state==='completed'||progress.state==='locked';
+    button.disabled=['completed','locked','waiting'].includes(progress.state);
     button.textContent=progress.state==='completed'?'Todo completado'
       :progress.state==='locked'?'Elegí un perfil'
       :progress.state==='active'?'Continuar '+unit.toLowerCase()+' '+progress.next
       :progress.state==='new'?'Hacer nuevos desafíos · '+progress.next
+      :progress.state==='reinforce'?'Practicar refuerzo · '+progress.next
+      :progress.state==='verification'?'Hacer comprobación'
+      :progress.state==='waiting'?'Todavía no disponible'
       :'Empezar '+unit.toLowerCase()+' '+progress.next;
     button.title=progress.state==='completed'?'Todos los circuitos disponibles están terminados.'
       :progress.state==='locked'?'Ingresá a un perfil individual.'
@@ -909,21 +922,25 @@
       return;
     }
     const cards=$$('.challenge-hub-card[data-challenge-state]');
-    const counts={completed:0,active:0,new:0,pending:0};
+    const counts={completed:0,active:0,new:0,pending:0,reinforce:0,verification:0,waiting:0};
     cards.forEach(card=>{
       const state=card.dataset.challengeState;
       if(Object.prototype.hasOwnProperty.call(counts,state))counts[state]++;
     });
-    const remaining=counts.active+counts.new+counts.pending;
+    const remaining=counts.active+counts.new+counts.pending+counts.reinforce+counts.verification;
     summary.textContent=remaining===0
       ? '¡Todos los bloques disponibles están completados!'
       :remaining+' bloques con ejercicios por hacer · '+counts.completed+' completados'+
-        (counts.new?' · '+counts.new+' con desafíos nuevos':'')+'.';
+        (counts.new?' · '+counts.new+' con desafíos nuevos':'')+
+        (counts.reinforce?' · '+counts.reinforce+' para reforzar':'')+
+        (counts.verification?' · '+counts.verification+' comprobaciones pendientes':'')+'.';
   }
   function refreshChallengeIndicators(){
     renderFractionEntry();
     renderModelEntries();
     renderOrthographyEntries();
+    renderCheckEntries();
+    renderWeekPlan();
     renderChallengeOverview();
   }
 
@@ -1036,14 +1053,31 @@
     C: {label:'Circunferencia y sus elementos',skill:'MAT-CIRC',school:'monserrat'},
     F: {label:'Comparación y orden de fracciones',skill:'MAT-FR-ORD',school:null},
     D: {label:'Operaciones con decimales',skill:'MAT-DEC-OPS',school:null},
-    E: {label:'Conversión entre fracción y decimal',skill:'MAT-FR-DEC',school:null}
+    E: {label:'Conversión entre fracción y decimal',skill:'MAT-FR-DEC',school:null},
+    S: {label:'Medidas y divisibilidad',skill:null,school:'monserrat'}
   };
-  const MODEL_ROUNDS = ['A','B','C'];
-  function modelRounds(block){return ['C','F'].includes(block)?MODEL_ROUNDS:MODEL_ROUNDS.slice(0,2);}
+  const MODEL_ROUNDS=['A','B','C','D','E'];
+  function modelRounds(block){
+    if(['C','F','D'].includes(block))return MODEL_ROUNDS.slice(0,4);
+    if(block==='E')return MODEL_ROUNDS;
+    return MODEL_ROUNDS.slice(0,2);
+  }
+  // Los 7 ejercicios guardados acreditan que se trabajó el circuito, aunque
+  // el evento de cierre formal haya fallado (dos casos en el perfil V).
+  // No se fabrica ni se reescribe una sesión histórica.
+  function completedByEvidence(profile,prefix,round){
+    if(!profile)return false;
+    const ids=new Set((profile.evidence||[]).map(item=>String(item.exerciseId||'')));
+    return Array.from({length:7},(_,i)=>prefix+round+'-'+String(i+1).padStart(2,'0'))
+      .every(id=>ids.has(id));
+  }
   function completedModelRounds(profile,block){
-    return new Set((profile?.history||[])
-      .filter(item=>item.type==='desafios_modelo'&&item.blockId===block&&modelRounds(block).includes(item.roundId))
+    const rounds=modelRounds(block);
+    const completed=new Set((profile?.history||[])
+      .filter(item=>item.type==='desafios_modelo'&&item.blockId===block&&rounds.includes(item.roundId))
       .map(item=>item.roundId));
+    for(const round of rounds)if(completedByEvidence(profile,'MB26-'+block+'-',round))completed.add(round);
+    return completed;
   }
   function nextModelRound(profile,block){
     const completed=completedModelRounds(profile,block);
@@ -1059,7 +1093,7 @@
       if(!MODEL_BLOCKS[block])return;
       const rounds=modelRounds(block);
       const completed=individual?completedModelRounds(profile,block):new Set();
-      const progress=challengeVisualProgress(profile,rounds,completed,'MB26-'+block+'-');
+      const progress=challengeVisualProgress(profile,rounds,completed,'MB26-'+block+'-', ['D','E'].includes(block));
       byBlock.set(block,progress);
       element.textContent=challengeVisualCopy(progress,'Circuito');
       updateChallengeCard(element,progress);
@@ -1070,13 +1104,14 @@
       else button.disabled=true;
     });
   }
-  function startModelChallenges(block){
+  function startModelChallenges(block,forcedRound=null){
     if(!MODEL_BLOCKS[block])return;
     if(!activeMode||activeMode==='together')return toast('Elegí uno de los perfiles individuales para este circuito.');
     if(session)return toast('Terminá primero el entrenamiento abierto.');
     const engine=window.IngresoFractionChallenges;
     if(!engine)return toast('No se pudo cargar el motor interactivo. Recargá la aplicación.');
-    const pid=primaryProfileId(),profile=state.profiles[pid],round=nextModelRound(profile,block);
+    const pid=primaryProfileId(),profile=state.profiles[pid],round=forcedRound||nextModelRound(profile,block);
+    if(forcedRound&&(!modelRounds(block).includes(forcedRound)||completedModelRounds(profile,block).has(forcedRound)))return toast('Ese circuito ya está completado o no está disponible.');
     if(!round)return toast('Ya completaste los circuitos de este bloque.');
     const prefix='MB26-'+block+'-'+round+'-';
     const previous=new Map();
@@ -1096,7 +1131,7 @@
       onComplete:({block:doneBlock,round:doneRound,results})=>{
         const current=state.profiles[pid];
         if(activeMode!==pid||!current||doneBlock!==block||doneRound!==round)return;
-        if(completedModelRounds(current,block).has(round)||results.length!==7)return;
+        if((current.history||[]).some(row=>row.type==='desafios_modelo'&&row.blockId===block&&row.roundId===round)||results.length!==7)return;
         const savedIds=new Set((current.evidence||[]).map(item=>item.exerciseId));
         if(results.some(item=>!savedIds.has(item.id)))return;
         const autonomous=results.filter(item=>item.status==='autonoma').length;
@@ -1114,10 +1149,10 @@
     }).catch(error=>{console.error('[Ingreso bloques]',error);toast('No se pudieron abrir estos desafíos.');});
   }
   function recordModelAttempt(pid,result){
-    if(!/^MB26-[RPCFDE]-[ABC]-0[1-7]$/.test(result.id)||!MODEL_BLOCKS[result.block])return;
+    if(!/^MB26-[RPCFDES]-[ABCDE]-0[1-7]$/.test(result.id)||!MODEL_BLOCKS[result.block])return;
     if(!modelRounds(result.block).includes(result.round))return;
     if(!['autonoma','ayuda','revisar'].includes(result.status))return;
-    if(result.skill!==MODEL_BLOCKS[result.block].skill)return;
+    if(result.block==='S'? !['MAT-MED-CAP','MAT-MED-MASA','MAT-MED-TIEMPO','MAT-MCM','MAT-MULT','MAT-ANG-CS','MAT-PRIM','MAT-COMB'].includes(result.skill) : result.skill!==MODEL_BLOCKS[result.block].skill)return;
     const profile=state.profiles[pid],engine=window.IngresoPedagogy;
     if(!profile||!engine||(profile.evidence||[]).some(item=>item.exerciseId===result.id))return;
     const exercise={
@@ -1145,26 +1180,28 @@
 
   // Ortografía Monserrat: cinco estructuras de resolución con repetición A/B.
   // Toda la práctica reutiliza el motor de fracciones, su devolución y guardado.
-  const ORTHOGRAPHY_BLOCKS = {
-    D: 'Diptongo e hiato',
-    J: 'Uso de G y J: detectar y escribir',
-    B: 'Uso de B, V, C, S y Z',
-    A: 'Acentuación general',
-    T: 'Tilde diacrítica en monosílabos',
-    P: 'Puntuación y concordancia'
+  const ORTHOGRAPHY_BLOCKS={
+    D:'Diptongo e hiato',J:'Uso de G y J: detectar y escribir',
+    B:'Uso de B, V, C, S y Z',A:'Acentuación general',
+    T:'Tilde diacrítica en monosílabos',P:'Puntuación y concordancia',
+    U:'Oraciones, conectores y revisión de textos'
   };
-  const ORTHOGRAPHY_ROUNDS=['A','B','C','D','E'];
+  const ORTHOGRAPHY_ROUNDS=['A','B','C','D','E','F'];
   function orthographyRounds(block){
     if(['J','T'].includes(block))return ORTHOGRAPHY_ROUNDS;
-    if(block==='A')return ORTHOGRAPHY_ROUNDS.slice(0,4);
+    if(block==='A')return ORTHOGRAPHY_ROUNDS.slice(0,5);
+    if(block==='P')return ORTHOGRAPHY_ROUNDS.slice(0,3);
     return ORTHOGRAPHY_ROUNDS.slice(0,2);
   }
-  const ORTHOGRAPHY_SKILLS=new Set(['LEN-DIP-HIA','LEN-GJ','LEN-BV','LEN-CSZ','LEN-ACENT','LEN-DIAC','LEN-PUNT','LEN-SUJ-PRED']);
+  const ORTHOGRAPHY_SKILLS=new Set(['LEN-DIP-HIA','LEN-GJ','LEN-BV','LEN-CSZ','LEN-ACENT','LEN-DIAC','LEN-PUNT','LEN-SUJ-PRED','LEN-CON','LEN-UNI-BI','LEN-REV','LEN-PROD']);
   function completedOrthographyRounds(profile,block){
-    return new Set((profile?.history||[])
+    const rounds=orthographyRounds(block);
+    const completed=new Set((profile?.history||[])
       .filter(event=>event.type==='desafios_ortografia' &&
-        event.orthographyBlockId===block && orthographyRounds(block).includes(event.roundId))
+        event.orthographyBlockId===block && rounds.includes(event.roundId))
       .map(event=>event.roundId));
+    for(const round of rounds)if(completedByEvidence(profile,'MO26-'+block+'-',round))completed.add(round);
+    return completed;
   }
   function nextOrthographyRound(profile,block){
     const completed=completedOrthographyRounds(profile,block);
@@ -1180,7 +1217,7 @@
       if(!ORTHOGRAPHY_BLOCKS[block])return;
       const rounds=orthographyRounds(block);
       const completed=individual?completedOrthographyRounds(profile,block):new Set();
-      const progress=challengeVisualProgress(profile,rounds,completed,'MO26-'+block+'-');
+      const progress=challengeVisualProgress(profile,rounds,completed,'MO26-'+block+'-', ['J','A','T'].includes(block));
       byBlock.set(block,progress);
       label.textContent=challengeVisualCopy(progress,'Circuito');
       updateChallengeCard(label,progress);
@@ -1191,13 +1228,14 @@
       else button.disabled=true;
     });
   }
-  function startOrthographyChallenges(block){
+  function startOrthographyChallenges(block,forcedRound=null){
     if(!ORTHOGRAPHY_BLOCKS[block])return;
     if(!activeMode||activeMode==='together')return toast('Elegí un perfil individual para estos desafíos.');
     if(session)return toast('Primero terminá el entrenamiento abierto.');
     const engine=window.IngresoFractionChallenges;
     if(!engine)return toast('No se pudo cargar el motor interactivo. Recargá la aplicación.');
-    const pid=primaryProfileId(),profile=state.profiles[pid],round=nextOrthographyRound(profile,block);
+    const pid=primaryProfileId(),profile=state.profiles[pid],round=forcedRound||nextOrthographyRound(profile,block);
+    if(forcedRound&&(!orthographyRounds(block).includes(forcedRound)||completedOrthographyRounds(profile,block).has(forcedRound)))return toast('Ese circuito ya está completado o no está disponible.');
     if(!round)return toast('Ya completaste los circuitos de este bloque.');
     const prefix='MO26-'+block+'-'+round+'-';
     const priorById=new Map();
@@ -1217,7 +1255,7 @@
       onComplete:({orthographyBlock:finishedBlock,round:finishedRound,results})=>{
         const current=state.profiles[pid];
         if(!current||activeMode!==pid||finishedBlock!==block||finishedRound!==round)return;
-        if(completedOrthographyRounds(current,block).has(round)||results.length!==7)return;
+        if((current.history||[]).some(row=>row.type==='desafios_ortografia'&&row.orthographyBlockId===block&&row.roundId===round)||results.length!==7)return;
         const recorded=new Set((current.evidence||[]).map(row=>row.exerciseId));
         if(results.some(row=>!recorded.has(row.id)))return;
         const autonomous=results.filter(row=>row.status==='autonoma').length;
@@ -1236,7 +1274,7 @@
     }).catch(error=>{console.error('[Desafíos ortografía]',error);toast('No se pudieron abrir los desafíos de ortografía.');});
   }
   function recordOrthographyAttempt(pid,result){
-    const match=/^MO26-([DJBATP])-([ABCDE])-0[1-7]$/.exec(result.id||'');
+    const match=/^MO26-([DJBATPU])-([ABCDEF])-0[1-7]$/.exec(result.id||'');
     if(match&&!orthographyRounds(match[1]).includes(match[2]))return;
     if(!match||match[1]!==result.orthographyBlock||!ORTHOGRAPHY_SKILLS.has(result.skill))return;
     if(!['autonoma','ayuda','revisar'].includes(result.status))return;
@@ -1261,6 +1299,400 @@
     markExerciseUsedToday(pid,exercise.id);
     saveState();
     refreshChallengeIndicators();
+  }
+
+
+  // Comprobaciones: ejercicio autónomo inicial, transferencia inmediata tras
+  // los circuitos relevantes y retención desde el cuarto día de la práctica.
+  const CHECK_PHASES=['transferencia','retencion'];
+  const CHECK_AREAS=['M','L'];
+  const CHECK_WAIT_MS=4*DAY_MS;
+  const CHECK_PREREQUISITES={
+    M:[['model','E','E'],['model','D','D']],
+    L:[['ortho','J','F'],['ortho','A','E'],['ortho','T','F'],['ortho','P','C'],['ortho','U','B']]
+  };
+  const CHECK_SKILLS=new Set([
+    'MAT-FR-DEC','MAT-DEC-OPS','MAT-FR-ORD','MAT-CIRC',
+    'LEN-GJ','LEN-ACENT','LEN-DIAC','LEN-PUNT',
+    'LEN-SUJ-PRED','LEN-CON','LEN-UNI-BI','LEN-REV'
+  ]);
+  function evidenceTime(value){
+    const raw=typeof value==='number'?value:typeof value==='string'
+      ?(/^\d+$/.test(value)?Number(value):Date.parse(value)):0;
+    return Number.isFinite(raw)&&raw>0?raw:0;
+  }
+  function checkPrefix(area,phase){
+    return 'CK26-'+area+'-'+(phase==='transferencia'?'T':'R')+'-';
+  }
+  function checkFinished(profile,area,phase){
+    if(!profile)return false;
+    return (profile.history||[]).some(event=>
+      event.type==='desafios_comprobacion'&&event.checkArea===area&&event.phase===phase
+    )||Array.from({length:7},(_,i)=>checkPrefix(area,phase)+String(i+1).padStart(2,'0'))
+      .every(id=>(profile.evidence||[]).some(row=>row.exerciseId===id));
+  }
+  function prerequisiteComplete(profile,kind,block,round){
+    return kind==='model'
+      ?completedModelRounds(profile,block).has(round)
+      :completedOrthographyRounds(profile,block).has(round);
+  }
+  function lastPrerequisiteAt(profile,area){
+    if(!profile)return 0;
+    const times=[];
+    for(const [kind,block,round] of CHECK_PREREQUISITES[area]){
+      const historyType=kind==='model'?'desafios_modelo':'desafios_ortografia';
+      for(const event of profile.history||[]){
+        if(event.type!==historyType||event.roundId!==round)continue;
+        if(kind==='model'&&event.blockId!==block)continue;
+        if(kind==='ortho'&&event.orthographyBlockId!==block)continue;
+        times.push(evidenceTime(event.at));
+      }
+      const prefix=(kind==='model'?'MB26-':'MO26-')+block+'-'+round+'-';
+      for(const event of profile.evidence||[]){
+        if(String(event.exerciseId||'').startsWith(prefix))times.push(evidenceTime(event.at));
+      }
+    }
+    return Math.max(0,...times);
+  }
+  // Las comprobaciones breves se pueden usar como diagnóstico inicial:
+  // no exigimos 35/42 ejercicios guiados antes de desbloquearlas.
+  // Retención: cuatro días desde la comprobación inicial de transferencia.
+  function lastTransferAt(profile,area){
+    const records=(profile?.history||[]).filter(event=>
+      event.type==='desafios_comprobacion'&&event.checkArea===area&&event.phase==='transferencia'
+    ).map(event=>evidenceTime(event.at));
+    const evidence=(profile?.evidence||[]).filter(event=>
+      String(event.exerciseId||'').startsWith(checkPrefix(area,'transferencia'))
+    ).map(event=>evidenceTime(event.at));
+    return Math.max(0,...records,...evidence);
+  }
+  function checkState(profile,area,phase,now=Date.now()){
+    if(!profile)return {state:'locked',message:'Elegí un perfil individual.',dueAt:0};
+    if(checkFinished(profile,area,phase))
+      return {state:'completed',message:'Comprobación finalizada; resultado guardado por separado de la práctica.',dueAt:0};
+    const prefix=checkPrefix(area,phase);
+    const partial=(profile.evidence||[]).some(event=>String(event.exerciseId||'').startsWith(prefix));
+    if(partial)return {state:'active',message:'En curso: seguí con las consignas pendientes.',dueAt:0};
+    if(phase==='transferencia')
+      return {state:'verification',message:'Disponible: siete situaciones nuevas, sin pistas antes de responder.',dueAt:0};
+    if(!checkFinished(profile,area,'transferencia'))
+      return {state:'waiting',message:'Primero realizá la comprobación inicial de esta materia.',dueAt:0};
+    const first=lastTransferAt(profile,area),dueAt=first?first+CHECK_WAIT_MS:0;
+    if(!dueAt||now<dueAt){
+      const date=dueAt?new Date(dueAt).toLocaleDateString('es-AR',{day:'2-digit',month:'2-digit',year:'numeric'}):'más adelante';
+      return {state:'waiting',message:'Comprobación disponible el '+date+' (cuatro días después del primer chequeo).',dueAt};
+    }
+    return {state:'verification',message:'Retención pendiente: ya pasaron al menos cuatro días.',dueAt};
+  }
+  function renderCheckEntries(){
+    if(!activeMode)return;
+    const profile=activeMode==='together'?null:state.profiles[primaryProfileId()];
+    const states=new Map();
+    $$('[data-check-status]').forEach(label=>{
+      const [area,phase]=String(label.dataset.checkStatus||'').split(':');
+      if(!CHECK_AREAS.includes(area)||!CHECK_PHASES.includes(phase))return;
+      const progress=checkState(profile,area,phase);
+      states.set(area+':'+phase,progress);
+      label.textContent=progress.message;
+      updateChallengeCard(label,progress);
+    });
+    $$('[data-start-check]').forEach(button=>{
+      const progress=states.get(button.dataset.startCheck);
+      if(!progress){button.disabled=true;return;}
+      button.disabled=!['verification','active'].includes(progress.state);
+      button.textContent=progress.state==='completed'?'Comprobación completada':
+        progress.state==='active'?'Continuar comprobación':
+        progress.state==='verification'?'Empezar comprobación':'Todavía no disponible';
+      button.title=progress.state==='waiting'?progress.message:'';
+    });
+  }
+  function startCheckChallenges(area,phase){
+    if(!CHECK_AREAS.includes(area)||!CHECK_PHASES.includes(phase))return;
+    if(!activeMode||activeMode==='together')return toast('Estas comprobaciones se realizan de manera individual.');
+    if(session)return toast('Primero terminá el entrenamiento abierto.');
+    const engine=window.IngresoFractionChallenges;
+    if(!engine)return toast('No se pudo cargar el motor de desafíos.');
+    const pid=primaryProfileId(),profile=state.profiles[pid],progress=checkState(profile,area,phase);
+    if(!['verification','active'].includes(progress.state))
+      return toast(progress.message||'Todavía no corresponde esta comprobación.');
+    const prefix=checkPrefix(area,phase),priorById=new Map();
+    for(const event of profile.evidence||[]){
+      if(!String(event.exerciseId||'').startsWith(prefix))continue;
+      priorById.set(event.exerciseId,{
+        id:event.exerciseId,round:'A',
+        status:!event.correct?'revisar':event.hintUsed?'ayuda':'autonoma'
+      });
+    }
+    engine.open({
+      checkArea:area,checkPhase:phase,round:'A',prior:[...priorById.values()],
+      onResult:result=>{
+        if(activeMode!==pid||result.checkArea!==area||result.checkPhase!==phase)return;
+        recordCheckAttempt(pid,result);
+      },
+      onComplete:({checkArea:doneArea,checkPhase:donePhase,results})=>{
+        const current=state.profiles[pid];
+        if(!current||activeMode!==pid||doneArea!==area||donePhase!==phase||results.length!==7)return;
+        // El cierre formal y la evidencia completa son distintos: no se eliminan
+        // ni reescriben registros antiguos, y no se duplica un cierre existente.
+        if((current.history||[]).some(ev=>ev.type==='desafios_comprobacion'&&ev.checkArea===area&&ev.phase===phase))return;
+        const recorded=new Set((current.evidence||[]).map(ev=>ev.exerciseId));
+        if(results.some(row=>!recorded.has(row.id)))return;
+        const autonomous=results.filter(row=>row.status==='autonoma').length;
+        const helped=results.filter(row=>row.status==='ayuda').length;
+        current.sessions=(current.sessions||0)+1;
+        current.history=[...(current.history||[]),{
+          at:Date.now(),type:'desafios_comprobacion',
+          phase,checkArea:area,area:area==='M'?'matematica':'lengua',
+          roundId:'A',total:7,autonomous,withHelp:helped,
+          toReview:7-autonomous-helped,score:autonomous+helped,
+          note:'Evidencia de comprobación; no equivale a dominio consolidado.'
+        }];
+        saveState();renderAll();
+      }
+    }).catch(error=>{console.error('[Comprobaciones]',error);toast('No se pudo abrir la comprobación.');});
+  }
+  function recordCheckAttempt(pid,result){
+    const match=/^CK26-([ML])-([TR])-0[1-7]$/.exec(result.id||'');
+    if(!match||match[1]!==result.checkArea||
+      (match[2]==='T'?'transferencia':'retencion')!==result.checkPhase||
+      !CHECK_SKILLS.has(result.skill)||!['autonoma','ayuda','revisar'].includes(result.status))return;
+    const profile=state.profiles[pid],engine=window.IngresoPedagogy;
+    if(!profile||!engine||(profile.evidence||[]).some(ev=>ev.exerciseId===result.id))return;
+    const exercise={
+      id:result.id,habilidad:result.skill,
+      area:match[1]==='M'?'matematica':'lengua',
+      dificultad:Math.min(4,Math.max(1,Number(result.difficulty)||4)),
+      colegios:['comun']
+    };
+    const event=engine.createEvidence({
+      profileId:pid,exercise,
+      correct:result.status!=='revisar',hintUsed:result.status!=='autonoma',
+      sessionType:'comprobacion',
+      origin:'desafios_comprobacion_'+result.checkPhase,
+      purpose:result.checkPhase,
+      durationMs:Math.max(0,Number(result.durationMs)||0),
+      evaluationWeight:result.status==='autonoma'?1:result.status==='ayuda'?0.65:0.5,
+      at:Date.now()
+    });
+    // Conserva explícitamente el dato del primer intento: corregir después de
+    // una equivocación no transforma la comprobación en autónoma.
+    event.firstAttemptCorrect=result.firstAttemptCorrect===true;
+    engine.applyAttempt(profile,exercise,event,{maxDifficulty:skillMaxDifficulty(exercise.habilidad)});
+    markExerciseUsedToday(pid,exercise.id);
+    saveState();refreshChallengeIndicators();
+  }
+
+
+  // Recorrido corto, accesible por perfil durante la semana 24–30/11/2026.
+  // El plan es una propuesta, nunca bloquea una fecha posterior y no reinicia
+  // las actividades previas. Los resultados y borradores se sincronizan a través
+  // del estado familiar que ya utiliza Supabase.
+  const WEEK_DATES=['2026-11-24','2026-11-25','2026-11-26',
+    '2026-11-27','2026-11-28','2026-11-29','2026-11-30'];
+  const WEEK_LABELS=['Mar 24','Mié 25','Jue 26','Vie 27','Sáb 28','Dom 29','Lun 30'];
+  const WEEK_PLAN={
+    '2026-11-24':{
+      p1:{heading:'Comprobación inicial · Matemática',
+        intro:'Hoy, con acompañamiento adulto: comprobá tus conversiones sin pistas antes de responder.',
+        tasks:[{id:'comprobacion-m',label:'Siete problemas nuevos de Matemática',detail:'Primera respuesta sin pistas. Después podés corregir.',action:'check:M:transferencia'}]},
+      p2:{heading:'Comprobación inicial · Matemática',
+        intro:'Hoy, con acompañamiento adulto: prestá atención a divisiones y conversiones.',
+        tasks:[{id:'comprobacion-m',label:'Siete problemas nuevos de Matemática',detail:'Primera respuesta sin pistas. Después podés corregir.',action:'check:M:transferencia'}]}
+    },
+    '2026-11-25':{
+      p1:{heading:'Conversión y G/J',intro:'Trabajá por tu cuenta. Podés pedir pistas y volver a intentar.',
+        tasks:[{id:'conversion',label:'Fracciones y decimales',detail:'Circuito C · equivalencias y escritura decimal.',action:'model:E:C'},
+          {id:'gj',label:'Verbos con G y J',detail:'Circuito F · escribir palabras completas.',action:'ortho:J:F'}]},
+      p2:{heading:'Divisiones y acentuación',intro:'Primero resolvé en el cuaderno; después comprobá.',
+        tasks:[{id:'division',label:'Dividir números decimales',detail:'Circuito C · valor posicional y repartos.',action:'model:D:C'},
+          {id:'acentos',label:'Acentuación e hiatos',detail:'Circuito E · sin depender de las opciones.',action:'ortho:A:E'}]}
+    },
+    '2026-11-26':{
+      p1:{heading:'Medidas, divisibilidad y narración',intro:'Hacé una tanda de Matemática y después escribí una historia breve.',
+        tasks:[{id:'magnitudes',label:'Capacidad, tiempo, múltiplos y MCM',detail:'Siete ejercicios con situaciones distintas.',action:'model:S:A'},
+          {id:'narracion',label:'Escribir una narración breve',detail:'Inicio, conflicto, desenlace y revisión. El texto queda guardado sin nota automática.',action:'writing'}]},
+      p2:{heading:'Primos, medidas y narración',intro:'Hacé tu tanda de Matemática y reservá tiempo para escribir.',
+        tasks:[{id:'magnitudes',label:'Primos, masa, capacidad y operaciones',detail:'Siete problemas nuevos de aplicación.',action:'model:S:B'},
+          {id:'narracion',label:'Escribir una narración breve',detail:'Inicio, conflicto, desenlace y revisión. El texto queda guardado sin nota automática.',action:'writing'}]}
+    },
+    '2026-11-27':{
+      p1:{heading:'Simulacro de Matemática',intro:'60 minutos · papel · resolución individual. Sin calculadora ni pistas.',
+        tasks:[{id:'simulacro-m',label:'Simulacro completo de Matemática',detail:'Imprimilo y resolvelo con tiempo controlado. Después indicá que lo realizaste.',action:'paper:simulacro-m'}]},
+      p2:{heading:'Simulacro de Matemática',intro:'60 minutos · papel · resolución individual. Sin calculadora ni pistas.',
+        tasks:[{id:'simulacro-m',label:'Simulacro completo de Matemática',detail:'Imprimilo y resolvelo con tiempo controlado. Después indicá que lo realizaste.',action:'paper:simulacro-m'}]}
+    },
+    '2026-11-28':{
+      p1:{heading:'Corregir, no acumular',intro:'Con acompañamiento adulto, revisá solamente dos o tres dificultades del simulacro.',
+        tasks:[{id:'revision-m',label:'Revisión del simulacro matemático',detail:'Anotá qué costó: interpretar, elegir la operación, calcular o administrar el tiempo.',action:'note:revision-m'},
+          {id:'retencion-m',label:'Comprobación de retención',detail:'Disponible cuatro días después de la comprobación inicial; opcional.',action:'check:M:retencion'}]},
+      p2:{heading:'Corregir, no acumular',intro:'Revisá los errores del examen en papel; no repitas todo el banco.',
+        tasks:[{id:'revision-m',label:'Revisión del simulacro matemático',detail:'Anotá dos o tres procedimientos que necesitás asegurar.',action:'note:revision-m'},
+          {id:'retencion-m',label:'Comprobación de retención',detail:'Disponible cuatro días después de la comprobación inicial; opcional.',action:'check:M:retencion'}]}
+    },
+    '2026-11-29':{
+      p1:{heading:'Simulacro de Lengua',intro:'60 minutos · lectura, gramática, ortografía y narración individual en papel.',
+        tasks:[{id:'simulacro-l',label:'Simulacro completo de Lengua',detail:'Incluye producción escrita. La corrección requiere lectura adulta.',action:'paper:simulacro-l'}]},
+      p2:{heading:'Simulacro de Lengua',intro:'60 minutos · lectura, gramática, ortografía y narración individual en papel.',
+        tasks:[{id:'simulacro-l',label:'Simulacro completo de Lengua',detail:'Incluye producción escrita. La corrección requiere lectura adulta.',action:'paper:simulacro-l'}]}
+    },
+    '2026-11-30':{
+      p1:{heading:'Cierre liviano',intro:'20–30 minutos. No abras actividades nuevas si ya revisaste los errores importantes.',
+        tasks:[{id:'cierre',label:'Revisar dos procedimientos y descansar',detail:'Repasá tus notas. Terminá temprano.',action:'note:cierre'}]},
+      p2:{heading:'Cierre liviano',intro:'20–30 minutos. No abras actividades nuevas si ya revisaste los errores importantes.',
+        tasks:[{id:'cierre',label:'Revisar dos procedimientos y descansar',detail:'Repasá tus notas. Terminá temprano.',action:'note:cierre'}]}
+    }
+  };
+  let selectedWeekDate=null;
+  function cordobaDayKey(){
+    const pieces=new Intl.DateTimeFormat('en-US',{
+      timeZone:'America/Argentina/Cordoba',year:'numeric',month:'2-digit',day:'2-digit'
+    }).formatToParts(new Date());
+    const value=Object.fromEntries(pieces.filter(p=>p.type!=='literal').map(p=>[p.type,p.value]));
+    return value.year+'-'+value.month+'-'+value.day;
+  }
+  function displayedWeekDate(){
+    const today=cordobaDayKey();
+    return WEEK_DATES.includes(selectedWeekDate)?selectedWeekDate:
+      WEEK_DATES.includes(today)?today:WEEK_DATES[0];
+  }
+  function weekItems(profileId,date){
+    return WEEK_PLAN[date]?.[profileId]?.tasks||[];
+  }
+  function weekTaskStatus(profile,task,date){
+    if(!profile)return 'locked';
+    const parts=task.action.split(':');
+    if(parts[0]==='check'){
+      const area=parts[1],phase=parts[2];
+      const progress=checkState(profile,area,phase);
+      return progress.state==='completed'?'completed':
+        progress.state==='active'?'active':progress.state==='waiting'?'waiting':'pending';
+    }
+    if(parts[0]==='model'){
+      const block=parts[1],round=parts[2];
+      if(completedModelRounds(profile,block).has(round))return 'completed';
+      return (profile.evidence||[]).some(e=>String(e.exerciseId||'').startsWith('MB26-'+block+'-'+round+'-'))
+        ?'active':'pending';
+    }
+    if(parts[0]==='ortho'){
+      const block=parts[1],round=parts[2];
+      if(completedOrthographyRounds(profile,block).has(round))return 'completed';
+      return (profile.evidence||[]).some(e=>String(e.exerciseId||'').startsWith('MO26-'+block+'-'+round+'-'))
+        ?'active':'pending';
+    }
+    if(parts[0]==='writing')return profile.weekWriting?.[date]?.text?'completed':'pending';
+    return profile.weekLog?.[date]?.[task.id]?'completed':'pending';
+  }
+  function weekStatusLabel(status,task){
+    if(status==='completed')return task.action.startsWith('paper:')?'Realizado en papel · sin corregir':'Realizado';
+    if(status==='active')return 'En curso';
+    if(status==='waiting')return 'Disponible más adelante';
+    if(status==='locked')return 'Elegí un perfil';
+    return 'Por hacer';
+  }
+  function weekActivityAction(profile,task,date,status){
+    const action=task.action;
+    if(action==='writing'){
+      const draft=profile.weekWriting?.[date]?.text||'';
+      return '<label class="week-write-label" for="week-writing-input">Tu narración (no se califica automáticamente)</label>'+
+        '<textarea id="week-writing-input" rows="7" maxlength="3500" placeholder="Una tarde, cuando llegamos al lugar...">'+escapeHtml(draft)+'</textarea>'+
+        '<button class="secondary-button" type="button" data-week-action="save-writing" data-week-date="'+date+'">Guardar borrador</button>'+
+        (profile.weekWriting?.[date]?.at?'<small>Último guardado: '+new Date(profile.weekWriting[date].at).toLocaleString('es-AR')+'</small>':'');
+    }
+    if(action.startsWith('paper:')){
+      const subject=action.slice(6),file=subject==='simulacro-m'?'./simulacro-final-matematica.html':'./simulacro-final-lengua.html';
+      return '<div class="week-actions"><a class="secondary-button week-print-link" href="'+file+'" target="_blank" rel="noopener">Abrir modelo imprimible</a>'+
+        '<button class="primary-button" type="button" data-week-action="mark:'+task.id+'" data-week-date="'+date+'"'+
+        (status==='completed'?' disabled':'')+'>'+ (status==='completed'?'Ya lo registré':'Lo realicé en papel')+'</button></div>'+
+        '<small>El registro confirma la realización, no un puntaje ni una corrección.</small>';
+    }
+    if(action.startsWith('note:')){
+      const note=profile.weekNotes?.[date]?.[task.id]||'';
+      return '<label class="week-write-label" for="week-note-input">Anotá dos o tres aspectos para revisar</label>'+
+        '<textarea id="week-note-input" rows="3" maxlength="750" placeholder="¿Qué procedimiento necesito recordar?">'+escapeHtml(note)+'</textarea>'+
+        '<button class="secondary-button" type="button" data-week-action="save-note:'+task.id+'" data-week-date="'+date+'">Guardar nota</button>';
+    }
+    return '<button class="primary-button" type="button" data-week-action="'+escapeHtml(action)+'"'+
+      (status==='completed'||status==='waiting'?' disabled':'')+'>'+
+      (status==='completed'?'Actividad realizada':status==='active'?'Continuar':status==='waiting'?'Todavía no disponible':'Comenzar actividad')+'</button>';
+  }
+  function renderWeekPlan(){
+    const container=$('#week-plan-content'),picker=$('#week-day-select');
+    if(!container||!picker)return;
+    const date=displayedWeekDate();
+    picker.value=date;
+    if(!activeMode||activeMode==='together'){
+      container.innerHTML='<p>Ingresá a un perfil individual para ver su plan. En modo juntas no mostramos avances personales.</p>';
+      return;
+    }
+    const pid=primaryProfileId(),profile=state.profiles[pid],day=WEEK_PLAN[date][pid];
+    let complete=0;
+    const cards=day.tasks.map(task=>{
+      const status=weekTaskStatus(profile,task,date);
+      if(status==='completed')complete++;
+      return '<article class="week-task" data-week-status="'+status+'">'+
+        '<div class="week-task-heading"><h4>'+escapeHtml(task.label)+'</h4><span class="week-task-state">'+weekStatusLabel(status,task)+'</span></div>'+
+        '<p>'+escapeHtml(task.detail)+'</p>'+
+        weekActivityAction(profile,task,date,status)+'</article>';
+    }).join('');
+    container.innerHTML='<div class="week-plan-heading"><h3>'+escapeHtml(day.heading)+'</h3>'+
+      '<p>'+escapeHtml(day.intro)+'</p><small>'+complete+' de '+day.tasks.length+' actividades registradas para este día.</small></div>'+
+      '<div class="week-task-grid">'+cards+'</div>';
+  }
+  function renderWeekFamily(){
+    const host=$('#week-family-status');
+    if(!host)return;
+    if(!activeMode||activeMode==='together'){
+      host.innerHTML='<h3>Seguimiento de la semana</h3><p>El avance de cada perfil se consulta de manera individual.</p>';
+      return;
+    }
+    const profile=state.profiles[primaryProfileId()];
+    const rows=WEEK_DATES.map((date,i)=>{
+      const tasks=weekItems(primaryProfileId(),date);
+      const completed=tasks.filter(task=>weekTaskStatus(profile,task,date)==='completed').length;
+      return '<li><strong>'+WEEK_LABELS[i]+'</strong> · '+completed+' de '+tasks.length+
+        (completed===tasks.length?' actividades registradas':' actividades realizadas')+'</li>';
+    }).join('');
+    host.innerHTML='<h3>Seguimiento semanal · '+escapeHtml(profile.name)+'</h3>'+
+      '<p>Estado de actividades del perfil seleccionado, sin comparaciones ni calificaciones. '+
+      (authUser&&supa?'Sincronizado con la cuenta familiar cuando hay conexión.':'Los cambios se conservan localmente hasta que se sincronice la cuenta familiar.')+
+      '</p><ul>'+rows+'</ul><small>Las actividades en papel y la narración necesitan revisión adulta.</small>';
+  }
+  function handleWeekClick(event){
+    const button=event.target?.closest?.('[data-week-action]');
+    if(!button||button.disabled)return;
+    if(!activeMode||activeMode==='together')return toast('Ingresá a un perfil individual.');
+    event.preventDefault();
+    const action=String(button.dataset.weekAction||''),date=button.dataset.weekDate||displayedWeekDate();
+    const pid=primaryProfileId(),profile=state.profiles[pid],parts=action.split(':');
+    if(parts[0]==='check')return startCheckChallenges(parts[1],parts[2]);
+    if(parts[0]==='model')return startModelChallenges(parts[1],parts[2]);
+    if(parts[0]==='ortho')return startOrthographyChallenges(parts[1],parts[2]);
+    if(action==='save-writing'){
+      const text=$('#week-writing-input')?.value.trim()||'';
+      if(text.length<50)return toast('Escribí al menos unas líneas antes de guardar.');
+      profile.weekWriting||={};
+      profile.weekWriting[date]={text,at:Date.now(),reviewed:false};
+      saveState();renderWeekPlan();renderWeekFamily();toast('Borrador guardado. Falta la revisión adulta.');
+      return;
+    }
+    if(parts[0]==='save-note'){
+      const text=$('#week-note-input')?.value.trim()||'';
+      if(!text)return toast('Escribí qué necesitás repasar antes de guardar.');
+      profile.weekNotes||={};
+      profile.weekNotes[date]||={};
+      profile.weekNotes[date][parts[1]]=text;
+      profile.weekLog||={};profile.weekLog[date]||={};profile.weekLog[date][parts[1]]={at:Date.now(),kind:'note'};
+      saveState();renderWeekPlan();renderWeekFamily();toast('Nota guardada.');
+      return;
+    }
+    if(parts[0]==='mark'){
+      const taskId=parts[1];
+      if(!weekItems(pid,date).some(t=>t.id===taskId&&t.action.startsWith('paper:')))return;
+      profile.weekLog||={};profile.weekLog[date]||={};
+      profile.weekLog[date][taskId]={at:Date.now(),kind:'self_report',reviewed:false};
+      saveState();renderWeekPlan();renderWeekFamily();
+      toast('Registrado como realizado en papel. Queda pendiente la corrección.');
+    }
   }
 
   function startRecommended() {
