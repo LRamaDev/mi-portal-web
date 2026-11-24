@@ -671,10 +671,11 @@
     if(!dialog||!app||loading||dialog.open||!['A','B','C','D','E','F','G','H'].includes(round))return;
     if(checkArea!==null && !['M','L'].includes(checkArea))return;
     if(checkArea && (!['transferencia','retencion'].includes(checkPhase)||block||orthographyBlock||round!=='A'))return;
-    if(!checkArea && (checkPhase|| (block!==null && !['R','P','C','F','D','E','S'].includes(block))||
+    if(!checkArea && (checkPhase|| (block!==null && !['R','P','C','F','D','E','S','X','Y'].includes(block))||
         (orthographyBlock!==null && !['D','J','B','A','T','P','U'].includes(orthographyBlock))))return;
     if(block&&orthographyBlock)return;
-    if(!checkArea && block && !(block==='R'||block==='P'||block==='S'?['A','B'].includes(round):
+    if(!checkArea && block && !(['X','Y'].includes(block)?round==='A':
+       block==='R'||block==='P'||block==='S'?['A','B'].includes(round):
        ['C','F'].includes(block)?['A','B','C','D'].includes(round):
        block==='D'?['A','B','C','D'].includes(round):['A','B','C','D','E'].includes(round)))return;
     if(!checkArea && orthographyBlock && !(
@@ -685,7 +686,7 @@
     dialog.showModal();
     app.innerHTML='<p role="status">Cargando los desafíos…</p>';
     try{
-      const version=document.querySelector('meta[name="app-version"]')?.content || '6.36.0';
+      const version=document.querySelector('meta[name="app-version"]')?.content || '6.37.0';
       const source=checkArea?'./data/desafios-comprobacion.json':orthographyBlock?'./data/desafios-ortografia.json':block?'./data/desafios-modelo.json':'./data/desafios-fracciones.json';
       const response=await fetch(source+'?v='+encodeURIComponent(version));
       if(!response.ok)throw new Error('No se pudo cargar el banco de desafíos');
