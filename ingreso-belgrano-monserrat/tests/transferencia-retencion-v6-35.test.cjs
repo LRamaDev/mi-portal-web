@@ -19,7 +19,7 @@ const modelNew=[...model.blocks.D.rounds.C,...model.blocks.D.rounds.D,
 const languageNew=[...orth.blocks.J.F,...orth.blocks.A.E,...orth.blocks.T.F,
   ...orth.blocks.P.C,...orth.blocks.U.A,...orth.blocks.U.B];
 const checkTasks=Object.values(checks.checks).flatMap(c=>Object.values(c).flat());
-const priorMath=Object.entries(model.blocks).filter(([b])=>b!=='S').flatMap(([b,v])=>Object.entries(v.rounds)
+const priorMath=Object.entries(model.blocks).filter(([b])=>!['S','X','Y'].includes(b)).flatMap(([b,v])=>Object.entries(v.rounds)
   .filter(([r])=>!({D:['C','D'],E:['C','D','E'],C:['D'],F:['D']}[b]||[]).includes(r))
   .flatMap(([r,ts])=>ts));
 const priorLang=Object.entries(orth.blocks).flatMap(([b,v])=>['A','B','C','D','E','F']
@@ -33,10 +33,12 @@ test('119 actividades nuevas: 49 Matemática, 42 Lengua y 28 comprobaciones inde
   assert.equal(priorMath.length+priorLang.length+Object.values(frac.rounds).flat().length,294);
   const weekMath=[...model.blocks.S.rounds.A,...model.blocks.S.rounds.B];
   assert.equal(weekMath.length,14);
+  const personalized=[...model.blocks.X.rounds.A,...model.blocks.Y.rounds.A];
+  assert.equal(personalized.length,14);
   const combined=[...priorMath,...priorLang,...Object.values(frac.rounds).flat(),
-    ...modelNew,...languageNew,...checkTasks,...weekMath];
-  assert.equal(combined.length,427);
-  assert.equal(new Set(combined.map(t=>t.id)).size,427);
+    ...modelNew,...languageNew,...checkTasks,...weekMath,...personalized];
+  assert.equal(combined.length,441);
+  assert.equal(new Set(combined.map(t=>t.id)).size,441);
   for(const task of [...modelNew,...languageNew,...checkTasks]){
     assert.equal(task.hints.length,2,task.id);
     assert.equal(task.steps.length,3,task.id);
@@ -64,7 +66,7 @@ function mockEngine(){
   const document={
     getElementById:key=>key==='fraction-challenge-dialog'?dialog:
       key==='fraction-challenge-content'?surface:node(key),
-    querySelector:selector=>selector==='meta[name="app-version"]'?{content:'6.36.0'}:null
+    querySelector:selector=>selector==='meta[name="app-version"]'?{content:'6.37.0'}:null
   };
   const sources={
     './data/desafios-fracciones.json':frac,
@@ -250,12 +252,12 @@ test('transferencia tras práctica; retención recién cuatro días después y p
 });
 
 test('versión, privacidad y estados diferenciados sin cambios en la base',()=>{
-  assert.match(html,/app-version" content="6\.36\.0"/);
+  assert.match(html,/app-version" content="6\.37\.0"/);
   assert.equal((html.match(/data-start-model=/g)||[]).length,6);
   assert.equal((html.match(/data-start-ortho=/g)||[]).length,7);
   assert.equal((html.match(/data-start-check=/g)||[]).length,4);
   assert.equal((html.match(/class="challenge-status-label"/g)||[]).length,18);
-  assert.ok(read('sw.js').includes('desafios-comprobacion.json?v=6.36.0'));
+  assert.ok(read('sw.js').includes('desafios-comprobacion.json?v=6.37.0'));
   assert.ok(app.includes("purpose:result.checkPhase"));
   assert.ok(!app.includes("MASTERED_FROM_SINGLE_ATTEMPT"));
   new vm.Script(engine);new vm.Script(app);
