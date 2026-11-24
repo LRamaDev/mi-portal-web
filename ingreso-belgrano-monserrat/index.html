@@ -5,13 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#173f6b">
   <meta name="description" content="Entrenamiento interactivo para los ingresos al Manuel Belgrano y al Colegio Nacional de Monserrat.">
-  <meta name="app-version" content="6.35.0">
+  <meta name="app-version" content="6.36.0">
   <title>Ingreso Belgrano · Monserrat</title>
   <link rel="manifest" href="./manifest.webmanifest">
-  <link rel="stylesheet" href="./styles.css?v=6.35.0">
-  <link rel="stylesheet" href="./styles-v6.css?v=6.35.0">
-  <link rel="stylesheet" href="./badges-v6-9.css?v=6.35.0">
-  <link rel="stylesheet" href="./desafios-fracciones.css?v=6.35.0">
+  <link rel="stylesheet" href="./styles.css?v=6.36.0">
+  <link rel="stylesheet" href="./styles-v6.css?v=6.36.0">
+  <link rel="stylesheet" href="./badges-v6-9.css?v=6.36.0">
+  <link rel="stylesheet" href="./desafios-fracciones.css?v=6.36.0">
   <style>
     .build-version{position:fixed;right:14px;bottom:14px;z-index:100000;padding:6px 9px;border:1px solid rgba(23,63,107,.16);border-radius:999px;background:rgba(255,255,255,.94);box-shadow:0 5px 16px rgba(23,63,107,.12);color:#526679;font:700 11px/1 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;letter-spacing:.02em;user-select:none}
     @media(max-width:700px){.build-version{right:10px;bottom:76px}}
@@ -19,7 +19,7 @@
 </head>
 <body class="security-pending">
   <a class="skip" href="#app-main">Saltar al contenido</a>
-  <div class="build-version" title="Versión instalada de la aplicación" aria-label="Versión instalada 6.35.0">Versión 6.35.0</div>
+  <div class="build-version" title="Versión instalada de la aplicación" aria-label="Versión instalada 6.36.0">Versión 6.36.0</div>
 
   <section id="profile-gate" class="gate" aria-labelledby="gate-title">
     <div class="gate-card">
@@ -98,7 +98,7 @@
           <section class="panel fraction-entry" aria-labelledby="challenge-home-entry-title">
             <div>
               <p class="eyebrow">Práctica interactiva · Matemática</p>
-              <h3 id="challenge-home-entry-title" class="fraction-entry-title">Desafíos por bloques</h3>
+              <h3 id="challenge-home-entry-title" class="fraction-entry-title">Mi actividad de hoy y desafíos por bloques</h3>
               <p>Fracciones, representaciones y perímetros. Circuitos de siete ejercicios con pistas, corrección y nuevas variantes.</p>
             </div>
             <button class="primary-button" type="button" data-nav="desafios">Ir a Desafíos</button>
@@ -129,6 +129,30 @@
             <h2>Desafíos de ingreso</h2>
             <p>Elegí un bloque y resolvé siete consignas. Vas a encontrar la misma pantalla, el botón Comprobar, pistas y explicación paso a paso. Cada circuito repite una forma de resolver con nuevas situaciones.</p>
           </div>
+          <section id="week-plan-panel" class="week-plan-panel" aria-labelledby="week-plan-title">
+            <div class="week-plan-top">
+              <div>
+                <p class="eyebrow">Ingreso Monserrat · 24 al 30 de noviembre</p>
+                <h3 id="week-plan-title">Mi actividad de hoy</h3>
+                <p>Tu recorrido de esta semana, sin necesidad de buscar entre todos los desafíos.</p>
+              </div>
+              <label class="week-date-picker">Elegí un día
+                <select id="week-day-select">
+                  <option value="2026-11-24">Martes 24</option>
+                  <option value="2026-11-25">Miércoles 25</option>
+                  <option value="2026-11-26">Jueves 26</option>
+                  <option value="2026-11-27">Viernes 27</option>
+                  <option value="2026-11-28">Sábado 28</option>
+                  <option value="2026-11-29">Domingo 29</option>
+                  <option value="2026-11-30">Lunes 30</option>
+                </select>
+              </label>
+            </div>
+            <div id="week-plan-content" aria-live="polite">
+              <p>Ingresá a un perfil para ver el plan del día.</p>
+            </div>
+            <p class="week-plan-notice">Si hoy no alcanzás a terminar, podés seguir mañana. Las actividades anteriores quedan guardadas y los otros días no se bloquean.</p>
+          </section>
           <div class="challenge-state-guide" aria-label="Significado de los estados de los desafíos">
             <span class="challenge-guide-item"><span class="challenge-guide-dot is-new" aria-hidden="true"></span>Nuevos desafíos</span>
             <span class="challenge-guide-item"><span class="challenge-guide-dot is-active" aria-hidden="true"></span>En curso</span>
@@ -395,6 +419,10 @@
 
           <div class="family-grid">
             <section id="family-activity-panel" class="panel family-activity-panel"></section>
+            <section id="week-family-status" class="panel week-family-status" aria-live="polite">
+              <h3>Seguimiento de la semana</h3>
+              <p>Ingresá a un perfil individual para consultar su actividad.</p>
+            </section>
             <section id="family-tutoring-panel" class="panel family-tutoring-panel"></section>
             <section id="family-visit-metrics" class="panel family-visit-metrics" hidden></section>
             <section id="family-feedback-inbox" class="panel family-feedback-inbox" hidden></section>
@@ -480,28 +508,28 @@
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="./config.js?v=6.35.0"></script>
-  <script src="./seguridad.js?v=6.35.0"></script>
-  <script src="./banco-v4.js?v=6.35.0"></script>
-  <script src="./banco-v5.js?v=6.35.0"></script>
-  <script src="./banco-v6.js?v=6.35.0"></script>
-  <script src="./banco-v6-10.js?v=6.35.0"></script>
-  <script src="./banco-v6-11.js?v=6.35.0"></script>
-  <script src="./banco-v6-16.js?v=6.35.0"></script>
-  <script src="./banco-v6-17-belgrano.js?v=6.35.0"></script>
-  <script src="./banco-v6-21.js?v=6.35.0"></script>
-  <script src="./banco-refuerzo-noviembre.js?v=6.35.0"></script>
-  <script src="./respuestas-v6-21.js?v=6.35.0"></script>
-  <script src="./pedagogy-v6-18.js?v=6.35.0"></script>
-  <script src="./app.js?v=6.35.0"></script>
-  <script src="./desafios-fracciones.js?v=6.35.0"></script>
-  <script src="./simulacros.js?v=6.35.0"></script>
-  <script src="./testeo.js?v=6.35.0"></script>
-  <script src="./reportes-ejercicios.js?v=6.35.0"></script>
-  <script src="./ui-v6.js?v=6.35.0"></script>
-  <script src="./ui-v6-4.js?v=6.35.0"></script>
-  <script src="./adaptive-v6-8.js?v=6.35.0"></script>
-  <script src="./choice-order-v6-8-2.js?v=6.35.0"></script>
-  <script src="./badges-v6-9.js?v=6.35.0"></script>
+  <script src="./config.js?v=6.36.0"></script>
+  <script src="./seguridad.js?v=6.36.0"></script>
+  <script src="./banco-v4.js?v=6.36.0"></script>
+  <script src="./banco-v5.js?v=6.36.0"></script>
+  <script src="./banco-v6.js?v=6.36.0"></script>
+  <script src="./banco-v6-10.js?v=6.36.0"></script>
+  <script src="./banco-v6-11.js?v=6.36.0"></script>
+  <script src="./banco-v6-16.js?v=6.36.0"></script>
+  <script src="./banco-v6-17-belgrano.js?v=6.36.0"></script>
+  <script src="./banco-v6-21.js?v=6.36.0"></script>
+  <script src="./banco-refuerzo-noviembre.js?v=6.36.0"></script>
+  <script src="./respuestas-v6-21.js?v=6.36.0"></script>
+  <script src="./pedagogy-v6-18.js?v=6.36.0"></script>
+  <script src="./app.js?v=6.36.0"></script>
+  <script src="./desafios-fracciones.js?v=6.36.0"></script>
+  <script src="./simulacros.js?v=6.36.0"></script>
+  <script src="./testeo.js?v=6.36.0"></script>
+  <script src="./reportes-ejercicios.js?v=6.36.0"></script>
+  <script src="./ui-v6.js?v=6.36.0"></script>
+  <script src="./ui-v6-4.js?v=6.36.0"></script>
+  <script src="./adaptive-v6-8.js?v=6.36.0"></script>
+  <script src="./choice-order-v6-8-2.js?v=6.36.0"></script>
+  <script src="./badges-v6-9.js?v=6.36.0"></script>
 </body>
 </html>
