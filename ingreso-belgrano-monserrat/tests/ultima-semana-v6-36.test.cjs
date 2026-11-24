@@ -12,7 +12,7 @@ const bank=JSON.parse(read('data/desafios-modelo.json'));
 const html=read('index.html');
 
 test('calendario 24–30, dos perfiles, materiales imprimibles y versión coherente',()=>{
-  assert.match(html,/app-version" content="6\.36\.0"/);
+  assert.match(html,/app-version" content="6\.37\.0"/);
   for(const date of ['2026-11-24','2026-11-25','2026-11-26','2026-11-27','2026-11-28','2026-11-29','2026-11-30'])
     assert.ok(html.includes('value="'+date+'"'),date);
   assert.match(html,/id="week-plan-content"/);
@@ -24,7 +24,7 @@ test('calendario 24–30, dos perfiles, materiales imprimibles y versión cohere
   const sw=read('sw.js');
   for(const file of ['simulacro-final-matematica.html','simulacro-final-lengua.html'])
     assert.ok(sw.includes("'./"+file+"'"),file);
-  assert.ok(sw.includes("const VERSION='6.36.0'"));
+  assert.ok(sw.includes("const VERSION='6.37.0'"));
   for(const file of ['simulacro-final-matematica.html','simulacro-final-lengua.html']){
     const body=read(file);
     assert.match(body,/60 minutos/);
@@ -87,11 +87,11 @@ function harness(){
 test('la agenda selecciona tareas distintas para cada perfil y nunca bloquea el día siguiente',()=>{
   const {test:t,node}=harness();
   t.mode('p1');t.date('2026-11-25');t.render();
-  assert.match(node('#week-plan-content').innerHTML,/Fracciones y decimales/);
+  assert.match(node('#week-plan-content').innerHTML,/Conversión de fracciones y capacidad/);
   assert.match(node('#week-plan-content').innerHTML,/Verbos con G y J/);
-  assert.doesNotMatch(node('#week-plan-content').innerHTML,/Dividir números decimales/);
+  assert.doesNotMatch(node('#week-plan-content').innerHTML,/Divisiones y valor posicional/);
   t.mode('p2');t.render();
-  assert.match(node('#week-plan-content').innerHTML,/Dividir números decimales/);
+  assert.match(node('#week-plan-content').innerHTML,/Divisiones y valor posicional/);
   assert.match(node('#week-plan-content').innerHTML,/Acentuación e hiatos/);
   assert.doesNotMatch(node('#week-plan-content').innerHTML,/Verbos con G y J/);
   t.date('2026-11-26');t.render();
@@ -152,7 +152,7 @@ function engineHarness(){
   const document={
     getElementById:id=>id==='fraction-challenge-dialog'?dialog:
       id==='fraction-challenge-content'?surface:node(id),
-    querySelector:sel=>sel==='meta[name="app-version"]'?{content:'6.36.0'}:null
+    querySelector:sel=>sel==='meta[name="app-version"]'?{content:'6.37.0'}:null
   };
   const window={};
   const fetch=async()=>({ok:true,json:async()=>bank});
