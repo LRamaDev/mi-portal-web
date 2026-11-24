@@ -1049,7 +1049,8 @@
     C: {label:'Circunferencia y sus elementos',skill:'MAT-CIRC',school:'monserrat'},
     F: {label:'Comparación y orden de fracciones',skill:'MAT-FR-ORD',school:null},
     D: {label:'Operaciones con decimales',skill:'MAT-DEC-OPS',school:null},
-    E: {label:'Conversión entre fracción y decimal',skill:'MAT-FR-DEC',school:null}
+    E: {label:'Conversión entre fracción y decimal',skill:'MAT-FR-DEC',school:null},
+    S: {label:'Medidas y divisibilidad',skill:null,school:'monserrat'}
   };
   const MODEL_ROUNDS=['A','B','C','D','E'];
   function modelRounds(block){
@@ -1099,13 +1100,14 @@
       else button.disabled=true;
     });
   }
-  function startModelChallenges(block){
+  function startModelChallenges(block,forcedRound=null){
     if(!MODEL_BLOCKS[block])return;
     if(!activeMode||activeMode==='together')return toast('Elegí uno de los perfiles individuales para este circuito.');
     if(session)return toast('Terminá primero el entrenamiento abierto.');
     const engine=window.IngresoFractionChallenges;
     if(!engine)return toast('No se pudo cargar el motor interactivo. Recargá la aplicación.');
-    const pid=primaryProfileId(),profile=state.profiles[pid],round=nextModelRound(profile,block);
+    const pid=primaryProfileId(),profile=state.profiles[pid],round=forcedRound||nextModelRound(profile,block);
+    if(forcedRound&&(!modelRounds(block).includes(forcedRound)||completedModelRounds(profile,block).has(forcedRound)))return toast('Ese circuito ya está completado o no está disponible.');
     if(!round)return toast('Ya completaste los circuitos de este bloque.');
     const prefix='MB26-'+block+'-'+round+'-';
     const previous=new Map();
@@ -1143,10 +1145,10 @@
     }).catch(error=>{console.error('[Ingreso bloques]',error);toast('No se pudieron abrir estos desafíos.');});
   }
   function recordModelAttempt(pid,result){
-    if(!/^MB26-[RPCFDE]-[ABCDE]-0[1-7]$/.test(result.id)||!MODEL_BLOCKS[result.block])return;
+    if(!/^MB26-[RPCFDES]-[ABCDE]-0[1-7]$/.test(result.id)||!MODEL_BLOCKS[result.block])return;
     if(!modelRounds(result.block).includes(result.round))return;
     if(!['autonoma','ayuda','revisar'].includes(result.status))return;
-    if(result.skill!==MODEL_BLOCKS[result.block].skill)return;
+    if(result.block==='S'? !['MAT-MED-CAP','MAT-MED-MASA','MAT-MED-TIEMPO','MAT-MCM','MAT-MULT','MAT-ANG-CS','MAT-PRIM','MAT-COMB'].includes(result.skill) : result.skill!==MODEL_BLOCKS[result.block].skill)return;
     const profile=state.profiles[pid],engine=window.IngresoPedagogy;
     if(!profile||!engine||(profile.evidence||[]).some(item=>item.exerciseId===result.id))return;
     const exercise={
@@ -1222,13 +1224,14 @@
       else button.disabled=true;
     });
   }
-  function startOrthographyChallenges(block){
+  function startOrthographyChallenges(block,forcedRound=null){
     if(!ORTHOGRAPHY_BLOCKS[block])return;
     if(!activeMode||activeMode==='together')return toast('Elegí un perfil individual para estos desafíos.');
     if(session)return toast('Primero terminá el entrenamiento abierto.');
     const engine=window.IngresoFractionChallenges;
     if(!engine)return toast('No se pudo cargar el motor interactivo. Recargá la aplicación.');
-    const pid=primaryProfileId(),profile=state.profiles[pid],round=nextOrthographyRound(profile,block);
+    const pid=primaryProfileId(),profile=state.profiles[pid],round=forcedRound||nextOrthographyRound(profile,block);
+    if(forcedRound&&(!orthographyRounds(block).includes(forcedRound)||completedOrthographyRounds(profile,block).has(forcedRound)))return toast('Ese circuito ya está completado o no está disponible.');
     if(!round)return toast('Ya completaste los circuitos de este bloque.');
     const prefix='MO26-'+block+'-'+round+'-';
     const priorById=new Map();
