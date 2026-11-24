@@ -3843,6 +3843,338 @@
           }
         ]
       }
+    },
+    "S": {
+      "label": "Medidas y divisibilidad · Última semana",
+      "reference": "Refuerzo selectivo para la última semana Monserrat; propuestas distintas por perfil",
+      "rounds": {
+        "A": [
+          {
+            "kind": "model-decimal",
+            "title": "Medidas y divisibilidad",
+            "prompt": "Un bidón tiene 3,45 litros. ¿Cuántos mililitros contiene?",
+            "expected": 3450,
+            "skill": "MAT-MED-CAP",
+            "hints": [
+              "Cada litro equivale a 1.000 mililitros.",
+              "Multiplicá 3,45 por 1.000."
+            ],
+            "steps": [
+              "1 L = 1.000 mL.",
+              "3,45 × 1.000 = 3.450.",
+              "Resultado: 3.450 mL."
+            ],
+            "difficulty": 3,
+            "id": "MB26-S-A-01",
+            "block": "S",
+            "round": "A",
+            "area": "matematica",
+            "school": "monserrat",
+            "challengePurpose": "refuerzo_selectivo"
+          },
+          {
+            "kind": "model-decimal",
+            "title": "Medidas y divisibilidad",
+            "prompt": "Se juntan 750 mL de jugo y 1,25 litros de agua. ¿Cuántos mililitros hay en total?",
+            "expected": 2000,
+            "skill": "MAT-MED-CAP",
+            "hints": [
+              "Convertí ambas cantidades a mililitros.",
+              "1,25 L = 1.250 mL."
+            ],
+            "steps": [
+              "1,25 L = 1.250 mL.",
+              "750 + 1.250 = 2.000.",
+              "Hay 2.000 mL."
+            ],
+            "difficulty": 3,
+            "id": "MB26-S-A-02",
+            "block": "S",
+            "round": "A",
+            "area": "matematica",
+            "school": "monserrat",
+            "challengePurpose": "refuerzo_selectivo"
+          },
+          {
+            "kind": "model-decimal",
+            "title": "Medidas y divisibilidad",
+            "prompt": "Una actividad dura 2 horas y 35 minutos. ¿Cuántos minutos dura?",
+            "expected": 155,
+            "skill": "MAT-MED-TIEMPO",
+            "hints": [
+              "Una hora tiene 60 minutos.",
+              "Dos horas son 120 minutos."
+            ],
+            "steps": [
+              "2 × 60 = 120.",
+              "120 + 35 = 155.",
+              "Dura 155 minutos."
+            ],
+            "difficulty": 3,
+            "id": "MB26-S-A-03",
+            "block": "S",
+            "round": "A",
+            "area": "matematica",
+            "school": "monserrat",
+            "challengePurpose": "refuerzo_selectivo"
+          },
+          {
+            "kind": "model-decimal",
+            "title": "Medidas y divisibilidad",
+            "prompt": "Una lectura dura tres cuartos de hora. ¿Cuántos minutos son?",
+            "expected": 45,
+            "skill": "MAT-MED-TIEMPO",
+            "hints": [
+              "Una hora son 60 minutos.",
+              "Calculá tres cuartos de 60."
+            ],
+            "steps": [
+              "60 ÷ 4 = 15.",
+              "15 × 3 = 45.",
+              "Tres cuartos de hora son 45 minutos."
+            ],
+            "difficulty": 3,
+            "id": "MB26-S-A-04",
+            "block": "S",
+            "round": "A",
+            "area": "matematica",
+            "school": "monserrat",
+            "challengePurpose": "refuerzo_selectivo"
+          },
+          {
+            "kind": "model-decimal",
+            "title": "Medidas y divisibilidad",
+            "prompt": "Dos luces se encienden cada 12 y 18 minutos. Si coinciden ahora, ¿en cuántos minutos vuelven a coincidir?",
+            "expected": 36,
+            "skill": "MAT-MCM",
+            "hints": [
+              "Buscá el mínimo común múltiplo.",
+              "Múltiplos de 12: 12,24,36; de 18: 18,36."
+            ],
+            "steps": [
+              "12: 12,24,36.",
+              "18: 18,36.",
+              "El primer múltiplo común positivo es 36."
+            ],
+            "difficulty": 3,
+            "id": "MB26-S-A-05",
+            "block": "S",
+            "round": "A",
+            "area": "matematica",
+            "school": "monserrat",
+            "challengePurpose": "refuerzo_selectivo"
+          },
+          {
+            "kind": "model-decimal",
+            "title": "Medidas y divisibilidad",
+            "prompt": "Dos actividades se repiten cada 8 y 12 días. ¿Cuántos días pasarán hasta volver a coincidir?",
+            "expected": 24,
+            "skill": "MAT-MULT",
+            "hints": [
+              "Buscá el primer múltiplo común positivo.",
+              "8: 8,16,24; 12: 12,24."
+            ],
+            "steps": [
+              "Múltiplos de 8: 8,16,24.",
+              "Múltiplos de 12: 12,24.",
+              "Coinciden después de 24 días."
+            ],
+            "difficulty": 3,
+            "id": "MB26-S-A-06",
+            "block": "S",
+            "round": "A",
+            "area": "matematica",
+            "school": "monserrat",
+            "challengePurpose": "refuerzo_selectivo"
+          },
+          {
+            "kind": "model-decimal",
+            "title": "Medidas y divisibilidad",
+            "prompt": "Un ángulo mide 135°. ¿Cuántos grados mide su suplementario?",
+            "expected": 45,
+            "skill": "MAT-ANG-CS",
+            "hints": [
+              "Los ángulos suplementarios suman 180°.",
+              "Restá 135 a 180."
+            ],
+            "steps": [
+              "Suplementarios suman 180°.",
+              "180° − 135° = 45°.",
+              "El otro ángulo mide 45°."
+            ],
+            "difficulty": 3,
+            "id": "MB26-S-A-07",
+            "block": "S",
+            "round": "A",
+            "area": "matematica",
+            "school": "monserrat",
+            "challengePurpose": "refuerzo_selectivo"
+          }
+        ],
+        "B": [
+          {
+            "kind": "model-decimal",
+            "title": "Medidas y divisibilidad",
+            "prompt": "¿Cuál es el mayor número primo menor que 30?",
+            "expected": 29,
+            "skill": "MAT-PRIM",
+            "hints": [
+              "Un número primo tiene exactamente dos divisores positivos.",
+              "Probá 29: solo es divisible por 1 y por 29."
+            ],
+            "steps": [
+              "29 no se divide exactamente por 2, 3 ni 5.",
+              "Sus divisores son 1 y 29.",
+              "El número es 29."
+            ],
+            "difficulty": 3,
+            "id": "MB26-S-B-01",
+            "block": "S",
+            "round": "B",
+            "area": "matematica",
+            "school": "monserrat",
+            "challengePurpose": "refuerzo_selectivo"
+          },
+          {
+            "kind": "model-decimal",
+            "title": "Medidas y divisibilidad",
+            "prompt": "¿Cuál es el menor número compuesto de dos cifras?",
+            "expected": 10,
+            "skill": "MAT-PRIM",
+            "hints": [
+              "Compuesto significa que tiene más de dos divisores.",
+              "10 es divisible por 1, 2, 5 y 10."
+            ],
+            "steps": [
+              "El menor número de dos cifras es 10.",
+              "Tiene divisores 1,2,5,10.",
+              "Por eso es compuesto."
+            ],
+            "difficulty": 3,
+            "id": "MB26-S-B-02",
+            "block": "S",
+            "round": "B",
+            "area": "matematica",
+            "school": "monserrat",
+            "challengePurpose": "refuerzo_selectivo"
+          },
+          {
+            "kind": "model-decimal",
+            "title": "Medidas y divisibilidad",
+            "prompt": "Una bolsa pesa 4.500 gramos. ¿Cuántos kilogramos son?",
+            "expected": 4.5,
+            "skill": "MAT-MED-MASA",
+            "hints": [
+              "1 kg equivale a 1.000 g.",
+              "Dividí 4.500 por 1.000."
+            ],
+            "steps": [
+              "1 kg = 1.000 g.",
+              "4.500 ÷ 1.000 = 4,5.",
+              "La bolsa pesa 4,5 kg."
+            ],
+            "difficulty": 3,
+            "id": "MB26-S-B-03",
+            "block": "S",
+            "round": "B",
+            "area": "matematica",
+            "school": "monserrat",
+            "challengePurpose": "refuerzo_selectivo"
+          },
+          {
+            "kind": "model-decimal",
+            "title": "Medidas y divisibilidad",
+            "prompt": "Una caja de frutas pesa 2,75 kg. ¿Cuántos gramos son?",
+            "expected": 2750,
+            "skill": "MAT-MED-MASA",
+            "hints": [
+              "1 kg equivale a 1.000 g.",
+              "Multiplicá 2,75 por 1.000."
+            ],
+            "steps": [
+              "1 kg = 1.000 g.",
+              "2,75 × 1.000 = 2.750.",
+              "La caja pesa 2.750 g."
+            ],
+            "difficulty": 3,
+            "id": "MB26-S-B-04",
+            "block": "S",
+            "round": "B",
+            "area": "matematica",
+            "school": "monserrat",
+            "challengePurpose": "refuerzo_selectivo"
+          },
+          {
+            "kind": "model-decimal",
+            "title": "Medidas y divisibilidad",
+            "prompt": "Una jarra contiene 1,35 litros. Se agregan 650 mL. ¿Cuántos litros hay ahora?",
+            "expected": 2,
+            "skill": "MAT-MED-CAP",
+            "hints": [
+              "Convertí 650 mL a litros.",
+              "650 mL son 0,65 L."
+            ],
+            "steps": [
+              "650 mL = 0,65 L.",
+              "1,35 + 0,65 = 2.",
+              "Hay 2 litros."
+            ],
+            "difficulty": 3,
+            "id": "MB26-S-B-05",
+            "block": "S",
+            "round": "B",
+            "area": "matematica",
+            "school": "monserrat",
+            "challengePurpose": "refuerzo_selectivo"
+          },
+          {
+            "kind": "model-decimal",
+            "title": "Medidas y divisibilidad",
+            "prompt": "Se distribuyen 720 mL de jugo en seis vasos iguales. ¿Cuántos mililitros hay en cada vaso?",
+            "expected": 120,
+            "skill": "MAT-MED-CAP",
+            "hints": [
+              "Dividí la cantidad total por seis.",
+              "720 ÷ 6 es una división exacta."
+            ],
+            "steps": [
+              "Cantidad total: 720 mL.",
+              "720 ÷ 6 = 120.",
+              "Cada vaso contiene 120 mL."
+            ],
+            "difficulty": 3,
+            "id": "MB26-S-B-06",
+            "block": "S",
+            "round": "B",
+            "area": "matematica",
+            "school": "monserrat",
+            "challengePurpose": "refuerzo_selectivo"
+          },
+          {
+            "kind": "model-decimal",
+            "title": "Medidas y divisibilidad",
+            "prompt": "Calculá (18 − 6) ÷ 3 + 2,5. Respetá el orden de las operaciones.",
+            "expected": 6.5,
+            "skill": "MAT-COMB",
+            "hints": [
+              "Primero el paréntesis.",
+              "Después la división y finalmente la suma."
+            ],
+            "steps": [
+              "18 − 6 = 12.",
+              "12 ÷ 3 = 4.",
+              "4 + 2,5 = 6,5."
+            ],
+            "difficulty": 3,
+            "id": "MB26-S-B-07",
+            "block": "S",
+            "round": "B",
+            "area": "matematica",
+            "school": "monserrat",
+            "challengePurpose": "refuerzo_selectivo"
+          }
+        ]
+      }
     }
   }
 }
