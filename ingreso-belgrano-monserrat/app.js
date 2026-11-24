@@ -80,6 +80,8 @@
     $('#active-profile').addEventListener('click', leaveProfile);
     $$('[data-nav]').forEach(btn => btn.addEventListener('click', e => { e.preventDefault(); navigate(btn.dataset.nav); }));
     $('#start-recommended').addEventListener('click', startRecommended);
+    document.addEventListener('click',handleWeekClick);
+    $('#week-day-select')?.addEventListener('change',event=>{selectedWeekDate=event.target.value;renderWeekPlan();});
     // Los accesos a Desafíos se atienden por delegación en document:
     // no dependen de la ubicación de las tarjetas ni de que bindUI llegue hasta aquí.
     $('#start-diagnostic').addEventListener('click', () => startSession({ type: 'diagnostico', area: 'all', origin: 'manual' }));
@@ -723,6 +725,7 @@
   function renderFamily() {
     refreshGateNames();
     renderFamilyActivity();
+    renderWeekFamily();
     renderTutoringPlan();
     renderVisitMetrics();
     if (!supa) {
@@ -937,6 +940,7 @@
     renderModelEntries();
     renderOrthographyEntries();
     renderCheckEntries();
+    renderWeekPlan();
     renderChallengeOverview();
   }
 
@@ -1476,6 +1480,219 @@
     engine.applyAttempt(profile,exercise,event,{maxDifficulty:skillMaxDifficulty(exercise.habilidad)});
     markExerciseUsedToday(pid,exercise.id);
     saveState();refreshChallengeIndicators();
+  }
+
+
+  // Recorrido corto, accesible por perfil durante la semana 24–30/11/2026.
+  // El plan es una propuesta, nunca bloquea una fecha posterior y no reinicia
+  // las actividades previas. Los resultados y borradores se sincronizan a través
+  // del estado familiar que ya utiliza Supabase.
+  const WEEK_DATES=['2026-11-24','2026-11-25','2026-11-26',
+    '2026-11-27','2026-11-28','2026-11-29','2026-11-30'];
+  const WEEK_LABELS=['Mar 24','Mié 25','Jue 26','Vie 27','Sáb 28','Dom 29','Lun 30'];
+  const WEEK_PLAN={
+    '2026-11-24':{
+      p1:{heading:'Comprobación inicial · Matemática',
+        intro:'Hoy, con acompañamiento adulto: comprobá tus conversiones sin pistas antes de responder.',
+        tasks:[{id:'comprobacion-m',label:'Siete problemas nuevos de Matemática',detail:'Primera respuesta sin pistas. Después podés corregir.',action:'check:M:transferencia'}]},
+      p2:{heading:'Comprobación inicial · Matemática',
+        intro:'Hoy, con acompañamiento adulto: prestá atención a divisiones y conversiones.',
+        tasks:[{id:'comprobacion-m',label:'Siete problemas nuevos de Matemática',detail:'Primera respuesta sin pistas. Después podés corregir.',action:'check:M:transferencia'}]}
+    },
+    '2026-11-25':{
+      p1:{heading:'Conversión y G/J',intro:'Trabajá por tu cuenta. Podés pedir pistas y volver a intentar.',
+        tasks:[{id:'conversion',label:'Fracciones y decimales',detail:'Circuito C · equivalencias y escritura decimal.',action:'model:E:C'},
+          {id:'gj',label:'Verbos con G y J',detail:'Circuito F · escribir palabras completas.',action:'ortho:J:F'}]},
+      p2:{heading:'Divisiones y acentuación',intro:'Primero resolvé en el cuaderno; después comprobá.',
+        tasks:[{id:'division',label:'Dividir números decimales',detail:'Circuito C · valor posicional y repartos.',action:'model:D:C'},
+          {id:'acentos',label:'Acentuación e hiatos',detail:'Circuito E · sin depender de las opciones.',action:'ortho:A:E'}]}
+    },
+    '2026-11-26':{
+      p1:{heading:'Medidas, divisibilidad y narración',intro:'Hacé una tanda de Matemática y después escribí una historia breve.',
+        tasks:[{id:'magnitudes',label:'Capacidad, tiempo, múltiplos y MCM',detail:'Siete ejercicios con situaciones distintas.',action:'model:S:A'},
+          {id:'narracion',label:'Escribir una narración breve',detail:'Inicio, conflicto, desenlace y revisión. El texto queda guardado sin nota automática.',action:'writing'}]},
+      p2:{heading:'Primos, medidas y narración',intro:'Hacé tu tanda de Matemática y reservá tiempo para escribir.',
+        tasks:[{id:'magnitudes',label:'Primos, masa, capacidad y operaciones',detail:'Siete problemas nuevos de aplicación.',action:'model:S:B'},
+          {id:'narracion',label:'Escribir una narración breve',detail:'Inicio, conflicto, desenlace y revisión. El texto queda guardado sin nota automática.',action:'writing'}]}
+    },
+    '2026-11-27':{
+      p1:{heading:'Simulacro de Matemática',intro:'60 minutos · papel · resolución individual. Sin calculadora ni pistas.',
+        tasks:[{id:'simulacro-m',label:'Simulacro completo de Matemática',detail:'Imprimilo y resolvelo con tiempo controlado. Después indicá que lo realizaste.',action:'paper:simulacro-m'}]},
+      p2:{heading:'Simulacro de Matemática',intro:'60 minutos · papel · resolución individual. Sin calculadora ni pistas.',
+        tasks:[{id:'simulacro-m',label:'Simulacro completo de Matemática',detail:'Imprimilo y resolvelo con tiempo controlado. Después indicá que lo realizaste.',action:'paper:simulacro-m'}]}
+    },
+    '2026-11-28':{
+      p1:{heading:'Corregir, no acumular',intro:'Con acompañamiento adulto, revisá solamente dos o tres dificultades del simulacro.',
+        tasks:[{id:'revision-m',label:'Revisión del simulacro matemático',detail:'Anotá qué costó: interpretar, elegir la operación, calcular o administrar el tiempo.',action:'note:revision-m'},
+          {id:'retencion-m',label:'Comprobación de retención',detail:'Disponible cuatro días después de la comprobación inicial; opcional.',action:'check:M:retencion'}]},
+      p2:{heading:'Corregir, no acumular',intro:'Revisá los errores del examen en papel; no repitas todo el banco.',
+        tasks:[{id:'revision-m',label:'Revisión del simulacro matemático',detail:'Anotá dos o tres procedimientos que necesitás asegurar.',action:'note:revision-m'},
+          {id:'retencion-m',label:'Comprobación de retención',detail:'Disponible cuatro días después de la comprobación inicial; opcional.',action:'check:M:retencion'}]}
+    },
+    '2026-11-29':{
+      p1:{heading:'Simulacro de Lengua',intro:'60 minutos · lectura, gramática, ortografía y narración individual en papel.',
+        tasks:[{id:'simulacro-l',label:'Simulacro completo de Lengua',detail:'Incluye producción escrita. La corrección requiere lectura adulta.',action:'paper:simulacro-l'}]},
+      p2:{heading:'Simulacro de Lengua',intro:'60 minutos · lectura, gramática, ortografía y narración individual en papel.',
+        tasks:[{id:'simulacro-l',label:'Simulacro completo de Lengua',detail:'Incluye producción escrita. La corrección requiere lectura adulta.',action:'paper:simulacro-l'}]}
+    },
+    '2026-11-30':{
+      p1:{heading:'Cierre liviano',intro:'20–30 minutos. No abras actividades nuevas si ya revisaste los errores importantes.',
+        tasks:[{id:'cierre',label:'Revisar dos procedimientos y descansar',detail:'Repasá tus notas. Terminá temprano.',action:'note:cierre'}]},
+      p2:{heading:'Cierre liviano',intro:'20–30 minutos. No abras actividades nuevas si ya revisaste los errores importantes.',
+        tasks:[{id:'cierre',label:'Revisar dos procedimientos y descansar',detail:'Repasá tus notas. Terminá temprano.',action:'note:cierre'}]}
+    }
+  };
+  let selectedWeekDate=null;
+  function cordobaDayKey(){
+    const pieces=new Intl.DateTimeFormat('en-US',{
+      timeZone:'America/Argentina/Cordoba',year:'numeric',month:'2-digit',day:'2-digit'
+    }).formatToParts(new Date());
+    const value=Object.fromEntries(pieces.filter(p=>p.type!=='literal').map(p=>[p.type,p.value]));
+    return value.year+'-'+value.month+'-'+value.day;
+  }
+  function displayedWeekDate(){
+    const today=cordobaDayKey();
+    return WEEK_DATES.includes(selectedWeekDate)?selectedWeekDate:
+      WEEK_DATES.includes(today)?today:WEEK_DATES[0];
+  }
+  function weekItems(profileId,date){
+    return WEEK_PLAN[date]?.[profileId]?.tasks||[];
+  }
+  function weekTaskStatus(profile,task,date){
+    if(!profile)return 'locked';
+    const parts=task.action.split(':');
+    if(parts[0]==='check'){
+      const area=parts[1],phase=parts[2];
+      const progress=checkState(profile,area,phase);
+      return progress.state==='completed'?'completed':
+        progress.state==='active'?'active':progress.state==='waiting'?'waiting':'pending';
+    }
+    if(parts[0]==='model'){
+      const block=parts[1],round=parts[2];
+      if(completedModelRounds(profile,block).has(round))return 'completed';
+      return (profile.evidence||[]).some(e=>String(e.exerciseId||'').startsWith('MB26-'+block+'-'+round+'-'))
+        ?'active':'pending';
+    }
+    if(parts[0]==='ortho'){
+      const block=parts[1],round=parts[2];
+      if(completedOrthographyRounds(profile,block).has(round))return 'completed';
+      return (profile.evidence||[]).some(e=>String(e.exerciseId||'').startsWith('MO26-'+block+'-'+round+'-'))
+        ?'active':'pending';
+    }
+    if(parts[0]==='writing')return profile.weekWriting?.[date]?.text?'completed':'pending';
+    return profile.weekLog?.[date]?.[task.id]?'completed':'pending';
+  }
+  function weekStatusLabel(status,task){
+    if(status==='completed')return task.action.startsWith('paper:')?'Realizado en papel · sin corregir':'Realizado';
+    if(status==='active')return 'En curso';
+    if(status==='waiting')return 'Disponible más adelante';
+    if(status==='locked')return 'Elegí un perfil';
+    return 'Por hacer';
+  }
+  function weekActivityAction(profile,task,date,status){
+    const action=task.action;
+    if(action==='writing'){
+      const draft=profile.weekWriting?.[date]?.text||'';
+      return '<label class="week-write-label" for="week-writing-input">Tu narración (no se califica automáticamente)</label>'+
+        '<textarea id="week-writing-input" rows="7" maxlength="3500" placeholder="Una tarde, cuando llegamos al lugar...">'+escapeHtml(draft)+'</textarea>'+
+        '<button class="secondary-button" type="button" data-week-action="save-writing" data-week-date="'+date+'">Guardar borrador</button>'+
+        (profile.weekWriting?.[date]?.at?'<small>Último guardado: '+new Date(profile.weekWriting[date].at).toLocaleString('es-AR')+'</small>':'');
+    }
+    if(action.startsWith('paper:')){
+      const subject=action.slice(6),file=subject==='simulacro-m'?'./simulacro-final-matematica.html':'./simulacro-final-lengua.html';
+      return '<div class="week-actions"><a class="secondary-button week-print-link" href="'+file+'" target="_blank" rel="noopener">Abrir modelo imprimible</a>'+
+        '<button class="primary-button" type="button" data-week-action="mark:'+task.id+'" data-week-date="'+date+'"'+
+        (status==='completed'?' disabled':'')+'>'+ (status==='completed'?'Ya lo registré':'Lo realicé en papel')+'</button></div>'+
+        '<small>El registro confirma la realización, no un puntaje ni una corrección.</small>';
+    }
+    if(action.startsWith('note:')){
+      const note=profile.weekNotes?.[date]?.[task.id]||'';
+      return '<label class="week-write-label" for="week-note-input">Anotá dos o tres aspectos para revisar</label>'+
+        '<textarea id="week-note-input" rows="3" maxlength="750" placeholder="¿Qué procedimiento necesito recordar?">'+escapeHtml(note)+'</textarea>'+
+        '<button class="secondary-button" type="button" data-week-action="save-note:'+task.id+'" data-week-date="'+date+'">Guardar nota</button>';
+    }
+    return '<button class="primary-button" type="button" data-week-action="'+escapeHtml(action)+'"'+
+      (status==='completed'||status==='waiting'?' disabled':'')+'>'+
+      (status==='completed'?'Actividad realizada':status==='active'?'Continuar':status==='waiting'?'Todavía no disponible':'Comenzar actividad')+'</button>';
+  }
+  function renderWeekPlan(){
+    const container=$('#week-plan-content'),picker=$('#week-day-select');
+    if(!container||!picker)return;
+    const date=displayedWeekDate();
+    picker.value=date;
+    if(!activeMode||activeMode==='together'){
+      container.innerHTML='<p>Ingresá a un perfil individual para ver su plan. En modo juntas no mostramos avances personales.</p>';
+      return;
+    }
+    const pid=primaryProfileId(),profile=state.profiles[pid],day=WEEK_PLAN[date][pid];
+    let complete=0;
+    const cards=day.tasks.map(task=>{
+      const status=weekTaskStatus(profile,task,date);
+      if(status==='completed')complete++;
+      return '<article class="week-task" data-week-status="'+status+'">'+
+        '<div class="week-task-heading"><h4>'+escapeHtml(task.label)+'</h4><span class="week-task-state">'+weekStatusLabel(status,task)+'</span></div>'+
+        '<p>'+escapeHtml(task.detail)+'</p>'+
+        weekActivityAction(profile,task,date,status)+'</article>';
+    }).join('');
+    container.innerHTML='<div class="week-plan-heading"><h3>'+escapeHtml(day.heading)+'</h3>'+
+      '<p>'+escapeHtml(day.intro)+'</p><small>'+complete+' de '+day.tasks.length+' actividades registradas para este día.</small></div>'+
+      '<div class="week-task-grid">'+cards+'</div>';
+  }
+  function renderWeekFamily(){
+    const host=$('#week-family-status');
+    if(!host)return;
+    if(!activeMode||activeMode==='together'){
+      host.innerHTML='<h3>Seguimiento de la semana</h3><p>El avance de cada perfil se consulta de manera individual.</p>';
+      return;
+    }
+    const profile=state.profiles[primaryProfileId()];
+    const rows=WEEK_DATES.map((date,i)=>{
+      const tasks=weekItems(primaryProfileId(),date);
+      const completed=tasks.filter(task=>weekTaskStatus(profile,task,date)==='completed').length;
+      return '<li><strong>'+WEEK_LABELS[i]+'</strong> · '+completed+' de '+tasks.length+
+        (completed===tasks.length?' actividades registradas':' actividades realizadas')+'</li>';
+    }).join('');
+    host.innerHTML='<h3>Seguimiento semanal · '+escapeHtml(profile.name)+'</h3>'+
+      '<p>Estado de actividades del perfil seleccionado, sin comparaciones ni calificaciones. '+
+      (authUser&&supa?'Sincronizado con la cuenta familiar cuando hay conexión.':'Los cambios se conservan localmente hasta que se sincronice la cuenta familiar.')+
+      '</p><ul>'+rows+'</ul><small>Las actividades en papel y la narración necesitan revisión adulta.</small>';
+  }
+  function handleWeekClick(event){
+    const button=event.target?.closest?.('[data-week-action]');
+    if(!button||button.disabled)return;
+    if(!activeMode||activeMode==='together')return toast('Ingresá a un perfil individual.');
+    event.preventDefault();
+    const action=String(button.dataset.weekAction||''),date=button.dataset.weekDate||displayedWeekDate();
+    const pid=primaryProfileId(),profile=state.profiles[pid],parts=action.split(':');
+    if(parts[0]==='check')return startCheckChallenges(parts[1],parts[2]);
+    if(parts[0]==='model')return startModelChallenges(parts[1],parts[2]);
+    if(parts[0]==='ortho')return startOrthographyChallenges(parts[1],parts[2]);
+    if(action==='save-writing'){
+      const text=$('#week-writing-input')?.value.trim()||'';
+      if(text.length<50)return toast('Escribí al menos unas líneas antes de guardar.');
+      profile.weekWriting||={};
+      profile.weekWriting[date]={text,at:Date.now(),reviewed:false};
+      saveState();renderWeekPlan();renderWeekFamily();toast('Borrador guardado. Falta la revisión adulta.');
+      return;
+    }
+    if(parts[0]==='save-note'){
+      const text=$('#week-note-input')?.value.trim()||'';
+      if(!text)return toast('Escribí qué necesitás repasar antes de guardar.');
+      profile.weekNotes||={};
+      profile.weekNotes[date]||={};
+      profile.weekNotes[date][parts[1]]=text;
+      profile.weekLog||={};profile.weekLog[date]||={};profile.weekLog[date][parts[1]]={at:Date.now(),kind:'note'};
+      saveState();renderWeekPlan();renderWeekFamily();toast('Nota guardada.');
+      return;
+    }
+    if(parts[0]==='mark'){
+      const taskId=parts[1];
+      if(!weekItems(pid,date).some(t=>t.id===taskId&&t.action.startsWith('paper:')))return;
+      profile.weekLog||={};profile.weekLog[date]||={};
+      profile.weekLog[date][taskId]={at:Date.now(),kind:'self_report',reviewed:false};
+      saveState();renderWeekPlan();renderWeekFamily();
+      toast('Registrado como realizado en papel. Queda pendiente la corrección.');
+    }
   }
 
   function startRecommended() {
