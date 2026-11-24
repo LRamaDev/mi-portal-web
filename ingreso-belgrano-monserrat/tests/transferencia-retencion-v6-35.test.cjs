@@ -250,7 +250,7 @@ test('transferencia tras práctica; retención recién cuatro días después y p
 });
 
 test('versión, privacidad y estados diferenciados sin cambios en la base',()=>{
-  assert.match(html,/app-version" content="6\.35\.0"/);
+  assert.match(html,/app-version" content="6\.36\.0"/);
   assert.equal((html.match(/data-start-model=/g)||[]).length,6);
   assert.equal((html.match(/data-start-ortho=/g)||[]).length,7);
   assert.equal((html.match(/data-start-check=/g)||[]).length,4);
