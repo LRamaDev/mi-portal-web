@@ -1347,26 +1347,35 @@
     }
     return Math.max(0,...times);
   }
+  // Las comprobaciones breves se pueden usar como diagnóstico inicial:
+  // no exigimos 35/42 ejercicios guiados antes de desbloquearlas.
+  // Retención: cuatro días desde la comprobación inicial de transferencia.
+  function lastTransferAt(profile,area){
+    const records=(profile?.history||[]).filter(event=>
+      event.type==='desafios_comprobacion'&&event.checkArea===area&&event.phase==='transferencia'
+    ).map(event=>evidenceTime(event.at));
+    const evidence=(profile?.evidence||[]).filter(event=>
+      String(event.exerciseId||'').startsWith(checkPrefix(area,'transferencia'))
+    ).map(event=>evidenceTime(event.at));
+    return Math.max(0,...records,...evidence);
+  }
   function checkState(profile,area,phase,now=Date.now()){
     if(!profile)return {state:'locked',message:'Elegí un perfil individual.',dueAt:0};
     if(checkFinished(profile,area,phase))
-      return {state:'completed',message:'Comprobación finalizada; sus resultados se guardaron por separado.',dueAt:0};
+      return {state:'completed',message:'Comprobación finalizada; resultado guardado por separado de la práctica.',dueAt:0};
     const prefix=checkPrefix(area,phase);
     const partial=(profile.evidence||[]).some(event=>String(event.exerciseId||'').startsWith(prefix));
-    if(partial)return {state:'active',message:'En curso: continuá las consignas que faltan.',dueAt:0};
-    const ready=CHECK_PREREQUISITES[area].every(([kind,block,round])=>prerequisiteComplete(profile,kind,block,round));
-    if(!ready)return {state:'waiting',message:'Primero terminá los nuevos circuitos guiados de este contenido.',dueAt:0};
+    if(partial)return {state:'active',message:'En curso: seguí con las consignas pendientes.',dueAt:0};
     if(phase==='transferencia')
-      return {state:'verification',message:'Comprobación pendiente: situaciones nuevas sin pistas en el primer intento.',dueAt:0};
+      return {state:'verification',message:'Disponible: siete situaciones nuevas, sin pistas antes de responder.',dueAt:0};
     if(!checkFinished(profile,area,'transferencia'))
-      return {state:'waiting',message:'Primero completá la comprobación de transferencia.',dueAt:0};
-    const last=lastPrerequisiteAt(profile,area);
-    const dueAt=last?last+CHECK_WAIT_MS:0;
+      return {state:'waiting',message:'Primero realizá la comprobación inicial de esta materia.',dueAt:0};
+    const first=lastTransferAt(profile,area),dueAt=first?first+CHECK_WAIT_MS:0;
     if(!dueAt||now<dueAt){
       const date=dueAt?new Date(dueAt).toLocaleDateString('es-AR',{day:'2-digit',month:'2-digit',year:'numeric'}):'más adelante';
-      return {state:'waiting',message:'Comprobación de retención disponible desde el '+date+' (cuatro días después de la práctica).',dueAt};
+      return {state:'waiting',message:'Comprobación disponible el '+date+' (cuatro días después del primer chequeo).',dueAt};
     }
-    return {state:'verification',message:'Comprobación de retención pendiente: ya pasaron al menos cuatro días.',dueAt};
+    return {state:'verification',message:'Retención pendiente: ya pasaron al menos cuatro días.',dueAt};
   }
   function renderCheckEntries(){
     if(!activeMode)return;
