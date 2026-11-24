@@ -69,17 +69,17 @@ function makeApp(){
   const p=()=>({name:'Perfil',history:[],evidence:[],progress:{},pendingEvidence:[],sessions:0});
   const seed={profiles:{p1:p(),p2:p()}},opened=[],nodes=new Map();
   const node=k=>{
-    if(!nodes.has(k))nodes.set(k,{value:'',textContent:'',innerHTML:'',disabled:false});
+    if(!nodes.has(k))nodes.set(k,{value:'',textContent:'',innerHTML:'',disabled:false,classList:{add(){},remove(){}}});
     return nodes.get(k);
   };
   const storage={getItem:k=>k==='ingreso-belgrano-monserrat-v1'?JSON.stringify(seed):null,setItem(){},removeItem(){}};
-  const document={addEventListener(){},querySelector:q=>['#week-plan-content','#week-day-select','#week-family-status'].includes(q)?node(q):null,querySelectorAll(){return []}};
+  const document={addEventListener(){},querySelector:q=>['#week-plan-content','#week-day-select','#week-family-status','#toast'].includes(q)?node(q):null,querySelectorAll(){return []}};
   const window={INGRESO_ACCESS_MODE:'family',addEventListener(){},
     IngresoFractionChallenges:{open:async args=>{opened.push(args)},close(){}}};
   const marker='  function startRecommended() {';
   const hook='  window.__test={mode:m=>{activeMode=m},date:d=>{selectedWeekDate=d},plan:WEEK_PLAN,render:renderWeekPlan,click:handleWeekClick};\n'+marker;
   assert.ok(app.includes(marker));
-  vm.runInNewContext(app.replace(marker,hook),{window,document,localStorage:storage,Date,Intl,console});
+  vm.runInNewContext(app.replace(marker,hook),{window,document,localStorage:storage,Date,Intl,console,setTimeout(){},clearTimeout(){}});
   return {test:window.__test,opened,node};
 }
 
