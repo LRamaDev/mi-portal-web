@@ -248,9 +248,25 @@
     return {valid:false};
   }
 
+  function finalDiagram(task){
+    const circles=task.diagram?.circles;
+    if(!Array.isArray(circles)||!circles.length)return '';
+    const shapes=circles.slice(0,2).map((c,i)=>{
+      const x=circles.length===1?168:86+164*i;
+      const label=c.radius?'Radio: '+c.radius:c.diameter?'Diámetro: '+c.diameter:'Contorno: '+(c.length||'');
+      return '<circle cx="'+x+'" cy="64" r="39" fill="#f0f7ff" stroke="#23628c" stroke-width="3"/>'+
+        '<circle cx="'+x+'" cy="64" r="2.5" fill="#23628c"/>'+
+        '<line x1="'+x+'" y1="64" x2="'+(x+39)+'" y2="64" stroke="#b06525" stroke-width="2"/>'+
+        '<text x="'+x+'" y="13" text-anchor="middle" font-size="12" fill="#214d70">'+esc(c.label)+'</text>'+
+        '<text x="'+x+'" y="118" text-anchor="middle" font-size="12" fill="#214d70">'+esc(label)+'</text>';
+    }).join('');
+    return '<figure class="final-circle-diagram"><svg viewBox="0 0 340 126" role="img" aria-label="Esquema de las circunferencias, no a escala">'+shapes+'</svg><figcaption>Esquema orientativo, no a escala.</figcaption></figure>';
+  }
   function modelBoard(task) {
     if(['circle-pick','circle-number','fraction-compare','fraction-order','fraction-between'].includes(task.kind))return comparisonBoard(task);
-    if(task.kind==='model-decimal') return '<div class="fraction-fields"><label>Resultado numérico (podés usar coma decimal)<input id="fraction-ans1" type="text" inputmode="decimal" autocomplete="off" placeholder="Ejemplo: 1,25"></label></div>';
+    if(task.kind==='model-decimal') return finalDiagram(task)+
+      '<div class="fraction-fields"><label>Resultado numérico (podés usar coma decimal)<input id="fraction-ans1" type="text" inputmode="decimal" autocomplete="off" placeholder="Ejemplo: 1,25"></label>'+
+      (task.finalBlock?'<label>Explicá cómo lo resolviste (lectura y revisión adulta): <textarea id="fraction-reason" rows="3" maxlength="600" spellcheck="true" placeholder="'+esc(task.reasoningPrompt||'Escribí tu procedimiento')+'"></textarea></label>':'')+'</div>';
     if(task.kind==='model-fraction') return '<div class="fraction-fields"><label>Fracción irreducible<input id="fraction-ans1" type="text" inputmode="text" autocomplete="off" placeholder="Ejemplo: 3/4"></label></div>';
     if(['visual-read','visual-half'].includes(task.kind))return modelGrid(task) + modelFractionInput();
     if(task.kind==='visual-compare')return modelChips(task) + modelFractionInput();
@@ -270,6 +286,8 @@
   function modelEvaluate(task) {
     if(task.kind==='model-decimal'){
       const answer=readDecimalAnswer();
+      const reason=app.querySelector('#fraction-reason')?.value.trim()||'';
+      if(task.finalBlock&&(answer===null||reason.length<12))return {valid:false,correct:false};
       return {valid:answer!==null,correct:answer!==null&&Math.abs(answer-task.expected)<0.00001,
         reason:'Revisá el valor de cada cifra decimal y comprobá la operación con un cálculo inverso.'};
     }
@@ -333,6 +351,9 @@
   }
   function orthoBoard(task) {
     if(task.kind==='orth-choice') return (task.context?'<blockquote class="orthography-sentence" lang="es">'+esc(task.context)+'</blockquote>':'')+orthoButtons(task.options);
+    if(task.kind==='orth-open-review')return '<blockquote class="orthography-sentence" lang="es">'+esc(task.sentence)+'</blockquote>'+
+      '<div class="fraction-fields orthography-fields"><label>Reescribí el texto completo con tus correcciones<textarea id="fraction-ans1" rows="7" maxlength="2200" spellcheck="true" placeholder="Escribí tu versión revisada aquí"></textarea></label></div>'+
+      '<p class="fraction-info">Puede haber varias soluciones correctas. Una persona adulta revisará tu texto con una rúbrica: no se califica por coincidencia literal.</p>';
     if(task.kind==='orth-rewrite')return '<blockquote class="orthography-sentence" lang="es">'+esc(task.sentence)+'</blockquote>'+
       '<div class="fraction-fields orthography-fields"><label>Escribí toda la oración revisada<textarea id="fraction-ans1" rows="3" spellcheck="false" autocapitalize="off" maxlength="300" placeholder="Oración corregida"></textarea></label></div>';
     if(task.kind==='orth-rule')return '<div class="orthography-keyword" lang="es">'+esc(task.word)+'</div>'+
@@ -356,6 +377,11 @@
     return '';
   }
   function orthoEvaluate(task) {
+    if(task.kind==='orth-open-review'){
+      const text=app.querySelector('#fraction-ans1')?.value.trim()||'';
+      return {valid:text.length>=25,correct:false,pendingReview:true,
+        reason:'Escribí una versión completa antes de enviarla para revisión.'};
+    }
     const selected=session.choice;
     const word=spelling(app.querySelector('#fraction-ans1')?.value);
     if(task.kind==='orth-rewrite'){
@@ -431,6 +457,8 @@
     </div>`;
     if (task.kind === 'remainder' || task.kind === 'fractioninput') return `<div class="fraction-fields"><label>${esc(task.question || '¿Qué fracción se obtuvo?')}<input id="fraction-ans1" type="text" inputmode="text" placeholder="Por ejemplo: 3/8" autocomplete="off"></label></div>`;
     if (task.kind === 'number') return `<div class="fraction-fields"><label>${esc(task.question || '¿Cuál es el total?')}<input id="fraction-ans1" type="text" inputmode="numeric" placeholder="Escribí un número" autocomplete="off"></label></div>`;
+    if(task.finalArea==='lengua')return orthoBoard(task);
+    if(task.finalArea==='matematica')return modelBoard(task);
     if(task.orthographyBlock) return orthoBoard(task);
     if(task.block) return modelBoard(task);
     return '';
@@ -494,14 +522,14 @@
       <p class="fraction-selected" id="fraction-selected-count" aria-live="polite"></p>
       <div id="fraction-feedback" aria-live="polite"></div>
       <div class="fraction-controls">${button('Comprobar','fraction-check')}${button('Dame una pista','fraction-hint',true)}${button('Siguiente desafío','fraction-next')}</div>
-      <p class="fraction-info">${session.checkPhase?'Primero respondé sin pistas. Después de comprobar podrás revisar o pedir ayuda; solo el primer intento correcto contará como autónomo.':'Podés corregir tu respuesta. Si pedís pistas o revisás un error, queda registrado como resolución con ayuda.'}</p>`;
+      <p class="fraction-info">${session.finalBlock?'Desafío avanzado: primero elegí y escribí tu procedimiento sin pistas. Las respuestas numéricas se comprueban; los argumentos y textos quedan para revisión adulta.':session.checkPhase?'Primero respondé sin pistas. Después de comprobar podrás revisar o pedir ayuda; solo el primer intento correcto contará como autónomo.':'Podés corregir tu respuesta. Si pedís pistas o revisás un error, queda registrado como resolución con ayuda.'}</p>`;
     const next=app.querySelector('#fraction-next');
     next.hidden=true;
     const count=app.querySelector('#fraction-selected-count');
     count.textContent=['discs','squares','mixed','triangles','line','visual-paint','perimeter-select','fraction-order'].includes(task.kind)?countLabel():'';
     app.querySelector('#fraction-check').onclick=check;
     app.querySelector('#fraction-hint').onclick=hint;
-    if(session.checkPhase)app.querySelector('#fraction-hint').disabled=true;
+    if(session.checkPhase||session.finalBlock)app.querySelector('#fraction-hint').disabled=true;
     next.onclick=advance;
     app.querySelectorAll('[data-fraction-cell]').forEach(el => {
       const id=Number(el.dataset.fractionCell);
@@ -527,6 +555,8 @@
     return match && Number(match[2])>0?[Number(match[1]),Number(match[2])]:null;
   }
   function evaluate(t) {
+    if(t.finalArea==='lengua')return orthoEvaluate(t);
+    if(t.finalArea==='matematica')return modelEvaluate(t);
     if(t.orthographyBlock) return orthoEvaluate(t);
     if(t.block) return modelEvaluate(t);
     const sel=session.selection;
@@ -583,7 +613,7 @@
   function feedback(html) { app.querySelector('#fraction-feedback').innerHTML=html; }
   function hint() {
     if(!session||session.locked)return;
-    if(session.checkPhase && session.attempts===0)
+    if((session.checkPhase||session.finalBlock) && session.attempts===0)
       return feedback(notice('Primero comprobá tu respuesta','En esta modalidad las pistas se habilitan después de tu primer intento.'));
     const t=taskNow();
     if(session.hints>=2||session.attempts>=2) return showSolution();
@@ -595,8 +625,12 @@
   function storeResult(status) {
     const task=taskNow();
     const result={id:task.id,round:session.round,block:session.block||null,orthographyBlock:session.orthographyBlock||null,
-      checkArea:session.checkArea||null,checkPhase:session.checkPhase||null,firstAttemptCorrect:status==='autonoma',
-      status,skill:task.skill,difficulty:task.difficulty,durationMs:Math.max(0,Date.now()-session.startedAt)};
+      checkArea:session.checkArea||null,checkPhase:session.checkPhase||null,finalBlock:session.finalBlock||null,
+      firstAttemptCorrect:status==='autonoma',status,skill:task.skill,difficulty:task.difficulty,
+      answerText:session.finalBlock?(app.querySelector('#fraction-ans1')?.value.trim()||''):null,
+      reasoningText:session.finalBlock?(app.querySelector('#fraction-reason')?.value.trim()||''):null,
+      pendingAdultReview:Boolean(session.finalBlock),
+      durationMs:Math.max(0,Date.now()-session.startedAt)};
     session.results.set(task.id,result);
     try{session.onResult(result);}catch(err){console.error('[Desafíos] Error al guardar resultado',err);}
   }
@@ -615,7 +649,13 @@
     const task=taskNow(), answer=evaluate(task);
     if(!answer.valid) return feedback(notice('Falta una respuesta','Elegí partes o completá todos los casilleros antes de comprobar.'));
     session.attempts++;
-    if(session.checkPhase)app.querySelector('#fraction-hint').disabled=false;
+    if(session.checkPhase||session.finalBlock)app.querySelector('#fraction-hint').disabled=false;
+    if(answer.pendingReview){
+      storeResult('revisar');
+      feedback(notice('Texto guardado para revisión adulta',
+        'Tu versión quedó registrada. Se revisarán las tildes, la coherencia, la puntuación y las otras opciones de corrección válidas.',true));
+      lock();return;
+    }
     if(answer.correct){
       const helped=session.hints>0||session.attempts>1;
       storeResult(helped?'ayuda':'autonoma');
@@ -647,13 +687,14 @@
       <p>${session.checkPhase?'Esta comprobación registra qué pudiste resolver sin ayuda después de estudiar. No representa por sí sola un dominio consolidado.':'Este resumen es de la práctica realizada: no representa una calificación ni un porcentaje de dominio.'}</p>
       <div class="fraction-summary"><div><strong>${count('autonoma')}</strong><span>Sin ayuda</span></div><div><strong>${count('ayuda')}</strong><span>Con ayuda</span></div><div><strong>${count('revisar')}</strong><span>Para revisar</span></div></div>
       <ul class="fraction-summary-list">${session.tasks.map(t=>`<li><span>${esc(t.title)}</span><b>${names[session.results.get(t.id)?.status]||'Pendiente'}</b></li>`).join('')}</ul>
-      <p class="fraction-info">La app conserva los intentos en tu perfil para el acompañamiento pedagógico.</p>
+      <p class="fraction-info">${session.finalBlock?'Los resultados numéricos se verifican aquí, pero los procedimientos y textos quedan pendientes de revisión por una persona adulta.': 'La app conserva los intentos en tu perfil para el acompañamiento pedagógico.'}</p>
       <div class="fraction-controls">${button('Volver a la app','fraction-finish')}</div>`;
     app.querySelector('#fraction-finish').onclick=close;
     if(!session.completeNotified){
       session.completeNotified=true;
       try{session.onComplete({round:session.round,block:session.block||null,orthographyBlock:session.orthographyBlock||null,
-            checkArea:session.checkArea||null,checkPhase:session.checkPhase||null,results});}catch(err){console.error('[Desafíos] Error al registrar la sesión',err);}
+            checkArea:session.checkArea||null,checkPhase:session.checkPhase||null,
+            finalBlock:session.finalBlock||null,results});}catch(err){console.error('[Desafíos] Error al registrar la sesión',err);}
     }
   }
   function close() {
@@ -667,8 +708,9 @@
     closeButton.addEventListener('click',close);
     dialog.addEventListener('cancel',event=>{event.preventDefault();close();});
   }
-  async function open({round='A',block=null,orthographyBlock=null,checkArea=null,checkPhase=null,prior=[],onResult=()=>{},onComplete=()=>{}}={}) {
+  async function open({round='A',block=null,orthographyBlock=null,checkArea=null,checkPhase=null,finalBlock=null,prior=[],onResult=()=>{},onComplete=()=>{}}={}) {
     if(!dialog||!app||loading||dialog.open||!['A','B','C','D','E','F','G','H'].includes(round))return;
+    if(finalBlock && (!['A1','A2','V1','V2','L1A','L1V'].includes(finalBlock)||block||orthographyBlock||checkArea||checkPhase||round!=='A'))return;
     if(checkArea!==null && !['M','L'].includes(checkArea))return;
     if(checkArea && (!['transferencia','retencion'].includes(checkPhase)||block||orthographyBlock||round!=='A'))return;
     if(!checkArea && (checkPhase|| (block!==null && !['R','P','C','F','D','E','S','X','Y'].includes(block))||
@@ -686,27 +728,31 @@
     dialog.showModal();
     app.innerHTML='<p role="status">Cargando los desafíos…</p>';
     try{
-      const version=document.querySelector('meta[name="app-version"]')?.content || '6.37.0';
-      const source=checkArea?'./data/desafios-comprobacion.json':orthographyBlock?'./data/desafios-ortografia.json':block?'./data/desafios-modelo.json':'./data/desafios-fracciones.json';
+      const version=document.querySelector('meta[name="app-version"]')?.content || '6.38.0';
+      const source=finalBlock?'./data/desafios-finales.json':checkArea?'./data/desafios-comprobacion.json':orthographyBlock?'./data/desafios-ortografia.json':block?'./data/desafios-modelo.json':'./data/desafios-fracciones.json';
       const response=await fetch(source+'?v='+encodeURIComponent(version));
       if(!response.ok)throw new Error('No se pudo cargar el banco de desafíos');
       const data=await response.json();
-      const tasks=checkArea?data.checks?.[checkPhase]?.[checkArea]:
+      const tasks=finalBlock?data.blocks?.[finalBlock]?.items:checkArea?data.checks?.[checkPhase]?.[checkArea]:
         orthographyBlock?data.blocks?.[orthographyBlock]?.[round]:block?data.blocks?.[block]?.rounds?.[round]:data.rounds?.[round];
-      document.getElementById('fraction-challenge-title').textContent=checkArea
+      document.getElementById('fraction-challenge-title').textContent=finalBlock
+        ?'Última semana: '+(data.blocks?.[finalBlock]?.label||'Desafío avanzado')
+        :checkArea
         ? 'Comprobación de '+(checkPhase==='retencion'?'retención':'transferencia')+' · '+(checkArea==='M'?'Matemática':'Lengua')
         :orthographyBlock?'Desafíos de Lengua: '+(data.blocks?.[orthographyBlock]?.label||'Ortografía')
         :block?'Desafíos de ingreso: '+(data.blocks?.[block]?.label||'Práctica por bloques')
         :'Desafíos de ingreso: Fracciones';
       const subtitle=document.getElementById('fraction-challenge-subtitle');
-      if(subtitle)subtitle.textContent=checkArea?'Primera respuesta sin pistas · '+(checkArea==='M'?'Matemática':'Lengua'):
+      if(subtitle)subtitle.textContent=finalBlock?'Actividad personalizada · sin pistas en el primer intento':checkArea?'Primera respuesta sin pistas · '+(checkArea==='M'?'Matemática':'Lengua'):
         orthographyBlock==='P'?'Lengua · Puntuación y gramática · práctica individual':
         orthographyBlock?'Lengua · Ortografía · práctica individual':'Matemática · práctica individual';
-      if(!Array.isArray(tasks)||tasks.length!==7||new Set(tasks.map(t=>t.id)).size!==7)throw new Error('Banco de desafíos incompleto');
+      const expectedCount=finalBlock?({A1:7,A2:7,V1:7,V2:4,L1A:4,L1V:5})[finalBlock]:7;
+      if(!Array.isArray(tasks)||tasks.length!==expectedCount||
+         new Set(tasks.map(t=>t.id)).size!==expectedCount)throw new Error('Banco de desafíos incompleto');
       if(!dialog.open)return;
       const taskIds=new Set(tasks.map(t=>t.id));
       const results=new Map(prior.filter(r=>taskIds.has(r.id)&&['autonoma','ayuda','revisar'].includes(r.status)).map(r=>[r.id,r]));
-      session={round,block,orthographyBlock,checkArea,checkPhase,tasks,index:0,results,onResult,onComplete,selection:new Set(),choice:null,added:0,attempts:0,hints:0,locked:false,completeNotified:false,startedAt:0};
+      session={round,block,orthographyBlock,checkArea,checkPhase,finalBlock,tasks,index:0,results,onResult,onComplete,selection:new Set(),choice:null,added:0,attempts:0,hints:0,locked:false,completeNotified:false,startedAt:0};
       while(session.index<tasks.length&&results.has(tasks[session.index].id))session.index++;
       if(session.index===tasks.length)showSummary();else showTask();
     }catch(error){
