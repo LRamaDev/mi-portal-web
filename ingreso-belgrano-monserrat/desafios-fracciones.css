@@ -307,3 +307,16 @@
  .week-date-picker,.week-date-picker select {width:100%;}
  .week-task-grid {grid-template-columns:1fr;}
 }
+
+/* V6.38: cálculos de transferencia y escritura revisable (no autocalificada). */
+.final-circle-diagram {margin:8px auto 16px;max-width:540px;text-align:center;background:#f5f9fe;border:1px solid #bfccde;border-radius:12px;padding:10px;}
+.final-circle-diagram svg {display:block;width:100%;height:auto;}
+.final-circle-diagram figcaption {font-size:.78rem;color:#3c5e77;margin-top:5px;}
+.final-reason-prompt {display:block;color:#214968;font-size:.89rem;font-weight:600;margin:5px 0 9px;}
+.fraction-fields label textarea {box-sizing:border-box;display:block;width:100%;min-height:88px;padding:12px;border:1px solid #9eb3c7;border-radius:9px;background:#fff;color:#19324a;font:inherit;line-height:1.5;resize:vertical;}
+.fraction-fields label textarea:focus-visible {outline:3px solid #d7aa63;outline-offset:2px;}
+.final-family-work details {margin:10px 0;border:1px solid #b9cbd9;border-radius:10px;padding:11px;background:#fcfdff;}
+.final-family-work details[open] {background:#f6fafe;}
+.final-family-work summary {cursor:pointer;font-weight:700;color:#1b4c71;line-height:1.4;}
+.final-family-work p {overflow-wrap:anywhere;white-space:pre-wrap;line-height:1.5;}
+.final-family-work li {margin:5px 0;}

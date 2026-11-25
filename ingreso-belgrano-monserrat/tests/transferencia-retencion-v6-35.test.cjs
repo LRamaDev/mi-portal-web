@@ -66,7 +66,7 @@ function mockEngine(){
   const document={
     getElementById:key=>key==='fraction-challenge-dialog'?dialog:
       key==='fraction-challenge-content'?surface:node(key),
-    querySelector:selector=>selector==='meta[name="app-version"]'?{content:'6.37.0'}:null
+    querySelector:selector=>selector==='meta[name="app-version"]'?{content:'6.38.0'}:null
   };
   const sources={
     './data/desafios-fracciones.json':frac,
@@ -252,12 +252,12 @@ test('transferencia tras práctica; retención recién cuatro días después y p
 });
 
 test('versión, privacidad y estados diferenciados sin cambios en la base',()=>{
-  assert.match(html,/app-version" content="6\.37\.0"/);
+  assert.match(html,/app-version" content="6\.38\.0"/);
   assert.equal((html.match(/data-start-model=/g)||[]).length,6);
   assert.equal((html.match(/data-start-ortho=/g)||[]).length,7);
   assert.equal((html.match(/data-start-check=/g)||[]).length,4);
   assert.equal((html.match(/class="challenge-status-label"/g)||[]).length,18);
-  assert.ok(read('sw.js').includes('desafios-comprobacion.json?v=6.37.0'));
+  assert.ok(read('sw.js').includes('desafios-comprobacion.json?v=6.38.0'));
   assert.ok(app.includes("purpose:result.checkPhase"));
   assert.ok(!app.includes("MASTERED_FROM_SINGLE_ATTEMPT"));
   new vm.Script(engine);new vm.Script(app);

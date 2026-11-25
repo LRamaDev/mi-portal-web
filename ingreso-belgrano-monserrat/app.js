@@ -53,7 +53,7 @@
     try {
       // La URL cambia con la versión: evita que un service worker anterior entregue
       // habilidades sin videos durante la primera visita tras una actualización.
-      const releaseVersion = document.querySelector('meta[name="app-version"]')?.content || '6.37.0';
+      const releaseVersion = document.querySelector('meta[name="app-version"]')?.content || '6.38.0';
       const [skillsData, exerciseData] = await Promise.all([
         fetch(`./data/habilidades.json?v=${encodeURIComponent(releaseVersion)}`, { cache: 'no-store' }).then(r => { if (!r.ok) throw new Error('habilidades'); return r.json(); }),
         fetch('./data/ejercicios.json').then(r => { if (!r.ok) throw new Error('ejercicios'); return r.json(); })
@@ -71,7 +71,7 @@
     refreshGateNames();
     restoreActiveContext();
     setupSupabase();
-    if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js?v=6.37.0').catch(() => {});
+    if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js?v=6.38.0').catch(() => {});
   }
 
   function bindUI() {
@@ -726,6 +726,7 @@
     refreshGateNames();
     renderFamilyActivity();
     renderWeekFamily();
+    renderFinalFamily();
     renderTutoringPlan();
     renderVisitMetrics();
     if (!supa) {
@@ -1515,20 +1516,18 @@
           {id:'division-personal',label:'Refuerzo personal: divisiones y valor posicional',detail:'Siete problemas originales de divisiones con decimales, repartos y medidas de masa.',action:'model:Y:A'}]}
     },
     '2026-11-25':{
-      p1:{heading:'Conversión y G/J · refuerzo autónomo',intro:'Hoy trabajá en el cuaderno y usá las pistas si hace falta. Estos ejercicios son distintos de los del martes.',
-        tasks:[{id:'conversion-avanzada',label:'Más conversiones en contextos',detail:'Circuito C · equivalencias, octavos y dieciseisavos.',action:'model:E:C'},
-          {id:'gj',label:'Verbos con G y J',detail:'Circuito F · escribir palabras completas.',action:'ortho:J:F'}]},
-      p2:{heading:'División y acentuación · refuerzo autónomo',intro:'Hoy repasá estrategias con ejemplos diferentes de los del martes y reservá tiempo para Lengua.',
-        tasks:[{id:'division-avanzada',label:'Divisiones decimales en problemas',detail:'Circuito C · valor posicional, repartos y medidas.',action:'model:D:C'},
-          {id:'acentos',label:'Acentuación e hiatos',detail:'Circuito E · escribir sin depender de las opciones.',action:'ortho:A:E'}]}
+      p1:{heading:'A1 · Conversión avanzada',intro:'Siete problemas de varios pasos, con explicación del procedimiento. Este bloque reemplaza los refuerzos anteriores de hoy.',
+        tasks:[{id:'final-A1',label:'Conversión avanzada de fracciones y decimales',detail:'7 consignas · 25–30 minutos. Escribí cómo resolviste cada situación.',action:'final:A1'}]},
+      p2:{heading:'V1 · Circunferencia avanzada',intro:'Siete situaciones con esquemas, cálculo inverso y decisiones sobre qué operación utilizar.',
+        tasks:[{id:'final-V1',label:'Circunferencia y problemas complejos',detail:'7 consignas · 25–30 minutos. Elegí y justificá el procedimiento.',action:'final:V1'}]}
     },
     '2026-11-26':{
-      p1:{heading:'Medidas, divisibilidad y narración',intro:'Hacé una tanda de Matemática y después escribí una historia breve.',
-        tasks:[{id:'magnitudes',label:'Capacidad, tiempo, múltiplos y MCM',detail:'Siete ejercicios con situaciones distintas.',action:'model:S:A'},
-          {id:'narracion',label:'Escribir una narración breve',detail:'Inicio, conflicto, desenlace y revisión. El texto queda guardado sin nota automática.',action:'writing'}]},
-      p2:{heading:'Primos, medidas y narración',intro:'Hacé tu tanda de Matemática y reservá tiempo para escribir.',
-        tasks:[{id:'magnitudes',label:'Primos, masa, capacidad y operaciones',detail:'Siete problemas nuevos de aplicación.',action:'model:S:B'},
-          {id:'narracion',label:'Escribir una narración breve',detail:'Inicio, conflicto, desenlace y revisión. El texto queda guardado sin nota automática.',action:'writing'}]}
+      p1:{heading:'A2 y L1-A · Medidas y revisión de textos',intro:'Dos bloques breves, con pausa entre ellos. No necesitás completar otros circuitos además de estos.',
+        tasks:[{id:'final-A2',label:'Magnitudes y problemas de varios pasos',detail:'7 consignas · capacidad, masa, longitud y tiempo.',action:'final:A2'},
+          {id:'final-L1A',label:'Corrección integral de textos',detail:'4 consignas · G/J, concordancia, puntuación y coherencia. Revisión adulta posterior.',action:'final:L1A'}]},
+      p2:{heading:'V2 y L1-V · Divisiones y revisión escrita',intro:'Dos bloques selectivos, con pausa entre ellos. Las respuestas abiertas quedarán guardadas para revisión adulta.',
+        tasks:[{id:'final-V2',label:'Divisiones decimales y valor posicional',detail:'4 consignas · cálculo, errores deliberados y comprobación.',action:'final:V2'},
+          {id:'final-L1V',label:'Acentuación y corrección integral',detail:'5 consignas · hiatos, diacríticas, concordancia y textos.',action:'final:L1V'}]}
     },
     '2026-11-27':{
       p1:{heading:'Simulacro de Matemática',intro:'60 minutos · papel · resolución individual. Sin calculadora ni pistas.',
@@ -1576,6 +1575,10 @@
   function weekTaskStatus(profile,task,date){
     if(!profile)return 'locked';
     const parts=task.action.split(':');
+    if(parts[0]==='final'){
+      const status=finalBlockStatus(profile,parts[1]);
+      return status;
+    }
     if(parts[0]==='check'){
       const area=parts[1],phase=parts[2];
       const progress=checkState(profile,area,phase);
@@ -1598,7 +1601,8 @@
     return profile.weekLog?.[date]?.[task.id]?'completed':'pending';
   }
   function weekStatusLabel(status,task){
-    if(status==='completed')return task.action.startsWith('paper:')?'Realizado en papel · sin corregir':'Realizado';
+    if(status==='completed')return task.action.startsWith('paper:')?'Realizado en papel · sin corregir':
+      task.action.startsWith('final:')?'Realizado · revisión adulta pendiente':'Realizado';
     if(status==='active')return 'En curso';
     if(status==='waiting')return 'Disponible más adelante';
     if(status==='locked')return 'Elegí un perfil';
@@ -1680,6 +1684,7 @@
     const action=String(button.dataset.weekAction||''),date=button.dataset.weekDate||displayedWeekDate();
     const pid=primaryProfileId(),profile=state.profiles[pid],parts=action.split(':');
     if(parts[0]==='check')return startCheckChallenges(parts[1],parts[2]);
+    if(parts[0]==='final')return startFinalChallenges(parts[1]);
     if(parts[0]==='model')return startModelChallenges(parts[1],parts[2]);
     if(parts[0]==='ortho')return startOrthographyChallenges(parts[1],parts[2]);
     if(action==='save-writing'){
@@ -1708,6 +1713,110 @@
       saveState();renderWeekPlan();renderWeekFamily();
       toast('Registrado como realizado en papel. Queda pendiente la corrección.');
     }
+  }
+
+
+  // Seis bloques selectivos (34 consignas): 7+7+4 para A y 7+4+5 para V.
+  // No sustituyen ni reescriben evidencias anteriores. El razonamiento y la
+  // reescritura quedan en el perfil con estado pendiente de revisión adulta:
+  // no se convierten automáticamente en dominio ni afectan el mastery.
+  const FINAL_BLOCKS={
+    A1:{profile:'p1',area:'matematica',length:7,date:'2026-11-25'},
+    A2:{profile:'p1',area:'matematica',length:7,date:'2026-11-26'},
+    V1:{profile:'p2',area:'matematica',length:7,date:'2026-11-25'},
+    V2:{profile:'p2',area:'matematica',length:4,date:'2026-11-26'},
+    L1A:{profile:'p1',area:'lengua',length:4,date:'2026-11-26'},
+    L1V:{profile:'p2',area:'lengua',length:5,date:'2026-11-26'}
+  };
+  function finalBlockStatus(profile,block){
+    const setting=FINAL_BLOCKS[block];
+    if(!profile||!setting)return 'locked';
+    const records=profile.finalResponses||{};
+    const ids=Array.from({length:setting.length},(_,i)=>'FA26-'+block+'-'+String(i+1).padStart(2,'0'));
+    if(ids.every(id=>records[id]))return 'completed';
+    if(ids.some(id=>records[id]))return 'active';
+    return 'pending';
+  }
+  function startFinalChallenges(block){
+    const setting=FINAL_BLOCKS[block];
+    if(!setting)return;
+    if(!activeMode||activeMode==='together')return toast('Elegí un perfil individual.');
+    if(setting.profile!==activeMode)return toast('Este desafío corresponde al otro perfil.');
+    if(session)return toast('Primero terminá el entrenamiento abierto.');
+    const engine=window.IngresoFractionChallenges;
+    if(!engine)return toast('Recargá la página para abrir el desafío avanzado.');
+    const pid=primaryProfileId(),profile=state.profiles[pid];
+    if(finalBlockStatus(profile,block)==='completed')return toast('Ya realizaste este bloque. Su corrección adulta sigue pendiente.');
+    const prior=Object.entries(profile.finalResponses||{})
+      .filter(([id,value])=>id.startsWith('FA26-'+block+'-')&&value&&['autonoma','ayuda','revisar'].includes(value.status))
+      .map(([id,value])=>({id,round:'A',status:value.status}));
+    engine.open({
+      finalBlock:block,round:'A',prior,
+      onResult:result=>{
+        if(activeMode!==pid||result.finalBlock!==block)return;
+        recordFinalAttempt(pid,block,result);
+      },
+      onComplete:({finalBlock:doneBlock,results})=>{
+        const current=state.profiles[pid];
+        if(activeMode!==pid||!current||doneBlock!==block||results.length!==setting.length)return;
+        if((current.history||[]).some(row=>row.type==='desafios_finales'&&row.blockId===block))return;
+        if(results.some(row=>!current.finalResponses?.[row.id]))return;
+        const autonomous=results.filter(row=>row.status==='autonoma').length;
+        const helped=results.filter(row=>row.status==='ayuda').length;
+        current.sessions=(current.sessions||0)+1;
+        current.history=[...(current.history||[]),{
+          at:Date.now(),type:'desafios_finales',area:setting.area,school:'monserrat',
+          blockId:block,roundId:'A',total:setting.length,autonomous,withHelp:helped,
+          pendingAdultReview:setting.length,score:null,
+          note:'Respuestas numéricas verificadas cuando corresponda; texto y procedimientos pendientes de revisión adulta.'
+        }];
+        saveState();renderAll();
+      }
+    }).catch(error=>{console.error('[Bloques finales]',error);toast('No se pudo abrir este bloque.');});
+  }
+  function recordFinalAttempt(pid,block,result){
+    const setting=FINAL_BLOCKS[block];
+    const match=/^FA26-(A1|A2|V1|V2|L1A|L1V)-(0[1-9])$/.exec(result?.id||'');
+    if(!setting||!match||match[1]!==block||pid!==setting.profile||
+       Number(match[2])>setting.length||result.finalBlock!==block||
+       !['autonoma','ayuda','revisar'].includes(result.status))return;
+    const profile=state.profiles[pid];
+    if(!profile)return;
+    profile.finalResponses||={};
+    if(profile.finalResponses[result.id])return;
+    profile.finalResponses[result.id]={
+      at:Date.now(),status:result.status,skillId:String(result.skill||''),
+      answerText:String(result.answerText||'').slice(0,2200),
+      reasoningText:String(result.reasoningText||'').slice(0,600),
+      rubric:Array.isArray(result.rubric)?result.rubric.slice(0,8).map(s=>String(s).slice(0,200)):[],
+      pendingAdultReview:true,
+      numericCorrect:setting.area==='matematica'?result.status!=='revisar':null,
+      firstAttemptCorrect:result.firstAttemptCorrect===true,
+      durationMs:Math.max(0,Number(result.durationMs)||0)
+    };
+    saveState();renderWeekPlan();renderWeekFamily();renderFinalFamily();
+  }
+  function renderFinalFamily(){
+    const host=$('#final-family-work');
+    if(!host)return;
+    if(!activeMode||activeMode==='together'){
+      host.innerHTML='<h3>Procedimientos y textos por revisar</h3><p>Seleccioná un perfil individual para consultar sus respuestas.</p>';return;
+    }
+    const profile=state.profiles[primaryProfileId()];
+    const entries=Object.entries(profile?.finalResponses||{}).filter(([id])=>/^FA26-(A1|A2|V1|V2|L1A|L1V)-0[1-9]$/.test(id));
+    if(!entries.length){
+      host.innerHTML='<h3>Procedimientos y textos por revisar</h3><p>Todavía no hay respuestas de los seis bloques avanzados.</p>';return;
+    }
+    const rows=entries.map(([id,value])=>
+      '<details><summary>'+escapeHtml(id)+' · pendiente de revisión adulta</summary>'+
+      (value.answerText?'<p><strong>Respuesta:</strong> '+escapeHtml(value.answerText)+'</p>':'')+
+      (value.reasoningText?'<p><strong>Procedimiento:</strong> '+escapeHtml(value.reasoningText)+'</p>':'')+
+      (value.rubric?.length?'<p><strong>Criterios de revisión:</strong></p><ul>'+
+        value.rubric.map(x=>'<li>'+escapeHtml(x)+'</li>').join('')+'</ul>':'')+
+      '<small>Esta actividad no recibió una calificación automática de escritura.</small></details>'
+    ).join('');
+    host.innerHTML='<h3>Procedimientos y textos por revisar · '+escapeHtml(profile.name)+'</h3>'+
+      '<p>'+entries.length+' respuestas guardadas. Revisá la elección del procedimiento, las tildes y la coherencia de las correcciones.</p>'+rows;
   }
 
   function startRecommended() {

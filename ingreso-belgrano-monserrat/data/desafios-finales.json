@@ -1,0 +1,922 @@
+{
+  "version": 1,
+  "description": "Seis bloques avanzados, personalizados y de carga limitada para 25–26/11/2026. Las respuestas abiertas requieren revisión adulta.",
+  "blocks": {
+    "A1": {
+      "id": "A1",
+      "profile": "p1",
+      "date": "2026-11-25",
+      "label": "Conversión avanzada: procedimiento y transferencia",
+      "area": "matematica",
+      "items": [
+        {
+          "kind": "model-decimal",
+          "prompt": "Una botella contiene 13/16 de litro y se agregan 0,25 litros. ¿Cuántos litros hay ahora?",
+          "expected": 1.0625,
+          "skill": "MAT-FR-DEC",
+          "difficulty": 4,
+          "reasoningPrompt": "Explicá cómo convertiste los dieciseisavos y qué operación elegiste.",
+          "hints": [
+            "Transformá 13/16 en decimal.",
+            "13/16 = 0,8125; después sumá 0,25."
+          ],
+          "steps": [
+            "13/16 = 8.125/10.000 = 0,8125.",
+            "0,8125 + 0,25 = 1,0625.",
+            "Se obtiene 1,0625 L."
+          ],
+          "id": "FA26-A1-01",
+          "finalBlock": "A1",
+          "finalArea": "matematica",
+          "challengePurpose": "transferencia_final",
+          "school": "monserrat"
+        },
+        {
+          "kind": "model-decimal",
+          "prompt": "De una cuerda de 19/8 metros se cortan 0,75 metros. ¿Cuántos metros quedan?",
+          "expected": 1.625,
+          "skill": "MAT-FR-DEC",
+          "difficulty": 4,
+          "reasoningPrompt": "Indicá cómo supiste que la fracción representa más de dos metros.",
+          "hints": [
+            "Calculá 19 ÷ 8.",
+            "19/8 = 2,375; restá la parte cortada."
+          ],
+          "steps": [
+            "19/8 = 2 + 3/8 = 2,375.",
+            "2,375 − 0,75 = 1,625.",
+            "Quedan 1,625 metros."
+          ],
+          "id": "FA26-A1-02",
+          "finalBlock": "A1",
+          "finalArea": "matematica",
+          "challengePurpose": "transferencia_final",
+          "school": "monserrat"
+        },
+        {
+          "kind": "model-decimal",
+          "prompt": "Una receta lleva 11/25 de kilo de harina y se agregan 0,16 kg. ¿Cuál es la masa total en kilogramos?",
+          "expected": 0.6,
+          "skill": "MAT-FR-DEC",
+          "difficulty": 4,
+          "reasoningPrompt": "Escribí una equivalencia que permita convertir 11/25.",
+          "hints": [
+            "Llevá el denominador a 100.",
+            "11/25 = 44/100."
+          ],
+          "steps": [
+            "11/25 = 44/100 = 0,44.",
+            "0,44 + 0,16 = 0,60.",
+            "Hay 0,6 kg en total."
+          ],
+          "id": "FA26-A1-03",
+          "finalBlock": "A1",
+          "finalArea": "matematica",
+          "challengePurpose": "transferencia_final",
+          "school": "monserrat"
+        },
+        {
+          "kind": "model-decimal",
+          "prompt": "Un recipiente tenía 23/16 litros; después recibió 0,3125 litros. ¿Cuántos litros contiene?",
+          "expected": 1.75,
+          "skill": "MAT-FR-DEC",
+          "difficulty": 4,
+          "reasoningPrompt": "Explicá cómo encontraste la parte entera y los diezmilésimos.",
+          "hints": [
+            "23/16 = 1 + 7/16.",
+            "7/16 = 0,4375."
+          ],
+          "steps": [
+            "23/16 = 1,4375.",
+            "1,4375 + 0,3125 = 1,75.",
+            "Contiene 1,75 L."
+          ],
+          "id": "FA26-A1-04",
+          "finalBlock": "A1",
+          "finalArea": "matematica",
+          "challengePurpose": "transferencia_final",
+          "school": "monserrat"
+        },
+        {
+          "kind": "model-decimal",
+          "prompt": "Un frasco tiene 27/20 de litro y recibe otros 0,65 litros. ¿Cuántos litros reúne?",
+          "expected": 2,
+          "skill": "MAT-FR-DEC",
+          "difficulty": 4,
+          "reasoningPrompt": "Justificá si el resultado es mayor o menor que dos litros antes de calcular.",
+          "hints": [
+            "27/20 equivale a 135/100.",
+            "27/20 = 1,35."
+          ],
+          "steps": [
+            "27/20 = 1,35.",
+            "1,35 + 0,65 = 2.",
+            "Reúne 2 litros."
+          ],
+          "id": "FA26-A1-05",
+          "finalBlock": "A1",
+          "finalArea": "matematica",
+          "challengePurpose": "transferencia_final",
+          "school": "monserrat"
+        },
+        {
+          "kind": "model-decimal",
+          "prompt": "Se sirven 7/8 de una jarra de 2,4 litros. ¿Cuántos litros se sirvieron?",
+          "expected": 2.1,
+          "skill": "MAT-FR-DEC",
+          "difficulty": 4,
+          "reasoningPrompt": "Explicá por qué aquí hay que calcular una fracción de una cantidad y no solo convertir 7/8.",
+          "hints": [
+            "Podés calcular 2,4 ÷ 8 primero.",
+            "Cada octavo vale 0,3 L."
+          ],
+          "steps": [
+            "2,4 ÷ 8 = 0,3.",
+            "0,3 × 7 = 2,1.",
+            "Se sirvieron 2,1 L."
+          ],
+          "id": "FA26-A1-06",
+          "finalBlock": "A1",
+          "finalArea": "matematica",
+          "challengePurpose": "transferencia_final",
+          "school": "monserrat"
+        },
+        {
+          "kind": "model-decimal",
+          "prompt": "Un paquete contiene 3,2 kg de granos. Se usa 7/16 del paquete y además 0,4 kg de otro. ¿Cuántos kilogramos se usaron en total?",
+          "expected": 1.8,
+          "skill": "MAT-FR-DEC",
+          "difficulty": 4,
+          "reasoningPrompt": "Escribí por qué primero hay que encontrar una parte de 3,2 kg.",
+          "hints": [
+            "Dividí 3,2 en dieciséis partes.",
+            "3,2 ÷ 16 = 0,2 kg; tomá siete partes."
+          ],
+          "steps": [
+            "3,2 ÷ 16 = 0,2.",
+            "0,2 × 7 = 1,4.",
+            "1,4 + 0,4 = 1,8 kg."
+          ],
+          "id": "FA26-A1-07",
+          "finalBlock": "A1",
+          "finalArea": "matematica",
+          "challengePurpose": "transferencia_final",
+          "school": "monserrat"
+        }
+      ]
+    },
+    "A2": {
+      "id": "A2",
+      "profile": "p1",
+      "date": "2026-11-26",
+      "label": "Magnitudes y problemas de varios pasos",
+      "area": "matematica",
+      "items": [
+        {
+          "kind": "model-decimal",
+          "prompt": "En una jarra hay 2,75 litros. Se sirven seis vasos de 250 mililitros. ¿Cuántos litros quedan?",
+          "expected": 1.25,
+          "skill": "MAT-MED-CAP",
+          "difficulty": 4,
+          "reasoningPrompt": "Mostrá cómo pusiste todas las cantidades en la misma unidad.",
+          "hints": [
+            "Primero calculá cuántos mililitros se sirven.",
+            "6 × 250 mL = 1.500 mL = 1,5 L."
+          ],
+          "steps": [
+            "6 × 250 = 1.500 mL.",
+            "1.500 mL = 1,5 L.",
+            "2,75 − 1,5 = 1,25 L."
+          ],
+          "id": "FA26-A2-01",
+          "finalBlock": "A2",
+          "finalArea": "matematica",
+          "challengePurpose": "transferencia_final",
+          "school": "monserrat"
+        },
+        {
+          "kind": "model-decimal",
+          "prompt": "Una bolsa de 3,8 kg recibe 750 gramos y luego se retiran 1,25 kg. ¿Cuánto pesa al final en kilogramos?",
+          "expected": 3.3,
+          "skill": "MAT-MED-MASA",
+          "difficulty": 4,
+          "reasoningPrompt": "Indicá el orden de las operaciones y cómo convertiste gramos a kilogramos.",
+          "hints": [
+            "750 g = 0,75 kg.",
+            "Sumá lo que se agregó y restá lo retirado."
+          ],
+          "steps": [
+            "3,8 + 0,75 = 4,55.",
+            "4,55 − 1,25 = 3,30.",
+            "Pesa 3,3 kg."
+          ],
+          "id": "FA26-A2-02",
+          "finalBlock": "A2",
+          "finalArea": "matematica",
+          "challengePurpose": "transferencia_final",
+          "school": "monserrat"
+        },
+        {
+          "kind": "model-decimal",
+          "prompt": "Un recorrido mide 2,4 km. Se caminan 850 metros y después otros 0,35 km. ¿Cuántos kilómetros faltan?",
+          "expected": 1.2,
+          "skill": "MAT-MED-LONG",
+          "difficulty": 4,
+          "reasoningPrompt": "Explicá por qué los 850 metros deben convertirse antes de restar.",
+          "hints": [
+            "850 m = 0,85 km.",
+            "Sumá las dos distancias caminadas."
+          ],
+          "steps": [
+            "0,85 + 0,35 = 1,20 km caminados.",
+            "2,4 − 1,2 = 1,2.",
+            "Faltan 1,2 km."
+          ],
+          "id": "FA26-A2-03",
+          "finalBlock": "A2",
+          "finalArea": "matematica",
+          "challengePurpose": "transferencia_final",
+          "school": "monserrat"
+        },
+        {
+          "kind": "model-decimal",
+          "prompt": "Una actividad dura 1 hora y 45 minutos; otra, 95 minutos. ¿Cuántos minutos duran juntas?",
+          "expected": 200,
+          "skill": "MAT-MED-TIEMPO",
+          "difficulty": 4,
+          "reasoningPrompt": "Convertí las horas a minutos y mostrales el procedimiento.",
+          "hints": [
+            "Una hora tiene 60 minutos.",
+            "La primera actividad dura 105 minutos."
+          ],
+          "steps": [
+            "60 + 45 = 105 minutos.",
+            "105 + 95 = 200.",
+            "Duran juntas 200 minutos."
+          ],
+          "id": "FA26-A2-04",
+          "finalBlock": "A2",
+          "finalArea": "matematica",
+          "challengePurpose": "transferencia_final",
+          "school": "monserrat"
+        },
+        {
+          "kind": "model-decimal",
+          "prompt": "Tres botellas contienen 600 mL cada una y una cuarta tiene 0,45 litros. ¿Cuántos litros hay en total?",
+          "expected": 2.25,
+          "skill": "MAT-MED-CAP",
+          "difficulty": 4,
+          "reasoningPrompt": "Anotá las unidades que vas a unificar antes de sumar.",
+          "hints": [
+            "Tres veces 600 mL son 1.800 mL.",
+            "1.800 mL equivalen a 1,8 L."
+          ],
+          "steps": [
+            "3 × 600 = 1.800 mL.",
+            "1.800 mL = 1,8 L.",
+            "1,8 + 0,45 = 2,25 L."
+          ],
+          "id": "FA26-A2-05",
+          "finalBlock": "A2",
+          "finalArea": "matematica",
+          "challengePurpose": "transferencia_final",
+          "school": "monserrat"
+        },
+        {
+          "kind": "model-decimal",
+          "prompt": "De 4,5 kg de arroz se preparan seis bolsitas de 500 gramos cada una. ¿Cuántos kilogramos quedan?",
+          "expected": 1.5,
+          "skill": "MAT-MED-MASA",
+          "difficulty": 4,
+          "reasoningPrompt": "Explicá cómo calculaste el peso usado en kilogramos.",
+          "hints": [
+            "Seis veces 500 g son 3.000 g.",
+            "3.000 g equivalen a 3 kg."
+          ],
+          "steps": [
+            "6 × 500 = 3.000 g = 3 kg.",
+            "4,5 − 3 = 1,5.",
+            "Quedan 1,5 kg."
+          ],
+          "id": "FA26-A2-06",
+          "finalBlock": "A2",
+          "finalArea": "matematica",
+          "challengePurpose": "transferencia_final",
+          "school": "monserrat"
+        },
+        {
+          "kind": "model-decimal",
+          "prompt": "Una jarra contiene tres cuartos de 2 litros. Se reparte en vasos de 250 mililitros sin dejar sobrante. ¿Cuántos vasos completos se llenan?",
+          "expected": 6,
+          "skill": "MAT-MED-CAP",
+          "difficulty": 4,
+          "reasoningPrompt": "Explicá cómo calculaste los tres cuartos y luego el reparto.",
+          "hints": [
+            "3/4 de 2 L son 1,5 L.",
+            "1,5 L = 1.500 mL."
+          ],
+          "steps": [
+            "2 ÷ 4 × 3 = 1,5 L.",
+            "1.500 mL ÷ 250 mL = 6.",
+            "Se llenan 6 vasos."
+          ],
+          "id": "FA26-A2-07",
+          "finalBlock": "A2",
+          "finalArea": "matematica",
+          "challengePurpose": "transferencia_final",
+          "school": "monserrat"
+        }
+      ]
+    },
+    "V1": {
+      "id": "V1",
+      "profile": "p2",
+      "date": "2026-11-25",
+      "label": "Circunferencia: elegir operaciones y comprobar",
+      "area": "matematica",
+      "items": [
+        {
+          "kind": "model-decimal",
+          "prompt": "Dos jardines circulares tienen radios de 3 m y 5 m. ¿Cuántos metros más de alambre necesita el jardín grande? Usá π≈3,14.",
+          "expected": 12.56,
+          "skill": "MAT-CIRC",
+          "difficulty": 4,
+          "reasoningPrompt": "Escribí qué fórmula elegiste y por qué basta con comparar los radios.",
+          "hints": [
+            "La longitud es 2 × π × radio.",
+            "Restá los perímetros de ambos jardines."
+          ],
+          "steps": [
+            "2 × 3,14 × 5 = 31,4 m.",
+            "2 × 3,14 × 3 = 18,84 m.",
+            "Diferencia: 12,56 m."
+          ],
+          "diagram": {
+            "type": "circles",
+            "circles": [
+              {
+                "label": "A",
+                "radius": "3 m"
+              },
+              {
+                "label": "B",
+                "radius": "5 m"
+              }
+            ]
+          },
+          "id": "FA26-V1-01",
+          "finalBlock": "V1",
+          "finalArea": "matematica",
+          "challengePurpose": "transferencia_final",
+          "school": "monserrat"
+        },
+        {
+          "kind": "model-decimal",
+          "prompt": "El contorno de una rueda mide 50,24 cm. ¿Cuál es su radio? Usá π≈3,14.",
+          "expected": 8,
+          "skill": "MAT-CIRC",
+          "difficulty": 4,
+          "reasoningPrompt": "Justificá por qué primero hay que dividir y después hallar la mitad.",
+          "hints": [
+            "Contorno = π × diámetro.",
+            "Dividí 50,24 entre 3,14 para obtener el diámetro."
+          ],
+          "steps": [
+            "Diámetro = 50,24 ÷ 3,14 = 16 cm.",
+            "Radio = 16 ÷ 2.",
+            "El radio mide 8 cm."
+          ],
+          "diagram": {
+            "type": "circles",
+            "circles": [
+              {
+                "label": "Rueda",
+                "length": "50,24 cm"
+              }
+            ]
+          },
+          "id": "FA26-V1-02",
+          "finalBlock": "V1",
+          "finalArea": "matematica",
+          "challengePurpose": "transferencia_final",
+          "school": "monserrat"
+        },
+        {
+          "kind": "model-decimal",
+          "prompt": "Una señal circular tiene 14 cm de diámetro. ¿Cuál es la longitud de su borde? Usá π≈3,14.",
+          "expected": 43.96,
+          "skill": "MAT-CIRC",
+          "difficulty": 4,
+          "reasoningPrompt": "Anotá si utilizaste radio o diámetro en tu fórmula.",
+          "hints": [
+            "Con el diámetro, la longitud se calcula π × d.",
+            "Multiplicá 3,14 × 14."
+          ],
+          "steps": [
+            "L = π × diámetro.",
+            "L = 3,14 × 14.",
+            "El borde mide 43,96 cm."
+          ],
+          "diagram": {
+            "type": "circles",
+            "circles": [
+              {
+                "label": "Señal",
+                "diameter": "14 cm"
+              }
+            ]
+          },
+          "id": "FA26-V1-03",
+          "finalBlock": "V1",
+          "finalArea": "matematica",
+          "challengePurpose": "transferencia_final",
+          "school": "monserrat"
+        },
+        {
+          "kind": "model-decimal",
+          "prompt": "Una rueda de radio 35 cm gira tres vueltas completas. ¿Qué distancia recorre su borde en centímetros? Usá π≈3,14.",
+          "expected": 659.4,
+          "skill": "MAT-CIRC",
+          "difficulty": 4,
+          "reasoningPrompt": "Señalá qué representa una vuelta y cómo calculaste las tres.",
+          "hints": [
+            "Primero calculá el contorno de una rueda.",
+            "Después multiplicá ese contorno por 3."
+          ],
+          "steps": [
+            "Longitud por vuelta = 2 × 3,14 × 35 = 219,8.",
+            "219,8 × 3 = 659,4.",
+            "Recorre 659,4 cm."
+          ],
+          "diagram": {
+            "type": "circles",
+            "circles": [
+              {
+                "label": "Rueda",
+                "radius": "35 cm"
+              }
+            ]
+          },
+          "id": "FA26-V1-04",
+          "finalBlock": "V1",
+          "finalArea": "matematica",
+          "challengePurpose": "transferencia_final",
+          "school": "monserrat"
+        },
+        {
+          "kind": "model-decimal",
+          "prompt": "Dos plazas circulares tienen diámetros de 18 m y 24 m. ¿Cuántos metros de diferencia hay entre sus bordes? Usá π≈3,14.",
+          "expected": 18.84,
+          "skill": "MAT-CIRC",
+          "difficulty": 4,
+          "reasoningPrompt": "Justificá por qué no necesitaste calcular áreas.",
+          "hints": [
+            "El perímetro circular es π × diámetro.",
+            "La diferencia de diámetros es 6 m."
+          ],
+          "steps": [
+            "24 − 18 = 6 m.",
+            "3,14 × 6 = 18,84.",
+            "Hay 18,84 m de diferencia."
+          ],
+          "diagram": {
+            "type": "circles",
+            "circles": [
+              {
+                "label": "Plaza 1",
+                "diameter": "18 m"
+              },
+              {
+                "label": "Plaza 2",
+                "diameter": "24 m"
+              }
+            ]
+          },
+          "id": "FA26-V1-05",
+          "finalBlock": "V1",
+          "finalArea": "matematica",
+          "challengePurpose": "transferencia_final",
+          "school": "monserrat"
+        },
+        {
+          "kind": "model-decimal",
+          "prompt": "Se coloca una cerca por el arco de una semicircunferencia de radio 6 m y también sobre su diámetro recto. ¿Cuántos metros de cerco se necesitan? Usá π≈3,14.",
+          "expected": 30.84,
+          "skill": "MAT-CIRC",
+          "difficulty": 4,
+          "reasoningPrompt": "Mostrá qué parte del borde es curva y cuál es recta.",
+          "hints": [
+            "El arco es la mitad de la circunferencia completa.",
+            "Sumá el diámetro al arco."
+          ],
+          "steps": [
+            "Arco = 3,14 × 6 = 18,84 m.",
+            "Diámetro recto = 12 m.",
+            "Cerca total = 30,84 m."
+          ],
+          "diagram": {
+            "type": "circles",
+            "circles": [
+              {
+                "label": "Semicírculo",
+                "radius": "6 m"
+              }
+            ]
+          },
+          "id": "FA26-V1-06",
+          "finalBlock": "V1",
+          "finalArea": "matematica",
+          "challengePurpose": "transferencia_final",
+          "school": "monserrat"
+        },
+        {
+          "kind": "model-decimal",
+          "prompt": "Una pista circular tiene un contorno de 94,2 m. Se amplía su radio 2 m. ¿Cuánto medirá ahora su nuevo contorno? Usá π≈3,14.",
+          "expected": 106.76,
+          "skill": "MAT-CIRC",
+          "difficulty": 4,
+          "reasoningPrompt": "Mostrá cómo recuperás el radio inicial y qué dato cambia.",
+          "hints": [
+            "Dividí el contorno original por 2 × 3,14.",
+            "Ese radio aumenta 2 metros."
+          ],
+          "steps": [
+            "Radio inicial = 94,2 ÷ 6,28 = 15 m.",
+            "Radio nuevo = 15 + 2 = 17 m.",
+            "Nuevo contorno = 2 × 3,14 × 17 = 106,76 m."
+          ],
+          "diagram": {
+            "type": "circles",
+            "circles": [
+              {
+                "label": "Pista",
+                "length": "94,2 m"
+              }
+            ]
+          },
+          "id": "FA26-V1-07",
+          "finalBlock": "V1",
+          "finalArea": "matematica",
+          "challengePurpose": "transferencia_final",
+          "school": "monserrat"
+        }
+      ]
+    },
+    "V2": {
+      "id": "V2",
+      "profile": "p2",
+      "date": "2026-11-26",
+      "label": "Divisiones decimales: cálculo y verificación",
+      "area": "matematica",
+      "items": [
+        {
+          "kind": "model-decimal",
+          "prompt": "Se reparten 7,056 litros de jugo entre 8 recipientes iguales. ¿Cuántos litros recibe cada uno?",
+          "expected": 0.882,
+          "skill": "MAT-DEC-OPS",
+          "difficulty": 4,
+          "reasoningPrompt": "Explicá cómo comprobaste el cociente mediante multiplicación.",
+          "hints": [
+            "La división es 7,056 ÷ 8.",
+            "Verificá que el resultado × 8 sea 7,056."
+          ],
+          "steps": [
+            "7,056 ÷ 8 = 0,882.",
+            "0,882 × 8 = 7,056.",
+            "Cada recipiente recibe 0,882 L."
+          ],
+          "id": "FA26-V2-01",
+          "finalBlock": "V2",
+          "finalArea": "matematica",
+          "challengePurpose": "transferencia_final",
+          "school": "monserrat"
+        },
+        {
+          "kind": "model-decimal",
+          "prompt": "Un estudiante escribió «47,2 ÷ 1.000 = 0,472». ¿Cuál es el resultado correcto?",
+          "expected": 0.0472,
+          "skill": "MAT-DEC-OPS",
+          "difficulty": 4,
+          "reasoningPrompt": "Explicá cuál fue el error del estudiante y cómo lo detectaste.",
+          "hints": [
+            "Dividir por mil reduce el valor de cada cifra mil veces.",
+            "47,2 ÷ 100 = 0,472, pero falta dividir una vez más entre 10."
+          ],
+          "steps": [
+            "47,2 ÷ 100 = 0,472.",
+            "0,472 ÷ 10 = 0,0472.",
+            "El resultado correcto es 0,0472, no 0,472."
+          ],
+          "id": "FA26-V2-02",
+          "finalBlock": "V2",
+          "finalArea": "matematica",
+          "challengePurpose": "transferencia_final",
+          "school": "monserrat"
+        },
+        {
+          "kind": "model-decimal",
+          "prompt": "Una fábrica reparte 42,36 kg de masa en seis partes iguales. ¿Cuántos kilogramos tiene cada parte?",
+          "expected": 7.06,
+          "skill": "MAT-DEC-OPS",
+          "difficulty": 4,
+          "reasoningPrompt": "Mostrá una multiplicación que demuestre que tu división está bien.",
+          "hints": [
+            "Probá dividir 42,36 entre 6.",
+            "Comprobá que el resultado multiplicado por seis da 42,36."
+          ],
+          "steps": [
+            "42,36 ÷ 6 = 7,06.",
+            "7,06 × 6 = 42,36.",
+            "Cada parte pesa 7,06 kg."
+          ],
+          "id": "FA26-V2-03",
+          "finalBlock": "V2",
+          "finalArea": "matematica",
+          "challengePurpose": "transferencia_final",
+          "school": "monserrat"
+        },
+        {
+          "kind": "model-decimal",
+          "prompt": "Se reparten 5,64 litros entre ocho botellas y luego se agregan 0,125 litros a cada una. ¿Cuántos litros tiene cada botella?",
+          "expected": 0.83,
+          "skill": "MAT-DEC-OPS",
+          "difficulty": 4,
+          "reasoningPrompt": "Indicá qué operación hacés primero y cómo verificás el reparto.",
+          "hints": [
+            "Primero repartí 5,64 en 8 partes iguales.",
+            "Luego sumá 0,125 a cada parte."
+          ],
+          "steps": [
+            "5,64 ÷ 8 = 0,705.",
+            "0,705 + 0,125 = 0,830.",
+            "Cada botella tiene 0,83 L."
+          ],
+          "id": "FA26-V2-04",
+          "finalBlock": "V2",
+          "finalArea": "matematica",
+          "challengePurpose": "transferencia_final",
+          "school": "monserrat"
+        }
+      ]
+    },
+    "L1A": {
+      "id": "L1A",
+      "profile": "p1",
+      "date": "2026-11-26",
+      "label": "Corrección integral de textos — A",
+      "area": "lengua",
+      "items": [
+        {
+          "kind": "orth-open-review",
+          "prompt": "Corregí las oraciones completas. Revisá G/J y concordancia.",
+          "sentence": "La representante dirije la reunión. Los delegados proteje los documentos importantes.",
+          "skill": "LEN-GJ",
+          "difficulty": 4,
+          "rubric": [
+            "Conjugación de dirigir y proteger",
+            "Concordancia de sujeto plural y verbo",
+            "Tildes y puntuación conservadas"
+          ],
+          "hints": [
+            "Buscá los infinitivos dirigir y proteger.",
+            "Revisá cuál es el sujeto en la segunda oración."
+          ],
+          "steps": [
+            "Dirigir ante E usa G; «dirige».",
+            "El plural es «los delegados protegen».",
+            "Una respuesta válida conserva el significado y corrige ambos verbos."
+          ],
+          "id": "FA26-L1A-01",
+          "finalBlock": "L1A",
+          "finalArea": "lengua",
+          "challengePurpose": "transferencia_final",
+          "school": "monserrat"
+        },
+        {
+          "kind": "orth-open-review",
+          "prompt": "Reescribí este fragmento para eliminar la repetición y ordenar las acciones.",
+          "sentence": "Primero las chicas leyeron la invitación. Primero prepararon el cartel. Primero fueron a la biblioteca.",
+          "skill": "LEN-REV",
+          "difficulty": 4,
+          "rubric": [
+            "Secuencia temporal comprensible",
+            "Conectores variados y no repetidos",
+            "Puntuación y sentido conservados"
+          ],
+          "hints": [
+            "Pensá qué acción ocurrió primero y cuáles después.",
+            "Podés usar «luego» y «finalmente» o conectores equivalentes."
+          ],
+          "steps": [
+            "El texto debe mantener las tres acciones.",
+            "No hay una única redacción correcta.",
+            "Revisá conectores, repeticiones y puntuación."
+          ],
+          "id": "FA26-L1A-02",
+          "finalBlock": "L1A",
+          "finalArea": "lengua",
+          "challengePurpose": "transferencia_final",
+          "school": "monserrat"
+        },
+        {
+          "kind": "orth-open-review",
+          "prompt": "Revisá concordancia, uso de G/J y tildes, sin modificar los hechos.",
+          "sentence": "Ayer la bibliotecaria dirijió la charla. Los chicos recojieron los cuadernos y despues escribio sus respuestas.",
+          "skill": "LEN-REV",
+          "difficulty": 4,
+          "rubric": [
+            "G/J en dirigió y recogieron",
+            "Después lleva tilde",
+            "Sujeto plural concuerda con escribieron"
+          ],
+          "hints": [
+            "Revisá los verbos conjugados y quién realiza cada acción.",
+            "Buscá también una palabra aguda que termina en S."
+          ],
+          "steps": [
+            "La bibliotecaria «dirigió» la charla.",
+            "Los chicos «recogieron» y «escribieron».",
+            "La corrección también debe incluir «después»."
+          ],
+          "id": "FA26-L1A-03",
+          "finalBlock": "L1A",
+          "finalArea": "lengua",
+          "challengePurpose": "transferencia_final",
+          "school": "monserrat"
+        },
+        {
+          "kind": "orth-open-review",
+          "prompt": "Corregí este párrafo completo. Reorganizalo en tres oraciones claras, con coherencia.",
+          "sentence": "Cuando llegaron a la plaza las familias busco lugar. Los chicos se dirijieron al escenario y nadie sabia si el concierto empezaria a tiempo. Pero sin embargo todos espero tranquilos.",
+          "skill": "LEN-REV",
+          "difficulty": 4,
+          "rubric": [
+            "Concordancia de familias y todos",
+            "G/J en dirigieron",
+            "Tildes en sabía y empezaría",
+            "Eliminar repetición «pero sin embargo»",
+            "Puntuación coherente"
+          ],
+          "hints": [
+            "Releé buscando quién hace cada acción.",
+            "Conservá las ideas pero reorganizá la puntuación y los conectores."
+          ],
+          "steps": [
+            "Corregir: «las familias buscaron», «se dirigieron» y «todos esperaron».",
+            "Agregar las tildes necesarias a «sabía» y «empezaría».",
+            "Puede haber varias versiones coherentes de la puntuación y los conectores."
+          ],
+          "id": "FA26-L1A-04",
+          "finalBlock": "L1A",
+          "finalArea": "lengua",
+          "challengePurpose": "transferencia_final",
+          "school": "monserrat"
+        }
+      ]
+    },
+    "L1V": {
+      "id": "L1V",
+      "profile": "p2",
+      "date": "2026-11-26",
+      "label": "Corrección integral de textos — V",
+      "area": "lengua",
+      "items": [
+        {
+          "kind": "orth-open-review",
+          "prompt": "Corregí todas las tildes de este fragmento y conservá su sentido.",
+          "sentence": "El colibri volvio al arbol mientras el jardin estaba en silencio.",
+          "skill": "LEN-ACENT",
+          "difficulty": 4,
+          "rubric": [
+            "Colibrí y volvió son agudas tildadas",
+            "Árbol es grave terminada en L",
+            "Jardín es aguda terminada en N"
+          ],
+          "hints": [
+            "Buscá la sílaba tónica de cada palabra.",
+            "Revisá las terminaciones y las reglas de agudas y graves."
+          ],
+          "steps": [
+            "«Colibrí» y «volvió» llevan tilde.",
+            "«Árbol» y «jardín» también.",
+            "Revisá que no cambiaste el significado de la oración."
+          ],
+          "id": "FA26-L1V-01",
+          "finalBlock": "L1V",
+          "finalArea": "lengua",
+          "challengePurpose": "transferencia_final",
+          "school": "monserrat"
+        },
+        {
+          "kind": "orth-open-review",
+          "prompt": "Revisá hiatos, tildes y puntuación en estas dos oraciones.",
+          "sentence": "Mi tia oia musica desde el balcon el ruido del rio no la dejaba dormir.",
+          "skill": "LEN-ACENT",
+          "difficulty": 4,
+          "rubric": [
+            "Tía, oía y río llevan tilde por hiato",
+            "Música lleva tilde por ser esdrújula",
+            "Balcón lleva tilde",
+            "Separación correcta de las dos ideas"
+          ],
+          "hints": [
+            "Una vocal cerrada tónica junto a otra vocal necesita tilde.",
+            "Detectá dónde termina una oración y empieza la siguiente."
+          ],
+          "steps": [
+            "«Tía», «oía», «música», «balcón» y «río» llevan tilde.",
+            "Separar las dos ideas con puntuación.",
+            "Varias puntuaciones son aceptables si quedan claras."
+          ],
+          "id": "FA26-L1V-02",
+          "finalBlock": "L1V",
+          "finalArea": "lengua",
+          "challengePurpose": "transferencia_final",
+          "school": "monserrat"
+        },
+        {
+          "kind": "orth-open-review",
+          "prompt": "Escribí el texto con tildes diacríticas correctas y puntuación clara.",
+          "sentence": "El dijo que si, pero no sabia si el te era para mi o para tu hermano.",
+          "skill": "LEN-DIAC",
+          "difficulty": 4,
+          "rubric": [
+            "Él como pronombre lleva tilde",
+            "Sí afirmativo lleva tilde",
+            "Té como infusión lleva tilde",
+            "Mí como pronombre lleva tilde",
+            "Sabía lleva tilde por hiato"
+          ],
+          "hints": [
+            "Preguntate la función de cada monosílabo.",
+            "No todas las palabras «si», «te», «mi» y «tu» llevan tilde."
+          ],
+          "steps": [
+            "«Él» y «sí» llevan tilde en ese contexto.",
+            "«Té» es la bebida y «mí» es pronombre.",
+            "«Tu» posesivo no lleva tilde; «sabía» sí."
+          ],
+          "id": "FA26-L1V-03",
+          "finalBlock": "L1V",
+          "finalArea": "lengua",
+          "challengePurpose": "transferencia_final",
+          "school": "monserrat"
+        },
+        {
+          "kind": "orth-open-review",
+          "prompt": "Corregí concordancia y signos en este fragmento sin cambiar lo que ocurrió.",
+          "sentence": "Las compañeras preparo las cartulinas los docentes les dieron ideas y ellas termino el mural.",
+          "skill": "LEN-SUJ-PRED",
+          "difficulty": 4,
+          "rubric": [
+            "Concordancia de compañeras con prepararon",
+            "Concordancia de ellas con terminaron",
+            "Separación clara de tres acciones"
+          ],
+          "hints": [
+            "Buscá los sujetos de cada verbo.",
+            "Agregá signos para distinguir las acciones."
+          ],
+          "steps": [
+            "Las compañeras «prepararon».",
+            "Los docentes «dieron».",
+            "Ellas «terminaron»; organizá las acciones con puntuación."
+          ],
+          "id": "FA26-L1V-04",
+          "finalBlock": "L1V",
+          "finalArea": "lengua",
+          "challengePurpose": "transferencia_final",
+          "school": "monserrat"
+        },
+        {
+          "kind": "orth-open-review",
+          "prompt": "Reescribí este párrafo completo para mejorar tildes, conectores y coherencia.",
+          "sentence": "El sabado fuimos al museo. Primero vimos una exposicion de fotografias, primero el guia nos explico su historia. Mi hermana decia que no sabia por que habian elegido esas imagenes entonces preguntó.",
+          "skill": "LEN-REV",
+          "difficulty": 4,
+          "rubric": [
+            "Sábado, exposición, fotografías y guía con tildes correctas",
+            "Decía, sabía, habían e imágenes con tildes",
+            "«Por qué» interrogativo indirecto",
+            "Conectores que evitan «primero» repetido",
+            "Puntuación y cohesión del párrafo"
+          ],
+          "hints": [
+            "Buscá las palabras agudas, esdrújulas y los hiatos.",
+            "El segundo «primero» puede reemplazarse por un conector temporal."
+          ],
+          "steps": [
+            "Corregí las tildes, incluido «por qué» indirecto.",
+            "Evitá repetir el mismo conector temporal.",
+            "Revisá una puntuación que permita seguir el relato."
+          ],
+          "id": "FA26-L1V-05",
+          "finalBlock": "L1V",
+          "finalArea": "lengua",
+          "challengePurpose": "transferencia_final",
+          "school": "monserrat"
+        }
+      ]
+    }
+  }
+}
