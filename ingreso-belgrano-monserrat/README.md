@@ -384,3 +384,35 @@ El plan del **miércoles 25** deja ejercicios *diferentes* a los añadidos el ma
 El banco pasa a **441 consignas originales registradas en archivos**: las 427 anteriores + 14 refuerzos personalizados nuevos. Visible y caché PWA: **v6.37.0**.
 
 La suite `tests/refuerzo-perfil-v6-37.test.cjs` comprueba la ausencia de IDs/enunciados repetidos, las 14 respuestas correctas/14 incorrectas, que el martes se muestran ejercicios diferenciados y que los botones no permiten ejecutar el circuito del otro perfil. En ejecución simulada, **38 pruebas de todas las suites pasaron**. Control manual tras fusionar: confirmar versión 6.37, comprobar que el martes aparecen dos tarjetas (comprobación inicial y refuerzo nuevo) en cada perfil, terminar el circuito y verificar que quede completado sin afectar el perfil opuesto.
+
+
+## Cierre pedagógico v6.38 · seis bloques avanzados, 34 consignas
+
+La revisión de Supabase del **25/11/2026** mostró buen desempeño autónomo en ejercicios habituales, pero errores puntuales en conversión de dieciseisavos (A), acentuación integral y problemas geométricos de varios pasos (V). La actualización **no crea 104 ejercicios obligatorios**: incorpora exactamente **34 consignas originales, distribuidas en seis bloques seleccionados**.
+
+| Perfil | Día | Bloque | Consignas | Objetivo |
+|---|---|---|---:|---|
+| A / p1 | Mié 25 | A1 | 7 | Conversión de fracciones impropias, octavos y dieciseisavos en problemas de dos pasos |
+| A / p1 | Jue 26 | A2 | 7 | Medidas de capacidad, masa, longitud y tiempo, con conversión y operaciones combinadas |
+| A / p1 | Jue 26 | L1A | 4 | Reescritura de textos, conjugación G/J, concordancia, coherencia y puntuación |
+| V / p2 | Mié 25 | V1 | 7 | Circunferencia: selección de fórmula, cálculo inverso, esquemas y problemas integradores |
+| V / p2 | Jue 26 | V2 | 4 | Divisiones con decimales, errores deliberados y verificación del cociente |
+| V / p2 | Jue 26 | L1V | 5 | Acentuación, hiatos, diacríticas y corrección integral de párrafos |
+
+**Total: A, 18; V, 16; suma, 34.** Se sustituyen las tareas de miércoles y jueves en «Mi actividad de hoy», sin sumar las tandas anteriores ni exigir terminar un día para acceder al siguiente. Los simulacros imprimibles del viernes (Matemática) y domingo (Lengua) permanecen fuera de esas 34 consignas.
+
+### Arquitectura y registros
+
+El nuevo banco `data/desafios-finales.json` tiene IDs `FA26-<bloque>-<número>` que no colisionan con los **441 anteriores**. El total en bancos es **475**, pero solo 34 corresponden a esta actualización; **no** se presentan todos como tarea nueva.
+
+El motor de Desafíos admite **4, 5 y 7 consignas** en la modalidad `finalBlock`, sin modificar la cantidad de los circuitos anteriores. Conserva «Comprobar», pistas disponibles **después del primer intento**, explicación, corrección y avance. Los problemas numéricos exigen que la estudiante escriba su procedimiento. **El número puede evaluarse automáticamente, pero ese acierto no equivale a validar el razonamiento escrito.** Los problemas V1 incluyen esquemas SVG orientativos, sin escala métrica.
+
+Las actividades de corrección de textos `orth-open-review` aceptan una reescritura libre. Se almacenan con una **rúbrica de revisión**; nunca se califican mediante coincidencia literal. Su estado queda «para revisar» aunque se haya entregado el texto. Las 34 respuestas guardadas tienen `pendingAdultReview:true`.
+
+El registro se guarda por perfil en `profile.finalResponses` y un cierre informativo en `history` de tipo `desafios_finales`, con `score:null`. No se modifica ni elimina `evidence` ni se incorpora el resultado automáticamente al cálculo de `mastery`; se conserva toda la sincronización de `study_state.payload`. Las respuestas y procedimientos se pueden consultar en **Familia → Procedimientos y textos por revisar** para el **perfil individual seleccionado**, nunca como comparación de A y V.
+
+### Pruebas y publicación
+
+La suite `tests/seis-bloques-v6-38.test.cjs` verifica los seis tamaños de circuito, 34 IDs nuevos, 25 soluciones matemáticas con operaciones independientes, 9 entregas abiertas con rúbrica, acceso al motor, primera respuesta sin pista, almacenamiento aislado, ausencia de autocalificación de textos, agenda 7/7 y 11/9, y caché/versionado. Se ejecuta junto a todas las suites anteriores en GitHub Actions.
+
+Versiones visibles y caché PWA: **6.38.0**. Sin migraciones, cambios de Supabase ni fusión automática. Tras fusionar se deberá probar especialmente en celular: recorrido y pausa, reanudar sin repetir respuestas, enviar corrección libre, consultar la rúbrica desde Familia en ese perfil y confirmar que otro perfil no ve las respuestas.
