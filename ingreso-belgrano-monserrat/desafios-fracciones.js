@@ -266,7 +266,7 @@
     if(['circle-pick','circle-number','fraction-compare','fraction-order','fraction-between'].includes(task.kind))return comparisonBoard(task);
     if(task.kind==='model-decimal') return finalDiagram(task)+
       '<div class="fraction-fields"><label>Resultado numérico (podés usar coma decimal)<input id="fraction-ans1" type="text" inputmode="decimal" autocomplete="off" placeholder="Ejemplo: 1,25"></label>'+
-      (task.finalBlock?'<label>Explicá cómo lo resolviste (lectura y revisión adulta): <textarea id="fraction-reason" rows="3" maxlength="600" spellcheck="true" placeholder="'+esc(task.reasoningPrompt||'Escribí tu procedimiento')+'"></textarea></label>':'')+'</div>';
+      (task.finalBlock?'<label>Explicá cómo lo resolviste (lectura y revisión adulta): <span class="final-reason-prompt">'+esc(task.reasoningPrompt||'Escribí tu procedimiento')+'</span><textarea id="fraction-reason" rows="3" maxlength="600" spellcheck="true" placeholder="Describí las operaciones y por qué las elegiste"></textarea></label>':'')+'</div>';
     if(task.kind==='model-fraction') return '<div class="fraction-fields"><label>Fracción irreducible<input id="fraction-ans1" type="text" inputmode="text" autocomplete="off" placeholder="Ejemplo: 3/4"></label></div>';
     if(['visual-read','visual-half'].includes(task.kind))return modelGrid(task) + modelFractionInput();
     if(task.kind==='visual-compare')return modelChips(task) + modelFractionInput();
@@ -515,7 +515,7 @@
     if (!task) return showSummary();
     session.selection=new Set(); session.choice=null; session.added=0; session.attempts=0; session.hints=0;
     session.locked=false; session.startedAt=Date.now();
-    app.innerHTML=`<div class="fraction-progress"><span>Desafío ${session.index+1} de ${session.tasks.length}</span><span>${session.checkPhase?'Comprobación de '+(session.checkPhase==='retencion'?'retención':'transferencia'):(session.block||session.orthographyBlock)?'Circuito '+esc(session.round):'Tanda '+esc(session.round)}</span></div>
+    app.innerHTML=`<div class="fraction-progress"><span>Desafío ${session.index+1} de ${session.tasks.length}</span><span>${session.finalBlock?'Bloque '+esc(session.finalBlock):session.checkPhase?'Comprobación de '+(session.checkPhase==='retencion'?'retención':'transferencia'):(session.block||session.orthographyBlock)?'Circuito '+esc(session.round):'Tanda '+esc(session.round)}</span></div>
       <div class="fraction-track"><span style="width:${session.results.size/session.tasks.length*100}%"></span></div>
       <p class="eyebrow">${esc(task.title)}</p><h2>${esc(task.prompt)}</h2>
       <div id="fraction-board" class="fraction-board">${board(task)}</div>
@@ -630,6 +630,7 @@
       answerText:session.finalBlock?(app.querySelector('#fraction-ans1')?.value.trim()||''):null,
       reasoningText:session.finalBlock?(app.querySelector('#fraction-reason')?.value.trim()||''):null,
       pendingAdultReview:Boolean(session.finalBlock),
+      rubric:session.finalBlock&&Array.isArray(task.rubric)?task.rubric:[],
       durationMs:Math.max(0,Date.now()-session.startedAt)};
     session.results.set(task.id,result);
     try{session.onResult(result);}catch(err){console.error('[Desafíos] Error al guardar resultado',err);}
@@ -683,7 +684,7 @@
     if(!session)return;
     const results=[...session.results.values()], count=status=>results.filter(r=>r.status===status).length;
     const names={autonoma:'✓ Sin ayuda',ayuda:'↗ Con ayuda',revisar:'↺ Para revisar'};
-    app.innerHTML=`<p class="eyebrow">${session.checkPhase?'Comprobación de '+(session.checkPhase==='retencion'?'retención':'transferencia')+' completada':(session.block||session.orthographyBlock)?"Circuito "+esc(session.round)+" completado":"Tanda "+esc(session.round)+" completada"}</p><h2>¡Terminaste los desafíos!</h2>
+    app.innerHTML=`<p class="eyebrow">${session.finalBlock?'Bloque avanzado '+esc(session.finalBlock)+' realizado':session.checkPhase?'Comprobación de '+(session.checkPhase==='retencion'?'retención':'transferencia')+' completada':(session.block||session.orthographyBlock)?"Circuito "+esc(session.round)+" completado":"Tanda "+esc(session.round)+" completada"}</p><h2>¡Terminaste los desafíos!</h2>
       <p>${session.checkPhase?'Esta comprobación registra qué pudiste resolver sin ayuda después de estudiar. No representa por sí sola un dominio consolidado.':'Este resumen es de la práctica realizada: no representa una calificación ni un porcentaje de dominio.'}</p>
       <div class="fraction-summary"><div><strong>${count('autonoma')}</strong><span>Sin ayuda</span></div><div><strong>${count('ayuda')}</strong><span>Con ayuda</span></div><div><strong>${count('revisar')}</strong><span>Para revisar</span></div></div>
       <ul class="fraction-summary-list">${session.tasks.map(t=>`<li><span>${esc(t.title)}</span><b>${names[session.results.get(t.id)?.status]||'Pendiente'}</b></li>`).join('')}</ul>
