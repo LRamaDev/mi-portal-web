@@ -12,7 +12,7 @@ const bank=JSON.parse(read('data/desafios-modelo.json'));
 const html=read('index.html');
 
 test('calendario 24–30, dos perfiles, materiales imprimibles y versión coherente',()=>{
-  assert.match(html,/app-version" content="6\.38\.0"/);
+  assert.match(html,/app-version" content="6\.39\.0"/);
   for(const date of ['2026-11-24','2026-11-25','2026-11-26','2026-11-27','2026-11-28','2026-11-29','2026-11-30'])
     assert.ok(html.includes('value="'+date+'"'),date);
   assert.match(html,/id="week-plan-content"/);
@@ -24,7 +24,7 @@ test('calendario 24–30, dos perfiles, materiales imprimibles y versión cohere
   const sw=read('sw.js');
   for(const file of ['simulacro-final-matematica.html','simulacro-final-lengua.html'])
     assert.ok(sw.includes("'./"+file+"'"),file);
-  assert.ok(sw.includes("const VERSION='6.38.0'"));
+  assert.ok(sw.includes("const VERSION='6.39.0'"));
   for(const file of ['simulacro-final-matematica.html','simulacro-final-lengua.html']){
     const body=read(file);
     assert.match(body,/60 minutos/);
@@ -125,11 +125,11 @@ test('el resumen semanal y el borrador no mezclan perfiles ni equivalen a correc
   assert.match(node('#week-plan-content').innerHTML,/Magnitudes y problemas/);
   assert.doesNotMatch(node('#week-plan-content').innerHTML,/Relato previo/);
   t.monitor();
-  assert.match(node('#week-family-status').innerHTML,/Jue 26.*1 de 2/);
+  assert.match(node('#week-family-status').innerHTML,/Jue 26.*1 de 3/);
   assert.match(node('#week-family-status').innerHTML,/Vie 27.*1 de 1/);
   t.mode('p2');t.render();t.monitor();
   assert.doesNotMatch(node('#week-plan-content').innerHTML,/Relato previo/);
-  assert.match(node('#week-family-status').innerHTML,/Jue 26.*0 de 2/);
+  assert.match(node('#week-family-status').innerHTML,/Jue 26.*0 de 3/);
   assert.equal(t.status(p2,t.plan['2026-11-27'].p2.tasks[0],'2026-11-27'),'pending');
   t.mode('together');t.render();t.monitor();
   assert.doesNotMatch(node('#week-family-status').innerHTML,/Perfil 1/);
@@ -158,7 +158,7 @@ function engineHarness(){
   const document={
     getElementById:id=>id==='fraction-challenge-dialog'?dialog:
       id==='fraction-challenge-content'?surface:node(id),
-    querySelector:sel=>sel==='meta[name="app-version"]'?{content:'6.38.0'}:null
+    querySelector:sel=>sel==='meta[name="app-version"]'?{content:'6.39.0'}:null
   };
   const window={};
   const fetch=async()=>({ok:true,json:async()=>bank});

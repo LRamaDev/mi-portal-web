@@ -53,7 +53,7 @@
     try {
       // La URL cambia con la versión: evita que un service worker anterior entregue
       // habilidades sin videos durante la primera visita tras una actualización.
-      const releaseVersion = document.querySelector('meta[name="app-version"]')?.content || '6.38.0';
+      const releaseVersion = document.querySelector('meta[name="app-version"]')?.content || '6.39.0';
       const [skillsData, exerciseData] = await Promise.all([
         fetch(`./data/habilidades.json?v=${encodeURIComponent(releaseVersion)}`, { cache: 'no-store' }).then(r => { if (!r.ok) throw new Error('habilidades'); return r.json(); }),
         fetch('./data/ejercicios.json').then(r => { if (!r.ok) throw new Error('ejercicios'); return r.json(); })
@@ -71,7 +71,7 @@
     refreshGateNames();
     restoreActiveContext();
     setupSupabase();
-    if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js?v=6.38.0').catch(() => {});
+    if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js?v=6.39.0').catch(() => {});
   }
 
   function bindUI() {
@@ -1522,12 +1522,14 @@
         tasks:[{id:'final-V1',label:'Circunferencia y problemas complejos',detail:'7 consignas · 25–30 minutos. Elegí y justificá el procedimiento.',action:'final:V1'}]}
     },
     '2026-11-26':{
-      p1:{heading:'A2 y L1-A · Medidas y revisión de textos',intro:'Dos bloques breves, con pausa entre ellos. No necesitás completar otros circuitos además de estos.',
-        tasks:[{id:'final-A2',label:'Magnitudes y problemas de varios pasos',detail:'7 consignas · capacidad, masa, longitud y tiempo.',action:'final:A2'},
-          {id:'final-L1A',label:'Corrección integral de textos',detail:'4 consignas · G/J, concordancia, puntuación y coherencia. Revisión adulta posterior.',action:'final:L1A'}]},
-      p2:{heading:'V2 y L1-V · Divisiones y revisión escrita',intro:'Dos bloques selectivos, con pausa entre ellos. Las respuestas abiertas quedarán guardadas para revisión adulta.',
-        tasks:[{id:'final-V2',label:'Divisiones decimales y valor posicional',detail:'4 consignas · cálculo, errores deliberados y comprobación.',action:'final:V2'},
-          {id:'final-L1V',label:'Acentuación y corrección integral',detail:'5 consignas · hiatos, diacríticas, concordancia y textos.',action:'final:L1V'}]}
+      p1:{heading:'Medidas, Lengua y lectura breve',intro:'Empezá por lo que ya conocés. Hacé una pausa entre materias. Lo adicional es totalmente opcional; no hace falta terminarlo para completar el día.',
+        tasks:[{id:'final-A2',label:'Magnitudes y problemas',detail:'5 consignas principales, de menor a mayor dificultad. Anotá las cuentas en papel si preferís.',action:'final:A2',extraLabel:'2 ejercicios adicionales, con acompañamiento si lo necesitás.'},
+          {id:'final-L1A',label:'Corrección de oraciones y conectores',detail:'3 consignas principales. Tu texto se revisará con una persona adulta.',action:'final:L1A',extraLabel:'1 párrafo adicional, para revisar en compañía.'},
+          {id:'lectura-breve',label:'Lectura breve',detail:'Leé el texto y respondé tres preguntas en tu cuaderno o acá, sin puntaje.',action:'note:lectura-breve'}]},
+      p2:{heading:'Divisiones, Lengua y lectura breve',intro:'Empezá por las cuentas que ya sabés resolver. Hacé una pausa entre materias. Los ejercicios adicionales no son necesarios para completar el día.',
+        tasks:[{id:'final-V2',label:'Divisiones decimales y valor posicional',detail:'2 consignas principales. Las pistas están disponibles si las necesitás.',action:'final:V2',extraLabel:'2 ejercicios adicionales: un reparto con suma y otro con más cifras decimales. Solo si te sentís con ganas.'},
+          {id:'final-L1V',label:'Acentuación y corrección integral',detail:'3 consignas principales. Revisá una cosa por vez: tildes, concordancia y signos.',action:'final:L1V',extraLabel:'2 textos adicionales, mejor con acompañamiento adulto.'},
+          {id:'lectura-breve',label:'Lectura breve',detail:'Leé el texto y respondé tres preguntas en tu cuaderno o acá, sin puntaje.',action:'note:lectura-breve'}]}
     },
     '2026-11-27':{
       p1:{heading:'Simulacro de Matemática',intro:'60 minutos · papel · resolución individual. Sin calculadora ni pistas.',
@@ -1537,11 +1539,9 @@
     },
     '2026-11-28':{
       p1:{heading:'Corregir, no acumular',intro:'Con acompañamiento adulto, revisá solamente dos o tres dificultades del simulacro.',
-        tasks:[{id:'revision-m',label:'Revisión del simulacro matemático',detail:'Anotá qué costó: interpretar, elegir la operación, calcular o administrar el tiempo.',action:'note:revision-m'},
-          {id:'retencion-m',label:'Comprobación de retención',detail:'Disponible cuatro días después de la comprobación inicial; opcional.',action:'check:M:retencion'}]},
+        tasks:[{id:'revision-m',label:'Revisión del simulacro matemático',detail:'Elegí con una persona adulta hasta tres ejercicios para revisar. Si ya están claros, no hace falta hacer otra tanda.',action:'note:revision-m'}]},
       p2:{heading:'Corregir, no acumular',intro:'Revisá los errores del examen en papel; no repitas todo el banco.',
-        tasks:[{id:'revision-m',label:'Revisión del simulacro matemático',detail:'Anotá dos o tres procedimientos que necesitás asegurar.',action:'note:revision-m'},
-          {id:'retencion-m',label:'Comprobación de retención',detail:'Disponible cuatro días después de la comprobación inicial; opcional.',action:'check:M:retencion'}]}
+        tasks:[{id:'revision-m',label:'Revisión del simulacro matemático',detail:'Elegí con una persona adulta hasta tres ejercicios para revisar. Si ya están claros, no hace falta hacer otra tanda.',action:'note:revision-m'}]}
     },
     '2026-11-29':{
       p1:{heading:'Simulacro de Lengua',intro:'60 minutos · lectura, gramática, ortografía y narración individual en papel.',
@@ -1550,10 +1550,10 @@
         tasks:[{id:'simulacro-l',label:'Simulacro completo de Lengua',detail:'Incluye producción escrita. La corrección requiere lectura adulta.',action:'paper:simulacro-l'}]}
     },
     '2026-11-30':{
-      p1:{heading:'Cierre liviano',intro:'20–30 minutos. No abras actividades nuevas si ya revisaste los errores importantes.',
-        tasks:[{id:'cierre',label:'Revisar dos procedimientos y descansar',detail:'Repasá tus notas. Terminá temprano.',action:'note:cierre'}]},
-      p2:{heading:'Cierre liviano',intro:'20–30 minutos. No abras actividades nuevas si ya revisaste los errores importantes.',
-        tasks:[{id:'cierre',label:'Revisar dos procedimientos y descansar',detail:'Repasá tus notas. Terminá temprano.',action:'note:cierre'}]}
+      p1:{heading:'Cierre liviano',intro:'15–20 minutos. Repasá lo que ya sabés; no hace falta empezar actividades nuevas.',
+        tasks:[{id:'cierre',label:'Revisar dos procedimientos y descansar',detail:'Recordá dos procedimientos conocidos. Si ya estás lista, descansá. Terminá temprano.',action:'note:cierre'}]},
+      p2:{heading:'Cierre liviano',intro:'15–20 minutos. Repasá lo que ya sabés; no hace falta empezar actividades nuevas.',
+        tasks:[{id:'cierre',label:'Revisar dos procedimientos y descansar',detail:'Recordá dos procedimientos conocidos. Si ya estás lista, descansá. Terminá temprano.',action:'note:cierre'}]}
     }
   };
   let selectedWeekDate=null;
@@ -1626,13 +1626,26 @@
     }
     if(action.startsWith('note:')){
       const note=profile.weekNotes?.[date]?.[task.id]||'';
+      if(task.id==='lectura-breve')return '<blockquote class="orthography-sentence" lang="es">El sábado, Julia llegó temprano a la biblioteca del barrio. Había prometido devolver un libro, pero encontró la puerta cerrada. Vio un cartel que anunciaba que abrirían una hora más tarde porque estaban ordenando las estanterías. En vez de volver a casa, se sentó en la plaza y leyó el último capítulo. Cuando la biblioteca abrió, le contó a la bibliotecaria que le había gustado tanto el libro que quería recomendarlo a sus compañeros. La bibliotecaria le mostró una mesa donde podía dejar recomendaciones para otros lectores.</blockquote>'+
+        '<ol><li>¿Por qué estaba cerrada la biblioteca?</li><li>¿Qué hizo Julia mientras esperaba?</li><li>¿Por qué pensás que quiso recomendar el libro? ¿Qué parte del texto te ayuda a responder?</li></ol>'+
+        '<label class="week-write-label" for="week-note-input">Tus respuestas breves (o anotá que las respondiste en papel)</label>'+
+        '<textarea id="week-note-input" rows="4" maxlength="750" placeholder="1. ... 2. ... 3. ...">'+escapeHtml(note)+'</textarea>'+
+        '<button class="secondary-button" type="button" data-week-action="save-note:'+task.id+'" data-week-date="'+date+'">Guardar lectura</button>'+
+        '<small>Sin puntaje automático. Una persona adulta puede conversar con vos sobre el texto.</small>';
       return '<label class="week-write-label" for="week-note-input">Anotá dos o tres aspectos para revisar</label>'+
         '<textarea id="week-note-input" rows="3" maxlength="750" placeholder="¿Qué procedimiento necesito recordar?">'+escapeHtml(note)+'</textarea>'+
         '<button class="secondary-button" type="button" data-week-action="save-note:'+task.id+'" data-week-date="'+date+'">Guardar nota</button>';
     }
-    return '<button class="primary-button" type="button" data-week-action="'+escapeHtml(action)+'"'+
+    const mainButton='<button class="primary-button" type="button" data-week-action="'+escapeHtml(action)+'"'+
       (status==='completed'||status==='waiting'?' disabled':'')+'>'+
       (status==='completed'?'Actividad realizada':status==='active'?'Continuar':status==='waiting'?'Todavía no disponible':'Comenzar actividad')+'</button>';
+    if(!task.extraLabel||!action.startsWith('final:'))return mainButton;
+    const block=action.slice(6),extraStatus=finalBlockStatus(profile,block,true);
+    return mainButton+'<details class="week-extra"><summary>Si querés practicar un poquito más (opcional)</summary><p>'+
+      escapeHtml(task.extraLabel)+'</p><small>No cuenta como pendiente del día.</small> '+
+      '<button class="secondary-button" type="button" data-week-action="final-extra:'+escapeHtml(block)+'"'+
+      (status!=='completed'||extraStatus==='completed'?' disabled':'')+'>'+
+      (extraStatus==='completed'?'Actividad adicional realizada':extraStatus==='active'?'Continuar adicional':'Practicar un poco más')+'</button></details>';
   }
   function renderWeekPlan(){
     const container=$('#week-plan-content'),picker=$('#week-day-select');
@@ -1685,6 +1698,7 @@
     const pid=primaryProfileId(),profile=state.profiles[pid],parts=action.split(':');
     if(parts[0]==='check')return startCheckChallenges(parts[1],parts[2]);
     if(parts[0]==='final')return startFinalChallenges(parts[1]);
+    if(parts[0]==='final-extra')return startFinalChallenges(parts[1],true);
     if(parts[0]==='model')return startModelChallenges(parts[1],parts[2]);
     if(parts[0]==='ortho')return startOrthographyChallenges(parts[1],parts[2]);
     if(action==='save-writing'){
@@ -1722,52 +1736,61 @@
   // no se convierten automáticamente en dominio ni afectan el mastery.
   const FINAL_BLOCKS={
     A1:{profile:'p1',area:'matematica',length:7,date:'2026-11-25'},
-    A2:{profile:'p1',area:'matematica',length:7,date:'2026-11-26'},
+    A2:{profile:'p1',area:'matematica',length:7,date:'2026-11-26',main:[4,5,2,3,1],extra:[6,7]},
     V1:{profile:'p2',area:'matematica',length:7,date:'2026-11-25'},
-    V2:{profile:'p2',area:'matematica',length:4,date:'2026-11-26'},
-    L1A:{profile:'p1',area:'lengua',length:4,date:'2026-11-26'},
-    L1V:{profile:'p2',area:'lengua',length:5,date:'2026-11-26'}
+    V2:{profile:'p2',area:'matematica',length:4,date:'2026-11-26',main:[3,2],extra:[4,1]},
+    L1A:{profile:'p1',area:'lengua',length:4,date:'2026-11-26',main:[1,2,3],extra:[4]},
+    L1V:{profile:'p2',area:'lengua',length:5,date:'2026-11-26',main:[1,4,2],extra:[3,5]}
   };
-  function finalBlockStatus(profile,block){
+  function finalSelectionIds(block,extra=false){
+    const setting=FINAL_BLOCKS[block];
+    if(!setting)return [];
+    const numbers=extra?(setting.extra||[]):(setting.main||Array.from({length:setting.length},(_,i)=>i+1));
+    return numbers.map(n=>'FA26-'+block+'-'+String(n).padStart(2,'0'));
+  }
+  function finalBlockStatus(profile,block,extra=false){
     const setting=FINAL_BLOCKS[block];
     if(!profile||!setting)return 'locked';
     const records=profile.finalResponses||{};
-    const ids=Array.from({length:setting.length},(_,i)=>'FA26-'+block+'-'+String(i+1).padStart(2,'0'));
+    const ids=finalSelectionIds(block,extra);
+    if(!ids.length)return 'locked';
     if(ids.every(id=>records[id]))return 'completed';
     if(ids.some(id=>records[id]))return 'active';
     return 'pending';
   }
-  function startFinalChallenges(block){
-    const setting=FINAL_BLOCKS[block];
-    if(!setting)return;
+  function startFinalChallenges(block,extra=false){
+    const setting=FINAL_BLOCKS[block],selectedIds=finalSelectionIds(block,extra);
+    if(!setting||!selectedIds.length)return;
     if(!activeMode||activeMode==='together')return toast('Elegí un perfil individual.');
     if(setting.profile!==activeMode)return toast('Este desafío corresponde al otro perfil.');
     if(session)return toast('Primero terminá el entrenamiento abierto.');
     const engine=window.IngresoFractionChallenges;
     if(!engine)return toast('Recargá la página para abrir el desafío avanzado.');
     const pid=primaryProfileId(),profile=state.profiles[pid];
-    if(finalBlockStatus(profile,block)==='completed')return toast('Ya realizaste este bloque. Su corrección adulta sigue pendiente.');
+    if(extra&&finalBlockStatus(profile,block)!=='completed')return toast('Primero hacé la práctica principal. Lo adicional puede esperar.');
+    if(finalBlockStatus(profile,block,extra)==='completed')return toast('Ya realizaste esta práctica. No hace falta repetirla.');
     const prior=Object.entries(profile.finalResponses||{})
-      .filter(([id,value])=>id.startsWith('FA26-'+block+'-')&&value&&['autonoma','ayuda','revisar'].includes(value.status))
+      .filter(([id,value])=>selectedIds.includes(id)&&value&&['autonoma','ayuda','revisar'].includes(value.status))
       .map(([id,value])=>({id,round:'A',status:value.status}));
     engine.open({
-      finalBlock:block,round:'A',prior,
+      finalBlock:block,finalExtra:extra,round:'A',prior,
       onResult:result=>{
-        if(activeMode!==pid||result.finalBlock!==block)return;
+        if(activeMode!==pid||result.finalBlock!==block||!selectedIds.includes(result.id))return;
         recordFinalAttempt(pid,block,result);
       },
       onComplete:({finalBlock:doneBlock,results})=>{
         const current=state.profiles[pid];
-        if(activeMode!==pid||!current||doneBlock!==block||results.length!==setting.length)return;
-        if((current.history||[]).some(row=>row.type==='desafios_finales'&&row.blockId===block))return;
-        if(results.some(row=>!current.finalResponses?.[row.id]))return;
+        if(activeMode!==pid||!current||doneBlock!==block||results.length!==selectedIds.length)return;
+        const historyType=extra?'desafios_finales_opcionales':'desafios_finales';
+        if((current.history||[]).some(row=>row.type===historyType&&row.blockId===block))return;
+        if(results.some(row=>!selectedIds.includes(row.id)||!current.finalResponses?.[row.id]))return;
         const autonomous=results.filter(row=>row.status==='autonoma').length;
         const helped=results.filter(row=>row.status==='ayuda').length;
         current.sessions=(current.sessions||0)+1;
         current.history=[...(current.history||[]),{
-          at:Date.now(),type:'desafios_finales',area:setting.area,school:'monserrat',
-          blockId:block,roundId:'A',total:setting.length,autonomous,withHelp:helped,
-          pendingAdultReview:setting.length,score:null,
+          at:Date.now(),type:historyType,area:setting.area,school:'monserrat',
+          blockId:block,roundId:'A',total:selectedIds.length,autonomous,withHelp:helped,
+          pendingAdultReview:selectedIds.length,score:null,
           note:'Respuestas numéricas verificadas cuando corresponda; texto y procedimientos pendientes de revisión adulta.'
         }];
         saveState();renderAll();

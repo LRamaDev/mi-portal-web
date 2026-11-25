@@ -36,7 +36,7 @@ test('exactamente seis bloques y 34 consignas por perfil, originales y sin perde
     assert.equal(prompts.has(t.prompt),false,t.id+' prompt reused');
     assert.equal(t.hints.length,2,t.id);
     assert.equal(t.steps.length,3,t.id);
-    assert.equal(t.difficulty,4,t.id);
+    assert.ok(t.difficulty>=2&&t.difficulty<=4,t.id);
     assert.equal(t.challengePurpose,'transferencia_final',t.id);
     if(t.finalArea==='lengua')assert.ok(t.rubric.length>=3,t.id);
     else assert.ok(t.reasoningPrompt.length>12,t.id);
@@ -67,7 +67,7 @@ function engineHarness(){
   const surface={innerHTML:'',querySelector:node,querySelectorAll(){return [];}};
   const document={
     getElementById:key=>key==='fraction-challenge-dialog'?dialog:key==='fraction-challenge-content'?surface:node(key),
-    querySelector:key=>key==='meta[name="app-version"]'?{content:'6.38.0'}:null
+    querySelector:key=>key==='meta[name="app-version"]'?{content:'6.39.0'}:null
   };
   const source={
     './data/desafios-finales.json':bank,
@@ -85,20 +85,22 @@ function engineHarness(){
   return {window,dialog,surface,node};
 }
 
-test('los seis bloques abren, registran respuestas, muestran pistas después y cierran al completar 4, 5 o 7',async()=>{
+test('los seis bloques abren, guardan todas las respuestas principales y opcionales, con ayudas graduadas',async()=>{
   const h=engineHarness(),received=[],ended=[];
-  for(const [block,b] of Object.entries(blocks)){
+  for(const [block,b] of Object.entries(blocks))for(const extra of b.extraIds?[false,true]:[false]){
+    const ids=extra?b.extraIds:b.mainIds;
+    const tasks=ids?ids.map(id=>b.items.find(t=>t.id===id)):b.items;
     await h.window.IngresoFractionChallenges.open({
-      finalBlock:block,onResult:r=>received.push(r),onComplete:e=>ended.push(e)
+      finalBlock:block,finalExtra:extra,onResult:r=>received.push(r),onComplete:e=>ended.push(e)
     });
     assert.equal(h.dialog.open,true,block);
-    assert.match(h.surface.innerHTML,new RegExp('Desafío 1 de '+b.items.length));
-    assert.equal(h.node('#fraction-hint').disabled,true,block);
-    for(let i=0;i<b.items.length;i++){
-      const task=b.items[i];
+    assert.match(h.surface.innerHTML,new RegExp('Desafío 1 de '+tasks.length));
+    assert.equal(h.node('#fraction-hint').disabled,!b.supportive,block);
+    for(let i=0;i<tasks.length;i++){
+      const task=tasks[i];
       if(task.finalArea==='matematica'){
         h.node('#fraction-ans1').value=String(task.expected).replace('.',',');
-        h.node('#fraction-reason').value='Elegí la operación, convertí las unidades y comprobé el resultado.';
+        h.node('#fraction-reason').value=b.supportive?'':'Elegí la operación, convertí las unidades y comprobé el resultado.';
         const outcome=h.window.__finalTest.eval();
         assert.equal(outcome.valid,true,task.id);
         assert.equal(outcome.correct,true,task.id);
@@ -122,16 +124,16 @@ test('los seis bloques abren, registran respuestas, muestran pistas después y c
         assert.equal(saved.rubric.length,task.rubric.length);
       }else{
         assert.equal(saved.status,'autonoma');
-        assert.ok(saved.reasoningText.length>12);
+        assert.equal(saved.reasoningText.length>12,!b.supportive);
       }
       h.node('#fraction-next').onclick();
     }
-    assert.equal(ended[ended.length-1].results.length,b.items.length,block);
+    assert.equal(ended[ended.length-1].results.length,tasks.length,block);
     assert.equal(ended[ended.length-1].finalBlock,block);
     h.window.IngresoFractionChallenges.close();
   }
   assert.equal(received.length,34);
-  assert.equal(ended.length,6);
+  assert.equal(ended.length,10);
 });
 
 function appHarness(){
@@ -165,8 +167,8 @@ test('la agenda reemplaza otras tandas: miércoles 7/7; jueves 11/9; viernes y d
   }
   assert.deepEqual(Array.from(days('p1','2026-11-25')),['final:A1']);
   assert.deepEqual(Array.from(days('p2','2026-11-25')),['final:V1']);
-  assert.deepEqual(Array.from(days('p1','2026-11-26')),['final:A2','final:L1A']);
-  assert.deepEqual(Array.from(days('p2','2026-11-26')),['final:V2','final:L1V']);
+  assert.deepEqual(Array.from(days('p1','2026-11-26')),['final:A2','final:L1A','note:lectura-breve']);
+  assert.deepEqual(Array.from(days('p2','2026-11-26')),['final:V2','final:L1V','note:lectura-breve']);
   for(const p of ['p1','p2']){
     assert.equal(days(p,'2026-11-27')[0],'paper:simulacro-m');
     assert.equal(days(p,'2026-11-29')[0],'paper:simulacro-l');
@@ -196,10 +198,45 @@ test('las respuestas se conservan por perfil y no se califican automáticamente 
   assert.equal(t.profiles().p2.finalResponses,undefined,'no cross-profile writes');
 });
 test('versión publicada y caché contienen el nuevo banco sin reiniciar los datos',()=>{
-  assert.match(read('index.html'),/app-version" content="6\.38\.0"/);
+  assert.match(read('index.html'),/app-version" content="6\.39\.0"/);
   assert.match(read('index.html'),/id="final-family-work"/);
-  assert.ok(read('sw.js').includes('desafios-finales.json?v=6.38.0'));
-  assert.ok(read('sw.js').includes("const VERSION='6.38.0'"));
+  assert.ok(read('sw.js').includes('desafios-finales.json?v=6.39.0'));
+  assert.ok(read('sw.js').includes("const VERSION='6.39.0'"));
   new vm.Script(app);
   new vm.Script(engine);
+});
+
+test('selección de jueves graduada, opcionales no bloquean el cierre ni sobrescriben respuestas',async()=>{
+ const {t,node,opened}=appHarness();
+ const expected={A2:[[4,5,2,3,1],[6,7]],V2:[[3,2],[4,1]],L1A:[[1,2,3],[4]],L1V:[[1,4,2],[3,5]]};
+ for(const [block,[main,extra]] of Object.entries(expected)){
+  const b=blocks[block],id=n=>'FA26-'+block+'-'+String(n).padStart(2,'0');
+  assert.deepEqual(b.mainIds,main.map(id));assert.deepEqual(b.extraIds,extra.map(id));
+  assert.equal(new Set([...b.mainIds,...b.extraIds]).size,b.items.length);
+  const levels=b.mainIds.map(x=>b.items.find(t=>t.id===x).difficulty);
+  assert.deepEqual(levels,[...levels].sort((a,b)=>a-b));
+  const p=t.profiles()[b.profile];p.finalResponses||={};
+  t.mode(b.profile);t.date('2026-11-26');
+  const before=opened.length;t.start(block,true);assert.equal(opened.length,before);
+  for(const n of main)p.finalResponses[id(n)]={status:'autonoma'};
+  assert.equal(t.status(p,block),'completed');assert.equal(t.status(p,block,true),'pending');
+  t.render();assert.match(node('#week-plan-content').innerHTML,/No cuenta como pendiente del día/);
+  t.start(block,true);assert.equal(opened.length,before+1);
+  assert.equal(opened.at(-1).finalExtra,true);
+  assert.equal(opened.at(-1).prior.length,0);
+  for(const n of extra)p.finalResponses[id(n)]={status:'ayuda'};
+  assert.equal(t.status(p,block,true),'completed');
+ }
+ assert.match(node('#week-plan-content').innerHTML,/¿Por qué estaba cerrada la biblioteca/);
+ for(const p of ['p1','p2'])assert.equal(t.plan['2026-11-28'][p].tasks.length,1);
+});
+test('simulacro conserva 16 consignas y 100 puntos, con gráfico y figura de perímetro',()=>{
+ const m=read('simulacro-final-matematica.html');
+ assert.equal((m.match(/<li>/g)||[]).length,16);
+ const points=[...m.matchAll(/class="points">(\d+) puntos/g)].map(x=>Number(x[1]));
+ assert.equal(points.length,16);assert.equal(points.reduce((a,b)=>a+b,0),100);
+ assert.match(m,/Libros prestados: lunes 12, martes 18, miércoles 24/);
+ assert.match(m,/Rectángulo de 12 metros por 8 metros/);
+ assert.equal(24-12,12);assert.equal(2*(12+8)-2,38);
+ assert.doesNotMatch(m,/Escribí 7\/16 como decimal exacto/);
 });
