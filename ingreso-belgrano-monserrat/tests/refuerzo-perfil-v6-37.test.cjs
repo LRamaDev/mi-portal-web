@@ -23,7 +23,7 @@ test('14 tareas inéditas y resultados únicos por perfil',()=>{
     assert.equal(t.challengePurpose,'refuerzo_personalizado');
   }
   assert.equal(new Set([...A,...B].map(t=>t.id)).size,14);
-  assert.match(read('index.html'),/app-version" content="6\.38\.0"/);
+  assert.match(read('index.html'),/app-version" content="6\.39\.0"/);
 });
 
 function makeEngine(){
@@ -37,7 +37,7 @@ function makeEngine(){
   const dialog={open:false,showModal(){this.open=true;},close(){this.open=false;},addEventListener(){}};
   const surface={innerHTML:'',querySelector:node,querySelectorAll(){return []}};
   const document={getElementById:k=>k==='fraction-challenge-dialog'?dialog:k==='fraction-challenge-content'?surface:node(k),
-    querySelector:q=>q==='meta[name="app-version"]'?{content:'6.38.0'}:null};
+    querySelector:q=>q==='meta[name="app-version"]'?{content:'6.39.0'}:null};
   const window={};
   const fetch=async()=>({ok:true,json:async()=>bank});
   const marker='  window.IngresoFractionChallenges={open,close};';

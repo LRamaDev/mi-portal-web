@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "description": "Seis bloques avanzados, personalizados y de carga limitada para 25–26/11/2026. Las respuestas abiertas requieren revisión adulta.",
+  "description": "Se conservan las 34 consignas originales. A1/V1 son históricos; para el 26/11 se separan las prácticas principales de las ampliaciones opcionales, graduadas y acompañadas.",
   "blocks": {
     "A1": {
       "id": "A1",
@@ -169,7 +169,7 @@
       "id": "A2",
       "profile": "p1",
       "date": "2026-11-26",
-      "label": "Magnitudes y problemas de varios pasos",
+      "label": "Medidas: de lo conocido a los problemas",
       "area": "matematica",
       "items": [
         {
@@ -177,8 +177,8 @@
           "prompt": "En una jarra hay 2,75 litros. Se sirven seis vasos de 250 mililitros. ¿Cuántos litros quedan?",
           "expected": 1.25,
           "skill": "MAT-MED-CAP",
-          "difficulty": 4,
-          "reasoningPrompt": "Mostrá cómo pusiste todas las cantidades en la misma unidad.",
+          "difficulty": 3,
+          "reasoningPrompt": "Si querés, anotá los cálculos o una explicación breve. También podés hacerlos en papel.",
           "hints": [
             "Primero calculá cuántos mililitros se sirven.",
             "6 × 250 mL = 1.500 mL = 1,5 L."
@@ -192,15 +192,16 @@
           "finalBlock": "A2",
           "finalArea": "matematica",
           "challengePurpose": "transferencia_final",
-          "school": "monserrat"
+          "school": "monserrat",
+          "title": "Aplicá lo que sabés"
         },
         {
           "kind": "model-decimal",
           "prompt": "Una bolsa de 3,8 kg recibe 750 gramos y luego se retiran 1,25 kg. ¿Cuánto pesa al final en kilogramos?",
           "expected": 3.3,
           "skill": "MAT-MED-MASA",
-          "difficulty": 4,
-          "reasoningPrompt": "Indicá el orden de las operaciones y cómo convertiste gramos a kilogramos.",
+          "difficulty": 3,
+          "reasoningPrompt": "Si querés, anotá los cálculos o una explicación breve. También podés hacerlos en papel.",
           "hints": [
             "750 g = 0,75 kg.",
             "Sumá lo que se agregó y restá lo retirado."
@@ -214,15 +215,16 @@
           "finalBlock": "A2",
           "finalArea": "matematica",
           "challengePurpose": "transferencia_final",
-          "school": "monserrat"
+          "school": "monserrat",
+          "title": "Aplicá lo que sabés"
         },
         {
           "kind": "model-decimal",
           "prompt": "Un recorrido mide 2,4 km. Se caminan 850 metros y después otros 0,35 km. ¿Cuántos kilómetros faltan?",
           "expected": 1.2,
           "skill": "MAT-MED-LONG",
-          "difficulty": 4,
-          "reasoningPrompt": "Explicá por qué los 850 metros deben convertirse antes de restar.",
+          "difficulty": 3,
+          "reasoningPrompt": "Si querés, anotá los cálculos o una explicación breve. También podés hacerlos en papel.",
           "hints": [
             "850 m = 0,85 km.",
             "Sumá las dos distancias caminadas."
@@ -236,15 +238,16 @@
           "finalBlock": "A2",
           "finalArea": "matematica",
           "challengePurpose": "transferencia_final",
-          "school": "monserrat"
+          "school": "monserrat",
+          "title": "Aplicá lo que sabés"
         },
         {
           "kind": "model-decimal",
           "prompt": "Una actividad dura 1 hora y 45 minutos; otra, 95 minutos. ¿Cuántos minutos duran juntas?",
           "expected": 200,
           "skill": "MAT-MED-TIEMPO",
-          "difficulty": 4,
-          "reasoningPrompt": "Convertí las horas a minutos y mostrales el procedimiento.",
+          "difficulty": 2,
+          "reasoningPrompt": "Si querés, anotá los cálculos o una explicación breve. También podés hacerlos en papel.",
           "hints": [
             "Una hora tiene 60 minutos.",
             "La primera actividad dura 105 minutos."
@@ -258,15 +261,16 @@
           "finalBlock": "A2",
           "finalArea": "matematica",
           "challengePurpose": "transferencia_final",
-          "school": "monserrat"
+          "school": "monserrat",
+          "title": "Empezamos con lo conocido"
         },
         {
           "kind": "model-decimal",
           "prompt": "Tres botellas contienen 600 mL cada una y una cuarta tiene 0,45 litros. ¿Cuántos litros hay en total?",
           "expected": 2.25,
           "skill": "MAT-MED-CAP",
-          "difficulty": 4,
-          "reasoningPrompt": "Anotá las unidades que vas a unificar antes de sumar.",
+          "difficulty": 2,
+          "reasoningPrompt": "Si querés, anotá los cálculos o una explicación breve. También podés hacerlos en papel.",
           "hints": [
             "Tres veces 600 mL son 1.800 mL.",
             "1.800 mL equivalen a 1,8 L."
@@ -280,15 +284,16 @@
           "finalBlock": "A2",
           "finalArea": "matematica",
           "challengePurpose": "transferencia_final",
-          "school": "monserrat"
+          "school": "monserrat",
+          "title": "Empezamos con lo conocido"
         },
         {
           "kind": "model-decimal",
           "prompt": "De 4,5 kg de arroz se preparan seis bolsitas de 500 gramos cada una. ¿Cuántos kilogramos quedan?",
           "expected": 1.5,
           "skill": "MAT-MED-MASA",
-          "difficulty": 4,
-          "reasoningPrompt": "Explicá cómo calculaste el peso usado en kilogramos.",
+          "difficulty": 3,
+          "reasoningPrompt": "Si querés, anotá los cálculos o una explicación breve. También podés hacerlos en papel.",
           "hints": [
             "Seis veces 500 g son 3.000 g.",
             "3.000 g equivalen a 3 kg."
@@ -302,7 +307,8 @@
           "finalBlock": "A2",
           "finalArea": "matematica",
           "challengePurpose": "transferencia_final",
-          "school": "monserrat"
+          "school": "monserrat",
+          "title": "Práctica adicional · si tenés ganas"
         },
         {
           "kind": "model-decimal",
@@ -310,7 +316,7 @@
           "expected": 6,
           "skill": "MAT-MED-CAP",
           "difficulty": 4,
-          "reasoningPrompt": "Explicá cómo calculaste los tres cuartos y luego el reparto.",
+          "reasoningPrompt": "Si querés, anotá los cálculos o una explicación breve. También podés hacerlos en papel.",
           "hints": [
             "3/4 de 2 L son 1,5 L.",
             "1,5 L = 1.500 mL."
@@ -324,8 +330,21 @@
           "finalBlock": "A2",
           "finalArea": "matematica",
           "challengePurpose": "transferencia_final",
-          "school": "monserrat"
+          "school": "monserrat",
+          "title": "Práctica adicional · si tenés ganas"
         }
+      ],
+      "supportive": true,
+      "mainIds": [
+        "FA26-A2-04",
+        "FA26-A2-05",
+        "FA26-A2-02",
+        "FA26-A2-03",
+        "FA26-A2-01"
+      ],
+      "extraIds": [
+        "FA26-A2-06",
+        "FA26-A2-07"
       ]
     },
     "V1": {
@@ -566,7 +585,7 @@
       "id": "V2",
       "profile": "p2",
       "date": "2026-11-26",
-      "label": "Divisiones decimales: cálculo y verificación",
+      "label": "Divisiones decimales: practicar con seguridad",
       "area": "matematica",
       "items": [
         {
@@ -575,7 +594,7 @@
           "expected": 0.882,
           "skill": "MAT-DEC-OPS",
           "difficulty": 4,
-          "reasoningPrompt": "Explicá cómo comprobaste el cociente mediante multiplicación.",
+          "reasoningPrompt": "Si querés, anotá los cálculos o una explicación breve. También podés hacerlos en papel.",
           "hints": [
             "La división es 7,056 ÷ 8.",
             "Verificá que el resultado × 8 sea 7,056."
@@ -589,15 +608,16 @@
           "finalBlock": "V2",
           "finalArea": "matematica",
           "challengePurpose": "transferencia_final",
-          "school": "monserrat"
+          "school": "monserrat",
+          "title": "Práctica adicional · si tenés ganas"
         },
         {
           "kind": "model-decimal",
           "prompt": "Un estudiante escribió «47,2 ÷ 1.000 = 0,472». ¿Cuál es el resultado correcto?",
           "expected": 0.0472,
           "skill": "MAT-DEC-OPS",
-          "difficulty": 4,
-          "reasoningPrompt": "Explicá cuál fue el error del estudiante y cómo lo detectaste.",
+          "difficulty": 3,
+          "reasoningPrompt": "Si querés, anotá los cálculos o una explicación breve. También podés hacerlos en papel.",
           "hints": [
             "Dividir por mil reduce el valor de cada cifra mil veces.",
             "47,2 ÷ 100 = 0,472, pero falta dividir una vez más entre 10."
@@ -611,15 +631,16 @@
           "finalBlock": "V2",
           "finalArea": "matematica",
           "challengePurpose": "transferencia_final",
-          "school": "monserrat"
+          "school": "monserrat",
+          "title": "Aplicá lo que sabés"
         },
         {
           "kind": "model-decimal",
           "prompt": "Una fábrica reparte 42,36 kg de masa en seis partes iguales. ¿Cuántos kilogramos tiene cada parte?",
           "expected": 7.06,
           "skill": "MAT-DEC-OPS",
-          "difficulty": 4,
-          "reasoningPrompt": "Mostrá una multiplicación que demuestre que tu división está bien.",
+          "difficulty": 2,
+          "reasoningPrompt": "Si querés, anotá los cálculos o una explicación breve. También podés hacerlos en papel.",
           "hints": [
             "Probá dividir 42,36 entre 6.",
             "Comprobá que el resultado multiplicado por seis da 42,36."
@@ -633,15 +654,16 @@
           "finalBlock": "V2",
           "finalArea": "matematica",
           "challengePurpose": "transferencia_final",
-          "school": "monserrat"
+          "school": "monserrat",
+          "title": "Empezamos con lo conocido"
         },
         {
           "kind": "model-decimal",
           "prompt": "Se reparten 5,64 litros entre ocho botellas y luego se agregan 0,125 litros a cada una. ¿Cuántos litros tiene cada botella?",
           "expected": 0.83,
           "skill": "MAT-DEC-OPS",
-          "difficulty": 4,
-          "reasoningPrompt": "Indicá qué operación hacés primero y cómo verificás el reparto.",
+          "difficulty": 3,
+          "reasoningPrompt": "Si querés, anotá los cálculos o una explicación breve. También podés hacerlos en papel.",
           "hints": [
             "Primero repartí 5,64 en 8 partes iguales.",
             "Luego sumá 0,125 a cada parte."
@@ -655,15 +677,25 @@
           "finalBlock": "V2",
           "finalArea": "matematica",
           "challengePurpose": "transferencia_final",
-          "school": "monserrat"
+          "school": "monserrat",
+          "title": "Práctica adicional · si tenés ganas"
         }
+      ],
+      "supportive": true,
+      "mainIds": [
+        "FA26-V2-03",
+        "FA26-V2-02"
+      ],
+      "extraIds": [
+        "FA26-V2-04",
+        "FA26-V2-01"
       ]
     },
     "L1A": {
       "id": "L1A",
       "profile": "p1",
       "date": "2026-11-26",
-      "label": "Corrección integral de textos — A",
+      "label": "Revisar oraciones y conectores",
       "area": "lengua",
       "items": [
         {
@@ -671,7 +703,7 @@
           "prompt": "Corregí las oraciones completas. Revisá G/J y concordancia.",
           "sentence": "La representante dirije la reunión. Los delegados proteje los documentos importantes.",
           "skill": "LEN-GJ",
-          "difficulty": 4,
+          "difficulty": 2,
           "rubric": [
             "Conjugación de dirigir y proteger",
             "Concordancia de sujeto plural y verbo",
@@ -690,14 +722,15 @@
           "finalBlock": "L1A",
           "finalArea": "lengua",
           "challengePurpose": "transferencia_final",
-          "school": "monserrat"
+          "school": "monserrat",
+          "title": "Empezamos con lo conocido"
         },
         {
           "kind": "orth-open-review",
           "prompt": "Reescribí este fragmento para eliminar la repetición y ordenar las acciones.",
           "sentence": "Primero las chicas leyeron la invitación. Primero prepararon el cartel. Primero fueron a la biblioteca.",
           "skill": "LEN-REV",
-          "difficulty": 4,
+          "difficulty": 2,
           "rubric": [
             "Secuencia temporal comprensible",
             "Conectores variados y no repetidos",
@@ -716,14 +749,15 @@
           "finalBlock": "L1A",
           "finalArea": "lengua",
           "challengePurpose": "transferencia_final",
-          "school": "monserrat"
+          "school": "monserrat",
+          "title": "Empezamos con lo conocido"
         },
         {
           "kind": "orth-open-review",
           "prompt": "Revisá concordancia, uso de G/J y tildes, sin modificar los hechos.",
           "sentence": "Ayer la bibliotecaria dirijió la charla. Los chicos recojieron los cuadernos y despues escribio sus respuestas.",
           "skill": "LEN-REV",
-          "difficulty": 4,
+          "difficulty": 3,
           "rubric": [
             "G/J en dirigió y recogieron",
             "Después lleva tilde",
@@ -742,7 +776,8 @@
           "finalBlock": "L1A",
           "finalArea": "lengua",
           "challengePurpose": "transferencia_final",
-          "school": "monserrat"
+          "school": "monserrat",
+          "title": "Aplicá lo que sabés"
         },
         {
           "kind": "orth-open-review",
@@ -770,15 +805,25 @@
           "finalBlock": "L1A",
           "finalArea": "lengua",
           "challengePurpose": "transferencia_final",
-          "school": "monserrat"
+          "school": "monserrat",
+          "title": "Práctica adicional · si tenés ganas"
         }
+      ],
+      "supportive": true,
+      "mainIds": [
+        "FA26-L1A-01",
+        "FA26-L1A-02",
+        "FA26-L1A-03"
+      ],
+      "extraIds": [
+        "FA26-L1A-04"
       ]
     },
     "L1V": {
       "id": "L1V",
       "profile": "p2",
       "date": "2026-11-26",
-      "label": "Corrección integral de textos — V",
+      "label": "Revisar tildes, concordancia y puntuación",
       "area": "lengua",
       "items": [
         {
@@ -786,7 +831,7 @@
           "prompt": "Corregí todas las tildes de este fragmento y conservá su sentido.",
           "sentence": "El colibri volvio al arbol mientras el jardin estaba en silencio.",
           "skill": "LEN-ACENT",
-          "difficulty": 4,
+          "difficulty": 2,
           "rubric": [
             "Colibrí y volvió son agudas tildadas",
             "Árbol es grave terminada en L",
@@ -805,14 +850,15 @@
           "finalBlock": "L1V",
           "finalArea": "lengua",
           "challengePurpose": "transferencia_final",
-          "school": "monserrat"
+          "school": "monserrat",
+          "title": "Empezamos con lo conocido"
         },
         {
           "kind": "orth-open-review",
           "prompt": "Revisá hiatos, tildes y puntuación en estas dos oraciones.",
           "sentence": "Mi tia oia musica desde el balcon el ruido del rio no la dejaba dormir.",
           "skill": "LEN-ACENT",
-          "difficulty": 4,
+          "difficulty": 3,
           "rubric": [
             "Tía, oía y río llevan tilde por hiato",
             "Música lleva tilde por ser esdrújula",
@@ -832,14 +878,15 @@
           "finalBlock": "L1V",
           "finalArea": "lengua",
           "challengePurpose": "transferencia_final",
-          "school": "monserrat"
+          "school": "monserrat",
+          "title": "Aplicá lo que sabés"
         },
         {
           "kind": "orth-open-review",
           "prompt": "Escribí el texto con tildes diacríticas correctas y puntuación clara.",
           "sentence": "El dijo que si, pero no sabia si el te era para mi o para tu hermano.",
           "skill": "LEN-DIAC",
-          "difficulty": 4,
+          "difficulty": 3,
           "rubric": [
             "Él como pronombre lleva tilde",
             "Sí afirmativo lleva tilde",
@@ -860,14 +907,15 @@
           "finalBlock": "L1V",
           "finalArea": "lengua",
           "challengePurpose": "transferencia_final",
-          "school": "monserrat"
+          "school": "monserrat",
+          "title": "Práctica adicional · si tenés ganas"
         },
         {
           "kind": "orth-open-review",
           "prompt": "Corregí concordancia y signos en este fragmento sin cambiar lo que ocurrió.",
           "sentence": "Las compañeras preparo las cartulinas los docentes les dieron ideas y ellas termino el mural.",
           "skill": "LEN-SUJ-PRED",
-          "difficulty": 4,
+          "difficulty": 2,
           "rubric": [
             "Concordancia de compañeras con prepararon",
             "Concordancia de ellas con terminaron",
@@ -886,7 +934,8 @@
           "finalBlock": "L1V",
           "finalArea": "lengua",
           "challengePurpose": "transferencia_final",
-          "school": "monserrat"
+          "school": "monserrat",
+          "title": "Empezamos con lo conocido"
         },
         {
           "kind": "orth-open-review",
@@ -914,8 +963,19 @@
           "finalBlock": "L1V",
           "finalArea": "lengua",
           "challengePurpose": "transferencia_final",
-          "school": "monserrat"
+          "school": "monserrat",
+          "title": "Práctica adicional · si tenés ganas"
         }
+      ],
+      "supportive": true,
+      "mainIds": [
+        "FA26-L1V-01",
+        "FA26-L1V-04",
+        "FA26-L1V-02"
+      ],
+      "extraIds": [
+        "FA26-L1V-03",
+        "FA26-L1V-05"
       ]
     }
   }
