@@ -12,7 +12,7 @@ const bank=JSON.parse(read('data/desafios-modelo.json'));
 const html=read('index.html');
 
 test('calendario 24–30, dos perfiles, materiales imprimibles y versión coherente',()=>{
-  assert.match(html,/app-version" content="6\.37\.0"/);
+  assert.match(html,/app-version" content="6\.38\.0"/);
   for(const date of ['2026-11-24','2026-11-25','2026-11-26','2026-11-27','2026-11-28','2026-11-29','2026-11-30'])
     assert.ok(html.includes('value="'+date+'"'),date);
   assert.match(html,/id="week-plan-content"/);
@@ -24,7 +24,7 @@ test('calendario 24–30, dos perfiles, materiales imprimibles y versión cohere
   const sw=read('sw.js');
   for(const file of ['simulacro-final-matematica.html','simulacro-final-lengua.html'])
     assert.ok(sw.includes("'./"+file+"'"),file);
-  assert.ok(sw.includes("const VERSION='6.37.0'"));
+  assert.ok(sw.includes("const VERSION='6.38.0'"));
   for(const file of ['simulacro-final-matematica.html','simulacro-final-lengua.html']){
     const body=read(file);
     assert.match(body,/60 minutos/);
@@ -93,14 +93,13 @@ test('la agenda selecciona tareas distintas para cada perfil y nunca bloquea el 
   assert.match(node('#week-plan-content').innerHTML,/Refuerzo personal: divisiones y valor posicional/);
   assert.doesNotMatch(node('#week-plan-content').innerHTML,/Refuerzo personal: fracciones y capacidad/);
   t.mode('p1');t.date('2026-11-25');t.render();
-  assert.match(node('#week-plan-content').innerHTML,/Más conversiones en contextos/);
-  assert.match(node('#week-plan-content').innerHTML,/Verbos con G y J/);
+  assert.match(node('#week-plan-content').innerHTML,/Conversión avanzada de fracciones/);
+  assert.doesNotMatch(node('#week-plan-content').innerHTML,/Verbos con G y J/);
   t.mode('p2');t.render();
-  assert.match(node('#week-plan-content').innerHTML,/Divisiones decimales en problemas/);
-  assert.match(node('#week-plan-content').innerHTML,/Acentuación e hiatos/);
+  assert.match(node('#week-plan-content').innerHTML,/Circunferencia y problemas complejos/);
   t.date('2026-11-26');t.render();
-  assert.match(node('#week-plan-content').innerHTML,/Primos, masa, capacidad/);
-  assert.match(node('#week-plan-content').innerHTML,/Guardar borrador/);
+  assert.match(node('#week-plan-content').innerHTML,/Divisiones decimales y valor posicional/);
+  assert.match(node('#week-plan-content').innerHTML,/Acentuación y corrección integral/);
   t.date('2026-11-27');t.render();
   assert.match(node('#week-plan-content').innerHTML,/simulacro-final-matematica\.html/);
 });
@@ -118,15 +117,18 @@ test('acceso directo al circuito B de medidas para V sin exigir completar el de 
 test('el resumen semanal y el borrador no mezclan perfiles ni equivalen a corrección',()=>{
   const {test:t,node}=harness();
   const p1=t.profiles().p1,p2=t.profiles().p2;
-  p1.weekWriting={'2026-11-26':{text:'Relato propio de más de cincuenta caracteres para revisión adulta.',at:1,reviewed:false}};
+  p1.weekWriting={'2026-11-26':{text:'Relato previo que no se debe borrar.',at:1,reviewed:false}};
+  p1.finalResponses={};
+  for(let i=1;i<=7;i++)p1.finalResponses['FA26-A2-'+String(i).padStart(2,'0')]={status:'autonoma',answerText:'2',pendingAdultReview:true};
   p1.weekLog={'2026-11-27':{'simulacro-m':{at:2,kind:'self_report',reviewed:false}}};
   t.mode('p1');t.date('2026-11-26');t.render();
-  assert.match(node('#week-plan-content').innerHTML,/Relato propio/);
+  assert.match(node('#week-plan-content').innerHTML,/Magnitudes y problemas/);
+  assert.doesNotMatch(node('#week-plan-content').innerHTML,/Relato previo/);
   t.monitor();
   assert.match(node('#week-family-status').innerHTML,/Jue 26.*1 de 2/);
   assert.match(node('#week-family-status').innerHTML,/Vie 27.*1 de 1/);
   t.mode('p2');t.render();t.monitor();
-  assert.doesNotMatch(node('#week-plan-content').innerHTML,/Relato propio/);
+  assert.doesNotMatch(node('#week-plan-content').innerHTML,/Relato previo/);
   assert.match(node('#week-family-status').innerHTML,/Jue 26.*0 de 2/);
   assert.equal(t.status(p2,t.plan['2026-11-27'].p2.tasks[0],'2026-11-27'),'pending');
   t.mode('together');t.render();t.monitor();
@@ -156,7 +158,7 @@ function engineHarness(){
   const document={
     getElementById:id=>id==='fraction-challenge-dialog'?dialog:
       id==='fraction-challenge-content'?surface:node(id),
-    querySelector:sel=>sel==='meta[name="app-version"]'?{content:'6.37.0'}:null
+    querySelector:sel=>sel==='meta[name="app-version"]'?{content:'6.38.0'}:null
   };
   const window={};
   const fetch=async()=>({ok:true,json:async()=>bank});
