@@ -29,6 +29,8 @@
   let recommendedArea = null;
   let saveReminderPending = false;
   let visitMetricsRequest = 0;
+  let screenExamOpen = null;
+  let screenExamQuestions = null;
 
   const $ = (s, root = document) => root.querySelector(s);
   const $$ = (s, root = document) => [...root.querySelectorAll(s)];
@@ -81,6 +83,7 @@
     $$('[data-nav]').forEach(btn => btn.addEventListener('click', e => { e.preventDefault(); navigate(btn.dataset.nav); }));
     $('#start-recommended').addEventListener('click', startRecommended);
     document.addEventListener('click',handleWeekClick);
+    $('#week-plan-content')?.addEventListener('input',handleScreenExamInput);
     $('#week-day-select')?.addEventListener('change',event=>{selectedWeekDate=event.target.value;renderWeekPlan();});
     // Los accesos a Desafíos se atienden por delegación en document:
     // no dependen de la ubicación de las tarjetas ni de que bindUI llegue hasta aquí.
@@ -1533,9 +1536,9 @@
     },
     '2026-11-27':{
       p1:{heading:'Simulacro de Matemática',intro:'60 minutos · papel · resolución individual. Sin calculadora ni pistas.',
-        tasks:[{id:'simulacro-m',label:'Simulacro completo de Matemática',detail:'Imprimilo y resolvelo con tiempo controlado. Después indicá que lo realizaste.',action:'paper:simulacro-m'}]},
+        tasks:[{id:'simulacro-m',label:'Simulacro completo de Matemática',detail:'Leé las consignas en pantalla, resolvé en tu cuaderno y escribí el resultado de cada una en la app.',action:'paper:simulacro-m'}]},
       p2:{heading:'Simulacro de Matemática',intro:'60 minutos · papel · resolución individual. Sin calculadora ni pistas.',
-        tasks:[{id:'simulacro-m',label:'Simulacro completo de Matemática',detail:'Imprimilo y resolvelo con tiempo controlado. Después indicá que lo realizaste.',action:'paper:simulacro-m'}]}
+        tasks:[{id:'simulacro-m',label:'Simulacro completo de Matemática',detail:'Leé las consignas en pantalla, resolvé en tu cuaderno y escribí el resultado de cada una en la app.',action:'paper:simulacro-m'}]}
     },
     '2026-11-28':{
       p1:{heading:'Corregir, no acumular',intro:'Con acompañamiento adulto, revisá solamente dos o tres dificultades del simulacro.',
@@ -1619,6 +1622,17 @@
     }
     if(action.startsWith('paper:')){
       const subject=action.slice(6),file=subject==='simulacro-m'?'./simulacro-final-matematica.html':'./simulacro-final-lengua.html';
+      if(subject==='simulacro-m'){
+        const pid=primaryProfileId(),open=screenExamOpen?.pid===pid&&screenExamOpen.date===date&&screenExamOpen.taskId===task.id;
+        const saved=profile.weekExamResponses?.[date]?.[task.id];
+        return '<div class="week-actions"><button class="primary-button" type="button" data-week-action="open-screen:'+task.id+'" data-week-date="'+date+'">'+
+          (open?'Ocultar respuestas':saved?.submittedAt?'Ver respuestas entregadas':'Responder en pantalla')+'</button>'+
+          '<a class="secondary-button week-print-link" href="'+file+'" target="_blank" rel="noopener">Ver modelo completo</a>'+
+          '<button class="secondary-button" type="button" data-week-action="mark:'+task.id+'" data-week-date="'+date+'"'+
+          (status==='completed'?' disabled':'')+'>'+(status==='completed'?'Actividad registrada':'Si lo hiciste solo en papel')+'</button></div>'+
+          '<small>Resolvé en tu cuaderno y escribí solo los resultados en los recuadros. Sin pistas ni correcciones durante la prueba.</small>'+
+          (open?'<div class="week-exam-mount" data-screen-exam-mount aria-live="polite">Preparando consignas…</div>':'');
+      }
       return '<div class="week-actions"><a class="secondary-button week-print-link" href="'+file+'" target="_blank" rel="noopener">Abrir modelo imprimible</a>'+
         '<button class="primary-button" type="button" data-week-action="mark:'+task.id+'" data-week-date="'+date+'"'+
         (status==='completed'?' disabled':'')+'>'+ (status==='completed'?'Ya lo registré':'Lo realicé en papel')+'</button></div>'+
@@ -1647,6 +1661,71 @@
       (status!=='completed'||extraStatus==='completed'?' disabled':'')+'>'+
       (extraStatus==='completed'?'Actividad adicional realizada':extraStatus==='active'?'Continuar adicional':'Practicar un poco más')+'</button></details>';
   }
+  // Simulacro de Matemática en pantalla: reutiliza el modelo original.
+  // Se guarda por perfil sin puntuar ni modificar mastery o historial previo.
+  async function loadScreenExamQuestions(){
+    if(screenExamQuestions)return screenExamQuestions;
+    const response=await fetch('./simulacro-final-matematica.html');
+    if(!response.ok)throw new Error('No se pudo abrir el simulacro.');
+    const doc=new DOMParser().parseFromString(await response.text(),'text/html');
+    const questions=[...doc.querySelectorAll('ol > li')].map((item,index)=>({
+      number:index+1,points:item.querySelector('.points')?.textContent.trim()||'',
+      prompt:item.querySelector('.prompt')?.innerHTML||''
+    }));
+    if(questions.length!==16||questions.some(q=>!q.prompt))throw new Error('No se encontraron las 16 consignas.');
+    screenExamQuestions=questions;
+    return questions;
+  }
+  async function renderScreenExam(){
+    const open=screenExamOpen,mount=$('[data-screen-exam-mount]');
+    if(!open||!mount||activeMode!==open.pid)return;
+    mount.textContent='Cargando consignas…';
+    try{
+      const questions=await loadScreenExamQuestions();
+      if(!mount.isConnected||screenExamOpen!==open||activeMode!==open.pid)return;
+      const record=state.profiles[open.pid].weekExamResponses?.[open.date]?.[open.taskId]||{};
+      const answers=record.answers||{},submitted=Boolean(record.submittedAt);
+      const answered=questions.filter(q=>String(answers[q.number]||'').trim()).length;
+      const items=questions.map(q=>'<li class="week-exam-item">'+
+        '<div class="week-exam-item-heading"><strong>Consigna '+q.number+'</strong><small>'+escapeHtml(q.points)+'</small></div>'+
+        '<div class="week-exam-prompt">'+q.prompt+'</div>'+
+        '<label class="week-exam-label" for="week-exam-answer-'+q.number+'">Mi resultado</label>'+
+        '<input class="week-exam-input" id="week-exam-answer-'+q.number+'" type="text" inputmode="text" autocomplete="off" spellcheck="false" maxlength="100" '+
+        'data-screen-exam-answer="'+q.number+'" value="'+escapeAttr(String(answers[q.number]||''))+'" placeholder="Escribí tu respuesta"'+(submitted?' disabled':'')+'></li>').join('');
+      mount.innerHTML='<div class="week-exam-intro"><h4>Simulacro de Matemática · 16 consignas</h4>'+
+        '<p>Leé en pantalla, hacé las cuentas con papel y lapicera, y anotá cada resultado. Tiempo de referencia: 60 minutos.</p>'+
+        '<p>Las respuestas correctas y el puntaje no se muestran durante la prueba.</p></div>'+
+        '<ol class="week-exam-list">'+items+'</ol>'+
+        '<div class="week-exam-footer"><p class="week-exam-save-status" role="status">'+
+        (submitted?'Respuestas entregadas para revisión adulta.':answered+' de 16 resultados escritos · guardado automático')+'</p>'+
+        (submitted?'':'<button class="primary-button" type="button" data-week-action="submit-screen:'+open.taskId+
+        '" data-week-date="'+open.date+'">Entregar respuestas</button>')+'</div>';
+    }catch(error){
+      console.error('[Simulacro en pantalla]',error);
+      if(mount.isConnected)mount.textContent='No se pudieron cargar las consignas. Usá «Ver modelo completo».';
+    }
+  }
+  function handleScreenExamInput(event){
+    const input=event.target;
+    if(!input?.matches?.('[data-screen-exam-answer]')||!screenExamOpen)return;
+    const {pid,date,taskId}=screenExamOpen;
+    if(activeMode!==pid||date!=='2026-11-27'||taskId!=='simulacro-m')return;
+    const n=Number(input.dataset.screenExamAnswer);
+    if(!Number.isInteger(n)||n<1||n>16)return;
+    const profile=state.profiles[pid];
+    profile.weekExamResponses||={};
+    profile.weekExamResponses[date]||={};
+    const record=profile.weekExamResponses[date][taskId]||{answers:{},reviewed:false};
+    if(record.submittedAt)return;
+    record.answers||={};
+    record.answers[n]=String(input.value||'').slice(0,100);
+    record.updatedAt=Date.now();
+    profile.weekExamResponses[date][taskId]=record;
+    saveState();
+    const count=Object.values(record.answers).filter(value=>String(value).trim()).length;
+    const label=$('.week-exam-save-status');
+    if(label)label.textContent=count+' de 16 resultados escritos · guardado automático';
+  }
   function renderWeekPlan(){
     const container=$('#week-plan-content'),picker=$('#week-day-select');
     if(!container||!picker)return;
@@ -1669,6 +1748,7 @@
     container.innerHTML='<div class="week-plan-heading"><h3>'+escapeHtml(day.heading)+'</h3>'+
       '<p>'+escapeHtml(day.intro)+'</p><small>'+complete+' de '+day.tasks.length+' actividades registradas para este día.</small></div>'+
       '<div class="week-task-grid">'+cards+'</div>';
+    if(screenExamOpen?.pid===pid&&screenExamOpen.date===date)renderScreenExam();
   }
   function renderWeekFamily(){
     const host=$('#week-family-status');
@@ -1701,6 +1781,29 @@
     if(parts[0]==='final-extra')return startFinalChallenges(parts[1],true);
     if(parts[0]==='model')return startModelChallenges(parts[1],parts[2]);
     if(parts[0]==='ortho')return startOrthographyChallenges(parts[1],parts[2]);
+    if(parts[0]==='open-screen'&&parts[1]==='simulacro-m'&&date==='2026-11-27'){
+      if(screenExamOpen?.pid===pid&&screenExamOpen.date===date&&screenExamOpen.taskId===parts[1])screenExamOpen=null;
+      else screenExamOpen={pid,date,taskId:parts[1]};
+      renderWeekPlan();
+      return;
+    }
+    if(parts[0]==='submit-screen'&&parts[1]==='simulacro-m'&&date==='2026-11-27'){
+      const record=profile.weekExamResponses?.[date]?.[parts[1]];
+      if(!record||record.submittedAt)return;
+      const answered=Array.from({length:16},(_,i)=>String(record.answers?.[i+1]||'').trim()).filter(Boolean).length;
+      if(!answered)return toast('Escribí al menos una respuesta antes de entregar.');
+      if(answered<16&&!window.confirm('Quedan '+(16-answered)+' consignas sin responder. ¿Querés entregar así?'))return;
+      record.submittedAt=Date.now();
+      record.reviewed=false;
+      profile.weekLog||={};
+      profile.weekLog[date]||={};
+      profile.weekLog[date][parts[1]]={at:Date.now(),kind:'screen_paper',answered,total:16,reviewed:false};
+      saveState();
+      renderWeekPlan();
+      renderWeekFamily();
+      toast('Respuestas guardadas para revisión adulta.');
+      return;
+    }
     if(action==='save-writing'){
       const text=$('#week-writing-input')?.value.trim()||'';
       if(text.length<50)return toast('Escribí al menos unas líneas antes de guardar.');
