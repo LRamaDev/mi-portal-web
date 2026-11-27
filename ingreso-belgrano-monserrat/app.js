@@ -1665,7 +1665,7 @@
   // Se guarda por perfil sin puntuar ni modificar mastery o historial previo.
   async function loadScreenExamQuestions(){
     if(screenExamQuestions)return screenExamQuestions;
-    const response=await fetch('./simulacro-final-matematica.html?v=6.40.0');
+    const response=await fetch('./simulacro-final-matematica.html');
     if(!response.ok)throw new Error('No se pudo abrir el simulacro.');
     const doc=new DOMParser().parseFromString(await response.text(),'text/html');
     const questions=[...doc.querySelectorAll('ol > li')].map((item,index)=>({
